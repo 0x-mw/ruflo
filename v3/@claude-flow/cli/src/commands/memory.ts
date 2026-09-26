@@ -1058,10 +1058,14 @@ const statsCommand: Command = {
   action: async (ctx: CommandContext): Promise<CommandResult> => {
     // Call MCP memory/stats tool for real statistics
     try {
-      const statsResult = await callMCPTool('memory_stats', {}) as {
+      const dbPath = resolveDbPath(ctx.flags.path as string | undefined);
+      const statsResult = await callMCPTool('memory_stats', { dbPath }) as {
+        available?: boolean;
+        error?: string;
+        truncated?: boolean;
         totalEntries: number;
         entriesWithEmbeddings?: number;
-        totalSize: string;
+        totalSize: string | null;
         version: string;
         backend: string;
         location: string;
@@ -1069,7 +1073,14 @@ const statsCommand: Command = {
         newestEntry: string | null;
       };
 
+      if (statsResult.available === false) {
+        output.printError(`Failed to get stats: ${statsResult.error || 'Store unavailable'}`);
+        return { success: false, exitCode: 1 };
+      }
+      const unreadStore = await countSiblingStoreRows(dbPath);
       const stats = {
+        ...(unreadStore ? { unreadStore } : {}),
+        ...(statsResult.truncated ? { truncated: true } : {}),
         backend: statsResult.backend,
         entries: {
           total: statsResult.totalEntries,
@@ -1077,7 +1088,7 @@ const statsCommand: Command = {
           text: statsResult.totalEntries
         },
         storage: {
-          total: statsResult.totalSize,
+          total: statsResult.totalSize ?? 'unknown',
           location: statsResult.location
         },
         version: statsResult.version,
@@ -1090,6 +1101,9 @@ const statsCommand: Command = {
         return { success: true, data: stats };
       }
 
+      if (unreadStore) {
+        output.printWarning(`${unreadStore.rows} entries are in ${unreadStore.path} and were not read here. Read them with --path ${unreadStore.path}.`);
+      }
       output.writeln();
       output.writeln(output.bold('Memory Statistics'));
       output.writeln();
