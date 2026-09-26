@@ -1341,8 +1341,13 @@ const cleanupCommand: Command = {
     { command: 'claude-flow memory cleanup --expired-only', description: 'Clean expired entries' }
   ],
   action: async (ctx: CommandContext): Promise<CommandResult> => {
-    const dryRun = ctx.flags.dryRun as boolean;
-    const force = ctx.flags.force as boolean;
+    const dryRun = ctx.flags.dryRun === true;
+    const force = ctx.flags.force === true;
+
+    if (ctx.flags.format === 'json' && !dryRun && !force) {
+      output.printJson({ success: false, error: 'Use --dry-run to preview or --force to authorize cleanup with --format json.' });
+      return { success: false, exitCode: 1 };
+    }
 
     if (dryRun) {
       output.writeln(output.warning('DRY RUN - No changes will be made'));
@@ -1351,7 +1356,14 @@ const cleanupCommand: Command = {
     output.printInfo('Analyzing memory for cleanup...');
 
     try {
-      const result = await callMCPTool<{
+      const selectors = {
+        olderThan: ctx.flags.olderThan,
+        expiredOnly: ctx.flags.expiredOnly,
+        lowQualityThreshold: ctx.flags.lowQuality,
+        namespace: ctx.flags.namespace,
+      };
+      // Preview before asking: dryRun:false executes deletion inside the tool.
+      let result = await callMCPTool<{
         dryRun: boolean;
         candidates: {
           expired: number;
@@ -1370,11 +1382,8 @@ const cleanupCommand: Command = {
         };
         duration: number;
       }>('memory_cleanup', {
-        dryRun,
-        olderThan: ctx.flags.olderThan,
-        expiredOnly: ctx.flags.expiredOnly,
-        lowQualityThreshold: ctx.flags.lowQuality,
-        namespace: ctx.flags.namespace,
+        ...selectors,
+        dryRun: dryRun || !force,
       });
 
       if (ctx.flags.format === 'json') {
@@ -1407,6 +1416,7 @@ const cleanupCommand: Command = {
           output.printInfo('Cleanup cancelled');
           return { success: true, data: result };
         }
+        result = await callMCPTool<typeof result>('memory_cleanup', { ...selectors, dryRun: false });
       }
 
       if (!dryRun) {
