@@ -774,21 +774,19 @@ export const agentdbHierarchicalRecall: MCPTool = {
 
 export const agentdbConsolidate: MCPTool = {
   name: 'agentdb_consolidate',
-  description: 'Run memory consolidation to promote entries across tiers and compress old data Use when generic memory_* tools are wrong because you need AgentDB-specific controllers (HNSW vector search, hierarchical tiers, causal-graph links, pattern store/recall, RaBitQ quantization). For simple key-value persistence, memory_store/memory_retrieve are simpler. For unrelated file work, native Read/Write are fine.',
+  description: 'Request memory consolidation. Currently returns unsupported when the installed controller is a no-op stub; no entries are promoted or compressed in that case.',
   inputSchema: {
     type: 'object',
-    properties: {
-      minAge: { type: 'number', description: 'Minimum age in hours since store (optional)' },
-      maxEntries: { type: 'number', description: 'Maximum entries to consolidate (optional)' },
-    },
+    properties: {},
+    additionalProperties: false,
   },
   handler: async (params: Record<string, unknown>) => {
     try {
+      if (Object.keys(params).length > 0) {
+        return { success: false, status: 'unsupported', error: 'agentdb_consolidate does not support options' };
+      }
       const bridge = await getBridge();
-      const result = await bridge.bridgeConsolidate({
-        minAge: typeof params.minAge === 'number' ? Math.max(0, params.minAge) : undefined,
-        maxEntries: validatePositiveInt(params.maxEntries, 1000, 10_000),
-      });
+      const result = await bridge.bridgeConsolidate({});
       return result ?? { success: false, error: 'AgentDB bridge not available. Use memory_store/memory_search instead.' };
     } catch (error) {
       return { success: false, error: sanitizeError(error) };
