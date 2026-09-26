@@ -778,7 +778,6 @@ export const agentdbConsolidate: MCPTool = {
   inputSchema: {
     type: 'object',
     properties: {},
-    additionalProperties: false,
   },
   handler: async (params: Record<string, unknown>) => {
     try {
