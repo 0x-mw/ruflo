@@ -75,6 +75,7 @@ let storeEntryFn: ((options: {
   generateEmbeddingFlag?: boolean;
   tags?: string[];
   ttl?: number;
+  upsert?: boolean;
 }) => Promise<{
   success: boolean;
   id: string;
@@ -508,8 +509,45 @@ interface TrajectoryData {
   endedAt?: string;
 }
 
-// In-memory trajectory tracking (persisted on end)
+// Cache pending trajectories; the existing memory store also persists checkpoints.
 const activeTrajectories = new Map<string, TrajectoryData>();
+
+async function persistPendingTrajectory(trajectory: TrajectoryData): Promise<boolean> {
+  try {
+    const store = await getRealStoreFunction();
+    const result = await store?.({
+      key: `trajectory-pending-${trajectory.id}`, value: JSON.stringify(trajectory),
+      namespace: 'trajectories', tags: [trajectory.agent, 'pending', 'sona-trajectory'], upsert: true,
+    });
+    return result?.success === true;
+  } catch { return false; }
+}
+
+async function loadPendingTrajectory(id: string): Promise<TrajectoryData | undefined> {
+  try {
+    const { getEntry } = await import('../memory/memory-initializer.js');
+    // A completed record is authoritative even if pending-record cleanup failed
+    // or another process still has an old cache entry.
+    const completed = await getEntry({ key: `trajectory-${id}`, namespace: 'trajectories' });
+    if (completed.success && completed.found) {
+      activeTrajectories.delete(id);
+      return undefined;
+    }
+    const pending = await getEntry({ key: `trajectory-pending-${id}`, namespace: 'trajectories' });
+    if (pending.success && pending.found) {
+      const value = JSON.parse(pending.entry?.content ?? 'null');
+      if (!value || value.id !== id || typeof value.task !== 'string' || typeof value.agent !== 'string'
+        || typeof value.startedAt !== 'string' || !Number.isFinite(Date.parse(value.startedAt))
+        || !Array.isArray(value.steps) || !value.steps.every((step: any) => step
+          && typeof step.action === 'string' && typeof step.result === 'string'
+          && typeof step.quality === 'number' && Number.isFinite(step.quality)
+          && typeof step.timestamp === 'string')) return undefined;
+      activeTrajectories.set(id, value);
+      return value;
+    }
+  } catch { /* store unavailable: retain same-process best-effort tracking */ }
+  return activeTrajectories.get(id);
+}
 
 // Memory store types and helpers
 interface MemoryEntry {
@@ -2949,9 +2987,8 @@ export const hooksIntelligenceReset: MCPTool = {
       }
     }
 
-    // Clear in-memory trajectories
-    cleared.trajectories = activeTrajectories.size;
-    activeTrajectories.clear();
+    // Reset learned state without abandoning tasks still recording outcomes.
+    cleared.trajectories = 0;
 
     return {
       reset: true,
@@ -3005,20 +3042,8 @@ export const hooksTrajectoryStart: MCPTool = {
       getTrajectoryTree().openTrajectory({ sessionId, trajectoryId, task, agent });
     } catch { /* prototype path — never blocks trajectory recording */ }
 
-    // Persist pending trajectory to disk so it survives MCP restarts
-    const storeFn = await getRealStoreFunction();
-    if (storeFn) {
-      try {
-        await storeFn({
-          key: `trajectory-pending-${trajectoryId}`,
-          value: JSON.stringify(trajectory),
-          namespace: 'trajectories',
-          tags: [agent, 'pending', 'sona-trajectory'],
-        });
-      } catch {
-        // Best-effort persistence — trajectory still lives in-memory
-      }
-    }
+    // Checkpoint before handing the id to another process.
+    const persisted = await persistPendingTrajectory(trajectory);
 
     return {
       trajectoryId,
@@ -3026,6 +3051,7 @@ export const hooksTrajectoryStart: MCPTool = {
       agent,
       started: startedAt,
       status: 'recording',
+      persisted,
       implementation: 'real-trajectory-tracking',
       activeCount: activeTrajectories.size,
     };
@@ -3059,7 +3085,7 @@ export const hooksTrajectoryStep: MCPTool = {
     { const v = validateText(action, 'action'); if (!v.valid) return { success: false, error: v.error }; }
 
     // Add step to real trajectory if it exists
-    const trajectory = activeTrajectories.get(trajectoryId);
+    const trajectory = await loadPendingTrajectory(trajectoryId);
     if (trajectory) {
       trajectory.steps.push({
         action,
@@ -3068,6 +3094,8 @@ export const hooksTrajectoryStep: MCPTool = {
         timestamp,
       });
     }
+
+    const persisted = trajectory ? await persistPendingTrajectory(trajectory) : false;
 
     // MAGE-style execution-state-tree mirror (prototype, non-fatal)
     try {
@@ -3100,6 +3128,7 @@ export const hooksTrajectoryStep: MCPTool = {
       result,
       quality,
       recorded: !!trajectory,
+      persisted,
       timestamp,
       totalSteps: trajectory?.steps.length || 0,
       implementation: trajectory ? 'real-step-recording' : 'trajectory-not-found',
@@ -3130,7 +3159,7 @@ export const hooksTrajectoryEnd: MCPTool = {
     const startTime = Date.now();
 
     // Get and finalize real trajectory
-    const trajectory = activeTrajectories.get(trajectoryId);
+    const trajectory = await loadPendingTrajectory(trajectoryId);
     let persistResult: { success: boolean; id?: string; error?: string } = { success: false };
 
     if (trajectory) {
@@ -3159,8 +3188,15 @@ export const hooksTrajectoryEnd: MCPTool = {
         }
       }
 
-      // Remove from active trajectories
-      activeTrajectories.delete(trajectoryId);
+      // Failed writes remain retryable. A completed row prevents stale pending
+      // data from being replayed even if cleanup itself fails.
+      if (persistResult.success) {
+        activeTrajectories.delete(trajectoryId);
+        try {
+          const { deleteEntry } = await import('../memory/memory-initializer.js');
+          await deleteEntry({ key: `trajectory-pending-${trajectoryId}`, namespace: 'trajectories' });
+        } catch { /* completed record is the replay guard */ }
+      }
     }
 
     // MAGE-style execution-state-tree mirror (prototype, non-fatal)
