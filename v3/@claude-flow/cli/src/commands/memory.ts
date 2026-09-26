@@ -11,6 +11,8 @@ import { distillCommand } from './memory-distill.js';
 import { backupCommand } from './memory-backup.js';
 import { countSiblingStoreRows } from '../memory/sibling-store.js';
 import { resolveDbPath } from '../memory/memory-initializer.js';
+import { existsSync } from 'node:fs';
+import { siblingAgentDbPath } from '../memory/memory-bridge.js';
 
 /**
  * #3228: a miss in one store is not a miss in the memory.
@@ -30,6 +32,18 @@ async function warnIfSiblingHasRows(pathFlag: unknown): Promise<void> {
       `That store is written by the MCP/AgentDB path; read it with --path ${unread.path}.`,
     );
   }
+}
+
+/** Default CLI writes may be mirrored into AgentDB; remove both copies. */
+function removalDbPaths(pathFlag?: string): string[] {
+  const primary = resolveDbPath(pathFlag);
+  // An explicit file selection is a single-store operation, as documented by
+  // --path. Do not widen a caller's requested destructive scope.
+  if (pathFlag || process.env.CLAUDE_FLOW_DB_PATH) return [primary];
+  const sibling = siblingAgentDbPath(primary);
+  const paths = [primary, ...(sibling ? [sibling] : [])].filter(existsSync);
+  // Preserve the existing missing-database error when neither store exists.
+  return paths.length ? paths : [primary];
 }
 
 // Memory backends
@@ -881,7 +895,7 @@ function formatRelativeTime(isoDate: string): string {
 const deleteCommand: Command = {
   name: 'delete',
   aliases: ['rm'],
-  description: 'Delete memory entry',
+  description: 'Delete a memory entry from the default store and its AgentDB mirror (use --path to select one store)',
   options: [
     {
       name: 'key',
@@ -935,18 +949,23 @@ const deleteCommand: Command = {
 
     // Use sql.js directly for consistent data access (Issue #980)
     try {
-      const { deleteEntry, resolveDbPath: _rdbDelete } = await import('../memory/memory-initializer.js');
-      const dbPathDelete = _rdbDelete(ctx.flags.path as string | undefined);
-      const result = await deleteEntry({ key, namespace, dbPath: dbPathDelete });
-
-      if (!result.success) {
-        output.printError(result.error || 'Failed to delete');
-        return { success: false, exitCode: 1 };
+      const { deleteEntry } = await import('../memory/memory-initializer.js');
+      const paths = removalDbPaths(ctx.flags.path as string | undefined);
+      const stores = [];
+      for (const dbPath of paths) {
+        const entry = await deleteEntry({ key, namespace, dbPath });
+        if (!entry.success) throw new Error(`${dbPath}: ${entry.error || 'Failed to delete'}`);
+        stores.push({ dbPath, ...entry });
       }
+      const result = {
+        success: true, key, namespace, stores,
+        deleted: stores.some(entry => entry.deleted),
+        remainingEntries: stores.reduce((total, entry) => total + entry.remainingEntries, 0),
+      };
 
       if (result.deleted) {
         output.printSuccess(`Deleted "${key}" from namespace "${namespace}"`);
-        output.printInfo(`Remaining entries: ${result.remainingEntries}`);
+        output.printInfo(`Remaining entries across ${paths.length} store(s): ${result.remainingEntries}`);
       } else {
         output.printWarning(`Key not found: "${key}" in namespace "${namespace}"`);
       }
@@ -968,7 +987,7 @@ const deleteCommand: Command = {
 // either interactive confirmation or --force.
 const purgeCommand: Command = {
   name: 'purge',
-  description: 'Permanently delete every entry in a namespace (hard delete — not the soft delete/tombstone that `memory delete` uses)',
+  description: 'Permanently delete a namespace from the default store and its AgentDB mirror (use --path to select one store)',
   options: [
     {
       name: 'namespace',
@@ -1008,20 +1027,23 @@ const purgeCommand: Command = {
     }
 
     try {
-      const { listEntries, purgeNamespace, resolveDbPath: _rdbPurge } = await import('../memory/memory-initializer.js');
-      const resolvedDbPath = _rdbPurge(dbPath);
-
-      const preview = await listEntries({ namespace, limit: 1, dbPath: resolvedDbPath });
-      const previewCount = preview.total ?? preview.entries?.length ?? 0;
+      const { listEntries, purgeNamespace } = await import('../memory/memory-initializer.js');
+      const paths = removalDbPaths(dbPath);
+      let previewCount = 0;
+      for (const target of paths) {
+        const preview = await listEntries({ namespace, limit: 1, dbPath: target });
+        if (!preview.success) throw new Error(`${target}: ${preview.error || 'Failed to read purge target'}`);
+        previewCount += preview.total ?? preview.entries?.length ?? 0;
+      }
 
       if (dryRun) {
-        output.printInfo(`Would permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}" (dry run — nothing deleted)`);
+        output.printInfo(`Would permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}" across ${paths.length} store(s) (dry run — nothing deleted)`);
         return { success: true, data: { namespace, wouldDelete: previewCount } };
       }
 
       if (!force && ctx.interactive) {
         const confirmed = await confirm({
-          message: `Permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}"? This is a hard delete — not reversible with \`memory delete\`'s soft-undo.`,
+          message: `Permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}" across ${paths.length} store(s)? This is a hard delete — not reversible with \`memory delete\`'s soft-undo.`,
           default: false
         });
         if (!confirmed) {
@@ -1033,15 +1055,20 @@ const purgeCommand: Command = {
         return { success: false, exitCode: 1 };
       }
 
-      const result = await purgeNamespace({ namespace, dbPath: resolvedDbPath });
-
-      if (!result.success) {
-        output.printError(result.error || 'Failed to purge');
-        return { success: false, exitCode: 1 };
+      const stores = [];
+      for (const target of paths) {
+        const purged = await purgeNamespace({ namespace, dbPath: target });
+        if (!purged.success) throw new Error(`${target}: ${purged.error || 'Failed to purge'}`);
+        stores.push({ dbPath: target, ...purged });
       }
+      const result = {
+        success: true, stores,
+        deletedCount: stores.reduce((total, store) => total + store.deletedCount, 0),
+        remainingEntries: stores.reduce((total, store) => total + store.remainingEntries, 0),
+      };
 
       output.printSuccess(`Purged ${result.deletedCount} entr${result.deletedCount === 1 ? 'y' : 'ies'} from namespace "${namespace}"`);
-      output.printInfo(`Remaining entries (all namespaces): ${result.remainingEntries}`);
+      output.printInfo(`Remaining entries (all namespaces, ${paths.length} store(s)): ${result.remainingEntries}`);
       return { success: true, data: result };
     } catch (error) {
       output.printError(`Failed to purge: ${error instanceof Error ? error.message : 'Unknown error'}`);
