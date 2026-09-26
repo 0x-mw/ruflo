@@ -913,7 +913,7 @@ export const memoryTools: MCPTool[] = [
       // `initialized: false` from this tool alone. The probe is still read
       // below, for the version and feature labels it is the only source of,
       // but it no longer gets to overrule a working store.
-      let listing: ListPage<{ namespace: string; hasEmbedding: boolean; createdAt?: string }>;
+      let listing: ListPage<{ namespace: string; hasEmbedding: boolean; createdAt?: string | number }>;
       try {
         listing = await collectAllEntries(listEntries, dbPath);
       } catch (error) {
@@ -936,7 +936,15 @@ export const memoryTools: MCPTool[] = [
       for (const entry of listing.entries) {
         namespaces[entry.namespace] = (namespaces[entry.namespace] || 0) + 1;
         if (entry.hasEmbedding) withEmbeddings++;
-        const created = Date.parse(entry.createdAt ?? '');
+        // AgentDB returns INTEGER epoch milliseconds; legacy sql.js rows
+        // may expose ISO strings or numeric strings from SQLite TEXT affinity.
+        const rawCreated = entry.createdAt;
+        const millis = typeof rawCreated === 'number'
+          ? rawCreated
+          : typeof rawCreated === 'string' && /^-?\d+$/.test(rawCreated)
+            ? Number(rawCreated)
+            : Date.parse(rawCreated ?? '');
+        const created = new Date(millis).getTime();
         if (Number.isFinite(created)) {
           oldest = Math.min(oldest, created);
           newest = Math.max(newest, created);

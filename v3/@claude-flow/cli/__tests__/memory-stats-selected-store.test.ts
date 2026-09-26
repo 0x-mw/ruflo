@@ -119,4 +119,24 @@ describe('stats describes the selected store', () => {
     expect(mocks.list).not.toHaveBeenCalled();
   });
 
+  it.each([
+    [1767225600000, 1772323200000],
+    ['1767225600000', '1772323200000'],
+    ['2026-01-01T00:00:00Z', 1772323200000],
+  ])('normalizes mixed stored timestamp formats %j / %j', async (first, last) => {
+    mocks.list.mockResolvedValue({ success: true, total: 2, entries: [
+      { ...entries[0], createdAt: last }, { ...entries[1], createdAt: first },
+    ] });
+    const result = await stats.handler({ dbPath: selected }) as any;
+    expect(result.oldestEntry).toBe('2026-01-01T00:00:00.000Z');
+    expect(result.newestEntry).toBe('2026-03-01T00:00:00.000Z');
+  });
+
+  it('accepts epoch zero and ignores invalid or out-of-range timestamps', async () => {
+    mocks.list.mockResolvedValue({ success: true, total: 5, entries: [0, '0', 'bad date', 1e20, undefined].map(createdAt => ({ ...entries[0], createdAt })) });
+    const result = await stats.handler({ dbPath: selected }) as any;
+    expect(result.oldestEntry).toBe('1970-01-01T00:00:00.000Z');
+    expect(result.newestEntry).toBe('1970-01-01T00:00:00.000Z');
+  });
+
 });
