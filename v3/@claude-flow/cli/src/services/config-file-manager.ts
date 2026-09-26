@@ -105,13 +105,19 @@ export class ConfigFileManager {
   /** Get a nested config value by dot-separated key */
   get(cwd: string, key: string): unknown {
     const config = this.getConfig(cwd);
-    return getNestedValue(config, key);
+    return Object.hasOwn(config, key) ? config[key] : getNestedValue(config, key);
   }
 
   /** Set a nested config value by dot-separated key */
   set(cwd: string, key: string, value: unknown): void {
-    const config = this.getConfig(cwd);
-    setNestedValue(config, key, value);
+    // A targeted update must not persist unrelated defaults (notably the
+    // default memory path, which would relocate an existing memory store).
+    const config = this.config ?? this.load(cwd) ?? {};
+    if (Object.hasOwn(config, key)) {
+      config[key] = value;
+    } else {
+      setNestedValue(config, key, value);
+    }
     this.config = config;
     const targetPath = this.configPath ?? path.resolve(cwd, CONFIG_FILENAMES[0]);
     this.writeAtomic(targetPath, config);
