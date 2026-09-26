@@ -1,3 +1,4 @@
+import { feedbackPatternsSchema, validateFeedbackPatterns } from '../memory/feedback-patterns.js';
 /**
  * Hooks MCP Tools
  * Provides intelligent hooks functionality via MCP protocol
@@ -1654,6 +1655,7 @@ export const hooksPostTask: MCPTool = {
     type: 'object',
     properties: {
       taskId: { type: 'string', description: 'Task identifier' },
+      patterns: feedbackPatternsSchema,
       success: { type: 'boolean', description: 'Whether task was successful' },
       agent: { type: 'string', description: 'Agent that completed the task' },
       quality: { type: 'number', description: 'Quality score (0-1)' },
@@ -1675,6 +1677,9 @@ export const hooksPostTask: MCPTool = {
     const agent = params.agent as string | undefined;
     const quality = (params.quality as number) || (success ? 0.85 : 0.3);
     const startTime = Date.now();
+    let patterns: string[] | undefined;
+    try { patterns = validateFeedbackPatterns(params.patterns); }
+    catch (error) { return { success: false, error: (error as Error).message }; }
 
     { const v = validateIdentifier(taskId, 'taskId'); if (!v.valid) return { success: false, error: v.error }; }
     if (agent) { const v = validateIdentifier(agent, 'agent'); if (!v.valid) return { success: false, error: v.error }; }
@@ -1706,7 +1711,7 @@ export const hooksPostTask: MCPTool = {
         quality,
         agent,
         duration: (params.duration as number) || undefined,
-        patterns: (params.patterns as string[]) || undefined,
+        patterns,
         // ADR-147 P2: forward spawn-tree lineage so it lands in feedback + memory
         parentAgentId,
         depth,

@@ -20,6 +20,7 @@
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { createRequire } from 'node:module';
+import { validateFeedbackPatterns } from './feedback-patterns.js';
 
 // ===== Lazy registry cache, keyed by database path =====
 
@@ -293,11 +294,13 @@ async function getRegistry(dbPath?: string): Promise<any | null> {
             try { agentdb = (await import('agentdb')) as unknown as Record<string, unknown>; }
             catch { return; /* AgentDB not available */ }
 
-            // SkillLibrary (no db required)
+            // SkillLibrary requires the same database and passage embedder as AgentDB.
             try {
-              const SkillCtor = agentdb.SkillLibrary as (new () => unknown) | undefined;
-              if (SkillCtor && !reg.get('skills')) {
-                const sk = new SkillCtor();
+              const SkillCtor = agentdb.SkillLibrary as (new (db: unknown, embedder: unknown) => unknown) | undefined;
+              const backing = reg.getAgentDB?.();
+              if (SkillCtor && !reg.get('skills') && backing?.database
+                && typeof backing.embedder?.embedPassage === 'function') {
+                const sk = new SkillCtor(backing.database, backing.embedder);
                 if (typeof reg.set === 'function') reg.set('skills', sk);
                 else reg._controllers = { ...(reg._controllers || {}), skills: sk };
               }
@@ -2418,6 +2421,7 @@ export async function bridgeRecordFeedback(options: {
   parentAgentId?: string;
   depth?: number;
 }): Promise<{ success: boolean; controller: string; updated: number } | null> {
+  const patterns = validateFeedbackPatterns(options.patterns);
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -2474,8 +2478,8 @@ export async function bridgeRecordFeedback(options: {
     // add them to LocalReasoningBank via its real `.store()` method (the
     // one method that DOES exist on the class).
     const reasoningBank = registry.get('reasoningBank');
-    if (reasoningBank && Array.isArray(options.patterns) && options.patterns.length) {
-      for (const pattern of options.patterns) {
+    if (reasoningBank && Array.isArray(patterns) && patterns.length) {
+      for (const pattern of patterns) {
         try {
           if (typeof reasoningBank.store === 'function') {
             reasoningBank.store({
@@ -2493,14 +2497,27 @@ export async function bridgeRecordFeedback(options: {
       else if (updated > 0 && controller === 'none') controller = 'reasoningBank';
     }
 
-    // Phase 4: SkillLibrary promotion for high-quality patterns
-    if (options.success && options.quality >= 0.9 && options.patterns?.length) {
+    // SkillLibrary's public API is createSkill(Skill), not promote().
+    if (options.success && options.quality >= 0.9 && patterns?.length) {
       const skills = registry.get('skills');
-      if (skills && typeof skills.promote === 'function') {
-        for (const pattern of options.patterns) {
-          try { await skills.promote(pattern, options.quality); updated++; } catch { /* skip */ }
+      let created = 0;
+      if (skills && typeof skills.createSkill === 'function') {
+        for (const [index, pattern] of patterns.entries()) {
+          try {
+            await skills.createSkill({
+              name: `feedback-${options.taskId}-${index}`,
+              description: pattern,
+              successRate: 1,
+              uses: 1,
+              avgReward: options.quality,
+              avgLatencyMs: options.duration,
+              metadata: { taskId: options.taskId, task: options.task, agent: options.agent, source: 'bridge-feedback' },
+            });
+            updated++;
+            created++;
+          } catch { /* failed promotion must not count as an update */ }
         }
-        controller += '+skills';
+        if (created > 0) controller = controller === 'none' ? 'skills' : `${controller}+skills`;
       }
     }
 

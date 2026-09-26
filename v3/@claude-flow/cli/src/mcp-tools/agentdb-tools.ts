@@ -1,3 +1,4 @@
+import { feedbackPatternsSchema, validateFeedbackPatterns } from '../memory/feedback-patterns.js';
 /**
  * AgentDB MCP Tools — Phase 6 of ADR-053
  *
@@ -389,6 +390,7 @@ export const agentdbFeedback: MCPTool = {
     type: 'object',
     properties: {
       taskId: { type: 'string', description: 'Task identifier' },
+      patterns: feedbackPatternsSchema,
       success: { type: 'boolean', description: 'Whether task succeeded' },
       quality: { type: 'number', description: 'Quality score (0-1)' },
       agent: { type: 'string', description: 'Agent that performed the task' },
@@ -402,9 +404,11 @@ export const agentdbFeedback: MCPTool = {
       if (params.agent) { const vAgent = validateIdentifier(params.agent, 'agent'); if (!vAgent.valid) return { success: false, error: vAgent.error }; }
       const taskId = validateString(params.taskId, 'taskId', 500);
       if (!taskId) return { success: false, error: 'taskId is required (non-empty string, max 500 chars)' };
+      const patterns = validateFeedbackPatterns(params.patterns);
       const bridge = await getBridge();
       const result = await bridge.bridgeRecordFeedback({
         taskId,
+        patterns,
         success: params.success === true,
         quality: validateScore(params.quality, 0.85),
         agent: validateString(params.agent, 'agent', 200) ?? undefined,
