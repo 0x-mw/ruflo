@@ -511,14 +511,34 @@ interface TrajectoryData {
 
 // Cache pending trajectories; the existing memory store also persists checkpoints.
 const activeTrajectories = new Map<string, TrajectoryData>();
+const dirtyTrajectories = new Set<string>();
+const trajectoryOperations = new Map<string, Promise<void>>();
+
+/** Serialize read/modify/checkpoint operations for a trajectory in this process. */
+async function withTrajectoryOperation<T>(id: string, operation: () => Promise<T>): Promise<T> {
+  const previous = trajectoryOperations.get(id) ?? Promise.resolve();
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  const current = previous.then(() => gate);
+  trajectoryOperations.set(id, current);
+  await previous;
+  try { return await operation(); }
+  finally {
+    release();
+    if (trajectoryOperations.get(id) === current) trajectoryOperations.delete(id);
+  }
+}
+
 
 async function persistPendingTrajectory(trajectory: TrajectoryData): Promise<boolean> {
+  dirtyTrajectories.add(trajectory.id);
   try {
     const store = await getRealStoreFunction();
     const result = await store?.({
       key: `trajectory-pending-${trajectory.id}`, value: JSON.stringify(trajectory),
       namespace: 'trajectories', tags: [trajectory.agent, 'pending', 'sona-trajectory'], upsert: true,
     });
+    if (result?.success === true) dirtyTrajectories.delete(trajectory.id);
     return result?.success === true;
   } catch { return false; }
 }
@@ -531,8 +551,12 @@ async function loadPendingTrajectory(id: string): Promise<TrajectoryData | undef
     const completed = await getEntry({ key: `trajectory-${id}`, namespace: 'trajectories' });
     if (completed.success && completed.found) {
       activeTrajectories.delete(id);
+      dirtyTrajectories.delete(id);
       return undefined;
     }
+    // Failed checkpoints must not erase already-acknowledged live steps.
+    // Clean caches still reload so another process's later checkpoint is seen.
+    if (dirtyTrajectories.has(id) && activeTrajectories.has(id)) return activeTrajectories.get(id);
     const pending = await getEntry({ key: `trajectory-pending-${id}`, namespace: 'trajectories' });
     if (pending.success && pending.found) {
       const value = JSON.parse(pending.entry?.content ?? 'null');
@@ -3071,7 +3095,7 @@ export const hooksTrajectoryStep: MCPTool = {
     },
     required: ['trajectoryId', 'action'],
   },
-  handler: async (params: Record<string, unknown>) => {
+  handler: async (params: Record<string, unknown>) => withTrajectoryOperation(params.trajectoryId as string, async () => {
     const trajectoryId = params.trajectoryId as string;
     // #14: scrub extended-thinking blocks so reasoning tokens don't contaminate
     // the learning signal (DISTILL embeds this text).
@@ -3133,7 +3157,7 @@ export const hooksTrajectoryStep: MCPTool = {
       totalSteps: trajectory?.steps.length || 0,
       implementation: trajectory ? 'real-step-recording' : 'trajectory-not-found',
     };
-  },
+  }),
 };
 
 export const hooksTrajectoryEnd: MCPTool = {
@@ -3148,7 +3172,7 @@ export const hooksTrajectoryEnd: MCPTool = {
     },
     required: ['trajectoryId'],
   },
-  handler: async (params: Record<string, unknown>) => {
+  handler: async (params: Record<string, unknown>) => withTrajectoryOperation(params.trajectoryId as string, async () => {
     const trajectoryId = params.trajectoryId as string;
 
     { const v = validateIdentifier(trajectoryId, 'trajectoryId'); if (!v.valid) return { success: false, error: v.error }; }
@@ -3192,6 +3216,7 @@ export const hooksTrajectoryEnd: MCPTool = {
       // data from being replayed even if cleanup itself fails.
       if (persistResult.success) {
         activeTrajectories.delete(trajectoryId);
+        dirtyTrajectories.delete(trajectoryId);
         try {
           const { deleteEntry } = await import('../memory/memory-initializer.js');
           await deleteEntry({ key: `trajectory-pending-${trajectoryId}`, namespace: 'trajectories' });
@@ -3419,7 +3444,7 @@ export const hooksTrajectoryEnd: MCPTool = {
         ? `SONA learned pattern "${sonaResult.patternKey}" with ${(sonaResult.confidence * 100).toFixed(1)}% confidence`
         : (persistResult.success ? 'Trajectory persisted for future learning' : (persistResult.error || 'Trajectory not found')),
     };
-  },
+  }),
 };
 
 // Pattern store/search hooks - REAL implementation using storeEntry

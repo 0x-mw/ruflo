@@ -35,6 +35,46 @@ describe('pending trajectory recovery (#3199)', () => {
     expect(await d.hooksTrajectoryEnd.handler({ trajectoryId: started.trajectoryId })).toMatchObject({ persisted: false });
   });
 
+  it('retains an acknowledged live step when its checkpoint fails', async () => {
+    const a = await fresh();
+    const started = await a.hooksTrajectoryStart.handler({ task: 'dirty checkpoint' }) as any;
+    storeEntry.mockResolvedValueOnce({ success: false, id: '', error: 'disk full' });
+    expect(await a.hooksTrajectoryStep.handler({ trajectoryId: started.trajectoryId, action: 'must survive' })).toMatchObject({ recorded: true, persisted: false });
+    expect(await a.hooksTrajectoryEnd.handler({ trajectoryId: started.trajectoryId })).toMatchObject({ persisted: true, trajectory: { totalSteps: 1 } });
+    expect(JSON.parse(durable.get(`trajectory-${started.trajectoryId}`)!).steps[0].action).toBe('must survive');
+  });
+
+  it('keeps both concurrent same-process steps in the final outcome', async () => {
+    const a = await fresh();
+    const started = await a.hooksTrajectoryStart.handler({ task: 'concurrent steps' }) as any;
+    let release!: () => void;
+    let checkpointStarted!: () => void;
+    const waiting = new Promise<void>(resolve => { release = resolve; });
+    const startedCheckpoint = new Promise<void>(resolve => { checkpointStarted = resolve; });
+    storeEntry.mockImplementationOnce(async ({ key, value }) => {
+      checkpointStarted();
+      await waiting;
+      durable.set(key, value);
+      return { success: true, id: key };
+    });
+    const first = a.hooksTrajectoryStep.handler({ trajectoryId: started.trajectoryId, action: 'first' });
+    await startedCheckpoint;
+    const second = a.hooksTrajectoryStep.handler({ trajectoryId: started.trajectoryId, action: 'second' });
+    await new Promise(resolve => setImmediate(resolve));
+    release();
+    await Promise.all([first, second]);
+    expect(await a.hooksTrajectoryEnd.handler({ trajectoryId: started.trajectoryId })).toMatchObject({ persisted: true, trajectory: { totalSteps: 2 } });
+    expect(JSON.parse(durable.get(`trajectory-${started.trajectoryId}`)!).steps.map((step: any) => step.action)).toEqual(['first', 'second']);
+  });
+
+  it('reloads a clean cache after another process adds a step', async () => {
+    const a = await fresh();
+    const started = await a.hooksTrajectoryStart.handler({ task: 'cross-process step' }) as any;
+    const b = await fresh();
+    await b.hooksTrajectoryStep.handler({ trajectoryId: started.trajectoryId, action: 'from b' });
+    expect(await a.hooksTrajectoryEnd.handler({ trajectoryId: started.trajectoryId })).toMatchObject({ persisted: true, trajectory: { totalSteps: 1 } });
+  });
+
   it('retains the pending trajectory when final persistence fails', async () => {
     const a = await fresh();
     const started = await a.hooksTrajectoryStart.handler({ task: 'retry work' }) as any;
