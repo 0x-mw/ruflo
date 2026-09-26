@@ -667,6 +667,11 @@ const postCommandCommand: Command = {
       short: 'd',
       description: 'Execution duration in milliseconds',
       type: 'number'
+    },
+    {
+      name: 'ttl',
+      description: 'Command history lifetime in seconds (default: 30 days)',
+      type: 'number'
     }
   ],
   examples: [
@@ -700,14 +705,19 @@ const postCommandCommand: Command = {
         success,
         exitCode: ctx.flags.exitCode || 0,
         duration: ctx.flags.duration,
+        ttl: ctx.flags.ttl,
         timestamp: Date.now(),
       });
 
       if (ctx.flags.format === 'json') {
         output.printJson(result);
-        return { success: true, data: result };
+        return { success: result.recorded, exitCode: result.recorded ? 0 : 1, data: result };
       }
 
+      if (!result.recorded) {
+        output.printError('Command outcome could not be recorded');
+        return { success: false, exitCode: 1, data: result };
+      }
       output.writeln();
       output.printSuccess('Command outcome recorded');
 
