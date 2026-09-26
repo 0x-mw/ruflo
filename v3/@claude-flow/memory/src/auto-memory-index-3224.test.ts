@@ -48,6 +48,7 @@ describe('#3224 curateIndex must not destroy a user index', () => {
   it.each([
     '# Claude Flow V3 Project Memory\n\nKeep the production recovery code in the offline vault.',
     '# Claude Flow V3 Project Memory\n\n## Project Patterns\n- User-only recovery note\n- See `patterns.md` for details\n',
+    '# Claude Flow V3 Project Memory\n\n## Project Patterns\n    - generated detail\n- See `patterns.md` for details\n',
   ])('preserves user content even when the generated index is as large or larger', async (before) => {
     writeFileSync(join(dir, 'MEMORY.md'), before, 'utf-8');
     writeFileSync(join(dir, 'patterns.md'), '# Patterns\n\n- generated detail\n', 'utf-8');

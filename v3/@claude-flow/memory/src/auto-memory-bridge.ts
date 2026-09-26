@@ -528,9 +528,9 @@ export class AutoMemoryBridge extends EventEmitter {
     // several generated notes grows the file while still deleting that note.
     // Require every existing nonblank line to survive, allowing reordering and
     // additional generated content without taking ownership of unknown text.
-    const generatedLines = new Set(lines.map(line => line.trim()));
+    const generatedLines = new Set(lines);
     const losesContent = existing.split('\n').some(line =>
-      line.trim().length > 0 && !generatedLines.has(line.trim()));
+      line.trim().length > 0 && !generatedLines.has(line));
     const wouldLose = existing.trim().length > 0
       && (losesContent || linksIn(existing) > linksIn(generated) || existing.split('\n').length > lines.length);
 
