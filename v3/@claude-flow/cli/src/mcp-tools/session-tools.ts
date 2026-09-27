@@ -538,7 +538,7 @@ export const sessionTools: MCPTool[] = [
       properties: {
         inputPath: { type: 'string', description: 'Path to the session JSON file to import' },
         name: { type: 'string', description: 'Override the imported session name' },
-        activate: { type: 'boolean', description: 'Make the imported session the current one (advisory)' },
+        activate: { type: 'boolean', description: 'Restore the imported session into the active stores' },
       },
       required: ['inputPath'],
     },
@@ -559,6 +559,15 @@ export const sessionTools: MCPTool[] = [
         data: parsed.data,
       };
       saveSession(session);
+      let activated = false;
+      if (input.activate === true) {
+        const restore = sessionTools.find(tool => tool.name === 'session_restore')!;
+        const result = await restore.handler({ sessionId: newId }) as { restored?: boolean; error?: string };
+        if (result.restored !== true) {
+          return { sessionId: newId, activated: false, error: result.error || 'Imported session could not be restored' };
+        }
+        activated = true;
+      }
       return {
         sessionId: newId,
         name: session.name,
@@ -568,7 +577,7 @@ export const sessionTools: MCPTool[] = [
           tasksImported: stats.tasks,
           memoryEntriesImported: stats.memoryEntries,
         },
-        activated: input.activate === true,
+        activated,
       };
     },
   },
