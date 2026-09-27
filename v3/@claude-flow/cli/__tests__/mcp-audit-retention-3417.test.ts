@@ -36,6 +36,23 @@ describe('project audit retention (#3417)', () => {
     vi.stubEnv('RUFLO_MCP_AUDIT_LOG_PATH', configured);
     expect(getAuditLogPath()).toBe(path.resolve(project, configured));
   });
+  it.each(['policy/events.jsonl', path.join(os.tmpdir(), 'explicit-policy/events.jsonl')])('gives the explicit policy path precedence over the environment: %s', auditLogPath => {
+    vi.stubEnv('RUFLO_MCP_AUDIT_LOG_PATH', 'env/events.jsonl');
+    expect(getAuditLogPath({ auditLogPath })).toBe(path.resolve(project, auditLogPath));
+  });
+  it('writes mandatory audit evidence to the explicit policy destination', () => {
+    vi.stubEnv('RUFLO_MCP_AUDIT_LOG_PATH', 'env/events.jsonl');
+    const policy = { auditLog: true, auditLogPath: 'policy/events.jsonl' };
+    expect(evaluateToolCall(policy, 's', 'tool').allowed).toBe(true);
+    expect(records(path.join(project, policy.auditLogPath))[0]).toMatchObject({ toolName: 'tool', allowed: true });
+    expect(fs.existsSync(path.join(project, 'env'))).toBe(false);
+    expect(fs.existsSync(path.join(project, '.claude-flow'))).toBe(false);
+  });
+  it.each(['', '   ', null, 42])('fails closed for an invalid explicit audit path: %s', auditLogPath => {
+    vi.stubEnv('RUFLO_MCP_AUDIT_LOG_PATH', 'env/events.jsonl');
+    expect(evaluateToolCall({ auditLog: true, auditLogPath: auditLogPath as string }, 's', 'tool').allowed).toBe(false);
+    expect(fs.readdirSync(project)).toEqual([]);
+  });
   it('creates the configured parent and records the project with private permissions', () => {
     vi.stubEnv('RUFLO_MCP_AUDIT_LOG_PATH', 'custom/events.jsonl');
     expect(appendAuditLog({ auditLog: true }, entry(1))).toBe(true);

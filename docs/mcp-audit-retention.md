@@ -7,7 +7,11 @@ working directory, alongside the project whose policy is loaded. Each record
 also includes `projectPath` so records remain attributable if explicitly routed
 to a shared destination.
 
-Set `RUFLO_MCP_AUDIT_LOG_PATH` on the server process to choose another destination.
+Set `auditLogPath` in the policy to choose an explicit destination. It takes
+precedence over `RUFLO_MCP_AUDIT_LOG_PATH` on the server process, which is the
+fallback when the policy omits the path. If both are absent, the project default
+applies. An explicit path must be a non-empty string; invalid values deny
+mandatory audit writes instead of silently selecting another destination.
 Absolute paths are used directly; relative paths resolve against the server's
 working directory. Missing parent directories are created. New directories use
 mode `0700`, and new logs use `0600` on systems that support POSIX permissions;
@@ -43,5 +47,5 @@ resize existing segments or delete higher-numbered segments from an earlier
 configuration. Archive or prune those separately while writers are stopped.
 The old machine-wide temporary log is not migrated or deleted. Update log readers
 to the project path or set the environment variable to an explicitly managed
-path. Enforcement coverage is unchanged: this does not add governance enforcement
+path (unless the policy already sets `auditLogPath`). Enforcement coverage is unchanged: this does not add governance enforcement
 to HTTP/WebSocket dispatchers.

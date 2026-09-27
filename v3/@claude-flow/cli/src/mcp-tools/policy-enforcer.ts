@@ -66,6 +66,8 @@ export interface McpPolicy {
   harnessId?: string;
   defaultDeny?: boolean;
   auditLog?: boolean;
+  /** Explicit destination; takes precedence over the environment and project default. */
+  auditLogPath?: string;
   /** Maximum bytes per audit segment. Default 10 MiB; oversized records fail closed. */
   auditLogMaxBytes?: number;
   /** Rotated segments retained in addition to the active log. Default 5, maximum 100. */
@@ -181,15 +183,17 @@ export function setAuditLogPathForTesting(p: string | null): void {
   auditLogPathOverride = p;
 }
 
-function defaultAuditLogPath(): string {
-  const configured = process.env.RUFLO_MCP_AUDIT_LOG_PATH;
+export function getAuditLogPath(options: Pick<McpPolicy, 'auditLogPath'> = {}): string {
+  if (auditLogPathOverride !== null) return auditLogPathOverride;
+  if (options.auditLogPath !== undefined &&
+      (typeof options.auditLogPath !== 'string' || options.auditLogPath.trim().length === 0)) {
+    throw new Error('auditLogPath must be a non-empty string');
+  }
+  // Precedence: explicit caller/policy destination, environment, project default.
+  const configured = options.auditLogPath ?? process.env.RUFLO_MCP_AUDIT_LOG_PATH;
   return configured
     ? path.resolve(process.cwd(), configured)
     : path.join(process.cwd(), '.claude-flow', 'logs', 'mcp-audit.jsonl');
-}
-
-export function getAuditLogPath(): string {
-  return auditLogPathOverride ?? defaultAuditLogPath();
 }
 
 /**
@@ -210,7 +214,7 @@ export function appendAuditLog(policy: McpPolicy, entry: AuditLogEntry): boolean
     const bytes = Buffer.byteLength(line, 'utf8');
     if (bytes > maxBytes) return false;
 
-    const logPath = getAuditLogPath();
+    const logPath = getAuditLogPath(policy);
     fs.mkdirSync(path.dirname(logPath), { recursive: true, mode: 0o700 });
     // All writers of a configured path serialize rotation AND append. On
     // contention (or a stale lock after a crash), deny rather than lose audit
