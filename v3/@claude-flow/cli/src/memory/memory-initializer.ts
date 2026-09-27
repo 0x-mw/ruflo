@@ -2102,7 +2102,7 @@ export async function checkMemoryInitialization(dbPath?: string): Promise<{
     const initSqlJs = (await import('sql.js')).default;
     const SQL = await initSqlJs();
 
-    const fileBuffer = fs.readFileSync(path_);
+    const fileBuffer = readFileMaybeEncrypted(path_, null);
     db = new SQL.Database(fileBuffer);
 
     // Check for metadata table
