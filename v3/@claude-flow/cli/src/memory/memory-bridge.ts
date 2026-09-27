@@ -559,6 +559,12 @@ function computeTermDocFreqs(
 
 // ===== Phase 2: TieredCache helpers =====
 
+/** Preserve the exact namespace/key tuple; punctuation is valid memory data. */
+function entryCacheKey(namespace: string, key: string): string {
+  return `entry:${JSON.stringify([namespace, key])}`;
+}
+
+
 /**
  * Try to read from TieredCache before hitting DB.
  * Returns cached value or null if cache miss.
@@ -1194,9 +1200,7 @@ export async function bridgeStoreEntry(options: {
     // next `bridgeGetEntry` to load the authoritative row (which correctly
     // parses tags/metadata from the JSON columns) and repopulate the cache
     // from that full shape.
-    const safeNs = String(namespace).replace(/:/g, '_');
-    const safeKey = String(key).replace(/:/g, '_');
-    const cacheKey = `entry:${safeNs}:${safeKey}`;
+    const cacheKey = entryCacheKey(namespace, key);
     await cacheInvalidate(registry, cacheKey);
 
     // Phase 4: AttestationLog write audit
@@ -1564,9 +1568,7 @@ export async function bridgeGetEntry(options: {
     const { key, namespace = 'default' } = options;
 
     // Phase 2: Check TieredCache first
-    const safeNs = String(namespace).replace(/:/g, '_');
-    const safeKey = String(key).replace(/:/g, '_');
-    const cacheKey = `entry:${safeNs}:${safeKey}`;
+    const cacheKey = entryCacheKey(namespace, key);
     dropCacheIfDbChangedElsewhere(registry, ctx);
     const cached = await cacheGet(registry, cacheKey);
     if (cached && cached.content) {
@@ -1704,9 +1706,7 @@ export async function bridgeDeleteEntry(options: {
     } catch { /* non-WAL, busy, or unsupported — non-fatal */ }
 
     // Phase 2: Invalidate cache
-    const safeNs = String(namespace).replace(/:/g, '_');
-    const safeKey = String(key).replace(/:/g, '_');
-    await cacheInvalidate(registry, `entry:${safeNs}:${safeKey}`);
+    await cacheInvalidate(registry, entryCacheKey(namespace, key));
 
     // Phase 4: AttestationLog delete audit
     if (changes > 0) {
