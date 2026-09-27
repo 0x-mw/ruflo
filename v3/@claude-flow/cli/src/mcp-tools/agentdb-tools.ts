@@ -73,11 +73,6 @@ async function getBridge() {
 // Lazy-cached modules used by graph-query / graph-pathfinder dispatch.
 // Caching the resolved namespace avoids per-call dynamic-import overhead
 // in the ADR-130 hot path (smoke harness measures elapsedMs of every call).
-let graphBackendMod: typeof import('../ruvector/graph-backend.js') | null = null;
-async function getGraphBackend() {
-  if (!graphBackendMod) graphBackendMod = await import('../ruvector/graph-backend.js');
-  return graphBackendMod;
-}
 let graphEdgeWriterMod: typeof import('../memory/graph-edge-writer.js') | null = null;
 async function getGraphEdgeWriter() {
   if (!graphEdgeWriterMod) graphEdgeWriterMod = await import('../memory/graph-edge-writer.js');
@@ -1028,7 +1023,7 @@ interface ComplexityBudget {
 
 export const agentdbGraphQuery: MCPTool = {
   name: 'agentdb_graph-query',
-  description: 'Unified graph traversal across the knowledge graph (ADR-130). Native graph-node k-hop cannot filter by relation and returns an explicit unsupported error for that request; the SQL fallback can filter by relation. Inspect appliedDepth/truncated because SQL is bounded at 3 hops. Semantic and PageRank modes use their own backends. Use when you need structured graph traversal beyond flat memory search.',
+  description: 'Unified graph traversal across the knowledge graph (ADR-130). K-hop queries read committed graph_edges relationships through SQL; a separately populated native graph is not evidence of retained-history coverage. Inspect appliedDepth/truncated because SQL is bounded at 3 hops. maxNodesVisited bounds returned rows, not traversal work or elapsed time. Semantic and PageRank modes use their own backends. Use when you need relationship traversal beyond flat memory search.',
   inputSchema: {
     type: 'object',
     properties: {
@@ -1069,66 +1064,49 @@ export const agentdbGraphQuery: MCPTool = {
 
       const budgetRaw = (params.complexityBudget ?? {}) as ComplexityBudget;
       const budget: Required<ComplexityBudget> = {
-        maxNodesVisited: budgetRaw.maxNodesVisited ?? 10_000,
-        maxDepth: budgetRaw.maxDepth ?? 5,
+        maxNodesVisited: validatePositiveInt(budgetRaw.maxNodesVisited, 10_000, 10_000),
+        maxDepth: validatePositiveInt(budgetRaw.maxDepth, 5, 5),
         maxMillis: budgetRaw.maxMillis ?? 50,
         maxMemoryMB: budgetRaw.maxMemoryMB ?? 32,
       };
-      const depth = Math.min(validatePositiveInt(params.depth, 2, budget.maxDepth), budget.maxDepth);
+      const requestedDepth = validatePositiveInt(params.depth, 2, 5);
+      const depth = Math.min(requestedDepth, budget.maxDepth);
       const topK = validatePositiveInt(params.topK, 10, MAX_TOP_K);
       const relation = validateString(params.relation, 'relation', 200) ?? undefined;
 
       // ── k-hop mode ──────────────────────────────────────────────────────────
       if (mode === 'k-hop') {
-        // graph-node's kHopNeighbors API has no relation parameter. Its graph
-        // and the SQL graph are separate stores, and SQL writes can be async;
-        // switching stores here could report a false negative. Refuse the
-        // unsupported native query instead of silently widening it.
-        try {
-          const graphBackend = await getGraphBackend();
-          if (await graphBackend.isGraphBackendAvailable()) {
-            if (relation) {
-              return { success: false, error: 'Native graph-node k-hop does not support relation filtering', unsupported: 'relation', mode, nodeId, relation, backend: 'graph-node' };
-            }
-            const neighbors = await graphBackend.getNeighbors(nodeId, depth);
-            return {
-              success: true, mode, nodeId, depth, appliedDepth: depth,
-              results: neighbors.map(id => ({ nodeId: id })),
-              count: neighbors.length,
-              backend: 'graph-node',
-              elapsedMs: Date.now() - t0,
-            };
-          }
-        } catch { /* fall through to SQL */ }
-
-        // SQL CTE fallback is bounded at depth 3. Report that bound so callers
-        // cannot mistake an incomplete depth-5 cycle check for a complete one.
+        // #3315: graph-node and retained SQL are populated independently.
+        // Native availability does not establish historical coverage. Query
+        // the committed relationship source, and fail if it cannot be read.
         try {
           const { getBridgeDb } = await getGraphEdgeWriter();
           const db = await getBridgeDb();
           if (db) {
             const appliedDepth = Math.min(depth, 3);
-            const cteSql = buildKHopCTE(nodeId, appliedDepth, relation, budget.maxNodesVisited);
+            const cteSql = buildKHopCTE(nodeId, appliedDepth, relation, budget.maxNodesVisited + 1);
             // graph-edge-writer returns a better-sqlite3 Database after #2431.
             // `db.exec(sql, params)` (sql.js style) is a runner with no result
             // on better-sqlite3 — use `prepare(sql).raw().all(...)` to get the
             // same array-of-arrays shape the downstream code expects.
-            const rows = db.prepare(cteSql).raw().all() as unknown[][];
+            const allRows = db.prepare(cteSql).raw().all() as unknown[][];
+            const resultLimitReached = allRows.length > budget.maxNodesVisited;
+            const rows = allRows.slice(0, budget.maxNodesVisited);
+            const depthLimited = appliedDepth < requestedDepth;
             return {
-              success: true, mode, nodeId, depth, appliedDepth,
-              ...(appliedDepth < depth ? { truncated: true } : {}),
+              success: true, mode, nodeId, depth, requestedDepth, appliedDepth,
+              depthLimited, resultLimitReached, truncated: depthLimited || resultLimitReached,
+              resultLimit: budget.maxNodesVisited,
               results: rows.map((r: unknown[]) => ({ nodeId: r[0], depth: r[1] })),
               count: rows.length,
               backend: 'sql-cte',
               elapsedMs: Date.now() - t0,
             };
           }
-        } catch { /* db unavailable */ }
-
-        if (relation) {
-          return { success: false, error: 'Relation-filtered k-hop query requires the SQL graph_edges backend', mode, nodeId, relation };
+        } catch (error) {
+          return { success: false, error: `Retained SQL graph query failed: ${sanitizeError(error)}`, mode, nodeId };
         }
-        return { success: false, error: 'No graph backend available for k-hop query', mode, nodeId };
+        return { success: false, error: 'Retained SQL graph_edges backend is unavailable for k-hop query', mode, nodeId };
       }
 
       // ── semantic mode ────────────────────────────────────────────────────────
