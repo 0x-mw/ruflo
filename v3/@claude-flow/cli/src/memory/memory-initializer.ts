@@ -213,14 +213,14 @@ async function getBridge(): Promise<typeof import('./memory-bridge.js') | null> 
  * missing better-sqlite3. Appending the recorded reason turns an unactionable
  * message into a diagnosis.
  */
-async function walRefusalError(operation: 'write' | 'read/write'): Promise<string> {
+async function walRefusalError(operation: 'write' | 'read/write', bridgeDbPath?: string): Promise<string> {
   const base = 'memory database has an active native WAL connection '
     + '(found -wal/-shm sidecar files) — refusing an unsafe sql.js '
     + `whole-image ${operation}. Retry once the native writer completes, or `
     + 'restore the native better-sqlite3 bridge.';
   try {
     const bridge = await getBridge();
-    const reason = bridge?.getBridgeFailureReason?.();
+    const reason = bridge?.getBridgeFailureReason?.(bridgeDbPath);
     if (reason) return `${base} Bridge unavailable: ${reason}`;
   } catch {
     // Diagnostics must never mask the refusal they annotate.
@@ -1504,14 +1504,13 @@ async function activateControllerRegistry(
       return { activated, failed, initTimeMs: performance.now() - startTime };
     }
 
-    const registry = await bridge.getControllerRegistry();
-    if (!registry) {
+    const controllers = await bridge.bridgeListControllers();
+    if (!controllers) {
       return { activated, failed, initTimeMs: performance.now() - startTime };
     }
 
     // Collect controller status from the registry
-    if (typeof registry.listControllers === 'function') {
-      const controllers = registry.listControllers();
+    if (controllers) {
       for (const ctrl of controllers) {
         if (ctrl.enabled) {
           activated.push(ctrl.name);
@@ -2967,7 +2966,7 @@ export async function storeEntry(options: {
       return {
         success: false,
         id: '',
-        error: await walRefusalError('write'),
+        error: await walRefusalError('write', options.dbPath),
       };
     }
 
@@ -3642,7 +3641,7 @@ export async function getEntry(options: {
       return {
         success: false,
         found: false,
-        error: await walRefusalError('read/write'),
+        error: await walRefusalError('read/write', options.dbPath),
       };
     }
 
@@ -3796,7 +3795,7 @@ export async function deleteEntry(options: {
         key,
         namespace,
         remainingEntries: 0,
-        error: await walRefusalError('write'),
+        error: await walRefusalError('write', options.dbPath),
       };
     }
 
