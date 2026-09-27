@@ -121,6 +121,10 @@ export class ConfigFileManager {
 
   /** Set a nested config value by dot-separated key */
   set(cwd: string, key: string, value: unknown): void {
+    // Reject the entire path before touching cached config or disk.
+    if (key.split('.').some(part => part === '__proto__' || part === 'constructor' || part === 'prototype')) {
+      throw new Error(`Unsafe configuration key: ${key}`);
+    }
     // A targeted update must not persist unrelated defaults (notably the
     // default memory path, which would relocate an existing memory store).
     const config = this.config ?? this.load(cwd) ?? {};
@@ -213,7 +217,7 @@ function getNestedValue(obj: Record<string, unknown>, key: string): unknown {
   const parts = key.split('.');
   let current: unknown = obj;
   for (const part of parts) {
-    if (current === null || current === undefined || typeof current !== 'object') {
+    if (current === null || current === undefined || typeof current !== 'object' || !Object.hasOwn(current, part)) {
       return undefined;
     }
     current = (current as Record<string, unknown>)[part];
@@ -227,7 +231,7 @@ function setNestedValue(obj: Record<string, unknown>, key: string, value: unknow
   let current: Record<string, unknown> = obj;
   for (let i = 0; i < parts.length - 1; i++) {
     const part = parts[i];
-    if (!(part in current) || typeof current[part] !== 'object' || current[part] === null) {
+    if (!Object.hasOwn(current, part) || typeof current[part] !== 'object' || current[part] === null) {
       current[part] = {};
     }
     current = current[part] as Record<string, unknown>;
