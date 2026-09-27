@@ -47,6 +47,21 @@ function fileStamp(ms: number): string {
   return new Date(ms).toISOString().replace(/[:.]/g, '-');
 }
 
+/** Keep legacy memory.db names; give every other basename its own snapshot set. */
+function snapshotPrefix(dbPath: string): string {
+  const name = path.basename(dbPath);
+  // A distinct namespace prevents an extensionless `memory` database from
+  // colliding with the historical `memory.db` prefix. Encoding is injective
+  // within the nondefault namespace, including names that contain `%`.
+  return name === 'memory.db' ? 'memory-' : `store-${encodeURIComponent(name)}-`;
+}
+
+function isSnapshotFor(file: string, dbPath: string): boolean {
+  const prefix = snapshotPrefix(dbPath);
+  return file.startsWith(prefix)
+    && /^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z\.db$/.test(file.slice(prefix.length));
+}
+
 export async function backupMemoryDb(opts: BackupOptions = {}): Promise<BackupResult> {
   const dbPath = opts.dbPath ?? defaultMemoryDbPath();
   if (!dbPath || !fs.existsSync(dbPath)) return { backedUp: false, skipped: 'no-db' };
@@ -61,7 +76,7 @@ export async function backupMemoryDb(opts: BackupOptions = {}): Promise<BackupRe
 
   const destDir = opts.destDir ?? path.join(path.dirname(dbPath), 'backups');
   try { fs.mkdirSync(destDir, { recursive: true }); } catch { /* */ }
-  const destPath = path.join(destDir, `memory-${fileStamp(opts.timestamp ?? Date.now())}.db`);
+  const destPath = path.join(destDir, `${snapshotPrefix(dbPath)}${fileStamp(opts.timestamp ?? Date.now())}.db`);
 
   // WAL-safe online backup: read-only source, consistent snapshot to destPath.
   let db: any;
@@ -88,7 +103,7 @@ export async function backupMemoryDb(opts: BackupOptions = {}): Promise<BackupRe
         const keep = typeof opts.keep === 'number' && opts.keep > 0 ? opts.keep : 7;
         const rotatedAway: string[] = [];
         try {
-          const snaps = fs.readdirSync(destDir).filter(f => /^memory-.*\.db$/.test(f)).sort();
+          const snaps = fs.readdirSync(destDir).filter(f => isSnapshotFor(f, dbPath)).sort();
           while (snaps.length > keep) {
             const old = snaps.shift()!;
             try { fs.rmSync(path.join(destDir, old), { force: true }); rotatedAway.push(old); } catch { /* */ }
@@ -119,7 +134,7 @@ export async function backupMemoryDb(opts: BackupOptions = {}): Promise<BackupRe
   const keep = typeof opts.keep === 'number' && opts.keep > 0 ? opts.keep : 7;
   const rotatedAway: string[] = [];
   try {
-    const snaps = fs.readdirSync(destDir).filter(f => /^memory-.*\.db$/.test(f)).sort();
+    const snaps = fs.readdirSync(destDir).filter(f => isSnapshotFor(f, dbPath)).sort();
     while (snaps.length > keep) {
       const old = snaps.shift()!;
       try { fs.rmSync(path.join(destDir, old), { force: true }); rotatedAway.push(old); } catch { /* */ }
@@ -183,7 +198,7 @@ export async function restoreMemoryDbFromBackup(
   try {
     snaps = fs
       .readdirSync(destDir)
-      .filter(f => /^memory-.*\.db$/.test(f))
+      .filter(f => isSnapshotFor(f, dbPath))
       .map(f => path.join(destDir, f))
       .sort()      // ISO-stamped names sort chronologically
       .reverse();  // newest first
