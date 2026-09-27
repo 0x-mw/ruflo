@@ -1772,8 +1772,13 @@ export async function bridgePurgeNamespace(options: {
       return { success: false, deletedCount: 0, remainingEntries: 0, error: e instanceof Error ? e.message : String(e) };
     }
 
-    const safeNs = String(namespace).replace(/:/g, '_');
-    await cacheInvalidate(registry, `namespace:${safeNs}`);
+    // Entries are cached individually, not under a namespace sentinel.
+    // SQLite data_version does not change for writes on this connection, so
+    // the cross-process freshness check cannot invalidate this purge for us.
+    try {
+      const cache = registry.get('tieredCache');
+      if (cache && typeof cache.clear === 'function') await cache.clear();
+    } catch { /* cache cleanup is best-effort */ }
 
     if (deletedCount > 0) {
       await logAttestation(registry, 'purge', namespace, { namespace, deletedCount });
