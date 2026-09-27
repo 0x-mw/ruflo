@@ -1,3 +1,4 @@
+import { validateFeedbackPatterns } from '../memory/feedback-patterns.js';
 /**
  * V3 CLI Hooks Command
  * Self-learning hooks system for intelligent workflow automation
@@ -667,6 +668,11 @@ const postCommandCommand: Command = {
       short: 'd',
       description: 'Execution duration in milliseconds',
       type: 'number'
+    },
+    {
+      name: 'ttl',
+      description: 'Command history lifetime in seconds (default: 30 days)',
+      type: 'number'
     }
   ],
   examples: [
@@ -700,14 +706,19 @@ const postCommandCommand: Command = {
         success,
         exitCode: ctx.flags.exitCode || 0,
         duration: ctx.flags.duration,
+        ttl: ctx.flags.ttl,
         timestamp: Date.now(),
       });
 
       if (ctx.flags.format === 'json') {
         output.printJson(result);
-        return { success: true, data: result };
+        return { success: result.recorded, exitCode: result.recorded ? 0 : 1, data: result };
       }
 
+      if (!result.recorded) {
+        output.printError('Command outcome could not be recorded');
+        return { success: false, exitCode: 1, data: result };
+      }
       output.writeln();
       output.printSuccess('Command outcome recorded');
 
@@ -2095,6 +2106,7 @@ const postTaskCommand: Command = {
   name: 'post-task',
   description: 'Record task completion for learning',
   options: [
+    { name: 'patterns', description: 'JSON array of learned pattern strings for feedback and skill creation', type: 'string' },
     {
       name: 'task-id',
       short: 'i',
@@ -2182,6 +2194,7 @@ const postTaskCommand: Command = {
     output.printInfo(`Recording outcome for task: ${output.highlight(taskId)}`);
 
     try {
+      const patterns = validateFeedbackPatterns(ctx.flags.patterns === undefined ? undefined : JSON.parse(ctx.flags.patterns as string));
       const result = await callMCPTool<{
         taskId: string;
         success: boolean;
@@ -2196,6 +2209,7 @@ const postTaskCommand: Command = {
         trajectory?: { recorded: boolean };
       }>('hooks_post-task', {
         taskId,
+        patterns,
         success,
         quality: ctx.flags.quality,
         agent: ctx.flags.agent,

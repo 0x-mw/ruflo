@@ -11,6 +11,8 @@ import { distillCommand } from './memory-distill.js';
 import { backupCommand } from './memory-backup.js';
 import { countSiblingStoreRows } from '../memory/sibling-store.js';
 import { resolveDbPath } from '../memory/memory-initializer.js';
+import { existsSync } from 'node:fs';
+import { siblingAgentDbPath } from '../memory/memory-bridge.js';
 
 /**
  * #3228: a miss in one store is not a miss in the memory.
@@ -30,6 +32,24 @@ async function warnIfSiblingHasRows(pathFlag: unknown): Promise<void> {
       `That store is written by the MCP/AgentDB path; read it with --path ${unread.path}.`,
     );
   }
+}
+
+/** Default CLI writes may be mirrored into AgentDB; remove both copies. */
+function removalDbTargets(pathFlag?: string): Array<{ dbPath: string; encryptWrites?: boolean }> {
+  const primary = resolveDbPath(pathFlag);
+  // An explicit file selection is a single-store operation, as documented by
+  // --path. Do not widen a caller's requested destructive scope.
+  if (pathFlag || process.env.CLAUDE_FLOW_DB_PATH) return [{ dbPath: primary }];
+  const sibling = siblingAgentDbPath(primary);
+  // The AgentDB mirror is consumed by native SQLite and must stay plaintext.
+  // Pass this per operation, including preview migrations; never toggle the
+  // process encryption setting while asynchronous operations are in flight.
+  const targets = [
+    { dbPath: primary },
+    ...(sibling ? [{ dbPath: sibling, encryptWrites: false }] : []),
+  ].filter(target => existsSync(target.dbPath));
+  // Preserve the existing missing-database error when neither store exists.
+  return targets.length ? targets : [{ dbPath: primary }];
 }
 
 // Memory backends
@@ -881,7 +901,7 @@ function formatRelativeTime(isoDate: string): string {
 const deleteCommand: Command = {
   name: 'delete',
   aliases: ['rm'],
-  description: 'Delete memory entry',
+  description: 'Delete a memory entry from the default store and its AgentDB mirror (use --path to select one store)',
   options: [
     {
       name: 'key',
@@ -935,18 +955,24 @@ const deleteCommand: Command = {
 
     // Use sql.js directly for consistent data access (Issue #980)
     try {
-      const { deleteEntry, resolveDbPath: _rdbDelete } = await import('../memory/memory-initializer.js');
-      const dbPathDelete = _rdbDelete(ctx.flags.path as string | undefined);
-      const result = await deleteEntry({ key, namespace, dbPath: dbPathDelete });
-
-      if (!result.success) {
-        output.printError(result.error || 'Failed to delete');
-        return { success: false, exitCode: 1 };
+      const { deleteEntry } = await import('../memory/memory-initializer.js');
+      const paths = removalDbTargets(ctx.flags.path as string | undefined);
+      const stores: Array<{ dbPath: string } & Awaited<ReturnType<typeof deleteEntry>>> = [];
+      for (const target of paths) {
+        const { dbPath } = target;
+        const entry = await deleteEntry({ key, namespace, ...target });
+        if (!entry.success) throw new Error(`${dbPath}: ${entry.error || 'Failed to delete'}`);
+        stores.push({ dbPath, ...entry });
       }
+      const result = {
+        success: true, key, namespace, stores,
+        deleted: stores.some(entry => entry.deleted),
+        remainingEntries: stores.reduce((total, entry) => total + entry.remainingEntries, 0),
+      };
 
       if (result.deleted) {
         output.printSuccess(`Deleted "${key}" from namespace "${namespace}"`);
-        output.printInfo(`Remaining entries: ${result.remainingEntries}`);
+        output.printInfo(`Remaining entries across ${paths.length} store(s): ${result.remainingEntries}`);
       } else {
         output.printWarning(`Key not found: "${key}" in namespace "${namespace}"`);
       }
@@ -968,7 +994,7 @@ const deleteCommand: Command = {
 // either interactive confirmation or --force.
 const purgeCommand: Command = {
   name: 'purge',
-  description: 'Permanently delete every entry in a namespace (hard delete — not the soft delete/tombstone that `memory delete` uses)',
+  description: 'Permanently delete a namespace from the default store and its AgentDB mirror (use --path to select one store)',
   options: [
     {
       name: 'namespace',
@@ -1008,20 +1034,23 @@ const purgeCommand: Command = {
     }
 
     try {
-      const { listEntries, purgeNamespace, resolveDbPath: _rdbPurge } = await import('../memory/memory-initializer.js');
-      const resolvedDbPath = _rdbPurge(dbPath);
-
-      const preview = await listEntries({ namespace, limit: 1, dbPath: resolvedDbPath });
-      const previewCount = preview.total ?? preview.entries?.length ?? 0;
+      const { listEntries, purgeNamespace } = await import('../memory/memory-initializer.js');
+      const paths = removalDbTargets(dbPath);
+      let previewCount = 0;
+      for (const target of paths) {
+        const preview = await listEntries({ namespace, limit: 1, ...target });
+        if (!preview.success) throw new Error(`${target.dbPath}: ${preview.error || 'Failed to read purge target'}`);
+        previewCount += preview.total ?? preview.entries?.length ?? 0;
+      }
 
       if (dryRun) {
-        output.printInfo(`Would permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}" (dry run — nothing deleted)`);
+        output.printInfo(`Would permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}" across ${paths.length} store(s) (dry run — nothing deleted)`);
         return { success: true, data: { namespace, wouldDelete: previewCount } };
       }
 
       if (!force && ctx.interactive) {
         const confirmed = await confirm({
-          message: `Permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}"? This is a hard delete — not reversible with \`memory delete\`'s soft-undo.`,
+          message: `Permanently delete ${previewCount} entr${previewCount === 1 ? 'y' : 'ies'} from namespace "${namespace}" across ${paths.length} store(s)? This is a hard delete — not reversible with \`memory delete\`'s soft-undo.`,
           default: false
         });
         if (!confirmed) {
@@ -1033,15 +1062,20 @@ const purgeCommand: Command = {
         return { success: false, exitCode: 1 };
       }
 
-      const result = await purgeNamespace({ namespace, dbPath: resolvedDbPath });
-
-      if (!result.success) {
-        output.printError(result.error || 'Failed to purge');
-        return { success: false, exitCode: 1 };
+      const stores: Array<{ dbPath: string } & Awaited<ReturnType<typeof purgeNamespace>>> = [];
+      for (const target of paths) {
+        const purged = await purgeNamespace({ namespace, ...target });
+        if (!purged.success) throw new Error(`${target.dbPath}: ${purged.error || 'Failed to purge'}`);
+        stores.push({ dbPath: target.dbPath, ...purged });
       }
+      const result = {
+        success: true, stores,
+        deletedCount: stores.reduce((total, store) => total + store.deletedCount, 0),
+        remainingEntries: stores.reduce((total, store) => total + store.remainingEntries, 0),
+      };
 
       output.printSuccess(`Purged ${result.deletedCount} entr${result.deletedCount === 1 ? 'y' : 'ies'} from namespace "${namespace}"`);
-      output.printInfo(`Remaining entries (all namespaces): ${result.remainingEntries}`);
+      output.printInfo(`Remaining entries (all namespaces, ${paths.length} store(s)): ${result.remainingEntries}`);
       return { success: true, data: result };
     } catch (error) {
       output.printError(`Failed to purge: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -1058,10 +1092,14 @@ const statsCommand: Command = {
   action: async (ctx: CommandContext): Promise<CommandResult> => {
     // Call MCP memory/stats tool for real statistics
     try {
-      const statsResult = await callMCPTool('memory_stats', {}) as {
+      const dbPath = resolveDbPath(ctx.flags.path as string | undefined);
+      const statsResult = await callMCPTool('memory_stats', { dbPath }) as {
+        available?: boolean;
+        error?: string;
+        truncated?: boolean;
         totalEntries: number;
         entriesWithEmbeddings?: number;
-        totalSize: string;
+        totalSize: string | null;
         version: string;
         backend: string;
         location: string;
@@ -1069,7 +1107,14 @@ const statsCommand: Command = {
         newestEntry: string | null;
       };
 
+      if (statsResult.available === false) {
+        output.printError(`Failed to get stats: ${statsResult.error || 'Store unavailable'}`);
+        return { success: false, exitCode: 1 };
+      }
+      const unreadStore = await countSiblingStoreRows(dbPath);
       const stats = {
+        ...(unreadStore ? { unreadStore } : {}),
+        ...(statsResult.truncated ? { truncated: true } : {}),
         backend: statsResult.backend,
         entries: {
           total: statsResult.totalEntries,
@@ -1077,7 +1122,7 @@ const statsCommand: Command = {
           text: statsResult.totalEntries
         },
         storage: {
-          total: statsResult.totalSize,
+          total: statsResult.totalSize ?? 'unknown',
           location: statsResult.location
         },
         version: statsResult.version,
@@ -1090,6 +1135,9 @@ const statsCommand: Command = {
         return { success: true, data: stats };
       }
 
+      if (unreadStore) {
+        output.printWarning(`${unreadStore.rows} entries are in ${unreadStore.path} and were not read here. Read them with --path ${unreadStore.path}.`);
+      }
       output.writeln();
       output.writeln(output.bold('Memory Statistics'));
       output.writeln();
@@ -1341,8 +1389,13 @@ const cleanupCommand: Command = {
     { command: 'claude-flow memory cleanup --expired-only', description: 'Clean expired entries' }
   ],
   action: async (ctx: CommandContext): Promise<CommandResult> => {
-    const dryRun = ctx.flags.dryRun as boolean;
-    const force = ctx.flags.force as boolean;
+    const dryRun = ctx.flags.dryRun === true;
+    const force = ctx.flags.force === true;
+
+    if (ctx.flags.format === 'json' && !dryRun && !force) {
+      output.printJson({ success: false, error: 'Use --dry-run to preview or --force to authorize cleanup with --format json.' });
+      return { success: false, exitCode: 1 };
+    }
 
     if (dryRun) {
       output.writeln(output.warning('DRY RUN - No changes will be made'));
@@ -1351,7 +1404,14 @@ const cleanupCommand: Command = {
     output.printInfo('Analyzing memory for cleanup...');
 
     try {
-      const result = await callMCPTool<{
+      const selectors = {
+        olderThan: ctx.flags.olderThan,
+        expiredOnly: ctx.flags.expiredOnly,
+        lowQualityThreshold: ctx.flags.lowQuality,
+        namespace: ctx.flags.namespace,
+      };
+      // Preview before asking: dryRun:false executes deletion inside the tool.
+      let result = await callMCPTool<{
         dryRun: boolean;
         candidates: {
           expired: number;
@@ -1370,11 +1430,8 @@ const cleanupCommand: Command = {
         };
         duration: number;
       }>('memory_cleanup', {
-        dryRun,
-        olderThan: ctx.flags.olderThan,
-        expiredOnly: ctx.flags.expiredOnly,
-        lowQualityThreshold: ctx.flags.lowQuality,
-        namespace: ctx.flags.namespace,
+        ...selectors,
+        dryRun: dryRun || !force,
       });
 
       if (ctx.flags.format === 'json') {
@@ -1407,6 +1464,7 @@ const cleanupCommand: Command = {
           output.printInfo('Cleanup cancelled');
           return { success: true, data: result };
         }
+        result = await callMCPTool<typeof result>('memory_cleanup', { ...selectors, dryRun: false });
       }
 
       if (!dryRun) {
@@ -1699,7 +1757,8 @@ const importCommand: Command = {
       short: 'n',
       description: 'Import into specific namespace',
       type: 'string'
-    }
+    },
+    DB_PATH_OPTION
   ],
   examples: [
     { command: 'claude-flow memory import -i ./backup.json', description: 'Import from file' },
@@ -1729,6 +1788,7 @@ const importCommand: Command = {
         inputPath,
         merge: ctx.flags.merge ?? true,
         namespace: ctx.flags.namespace,
+        dbPath: resolveDbPath(ctx.flags.path as string | undefined),
       });
 
       output.printSuccess(`Imported from ${result.inputPath}`);

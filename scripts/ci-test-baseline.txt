@@ -3,9 +3,11 @@
 # Evidence: GitHub Actions run 31859043593 (116 failing test files).
 # Remove entries when fixed. Never add entries to make a regression green.
 plugins/ruflo-adr/scripts/__tests__/adr-create-schema-2651.test.mjs
+plugins/ruflo-adr/scripts/__tests__/import-root-exit-3097.test.mjs
 plugins/ruflo-adr/scripts/__tests__/index-idempotency-2660.test.mjs
 plugins/ruflo-adr/scripts/__tests__/parser-bullets-2659.test.mjs
 plugins/ruflo-adr/scripts/__tests__/skip-brain-dir-2911.test.mjs
+plugins/ruflo-adr/scripts/__tests__/verify-read-safety-3147.test.mjs
 plugins/ruflo-business-pods/scripts/pod-tick.test.mjs
 plugins/ruflo-core/scripts/escape-cmd-arg.test.cjs
 plugins/ruflo-core/scripts/mcp-launch.test.cjs

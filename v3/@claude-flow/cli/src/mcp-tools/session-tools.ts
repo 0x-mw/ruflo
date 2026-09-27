@@ -5,6 +5,7 @@
  */
 
 import { existsSync, readFileSync, readdirSync, unlinkSync, statSync, writeFileSync } from 'node:fs';
+import { randomUUID } from 'node:crypto';
 import { join } from 'node:path';
 import { type MCPTool, getProjectCwd } from './types.js';
 import {
@@ -162,7 +163,7 @@ export const sessionTools: MCPTool[] = [
         if (!v.valid) return { success: false, error: v.error };
       }
 
-      const sessionId = `session-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const sessionId = `session-${Date.now()}-${randomUUID().slice(0, 8)}`;
 
       // Load related data based on options
       const data = loadRelatedStores({
@@ -212,6 +213,9 @@ export const sessionTools: MCPTool[] = [
       properties: {
         sessionId: { type: 'string', description: 'Session ID to restore' },
         name: { type: 'string', description: 'Session name to restore' },
+        restoreMemory: { type: 'boolean', description: 'Restore memory (default true)' },
+        restoreTasks: { type: 'boolean', description: 'Restore tasks (default true)' },
+        restoreAgents: { type: 'boolean', description: 'Restore agents (default true)' },
       },
     },
     handler: async (input) => {
@@ -250,7 +254,7 @@ export const sessionTools: MCPTool[] = [
       if (session) {
         // Restore data to respective stores (legacy JSON for backward compat).
         // audit_1776853149979: tighten perms on the restored stores too.
-        if (session.data?.memory) {
+        if (input.restoreMemory !== false && session.data?.memory) {
           const memoryDir = join(getProjectCwd(), STORAGE_DIR, 'memory');
           if (!existsSync(memoryDir)) mkdirRestricted(memoryDir);
           writeFileRestricted(join(memoryDir, 'store.json'), JSON.stringify(session.data.memory, null, 2));
@@ -277,12 +281,12 @@ export const sessionTools: MCPTool[] = [
             // Legacy JSON restore is the fallback -- sql.js import may not be available
           }
         }
-        if (session.data?.tasks) {
+        if (input.restoreTasks !== false && session.data?.tasks) {
           const taskDir = join(getProjectCwd(), STORAGE_DIR, 'tasks');
           if (!existsSync(taskDir)) mkdirRestricted(taskDir);
           writeFileRestricted(join(taskDir, 'store.json'), JSON.stringify(session.data.tasks, null, 2));
         }
-        if (session.data?.agents) {
+        if (input.restoreAgents !== false && session.data?.agents) {
           const agentDir = join(getProjectCwd(), STORAGE_DIR, 'agents');
           if (!existsSync(agentDir)) mkdirRestricted(agentDir);
           writeFileRestricted(join(agentDir, 'store.json'), JSON.stringify(session.data.agents, null, 2));
@@ -292,6 +296,11 @@ export const sessionTools: MCPTool[] = [
           sessionId: session.sessionId,
           name: session.name,
           restored: true,
+          restoredComponents: {
+            memory: input.restoreMemory !== false && !!session.data?.memory,
+            tasks: input.restoreTasks !== false && !!session.data?.tasks,
+            agents: input.restoreAgents !== false && !!session.data?.agents,
+          },
           restoredAt: new Date().toISOString(),
           stats: session.stats,
         };
@@ -493,7 +502,7 @@ export const sessionTools: MCPTool[] = [
       properties: {
         sessionId: { type: 'string', description: 'Session ID to export' },
         outputPath: { type: 'string', description: 'File path to write the export to (optional)' },
-        includeMemory: { type: 'boolean', description: 'Include the memory snapshot (advisory — already in the saved record)' },
+        includeMemory: { type: 'boolean', description: 'Include the memory snapshot (default true)' },
       },
       required: ['sessionId'],
     },
@@ -503,6 +512,13 @@ export const sessionTools: MCPTool[] = [
       const sessionId = input.sessionId as string;
       const session = loadSession(sessionId);
       if (!session) return { sessionId, error: 'Session not found' };
+      // Apply the explicit exclusion before either returning or writing the
+      // snapshot. The saved source remains intact for a later full restore.
+      if (input.includeMemory === false) {
+        if (session.data) delete session.data.memory;
+        session.stats = { ...session.stats, memoryEntries: 0, totalSize: 0 };
+        session.stats.totalSize = Buffer.byteLength(JSON.stringify(session), 'utf-8');
+      }
       let path: string | null = null;
       const outputPath = input.outputPath ? String(input.outputPath) : null;
       if (outputPath) {
@@ -523,7 +539,7 @@ export const sessionTools: MCPTool[] = [
       properties: {
         inputPath: { type: 'string', description: 'Path to the session JSON file to import' },
         name: { type: 'string', description: 'Override the imported session name' },
-        activate: { type: 'boolean', description: 'Make the imported session the current one (advisory)' },
+        activate: { type: 'boolean', description: 'Restore the imported session into the active stores' },
       },
       required: ['inputPath'],
     },
@@ -533,7 +549,7 @@ export const sessionTools: MCPTool[] = [
       let parsed: SessionRecord;
       try { parsed = JSON.parse(readFileSync(inputPath, 'utf-8')); }
       catch (e) { return { error: `Invalid session JSON: ${(e as Error).message}` }; }
-      const newId = `session-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const newId = `session-${Date.now()}-${randomUUID().slice(0, 8)}`;
       const stats = parsed.stats || { tasks: 0, agents: 0, memoryEntries: 0, totalSize: 0 };
       const session: SessionRecord = {
         sessionId: newId,
@@ -544,6 +560,15 @@ export const sessionTools: MCPTool[] = [
         data: parsed.data,
       };
       saveSession(session);
+      let activated = false;
+      if (input.activate === true) {
+        const restore = sessionTools.find(tool => tool.name === 'session_restore')!;
+        const result = await restore.handler({ sessionId: newId }) as { restored?: boolean; error?: string };
+        if (result.restored !== true) {
+          return { sessionId: newId, activated: false, error: result.error || 'Imported session could not be restored' };
+        }
+        activated = true;
+      }
       return {
         sessionId: newId,
         name: session.name,
@@ -553,7 +578,7 @@ export const sessionTools: MCPTool[] = [
           tasksImported: stats.tasks,
           memoryEntriesImported: stats.memoryEntries,
         },
-        activated: input.activate === true,
+        activated,
       };
     },
   },

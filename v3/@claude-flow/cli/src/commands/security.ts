@@ -1096,7 +1096,7 @@ const defendCommand: Command = {
             low: output.dim,
           }[threat.severity] || output.dim;
 
-          output.writeln(`  ${severityColor(`[${threat.severity.toUpperCase()}]`)} ${threat.type}`);
+          output.writeln(`  ${severityColor.call(output, `[${threat.severity.toUpperCase()}]`)} ${threat.type}`);
           output.writeln(`    ${output.dim(threat.description)}`);
           output.writeln(`    Confidence: ${(threat.confidence * 100).toFixed(1)}%`);
           output.writeln();
