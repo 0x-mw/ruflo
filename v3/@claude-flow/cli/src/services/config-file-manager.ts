@@ -86,11 +86,22 @@ export class ConfigFileManager {
     }
     try {
       const content = fs.readFileSync(this.configPath, 'utf-8');
-      this.config = JSON.parse(content);
+      const parsed: unknown = JSON.parse(content);
+      if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+        throw new Error('Config file must contain a JSON object');
+      }
+      this.config = parsed as Record<string, unknown>;
       return this.config;
-    } catch {
+    } catch (error) {
       this.config = null;
-      return null;
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+        this.configPath = null;
+        return null;
+      }
+      // A parse/read failure is not a missing config. In particular, set()
+      // must never replace a recoverable file with fallback defaults.
+      const detail = error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to load config ${this.configPath}: ${detail}`);
     }
   }
 
