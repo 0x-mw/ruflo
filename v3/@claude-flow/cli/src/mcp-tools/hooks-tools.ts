@@ -1740,7 +1740,7 @@ export const hooksPostTask: MCPTool = {
       patterns: feedbackPatternsSchema,
       success: { type: 'boolean', description: 'Whether task was successful' },
       agent: { type: 'string', description: 'Agent that completed the task' },
-      quality: { type: 'number', description: 'Quality score (0-1)' },
+      quality: { type: 'number', minimum: 0, maximum: 1, description: 'Quality score (0-1)' },
       task: { type: 'string', description: 'Task description text (used for learning keyword extraction)' },
       duration: { type: 'number', description: 'Observed task duration in milliseconds (used by pheromone-adaptive topology)' },
       latencyBudgetMs: { type: 'number', description: 'Latency budget used to normalize duration (default 60000ms)' },
@@ -1757,7 +1757,11 @@ export const hooksPostTask: MCPTool = {
     const taskId = params.taskId as string;
     const success = params.success !== false;
     const agent = params.agent as string | undefined;
-    const quality = (params.quality as number) || (success ? 0.85 : 0.3);
+    if (params.quality !== undefined && (typeof params.quality !== 'number'
+      || !Number.isFinite(params.quality) || params.quality < 0 || params.quality > 1)) {
+      return { success: false, error: 'quality must be a finite number between 0 and 1' };
+    }
+    const quality = params.quality === undefined ? (success ? 0.85 : 0.3) : params.quality as number;
     const startTime = Date.now();
     let patterns: string[] | undefined;
     try { patterns = validateFeedbackPatterns(params.patterns); }
@@ -3116,7 +3120,7 @@ export const hooksTrajectoryStep: MCPTool = {
       trajectoryId: { type: 'string', description: 'Trajectory ID' },
       action: { type: 'string', description: 'Action taken' },
       result: { type: 'string', description: 'Action result' },
-      quality: { type: 'number', description: 'Quality score (0-1)' },
+      quality: { type: 'number', minimum: 0, maximum: 1, description: 'Quality score (0-1)' },
     },
     required: ['trajectoryId', 'action'],
   },
@@ -3126,7 +3130,11 @@ export const hooksTrajectoryStep: MCPTool = {
     // the learning signal (DISTILL embeds this text).
     const action = scrubReasoningBlocks(params.action as string);
     const result = scrubReasoningBlocks((params.result as string) || 'success');
-    const quality = (params.quality as number) || 0.85;
+    if (params.quality !== undefined && (typeof params.quality !== 'number'
+      || !Number.isFinite(params.quality) || params.quality < 0 || params.quality > 1)) {
+      return { success: false, error: 'quality must be a finite number between 0 and 1' };
+    }
+    const quality = params.quality === undefined ? 0.85 : params.quality as number;
     const timestamp = new Date().toISOString();
     const stepId = `step-${Date.now()}`;
 
