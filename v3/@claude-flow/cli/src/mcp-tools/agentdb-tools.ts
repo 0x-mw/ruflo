@@ -774,7 +774,7 @@ export const agentdbHierarchicalRecall: MCPTool = {
 
 export const agentdbConsolidate: MCPTool = {
   name: 'agentdb_consolidate',
-  description: 'Request memory consolidation. Currently returns unsupported when the installed controller is a no-op stub; no entries are promoted or compressed in that case.',
+  description: 'Request memory consolidation. Use when checking whether AgentDB can consolidate retained memories; native file edits cannot perform controller consolidation. Currently returns unsupported when the installed controller is a no-op stub; no entries are promoted or compressed in that case.',
   inputSchema: {
     type: 'object',
     properties: {},
