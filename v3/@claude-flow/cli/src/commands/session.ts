@@ -374,15 +374,16 @@ const restoreCommand: Command = {
       const result = await callMCPTool<{
         sessionId: string;
         restoredAt: string;
-        restored: {
+        restored: boolean;
+        restoredComponents: {
           memory: boolean;
           agents: boolean;
           tasks: boolean;
         };
         stats: {
-          agentsRestored: number;
-          tasksRestored: number;
-          memoryEntriesRestored: number;
+          agents: number;
+          tasks: number;
+          memoryEntries: number;
         };
       }>('session_restore', {
         sessionId,
@@ -403,18 +404,18 @@ const restoreCommand: Command = {
         data: [
           {
             component: 'Memory',
-            status: result.restored.memory ? output.success('Restored') : output.dim('Skipped'),
-            count: result.stats.memoryEntriesRestored
+            status: result.restoredComponents.memory ? output.success('Restored') : output.dim('Skipped'),
+            count: result.restoredComponents.memory ? result.stats.memoryEntries : 0
           },
           {
             component: 'Agents',
-            status: result.restored.agents ? output.success('Restored') : output.dim('Skipped'),
-            count: result.stats.agentsRestored
+            status: result.restoredComponents.agents ? output.success('Restored') : output.dim('Skipped'),
+            count: result.restoredComponents.agents ? result.stats.agents : 0
           },
           {
             component: 'Tasks',
-            status: result.restored.tasks ? output.success('Restored') : output.dim('Skipped'),
-            count: result.stats.tasksRestored
+            status: result.restoredComponents.tasks ? output.success('Restored') : output.dim('Skipped'),
+            count: result.restoredComponents.tasks ? result.stats.tasks : 0
           }
         ]
       });
