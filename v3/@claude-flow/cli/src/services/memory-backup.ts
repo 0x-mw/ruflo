@@ -50,7 +50,10 @@ function fileStamp(ms: number): string {
 /** Keep legacy memory.db names; give every other basename its own snapshot set. */
 function snapshotPrefix(dbPath: string): string {
   const name = path.basename(dbPath);
-  return name === 'memory.db' ? 'memory-' : `${encodeURIComponent(name)}-`;
+  // A distinct namespace prevents an extensionless `memory` database from
+  // colliding with the historical `memory.db` prefix. Encoding is injective
+  // within the nondefault namespace, including names that contain `%`.
+  return name === 'memory.db' ? 'memory-' : `store-${encodeURIComponent(name)}-`;
 }
 
 function isSnapshotFor(file: string, dbPath: string): boolean {

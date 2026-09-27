@@ -23,22 +23,22 @@ function content(dbPath: string) {
   finally { db.close(); }
 }
 
-describe('backup identity across sibling memory stores', () => {
+describe.each(['agentdb-memory.db', 'memory'])('backup identity for memory.db and %s', (otherName) => {
   it('does not overwrite a different store snapshot at the same timestamp', async () => {
     const primary = seed('memory.db');
-    const mirror = seed('agentdb-memory.db');
+    const mirror = seed(otherName);
     const a = await backupMemoryDb({ dbPath: primary, timestamp: start });
     const b = await backupMemoryDb({ dbPath: mirror, timestamp: start });
     expect(a.backedUp).toBe(true);
     expect(b.backedUp).toBe(true);
     expect(a.path).not.toBe(b.path);
     expect(content(a.path!)).toEqual({ content: 'memory.db' });
-    expect(content(b.path!)).toEqual({ content: 'agentdb-memory.db' });
+    expect(content(b.path!)).toEqual({ content: otherName });
   });
 
   it('rotates only snapshots belonging to the selected store', async () => {
     const primary = seed('memory.db');
-    const mirror = seed('agentdb-memory.db');
+    const mirror = seed(otherName);
     const a = await backupMemoryDb({ dbPath: primary, timestamp: start, keep: 1 });
     const b = await backupMemoryDb({ dbPath: mirror, timestamp: start + 1000, keep: 1 });
     const c = await backupMemoryDb({ dbPath: mirror, timestamp: start + 2000, keep: 1 });
@@ -48,15 +48,16 @@ describe('backup identity across sibling memory stores', () => {
     expect(c.rotatedAway).toHaveLength(1);
   });
 
-  it.each(['memory.db', 'agentdb-memory.db'])('restores only %s snapshots even when another store is newer', async (name) => {
-    const primary = seed(name);
-    const other = seed(name === 'memory.db' ? 'agentdb-memory.db' : 'memory.db');
+  it.each(['primary', 'other'])('restores only %s snapshots even when another store is newer', async (name) => {
+    const selectedName = name === 'primary' ? 'memory.db' : otherName;
+    const primary = seed(selectedName);
+    const other = seed(name === 'primary' ? otherName : 'memory.db');
     const a = await backupMemoryDb({ dbPath: primary, timestamp: start });
     await backupMemoryDb({ dbPath: other, timestamp: start + 1000 });
     writeFileSync(primary, 'corrupt source');
     const restored = await restoreMemoryDbFromBackup(primary);
     expect(restored.restored).toBe(true);
     expect(restored.from).toBe(a.path);
-    expect(content(primary)).toEqual({ content: name });
+    expect(content(primary)).toEqual({ content: selectedName });
   });
 });
