@@ -17,6 +17,7 @@
  * @module v3/cli/memory-bridge
  */
 
+import { liveMemoryRowSql } from './live-memory-row.js';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { createRequire } from 'node:module';
@@ -782,6 +783,13 @@ export function ensureBridgeSchema(db: { exec: (sql: string) => unknown }): bool
         throw err;
       }
     }
+    // Reads now enforce TTL, including on stores created before expires_at
+    // existed. A missing expiration means the legacy row does not expire.
+    try {
+      db.exec('ALTER TABLE memory_entries ADD COLUMN expires_at INTEGER');
+    } catch (error) {
+      if (!/duplicate column name:\s*expires_at/i.test(error instanceof Error ? error.message : String(error))) throw error;
+    }
     db.exec(`CREATE INDEX IF NOT EXISTS idx_bridge_ns ON memory_entries(namespace)`);
     db.exec(`CREATE INDEX IF NOT EXISTS idx_bridge_key ON memory_entries(key)`);
     db.exec(`CREATE INDEX IF NOT EXISTS idx_bridge_status ON memory_entries(status)`);
@@ -1318,7 +1326,7 @@ export async function bridgeSearchEntries(options: {
       const stmt = ctx.db.prepare(`
         SELECT id, key, namespace, content, embedding, provenance_type
         FROM memory_entries
-        WHERE ${ACTIVE_MEMORY_ROW_SQL} ${whereExtra}
+        WHERE ${liveMemoryRowSql()} ${whereExtra}
         ORDER BY updated_at DESC
         LIMIT 1000
       `);
@@ -1475,7 +1483,7 @@ export async function bridgeListEntries(options: {
     // the `status = 'active'` filter matched zero. Treat NULL as
     // "legacy-active" — the safe default for any entry that predates the
     // status column.
-    const statusFilter = ACTIVE_MEMORY_ROW_SQL;
+    const statusFilter = liveMemoryRowSql();
 
     // Count
     let total = 0;
@@ -1569,7 +1577,7 @@ export async function bridgeGetEntry(options: {
     const cacheKey = `entry:${safeNs}:${safeKey}`;
     dropCacheIfDbChangedElsewhere(registry, ctx);
     const cached = await cacheGet(registry, cacheKey);
-    if (cached && cached.content) {
+    if (cached && cached.content && (cached.expiresAt == null || cached.expiresAt > Date.now())) {
       return {
         success: true,
         found: true,
@@ -1594,9 +1602,9 @@ export async function bridgeGetEntry(options: {
     let row: any;
     try {
       const stmt = ctx.db.prepare(`
-        SELECT id, key, namespace, content, embedding, access_count, created_at, updated_at, tags
+        SELECT id, key, namespace, content, embedding, access_count, created_at, updated_at, tags, expires_at
         FROM memory_entries
-        WHERE ${ACTIVE_MEMORY_ROW_SQL} AND key = ? AND namespace = ?
+        WHERE ${liveMemoryRowSql()} AND key = ? AND namespace = ?
         LIMIT 1
       `);
       row = stmt.get(key, namespace);
@@ -1635,7 +1643,7 @@ export async function bridgeGetEntry(options: {
     };
 
     // Phase 2: Populate cache for next read
-    await cacheSet(registry, cacheKey, entry);
+    await cacheSet(registry, cacheKey, { ...entry, expiresAt: row.expires_at });
 
     return { success: true, found: true, cacheHit: false, entry };
   } catch {
@@ -1973,7 +1981,7 @@ export async function bridgeSearchBruteForceCosine(
       const stmt = ctx.db.prepare(`
         SELECT id, key, namespace, content, embedding
         FROM memory_entries
-        WHERE status = 'active' AND embedding IS NOT NULL ${nsFilter}
+        WHERE ${liveMemoryRowSql()} AND embedding IS NOT NULL ${nsFilter}
         ORDER BY updated_at DESC
         LIMIT 10000
       `);
@@ -3443,7 +3451,7 @@ export async function bridgeGetAllEmbeddings(options?: {
     const rows: any[] = ctx.db.prepare(`
       SELECT id, key, namespace, embedding
       FROM memory_entries
-      WHERE status = 'active' AND embedding IS NOT NULL
+      WHERE ${liveMemoryRowSql()} AND embedding IS NOT NULL
       LIMIT ?
     `).all(maxRows);
 

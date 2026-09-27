@@ -9,6 +9,7 @@
  * @module v3/cli/memory-initializer
  */
 
+import { liveMemoryRowSql } from './live-memory-row.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -3193,8 +3194,8 @@ export async function searchEntries(options: {
           // query (no extra round-trip) so a provenance-filtered search
           // still gets RaBitQ's speedup instead of falling back to brute
           // force.
-          const stmt = db.prepare('SELECT content, embedding, provenance_type FROM memory_entries WHERE id = ? AND status = ?');
-          stmt.bind([candidate.id, 'active']);
+          const stmt = db.prepare(`SELECT content, embedding, provenance_type FROM memory_entries WHERE id = ? AND ${liveMemoryRowSql()}`);
+          stmt.bind([candidate.id]);
           if (stmt.step()) {
             const [content, embeddingJson, provenanceTypeVal] = stmt.get() as [string, string | null, string | null];
             if (provenanceFilter?.length && !provenanceFilter.includes(provenanceTypeVal || 'unknown')) {
@@ -3256,29 +3257,28 @@ export async function searchEntries(options: {
           const db = new SQL.Database(fileBuffer);
           const provenanceByKey = new Map<string, string>();
           for (const r of filtered) {
-            const stmt = db.prepare('SELECT provenance_type FROM memory_entries WHERE namespace = ? AND key = ? LIMIT 1');
+            const stmt = db.prepare(`SELECT provenance_type FROM memory_entries WHERE namespace = ? AND key = ? AND ${liveMemoryRowSql()} LIMIT 1`);
             stmt.bind([r.namespace, r.key]);
             if (stmt.step()) {
-              provenanceByKey.set(`${r.namespace}::${r.key}`, (stmt.get()[0] as string | null) || 'unknown');
+              provenanceByKey.set(JSON.stringify([r.namespace, r.key]), (stmt.get()[0] as string | null) || 'unknown');
             }
             stmt.free();
           }
           db.close();
           filtered = filtered
-            .map(r => ({ ...r, provenanceType: provenanceByKey.get(`${r.namespace}::${r.key}`) || 'unknown' }));
+            .filter(r => provenanceByKey.has(JSON.stringify([r.namespace, r.key])))
+            .map(r => ({ ...r, provenanceType: provenanceByKey.get(JSON.stringify([r.namespace, r.key])) || 'unknown' }));
           if (provenanceFilter?.length) {
             filtered = filtered.filter(r => provenanceFilter.includes(r.provenanceType!));
           }
         } catch {
-          // A requested trust filter fails closed. Unfiltered callers retain
-          // backward-compatible results with an explicit unknown label.
-          filtered = provenanceFilter?.length
-            ? []
-            : filtered.map(r => ({ ...r, provenanceType: 'unknown' }));
+          // An ANN hit alone cannot prove the row is still live. Fall back
+          // to the authoritative SQL scan if liveness cannot be checked.
+          filtered = [];
         }
       }
 
-      if (!provenanceFilter?.length || filtered.length >= limit) {
+      if (filtered.length >= limit) {
         return {
           success: true,
           results: filtered.slice(0, limit),
@@ -3300,7 +3300,7 @@ export async function searchEntries(options: {
     // Get entries with embeddings
     // ADR-323: build the WHERE clause incrementally so namespace and
     // provenance filters compose (both, either, or neither).
-    const whereClauses = [`status = 'active'`];
+    const whereClauses = [liveMemoryRowSql()];
     const whereParams: (string)[] = [];
     if (effectiveNamespace !== 'all') {
       whereClauses.push('namespace = ?');
@@ -3489,7 +3489,7 @@ export async function listEntries(options: {
     // that predate the status column may have NULL after migration.
     // See memory-bridge.ts:bridgeListEntries for full context.
     // Get total count
-    const whereClauses = [ACTIVE_MEMORY_ROW_SQL];
+    const whereClauses = [liveMemoryRowSql()];
     const whereParams: string[] = [];
     if (namespace) {
       whereClauses.push('namespace = ?');
@@ -3665,7 +3665,7 @@ export async function getEntry(options: {
       const getStmt = db.prepare(`
         SELECT id, key, namespace, content, embedding, access_count, created_at, updated_at, tags
         FROM memory_entries
-        WHERE ${ACTIVE_MEMORY_ROW_SQL}
+        WHERE ${liveMemoryRowSql()}
           AND key = ?
           AND namespace = ?
         LIMIT 1
