@@ -1,13 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
 vi.mock('../src/output.js', () => ({ output: new Proxy({}, { get: () => vi.fn() }) }));
 vi.mock('../src/prompt.js', () => ({ confirm: vi.fn(async () => true), select: vi.fn(), input: vi.fn() }));
 vi.mock('../src/mcp-client.js', () => ({ callMCPTool: vi.fn(), MCPClientError: class extends Error {} }));
+import { writeFileRestricted } from '../src/fs-secure.js';
 import { memoryCommand } from '../src/commands/memory.js';
-import { _resetMemoryRootCache, initializeMemoryDatabase, storeEntry, listEntries } from '../src/memory/memory-initializer.js';
+import { _resetMemoryRootCache, initializeMemoryDatabase, storeEntry, listEntries, purgeNamespace } from '../src/memory/memory-initializer.js';
 
 let dir: string;
 let primary: string;
@@ -25,6 +26,7 @@ beforeEach(async () => {
   vi.stubEnv('CLAUDE_FLOW_MEMORY_PATH', dir);
   vi.stubEnv('CLAUDE_FLOW_DISABLE_BRIDGE', '1');
   vi.stubEnv('CLAUDE_FLOW_DB_PATH', '');
+  vi.stubEnv('CLAUDE_FLOW_ENCRYPT_AT_REST', '0');
   _resetMemoryRootCache();
   primary = join(dir, 'memory.db');
   mirror = join(dir, 'agentdb-memory.db');
@@ -48,6 +50,41 @@ describe('CLI removal of default memory and its AgentDB mirror', () => {
     expect(await count(mirror)).toBe(0);
     expect(await count(primary, 'keep')).toBe(1);
     expect(await count(mirror, 'keep')).toBe(1);
+  });
+
+  it.each(['delete', 'purge', 'preview'])('%s preserves a plaintext mirror when the primary is encrypted', async command => {
+    vi.stubEnv('CLAUDE_FLOW_ENCRYPT_AT_REST', '1');
+    vi.stubEnv('CLAUDE_FLOW_ENCRYPTION_KEY', '11'.repeat(32));
+    writeFileRestricted(primary, readFileSync(primary), { encrypt: true });
+    expect(readFileSync(primary).subarray(0, 4).toString()).toBe('RFE1');
+    expect(readFileSync(mirror).subarray(0, 16).toString()).toBe('SQLite format 3\0');
+    expect((await invoke(command === 'preview' ? 'purge' : command, { dryRun: command === 'preview' })).success).toBe(true);
+    // Inspect raw bytes before any list helper can rewrite schema metadata.
+    expect(readFileSync(primary).subarray(0, 4).toString()).toBe('RFE1');
+    expect(readFileSync(mirror).subarray(0, 16).toString()).toBe('SQLite format 3\0');
+    // Open the native file directly with SQLite, bypassing the decrypting reader.
+    const SQL = await (await import('sql.js')).default();
+    const db = new SQL.Database(readFileSync(mirror));
+    try {
+      expect(db.exec("SELECT COUNT(*) FROM memory_entries WHERE namespace = 'scratch' AND status = 'active'")[0].values[0][0]).toBe(command === 'preview' ? 1 : 0);
+      expect(db.exec("SELECT COUNT(*) FROM memory_entries WHERE namespace = 'keep'")[0].values[0][0]).toBe(1);
+    } finally { db.close(); }
+  });
+
+  it.each(['delete', 'purge', 'preview'])('%s refuses to rewrite a mirror with native WAL sidecars', async command => {
+    const before = readFileSync(mirror);
+    writeFileSync(`${mirror}-wal`, 'owned by another native process');
+    expect(await invoke(command === 'preview' ? 'purge' : command, { dryRun: command === 'preview' }))
+      .toMatchObject({ success: false, exitCode: 1 });
+    expect(readFileSync(mirror)).toEqual(before);
+  });
+
+  it('refuses native WAL sidecars in the purge fallback after preview', async () => {
+    const before = readFileSync(mirror);
+    writeFileSync(`${mirror}-wal`, 'native writer acquired after preview');
+    expect(await purgeNamespace({ namespace: 'scratch', dbPath: mirror, encryptWrites: false }))
+      .toMatchObject({ success: false });
+    expect(readFileSync(mirror)).toEqual(before);
   });
 
   it('refuses an unconfirmed purge without changing either store', async () => {

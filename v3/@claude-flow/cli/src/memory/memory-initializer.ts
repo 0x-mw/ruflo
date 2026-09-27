@@ -1300,7 +1300,7 @@ export interface MemoryInitResult {
  * Ensure memory_entries table has all required columns
  * Adds missing columns for older databases (e.g., 'content' column)
  */
-export async function ensureSchemaColumns(dbPath: string): Promise<{
+export async function ensureSchemaColumns(dbPath: string, options: { encryptWrites?: boolean } = {}): Promise<{
   success: boolean;
   columnsAdded: string[];
   error?: string;
@@ -1384,7 +1384,7 @@ export async function ensureSchemaColumns(dbPath: string): Promise<{
       if (modified) {
         // Save updated database
         const data = db.export();
-        writeFileRestricted(dbPath, Buffer.from(data), { encrypt: true });
+        writeFileRestricted(dbPath, Buffer.from(data), { encrypt: options.encryptWrites ?? true });
       }
 
       db.close();
@@ -3418,6 +3418,8 @@ export async function listEntries(options: {
   limit?: number;
   offset?: number;
   dbPath?: string;
+  /** Internal native-mirror writes must remain plaintext, including schema migration. */
+  encryptWrites?: boolean;
   /** #2073: When true, include the entry's full `content` string in each result. */
   includeContent?: boolean;
   /** ADR-323: restrict rows to these provenance types. */
@@ -3476,8 +3478,15 @@ export async function listEntries(options: {
       return { success: false, entries: [], total: 0, error: 'Database not found' };
     }
 
+    // Listing can migrate/backfill the schema, so it is also a whole-image
+    // writer. The newly selected native mirror may still have a live WAL.
+    await releaseOwnNativeHandle(dbPath);
+    if (hasNativeWalSidecars(dbPath)) {
+      return { success: false, entries: [], total: 0, error: await walRefusalError('read/write') };
+    }
+
     // Ensure schema has all required columns (migration for older DBs)
-    await ensureSchemaColumns(dbPath);
+    await ensureSchemaColumns(dbPath, options);
 
     const initSqlJs = (await import('sql.js')).default;
     const SQL = await initSqlJs();
@@ -3742,6 +3751,8 @@ export async function deleteEntry(options: {
   key: string;
   namespace?: string;
   dbPath?: string;
+  /** Internal native-mirror writes must remain plaintext, including schema migration. */
+  encryptWrites?: boolean;
 }): Promise<{
   success: boolean;
   deleted: boolean;
@@ -3804,7 +3815,7 @@ export async function deleteEntry(options: {
     // writer's flush resurrects the row this call just tombstoned.
     return await withMemoryDbLock(dbPath, async () => {
       // Ensure schema has all required columns (migration for older DBs)
-      await ensureSchemaColumns(dbPath);
+      await ensureSchemaColumns(dbPath, options);
 
       const initSqlJs = (await import('sql.js')).default;
       const SQL = await initSqlJs();
@@ -3861,7 +3872,7 @@ export async function deleteEntry(options: {
 
       // Save updated database
       const data = db.export();
-      writeFileRestricted(dbPath, Buffer.from(data), { encrypt: true });
+      writeFileRestricted(dbPath, Buffer.from(data), { encrypt: options.encryptWrites ?? true });
 
       db.close();
 
@@ -3987,6 +3998,8 @@ const NAMESPACE_PATTERN = /^[A-Za-z0-9._-]{1,128}$/;
 export async function purgeNamespace(options: {
   namespace: string;
   dbPath?: string;
+  /** Internal native-mirror writes must remain plaintext, including schema migration. */
+  encryptWrites?: boolean;
 }): Promise<{
   success: boolean;
   deletedCount: number;
@@ -4028,7 +4041,13 @@ export async function purgeNamespace(options: {
         return { success: false, deletedCount: 0, remainingEntries: 0, error: 'Database not found' };
       }
 
-      await ensureSchemaColumns(dbPath);
+      // Recheck at mutation time even when the CLI already read a preview.
+      await releaseOwnNativeHandle(dbPath);
+      if (hasNativeWalSidecars(dbPath)) {
+        return { success: false, deletedCount: 0, remainingEntries: 0, error: await walRefusalError('write') };
+      }
+
+      await ensureSchemaColumns(dbPath, options);
 
       const initSqlJs = (await import('sql.js')).default;
       const SQL = await initSqlJs();
@@ -4045,7 +4064,7 @@ export async function purgeNamespace(options: {
       const remainingEntries = (countResult[0]?.values?.[0]?.[0] as number) || 0;
 
       const data = db.export();
-      writeFileRestricted(dbPath, Buffer.from(data), { encrypt: true });
+      writeFileRestricted(dbPath, Buffer.from(data), { encrypt: options.encryptWrites ?? true });
       db.close();
 
       if (deletedCount > 0 && hnswIndex?.entries) {

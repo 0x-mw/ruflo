@@ -35,15 +35,21 @@ async function warnIfSiblingHasRows(pathFlag: unknown): Promise<void> {
 }
 
 /** Default CLI writes may be mirrored into AgentDB; remove both copies. */
-function removalDbPaths(pathFlag?: string): string[] {
+function removalDbTargets(pathFlag?: string): Array<{ dbPath: string; encryptWrites?: boolean }> {
   const primary = resolveDbPath(pathFlag);
   // An explicit file selection is a single-store operation, as documented by
   // --path. Do not widen a caller's requested destructive scope.
-  if (pathFlag || process.env.CLAUDE_FLOW_DB_PATH) return [primary];
+  if (pathFlag || process.env.CLAUDE_FLOW_DB_PATH) return [{ dbPath: primary }];
   const sibling = siblingAgentDbPath(primary);
-  const paths = [primary, ...(sibling ? [sibling] : [])].filter(existsSync);
+  // The AgentDB mirror is consumed by native SQLite and must stay plaintext.
+  // Pass this per operation, including preview migrations; never toggle the
+  // process encryption setting while asynchronous operations are in flight.
+  const targets = [
+    { dbPath: primary },
+    ...(sibling ? [{ dbPath: sibling, encryptWrites: false }] : []),
+  ].filter(target => existsSync(target.dbPath));
   // Preserve the existing missing-database error when neither store exists.
-  return paths.length ? paths : [primary];
+  return targets.length ? targets : [{ dbPath: primary }];
 }
 
 // Memory backends
@@ -950,10 +956,11 @@ const deleteCommand: Command = {
     // Use sql.js directly for consistent data access (Issue #980)
     try {
       const { deleteEntry } = await import('../memory/memory-initializer.js');
-      const paths = removalDbPaths(ctx.flags.path as string | undefined);
+      const paths = removalDbTargets(ctx.flags.path as string | undefined);
       const stores = [];
-      for (const dbPath of paths) {
-        const entry = await deleteEntry({ key, namespace, dbPath });
+      for (const target of paths) {
+        const { dbPath } = target;
+        const entry = await deleteEntry({ key, namespace, ...target });
         if (!entry.success) throw new Error(`${dbPath}: ${entry.error || 'Failed to delete'}`);
         stores.push({ dbPath, ...entry });
       }
@@ -1028,11 +1035,11 @@ const purgeCommand: Command = {
 
     try {
       const { listEntries, purgeNamespace } = await import('../memory/memory-initializer.js');
-      const paths = removalDbPaths(dbPath);
+      const paths = removalDbTargets(dbPath);
       let previewCount = 0;
       for (const target of paths) {
-        const preview = await listEntries({ namespace, limit: 1, dbPath: target });
-        if (!preview.success) throw new Error(`${target}: ${preview.error || 'Failed to read purge target'}`);
+        const preview = await listEntries({ namespace, limit: 1, ...target });
+        if (!preview.success) throw new Error(`${target.dbPath}: ${preview.error || 'Failed to read purge target'}`);
         previewCount += preview.total ?? preview.entries?.length ?? 0;
       }
 
@@ -1057,9 +1064,9 @@ const purgeCommand: Command = {
 
       const stores = [];
       for (const target of paths) {
-        const purged = await purgeNamespace({ namespace, dbPath: target });
-        if (!purged.success) throw new Error(`${target}: ${purged.error || 'Failed to purge'}`);
-        stores.push({ dbPath: target, ...purged });
+        const purged = await purgeNamespace({ namespace, ...target });
+        if (!purged.success) throw new Error(`${target.dbPath}: ${purged.error || 'Failed to purge'}`);
+        stores.push({ dbPath: target.dbPath, ...purged });
       }
       const result = {
         success: true, stores,
