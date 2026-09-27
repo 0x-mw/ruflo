@@ -3361,23 +3361,23 @@ export async function bridgeHierarchicalRecall(params: { query: string; tier?: s
   } catch (e: any) { return { results: [], error: e.message }; }
 }
 
-/**
- * Run memory consolidation.
- *
- * Real MemoryConsolidation API (agentdb alpha.10+):
- *   consolidate() → Promise<ConsolidationReport>
- *   ConsolidationReport = { episodicProcessed, semanticCreated, memoriesForgotten, ... }
- * Stub API (fallback):
- *   consolidate() → { promoted, pruned, timestamp }
- */
+/** Run consolidation when a real controller is available. */
 export async function bridgeConsolidate(params: { minAge?: number; maxEntries?: number }): Promise<any> {
   if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeConsolidate(params));
+  // No installed consolidation API accepts these historical options. Reject
+  // them explicitly rather than silently claiming their limits were applied.
+  if (params.minAge !== undefined || params.maxEntries !== undefined) {
+    return { success: false, status: 'unsupported', error: 'minAge and maxEntries are not supported by the consolidation controller' };
+  }
   const registry = await getRegistry();
   if (!registry) return null;
   try {
     const mc = registry.get('memoryConsolidation');
     if (!mc) return { success: false, error: 'MemoryConsolidation not available' };
     const result = await mc.consolidate();
+    if (result?.source === 'stub') {
+      return { success: false, status: 'unsupported', error: 'Memory consolidation is unavailable; no consolidation ran', consolidated: result };
+    }
     return { success: true, consolidated: result };
   } catch (e: any) { return { success: false, error: e.message }; }
 }
