@@ -1504,14 +1504,13 @@ async function activateControllerRegistry(
       return { activated, failed, initTimeMs: performance.now() - startTime };
     }
 
-    const registry = await bridge.getControllerRegistry();
-    if (!registry) {
+    const controllers = await bridge.bridgeListControllers();
+    if (!controllers) {
       return { activated, failed, initTimeMs: performance.now() - startTime };
     }
 
     // Collect controller status from the registry
-    if (typeof registry.listControllers === 'function') {
-      const controllers = registry.listControllers();
+    if (controllers) {
       for (const ctrl of controllers) {
         if (ctrl.enabled) {
           activated.push(ctrl.name);

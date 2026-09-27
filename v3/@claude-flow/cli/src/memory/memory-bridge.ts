@@ -21,6 +21,7 @@ import * as path from 'path';
 import * as crypto from 'crypto';
 import { realpathSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { AsyncLocalStorage } from 'node:async_hooks';
 
 // ===== Lazy registry cache, keyed by database path =====
 
@@ -41,6 +42,32 @@ import { createRequire } from 'node:module';
  */
 const registryPromises = new Map<string, Promise<any>>();
 const registryInstances = new Map<string, any>();
+// One lease spans an entire bridge operation, including its awaited controller
+// effects and nested bridge calls. Initializer ownership alone is insufficient:
+// a ReasoningBank write can still be pending after its registry has opened.
+const operationContext = new AsyncLocalStorage<{ active: boolean }>();
+let activeOperations = 0;
+let drained: (() => void) | null = null;
+let shutdownPromise: Promise<void> | null = null;
+
+async function withBridgeOperation<T>(operation: () => Promise<T>): Promise<T> {
+  if (operationContext.getStore()?.active) return operation();
+  // New calls belong to the next lifecycle once retirement starts. A loop
+  // also handles another shutdown requested before a queued call resumes.
+  while (shutdownPromise) await shutdownPromise;
+  const lease = { active: true };
+  activeOperations++;
+  try {
+    return await operationContext.run(lease, operation);
+  } finally {
+    lease.active = false;
+    if (--activeOperations === 0) {
+      drained?.();
+      drained = null;
+    }
+  }
+}
+
 /**
  * Test seam: when set, every path resolves to this registry.
  *
@@ -927,6 +954,7 @@ export async function bridgeStoreEntry(options: {
    *  written without a vector, so semantic search cannot find it. */
   embeddingError?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeStoreEntry(options));
   // ADR-323 — validated once in storeEntry() before this is reached on that
   // path, but bridgeStoreEntry() also has direct internal callers, so check
   // again here rather than trust every call site.
@@ -1210,6 +1238,7 @@ export async function bridgeSearchEntries(options: {
   searchMethod?: string;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeSearchEntries(options));
   if (options.provenanceFilter?.length) {
     const invalid = options.provenanceFilter.filter(p => !isValidProvenanceType(p));
     if (invalid.length > 0) return null; // caller (searchEntries) demotes to sql.js, which returns a typed error
@@ -1383,6 +1412,7 @@ export async function bridgeListEntries(options: {
   total: number;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeListEntries(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -1492,6 +1522,7 @@ export async function bridgeGetEntry(options: {
   cacheHit?: boolean;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeGetEntry(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -1597,6 +1628,7 @@ export async function bridgeDeleteEntry(options: {
   guarded?: boolean;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeDeleteEntry(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -1687,6 +1719,7 @@ export async function bridgePurgeNamespace(options: {
   guarded?: boolean;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgePurgeNamespace(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -1745,6 +1778,7 @@ export async function bridgeGenerateEmbedding(
   text: string,
   dbPath?: string,
 ): Promise<{ embedding: number[]; dimensions: number; model: string; backend?: 'onnx' | 'mock' } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeGenerateEmbedding(text, dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
 
@@ -1797,6 +1831,7 @@ export async function bridgeLoadEmbeddingModel(
   modelName: string;
   loadTime?: number;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeLoadEmbeddingModel(dbPath));
   const startTime = Date.now();
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
@@ -1843,6 +1878,7 @@ export async function bridgeGetVectorSearchStatus(
   dimensions: number;
   algorithm: 'brute-force-cosine';
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeGetVectorSearchStatus(dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
 
@@ -1889,6 +1925,7 @@ export async function bridgeSearchBruteForceCosine(
   score: number;
   namespace: string;
 }> | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeSearchBruteForceCosine(queryEmbedding, options, dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
 
@@ -1963,6 +2000,7 @@ export async function bridgeAddEmbedding(
   entry: { id: string; key: string; namespace: string; content: string },
   dbPath?: string,
 ): Promise<boolean | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeAddEmbedding(id, embedding, entry, dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
 
@@ -2006,12 +2044,14 @@ export async function bridgeAddEmbedding(
 
 /**
  * Get a named controller from AgentDB v3 via ControllerRegistry.
+ * This borrowed handle must not be retained across shutdownBridge().
  * Returns null if unavailable.
  */
 export async function bridgeGetController(
   name: string,
   dbPath?: string,
 ): Promise<any | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeGetController(name, dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
 
@@ -2029,6 +2069,7 @@ export async function bridgeHasController(
   name: string,
   dbPath?: string,
 ): Promise<boolean> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeHasController(name, dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return false;
 
@@ -2046,6 +2087,7 @@ export async function bridgeHasController(
 export async function bridgeListControllers(
   dbPath?: string,
 ): Promise<Array<{ name: string; enabled: boolean; level: number }> | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeListControllers(dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
 
@@ -2060,14 +2102,19 @@ export async function bridgeListControllers(
  * Check if the AgentDB v3 bridge is available.
  */
 export async function isBridgeAvailable(dbPath?: string): Promise<boolean> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => isBridgeAvailable(dbPath));
   const registry = await getRegistry(dbPath);
   return registry !== null;
 }
 
 /**
  * Get the ControllerRegistry instance (for advanced consumers).
+ * This is a borrowed handle, valid only until shutdownBridge(). Callers must
+ * finish using it before requesting shutdown; bridge operations own their own
+ * leases. Prefer bridgeListControllers() for status inspection.
  */
 export async function getControllerRegistry(dbPath?: string): Promise<any | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => getControllerRegistry(dbPath));
   return getRegistry(dbPath);
 }
 
@@ -2115,23 +2162,22 @@ export function __setMemoryBridgeRegistryForTests(registry: any | null): void {
  * inside `if (registryInstance)`, so it could not clear a FAILED init. This
  * also clears per-path failed promises, allowing a later retry.
  */
-export async function shutdownBridge(): Promise<void> {
-  // An initialization already in flight can publish a native handle after a
-  // synchronous cache clear. Wait for the opens we know about before closing.
-  await Promise.allSettled([...registryPromises.values()]);
-  // #3196: every cached registry owns an open database handle.
-  for (const registry of registryInstances.values()) {
-    try {
-      await registry.shutdown();
-    } catch {
-      // Best-effort
+export function shutdownBridge(): Promise<void> {
+  if (shutdownPromise) return shutdownPromise;
+  // Publish the barrier before any await: no later operation can join the
+  // retiring lifecycle. Concurrent callers share the same retirement promise.
+  shutdownPromise = (async () => {
+    if (activeOperations > 0) await new Promise<void>(resolve => { drained = resolve; });
+    await Promise.allSettled([...registryPromises.values()]);
+    for (const registry of new Set(registryInstances.values())) {
+      try { await registry.shutdown(); } catch { /* best-effort cleanup */ }
     }
-  }
-  registryInstances.clear();
-  registryPromises.clear();
-  testRegistryOverride = null;
-  testRegistryFactory = null;
-  bridgeFailureReasons.clear();
+    registryInstances.clear();
+    registryPromises.clear();
+    testRegistryOverride = null;
+    bridgeFailureReasons.clear();
+  })().finally(() => { shutdownPromise = null; });
+  return shutdownPromise;
 }
 
 // ===== Phase 3: ReasoningBank pattern operations =====
@@ -2147,6 +2193,7 @@ export async function bridgeStorePattern(options: {
   metadata?: Record<string, unknown>;
   dbPath?: string;
 }): Promise<{ success: boolean; patternId: string; controller: string; hasEmbedding?: boolean; embeddingError?: string } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeStorePattern(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -2243,6 +2290,7 @@ export async function bridgeSearchPatterns(options: {
   minConfidence?: number;
   dbPath?: string;
 }): Promise<{ results: Array<{ id: string; content: string; score: number }>; controller: string } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeSearchPatterns(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -2358,6 +2406,7 @@ export async function bridgeRecordFeedback(options: {
   parentAgentId?: string;
   depth?: number;
 }): Promise<{ success: boolean; controller: string; updated: number } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeRecordFeedback(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -2475,6 +2524,7 @@ export async function bridgeRecordCausalEdge(options: {
   weight?: number;
   dbPath?: string;
 }): Promise<{ success: boolean; controller: string } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeRecordCausalEdge(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -2541,6 +2591,7 @@ export async function bridgeDeleteHierarchical(options: {
   guarded?: boolean;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeDeleteHierarchical(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
   try {
@@ -2646,6 +2697,7 @@ export async function bridgeDeleteCausalEdge(options: {
   guarded?: boolean;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeDeleteCausalEdge(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
   try {
@@ -2731,6 +2783,7 @@ export async function bridgeDeleteCausalNode(options: {
   guarded?: boolean;
   error?: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeDeleteCausalNode(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
   try {
@@ -2823,6 +2876,7 @@ export async function bridgeSessionStart(options: {
   restoredPatterns: number;
   sessionId: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeSessionStart(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -2875,6 +2929,7 @@ export async function bridgeSessionEnd(options: {
   controller: string;
   persisted: boolean;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeSessionEnd(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -2944,6 +2999,7 @@ export async function bridgeRouteTask(options: {
   agents: string[];
   controller: string;
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeRouteTask(options));
   const registry = await getRegistry(options.dbPath);
   if (!registry) return null;
 
@@ -3003,6 +3059,7 @@ export async function bridgeHealthCheck(
     fallbackFrom?: string;
   };
 } | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeHealthCheck(dbPath));
   const registry = await getRegistry(dbPath);
   if (!registry) return null;
 
@@ -3099,6 +3156,7 @@ export async function bridgeHierarchicalStore(params: {
   key: string; value: string; tier?: string; importance?: number;
   validFrom?: string; validUntil?: string; supersedes?: string;
 }): Promise<any> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeHierarchicalStore(params));
   const registry = await getRegistry();
   if (!registry) return null;
   try {
@@ -3164,6 +3222,7 @@ export async function bridgeHierarchicalStore(params: {
  *   recall(query: string, topK: number) → synchronous array
  */
 export async function bridgeHierarchicalRecall(params: { query: string; tier?: string; topK?: number; includeExpired?: boolean }): Promise<any> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeHierarchicalRecall(params));
   const registry = await getRegistry();
   if (!registry) return null;
   try {
@@ -3225,6 +3284,7 @@ export async function bridgeHierarchicalRecall(params: { query: string; tier?: s
  *   consolidate() → { promoted, pruned, timestamp }
  */
 export async function bridgeConsolidate(params: { minAge?: number; maxEntries?: number }): Promise<any> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeConsolidate(params));
   const registry = await getRegistry();
   if (!registry) return null;
   try {
@@ -3242,6 +3302,7 @@ export async function bridgeConsolidate(params: { minAge?: number; maxEntries?: 
  * - update: calls bulkUpdate(table, updates, conditions) on episodes table
  */
 export async function bridgeBatchOperation(params: { operation: string; entries: any[] }): Promise<any> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeBatchOperation(params));
   const registry = await getRegistry();
   if (!registry) return null;
   try {
@@ -3295,6 +3356,7 @@ export async function bridgeBatchOperation(params: { operation: string; entries:
  * ContextSynthesizer.synthesize is a static method that takes MemoryPattern[] (not a string).
  */
 export async function bridgeContextSynthesize(params: { query: string; maxEntries?: number }): Promise<any> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeContextSynthesize(params));
   const registry = await getRegistry();
   if (!registry) return null;
   try {
@@ -3333,6 +3395,7 @@ export async function bridgeContextSynthesize(params: { query: string; maxEntrie
  * semantic matching with keyword fallback.
  */
 export async function bridgeSemanticRoute(params: { input: string }): Promise<any> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeSemanticRoute(params));
   const registry = await getRegistry();
   if (!registry) return null;
   try {
@@ -3370,6 +3433,7 @@ export async function bridgeGetAllEmbeddings(options?: {
   namespace: string;
   embedding: number[];
 }> | null> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => bridgeGetAllEmbeddings(options));
   const registry = await getRegistry(options?.dbPath);
   if (!registry) return null;
 
@@ -3440,6 +3504,7 @@ export async function getMemoryBridgeStats(options: {
   source: string;
   reachable: boolean;
 }> {
+  if (!operationContext.getStore()?.active) return withBridgeOperation(() => getMemoryBridgeStats(options));
   const namespaces = options.namespaces ?? [
     'default', 'patterns', 'claude-memories', 'auto-memory',
     'tasks', 'feedback', 'pretrain', 'trajectories',
