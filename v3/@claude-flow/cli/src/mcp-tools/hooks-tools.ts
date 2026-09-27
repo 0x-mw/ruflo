@@ -545,6 +545,12 @@ async function persistPendingTrajectory(trajectory: TrajectoryData): Promise<boo
 }
 
 async function loadPendingTrajectory(id: string): Promise<TrajectoryData | undefined> {
+  // Fast path: a clean (successfully checkpointed) in-process record was written
+  // by this same call chain (trajectory-start/-step) and cannot yet have been
+  // completed elsewhere in the same synchronous request. Trust it without a
+  // round-trip — ADR-130 Phase 3's <200ms-per-call budget depends on this;
+  // only a cache miss (e.g. after an MCP restart) pays for the disk check.
+  if (!dirtyTrajectories.has(id) && activeTrajectories.has(id)) return activeTrajectories.get(id);
   try {
     const { getEntry } = await import('../memory/memory-initializer.js');
     // A completed record is authoritative even if pending-record cleanup failed
