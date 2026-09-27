@@ -1,9 +1,11 @@
-import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parseAdr } from '../lib/parse-adrs.mjs';
+
+// Support both the repository's Vitest collection and the standalone Node smoke.
+const { test } = process.env.VITEST ? await import('vitest') : await import('node:test');
 
 function links(body) {
   const dir = mkdtempSync(join(tmpdir(), 'adr-relations-'));
