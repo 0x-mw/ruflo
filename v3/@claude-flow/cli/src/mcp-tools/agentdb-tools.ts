@@ -1022,7 +1022,7 @@ interface ComplexityBudget {
 
 export const agentdbGraphQuery: MCPTool = {
   name: 'agentdb_graph-query',
-  description: 'Unified graph traversal across the knowledge graph (ADR-130). K-hop queries read committed graph_edges relationships through SQL; a separately populated native graph is not evidence of retained-history coverage. Inspect appliedDepth/truncated because SQL is bounded at 3 hops. maxNodesVisited bounds returned rows, not traversal work or elapsed time. Semantic and PageRank modes use their own backends.',
+  description: 'Unified graph traversal across the knowledge graph (ADR-130). K-hop queries read committed graph_edges relationships through SQL; a separately populated native graph is not evidence of retained-history coverage. Inspect appliedDepth/truncated because SQL is bounded at 3 hops. maxNodesVisited bounds returned rows, not traversal work or elapsed time. Semantic and PageRank modes use their own backends. Use when you need relationship traversal beyond flat memory search.',
   inputSchema: {
     type: 'object',
     properties: {
