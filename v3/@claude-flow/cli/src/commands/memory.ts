@@ -957,7 +957,7 @@ const deleteCommand: Command = {
     try {
       const { deleteEntry } = await import('../memory/memory-initializer.js');
       const paths = removalDbTargets(ctx.flags.path as string | undefined);
-      const stores = [];
+      const stores: Array<{ dbPath: string } & Awaited<ReturnType<typeof deleteEntry>>> = [];
       for (const target of paths) {
         const { dbPath } = target;
         const entry = await deleteEntry({ key, namespace, ...target });
@@ -1062,7 +1062,7 @@ const purgeCommand: Command = {
         return { success: false, exitCode: 1 };
       }
 
-      const stores = [];
+      const stores: Array<{ dbPath: string } & Awaited<ReturnType<typeof purgeNamespace>>> = [];
       for (const target of paths) {
         const purged = await purgeNamespace({ namespace, ...target });
         if (!purged.success) throw new Error(`${target.dbPath}: ${purged.error || 'Failed to purge'}`);
