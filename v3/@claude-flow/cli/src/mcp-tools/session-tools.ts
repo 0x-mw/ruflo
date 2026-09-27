@@ -212,6 +212,9 @@ export const sessionTools: MCPTool[] = [
       properties: {
         sessionId: { type: 'string', description: 'Session ID to restore' },
         name: { type: 'string', description: 'Session name to restore' },
+        restoreMemory: { type: 'boolean', description: 'Restore memory (default true)' },
+        restoreTasks: { type: 'boolean', description: 'Restore tasks (default true)' },
+        restoreAgents: { type: 'boolean', description: 'Restore agents (default true)' },
       },
     },
     handler: async (input) => {
@@ -250,7 +253,7 @@ export const sessionTools: MCPTool[] = [
       if (session) {
         // Restore data to respective stores (legacy JSON for backward compat).
         // audit_1776853149979: tighten perms on the restored stores too.
-        if (session.data?.memory) {
+        if (input.restoreMemory !== false && session.data?.memory) {
           const memoryDir = join(getProjectCwd(), STORAGE_DIR, 'memory');
           if (!existsSync(memoryDir)) mkdirRestricted(memoryDir);
           writeFileRestricted(join(memoryDir, 'store.json'), JSON.stringify(session.data.memory, null, 2));
@@ -277,12 +280,12 @@ export const sessionTools: MCPTool[] = [
             // Legacy JSON restore is the fallback -- sql.js import may not be available
           }
         }
-        if (session.data?.tasks) {
+        if (input.restoreTasks !== false && session.data?.tasks) {
           const taskDir = join(getProjectCwd(), STORAGE_DIR, 'tasks');
           if (!existsSync(taskDir)) mkdirRestricted(taskDir);
           writeFileRestricted(join(taskDir, 'store.json'), JSON.stringify(session.data.tasks, null, 2));
         }
-        if (session.data?.agents) {
+        if (input.restoreAgents !== false && session.data?.agents) {
           const agentDir = join(getProjectCwd(), STORAGE_DIR, 'agents');
           if (!existsSync(agentDir)) mkdirRestricted(agentDir);
           writeFileRestricted(join(agentDir, 'store.json'), JSON.stringify(session.data.agents, null, 2));
@@ -292,6 +295,11 @@ export const sessionTools: MCPTool[] = [
           sessionId: session.sessionId,
           name: session.name,
           restored: true,
+          restoredComponents: {
+            memory: input.restoreMemory !== false && !!session.data?.memory,
+            tasks: input.restoreTasks !== false && !!session.data?.tasks,
+            agents: input.restoreAgents !== false && !!session.data?.agents,
+          },
           restoredAt: new Date().toISOString(),
           stats: session.stats,
         };
