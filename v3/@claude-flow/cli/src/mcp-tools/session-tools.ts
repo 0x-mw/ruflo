@@ -501,7 +501,7 @@ export const sessionTools: MCPTool[] = [
       properties: {
         sessionId: { type: 'string', description: 'Session ID to export' },
         outputPath: { type: 'string', description: 'File path to write the export to (optional)' },
-        includeMemory: { type: 'boolean', description: 'Include the memory snapshot (advisory — already in the saved record)' },
+        includeMemory: { type: 'boolean', description: 'Include the memory snapshot (default true)' },
       },
       required: ['sessionId'],
     },
@@ -511,6 +511,13 @@ export const sessionTools: MCPTool[] = [
       const sessionId = input.sessionId as string;
       const session = loadSession(sessionId);
       if (!session) return { sessionId, error: 'Session not found' };
+      // Apply the explicit exclusion before either returning or writing the
+      // snapshot. The saved source remains intact for a later full restore.
+      if (input.includeMemory === false) {
+        if (session.data) delete session.data.memory;
+        session.stats = { ...session.stats, memoryEntries: 0, totalSize: 0 };
+        session.stats.totalSize = Buffer.byteLength(JSON.stringify(session), 'utf-8');
+      }
       let path: string | null = null;
       const outputPath = input.outputPath ? String(input.outputPath) : null;
       if (outputPath) {
