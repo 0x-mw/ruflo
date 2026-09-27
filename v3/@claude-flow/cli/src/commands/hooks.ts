@@ -1,3 +1,4 @@
+import { validateFeedbackPatterns } from '../memory/feedback-patterns.js';
 /**
  * V3 CLI Hooks Command
  * Self-learning hooks system for intelligent workflow automation
@@ -2105,6 +2106,7 @@ const postTaskCommand: Command = {
   name: 'post-task',
   description: 'Record task completion for learning',
   options: [
+    { name: 'patterns', description: 'JSON array of learned pattern strings for feedback and skill creation', type: 'string' },
     {
       name: 'task-id',
       short: 'i',
@@ -2192,6 +2194,7 @@ const postTaskCommand: Command = {
     output.printInfo(`Recording outcome for task: ${output.highlight(taskId)}`);
 
     try {
+      const patterns = validateFeedbackPatterns(ctx.flags.patterns === undefined ? undefined : JSON.parse(ctx.flags.patterns as string));
       const result = await callMCPTool<{
         taskId: string;
         success: boolean;
@@ -2206,6 +2209,7 @@ const postTaskCommand: Command = {
         trajectory?: { recorded: boolean };
       }>('hooks_post-task', {
         taskId,
+        patterns,
         success,
         quality: ctx.flags.quality,
         agent: ctx.flags.agent,
