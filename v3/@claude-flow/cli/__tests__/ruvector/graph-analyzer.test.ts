@@ -25,8 +25,10 @@ import {
   type GraphAnalysisResult,
 } from '../../src/ruvector/graph-analyzer.js';
 import { mkdir, writeFile, rm } from 'fs/promises';
+import { spawnSync } from 'child_process';
 import { join } from 'path';
 import { tmpdir } from 'os';
+import { fileURLToPath } from 'url';
 
 // Mock the @ruvector/wasm module
 vi.mock('@ruvector/wasm', () => ({
@@ -91,6 +93,36 @@ export const b = 'value';
 
       expect(nodeA).toBeDefined();
       expect(nodeA?.imports.length).toBeGreaterThan(0);
+    });
+
+    it('does not spend seconds backtracking on prose containing import', async () => {
+      await writeFile(join(testDir, 'source.ts'), `
+// A plain sentence: import apple berry cherry delta echo foxtrot golf.
+import main, { helper } from './helper';
+export { main, helper };
+`);
+      await writeFile(join(testDir, 'helper.ts'), 'export const helper = 1; export default helper;\n');
+
+      // Run the parser in a child: a regex regression can block the event loop,
+      // so a normal Vitest timeout cannot interrupt it.
+      const tsx = fileURLToPath(new URL('../../node_modules/tsx/dist/cli.mjs', import.meta.url));
+      const source = fileURLToPath(new URL('../../src/ruvector/graph-analyzer.ts', import.meta.url));
+      const probe = `import(${JSON.stringify(source)}).then(async ({ buildDependencyGraph }) => {
+        const graph = await buildDependencyGraph(${JSON.stringify(testDir)}, { skipCache: true });
+        console.log(JSON.stringify({ imports: graph.nodes.get('source.ts')?.imports,
+          edges: graph.edges.map(edge => [edge.source, edge.target]) }));
+      }).catch(error => { console.error(error); process.exitCode = 1; });`;
+      const result = spawnSync(process.execPath, [tsx, '--eval', probe], {
+        cwd: testDir,
+        encoding: 'utf8',
+        timeout: 2000,
+      });
+
+      expect(result.error).toBeUndefined();
+      expect(result.status, result.stderr).toBe(0);
+      const graph = JSON.parse(result.stdout);
+      expect(graph.imports).toContain('./helper');
+      expect(graph.edges).toContainEqual(['source.ts', 'helper.ts']);
     });
 
     it('should handle empty directory', async () => {
