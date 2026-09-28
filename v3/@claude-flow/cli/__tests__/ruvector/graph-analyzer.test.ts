@@ -24,7 +24,7 @@ import {
   type CircularDependency,
   type GraphAnalysisResult,
 } from '../../src/ruvector/graph-analyzer.js';
-import { mkdir, writeFile, rm } from 'fs/promises';
+import { mkdir, mkdtemp, writeFile, rm } from 'fs/promises';
 import { spawnSync } from 'child_process';
 import { createRequire } from 'module';
 import { join } from 'path';
@@ -41,8 +41,9 @@ describe('Graph Analyzer', () => {
   let testDir: string;
 
   beforeEach(async () => {
-    testDir = join(tmpdir(), `graph-test-${Date.now()}`);
-    await mkdir(testDir, { recursive: true });
+    // Graphs are cached by path. Date.now() can repeat for adjacent tests,
+    // causing a fixture to receive the preceding test's cached graph.
+    testDir = await mkdtemp(join(tmpdir(), 'graph-test-'));
   });
 
   afterEach(async () => {
