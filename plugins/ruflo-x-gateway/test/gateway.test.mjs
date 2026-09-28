@@ -451,23 +451,25 @@ test('onboarding: exposed as an open tool and an open resource', async () => {
 
 /** Expected hints per tool. Grouped by class, stated exhaustively. */
 const EXPECTED_ANNOTATIONS = {
-  // Reads: closed world, no mutation, safe to repeat.
+  // Local/static reads are closed world; relay reads are open world because
+  // other federation members choose the entities and content returned.
   federation_identity:    { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: false },
-  federation_sync:        { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: false },
-  claims_status:          { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: false },
-  channel_list:           { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: false },
-  channel_sync:           { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: false },
+  federation_sync:        { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: true  },
+  claims_status:          { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: true  },
+  channel_list:           { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: true  },
+  channel_sync:           { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: true  },
   federation_onboarding:  { readOnlyHint: true,  destructiveHint: false, idempotentHint: true,  openWorldHint: false },
-  // Irreversible sends: these append signed events that cannot be retracted.
-  federation_join:        { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: false },
-  federation_publish:     { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: false },
-  channel_publish:        { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: false },
-  claims_issue:           { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
+  // Relay writes affect a multi-owner external federation. Append-only sends
+  // that cannot be retracted are also destructive.
+  federation_join:        { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: true  },
+  federation_publish:     { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: true  },
+  channel_publish:        { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: true  },
+  claims_issue:           { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true  },
   federation_invite_mint: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
-  // Additive but idempotent: same pubkey + role leaves the roster identical.
-  federation_admit:       { readOnlyHint: false, destructiveHint: false, idempotentHint: true,  openWorldHint: false },
-  // Destructive: removes an ownership grant. Releasing twice is a no-op.
-  claims_release:         { readOnlyHint: false, destructiveHint: true,  idempotentHint: true,  openWorldHint: false },
+  // Grants an arbitrary external key access, with no matching revoke tool.
+  federation_admit:       { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: true  },
+  // Removes a grant; every retry appends a distinct signed event.
+  claims_release:         { readOnlyHint: false, destructiveHint: true,  idempotentHint: false, openWorldHint: true  },
   // Open world: answers come from an external model, and each call spends budget.
   seraphina_guidance:     { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true  },
 };
@@ -547,8 +549,19 @@ test('annotations: destructiveHint marks removals and irreversible external send
   // Blanket-setting destructive is exactly as misleading as omitting it.
   assert.deepEqual(
     tools.filter((t) => t.annotations.destructiveHint).map((t) => t.name),
-    ['federation_join', 'federation_publish', 'claims_release', 'channel_publish'],
+    ['federation_join', 'federation_publish', 'claims_release', 'federation_admit', 'channel_publish'],
     'destructive tools must include claim removal and append-only sends that cannot be retracted',
+  );
+});
+
+test('annotations: openWorldHint marks the multi-owner relay and external model', async () => {
+  const tools = await listToolsOverHttp();
+  assert.deepEqual(
+    tools.filter((t) => t.annotations.openWorldHint).map((t) => t.name),
+    ['federation_sync', 'claims_status', 'federation_join', 'federation_publish',
+      'claims_issue', 'claims_release', 'federation_admit', 'channel_list',
+      'channel_sync', 'channel_publish', 'seraphina_guidance'],
+    'only fixed local metadata, static guidance, and local invite minting are closed world',
   );
 });
 
@@ -655,13 +668,32 @@ test('review endpoint: no tool accepts a secret in any input field', async () =>
   gw.close();
 });
 
-test('review endpoint: every tool declares the three required hints', async () => {
+test('review endpoint: every tool declares all four hints', async () => {
   process.env.RUFLO_ADMIN_TOKEN = 'test-admin-token';
   const gw = await startGateway();
   for (const t of await toolsAt(gw.base, '/chatgpt/mcp')) {
     assert.ok(t.annotations, `${t.name} has no annotations`);
     for (const hint of ['readOnlyHint', 'destructiveHint', 'idempotentHint', 'openWorldHint']) {
       assert.equal(typeof t.annotations[hint], 'boolean', `${t.name}.${hint} must be explicit`);
+    }
+  }
+  gw.close();
+});
+
+test('review endpoint: submission annotations and justifications match the live surface', async () => {
+  process.env.RUFLO_ADMIN_TOKEN = 'test-admin-token';
+  const gw = await startGateway();
+  const review = await toolsAt(gw.base, '/chatgpt/mcp');
+  const submission = JSON.parse(readFileSync(new URL('../chatgpt-app-submission.json', import.meta.url), 'utf8'));
+  assert.deepEqual(Object.keys(submission.tools).sort(), review.map((t) => t.name).sort());
+  for (const tool of review) {
+    const declared = submission.tools[tool.name];
+    for (const hint of ['readOnlyHint', 'destructiveHint', 'openWorldHint']) {
+      assert.equal(typeof declared.annotations[hint], 'boolean', `${tool.name}.${hint} is not explicit in the submission`);
+      assert.equal(declared.annotations[hint], tool.annotations[hint], `${tool.name}.${hint} differs between submission and server`);
+    }
+    for (const key of ['read_only_justification', 'destructive_justification', 'open_world_justification']) {
+      assert.ok(declared.justifications[key]?.trim(), `${tool.name}.${key} is missing`);
     }
   }
   gw.close();

@@ -161,9 +161,12 @@ export function createGateway({ relay, keyFile, port } = {}) {
   // These are HINTS and the spec says a client MUST NOT trust them for security.
   // They change how a tool is PRESENTED, never what it is allowed to do: the
   // `gated()` admin check below is the enforcement and is untouched.
-  const READ = (title) => ({ title, readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false });
-  // Every write here lands on our own membership-gated relay, so openWorld stays
-  // false unless a tool genuinely reaches an open-ended external service.
+  const READ = (title, { openWorld = false } = {}) =>
+    ({ title, readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: openWorld });
+  // `openWorldHint` describes the entities a tool can interact with, not who
+  // operates the transport. The federation relay is multi-owner: other members
+  // choose channels, resource ids and message content. Relay reads and writes
+  // are therefore open-world even though membership and signing are enforced.
   const WRITE = (title, { destructive = false, idempotent = false, openWorld = false } = {}) =>
     ({ title, readOnlyHint: false, destructiveHint: destructive, idempotentHint: idempotent, openWorldHint: openWorld });
 
@@ -183,10 +186,10 @@ export function createGateway({ relay, keyFile, port } = {}) {
     mcp.tool('federation_identity', 'Gateway Nostr pubkey + relay. Open read.', {}, READ('Gateway identity'), async () => text({ pubkey, relay: RELAY, httpBase: HTTP_BASE }));
     mcp.tool('federation_sync', 'Fetch recent verified swarm coordination messages (#t=ruflo-swarm). Open read; optional type filter.',
       { sinceSeconds: z.number().optional(), limit: z.number().optional(), type: z.string().optional() },
-      READ('Read swarm messages'),
+      READ('Read swarm messages', { openWorld: true }),
       async (a) => { const msgs = await fetchRecent(RELAY, sk, a); return relayText({ count: msgs.length, messages: msgs }); });
     mcp.tool('claims_status', 'Current owner-per-resource claims ledger from recent verified claim events. Open read.', {},
-      READ('Read claims ledger'),
+      READ('Read claims ledger', { openWorld: true }),
       // The claims ledger is derived from relay events, and every resourceId in it
       // is a string a third party chose. Same surface, same envelope.
       async () => { const ev = await fetchRecent(RELAY, sk, { sinceSeconds: 86400, limit: 500 }); return relayText(reduceClaims(ev.filter((e) => String(e.type).startsWith('Claim')))); });
@@ -196,26 +199,26 @@ export function createGateway({ relay, keyFile, port } = {}) {
       // Appends a PeerHello event that cannot be retracted. Under Apps SDK
       // review semantics, an irreversible send is destructive even though it
       // adds rather than deletes state. Each call is also a NEW event.
-      WRITE('Announce gateway peer', { destructive: true }),
+      WRITE('Announce gateway peer', { destructive: true, openWorld: true }),
       gate(async ({ name, platform, note }) => text({ ok: true, eventId: await publish(RELAY, sk, 'PeerHello', { from: name, platform, note }) })));
     mcp.tool('federation_publish', 'Publish a signed coordination message AS THE GATEWAY (Status/Task/Result…). Authorised by OAuth swarm:publish or the service-side admin token.',
       { msgType: z.string(), payload: z.record(z.any()), ...adminSchema },
       // A signed relay message is an irreversible external send: it cannot be
       // edited or retracted after publication.
-      WRITE('Publish coordination message', { destructive: true }),
+      WRITE('Publish coordination message', { destructive: true, openWorld: true }),
       gate(async ({ msgType, payload }) => text({ ok: true, eventId: await publish(RELAY, sk, msgType, payload) })));
     mcp.tool('claims_issue', 'Issue a work claim AS THE GATEWAY. Authorised by OAuth swarm:publish or the service-side admin token. One owner per resourceId.',
       { resourceId: z.string(), ttlSeconds: z.number().optional(), ...adminSchema },
       // Not idempotent: re-issuing the same claim extends its TTL, which is a real
       // additional effect even though the owner does not change.
-      WRITE('Issue work claim'),
+      WRITE('Issue work claim', { openWorld: true }),
       gate(async ({ resourceId, ttlSeconds }) => text({ ok: true, eventId: await publish(RELAY, sk, 'ClaimIssued', { from: pubkey, resourceId, ttlSeconds }), resourceId })));
     mcp.tool('claims_release', 'Release a gateway-held work claim. Authorised by OAuth swarm:publish or the service-side admin token.',
       { resourceId: z.string(), ...adminSchema },
-      // The one genuinely destructive tool here: it REMOVES an ownership grant
-      // rather than adding one, and another agent can take the resource the
-      // moment it lands. Releasing twice changes nothing, so it is idempotent.
-      WRITE('Release work claim', { destructive: true, idempotent: true }),
+      // This removes an ownership grant and appends an externally visible event.
+      // Retrying creates another signed event, so the operation is not
+      // idempotent even when the reduced claims board is already released.
+      WRITE('Release work claim', { destructive: true, openWorld: true }),
       gate(async ({ resourceId }) => text({ ok: true, eventId: await publish(RELAY, sk, 'ClaimReleased', { from: pubkey, resourceId }), resourceId })));
     // ---- relay MEMBERSHIP administration — legacy endpoint only ----
     //
@@ -234,20 +237,20 @@ export function createGateway({ relay, keyFile, port } = {}) {
         adminOnly(async ({ ttlSecs, maxUses }) => text(await mintInvite(HTTP_BASE, sk, { ttlSecs, maxUses }))));
       mcp.tool('federation_admit', 'Admit a pubkey as a relay member directly (NIP-43 kind 9030). Requires the admin token; OAuth swarm:publish is not sufficient.',
         { pubkey: z.string(), role: z.enum(['member', 'admin']).optional(), ...adminSchema },
-        // Additive grant, and admitting the same pubkey at the same role twice
-        // leaves the roster identical — idempotent.
-        WRITE('Admit relay member', { idempotent: true }),
+        // This grants an arbitrary external key relay access and there is no
+        // matching revoke tool. Each call also publishes a new admin event.
+        WRITE('Admit relay member', { destructive: true, openWorld: true }),
         adminOnly(async ({ pubkey: pk, role }) => text(await admitMember(RELAY, sk, pk, role))));
     }
     // ---- ADR-386 channels ----
     mcp.tool('channel_list', 'List swarm channels seen recently, with visibility, message count and publisher count. Open read. Public channel ids carry their name (pub:<name>); private ids are opaque (prv:<hex>) and reveal nothing about the topic. Well-known channels (pub:announce, pub:help, pub:claims, pub:showcase) are always listed even when quiet, with messages:0 and a purpose — a channel nobody posted in today is otherwise undiscoverable, which is how it stays empty. Use when you want to find where coordination is happening before reading a stream. Reading the flat firehose with federation_sync instead is wrong once channels are in use, because it mixes unrelated work and cannot show you private traffic exists at all.',
       { sinceSeconds: z.number().optional(), limit: z.number().optional() },
-      READ('List swarm channels'),
+      READ('List swarm channels', { openWorld: true }),
       // Public channel ids carry their name, and members choose those names.
       async (a) => relayText({ channels: await listChannels(RELAY, sk, a) }));
     mcp.tool('channel_sync', 'Read one channel. Open read. A public channel returns parsed JSON messages. A PRIVATE channel returns NIP-44 ciphertext verbatim with encrypted:true — the gateway holds no channel keys and cannot decrypt, by design (ADR-386); open it client-side with `ruflo federation channel read`. Use when you know the channel id. Asking the gateway to decrypt is wrong because a gateway that could would be a custodian of every private channel on the service.',
       { channel: z.string().describe('Channel id: pub:<name> or prv:<16 hex>'), sinceSeconds: z.number().optional(), limit: z.number().optional() },
-      READ('Read a channel'),
+      READ('Read a channel', { openWorld: true }),
       async ({ channel, sinceSeconds, limit }) => {
         if (!CHANNEL_ID_RE.test(String(channel))) throw new Error('channel must be pub:<name> or prv:<16 hex>');
         const messages = await fetchChannel(RELAY, sk, { channelId: channel, sinceSeconds, limit });
@@ -262,7 +265,7 @@ export function createGateway({ relay, keyFile, port } = {}) {
       { channel: z.string(), msgType: z.string(), payload: z.record(z.any()), ...adminSchema },
       // Public-channel events are append-only and cannot be deleted or
       // retracted, so publication is destructive for review purposes.
-      WRITE('Publish to public channel', { destructive: true }),
+      WRITE('Publish to public channel', { destructive: true, openWorld: true }),
       gate(async ({ channel, msgType, payload }) => {
         // Refuse private BEFORE normalising, so a prv: id gets the real reason rather
         // than a name-validation error from the public-id helper.
@@ -292,8 +295,7 @@ export function createGateway({ relay, keyFile, port } = {}) {
       // an IP-hourly allowance, and spends real meta-llm money. readOnlyHint:true
       // tells a client the call is free to repeat, which for this tool is false.
       // openWorld is true because the answer comes from an external model whose
-      // output is not drawn from any closed set this gateway owns — unlike every
-      // other tool here, which only ever reads or writes our own relay.
+      // output is not drawn from a closed set this gateway owns.
       WRITE('Ask Seraphina for guidance', { openWorld: true }),
       (async ({ goal, tier, sinceSeconds, limit, adminToken }) => {
         // Review profile: the credential arrives as a header, never an argument.
