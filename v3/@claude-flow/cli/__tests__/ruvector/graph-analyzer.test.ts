@@ -441,19 +441,27 @@ export const valid = 'valid';
 import defaultExport from './default';
 import { named } from './named';
 import * as namespace from './namespace';
+import type { Widget } from './types';
+import mixedDefault, { mixed } from './mixed';
+import './side-effect';
 const dynamic = import('./dynamic');
 export { defaultExport, named, namespace };
 `);
       await writeFile(join(testDir, 'default.ts'), `export default 'default';`);
       await writeFile(join(testDir, 'named.ts'), `export const named = 'named';`);
       await writeFile(join(testDir, 'namespace.ts'), `export const ns = 'ns';`);
+      await writeFile(join(testDir, 'types.ts'), `export type Widget = object;`);
+      await writeFile(join(testDir, 'mixed.ts'), `export const mixed = 1; export default mixed;`);
+      await writeFile(join(testDir, 'side-effect.ts'), `export const loaded = true;`);
       await writeFile(join(testDir, 'dynamic.ts'), `export const dyn = 'dyn';`);
 
       const graph = await buildDependencyGraph(testDir);
       const stylesNode = Array.from(graph.nodes.values()).find(n => n.path.includes('styles.ts'));
 
       expect(stylesNode).toBeDefined();
-      expect(stylesNode?.imports.length).toBeGreaterThan(0);
+      expect(stylesNode?.imports).toEqual(expect.arrayContaining([
+        './default', './named', './namespace', './types', './mixed', './side-effect', './dynamic',
+      ]));
     });
 
     it('should handle re-exports', async () => {
