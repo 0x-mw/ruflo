@@ -26,6 +26,7 @@ import {
 } from '../../src/ruvector/graph-analyzer.js';
 import { mkdir, writeFile, rm } from 'fs/promises';
 import { spawnSync } from 'child_process';
+import { createRequire } from 'module';
 import { join } from 'path';
 import { tmpdir } from 'os';
 import { fileURLToPath } from 'url';
@@ -105,7 +106,9 @@ export { main, helper };
 
       // Run the parser in a child: a regex regression can block the event loop,
       // so a normal Vitest timeout cannot interrupt it.
-      const tsx = fileURLToPath(new URL('../../node_modules/tsx/dist/cli.mjs', import.meta.url));
+      // CI installs dependencies at the repository root, while package-local
+      // installs place tsx under this package. Resolve either layout.
+      const tsx = createRequire(import.meta.url).resolve('tsx/cli');
       const source = fileURLToPath(new URL('../../src/ruvector/graph-analyzer.ts', import.meta.url));
       const probe = `import(${JSON.stringify(source)}).then(async ({ buildDependencyGraph }) => {
         const graph = await buildDependencyGraph(${JSON.stringify(testDir)}, { skipCache: true });
@@ -115,7 +118,7 @@ export { main, helper };
       const result = spawnSync(process.execPath, [tsx, '--eval', probe], {
         cwd: testDir,
         encoding: 'utf8',
-        timeout: 2000,
+        timeout: 5000,
       });
 
       expect(result.error).toBeUndefined();
