@@ -1,3 +1,9 @@
+# 0.1.2 — Desktop-style team workspace
+
+- Reworked the ChatGPT board into a compact ruOS-inspired desktop with window chrome, workspace rail, status indicators, run metrics, task rows, and responsive narrow-width layout.
+- Versioned the MCP Apps resource URI to `ui://ruflo-ai-team/board-v2.html` so hosts refresh the cached UI.
+- Kept all content read-only and rendered with text nodes; no external scripts, frames, or network requests were added.
+
 # 0.1.1 — ChatGPT team board and run completion
 
 - Added a read-only ChatGPT team board with ruOS-inspired styling through an MCP Apps HTML resource. Tenant data is returned only by the OAuth-scoped `team_board` tool.

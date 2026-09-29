@@ -11,7 +11,7 @@ import { fenced, scanStoredText } from './untrusted.mjs';
 import { privacyPage, supportPage, termsPage } from './public-pages.mjs';
 
 export const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
-const TEAM_BOARD_URI = 'ui://ruflo-ai-team/board-v1.html';
+const TEAM_BOARD_URI = 'ui://ruflo-ai-team/board-v2.html';
 const TEAM_BOARD_HTML = readFileSync(new URL('../ui/team-board.html', import.meta.url), 'utf8');
 const MAX_BODY = 512 * 1024;
 const TOOL_SCOPES = Object.freeze({

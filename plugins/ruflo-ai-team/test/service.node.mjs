@@ -75,7 +75,7 @@ test('scope checks return HTTP 403 rather than model-level permission errors', a
 
 test('board resource is public but contains no tenant data; board tool remains scoped', async (t) => {
   const f=await fixture(); t.after(()=>f.server.close());
-  const uri='ui://ruflo-ai-team/board-v1.html';
+  const uri='ui://ruflo-ai-team/board-v2.html';
   const listed=await rpc(f.base,{jsonrpc:'2.0',id:1,method:'tools/list',params:{}});
   assert.equal(listed.body.result.tools.find(x=>x.name==='team_board')._meta.ui.resourceUri,uri);
   const resource=await rpc(f.base,{jsonrpc:'2.0',id:2,method:'resources/read',params:{uri}});
