@@ -4,11 +4,13 @@ import { createAiTeamService } from '../src/server.mjs';
 import { InMemoryStore } from '../src/store.mjs';
 import { TenantVectorMemory } from '../src/vector-memory.mjs';
 
-const fakeVerify = async (token) => {
+const fakeVerify = async (token, _jwks, options) => {
   const [tenant, mode = 'all'] = String(token).split(':');
   if (tenant === 'bad') throw new Error('signature verification failed');
   const scope = mode === 'read' ? 'team:read' : mode === 'write' ? 'team:write' : mode === 'run' ? 'team:run' : 'team:read team:write team:run';
-  return { payload: { iss: 'https://auth.cognitum.one', aud: 'ruflo-ai-team', sub: `${tenant}-user`, tenant_id: tenant, scope } };
+  const aud = tenant === 'legacy' ? 'ruflo-ai-team' : 'https://team.ruv.io/mcp';
+  if (aud !== options.audience) throw new Error('unexpected JWT audience');
+  return { payload: { iss: 'https://auth.cognitum.one', aud, sub: `${tenant}-user`, tenant_id: tenant, scope } };
 };
 
 async function fixture() {
@@ -41,6 +43,16 @@ test('tools/list is open but tenant calls challenge with RFC 9728 metadata', asy
   assert.equal(listed.status,200); assert.equal(listed.body.result.tools.length,12);
   const deniedCall=await call(f.base,'team_list',{},null);
   assert.equal(deniedCall.status,401); assert.match(deniedCall.wwwAuth,/oauth-protected-resource\/mcp/); assert.match(deniedCall.wwwAuth,/team:read/);
+});
+
+test('legacy client-audience bearer tokens cannot access or mask discovery', async (t) => {
+  const f=await fixture(); t.after(()=>f.server.close());
+  const listed=await rpc(f.base,{jsonrpc:'2.0',id:1,method:'tools/list',params:{}},'legacy:all');
+  assert.equal(listed.status,200);
+  assert.equal(listed.body.result.tools.length,12);
+  const deniedCall=await call(f.base,'team_list',{},'legacy:all');
+  assert.equal(deniedCall.status,401);
+  assert.match(deniedCall.wwwAuth,/invalid_token/);
 });
 
 test('every tool has explicit annotations and no secret-bearing input field', async (t) => {

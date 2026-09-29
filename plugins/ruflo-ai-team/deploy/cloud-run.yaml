@@ -21,4 +21,4 @@ spec:
             - { name: RUFLO_AI_TEAM_PUBLIC_URL, value: "https://team.ruv.io" }
             - { name: RUFLO_AI_TEAM_STORE, value: "firestore" }
             - { name: RUFLO_AI_TEAM_OAUTH_ISSUER, value: "https://auth.cognitum.one" }
-            - { name: RUFLO_AI_TEAM_OAUTH_CLIENT_ID, value: "REPLACE_WITH_RESOURCE_CLIENT_ID" }
+            - { name: RUFLO_AI_TEAM_OAUTH_AUDIENCE, value: "https://team.ruv.io/mcp" }

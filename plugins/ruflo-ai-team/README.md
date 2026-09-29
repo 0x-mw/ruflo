@@ -21,7 +21,7 @@ npm test
 npm run smoke
 ```
 
-Run locally with `RUFLO_AI_TEAM_STORE=memory npm start`. Production requires a unique OAuth audience, Firestore IAM, and the environment variables documented in `deploy/cloud-run.yaml`.
+Run locally with `RUFLO_AI_TEAM_STORE=memory npm start`. Production requires the exact OAuth resource audience `https://team.ruv.io/mcp`, Firestore IAM, and the environment variables documented in `deploy/cloud-run.yaml`. ChatGPT connections registered before the `team:*` scope ceiling was added must be created again so dynamic client registration includes those scopes.
 
 ## Compatibility
 
