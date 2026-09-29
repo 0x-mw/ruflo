@@ -1,3 +1,9 @@
+# 0.1.4 — Larger, clickable workspace rail
+
+- Increased the outside gutter around the single ChatGPT workspace and enlarged the sidebar hit targets with hover/focus states.
+- Added an Evidence section to the same board with a tenant-scoped run summary and a clear path to the full `evidence_export` bundle.
+- Versioned the UI resource to `ui://ruflo-ai-team/board-v4.html`; older ChatGPT cards remain immutable and require a fresh chat.
+
 # 0.1.3 — One navigable workspace
 
 - Made the single ChatGPT MCP Apps board a navigable hub for teams, runs, and tasks, with in-card refresh and run selection through the MCP Apps bridge.
