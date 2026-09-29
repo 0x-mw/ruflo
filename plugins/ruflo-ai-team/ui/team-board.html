@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RuFlo AI Team</title>
+  <style>
+    :root{color-scheme:dark;--ink:#eafcff;--muted:#91a8ad;--aqua:#26e9d5;--pink:#ff3b91;--panel:#0a171b}
+    *{box-sizing:border-box}body{margin:0;padding:12px;background:#050b0e;color:var(--ink);font:14px/1.4 ui-sans-serif,system-ui,sans-serif}
+    main{max-width:720px;margin:auto;border:1px solid #1b3439;border-radius:16px;overflow:hidden;background:var(--panel)}
+    header{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(100deg,#0c2023,#11161e 58%,#22101c);border-bottom:1px solid #214048}
+    .mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:radial-gradient(circle at 35% 30%,#67fff2,var(--aqua) 38%,#087f86 72%,#071014);color:#041012;font-weight:900}
+    h1{margin:0;font-size:16px}small,.muted{color:var(--muted)}section{padding:14px}h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--aqua)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric,.row{border:1px solid #204048;border-radius:10px;background:#102429;padding:10px}
+    .metric strong{display:block;font-size:19px}.row{margin-top:8px}.row strong{display:block;overflow-wrap:anywhere}.pill{display:inline-block;margin-top:5px;color:var(--aqua);font-size:12px}
+    ul{list-style:none;margin:0;padding:0}.task{border-top:1px solid #204048;padding:9px 0}.task:first-child{border-top:0}
+    @media(max-width:480px){.grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+<main aria-label="RuFlo AI Team board">
+  <header><span class="mark" aria-hidden="true">r</span><div><h1>RuFlo AI Team</h1><small>Private coordination board</small></div></header>
+  <section><div id="summary" class="grid"></div><div id="details" aria-live="polite" class="muted">Loading team status…</div></section>
+</main>
+<script type="module">
+  const summary=document.querySelector('#summary'),details=document.querySelector('#details');
+  const node=(tag,value,className)=>{const el=document.createElement(tag);el.textContent=String(value??'');if(className)el.className=className;return el};
+  function render(data){
+    if(!data||typeof data!=='object')return;
+    summary.replaceChildren();details.replaceChildren();
+    for(const [label,value] of [['Teams',data.teams?.length??0],['Tasks complete',data.tasks?.filter(x=>x.status==='complete').length??0],['Budget used',`${data.run?.spentUnits??0} / ${data.run?.budgetUnits??0}`]]){
+      const card=node('div','', 'metric');card.append(node('small',label),node('strong',value));summary.append(card);
+    }
+    if(data.run){details.append(node('h2','Run'),node('div',data.run.objective,'row'),node('span',`Status: ${data.run.status}`,'pill'));}
+    const heading=node('h2',data.run?'Tasks':'Teams');details.append(heading);
+    const items=data.run?data.tasks:data.teams;
+    if(!items?.length){details.append(node('p','Nothing to show yet.','muted'));return;}
+    for(const item of items){const row=node('div','', 'row');row.append(node('strong',data.run?item.title:item.name),node('span',item.status,'pill'));details.append(row);}
+    if(data.vectorBackend)details.append(node('p',`Memory search: ${data.vectorBackend}${data.degraded?' (degraded)':''}`,'muted'));
+  }
+  function update(result){const data=result?.structuredContent??result;if(data?.teams)render(data);}
+  let id=0;const pending=new Map();
+  window.addEventListener('message',event=>{
+    if(event.source!==window.parent||event.data?.jsonrpc!=='2.0')return;
+    const msg=event.data;
+    if(typeof msg.id==='number'&&pending.has(msg.id)){const request=pending.get(msg.id);pending.delete(msg.id);msg.error?request.reject(msg.error):request.resolve(msg.result);}
+    if(msg.method==='ui/notifications/tool-result')update(msg.params);
+  });
+  const request=(method,params)=>new Promise((resolve,reject)=>{const next=++id;pending.set(next,{resolve,reject});window.parent.postMessage({jsonrpc:'2.0',id:next,method,params},'*')});
+  request('ui/initialize',{appInfo:{name:'ruflo-ai-team-board',version:'1.0.0'},appCapabilities:{},protocolVersion:'2026-01-26'})
+    .then(()=>window.parent.postMessage({jsonrpc:'2.0',method:'ui/notifications/initialized',params:{}},'*'))
+    .catch(()=>{details.textContent='The ChatGPT view could not initialize. Team tools remain available in chat.'});
+  if(window.openai?.toolOutput)update(window.openai.toolOutput);
+</script>
+</body>
+</html>

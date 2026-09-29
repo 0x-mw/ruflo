@@ -11,7 +11,11 @@ The public v0.1 surface coordinates work; it does not silently send messages, de
 - Firestore is canonical storage; an in-memory store is used for tests and local development.
 - The default vector backend is the bounded, tenant-scoped `lexical-degraded` fallback. Set `RUFLO_AI_TEAM_VECTOR=native` only after the exact `@ruvector/core` binary passes the startup self-test; an unavailable or incompatible binding falls back explicitly and never claims semantic search.
 - Stored task, memory, and evidence content is provenance-labelled and nonce-fenced as untrusted data.
-- Twelve focused tools, two prompts, and one public template resource.
+- Fourteen focused tools, two prompts, a template resource, and a ChatGPT MCP Apps board.
+
+The read-only `team_board` tool renders a ruOS-inspired, tenant-scoped team/run card in ChatGPT. Its public HTML resource contains no tenant data; the tool requires `team:read`. `run_complete` requires `team:run` and refuses to complete a run until it has at least one task and every task is complete.
+
+Memory search reports `lexical-degraded` unless a compatible native RuVector binding passes the startup probe. The pinned `@ruvector/core` 0.1.32 package with its 0.1.30 optional native binding fails that probe in local validation with a dimension mismatch. Do not set `RUFLO_AI_TEAM_VECTOR=native` in production until a compatible binary is verified.
 
 ## Local verification
 
