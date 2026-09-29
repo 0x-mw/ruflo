@@ -4,7 +4,8 @@
 //   POST /mcp                      → MCP (Streamable HTTP, stateless) — FULL surface
 //   POST /chatgpt/mcp              → MCP, public-review profile: no membership
 //                                     administration, and no tool accepts a secret
-//   GET  /privacy /terms /support  → public pages required by the OpenAI app review
+//   POST /claude/mcp               → same directory-safe profile for Claude
+//   GET  /privacy /terms /support  → public pages required by software directories
 //   GET  /.well-known/openai-apps-challenge → domain-control proof, from env only
 //   WS   / , /relay                → transparent proxy to the Nostr relay
 // Security model: READ tools/resources are open. Any tool that WRITES using the
@@ -119,16 +120,17 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
   };
   const adminArg = { adminToken: z.string().optional().describe('Gateway admin token for service-side callers. OAuth clients use the Authorization header instead.') };
 
-  // ---- the public-review profile (/chatgpt/mcp) ----
+  // ---- the directory-safe profile (/chatgpt/mcp and /claude/mcp) ----
   //
-  // The OpenAI app review forbids a tool that ACCEPTS a secret as an argument —
+  // Public software directories forbid a tool that ACCEPTS a secret as an argument —
   // no passwords, API keys, tokens, private keys or invite codes in any
   // inputSchema. The legacy /mcp surface violates that by design: five tools
   // declare an `adminToken` string property, because that is how service-side
   // callers have always driven them.
   //
   // The fix is not to delete the credential, it is to move it OFF the tool
-  // surface and into the transport, where credentials belong. On /chatgpt/mcp
+  // surface and into the transport, where credentials belong. On either safe
+  // directory endpoint
   // the same writes read their token from an Authorization header instead of a
   // model-visible argument. A tool a model can see can be talked into being
   // called; a header the model never renders cannot. Enforcement is identical —
@@ -174,7 +176,8 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
   const WRITE = (title, { destructive = false, idempotent = false, openWorld = false } = {}) =>
     ({ title, readOnlyHint: false, destructiveHint: destructive, idempotentHint: idempotent, openWorldHint: openWorld });
 
-  // `review` selects the public-review profile served at /chatgpt/mcp. Legacy
+  // `review` selects the directory-safe profile served at /chatgpt/mcp and
+  // /claude/mcp. Legacy
   // /mcp passes nothing and is byte-for-byte the surface it has always been.
   function buildMcp(req, { review = false, auth = { mode: 'anonymous', scopes: [] } } = {}) {
     const mcp = new McpServer({ name: review ? 'ruflo-x-gateway-public' : 'ruflo-x-gateway', version: VERSION });
@@ -344,7 +347,9 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
     servers: [{
       server: {
         $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
-        name: mcpPath === '/chatgpt/mcp' ? 'io.ruv.x/chatgpt-mcp' : 'io.ruv.x/mcp',
+        name: mcpPath === '/chatgpt/mcp' ? 'io.ruv.x/chatgpt-mcp'
+          : mcpPath === '/claude/mcp' ? 'io.ruv.x/claude-mcp'
+            : 'io.ruv.x/mcp',
         title: 'Ruflo Federation Gateway',
         description: 'Swarm federation coordination over Nostr with OAuth-protected publishing.',
         version: VERSION,
@@ -373,7 +378,8 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
     }
     if (url.pathname === '/.well-known/oauth-protected-resource'
       || url.pathname === '/.well-known/oauth-protected-resource/mcp'
-      || url.pathname === '/.well-known/oauth-protected-resource/chatgpt/mcp') {
+      || url.pathname === '/.well-known/oauth-protected-resource/chatgpt/mcp'
+      || url.pathname === '/.well-known/oauth-protected-resource/claude/mcp') {
       const suffix = url.pathname.replace('/.well-known/oauth-protected-resource', '');
       res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
       return res.end(JSON.stringify(protectedResourceMetadata({
@@ -397,7 +403,7 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
     }
     if (url.pathname === '/health') return res.writeHead(200).end('ok');
     if (url.pathname === '/' && req.method === 'GET') { res.writeHead(200, { 'content-type': 'application/json' });
-      return res.end(JSON.stringify({ service: 'ruflo-x-gateway', version: VERSION, mcp: '/mcp', publicMcp: '/chatgpt/mcp',
+      return res.end(JSON.stringify({ service: 'ruflo-x-gateway', version: VERSION, mcp: '/mcp', publicMcp: '/chatgpt/mcp', claudeMcp: '/claude/mcp',
         registration: enrollment.info(), pages: { privacy: '/privacy', terms: '/terms', support: '/support' }, ws: ['/', '/relay'], relay: RELAY, canonicalRelay: RELAY, legacyRelay: LEGACY_RELAY, authNote: 'When connecting via wss://x.ruv.io, sign the NIP-42 AUTH `relay` tag with canonicalRelay (the relay verifies it strictly).', gatewayPubkey: pubkey, resources: ['ruv://federation/registry', 'ruv://federation/onboarding', 'ruv://swarm/roster', 'ruv://claims/board', 'ruv://swarm/channels'],
         authorization: { type: 'oauth2', issuer: OAUTH_ISSUER, clientId: OAUTH_CLIENT_ID || null,
           scopes: [SCOPE_READ, SCOPE_PUBLISH], protectedResourceMetadata: prmUrl('/chatgpt/mcp') } })); }
@@ -422,7 +428,7 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
       return res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' })
         .end(JSON.stringify(registryDoc('/mcp')));
     }
-    if (req.method === 'GET' && (url.pathname === '/mcp' || url.pathname === '/chatgpt/mcp')) {
+    if (req.method === 'GET' && (url.pathname === '/mcp' || url.pathname === '/chatgpt/mcp' || url.pathname === '/claude/mcp')) {
       const accept = String(req.headers.accept || '');
       if (accept.includes('text/event-stream')) {
         res.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache, no-transform', 'x-accel-buffering': 'no' });
@@ -438,10 +444,11 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
       }));
     }
     // Legacy /mcp keeps the full surface, including the admin-argument tools that
-    // service-side callers depend on. /chatgpt/mcp is the isolated public-review
-    // profile: no membership administration, and no secret-bearing input field.
-    if (url.pathname === '/mcp' || url.pathname === '/chatgpt/mcp') {
-      const review = url.pathname === '/chatgpt/mcp';
+    // service-side callers depend on. /chatgpt/mcp and /claude/mcp are isolated
+    // directory-safe profiles: no membership administration and no
+    // secret-bearing input field.
+    if (url.pathname === '/mcp' || url.pathname === '/chatgpt/mcp' || url.pathname === '/claude/mcp') {
+      const review = url.pathname === '/chatgpt/mcp' || url.pathname === '/claude/mcp';
       if (rateLimited(req)) return res.writeHead(429, { 'content-type': 'application/json' }).end('{"error":"rate limited"}');
       const auth = await oauthContext(req);
       try {
@@ -457,7 +464,7 @@ export function createGateway({ relay, keyFile, port, registration } = {}) {
       }
       let body; try { body = await readBody(req); } catch { return res.writeHead(413, { 'content-type': 'application/json' }).end('{"error":"payload too large"}'); }
       let parsed; try { parsed = body ? JSON.parse(body) : undefined; } catch { return res.writeHead(400, { 'content-type': 'application/json' }).end('{"error":"invalid json"}'); }
-      // Reads remain public. A write attempted through the ChatGPT profile must
+      // Reads remain public. A write attempted through either directory profile must
       // receive an HTTP challenge, not a model-level 200 error that an OAuth
       // client cannot use to discover the authorization server.
       const calledTool = parsed?.method === 'tools/call' ? parsed?.params?.name : undefined;

@@ -604,6 +604,11 @@ const toolsAt = async (base, path) => {
   return JSON.parse(raw.slice(raw.indexOf('{'))).result.tools;
 };
 
+const resourcesAt = async (base, path) => {
+  const raw = await rpcAt(base, path, { jsonrpc: '2.0', id: 1, method: 'resources/list', params: {} });
+  return JSON.parse(raw.slice(raw.indexOf('{'))).result.resources;
+};
+
 test('review endpoint: legacy /mcp keeps its full surface, secret arguments included', async () => {
   // The isolation has two halves and this is the one that is easy to break by
   // accident. /mcp is the compatibility surface; if adding the review profile
@@ -641,6 +646,32 @@ test('review endpoint: advertises 12 tools, dropping only membership administrat
   assert.deepEqual(withheld, ['federation_admit', 'federation_invite_mint']);
   // Nothing was invented for the review surface that is not a real tool.
   assert.deepEqual([...reviewNames].filter((n) => !legacyNames.has(n)), []);
+  gw.close();
+});
+
+test('Claude directory endpoint exposes the same hardened 12-tool profile', async () => {
+  process.env.RUFLO_ADMIN_TOKEN = 'test-admin-token';
+  const gw = await startGateway();
+  const [chatgpt, claude] = await Promise.all([
+    toolsAt(gw.base, '/chatgpt/mcp'),
+    toolsAt(gw.base, '/claude/mcp'),
+  ]);
+  assert.equal(claude.length, 12);
+  assert.deepEqual(claude, chatgpt,
+    'Claude and ChatGPT directory profiles must not drift in tools, schemas, titles, or annotations');
+  gw.close();
+});
+
+test('Claude directory endpoint exposes the five documented ruv:// resources', async () => {
+  const gw = await startGateway();
+  const resources = await resourcesAt(gw.base, '/claude/mcp');
+  assert.deepEqual(resources.map((resource) => resource.uri).sort(), [
+    'ruv://claims/board',
+    'ruv://federation/onboarding',
+    'ruv://federation/registry',
+    'ruv://swarm/channels',
+    'ruv://swarm/roster',
+  ]);
   gw.close();
 });
 
@@ -922,7 +953,7 @@ test('untrusted: the review endpoint gets the same envelope, not a weaker one', 
     JSON.stringify({ type: 'Status', from: 'attacker', note: INJECTION }))]);
   const gw = createGateway({ relay: relay.url, keyFile: '/tmp/x-gw-inj3-' + Date.now() + '.key', port: 0 });
   const port = await gw.listen(0); const base = `http://127.0.0.1:${port}`;
-  for (const path of ['/mcp', '/chatgpt/mcp']) {
+  for (const path of ['/mcp', '/chatgpt/mcp', '/claude/mcp']) {
     assertFenced(await callTool(base, path, 'federation_sync', { sinceSeconds: 3600 }), { label: path });
   }
   gw.server.close(); relay.wss.close();

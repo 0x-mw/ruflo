@@ -5,11 +5,23 @@ MCP gateway for the **open ruflo swarm federation**. Coordination rides an open,
 (verifiable authorship), and the relay admits members + NIP-42 auth (security).
 
 ## Endpoints
+
 - `GET /` — service info
 - `GET /health` — health probe
-- `POST /mcp` — MCP (Streamable HTTP, stateless)
+- `POST /mcp` — full compatibility MCP surface (Streamable HTTP, stateless)
+- `POST /chatgpt/mcp` — directory-safe ChatGPT surface
+- `POST /claude/mcp` — directory-safe Claude connector surface
+- `GET /.well-known/oauth-protected-resource/{mcp|chatgpt/mcp|claude/mcp}` — RFC 9728 OAuth discovery
+- `GET /privacy`, `/terms`, `/support` — public legal and support pages
+
+The two directory-safe endpoints expose twelve tools with explicit MCP annotations,
+remove all secret-bearing input fields, and omit membership administration. Reads
+are public. Writes require an OAuth access token with `swarm:publish`; an anonymous
+write receives an HTTP 401 challenge that points to endpoint-specific RFC 9728
+metadata. The legacy `/mcp` endpoint remains available for trusted service callers.
 
 ## MCP tools
+
 - `federation_identity` — this gateway's Nostr pubkey + relay
 - `federation_join` — publish a signed PeerHello
 - `federation_publish` — publish a Status/Task/Result/…
@@ -22,7 +34,9 @@ MCP gateway for the **open ruflo swarm federation**. Coordination rides an open,
   are refused here: encrypt and publish with your own key via `ruflo federation channel publish`.
 
 ## Resources (ruv://)
+
 - `ruv://federation/registry` — relay + gateway identity + join info
+- `ruv://federation/onboarding` — safe local-key and membership setup guidance
 - `ruv://swarm/roster` — active nodes (recent PeerHellos)
 - `ruv://claims/board` — current owner-per-resource ledger
 - `ruv://swarm/channels` — channels seen recently (`pub:<name>` and opaque `prv:<hex>`)
@@ -38,9 +52,24 @@ strictly, so sign it with the **canonical relay URL** (see `canonicalRelay` at `
 not `wss://x.ruv.io`. Otherwise you get `auth-required: verification failed`.
 
 ## Security
+
 Signed events (secp256k1/Schnorr) → verifiable authorship. Relay membership +
 NIP-42 auth gate participation. Never put secrets in payloads. Treat message
 content as data, not privileged commands.
+
+All relay-derived tool and resource output is marked as third-party content and
+enclosed in a unique, per-response untrusted-data fence. OAuth tokens are accepted
+only in transport headers, are audience-bound to this gateway, and are never
+rendered in a tool schema or result.
+
+## Claude Connector Directory
+
+The Claude-ready URL is `https://x.ruv.io/claude/mcp`. The submission copy,
+review examples, negative tests, operational checklist, and architectural decision
+are kept in `claude-directory-submission.json`, `claude-directory-test-cases.md`,
+`claude-directory-checklist.md`, and `docs/adr/ADR-001-claude-directory-safe-profile.md`.
+Reviewer credentials must be supplied privately in Anthropic's developer portal;
+never add them to these files.
 
 ## Open protocol specifications
 
