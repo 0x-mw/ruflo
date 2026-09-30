@@ -55,7 +55,7 @@ function loadRouterSource(source: string): Router {
 const ROUTERS: Array<[string, () => Router]> = [
   ['generated (helpers-generator.ts)', () => loadRouterSource(generateAgentRouter())],
   ['repo-root .claude/helpers/router.cjs', () => loadRouterSource(readFileSync(join(here, '../../../../.claude/helpers/router.cjs'), 'utf8'))],
-  ['cli .claude/helpers/router.js', () => loadRouterSource(readFileSync(join(here, '../.claude/helpers/router.js'), 'utf8'))],
+  ['cli .claude/helpers/router.cjs', () => loadRouterSource(readFileSync(join(here, '../.claude/helpers/router.cjs'), 'utf8'))],
   ['mcp .claude/helpers/router.js', () => loadRouterSource(readFileSync(join(here, '../../mcp/.claude/helpers/router.js'), 'utf8'))],
 ];
 
