@@ -1,4 +1,4 @@
-# 0.1.5 — Explicit CORS allowlist, documented public discovery (#3556)
+# 0.1.6 — Explicit CORS allowlist, documented public discovery (#3556)
 
 - Replaced `access-control-allow-origin: *` with an explicit allowlist: `https://chatgpt.com`, `https://chat.openai.com` and `https://claude.ai` by default, or `ALLOWED_ORIGINS` to replace it. Only an allowlisted request origin is echoed, with `Vary: Origin`; any other origin gets no ACAO header, including on `401` responses.
 - Kept MCP discovery (`initialize`, `ping`, `tools/list`, `prompts/list`, `resources/list`) anonymous on purpose, and documented exactly which methods are public and why in the README. `tools/call` and non-UI `resources/read` still require OAuth.
