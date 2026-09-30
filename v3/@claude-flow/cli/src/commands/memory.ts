@@ -13,6 +13,7 @@ import { countSiblingStoreRows } from '../memory/sibling-store.js';
 import { resolveDbPath } from '../memory/memory-initializer.js';
 import { existsSync } from 'node:fs';
 import { siblingAgentDbPath } from '../memory/memory-bridge.js';
+import { validateIdentifier } from '../mcp-tools/validate-input.js';
 
 /**
  * #3228: a miss in one store is not a miss in the memory.
@@ -191,6 +192,13 @@ const storeCommand: Command = {
 
     if (!value) {
       output.printError('Value is required. Use --value');
+      return { success: false, exitCode: 1 };
+    }
+
+    // #3570: reject a traversal namespace before persisting, as export/purge do.
+    const vNs = validateIdentifier(namespace, 'namespace');
+    if (!vNs.valid) {
+      output.printError(vNs.error!);
       return { success: false, exitCode: 1 };
     }
 

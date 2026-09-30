@@ -1611,6 +1611,15 @@ export const memoryTools: MCPTool[] = [
       const entries = Array.isArray(doc.entries) ? doc.entries : [];
       const nsOverride = input.namespace ? String(input.namespace) : undefined;
       if (nsOverride) { const v = validateIdentifier(nsOverride, 'namespace'); if (!v.valid) throw new Error(v.error); }
+      // #3570: validate every entry's namespace up front so a bad file writes nothing.
+      if (!nsOverride) {
+        for (const e of entries) {
+          if (e && typeof e.key === 'string' && e.namespace !== undefined) {
+            const v = validateIdentifier(String(e.namespace), 'namespace');
+            if (!v.valid) throw new Error(v.error);
+          }
+        }
+      }
       let imported = 0; let skipped = 0;
       for (const e of entries) {
         if (!e || typeof e.key !== 'string') { skipped++; continue; }
