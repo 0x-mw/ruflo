@@ -66,7 +66,16 @@ const MAX_QUERY_LENGTH = 4096;
 // validateMemoryInput. Imported by sanitizeMemoryKey so write-side sanitization
 // and read-side rejection can never drift apart (the symmetry bug behind #1884).
 const DANGEROUS_KEY_CHARS = /[;&|`$(){}[\]<>!#\\\0]|\.\.[/\\]/g;
-const DANGEROUS_KEY_PATTERN = /[;&|`$(){}[\]<>!#\\\0]|\.\.[/\\]/;
+export const DANGEROUS_KEY_PATTERN = /[;&|`$(){}[\]<>!#\\\0]|\.\.[/\\]/;
+
+/**
+ * #3570: the one key rule for every memory write path (MCP store, CLI store,
+ * import). Plain `/` stays legal (`probe/x`); traversal and shell metacharacters
+ * do not. Returns the error message, or null when the key is acceptable.
+ */
+export function memoryKeyError(key: string): string | null {
+  return DANGEROUS_KEY_PATTERN.test(key) ? 'Key contains disallowed characters' : null;
+}
 
 function validateMemoryInput(key?: string, value?: string, query?: string, namespace?: string): void {
   if (key && key.length > MAX_KEY_LENGTH) {
@@ -79,9 +88,8 @@ function validateMemoryInput(key?: string, value?: string, query?: string, names
     throw new Error(`Query exceeds maximum length of ${MAX_QUERY_LENGTH} characters`);
   }
   // Reject path traversal and shell metacharacters in keys/namespaces (#1425)
-  if (key && DANGEROUS_KEY_PATTERN.test(key)) {
-    throw new Error('Key contains disallowed characters');
-  }
+  const keyError = key ? memoryKeyError(key) : null;
+  if (keyError) throw new Error(keyError);
   if (namespace && DANGEROUS_KEY_PATTERN.test(namespace)) {
     throw new Error('Namespace contains disallowed characters');
   }
@@ -491,6 +499,10 @@ export const memoryTools: MCPTool[] = [
       }
 
       validateMemoryInput(key, value, undefined, namespace);
+      // #3570: a namespace written here must be exportable and purgeable, so it
+      // passes the same validator export and purge use.
+      const vNs = validateIdentifier(namespace, 'namespace');
+      if (!vNs.valid) throw new Error(vNs.error);
 
       const startTime = performance.now();
 
@@ -1611,6 +1623,22 @@ export const memoryTools: MCPTool[] = [
       const entries = Array.isArray(doc.entries) ? doc.entries : [];
       const nsOverride = input.namespace ? String(input.namespace) : undefined;
       if (nsOverride) { const v = validateIdentifier(nsOverride, 'namespace'); if (!v.valid) throw new Error(v.error); }
+      // #3570: validate every entry's namespace up front so a bad file writes nothing.
+      if (!nsOverride) {
+        for (const e of entries) {
+          if (e && typeof e.key === 'string' && e.namespace !== undefined) {
+            const v = validateIdentifier(String(e.namespace), 'namespace');
+            if (!v.valid) throw new Error(v.error);
+          }
+        }
+      }
+      // #3570 follow-up: keys get the same up-front, all-or-nothing check.
+      for (const e of entries) {
+        if (e && typeof e.key === 'string') {
+          const keyError = memoryKeyError(e.key);
+          if (keyError) throw new Error(`${keyError}: ${JSON.stringify(e.key)}`);
+        }
+      }
       let imported = 0; let skipped = 0;
       for (const e of entries) {
         if (!e || typeof e.key !== 'string') { skipped++; continue; }
