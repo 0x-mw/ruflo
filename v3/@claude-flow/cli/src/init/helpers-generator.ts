@@ -342,7 +342,7 @@ if (require.main === module) {
     const result = routeTask(task);
     console.log(JSON.stringify(result, null, 2));
   } else {
-    console.log('Usage: router.js <task description>');
+    console.log('Usage: router.cjs <task description>');
     console.log('\\nAvailable agents:', Object.keys(AGENT_CAPABILITIES).join(', '));
   }
 }
@@ -512,7 +512,7 @@ export function generateHookHandler(): string {
     '  return null;',
     '}',
     '',
-    "const router = safeRequire(path.join(helpersDir, 'router.js'));",
+    "const router = safeRequire(path.join(helpersDir, 'router.cjs'));",
     "const session = safeRequire(path.join(helpersDir, 'session.js'));",
     "const memory = safeRequire(path.join(helpersDir, 'memory.js'));",
     "const intelligence = safeRequire(path.join(helpersDir, 'intelligence.cjs'));",
@@ -1393,7 +1393,7 @@ export function generateHelpers(options: InitOptions): Record<string, string> {
 
     // Cross-platform Node.js scripts
     helpers['session.js'] = generateCrossPlatformSessionManager();
-    helpers['router.js'] = generateAgentRouter();
+    helpers['router.cjs'] = generateAgentRouter();
     helpers['memory.js'] = generateMemoryHelper();
 
     // Windows-specific scripts

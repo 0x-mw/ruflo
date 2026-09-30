@@ -575,7 +575,7 @@ export async function executeUpgrade(targetDir: string, upgradeSettings = false)
     const sourceHelpersForUpgrade = findSourceHelpersDir();
     if (sourceHelpersForUpgrade) {
       // Keep in sync with helper-refresh.ts:CRITICAL_HELPERS.
-      const criticalHelpers = ['auto-memory-hook.mjs', 'hook-handler.cjs', 'intelligence.cjs', 'statusline.cjs', 'router.js'];
+      const criticalHelpers = ['auto-memory-hook.mjs', 'hook-handler.cjs', 'intelligence.cjs', 'statusline.cjs', 'router.cjs'];
       for (const helperName of criticalHelpers) {
         const targetPath = path.join(targetDir, '.claude', 'helpers', helperName);
         const sourcePath = path.join(sourceHelpersForUpgrade, helperName);
@@ -595,7 +595,7 @@ export async function executeUpgrade(targetDir: string, upgradeSettings = false)
         'hook-handler.cjs': generateHookHandler(),
         'intelligence.cjs': generateIntelligenceStub(),
         'auto-memory-hook.mjs': generateAutoMemoryHook(),
-        'router.js': generateAgentRouter(), // ADR-389
+        'router.cjs': generateAgentRouter(), // ADR-389 / #3555
       };
       for (const [helperName, content] of Object.entries(generatedCritical)) {
         const targetPath = path.join(targetDir, '.claude', 'helpers', helperName);
@@ -1417,7 +1417,7 @@ async function writeHelpers(
     'pre-commit': generatePreCommitHook(),
     'post-commit': generatePostCommitHook(),
     'session.js': generateSessionManager(),
-    'router.js': generateAgentRouter(),
+    'router.cjs': generateAgentRouter(),
     'memory.js': generateMemoryHelper(),
     'hook-handler.cjs': generateHookHandler(),
     'intelligence.cjs': generateIntelligenceStub(),
