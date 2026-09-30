@@ -329,6 +329,7 @@ const installCommand: Command = {
         `Trust: ${installed.trustLevel ?? 'not declared'}`,
         `Permissions: ${installed.permissions?.join(', ') || 'none declared'}`,
         `Verification: ${installed.verification ?? 'n/a'}`,
+        `Install scripts: ${installed.source === 'local' ? 'n/a (local link)' : installed.scriptsRun ? 'ran' : 'skipped (use --trust to run)'}`,
         ``,
         `Hooks registered: ${installed.hooks?.length || 0}`,
         `Commands added: ${installed.commands?.length || 0}`,

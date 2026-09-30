@@ -97,6 +97,18 @@ export function evaluatePluginTrust(declared: DeclaredTrust, opts: TrustOptions)
   return { allowed: true, verificationSkipped: false, reasons: [], excessPermissions };
 }
 
+/**
+ * Whether npm may run the package's lifecycle scripts (preinstall/install/
+ * postinstall, and those of its dependencies). Scripts execute before the
+ * package's own trust declaration can be read, so only an explicit `--trust`
+ * or a registry-vouched entry allows them; everything else installs with
+ * `--ignore-scripts`.
+ */
+export function shouldRunInstallScripts(opts: { trust?: boolean; registryTrustLevel?: string }): boolean {
+  if (opts.trust === true) return true;
+  return opts.registryTrustLevel !== undefined && REGISTRY_VOUCHED_TRUST_LEVELS.includes(opts.registryTrustLevel);
+}
+
 /** A registry checksum we can actually verify: `sha256:` + 64 hex chars. */
 export function parseSha256Checksum(checksum: unknown): string | null {
   if (typeof checksum !== 'string') return null;

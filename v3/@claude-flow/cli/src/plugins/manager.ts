@@ -14,6 +14,7 @@ import {
   parseSha256Checksum,
   readDeclaredTrust,
   sha256Hex,
+  shouldRunInstallScripts,
   type TrustDecision,
 } from './trust-policy.js';
 
@@ -95,6 +96,8 @@ export interface InstalledPlugin {
   permissions?: string[];
   /** How the install was verified. */
   verification?: 'checksum' | 'npm-integrity' | 'policy' | 'skipped';
+  /** Whether npm lifecycle scripts ran during install (false = `--ignore-scripts`). */
+  scriptsRun?: boolean;
   /** Hooks/commands the plugin declared but that were not registered, and why. */
   withheld?: { hooks: string[]; commands: string[]; reasons: string[] };
 }
@@ -253,7 +256,7 @@ export class PluginManager {
       const expected = verify ? parseSha256Checksum(opts.expectedChecksum) : null;
       if (expected) {
         tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ruflo-plugin-verify-'));
-        const packed = await runNpm(['pack', versionSpec, '--pack-destination', tmpDir, '--json'], 120000);
+        const packed = await runNpm(['pack', versionSpec, '--pack-destination', tmpDir, '--json', '--ignore-scripts'], 120000);
         const info = JSON.parse(packed.stdout) as Array<{ filename?: string }>;
         const filename = info[0]?.filename;
         if (!filename) throw new Error(`npm pack returned no tarball for ${versionSpec}`);
@@ -279,7 +282,18 @@ export class PluginManager {
       // Use npm to install (array form prevents shell injection)
       console.log(`[PluginManager] Installing ${versionSpec}...`);
 
-      await runNpm(['install', '--prefix', this.config.pluginsDir, installTarget], 120000);
+      // #3557 follow-up: lifecycle scripts run before the package's own trust
+      // declaration can be read, so untrusted installs skip them entirely.
+      const scriptsRun = shouldRunInstallScripts(opts);
+      const installArgs = ['install', '--prefix', this.config.pluginsDir, installTarget];
+      if (!scriptsRun) {
+        installArgs.push('--ignore-scripts');
+        warnings.push(
+          `Install scripts were skipped for ${packageName} (--ignore-scripts): it is not registry-vouched and --trust was not given. ` +
+          `Reinstall with --trust to run them.`,
+        );
+      }
+      await runNpm(installArgs, 120000);
 
       // Get installed version
       const packageJsonPath = path.join(installDir, packageName, 'package.json');
@@ -306,6 +320,7 @@ export class PluginManager {
         trustLevel: trusted.trustLevel,
         permissions: trusted.permissions,
         verification,
+        scriptsRun,
         ...(trusted.withheld ? { withheld: trusted.withheld } : {}),
       };
 
@@ -378,6 +393,8 @@ export class PluginManager {
         trustLevel: trusted.trustLevel,
         permissions: trusted.permissions,
         verification: opts.verify === false ? 'skipped' : 'policy',
+        // A local install links the path; it never runs npm or package scripts.
+        scriptsRun: false,
         ...(trusted.withheld ? { withheld: trusted.withheld } : {}),
       };
 
@@ -574,8 +591,12 @@ export class PluginManager {
       // Validate package name to prevent injection (S-3)
       validatePackageName(versionSpec);
 
-      // Reinstall with new version (array form prevents shell injection)
-      await runNpm(['install', '--prefix', this.config.pluginsDir, versionSpec], 120000);
+      // Reinstall with new version (array form prevents shell injection).
+      // An install recorded with scriptsRun:false stays script-free on upgrade;
+      // legacy entries (no field) keep their pre-#3557 behaviour.
+      const upgradeArgs = ['install', '--prefix', this.config.pluginsDir, versionSpec];
+      if (existing.scriptsRun === false) upgradeArgs.push('--ignore-scripts');
+      await runNpm(upgradeArgs, 120000);
 
       // Update manifest
       const installDir = path.join(this.config.pluginsDir, 'node_modules');
