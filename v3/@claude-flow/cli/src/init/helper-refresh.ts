@@ -22,6 +22,7 @@ import * as semver from 'semver';
 import {
   verifyHelpersManifest, sha256Hex, HELPERS_MANIFEST_FILE, type HelpersManifest,
 } from './helper-signing.js';
+import { ensureCommonJsCompanions } from './helper-companions.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -391,6 +392,7 @@ async function refreshOneHelpersDirLocked(
     pubkeyPemOverride: opts.pubkeyPemOverride,
   });
   if (res.blocked) return { refreshed: false, blocked: res.blocked };
+  if (res.wrote) await ensureCommonJsCompanions(helpersDir); // #3555
   return res.wrote ? { refreshed: true, from: stamped || '(unstamped)', to: version } : { refreshed: false };
 }
 

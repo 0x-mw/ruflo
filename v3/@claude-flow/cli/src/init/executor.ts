@@ -31,6 +31,7 @@ import {
 import { getInstalledCliVersion, HELPERS_STAMP_FILE } from './helper-refresh.js';
 import { generateClaudeMd } from './claudemd-generator.js';
 import { recordMemoryPackagePath } from './memory-package-resolver.js';
+import { ensureCommonJsCompanions } from './helper-companions.js';
 import { scanSettingsForRisk, formatRiskFindingsAsWarnings } from './settings-risk-scanner.js';
 
 /**
@@ -607,6 +608,12 @@ export async function executeUpgrade(targetDir: string, upgradeSettings = false)
         fs.writeFileSync(targetPath, content, 'utf-8');
         try { fs.chmodSync(targetPath, '755'); } catch {}
       }
+    }
+
+    // #3555: the refreshed hook-handler requires the .cjs companions; older
+    // installs only have session.js / memory.js, which can't load in ESM.
+    for (const name of await ensureCommonJsCompanions(path.join(targetDir, '.claude', 'helpers'))) {
+      result.created.push(`.claude/helpers/${name}`);
     }
 
     // Stamp the installed version so the startup auto-refresh treats these as
@@ -1416,9 +1423,9 @@ async function writeHelpers(
   const helpers: Record<string, string> = {
     'pre-commit': generatePreCommitHook(),
     'post-commit': generatePostCommitHook(),
-    'session.js': generateSessionManager(),
+    'session.cjs': generateSessionManager(),
     'router.cjs': generateAgentRouter(),
-    'memory.js': generateMemoryHelper(),
+    'memory.cjs': generateMemoryHelper(),
     'hook-handler.cjs': generateHookHandler(),
     'intelligence.cjs': generateIntelligenceStub(),
     'auto-memory-hook.mjs': generateAutoMemoryHook(),
