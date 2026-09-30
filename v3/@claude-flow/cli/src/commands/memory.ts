@@ -24,11 +24,16 @@ import { siblingAgentDbPath } from '../memory/memory-bridge.js';
  * `found:false`. A confident negative is worse than an error, because nothing
  * prompts anyone to look further.
  */
-async function warnIfSiblingHasRows(pathFlag: unknown): Promise<void> {
+async function warnIfSiblingHasRows(pathFlag: unknown, hits?: number): Promise<void> {
   const unread = await countSiblingStoreRows(resolveDbPath(pathFlag as string | undefined));
   if (unread && unread.rows > 0) {
+    // #3566: disclose on hits too. A partial positive ("Found 1 results") invites
+    // no second look, so it is the more dangerous case, not the safer one.
+    const lead = hits === undefined
+      ? 'This read covered one store.'
+      : `Partial result: ${hits} ${hits === 1 ? 'match' : 'matches'} came from the store read here.`;
     output.printWarning(
-      `This read covered one store. ${unread.rows} entries are in ${unread.path} and were not searched. ` +
+      `${lead} ${unread.rows} entries are in ${unread.path} and were not searched. ` +
       `That store is written by the MCP/AgentDB path; read it with --path ${unread.path}.`,
     );
   }
@@ -354,6 +359,9 @@ const retrieveCommand: Command = {
       }
 
       const entry = result.entry;
+      // #3566: the same key may also live in the sibling store. Goes to stderr,
+      // so --value-only / --format json stdout stays parseable.
+      await warnIfSiblingHasRows(ctx.flags.path, 1);
 
       // #2073: --value-only emits just the raw value (no decoration) for
       // piping into JSON.parse / jq / other downstream parsers without
@@ -611,6 +619,7 @@ const searchCommand: Command = {
           // Pure-keyword mode returns directly; skip the semantic path entirely.
           if (ctx.flags.format === 'json') {
             output.printJson({ query, searchType, results: keywordResults, searchTime: '0ms' });
+            await warnIfSiblingHasRows(ctx.flags.path, keywordResults.length);
             return { success: true, data: keywordResults };
           }
           output.writeln();
@@ -618,6 +627,7 @@ const searchCommand: Command = {
           for (const r of keywordResults) {
             output.writeln(`  ${r.key} (${r.namespace}, score=${r.score.toFixed(2)}) — ${r.preview.slice(0, 80)}${r.preview.length > 80 ? '…' : ''}`);
           }
+          await warnIfSiblingHasRows(ctx.flags.path, keywordResults.length);
           return { success: true, data: keywordResults };
         }
         // Hybrid mode: keyword hits will be MERGED after semantic runs below.
@@ -738,6 +748,7 @@ const searchCommand: Command = {
 
       if (ctx.flags.format === 'json') {
         output.printJson({ query, searchType, results, searchTime: `${searchTimeMs}ms`, ...(smartStats ? { stats: smartStats } : {}) });
+        await warnIfSiblingHasRows(ctx.flags.path, results.length);
         return { success: true, data: results };
       }
 
@@ -768,6 +779,7 @@ const searchCommand: Command = {
 
       output.writeln();
       output.printInfo(`Found ${results.length} results`);
+      await warnIfSiblingHasRows(ctx.flags.path, results.length);
 
       return { success: true, data: results };
     } catch (error) {

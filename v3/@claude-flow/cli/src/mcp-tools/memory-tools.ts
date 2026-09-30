@@ -1603,6 +1603,9 @@ export const memoryTools: MCPTool[] = [
       await ensureInitialized(dbPath);
       const { storeEntry } = await getMemoryFunctions();
       const t0 = Date.now();
+      // Values are re-embedded on import; count the vectors actually written
+      // rather than reporting a constant 0 next to entries that show a vector.
+      let vectors = 0;
       const inputPath = String(input.inputPath ?? '');
       if (!inputPath || !existsSync(inputPath)) return { error: `File not found: ${inputPath || '(empty)'}` };
       let doc: { entries?: Array<{ key: string; namespace?: string; value?: unknown }> };
@@ -1617,13 +1620,13 @@ export const memoryTools: MCPTool[] = [
         const value = typeof e.value === 'string' ? e.value : JSON.stringify(e.value ?? null);
         try {
           const result = await storeEntry({ key: e.key, value, namespace: nsOverride ?? e.namespace ?? 'default', upsert: input.merge !== false, dbPath });
-          if (result.success) imported++;
+          if (result.success) { imported++; if (result.embedding) vectors++; }
           else skipped++;
         } catch { skipped++; }
       }
       return {
         inputPath,
-        imported: { entries: imported, vectors: 0, patterns: 0 },
+        imported: { entries: imported, vectors, patterns: 0 },
         skipped,
         duration: Date.now() - t0,
       };
