@@ -236,7 +236,7 @@ export function getInstalledCliVersion(): string {
 }
 
 /** Locate the in-package `.claude/helpers` dir (the copy source). Null if not found. */
-function findPackageHelpersDir(): string | null {
+export function findPackageHelpersDir(): string | null {
   const candidates: string[] = [];
   try {
     const esmRequire = createRequire(import.meta.url);
