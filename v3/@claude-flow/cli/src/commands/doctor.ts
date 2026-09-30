@@ -668,8 +668,20 @@ async function checkNativeAgentDbStructuralIntegrity(dbPath: string): Promise<He
 // memory init creates its schema with sql.js even when native is available.
 // This probe does not verify schema compatibility or cross-process writes;
 // integrity checks and memory store's persistWarning retain their own roles.
+//
+// #3552: `loadBetterSqlite3` is injected as a parameter (default: the real
+// dynamic import) so tests can supply a fake driver directly instead of
+// racing `vi.doMock` against this function's own `import('better-sqlite3')`
+// call, which was reliable in isolation but flaky under the full suite.
+export type MemoryPersistenceDriverDeps = {
+  loadBetterSqlite3?: () => Promise<{ default: any }>;
+};
 
-export async function checkMemoryPersistenceDriver(): Promise<HealthCheck> {
+export async function checkMemoryPersistenceDriver(
+  deps: MemoryPersistenceDriverDeps = {},
+): Promise<HealthCheck> {
+  const loadBetterSqlite3 = deps.loadBetterSqlite3
+    ?? (() => import('better-sqlite3') as Promise<{ default: any }>);
   const NAME = 'Memory Persistence Driver';
   const dbPath = await resolveMemoryDbPath();
   if (!dbPath) {
@@ -690,7 +702,7 @@ export async function checkMemoryPersistenceDriver(): Promise<HealthCheck> {
 
   let Database: any;
   try {
-    Database = ((await import('better-sqlite3')) as any).default;
+    Database = ((await loadBetterSqlite3()) as any).default;
   } catch {
     Database = null;
   }
