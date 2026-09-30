@@ -22,6 +22,7 @@ import * as semver from 'semver';
 import {
   verifyHelpersManifest, sha256Hex, HELPERS_MANIFEST_FILE, type HelpersManifest,
 } from './helper-signing.js';
+import { verifyInstalledCriticalHelpers } from './helper-integrity.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -69,6 +70,21 @@ interface RefreshOptions {
   lockWaitMsOverride?: number;
   lockRetryMsOverride?: number;
   malformedLockStaleMsOverride?: number;
+}
+
+interface RefreshResult {
+  refreshed: boolean;
+  from?: string;
+  to?: string;
+  blocked?: string;
+  /** Set when `refreshed` was caused by #3565 healing, not a version bump —
+   *  the stamp already matched but one or more critical helpers failed
+   *  on-disk integrity verification and were re-copied from the verified
+   *  source. */
+  healed?: boolean;
+  /** Critical helper names that failed integrity verification, present only
+   *  alongside `healed: true`. */
+  tampered?: string[];
 }
 
 /**
@@ -329,9 +345,12 @@ async function writeCriticalHelpers(
 
 /**
  * On CLI startup: if an initialized project's critical helpers are stamped older
- * than the installed CLI version, silently re-copy them. Fast path is a single
- * stamp read + string compare (sub-ms); the copy runs at most once per version
- * bump. Best-effort, never throws. No-op outside a ruflo project (requires an
+ * than the installed CLI version, silently re-copy them. Fast path is a stamp
+ * read + string compare, PLUS a re-hash of each installed critical helper
+ * against the signed manifest (#3565) — still sub-ms for the handful of small
+ * files involved, and lock-free unless a mismatch is found. The copy runs at
+ * most once per version bump; the heal-on-tamper path can run on any call.
+ * Best-effort, never throws. No-op outside a ruflo project (requires an
  * existing hook-handler.cjs — never creates files in an unrelated directory).
  *
  * FORWARD-ONLY (never downgrades): refreshing on any mere INEQUALITY, rather
@@ -355,12 +374,15 @@ async function writeCriticalHelpers(
  * `pubkeyPemOverride` let a test build its own tiny, throwaway-keypair-
  * signed fixture and get real, deterministic coverage of the verify → hash →
  * copy logic without depending on that.
+ *
+ * #3565: also re-verifies on every stamp-match call (see helper-integrity.ts)
+ * and heals a mismatch via this same verify-then-copy path.
  */
 async function refreshOneHelpersDirLocked(
   helpersDir: string,
   version: string,
   opts: RefreshOptions,
-): Promise<{ refreshed: boolean; from?: string; to?: string; blocked?: string }> {
+): Promise<RefreshResult> {
   if (!fs.existsSync(path.join(helpersDir, 'hook-handler.cjs'))) return { refreshed: false };
 
   // .LOCKED marker: users developing ruflo itself (or any project with
@@ -371,14 +393,33 @@ async function refreshOneHelpersDirLocked(
   // on this repo (CLAUDE.md "Concurrent-session helper corruption"). The
   // existing semver.gte guard below still fires for normal installs — this
   // is the escape hatch for the small set of users editing helpers directly.
-  // Applies to whichever dir this call is refreshing (project or global).
+  // Applies to whichever dir this call is refreshing (project or global),
+  // and also exempts it from the #3565 integrity re-check below — a
+  // deliberate local edit is not "tampering".
   if (fs.existsSync(path.join(helpersDir, '.LOCKED'))) {
     return { refreshed: false, blocked: '.LOCKED marker present — refresh skipped (delete to re-enable)' };
   }
 
   let stamped = '';
   try { stamped = fs.readFileSync(path.join(helpersDir, HELPERS_STAMP_FILE), 'utf-8').trim(); } catch { /* pre-feature: unstamped */ }
-  if (stamped === version) return { refreshed: false }; // up to date — fast path
+  if (stamped === version) {
+    const source = opts.sourceDirOverride ?? findPackageHelpersDir();
+    const integrity = verifyInstalledCriticalHelpers(helpersDir, source, CRITICAL_HELPERS, opts.pubkeyPemOverride);
+    if (integrity.blocked) return { refreshed: false, blocked: integrity.blocked };
+    if (integrity.tampered.length === 0) return { refreshed: false }; // up to date AND verified intact
+
+    // Tampering detected post-install — heal via the same fail-closed
+    // verify-then-copy path a version-bump refresh already uses.
+    await opts.beforeWriteOverride?.();
+    const healRes = await writeCriticalHelpers(helpersDir, version, {
+      sourceDirOverride: opts.sourceDirOverride,
+      pubkeyPemOverride: opts.pubkeyPemOverride,
+    });
+    if (healRes.blocked) return { refreshed: false, blocked: healRes.blocked };
+    return healRes.wrote
+      ? { refreshed: true, healed: true, tampered: integrity.tampered, from: stamped, to: version }
+      : { refreshed: false };
+  }
   if (stamped && semver.valid(stamped) && semver.valid(version) && semver.gte(stamped, version)) {
     // Stamped version is already >= what this binary reports — refreshing
     // would silently DOWNGRADE the helpers. Skip, untouched.
@@ -397,7 +438,7 @@ async function refreshOneHelpersDir(
   helpersDir: string,
   version: string,
   opts: RefreshOptions,
-): Promise<{ refreshed: boolean; from?: string; to?: string; blocked?: string }> {
+): Promise<RefreshResult> {
   if (!fs.existsSync(path.join(helpersDir, 'hook-handler.cjs'))) return { refreshed: false };
   // Respect the repository opt-out before creating even a transient lock file
   // in a directory whose helpers are intentionally maintained by hand. Keep
@@ -405,8 +446,18 @@ async function refreshOneHelpersDir(
   if (fs.existsSync(path.join(helpersDir, '.LOCKED'))) {
     return { refreshed: false, blocked: '.LOCKED marker present — refresh skipped (delete to re-enable)' };
   }
-  try { if (fs.readFileSync(path.join(helpersDir, HELPERS_STAMP_FILE), 'utf-8').trim() === version) return { refreshed: false }; }
-  catch { /* unstamped: continue to the locked path */ }
+  try {
+    if (fs.readFileSync(path.join(helpersDir, HELPERS_STAMP_FILE), 'utf-8').trim() === version) {
+      // #3565: re-hash before trusting a stamp match (helper-integrity.ts).
+      // Read-only — no lock needed unless something's actually wrong; the
+      // (rare) heal path below re-verifies under lock.
+      const source = opts.sourceDirOverride ?? findPackageHelpersDir();
+      const integrity = verifyInstalledCriticalHelpers(helpersDir, source, CRITICAL_HELPERS, opts.pubkeyPemOverride);
+      if (integrity.blocked) return { refreshed: false, blocked: integrity.blocked };
+      if (integrity.tampered.length === 0) return { refreshed: false };
+      // else: tampering found — fall through to acquire the lock and heal.
+    }
+  } catch { /* unstamped: continue to the locked path */ }
 
   const releaseLock = await acquireRefreshLock(helpersDir, opts);
   if (!releaseLock) return { refreshed: false, blocked: 'helper refresh already in progress' };
@@ -474,13 +525,7 @@ async function refreshOneHelpersDir(
 export async function autoRefreshHelpersIfStale(
   cwd: string,
   opts: RefreshOptions = {},
-): Promise<{
-  refreshed: boolean;
-  from?: string;
-  to?: string;
-  blocked?: string;
-  global?: { refreshed: boolean; from?: string; to?: string; blocked?: string };
-}> {
+): Promise<RefreshResult & { global?: RefreshResult }> {
   try {
     // Env-level opt-out — applies to BOTH project and global passes.
     if (/^(1|true|on|yes)$/i.test(String(process.env.RUFLO_HELPERS_LOCKED || ''))) {
