@@ -46,7 +46,7 @@ Every shell string sent to a desktop comes from one audited module, `command-bui
   - base64 text inside single quotes.
 - Prompt text travels only as base64. It is appended to a file in chunks, decoded on the desktop, and fed to `claude -p` on stdin, so no shell ever parses it.
 - The decoded prompt's sha256 is checked against the local hash before the run is trusted.
-- Output returns as `RUOS_POLL:<exit>:<size>:<base64 slice>`, so arbitrary bytes survive the JSON tool result.
+- Output returns as `RUOS_POLL:<exit>:<size>:<alive>:<base64 slice>`, so arbitrary bytes survive the JSON tool result. Only whole base64 quanta are decoded, so a truncated result never skips bytes. The `alive` flag (`kill -0` on the pid) detects a runner killed before it wrote its exit code.
 - Run files live in `~/.ruflo-ruos/runs/<runId>/` with `umask 077`. The exit code is written atomically (`tmp` + `mv`), so a poll never reads a half-written file.
 - The runner starts as `nohup setsid sh -c '<constant>'`. Stop signals its process group, after re-validating the pid file as digits on the desktop.
 
@@ -105,6 +105,7 @@ Each failure surfaces as a typed `RuosError` code:
 | `claude` missing on the desktop | `RUOS_NO_RUNNER` | `remote-error` |
 | SSH key not armed | ssh exit 255 + `publickey` | `auth-expired` |
 | Run outlives its timeout | Wall-clock check; the process group is stopped | `timeout` |
+| Runner killed without an exit code | Poll shows `alive=0` and no exit code, twice | `remote-error` |
 
 On every failure the agent is set `idle` and the claim is released.
 

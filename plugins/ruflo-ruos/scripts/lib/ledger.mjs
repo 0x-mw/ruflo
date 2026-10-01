@@ -16,7 +16,7 @@
  * If ruflo's CLI cannot be resolved, or policy denies a call, the ledger
  * degrades to these plugin files and reports `swarmLedger: 'unavailable'`.
  */
-import { appendFileSync, mkdirSync, writeFileSync, renameSync, existsSync } from 'node:fs';
+import { appendFileSync, mkdirSync, writeFileSync, renameSync, existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -34,7 +34,8 @@ import { pathToFileURL } from 'node:url';
  * @property {(runId: string, agentId: string, agentType: string) => Promise<boolean>} claim
  * @property {(runId: string, agentId: string, agentType: string) => Promise<void>} release
  * @property {(e: Omit<import('./types.mjs').RuosEvent, 'ts'>) => void} event
- * @property {(desktops: import('./types.mjs').Desktop[], agentsByDesktop: Record<string, string[]>) => void} snapshotHosts
+ * @property {(desktops: import('./types.mjs').Desktop[]) => void} snapshotHosts  merge host state, keep agent placements
+ * @property {(desktopId: string|null, agentId: string, present: boolean) => void} setHostAgent  null desktopId + present=false removes the agent from every host
  * @property {(runId: string, chunk: Buffer) => void} appendOutput
  * @property {string[]} warnings
  */
@@ -115,6 +116,25 @@ export function createLedger({ cwd, callTool, now = () => new Date() }) {
     }
   };
 
+  /**
+   * Read-merge-write hosts.json so a discovery never drops agent placements
+   * and a run never drops the other hosts.
+   * @param {(hosts: Map<string, any>) => void} mutate
+   */
+  const writeHosts = (mutate) => {
+    ensure();
+    const file = join(dir, 'hosts.json');
+    /** @type {Map<string, any>} */
+    const hosts = new Map();
+    try {
+      for (const h of JSON.parse(readFileSync(file, 'utf8')).hosts ?? []) hosts.set(h.desktopId, h);
+    } catch { /* first write or unreadable: start fresh */ }
+    mutate(hosts);
+    const tmp = join(dir, `hosts.json.${process.pid}.tmp`);
+    writeFileSync(tmp, JSON.stringify({ updatedAt: now().toISOString(), hosts: [...hosts.values()] }, null, 2), { mode: 0o600 });
+    renameSync(tmp, file);
+  };
+
   /** @type {Ledger} */
   const ledger = {
     get swarmLedger() { return available ? 'cli' : 'unavailable'; },
@@ -145,22 +165,31 @@ export function createLedger({ cwd, callTool, now = () => new Date() }) {
       ensure();
       appendFileSync(join(dir, 'events.jsonl'), JSON.stringify({ ts: now().toISOString(), ...e }) + '\n', { mode: 0o600 });
     },
-    snapshotHosts(desktops, agentsByDesktop) {
-      ensure();
-      const snap = {
-        updatedAt: now().toISOString(),
-        hosts: desktops.map((d) => ({
-          desktopId: d.id,
-          name: d.displayName ?? d.name,
-          state: d.state,
-          heartbeatStatus: d.heartbeatStatus,
-          heartbeatAt: d.heartbeatAt,
-          agents: agentsByDesktop[d.id] ?? [],
-        })),
-      };
-      const tmp = join(dir, `hosts.json.${process.pid}.tmp`);
-      writeFileSync(tmp, JSON.stringify(snap, null, 2), { mode: 0o600 });
-      renameSync(tmp, join(dir, 'hosts.json'));
+    snapshotHosts(desktops) {
+      writeHosts((hosts) => {
+        for (const d of desktops) {
+          const prev = hosts.get(d.id);
+          hosts.set(d.id, {
+            desktopId: d.id,
+            name: d.displayName ?? d.name,
+            state: d.state,
+            heartbeatStatus: d.heartbeatStatus,
+            heartbeatAt: d.heartbeatAt,
+            agents: prev ? prev.agents : [],
+          });
+        }
+      });
+    },
+    setHostAgent(desktopId, agentId, present) {
+      writeHosts((hosts) => {
+        if (desktopId === null) {
+          for (const [id, h] of hosts) hosts.set(id, { ...h, agents: h.agents.filter((/** @type {string} */ a) => a !== agentId) });
+          return;
+        }
+        const h = hosts.get(desktopId) ?? { desktopId, name: desktopId, state: null, heartbeatStatus: null, heartbeatAt: null, agents: [] };
+        const rest = h.agents.filter((/** @type {string} */ a) => a !== agentId);
+        hosts.set(desktopId, { ...h, agents: present ? [...rest, agentId] : rest });
+      });
     },
     appendOutput(runId, chunk) {
       ensure();

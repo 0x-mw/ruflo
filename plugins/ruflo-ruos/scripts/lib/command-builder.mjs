@@ -106,7 +106,8 @@ export function buildLaunch(spec) {
 
 /**
  * Report exit state and size, then return one base64 slice of the log from
- * byte `offset`. Output: `RUOS_POLL:<exit|->:<size>:<base64>`.
+ * byte `offset`. Output: `RUOS_POLL:<exit|->:<size>:<alive 0|1>:<base64>`.
+ * `alive` lets the adapter detect a runner killed before it wrote exit.code.
  * @param {string} runId
  * @param {number} offset
  * @param {number=} maxBytes
@@ -118,7 +119,8 @@ export function buildPoll(runId, offset, maxBytes = POLL_SLICE_BYTES) {
   return seal(
     `cd ${d} 2>/dev/null || { echo RUOS_NORUN; exit 3; }` +
       ` ; e=$(cat exit.code 2>/dev/null || echo -) ; s=$(stat -c %s out.log 2>/dev/null || echo 0)` +
-      ` ; printf 'RUOS_POLL:%s:%s:' "$e" "$s" ; tail -c +${off + 1} out.log 2>/dev/null | head -c ${max} | base64 -w0 ; echo`,
+      ` ; p=$(sed -n 's/^RUOS_PID://p' pid 2>/dev/null) ; a=0 ; case "$p" in ''|*[!0-9]*) ;; *) kill -0 "$p" 2>/dev/null && a=1 ;; esac` +
+      ` ; printf 'RUOS_POLL:%s:%s:%s:' "$e" "$s" "$a" ; tail -c +${off + 1} out.log 2>/dev/null | head -c ${max} | base64 -w0 ; echo`,
   );
 }
 
@@ -179,6 +181,7 @@ export function buildProbe() {
  * @typedef {object} PollResult
  * @property {number|null} exitCode  null while running
  * @property {number} size           total log size on the desktop
+ * @property {boolean} alive         runner process group still exists
  * @property {Buffer} chunk
  */
 
@@ -188,12 +191,17 @@ export function buildProbe() {
  */
 export function parsePoll(stdout) {
   if (stdout.includes('RUOS_NORUN')) return 'norun';
-  const m = /RUOS_POLL:(-|\d+):(\d+):([A-Za-z0-9+/=]*)/.exec(stdout);
+  const m = /RUOS_POLL:(-|\d+):(\d+):([01]):([A-Za-z0-9+/=]*)/.exec(stdout);
   if (!m) throw new RuosError('remote-error', 'unparseable poll output');
+  // If the transport truncated the result mid-quantum, decode only whole
+  // quanta: the offset then advances by exactly what was received and the
+  // next poll resumes from there, so no byte is skipped.
+  const whole = m[4].slice(0, m[4].length - (m[4].length % 4));
   return {
     exitCode: m[1] === '-' ? null : Number(m[1]),
     size: Number(m[2]),
-    chunk: Buffer.from(m[3], 'base64'),
+    alive: m[3] === '1',
+    chunk: Buffer.from(whole, 'base64'),
   };
 }
 

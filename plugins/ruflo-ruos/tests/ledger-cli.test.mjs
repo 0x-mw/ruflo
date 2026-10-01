@@ -23,7 +23,8 @@ test('ledger records through ruflo tools (mocked callTool) and owns only .claude
   await ledger.registerAgent('a1', 'coder', host, 'task text');
   ledger.event({ type: 'run.started', runId: 'r-ledger-0001' });
   ledger.appendOutput('r-ledger-0001', Buffer.from('out'));
-  ledger.snapshotHosts([desktop()], { [DESKTOP_ID]: ['a1'] });
+  ledger.snapshotHosts([desktop()]);
+  ledger.setHostAgent(DESKTOP_ID, 'a1', true);
   await ledger.updateAgent('a1', 'idle', { exitCode: 0 });
   await ledger.release('r-ledger-0001', 'a1', 'coder');
   assert.deepEqual(calls.map((c) => c[0]), ['claims_claim', 'agent_spawn', 'agent_update', 'agent_update', 'claims_release']);
@@ -34,6 +35,21 @@ test('ledger records through ruflo tools (mocked callTool) and owns only .claude
   assert.deepEqual(hosts.hosts[0].agents, ['a1']);
   assert.equal(statSync(join(cwd, '.claude-flow/ruos/runs/r-ledger-0001.log')).mode & 0o077, 0);
   assert.ok(!existsSync(join(cwd, '.claude-flow/agents')), 'never writes ruflo stores directly');
+});
+
+test('hosts.json merges: discovery keeps placements, runs keep other hosts', () => {
+  const cwd = tmp();
+  const ledger = createLedger({ cwd, callTool: null });
+  const other = desktop({ id: 'c'.repeat(32), displayName: 'Other' });
+  ledger.snapshotHosts([desktop(), other]);
+  ledger.setHostAgent(DESKTOP_ID, 'a1', true);
+  ledger.snapshotHosts([desktop({ state: 'started' })]); // single-host refresh mid-run
+  ledger.snapshotHosts([desktop(), other]); // full discovery mid-run
+  const read = () => JSON.parse(readFileSync(join(cwd, '.claude-flow/ruos/hosts.json'), 'utf8')).hosts;
+  assert.equal(read().length, 2);
+  assert.deepEqual(read().find((/** @type {any} */ h) => h.desktopId === DESKTOP_ID).agents, ['a1']);
+  ledger.setHostAgent(null, 'a1', false);
+  assert.deepEqual(read().find((/** @type {any} */ h) => h.desktopId === DESKTOP_ID).agents, []);
 });
 
 test('policy denial / missing tool degrades to unavailable without throwing', async () => {

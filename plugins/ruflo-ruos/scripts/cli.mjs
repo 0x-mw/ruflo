@@ -200,7 +200,8 @@ async function record(args, env) {
     const d = resolveDesktop(normalizeDesktops(JSON.parse(readFileSync(statusFile, 'utf8'))), String(args.desktop ?? ''));
     if (!(await ledger.claim(runId, agentId, agentType))) throw new RuosError('invalid-input', 'run already claimed');
     await ledger.registerAgent(agentId, agentType, { kind: 'ruos', desktopId: d.id, desktopName: d.displayName ?? d.name, transport: 'fleet-mcp', runId }, String(args.task ?? ''));
-    ledger.snapshotHosts([d], { [d.id]: [agentId] });
+    ledger.snapshotHosts([d]);
+    ledger.setHostAgent(d.id, agentId, true);
     ledger.event({ type: 'run.started', runId, agentId, desktopId: d.id, desktopName: d.displayName ?? d.name });
   } else if (phase === 'output') {
     const b64 = String(args.b64 ?? '');
@@ -214,6 +215,7 @@ async function record(args, env) {
     ledger.event({ type: status === 'completed' ? 'run.completed' : 'run.failed', runId, agentId, exitCode: exit });
     await ledger.updateAgent(agentId, 'idle', { runId, status, exitCode: exit });
     await ledger.release(runId, agentId, agentType);
+    ledger.setHostAgent(null, agentId, false);
   } else {
     throw new RuosError('invalid-input', 'record phase must be start|output|end');
   }

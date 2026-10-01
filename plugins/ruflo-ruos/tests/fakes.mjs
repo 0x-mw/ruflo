@@ -86,6 +86,7 @@ export function fakeLedger() {
     release: async (/** @type {unknown[]} */ ...a) => { calls.push(['release', a]); },
     event: (/** @type {any} */ e) => { events.push(e); },
     snapshotHosts: (/** @type {unknown[]} */ ...a) => { calls.push(['snapshotHosts', a]); },
+    setHostAgent: (/** @type {unknown[]} */ ...a) => { calls.push(['setHostAgent', a]); },
     appendOutput: (/** @type {string} */ _r, /** @type {Buffer} */ c) => { output.push(c); },
   };
 }

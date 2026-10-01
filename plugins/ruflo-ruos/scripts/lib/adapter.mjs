@@ -76,7 +76,7 @@ export class RuosHostAdapter {
 
   async discover() {
     const desktops = await this.fleet.listDesktops();
-    this.ledger.snapshotHosts(desktops, {});
+    this.ledger.snapshotHosts(desktops);
     return desktops;
   }
 
@@ -157,12 +157,12 @@ export class RuosHostAdapter {
     const agentType = assertAgentId(o.agentType ?? 'coder');
     const timeoutSecs = assertInt(o.timeoutSecs ?? 900, 30, 6 * 3600, 'timeoutSecs');
 
+    let desktop = await this.resolve(o.desktop);
+    // The 23:00 auto-stop applies to cloud desktops only, not enrolled devices.
     const win = checkWindow(t0, timeoutSecs);
-    if (!win.ok && !o.ignoreAutoStop) {
+    if (desktop.flyMachineId && !win.ok && !o.ignoreAutoStop) {
       throw new RuosError('autostop-window', `run may outlast the next auto-stop in ${win.minutesUntilStop} min (weekday 23:00 America/Toronto); shorten --timeout or pass --ignore-autostop`);
     }
-
-    let desktop = await this.resolve(o.desktop);
     desktop = await this.ensureUp(desktop, { allowStart: o.allowStart });
     const name = desktop.displayName ?? desktop.name;
     /** @type {import('./types.mjs').HostRef} */
@@ -172,7 +172,8 @@ export class RuosHostAdapter {
     const claimed = await this.ledger.claim(runId, agentId, agentType);
     if (!claimed) throw new RuosError('invalid-input', `run ${runId} is already claimed`);
     await this.ledger.registerAgent(agentId, agentType, host, o.prompt);
-    this.ledger.snapshotHosts([desktop], { [desktop.id]: [agentId] });
+    this.ledger.snapshotHosts([desktop]);
+    this.ledger.setHostAgent(desktop.id, agentId, true);
 
     let bytes = 0;
     /** @type {number|null} */ let firstOutputMs = null;
@@ -219,6 +220,14 @@ export class RuosHostAdapter {
           this.ledger.event({ type: 'run.output', runId, agentId, desktopId: desktop.id, bytes: p.chunk.length });
           delay = 1000;
         }
+        if (p.exitCode === null && !p.alive && p.chunk.length === 0) {
+          // Re-check once: exit.code is written just after the runner exits.
+          const again = parsePoll((await this.transport.exec(desktop, buildPoll(runId, offset), 30)).stdout);
+          if (again !== 'norun' && again.exitCode === null && !again.alive) {
+            throw new RuosError('remote-error', 'runner died without an exit code (killed on the desktop?)');
+          }
+          continue;
+        }
         if (p.exitCode !== null && offset >= p.size) {
           exitCode = p.exitCode;
           status = exitCode === 0 ? 'completed' : 'failed';
@@ -232,14 +241,14 @@ export class RuosHostAdapter {
     } catch (err) {
       const e = await this.classifyMidRun(desktop, err);
       this.ledger.event({ type: 'run.failed', runId, agentId, desktopId: desktop.id, error: e.code ?? 'remote-error' });
-      await this.finish(agentId, agentType, runId, 'failed', null, bytes);
+      await this.finish(desktop.id, agentId, agentType, runId, 'failed', null, bytes);
       throw e;
     }
     this.ledger.event({
       type: status === 'stopped' ? 'run.stopped' : status === 'completed' ? 'run.completed' : 'run.failed',
       runId, agentId, desktopId: desktop.id, exitCode, bytes,
     });
-    await this.finish(agentId, agentType, runId, status, exitCode, bytes);
+    await this.finish(desktop.id, agentId, agentType, runId, status, exitCode, bytes);
     return {
       runId, agentId, desktopId: desktop.id, status, exitCode, bytes, dispatchMs, firstOutputMs,
       totalMs: this.now() - t0, swarmLedger: this.ledger.swarmLedger, warnings: [...this.ledger.warnings],
@@ -247,6 +256,7 @@ export class RuosHostAdapter {
   }
 
   /**
+   * @param {string} desktopId
    * @param {string} agentId
    * @param {string} agentType
    * @param {string} runId
@@ -254,7 +264,8 @@ export class RuosHostAdapter {
    * @param {number|null} exitCode
    * @param {number} bytes
    */
-  async finish(agentId, agentType, runId, status, exitCode, bytes) {
+  async finish(desktopId, agentId, agentType, runId, status, exitCode, bytes) {
+    this.ledger.setHostAgent(desktopId, agentId, false);
     await this.ledger.updateAgent(agentId, 'idle', { runId, status, exitCode, bytes });
     await this.ledger.release(runId, agentId, agentType);
   }

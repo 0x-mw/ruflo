@@ -95,9 +95,9 @@ test('launch/poll/stop/probe are single fixed-template lines', () => {
 
 test('parsePoll / parseLaunch', () => {
   assert.equal(parsePoll('RUOS_NORUN\n'), 'norun');
-  const p = parsePoll(`RUOS_POLL:0:5:${Buffer.from('hello').toString('base64')}\n`);
+  const p = parsePoll(`RUOS_POLL:0:5:0:${Buffer.from('hello').toString('base64')}\n`);
   assert.deepEqual([p !== 'norun' && p.exitCode, p !== 'norun' && p.size, p !== 'norun' && p.chunk.toString()], [0, 5, 'hello']);
-  const r = parsePoll('RUOS_POLL:-:0:\n');
+  const r = parsePoll('RUOS_POLL:-:0:1:\n');
   assert.equal(r !== 'norun' && r.exitCode, null);
   assert.throws(() => parsePoll('garbage'), RuosError);
   const l = parseLaunch(`RUOS_SHA:${'a'.repeat(64)}\nRUOS_PID:42\n`);

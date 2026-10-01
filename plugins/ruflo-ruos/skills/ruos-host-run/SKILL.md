@@ -36,7 +36,7 @@ Transport rules — non-negotiable:
    `claude` is not installed there.
 6. **Stream.** Call `desktop_exec` with `poll` (rebuild with `CLI build --run <runId> --offset <n> ...`
    as the offset grows, or use `CLI run` for automatic polling). Output is
-   `RUOS_POLL:<exit|->:<size>:<base64>`; pass the base64 to
+   `RUOS_POLL:<exit|->:<size>:<alive 0|1>:<base64>`; pass the base64 to
    `CLI record output --run <runId> --b64 <b64>` and show the decoded text. Back off 1s→5s
    between empty polls — each poll is audited on ruOS and serialises behind the desktop's
    run lock.

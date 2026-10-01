@@ -37,7 +37,7 @@ function setup(over = {}) {
   const clock = fakeClock();
   const ds = over.desktops ?? [desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })];
   const fleet = over.fleet ?? fakeFleet(ds);
-  const transport = over.transport ?? remote([`RUOS_POLL:-:6:${b64('hello ')}`, 'RUOS_POLL:-:6:', `RUOS_POLL:0:12:${b64('world\n')}`]);
+  const transport = over.transport ?? remote([`RUOS_POLL:-:6:1:${b64('hello ')}`, 'RUOS_POLL:-:6:1:', `RUOS_POLL:0:12:0:${b64('world\n')}`]);
   const ledger = fakeLedger();
   const adapter = new RuosHostAdapter({ fleet, transport, ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep });
   return { adapter, fleet, transport, ledger, clock };
@@ -56,7 +56,8 @@ test('happy path: launch, stream, ledger + claims, keepawake', async () => {
   assert.equal(out.desktopId, DESKTOP_ID);
   assert.ok(out.firstOutputMs !== null && out.firstOutputMs >= out.dispatchMs);
   const names = ledger.calls.map((c) => c[0]);
-  assert.deepEqual(names.filter((n) => n !== 'snapshotHosts'), ['claim', 'registerAgent', 'updateAgent', 'release']);
+  assert.deepEqual(names.filter((n) => n !== 'snapshotHosts'), ['claim', 'registerAgent', 'setHostAgent', 'setHostAgent', 'updateAgent', 'release']);
+  assert.deepEqual(ledger.calls.filter((c) => c[0] === 'setHostAgent').map((c) => c[1][2]), [true, false], 'placed, then removed');
   const host = /** @type {any} */ (ledger.calls.find((c) => c[0] === 'registerAgent'))[1][2];
   assert.deepEqual(host, { kind: 'ruos', desktopId: DESKTOP_ID, desktopName: 'Work Desktop', transport: 'fleet-mcp', runId: RUN });
   assert.deepEqual(ledger.events.map((e) => e.type), ['run.started', 'run.output', 'run.output', 'run.completed']);
@@ -83,7 +84,7 @@ test('--start wakes the desktop and waits for a fresh heartbeat (not `ready`)', 
   const origStart = fleet.start;
   fleet.start = async (/** @type {string} */ id) => { started = true; return origStart(id); };
   const ledger = fakeLedger();
-  const transport = remote([`RUOS_POLL:0:2:${b64('ok')}`]);
+  const transport = remote([`RUOS_POLL:0:2:0:${b64('ok')}`]);
   const adapter = new RuosHostAdapter({ fleet, transport, ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep });
   const out = await adapter.run({ ...base, allowStart: true });
   assert.equal(out.status, 'completed');
@@ -96,7 +97,7 @@ test('desktop auto-stopped mid-run is reported as auto-stopped and released', as
   let calls = 0;
   const fleet = fakeFleet(() => [desktop(++calls <= 1 ? { heartbeatAt: Math.floor(clock.now() / 1000) } : { state: 'stopped', heartbeatStatus: 'asleep' })]);
   const ledger = fakeLedger();
-  const adapter = new RuosHostAdapter({ fleet, transport: remote([`RUOS_POLL:-:2:${b64('hi')}`, 'THROW']), ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep });
+  const adapter = new RuosHostAdapter({ fleet, transport: remote([`RUOS_POLL:-:2:1:${b64('hi')}`, 'THROW']), ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep });
   await assert.rejects(adapter.run(base), (e) => e instanceof RuosError && e.code === 'auto-stopped');
   assert.ok(ledger.calls.some((c) => c[0] === 'release'), 'claim released on failure');
   assert.equal(ledger.events.at(-1).type, 'run.failed');
@@ -134,7 +135,7 @@ test('missing runner on the desktop is a clear error', async () => {
 test('a run that would cross the 23:00 Toronto auto-stop is refused unless overridden', async () => {
   const clock = fakeClock(Date.parse('2026-10-02T02:45:00Z')); // Thu 22:45 EDT
   const fleet = fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]);
-  const transport = remote([`RUOS_POLL:0:0:`]);
+  const transport = remote([`RUOS_POLL:0:0:0:`]);
   const adapter = new RuosHostAdapter({ fleet, transport, ledger: /** @type {any} */ (fakeLedger()), now: clock.now, sleep: clock.sleep });
   await assert.rejects(adapter.run({ ...base, timeoutSecs: 3600 }), (e) => e instanceof RuosError && e.code === 'autostop-window');
   assert.equal(transport.commands.length, 0);
@@ -143,14 +144,14 @@ test('a run that would cross the 23:00 Toronto auto-stop is refused unless overr
 });
 
 test('run timeout stops the remote process group', async () => {
-  const { adapter, transport } = setup({ transport: remote(['RUOS_POLL:-:0:']) });
+  const { adapter, transport } = setup({ transport: remote(['RUOS_POLL:-:0:1:']) });
   await assert.rejects(adapter.run({ ...base, timeoutSecs: 30 }), (e) => e instanceof RuosError && e.code === 'timeout');
   assert.ok(transport.commands.at(-1)?.includes('RUOS_STOPPED'));
 });
 
 test('abort signal stops the run and records run.stopped', async () => {
   const ac = new AbortController();
-  const { adapter, ledger } = setup({ transport: remote([`RUOS_POLL:-:1:${b64('x')}`, 'RUOS_POLL:-:1:']) });
+  const { adapter, ledger } = setup({ transport: remote([`RUOS_POLL:-:1:1:${b64('x')}`, 'RUOS_POLL:-:1:1:']) });
   const p = adapter.run({ ...base, signal: ac.signal, onOutput: () => ac.abort() });
   const out = await p;
   assert.equal(out.status, 'stopped');
@@ -180,4 +181,37 @@ test('isUp uses heartbeat freshness, not `ready`', () => {
   assert.equal(isUp(desktop({ heartbeatAt: now / 1000 - 1000 }), now), false);
   assert.equal(isUp(desktop({ heartbeatStatus: 'asleep', heartbeatAt: now / 1000 }), now), false);
   assert.equal(isUp(desktop({ heartbeatAt: null, ready: true }), now), false);
+});
+
+test('runner killed without an exit code is detected, not waited out', async () => {
+  const { adapter, ledger } = setup({ transport: remote(['RUOS_POLL:-:0:0:']) });
+  await assert.rejects(adapter.run(base), /died without an exit code/);
+  assert.equal(ledger.events.at(-1).type, 'run.failed');
+});
+
+test('enrolled devices (no Fly id) are not subject to the cloud auto-stop window', async () => {
+  const clock = fakeClock(Date.parse('2026-10-02T02:45:00Z'));
+  const fleet = fakeFleet([desktop({ flyMachineId: null, heartbeatAt: Math.floor(clock.now() / 1000) })]);
+  const adapter = new RuosHostAdapter({ fleet, transport: remote(['RUOS_POLL:0:0:0:']), ledger: /** @type {any} */ (fakeLedger()), now: clock.now, sleep: clock.sleep });
+  assert.equal((await adapter.run({ ...base, timeoutSecs: 3600 })).status, 'completed');
+});
+
+test('a poll truncated mid-base64-quantum loses no bytes', async () => {
+  const full = Buffer.from('abcdefghij').toString('base64'); // 16 chars
+  const cut = full.slice(0, 7); // transport truncated: 1 whole quantum + 3 chars
+  let polls = 0;
+  const t = fakeTransport((cmd) => {
+    if (cmd.includes('RUOS_PREPARED')) return ok('RUOS_PREPARED');
+    if (cmd.startsWith("printf '%s'")) return ok('');
+    if (cmd.includes('RUOS_NO_RUNNER')) return ok(`RUOS_SHA:${SHA}\nRUOS_PID:7\n`);
+    const off = Number(/tail -c \+(\d+)/.exec(cmd)?.[1]) - 1;
+    polls++;
+    if (polls === 1) return ok(`RUOS_POLL:-:10:1:${cut}`);
+    return ok(`RUOS_POLL:0:10:0:${Buffer.from('abcdefghij'.slice(off)).toString('base64')}`);
+  });
+  const { adapter } = setup({ transport: t });
+  /** @type {string[]} */ const seen = [];
+  const out = await adapter.run({ ...base, onOutput: (c) => seen.push(c.toString()) });
+  assert.equal(seen.join(''), 'abcdefghij');
+  assert.equal(out.bytes, 10);
 });
