@@ -21,7 +21,7 @@ The classic `hook-handler.cjs` hooks stay installed and remain the fallback. The
 
 ## Options
 
-Set these in the plugin's config:
+Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].options` in user settings, `--settings` or managed settings. Project settings are not read for this. Every option has a default:
 
 | Option | Default | Effect |
 |---|---|---|

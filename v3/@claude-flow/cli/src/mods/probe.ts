@@ -78,15 +78,17 @@ export function probeMods(inputs: ProbeInputs): Finding[] {
       return false;
     }
   });
+  // Observed on Claude Code 2.1.282 (ADR-404): the server-side rollout switch
+  // decides. Served on, an installed mod loaded with ENABLE_ENV unset; served
+  // off, it did not load with ENABLE_ENV=1. The variable is reported, never
+  // treated as sufficient.
   const rollout = get(readJson(join(home, '.claude.json')), 'cachedGrowthBookFeatures', 'tengu_plugin_hooks_modules');
-  const enableMsg = `${ENABLE_ENV}: ${envOn ? 'set in this environment' : settingsOn ? 'set in settings env' : 'not set'}`;
-  const rolloutMsg = rollout === false ? '; Claude Code rollout switch cached OFF for this account' : rollout === true ? '; rollout switch cached on' : '';
-  findings.push({
-    name: 'function hooks',
-    status: (envOn || settingsOn) && rollout !== false ? 'pass' : 'warn',
-    message: enableMsg + rolloutMsg + (rollout === undefined ? ' (rollout switch not cached; unverified)' : ''),
-    ...(envOn || settingsOn ? {} : { fix: `export ${ENABLE_ENV}=1 (or: ruflo mods install)` }),
-  });
+  const enableMsg = `${ENABLE_ENV} ${envOn ? 'set in this environment' : settingsOn ? 'set in settings env' : 'not set'}`;
+  findings.push(rollout === true
+    ? { name: 'function hooks', status: 'pass', message: `Claude Code rollout switch cached on; ${enableMsg}` }
+    : rollout === false
+      ? { name: 'function hooks', status: 'warn', message: `Claude Code serves function hooks OFF for this account (cached); the mod will not load and classic hooks keep every event; ${enableMsg}` }
+      : { name: 'function hooks', status: 'warn', message: `rollout switch not cached (unverified whether the mod can load); ${enableMsg}`, fix: `export ${ENABLE_ENV}=1 and start Claude Code once` });
 
   // 3. Refused by policy?
   const managed = readJson(inputs.managedPath ?? managedSettingsPath());

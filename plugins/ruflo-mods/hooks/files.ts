@@ -18,7 +18,12 @@ export type Read<T> =
   | { readonly kind: 'ok'; readonly value: T }
   | { readonly kind: 'error'; readonly message: string }
 
-export const isMissing = (error: unknown) => /ENOENT|no such file|not found/i.test(String((error as Error)?.message ?? error))
+/**
+ * Only ENOENT is "missing" (`$.fs.stat` rejects ENOENT for a missing path).
+ * Anything else is an error: for the guard that means failing closed, so a
+ * loosely matched message must never read as "no policy here".
+ */
+export const isMissing = (error: unknown) => /\bENOENT\b/.test(String((error as Error)?.message ?? error))
 
 /**
  * A reader that parses a project file once per change: one `$.fs.stat` per

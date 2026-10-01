@@ -123,14 +123,14 @@ describe('ADR-404 mods probe and doctor', () => {
     expect(finding('last mod start').status).toBe('pass');
   });
 
-  it('reports function hooks off, and the cached rollout switch when Claude Code serves it off', () => {
+  it('the rollout switch decides; the enable variable is reported, never sufficient', () => {
     expect(finding('function hooks').status).toBe('warn');
     writeFileSync(join(home, '.claude.json'), JSON.stringify({ cachedGrowthBookFeatures: { tengu_plugin_hooks_modules: false } }));
     const f = finding('function hooks', { [ENABLE_ENV]: '1' });
     expect(f.status).toBe('warn');
-    expect(f.message).toContain('rollout switch cached OFF');
+    expect(f.message).toContain('serves function hooks OFF');
     writeFileSync(join(home, '.claude.json'), JSON.stringify({ cachedGrowthBookFeatures: { tengu_plugin_hooks_modules: true } }));
-    expect(finding('function hooks', { [ENABLE_ENV]: '1' }).status).toBe('pass');
+    expect(finding('function hooks', {}).status).toBe('pass'); // observed: loads with the variable unset while served on
   });
 
   it('reports a refusal by allowManagedModsOnly', () => {

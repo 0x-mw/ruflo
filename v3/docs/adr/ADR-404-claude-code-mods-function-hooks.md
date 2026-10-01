@@ -17,7 +17,10 @@ Claude Code now offers mods: a plugin whose `hooks/hooks.json` names a hooks mod
 Each fact was checked against Claude Code 2.1.282 (`claude plugin validate`, `claude plugin test`, a debug log of a live `claude -p` session) or read from the upstream `mods/` sources and declarations.
 
 - A hooks module runs in its own environment: no Node, no fs, no network, no process. Everything goes through `$`. `claude plugin validate` refuses an import outside the plugin folder ("it is outside the plugin's folder"). It also refuses `$` passed to anything other than a top-level function of the same file, because the engine reads a module's `$` uses off its source.
-- Installed plugins' modules load only with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1` in the process environment. On top of that, a server-side rollout switch must serve on (`tengu_plugin_hooks_modules`). On this account the switch flipped off and on twice in one afternoon. While it was off, `claude plugin test` refused to run and a live session logged "hooks module not loaded … the rollout switch served off".
+- Whether a module loads is decided by a server-side rollout switch (`tengu_plugin_hooks_modules`, cached in `~/.claude.json`). On this account it flipped off and on twice in one afternoon.
+  - **While it served off**, `claude plugin test` refused to run, and a live session with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1` logged "hooks module not loaded … the rollout switch served off".
+  - **While it served on**, the plugin loaded with the variable unset, both from `--plugin-dir` and installed from the marketplace. That was tested with an isolated `CLAUDE_CONFIG_DIR`, a local marketplace and `claude plugin install ruflo-mods@ruflo`.
+  - **The variable** is therefore neither required nor sufficient on 2.1.282. `ruflo mods install` writes it anyway, as the CLI's messages ask for it, and `ruflo mods doctor` reports the switch as what decides.
 - `sec-default`, seated outermost for managed or Team/Enterprise organizations, continues past the user tier on `prompt.context`, `prompt.section`, `prompt.compose`, `settings.read` and `classic.*`. A person's plugins keep `prompt.submit` and its additive `context`. On `tool.check` it re-runs the chain without the user tier when a user-tier plugin loosened a verdict that a settings deny rule decided. Its `allowManagedModsOnly` option refuses user-tier modules at `plugin.register`.
 - `$.env.set` sets a variable on the Claude Code process and on everything it starts afterwards, settings hooks included.
 - `$.fs.read` rejects files over 4 MiB, and `$.fs.stat` rejects a missing path with ENOENT.
@@ -90,7 +93,17 @@ Ruflo loads in the user tier. Under `sec-default`:
 | Suite | Where | Result |
 |---|---|---|
 | Claude Code kit (`claude plugin test`), real engine | `plugins/ruflo-mods/tests` | 7/7 pass (ran while the rollout switch served on) |
-| Harness faithful to the declarations (vitest) | `v3/@claude-flow/cli/__tests__/mods` | 84/84 pass |
+| Harness faithful to the declarations (vitest) | `v3/@claude-flow/cli/__tests__/mods` | 87/87 pass |
+| Existing CLI suite | `v3/@claude-flow/cli` | Same failures as `origin/main` in the same environment (4 memory tests), plus `helper-signing` until the manifest is re-signed |
+
+Live runs, Claude Code 2.1.282 with `claude -p`:
+
+1. **`/ruflo-mods` via `--plugin-dir`.** The module was admitted at user tier and wrote its heartbeat. It owned nothing, correctly: this machine's user settings run an older `$HOME` hook-handler.
+2. **Enforce-mode projection denying `echo forbidden*`.** The engine logged `tool.check Bash: allow -> deny by plugin ruflo-mods: ruflo policy: denied-by:no-forbidden-echo`. The allowed command still ran.
+3. **Rollout switch off.** The module was refused and the session finished on the classic path.
+4. **Installed plugin.** Installed from a local marketplace into an isolated config, it loaded and owned `route, post-edit` (no classic hooks configured there).
+
+No live prompt was routed by an owning mod, because the isolated config has no credentials for a model call.
 | Typecheck against the declarations (`tsc`, strict) | `plugins/ruflo-mods/tsconfig.json` | clean |
 | `claude plugin validate` | plugin and marketplace | pass |
 | Plugin smoke contract (static security) | `plugins/ruflo-mods/scripts/smoke.sh` | 9/9 |

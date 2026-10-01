@@ -200,6 +200,16 @@ describe('ADR-404 no double fire with the real classic hooks', () => {
     expect(r.stderr).toContain('[BLOCKED]');
   });
 
+  it('the helper the refresh fallback generates honours the handshake too', async () => {
+    const { generateHookHandler } = await import('../../src/init/helpers-generator.js');
+    const helper = join(project, '.claude', 'helpers', 'hook-handler.cjs');
+    writeFileSync(helper, generateHookHandler());
+    expect(readFileSync(helper, 'utf8')).toContain('RUFLO_MODS_OWNS');
+    expect(classic('route', { prompt: 'implement the api' }, { RUFLO_MODS_OWNS: 'route' }).stdout.trim()).toBe('');
+    expect(classic('route', { prompt: 'implement the api' }, {}).stdout).toContain('Primary Recommendation');
+    expect(classic('pre-bash', { tool_input: { command: 'rm -rf /' } }, { RUFLO_MODS_OWNS: 'pre-bash' }).status).toBe(1);
+  });
+
   it('hook-handler exports the ownership check it applies', () => {
     const require = (id: string) => execFileSync(process.execPath, ['-e', `const h=require(${JSON.stringify(id)});process.stdout.write(JSON.stringify([h.ownedByMod('route',{RUFLO_MODS_OWNS:' route '}),h.ownedByMod('session-end',{RUFLO_MODS_OWNS:'session-end'}),h.ownedByMod('post-edit',{})]))`], { encoding: 'utf8' });
     expect(JSON.parse(require(join(PKG_HELPERS, 'hook-handler.cjs')))).toEqual([true, false, false]);
