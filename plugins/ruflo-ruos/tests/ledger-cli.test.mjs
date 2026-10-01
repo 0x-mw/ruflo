@@ -119,5 +119,7 @@ test('CLI build prints the audited session-path strings', () => {
   assert.equal(out.runId, 'r-build-0001');
   assert.ok(out.steps.length >= 3);
   assert.ok(!JSON.stringify(out).includes('rm -rf ~'));
-  assert.match(out.poll, /RUOS_POLL/);
+  assert.match(out.poll, /RUOS%s_POLL/);
+  assert.match(out.nonce, /^[0-9a-f]{16}$/);
+  assert.ok(out.poll.includes(`'${out.nonce}'`));
 });

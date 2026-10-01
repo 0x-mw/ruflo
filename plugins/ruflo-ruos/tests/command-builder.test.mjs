@@ -12,6 +12,7 @@ import {
 import { RuosError } from '../scripts/lib/types.mjs';
 
 const RUN = 'r-test-abc123';
+const N = '0123456789abcdef';
 const HOSTILE = [
   '$(touch /tmp/ruflo-ruos-pwned)',
   '`touch /tmp/ruflo-ruos-pwned`',
@@ -65,17 +66,17 @@ test('chunking respects the 4000-byte limit at the boundaries', () => {
 
 test('hostile run ids, models, budgets and offsets are refused', () => {
   for (const bad of ['../etc', 'r-x"; id', 'R-UPPER1', 'a', 'r-$(id)xx', 'r-ok\nnew', '']) {
-    assert.throws(() => buildPrepare(bad), RuosError);
-    assert.throws(() => buildPoll(bad, 0), RuosError);
-    assert.throws(() => buildStop(bad), RuosError);
+    assert.throws(() => buildPrepare(bad, N), RuosError);
+    assert.throws(() => buildPoll(bad, 0, N), RuosError);
+    assert.throws(() => buildStop(bad, N), RuosError);
   }
   const base = { runId: RUN, prompt: 'x', runner: /** @type {'claude'} */ ('claude') };
   assert.throws(() => buildLaunch({ ...base, model: /** @type {any} */ ('opus; id') }), RuosError);
   assert.throws(() => buildLaunch({ ...base, maxBudgetUsd: /** @type {any} */ ('1e9') }), RuosError);
-  assert.throws(() => buildLaunch({ ...base, maxBudgetUsd: -1 }), RuosError);
+  assert.throws(() => buildLaunch({ ...base, maxBudgetUsd: -1 }, N), RuosError);
   assert.throws(() => buildLaunch({ ...base, runner: /** @type {any} */ ('bash') }), RuosError);
-  assert.throws(() => buildPoll(RUN, -1), RuosError);
-  assert.throws(() => buildPoll(RUN, /** @type {any} */ ('1;id')), RuosError);
+  assert.throws(() => buildPoll(RUN, -1, N), RuosError);
+  assert.throws(() => buildPoll(RUN, /** @type {any} */ ('1;id'), N), RuosError);
   assert.throws(() => buildPromptChunks(RUN, 'a\0b'), RuosError);
   assert.throws(() => buildPromptChunks(RUN, '   '), RuosError);
   assert.throws(() => buildPromptChunks(RUN, 'x'.repeat(64 * 1024 + 1)), RuosError);
@@ -83,27 +84,32 @@ test('hostile run ids, models, budgets and offsets are refused', () => {
 
 test('launch/poll/stop/probe are single fixed-template lines', () => {
   const cmds = [
-    buildPrepare(RUN),
-    buildLaunch({ runId: RUN, prompt: HOSTILE[0], runner: 'claude', model: 'haiku', maxBudgetUsd: 0.5 }),
-    buildPoll(RUN, 12345),
-    buildStop(RUN),
-    buildProbe(),
+    buildPrepare(RUN, N),
+    buildLaunch({ runId: RUN, prompt: HOSTILE[0], runner: 'claude', model: 'haiku', maxBudgetUsd: 0.5 }, N),
+    buildPoll(RUN, 12345, N),
+    buildStop(RUN, N),
+    buildProbe(N),
   ];
   for (const c of cmds) assertOnlyExpectedRegions(c);
   assert.match(cmds[1], /--model haiku --max-budget-usd 0\.50/);
+  // Echo-proof: the output token RUOS<nonce>_ never appears in any command.
+  for (const c of [...cmds, buildRepoSummary('projects/app', N)]) assert.ok(!c.includes(`RUOS${N}_`), c.slice(0, 60));
+  for (const bad of ['', 'ABCDEF0123456789', '0123', "0123456789abcde'", '0123456789abcdef0']) {
+    assert.throws(() => buildPoll(RUN, 0, bad), RuosError, `nonce ${bad}`);
+  }
   assert.ok(!cmds.join(' ').includes('17870'), 'never targets the executor port');
 });
 
 test('parsePoll / parseLaunch', () => {
-  assert.equal(parsePoll('RUOS_NORUN\n'), 'norun');
-  const p = parsePoll(`RUOS_POLL:0:5:0:${Buffer.from('hello').toString('base64')}\n`);
+  assert.equal(parsePoll(`RUOS${N}_NORUN\n`, N), 'norun');
+  const p = parsePoll(`RUOS${N}_POLL:0:5:0:${Buffer.from('hello').toString('base64')}\n`, N);
   assert.deepEqual([p !== 'norun' && p.exitCode, p !== 'norun' && p.size, p !== 'norun' && p.chunk.toString()], [0, 5, 'hello']);
-  const r = parsePoll('RUOS_POLL:-:0:1:\n');
+  const r = parsePoll(`RUOS${N}_POLL:-:0:1:\n`, N);
   assert.equal(r !== 'norun' && r.exitCode, null);
-  assert.throws(() => parsePoll('garbage'), RuosError);
-  const l = parseLaunch(`RUOS_SHA:${'a'.repeat(64)}\nRUOS_PID:42\n`);
+  assert.throws(() => parsePoll('garbage', N), RuosError);
+  const l = parseLaunch(`RUOS${N}_SHA:${'a'.repeat(64)}\nRUOS${N}_PID:42\n`, N);
   assert.deepEqual(l, { sha256: 'a'.repeat(64), pid: 42, noRunner: false });
-  assert.equal(parseLaunch('RUOS_NO_RUNNER').noRunner, true);
+  assert.equal(parseLaunch(`RUOS${N}_NO_RUNNER`, N).noRunner, true);
 });
 
 // Real-shell execution of the builder output against a fake `claude`, so the
@@ -123,15 +129,15 @@ test('real /bin/sh: hostile prompt round-trips inert; run completes and stops', 
   const marker = '/tmp/ruflo-ruos-pwned';
   const before = existsSync(marker);
 
-  sh(buildPrepare(RUN));
+  sh(buildPrepare(RUN, N));
   const chunks = buildPromptChunks(RUN, prompt);
   for (const c of chunks.commands) sh(c);
-  const launched = parseLaunch(sh(buildLaunch({ runId: RUN, prompt, runner: 'claude', model: 'sonnet' })));
+  const launched = parseLaunch(sh(buildLaunch({ runId: RUN, prompt, runner: 'claude', model: 'sonnet' }, N)), N);
   assert.equal(launched.sha256, chunks.sha256);
   assert.ok(launched.pid);
   let p;
   for (let i = 0; i < 50; i++) {
-    p = parsePoll(sh(buildPoll(RUN, 0)));
+    p = parsePoll(sh(buildPoll(RUN, 0, N)), N);
     if (p !== 'norun' && p.exitCode !== null) break;
     await new Promise((r) => setTimeout(r, 50));
   }
@@ -144,18 +150,18 @@ test('real /bin/sh: hostile prompt round-trips inert; run completes and stops', 
   // A long-running run is stopped via its process group.
   const run2 = 'r-test-stop01';
   const env2 = { ...env, FAKE_SLEEP: '30' };
-  sh(buildPrepare(run2), env2);
+  sh(buildPrepare(run2, N), env2);
   for (const c of buildPromptChunks(run2, 'x').commands) sh(c, env2);
-  sh(buildLaunch({ runId: run2, prompt: 'x', runner: 'claude' }), env2);
+  sh(buildLaunch({ runId: run2, prompt: 'x', runner: 'claude' }, N), env2);
   await new Promise((r) => setTimeout(r, 200));
-  assert.match(sh(buildStop(run2), env2), /RUOS_STOPPED/);
+  assert.match(sh(buildStop(run2, N), env2), new RegExp(`^RUOS${N}_STOPPED$`, 'm'));
 });
 
 test('deploy hand-off probe is read-only and path-validated', () => {
-  const c = buildRepoSummary('projects/app');
+  const c = buildRepoSummary('projects/app', N);
   assertOnlyExpectedRegions(c);
   for (const verb of ['push', 'deploy', 'commit', 'reset', 'checkout']) assert.ok(!new RegExp(`git ${verb}`).test(c), verb);
-  for (const bad of ['../etc', 'a/../../b', '/abs', '$(id)', 'a b', "a'b", '-rf', '']) assert.throws(() => buildRepoSummary(bad), RuosError, bad);
-  assert.deepEqual(parseRepoSummary('RUOS_NOREPO'), { found: false });
-  assert.deepEqual(parseRepoSummary('RUOS_BRANCH:main\nRUOS_HEAD:abc\nRUOS_DIRTY:2\nRUOS_AHEAD:1\n'), { found: true, branch: 'main', head: 'abc', dirty: 2, ahead: '1' });
+  for (const bad of ['../etc', 'a/../../b', '/abs', '$(id)', 'a b', "a'b", '-rf', '']) assert.throws(() => buildRepoSummary(bad, N), RuosError, bad);
+  assert.deepEqual(parseRepoSummary(`RUOS${N}_NOREPO`, N), { found: false });
+  assert.deepEqual(parseRepoSummary(`RUOS${N}_BRANCH:main\nRUOS${N}_HEAD:abc\nRUOS${N}_DIRTY:2\nRUOS${N}_AHEAD:1\n`, N), { found: true, branch: 'main', head: 'abc', dirty: 2, ahead: '1' });
 });

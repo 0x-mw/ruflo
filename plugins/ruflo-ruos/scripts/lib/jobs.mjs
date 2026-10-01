@@ -12,50 +12,60 @@
  *    stdio `@cognitum/ruos` MCP server (`desktop_job_*` — stdio-only, never on
  *    the remote connector). The run id is the idempotency key.
  */
+import { randomBytes as nodeRandomBytes } from 'node:crypto';
 import { RuosError } from './types.mjs';
-import { assertRunId, assertInt } from './validate.mjs';
+import { assertRunId, assertInt, newNonce } from './validate.mjs';
 import {
   buildPrepare, buildPromptChunks, buildLaunch, buildPoll, buildStop, buildJobCommand,
   parsePoll, parseLaunch, parseStopped, commandSha256,
 } from './command-builder.mjs';
 
+/** @typedef {() => string} NonceFn  fresh marker nonce per command */
+/** @type {NonceFn} */
+const defaultNonce = () => newNonce(nodeRandomBytes);
+
 /**
  * @param {import('./types.mjs').Transport} exec
  * @param {import('./types.mjs').Desktop} desktop
  * @param {import('./types.mjs').RunSpec} spec
+ * @param {NonceFn} nonce
  */
-async function stagePrompt(exec, desktop, spec) {
+async function stagePrompt(exec, desktop, spec, nonce) {
   const chunks = buildPromptChunks(spec.runId, spec.prompt);
   const run = async (/** @type {string} */ c) => {
     const r = await exec.exec(desktop, c, 30);
     if (r.exitCode !== null && r.exitCode !== 0) throw new RuosError('remote-error', `staging failed (exit ${r.exitCode})`);
     return r;
   };
-  await run(buildPrepare(spec.runId));
+  await run(buildPrepare(spec.runId, nonce()));
   for (const c of chunks.commands) await run(c);
   return chunks;
 }
 
 /**
  * @param {import('./types.mjs').Transport} exec
+ * @param {NonceFn=} nonce
  * @returns {import('./types.mjs').JobTransport}
  */
-export function createExecPollTransport(exec) {
+export function createExecPollTransport(exec, nonce = defaultNonce) {
   return {
     kind: 'exec-poll',
     async start(desktop, spec) {
-      const chunks = await stagePrompt(exec, desktop, spec);
-      const cmd = buildLaunch(spec);
+      const chunks = await stagePrompt(exec, desktop, spec, nonce);
+      const n = nonce();
+      const cmd = buildLaunch(spec, n);
       const lr = await exec.exec(desktop, cmd, 60);
-      const launched = parseLaunch(lr.stdout);
+      const launched = parseLaunch(lr.stdout, n);
       if (launched.noRunner) throw new RuosError('remote-error', 'claude is not installed on the desktop');
       if (lr.exitCode !== null && lr.exitCode !== 0) throw new RuosError('remote-error', `launch failed (exit ${lr.exitCode})`);
       if (launched.sha256 !== chunks.sha256) throw new RuosError('remote-error', 'prompt integrity check failed (sha256 mismatch)');
       if (launched.pid === null) throw new RuosError('remote-error', 'runner did not report a pid');
-      return { jobId: spec.runId, commandSha256: commandSha256(cmd) };
+      // Hash the command with its nonce masked so the audit hash is stable.
+      return { jobId: spec.runId, commandSha256: commandSha256(cmd.split(n).join('<nonce>')) };
     },
     async poll(desktop, jobId, offset) {
-      const p = parsePoll((await exec.exec(desktop, buildPoll(jobId, offset), 30)).stdout);
+      const n = nonce();
+      const p = parsePoll((await exec.exec(desktop, buildPoll(jobId, offset, n), 30)).stdout, n);
       if (p === 'norun') throw new RuosError('remote-error', 'run directory vanished on the desktop');
       const next = offset + p.chunk.length;
       /** @type {import('./types.mjs').JobState} */
@@ -63,7 +73,8 @@ export function createExecPollTransport(exec) {
       return { chunk: p.chunk, nextOffset: next, running: state === 'running', state, exitCode: p.exitCode, truncated: false };
     },
     async cancel(desktop, jobId) {
-      return parseStopped((await exec.exec(desktop, buildStop(jobId), 30)).stdout);
+      const n = nonce();
+      return parseStopped((await exec.exec(desktop, buildStop(jobId, n), 30)).stdout, n);
     },
   };
 }
@@ -83,13 +94,14 @@ export const JOBS_CHUNK_MAX = 65536;
 /**
  * @param {JobsBackend} backend
  * @param {import('./types.mjs').Transport} exec  used only to stage the prompt file
+ * @param {NonceFn=} nonce
  * @returns {import('./types.mjs').JobTransport}
  */
-export function createJobsApiTransport(backend, exec) {
+export function createJobsApiTransport(backend, exec, nonce = defaultNonce) {
   return {
     kind: 'jobs-api',
     async start(desktop, spec) {
-      await stagePrompt(exec, desktop, spec);
+      await stagePrompt(exec, desktop, spec, nonce);
       const command = buildJobCommand(spec);
       const { job_id } = await backend.create({
         machine: desktop.flyMachineId ?? desktop.id,

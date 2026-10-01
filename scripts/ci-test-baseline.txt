@@ -131,3 +131,12 @@ plugins/ruflo-x-gateway/test/claude-directory.test.mjs
 # ruflo-chatgpt-federation: same pattern — plugin-local deps (jose, nostr-tools/pure) not resolvable from root vitest
 plugins/ruflo-chatgpt-federation/test/oauth.test.mjs
 plugins/ruflo-chatgpt-federation/test/publisher.test.mjs
+
+# ruflo-ruos (ADR-405, PR #3605): node:test files, not vitest suites — root vitest reports
+# "No test suite found". They run via `bash plugins/ruflo-ruos/scripts/smoke.sh` (node --test).
+plugins/ruflo-ruos/tests/adapter.test.mjs
+plugins/ruflo-ruos/tests/command-builder.test.mjs
+plugins/ruflo-ruos/tests/ledger-cli.test.mjs
+plugins/ruflo-ruos/tests/requirements.test.mjs
+plugins/ruflo-ruos/tests/transports.test.mjs
+plugins/ruflo-ruos/tests/validate-autostop.test.mjs

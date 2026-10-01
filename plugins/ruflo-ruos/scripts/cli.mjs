@@ -32,7 +32,7 @@ import { FleetMcpClient, fleetConfigFromEnv, createFleet, createFleetTransport, 
 import { createSshTransport, sshConfigFromEnv } from './lib/ssh.mjs';
 import { createLedger, resolveCallTool, projectCwd } from './lib/ledger.mjs';
 import { RuosHostAdapter } from './lib/adapter.mjs';
-import { newRunId, assertRunId, assertAgentId, resolveDesktop, assertInt } from './lib/validate.mjs';
+import { newRunId, newNonce, assertRunId, assertAgentId, resolveDesktop, assertInt } from './lib/validate.mjs';
 import { buildPrepare, buildPromptChunks, buildLaunch, buildPoll, buildStop, buildProbe, buildRepoSummary, parseRepoSummary } from './lib/command-builder.mjs';
 import { createExecPollTransport, createJobsApiTransport, createRestJobsBackend } from './lib/jobs.mjs';
 import { nextAutoStop } from './lib/autostop.mjs';
@@ -174,9 +174,10 @@ export async function main(argv, env = process.env) {
     case 'deploy-info': {
       // Read-only hand-off: report repo state; never push or deploy.
       const { adapter, exec } = await buildAdapter(args, env);
-      const cmdline = buildRepoSummary(String(args.repo ?? ''));
+      const n = newNonce(randomBytes);
+      const cmdline = buildRepoSummary(String(args.repo ?? ''), n);
       const d = await adapter.resolve(String(args.desktop ?? ''));
-      print({ desktopId: d.id, repo: args.repo, ...parseRepoSummary((await exec.exec(d, cmdline, 30)).stdout),
+      print({ desktopId: d.id, repo: args.repo, ...parseRepoSummary((await exec.exec(d, cmdline, 30)).stdout, n),
         next: 'prepare a branch/PR and this summary for a human to review, merge and deploy; ruflo-ruos never pushes, deploys or publishes' });
       return 0;
     }
@@ -199,13 +200,16 @@ export async function main(argv, env = process.env) {
       const runId = str(args.run) ? assertRunId(args.run) : newRunId(randomBytes);
       const prompt = readPrompt(args);
       const chunks = buildPromptChunks(runId, prompt);
+      // One nonce for this printout; output markers are `RUOS<nonce>_NAME`.
+      const n = str(args.nonce) ?? newNonce(randomBytes);
       print({
         runId,
+        nonce: n,
         promptSha256: chunks.sha256,
-        steps: [buildPrepare(runId), ...chunks.commands, buildLaunch({ runId, prompt, runner: 'claude', model: /** @type {any} */ (str(args.model)), maxBudgetUsd: str(args['max-budget-usd']) ? Number(args['max-budget-usd']) : undefined })],
-        poll: buildPoll(runId, assertInt(str(args.offset) ?? 0, 0, Number.MAX_SAFE_INTEGER, 'offset')),
-        stop: buildStop(runId),
-        probe: buildProbe(),
+        steps: [buildPrepare(runId, n), ...chunks.commands, buildLaunch({ runId, prompt, runner: 'claude', model: /** @type {any} */ (str(args.model)), maxBudgetUsd: str(args['max-budget-usd']) ? Number(args['max-budget-usd']) : undefined }, n)],
+        poll: buildPoll(runId, assertInt(str(args.offset) ?? 0, 0, Number.MAX_SAFE_INTEGER, 'offset'), n),
+        stop: buildStop(runId, n),
+        probe: buildProbe(n),
       });
       return 0;
     }

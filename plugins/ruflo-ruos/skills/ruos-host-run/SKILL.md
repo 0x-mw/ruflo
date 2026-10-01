@@ -16,8 +16,10 @@ Transport rules — non-negotiable:
 `CLI` below is `node "${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs"`.
 
 `desktop_exec` output is framed: the first line echoes your command (`▶ run: …`), and the
-last lines are `✓ SUCCESS…` and `📝 transcript:`. Read markers only from their own lines,
-never from the echo. Output is capped at about 4 KiB, so `poll` returns 2 KiB slices.
+last lines are `✓ SUCCESS…` and `📝 transcript:`. Every marker the desktop prints is
+`RUOS<nonce>_NAME`, on its own line, where `<nonce>` is the `nonce` from `CLI build`. That
+token never appears in the echoed command, so match only complete lines that start with it.
+Output is capped at about 4 KiB, so `poll` returns 2 KiB slices.
 Never call `desktop_delete` or `secret_delete`; deleting is the user's job.
 
 1. **Pick the host.** Call `desktop_status`. Resolve the user's desktop by `machine_id`,
@@ -38,12 +40,12 @@ Never call `desktop_delete` or `secret_delete`; deleting is the user's job.
    Before launching, call `llm_route_get`. Stop if the desktop has no route. If the gateway is
    "unconfigured" but the route is "shared", warn and continue.
 5. **Launch.** Call `desktop_exec` with each `steps[i]` in order (`machine` = the desktop's
-   `fly_machine_id`). The last step prints `RUOS_SHA:<hash>` — it must equal
-   `promptSha256`, else `desktop_exec` the `stop` string and abort. `RUOS_NO_RUNNER` means
+   `fly_machine_id`). The last step prints `RUOS<nonce>_SHA:<hash>` — it must equal
+   `promptSha256`, else `desktop_exec` the `stop` string and abort. `RUOS<nonce>_NO_RUNNER` means
    `claude` is not installed there.
-6. **Stream.** Call `desktop_exec` with `poll` (rebuild with `CLI build --run <runId> --offset <n> ...`
+6. **Stream.** Call `desktop_exec` with `poll` (rebuild with `CLI build --run <runId> --nonce <nonce> --offset <n> ...`
    as the offset grows, or use `CLI run` for automatic polling). Output is
-   `RUOS_POLL:<exit|->:<size>:<alive 0|1>:<base64>`; pass the base64 to
+   `RUOS<nonce>_POLL:<exit|->:<size>:<alive 0|1>:<base64>`; pass the base64 to
    `CLI record output --run <runId> --b64 <b64>` and show the decoded text. Back off 1s→5s
    between empty polls — each poll is audited on ruOS and serialises behind the desktop's
    run lock.

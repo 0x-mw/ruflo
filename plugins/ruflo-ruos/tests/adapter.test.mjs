@@ -20,17 +20,17 @@ const b64 = (/** @type {string} */ s) => Buffer.from(s).toString('base64');
 function remote(polls, o = {}) {
   let i = 0;
   return fakeTransport((cmd) => {
-    if (cmd.includes('RUOS_PREPARED')) return ok('RUOS_PREPARED\n');
+    if (cmd.includes('RUOS%s_PREPARED')) return ok('RUOS_PREPARED\n');
     if (cmd.startsWith("printf '%s'")) return ok('');
-    if (cmd.includes('RUOS_NO_RUNNER')) return ok(o.launch ?? `RUOS_SHA:${o.sha ?? SHA}\nRUOS_PID:4242\n`);
-    if (cmd.includes('RUOS_POLL')) {
+    if (cmd.includes('RUOS%s_NO_RUNNER')) return ok(o.launch ?? `RUOS_SHA:${o.sha ?? SHA}\nRUOS_PID:4242\n`);
+    if (cmd.includes('RUOS%s_POLL')) {
       // Once the script is exhausted, repeat the last state with no new
       // bytes — what a real desktop returns once the offset caught up.
       const p = i < polls.length ? polls[i++] : polls[polls.length - 1].replace(/:[A-Za-z0-9+/=]*$/, ':');
       if (p === 'THROW') throw new RuosError('network-down', 'gone');
       return ok(p);
     }
-    if (cmd.includes('RUOS_STOPPED')) return ok('RUOS_STOPPED\n');
+    if (cmd.includes('RUOS%s_STOPPED')) return ok('RUOS_STOPPED\n');
     throw new Error(`unexpected command ${cmd.slice(0, 40)}`);
   });
 }
@@ -112,8 +112,8 @@ test('auth expired mid-run surfaces as auth-expired', async () => {
   const { adapter } = setup({ transport: remote(['THROW']) });
   // make the poll throw auth-expired instead of network-down
   const t = fakeTransport((cmd) => {
-    if (cmd.includes('RUOS_POLL')) throw new RuosError('auth-expired', 'token expired');
-    if (cmd.includes('RUOS_NO_RUNNER')) return ok(`RUOS_SHA:${SHA}\nRUOS_PID:1\n`);
+    if (cmd.includes('RUOS%s_POLL')) throw new RuosError('auth-expired', 'token expired');
+    if (cmd.includes('RUOS%s_NO_RUNNER')) return ok(`RUOS_SHA:${SHA}\nRUOS_PID:1\n`);
     return ok('RUOS_PREPARED\n');
   });
   adapter.jobs = createExecPollTransport(t);
@@ -150,7 +150,7 @@ test('a run that would cross the 23:00 Toronto auto-stop is refused unless overr
 test('run timeout stops the remote process group', async () => {
   const { adapter, transport } = setup({ transport: remote(['RUOS_POLL:-:0:1:']) });
   await assert.rejects(adapter.run({ ...base, timeoutSecs: 30 }), (e) => e instanceof RuosError && e.code === 'timeout');
-  assert.ok(transport.commands.at(-1)?.includes('RUOS_STOPPED'));
+  assert.ok(transport.commands.at(-1)?.includes('RUOS%s_STOPPED'));
 });
 
 test('abort signal stops the run and records run.stopped', async () => {
@@ -205,9 +205,9 @@ test('a poll truncated mid-base64-quantum loses no bytes', async () => {
   const cut = full.slice(0, 7); // transport truncated: 1 whole quantum + 3 chars
   let polls = 0;
   const t = fakeTransport((cmd) => {
-    if (cmd.includes('RUOS_PREPARED')) return ok('RUOS_PREPARED');
+    if (cmd.includes('RUOS%s_PREPARED')) return ok('RUOS_PREPARED');
     if (cmd.startsWith("printf '%s'")) return ok('');
-    if (cmd.includes('RUOS_NO_RUNNER')) return ok(`RUOS_SHA:${SHA}\nRUOS_PID:7\n`);
+    if (cmd.includes('RUOS%s_NO_RUNNER')) return ok(`RUOS_SHA:${SHA}\nRUOS_PID:7\n`);
     const off = Number(/tail -c \+(\d+)/.exec(cmd)?.[1]) - 1;
     polls++;
     if (polls === 1) return ok(`RUOS_POLL:-:10:1:${cut}`);

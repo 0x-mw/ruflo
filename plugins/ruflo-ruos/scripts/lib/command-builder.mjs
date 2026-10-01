@@ -31,6 +31,41 @@ export const POLL_SLICE_BYTES = 2048;
 
 const B64_RE = /^[A-Za-z0-9+/=]*$/;
 
+/** per-command marker nonce: 64 random bits as 16 hex chars */
+export const NONCE_RE = /^[0-9a-f]{16}$/;
+
+/** @param {string} n */
+function nonce(n) {
+  if (typeof n !== 'string' || !NONCE_RE.test(n)) throw new RuosError('invalid-input', 'nonce must be 16 hex chars');
+  return n;
+}
+
+/**
+ * Emit the marker line `RUOS<nonce>_<NAME>[:<fmt>]` WITHOUT that token ever
+ * appearing contiguously in the command text. desktop_exec echoes the
+ * command it ran (`▶ run: …`), so a literal marker in the command would show
+ * up in the output even when the branch that prints it never ran. Here the
+ * format string holds `RUOS%s_NAME` and the nonce is a separate argument.
+ * @param {string} n
+ * @param {string} name
+ * @param {string=} fmt   extra printf format after `NAME:` (e.g. '%s:%s')
+ * @param {string=} args  printf arguments for fmt
+ */
+function say(n, name, fmt, args) {
+  return fmt === undefined
+    ? `printf 'RUOS%s_${name}\\n' '${nonce(n)}'`
+    : `printf 'RUOS%s_${name}:${fmt}' '${nonce(n)}' ${args}`;
+}
+
+/**
+ * @param {string} n
+ * @param {string} name
+ * @param {string=} rest  regex for the part after `NAME:`
+ */
+function marker(n, name, rest) {
+  return new RegExp(`^RUOS${nonce(n)}_${name}${rest === undefined ? '' : `:${rest}`}$`, 'm');
+}
+
 /** @param {string} runId */
 function runDir(runId) {
   return `"$HOME/.ruflo-ruos/runs/${assertRunId(runId)}"`;
@@ -48,10 +83,13 @@ function seal(cmd) {
   return cmd;
 }
 
-/** @param {string} runId */
-export function buildPrepare(runId) {
+/**
+ * @param {string} runId
+ * @param {string} n  marker nonce
+ */
+export function buildPrepare(runId, n) {
   const d = runDir(runId);
-  return seal(`umask 077 && mkdir -p ${d} && : > ${d}/prompt.b64 && echo RUOS_PREPARED`);
+  return seal(`umask 077 && mkdir -p ${d} && : > ${d}/prompt.b64 && ${say(n, 'PREPARED')}`);
 }
 
 /**
@@ -84,8 +122,9 @@ export function buildPromptChunks(runId, prompt) {
  * the run is trusted), and start the runner detached in its own session so a
  * later stop can signal the whole process group.
  * @param {import('./types.mjs').RunSpec} spec
+ * @param {string} n  marker nonce
  */
-export function buildLaunch(spec) {
+export function buildLaunch(spec, n) {
   const d = runDir(spec.runId);
   if (spec.runner !== 'claude') throw new RuosError('invalid-input', 'runner must be claude');
   const model = assertModel(spec.model);
@@ -100,32 +139,33 @@ export function buildLaunch(spec) {
   // non-interactive shell the background job is not a group leader, so
   // setsid execs in place and $! is the new session's pgid.
   return seal(
-    `umask 077 ; command -v claude >/dev/null || { echo RUOS_NO_RUNNER; exit 127; }` +
+    `umask 077 ; command -v claude >/dev/null || { ${say(n, 'NO_RUNNER')} ; exit 127; }` +
       ` ; cd ${d} || exit 3` +
       ` ; base64 -d prompt.b64 > prompt.txt || exit 5` +
       ` ; rm -f exit.code ; : > out.log` +
-      ` ; printf 'RUOS_SHA:%s\\n' "$(sha256sum prompt.txt | cut -c1-64)"` +
-      ` ; nohup setsid sh -c '${inner}' > /dev/null 2>&1 < /dev/null & echo "RUOS_PID:$!" > pid ; cat pid`,
+      ` ; ${say(n, 'SHA', '%s\\n', '"$(sha256sum prompt.txt | cut -c1-64)"')}` +
+      ` ; nohup setsid sh -c '${inner}' > /dev/null 2>&1 < /dev/null & p=$! ; echo "$p" > pid ; ${say(n, 'PID', '%s\\n', '"$p"')}`,
   );
 }
 
 /**
  * Report exit state and size, then return one base64 slice of the log from
- * byte `offset`. Output: `RUOS_POLL:<exit|->:<size>:<alive 0|1>:<base64>`.
+ * byte `offset`. Output line: `RUOS<nonce>_POLL:<exit|->:<size>:<alive 0|1>:<base64>`.
  * `alive` lets the adapter detect a runner killed before it wrote exit.code.
  * @param {string} runId
  * @param {number} offset
+ * @param {string} n  marker nonce
  * @param {number=} maxBytes
  */
-export function buildPoll(runId, offset, maxBytes = POLL_SLICE_BYTES) {
+export function buildPoll(runId, offset, n, maxBytes = POLL_SLICE_BYTES) {
   const d = runDir(runId);
   const off = assertInt(offset, 0, Number.MAX_SAFE_INTEGER, 'offset');
   const max = assertInt(maxBytes, 1, 1024 * 1024, 'maxBytes');
   return seal(
-    `cd ${d} 2>/dev/null || { echo RUOS_NORUN; exit 3; }` +
+    `cd ${d} 2>/dev/null || { ${say(n, 'NORUN')} ; exit 3; }` +
       ` ; e=$(cat exit.code 2>/dev/null || echo -) ; s=$(stat -c %s out.log 2>/dev/null || echo 0)` +
-      ` ; p=$(sed -n 's/^RUOS_PID://p' pid 2>/dev/null) ; a=0 ; case "$p" in ''|*[!0-9]*) ;; *) kill -0 "$p" 2>/dev/null && a=1 ;; esac` +
-      ` ; printf 'RUOS_POLL:%s:%s:%s:' "$e" "$s" "$a" ; tail -c +${off + 1} out.log 2>/dev/null | head -c ${max} | base64 -w0 ; echo`,
+      ` ; p=$(cat pid 2>/dev/null) ; a=0 ; case "$p" in ''|*[!0-9]*) ;; *) kill -0 "$p" 2>/dev/null && a=1 ;; esac` +
+      ` ; ${say(n, 'POLL', '%s:%s:%s:', '"$e" "$s" "$a"')} ; tail -c +${off + 1} out.log 2>/dev/null | head -c ${max} | base64 -w0 ; echo`,
   );
 }
 
@@ -133,13 +173,14 @@ export function buildPoll(runId, offset, maxBytes = POLL_SLICE_BYTES) {
  * Stop the run's process group. The pid file is re-validated as digits on
  * the desktop before it is used.
  * @param {string} runId
+ * @param {string} n  marker nonce
  */
-export function buildStop(runId) {
+export function buildStop(runId, n) {
   const d = runDir(runId);
   return seal(
-    `p=$(sed -n 's/^RUOS_PID://p' ${d}/pid 2>/dev/null)` +
-      ` ; case "$p" in ''|*[!0-9]*) echo RUOS_NOPID; exit 4;; esac` +
-      ` ; { kill -TERM -- -"$p" 2>/dev/null || kill -TERM "$p" 2>/dev/null; } && echo RUOS_STOPPED || echo RUOS_NOT_RUNNING`,
+    `p=$(cat ${d}/pid 2>/dev/null)` +
+      ` ; case "$p" in ''|*[!0-9]*) ${say(n, 'NOPID')} ; exit 4;; esac` +
+      ` ; if { kill -TERM -- -"$p" 2>/dev/null || kill -TERM "$p" 2>/dev/null; } ; then ${say(n, 'STOPPED')} ; else ${say(n, 'NOT_RUNNING')} ; fi`,
   );
 }
 
@@ -152,35 +193,46 @@ export const REPO_PATH_RE = /^(?!.*(^|\/)\.\.(\/|$))[A-Za-z0-9._][A-Za-z0-9._/-]
  * exec filter refuses `git push` / `fly deploy` literals by design, and the
  * deploy decision stays with the user.
  * @param {string} repoPath  path relative to $HOME
+ * @param {string} n  marker nonce
  */
-export function buildRepoSummary(repoPath) {
+export function buildRepoSummary(repoPath, n) {
   if (typeof repoPath !== 'string' || !REPO_PATH_RE.test(repoPath)) {
     throw new RuosError('invalid-input', 'repo path must be relative to $HOME without ..');
   }
   const d = `"$HOME/${repoPath}"`;
   return seal(
-    `cd ${d} 2>/dev/null || { echo RUOS_NOREPO; exit 3; }` +
-      ` ; printf 'RUOS_BRANCH:%s\\n' "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"` +
-      ` ; printf 'RUOS_HEAD:%s\\n' "$(git rev-parse HEAD 2>/dev/null)"` +
-      ` ; printf 'RUOS_DIRTY:%s\\n' "$(git status --porcelain 2>/dev/null | wc -l)"` +
-      ` ; printf 'RUOS_AHEAD:%s\\n' "$(git rev-list --count @{u}..HEAD 2>/dev/null || echo unknown)"`,
+    `cd ${d} 2>/dev/null || { ${say(n, 'NOREPO')} ; exit 3; }` +
+      ` ; ${say(n, 'BRANCH', '%s\\n', '"$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"')}` +
+      ` ; ${say(n, 'HEAD', '%s\\n', '"$(git rev-parse HEAD 2>/dev/null)"')}` +
+      ` ; ${say(n, 'DIRTY', '%s\\n', '"$(git status --porcelain 2>/dev/null | wc -l)"')}` +
+      ` ; ${say(n, 'AHEAD', '%s\\n', '"$(git rev-list --count @{u}..HEAD 2>/dev/null || echo unknown)"')}`,
   );
 }
 
 /**
  * @param {string} stdout
+ * @param {string} n  marker nonce used to build the command
  * @returns {{ found: boolean, branch?: string, head?: string, dirty?: number, ahead?: string }}
  */
-export function parseRepoSummary(stdout) {
-  if (/^RUOS_NOREPO$/m.test(stdout)) return { found: false };
-  const get = (/** @type {string} */ k) => new RegExp(`^RUOS_${k}:(.*)$`, 'm').exec(stdout)?.[1]?.trim() ?? '';
+export function parseRepoSummary(stdout, n) {
+  if (marker(n, 'NOREPO').test(stdout)) return { found: false };
+  const get = (/** @type {string} */ k) => marker(n, k, '(.*)').exec(stdout)?.[1]?.trim() ?? '';
   return { found: true, branch: get('BRANCH'), head: get('HEAD'), dirty: Number(get('DIRTY')) || 0, ahead: get('AHEAD') };
 }
 
-/** Probe: is the runner present on this desktop? */
-export function buildProbe() {
-  return seal(`command -v claude >/dev/null && echo RUOS_RUNNER_OK || echo RUOS_RUNNER_MISSING`);
+/**
+ * Probe: is the runner present on this desktop?
+ * @param {string} n  marker nonce
+ */
+export function buildProbe(n) {
+  return seal(`if command -v claude >/dev/null ; then ${say(n, 'RUNNER_OK')} ; else ${say(n, 'RUNNER_MISSING')} ; fi`);
 }
+
+/**
+ * @param {string} stdout
+ * @param {string} n
+ */
+export const parseProbe = (stdout, n) => marker(n, 'RUNNER_OK').test(stdout);
 
 /**
  * @typedef {object} PollResult
@@ -191,18 +243,21 @@ export function buildProbe() {
  */
 
 /*
- * All parsers match markers as WHOLE LINES. desktop_exec echoes the command
- * it ran, and every builder command contains its own marker names, so a
- * substring match would always fire (found live, 2026-10-01).
+ * Parsers match `RUOS<nonce>_NAME` as WHOLE LINES, with the nonce used to
+ * build that command. desktop_exec echoes the command it ran (found live,
+ * 2026-10-01); the nonce-split printf in say() means the echo can never
+ * contain a matching line, and a stale line from another command (different
+ * nonce) can't either.
  */
 
 /**
  * @param {string} stdout
+ * @param {string} n  marker nonce used to build the command
  * @returns {PollResult|'norun'}
  */
-export function parsePoll(stdout) {
-  if (/^RUOS_NORUN$/m.test(stdout)) return 'norun';
-  const m = /^RUOS_POLL:(-|\d+):(\d+):([01]):([A-Za-z0-9+/=]*)$/m.exec(stdout);
+export function parsePoll(stdout, n) {
+  if (marker(n, 'NORUN').test(stdout)) return 'norun';
+  const m = marker(n, 'POLL', '(-|\\d+):(\\d+):([01]):([A-Za-z0-9+/=]*)').exec(stdout);
   if (!m) throw new RuosError('remote-error', 'unparseable poll output');
   // If the transport truncated the result mid-quantum, decode only whole
   // quanta: the offset then advances by exactly what was received and the
@@ -218,20 +273,24 @@ export function parsePoll(stdout) {
 
 /**
  * @param {string} stdout
+ * @param {string} n  marker nonce used to build the command
  * @returns {{ sha256: string|null, pid: number|null, noRunner: boolean }}
  */
-export function parseLaunch(stdout) {
-  const sha = /^RUOS_SHA:([0-9a-f]{64})$/m.exec(stdout);
-  const pid = /^RUOS_PID:(\d+)$/m.exec(stdout);
+export function parseLaunch(stdout, n) {
+  const sha = marker(n, 'SHA', '([0-9a-f]{64})').exec(stdout);
+  const pid = marker(n, 'PID', '(\\d+)').exec(stdout);
   return {
     sha256: sha ? sha[1] : null,
     pid: pid ? Number(pid[1]) : null,
-    noRunner: /^RUOS_NO_RUNNER$/m.test(stdout),
+    noRunner: marker(n, 'NO_RUNNER').test(stdout),
   };
 }
 
-/** @param {string} stdout */
-export const parseStopped = (stdout) => /^RUOS_STOPPED$/m.test(stdout);
+/**
+ * @param {string} stdout
+ * @param {string} n
+ */
+export const parseStopped = (stdout, n) => marker(n, 'STOPPED').test(stdout);
 
 /** @param {string} cmd */
 export const commandSha256 = (cmd) => createHash('sha256').update(cmd, 'utf8').digest('hex');

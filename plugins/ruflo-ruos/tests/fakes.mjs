@@ -50,7 +50,15 @@ export function fakeFleet(desktops) {
 }
 
 /**
+ * The marker nonce a builder command was made with (see command-builder say()).
+ * @param {string} cmd
+ */
+export const nonceOf = (cmd) => /'RUOS%s_[A-Z_]+[^']*' '([0-9a-f]{16})'/.exec(cmd)?.[1] ?? null;
+
+/**
  * A scripted transport: `respond(command)` returns the ExecResult or throws.
+ * Fixtures write markers as `RUOS_NAME`; they are rewritten to the command's
+ * `RUOS<nonce>_NAME` the way a real desktop would print them.
  * @param {(cmd: string, n: number) => import('../scripts/lib/types.mjs').ExecResult | Promise<import('../scripts/lib/types.mjs').ExecResult>} respond
  */
 export function fakeTransport(respond) {
@@ -61,7 +69,9 @@ export function fakeTransport(respond) {
     commands,
     exec: async (/** @type {any} */ _d, /** @type {string} */ cmd) => {
       commands.push(cmd);
-      return respond(cmd, commands.length);
+      const r = await respond(cmd, commands.length);
+      const n = nonceOf(cmd);
+      return n ? { ...r, stdout: r.stdout.replace(/^RUOS_/gm, `RUOS${n}_`) } : r;
     },
   };
 }

@@ -79,7 +79,11 @@ Every shell string sent to a desktop comes from one audited module, `command-bui
 
 **Live finding:** `desktop_exec` stdout is framed. It begins with a `▶ run: <command>` echo and ends with `✓ SUCCESS…` and `📝 transcript:` trailers.
 
-- Because the echo repeats the command, which contains its own marker names, every marker is matched as a whole line, and `normalizeExec` strips the frame.
+- The echo repeats the command, so markers are made echo-proof in three layers:
+  - Every command gets a fresh 64-bit **nonce**, and each marker line is `RUOS<nonce>_NAME`.
+  - The marker is printed as `printf 'RUOS%s_NAME' '<nonce>'`, so that token never appears contiguously in the command text or its echo.
+  - Parsers accept only whole lines carrying that command's nonce. `normalizeExec` also strips the frame.
+- A test replays the raw echo of commands that contain every marker name, and asserts that nothing matches.
 - stdout is head-capped at about 4 KiB, including that echo (`… [output truncated]`), so a poll slice is 2 KiB raw.
 
 ### Swarm state, claims and audit
@@ -107,8 +111,8 @@ If the CLI cannot be resolved, or policy denies a call, the ledger degrades to t
 
 `claude -p` on the desktop uses the desktop's own Claude auth and LLM route. Before launch the adapter calls `llm_route_get`:
 
-- **No route, or a disabled route:** the run fails fast with `llm-unconfigured`.
-- **`gateway: "unconfigured"` with `route: "shared"`:** this is only a warning. It was observed live, and `claude -p` succeeded with that shape.
+- **No usable route** (missing, `none`, `disabled` or `off`): the run fails fast with `llm-unconfigured`.
+- **`{gateway: "unconfigured", key_present: false, route: "shared"}`:** this is only a warning. That exact shape was observed live on 2026-10-01, and `claude -p` succeeded with it (`RUFLO_RUOS_LIVE_OK 42`). The lead agreed on 2026-10-01 to treat it as a warning.
 
 ### Cost and auto-stop
 

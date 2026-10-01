@@ -177,7 +177,8 @@ export function createLedger({ cwd, callTool, now = () => new Date() }) {
             name: d.displayName ?? d.name,
             state: d.state,
             heartbeatStatus: d.heartbeatStatus,
-            heartbeatAt: d.heartbeatAt,
+            // ISO string: the swarm pane (ruflo-swarm #3607) renders its age.
+            heartbeatAt: d.heartbeatAt === null ? null : new Date(d.heartbeatAt * 1000).toISOString(),
             agents: prev ? prev.agents : [],
           });
         }

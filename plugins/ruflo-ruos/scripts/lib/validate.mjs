@@ -123,6 +123,14 @@ export function resolveDesktop(owned, ref) {
 }
 
 /**
+ * A fresh per-command marker nonce (64 random bits, 16 hex chars).
+ * @param {(n: number) => Buffer} randomBytes
+ */
+export function newNonce(randomBytes) {
+  return randomBytes(8).toString('hex');
+}
+
+/**
  * A path-safe run id with 128 random bits; also the jobs-API idempotency key.
  * @param {(n: number) => Buffer} randomBytes
  * @returns {string}

@@ -18,26 +18,42 @@ import { desktop, fakeClock, fakeFleet, fakeTransport, fakeLedger, ok, FLY_ID } 
 
 const here = dirname(fileURLToPath(import.meta.url));
 const RUN = 'r-0123456789abcdef0123456789abcdef';
+const N = 'feedfacecafebeef';
 const frame = (/** @type {string} */ cmd, /** @type {string} */ out) => ({
   status: 'ok', exitCode: 0, completionVerified: true,
   stdout: `▶ run: ${cmd}\n\n${out}\n\n✓ SUCCESS in 0s · 1 lines\n📝 transcript: /home/ruv/.ruos/activity/x.log\n`,
 });
 
-test('live framing: the echoed command never false-matches a marker', () => {
+test('live framing: an echoed command containing marker text never false-matches', () => {
   const spec = { runId: RUN, prompt: 'x', runner: /** @type {'claude'} */ ('claude') };
-  const launch = normalizeExec(frame(buildLaunch(spec), `RUOS_SHA:${'a'.repeat(64)}\nRUOS_PID:1995`));
-  assert.deepEqual(parseLaunch(launch.stdout), { sha256: 'a'.repeat(64), pid: 1995, noRunner: false });
-  const poll = normalizeExec(frame(buildPoll(RUN, 0), 'RUOS_POLL:0:22:0:UlVGTE9fUlVPU19MSVZFX09LIDQyCg=='));
-  const p = parsePoll(poll.stdout);
+  const launch = normalizeExec(frame(buildLaunch(spec, N), `RUOS${N}_SHA:${'a'.repeat(64)}\nRUOS${N}_PID:1995`));
+  assert.deepEqual(parseLaunch(launch.stdout, N), { sha256: 'a'.repeat(64), pid: 1995, noRunner: false });
+  const poll = normalizeExec(frame(buildPoll(RUN, 0, N), `RUOS${N}_POLL:0:22:0:UlVGTE9fUlVPU19MSVZFX09LIDQyCg==`));
+  const p = parsePoll(poll.stdout, N);
   assert.ok(p !== 'norun' && p.chunk.toString() === 'RUFLO_RUOS_LIVE_OK 42\n');
-  // The raw (un-normalised) echo alone must not parse as a result either.
-  const echoOnly = `▶ run: ${buildLaunch(spec)}`;
-  assert.equal(parseLaunch(echoOnly).noRunner, false);
-  assert.equal(parseStopped(`▶ run: ${buildStop(RUN)}\nRUOS_NOT_RUNNING`), false);
-  assert.throws(() => parsePoll(`▶ run: ${buildPoll(RUN, 0)}`), RuosError);
+  // Reproduce the live bug: the RAW echo (frame not stripped) of commands that
+  // contain every marker name must not parse as a result.
+  for (const cmd of [buildLaunch(spec, N), buildPoll(RUN, 0, N), buildStop(RUN, N)]) {
+    const echoOnly = `▶ run: ${cmd}\n\n\n✓ SUCCESS in 0s · 0 lines`;
+    assert.equal(parseLaunch(echoOnly, N).noRunner, false);
+    assert.equal(parseLaunch(echoOnly, N).sha256, null);
+    assert.equal(parseStopped(echoOnly, N), false);
+    assert.throws(() => parsePoll(echoOnly, N), RuosError, 'NORUN in the echo must not read as norun');
+  }
+  // A marker line from a different command (other nonce) is ignored.
+  assert.equal(parseStopped('RUOSaaaaaaaaaaaaaaaa_STOPPED', N), false);
+  // A task output line that happens to say RUOS_STOPPED is not a marker.
+  assert.equal(parseStopped('RUOS_STOPPED', N), false);
   const capped = normalizeExec({ stdout: '▶ run: seq\n\n0001 0002\n… [output truncated]\n', exitCode: 0 });
   assert.equal(capped.truncated, true);
   assert.equal(capped.stdout.trim(), '0001 0002');
+});
+
+test('poll command + 2 KiB base64 slice fit the ~4 KiB head cap with the echo counted', () => {
+  const cmd = buildPoll(RUN, 123456789, N);
+  const echo = `▶ run: ${cmd}\n\n`;
+  const payload = `RUOS${N}_POLL:-:999999999:1:${'A'.repeat(Math.ceil(2048 / 3) * 4)}\n`;
+  assert.ok(Buffer.byteLength(echo + payload) < 4000, `${Buffer.byteLength(echo + payload)} bytes`);
 });
 
 /** In-memory jobs API that follows the ADR-105 contract. */
@@ -73,7 +89,7 @@ function jobsServer() {
   return { f, log, jobs, setCapHits: (/** @type {number} */ n) => { capHits = n; }, foreign: (/** @type {string} */ id) => jobs.set(id, { owner: 'other', out: Buffer.alloc(0), state: 'running', exit: null, key: 'x' }) };
 }
 
-const staging = () => fakeTransport((cmd) => ok(cmd.includes('RUOS_PREPARED') ? 'RUOS_PREPARED' : ''));
+const staging = () => fakeTransport((cmd) => ok(cmd.includes('RUOS%s_PREPARED') ? 'RUOS_PREPARED' : ''));
 
 test('jobs API transport: start with idempotency key, stream to exit, audit, through the adapter', async () => {
   const srv = jobsServer();
@@ -177,14 +193,14 @@ test('LLM route: no route fails fast before any exec; unconfigured gateway only 
 
   const sha = buildPromptChunks(RUN, 'x').sha256;
   const t2 = fakeTransport((cmd) => {
-    if (cmd.includes('RUOS_NO_RUNNER')) return ok(`RUOS_SHA:${sha}\nRUOS_PID:1`);
-    if (cmd.includes('RUOS_POLL')) return ok('RUOS_POLL:0:0:0:');
+    if (cmd.includes('RUOS%s_NO_RUNNER')) return ok(`RUOS_SHA:${sha}\nRUOS_PID:1`);
+    if (cmd.includes('RUOS%s_POLL')) return ok('RUOS_POLL:0:0:0:');
     return ok('RUOS_PREPARED');
   });
   const ledger = fakeLedger();
-  const a2 = new RuosHostAdapter({ fleet: fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]), jobs: createExecPollTransport(t2), ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep });
+  const a2 = new RuosHostAdapter({ fleet: fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]), jobs: createExecPollTransport(t2, () => N), ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep });
   const out = await a2.run({ desktop: 'Work Desktop', prompt: 'x', runId: RUN, agentId: 'a1' });
   assert.equal(out.status, 'completed');
   assert.ok(out.warnings.some((w) => w.includes('shared route')), 'live-observed shape: gateway unconfigured, route shared → warn, not fail');
-  assert.equal(ledger.audits[0].commandSha256, commandSha256(buildLaunch({ runId: RUN, prompt: 'x', runner: 'claude' })));
+  assert.equal(ledger.audits[0].commandSha256, commandSha256(buildLaunch({ runId: RUN, prompt: 'x', runner: 'claude' }, N).split(N).join('<nonce>')), 'nonce-masked, stable hash');
 });
