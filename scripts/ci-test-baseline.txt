@@ -136,3 +136,11 @@ plugins/ruflo-x-gateway/test/claude-directory.test.mjs
 # ruflo-chatgpt-federation: same pattern — plugin-local deps (jose, nostr-tools/pure) not resolvable from root vitest
 plugins/ruflo-chatgpt-federation/test/oauth.test.mjs
 plugins/ruflo-chatgpt-federation/test/publisher.test.mjs
+# ruflo-swarm: Claude Code engine-kit tests (import 'claude-code/testing', which exists only inside `claude plugin test plugins/ruflo-swarm`); root vitest cannot resolve it. The pure readers run under root vitest via tests/parse.spec.ts
+plugins/ruflo-swarm/tests/controller.test.ts
+plugins/ruflo-swarm/tests/host.test.ts
+plugins/ruflo-swarm/tests/pane.test.ts
+plugins/ruflo-swarm/tests/parse.test.ts
+plugins/ruflo-swarm/tests/register.test.ts
+plugins/ruflo-swarm/tests/ruos.test.ts
+plugins/ruflo-swarm/tests/views.test.ts
