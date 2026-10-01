@@ -215,6 +215,11 @@
       "name": "ruflo-music",
       "source": "./plugins/ruflo-music",
       "description": "AI music generation via Cognitum Music (cogmusic MCP) \u2014 compose lyrics/prompts, generate tracks, separate stems, extract MIDI, and master through your own music.cognitum.one account"
+    },
+    {
+      "name": "ruflo-ruos",
+      "source": "./plugins/ruflo-ruos",
+      "description": "Run ruflo swarm agents on your own ruOS cloud desktops via the tenant-authenticated fleet MCP or per-tenant SSH; optional, removable"
     }
   ]
 }

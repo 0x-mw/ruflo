@@ -130,7 +130,13 @@ If the CLI cannot be resolved, or policy denies a call, the ledger degrades to t
 - ruflo works identically when the plugin is absent. The PR changes no file under `v3/`, apart from this ADR.
 - The plugin has no npm dependencies.
 - The ruflo CLI is resolved at runtime and is optional.
-- The `$.ruos` and `$.ruflo` Claude Code mod nouns are feature-detected and never required. `$.ruos.desktops()` makes no network calls and may be stale, so freshness always comes from `desktop_status`.
+- The `$.ruos` and `$.ruflo` Claude Code mod nouns are never required. `$.ruos.desktops()` makes no network calls and may be stale, so freshness always comes from `desktop_status`.
+- **Mod part (deferred until mods-planner lands `segment`).** The planned contract follows `claude plugin validate`, which allows only flat `$.noun.method(input)` calls and rejects feature detection:
+  - status segment: `$.ruflo.segment({ id: 'ruos', text })`, with `text: null` to clear;
+  - read-only `$.ruos` calls: `desktops()`, `lite()`, `lastAudit({n})`, `viewOpen({machine})`, `viewClose()`, `viewIsOpen()`, from `@cognitum/ruos@0.2.0`;
+  - every call wrapped in try/catch with a fallback;
+  - types vendored from ruos-desktop `packages/ruos/mod/ruos/types/index.d.ts`, with a parity test.
+  `/ruflo-ruos:view` delegates to `/ruos view`.
 
 ## Failure modes
 
