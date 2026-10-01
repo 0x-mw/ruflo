@@ -4,26 +4,51 @@ Status: Proposed
 
 Date: 2026 10 01
 
-Related: #3555 (helpers in `"type":"module"` projects), #3565 (signed helper manifest), #3567 (no-match routing confidence), #3602 (ledger anchor deletion), ADR 150 (removable augmentation), ADR 174 (failures as learning signal), ADR 324 (policy engine)
+Related: #3555 (helpers in `"type":"module"` projects), #3565 (signed helper manifest), #3567 (no-match routing confidence), #3572 (honest swarm progress), #3602 (ledger anchor deletion), #3557 (plugin trust policy), #3607 (ruflo-swarm mod), #3605 / ADR 405 (ruOS desktops as swarm hosts), ADR 150 (removable augmentation), ADR 174 (failures as learning signal), ADR 324 (policy engine)
 
 ## Context
 
-Ruflo plugs into Claude Code through classic settings hooks. Every `UserPromptSubmit`, `PreToolUse` (Bash) and `PostToolUse` (edit) starts `node .claude/helpers/hook-handler.cjs <event>`. Measured on the reference host below, that costs 16 to 19 ms per event at the median, p95 up to 39 ms. The 3.49.0 release fixed a class of bugs that comes from the same model. Copied helpers broke in `"type":"module"` projects (#3555). They could be tampered with, which needed a signed manifest (#3565). An older CLI refreshing helpers mid-session overwrote them. Some fallbacks were silent ("Router not available").
+Ruflo plugs into Claude Code through classic settings hooks. Every `UserPromptSubmit`, `PreToolUse` (Bash) and `PostToolUse` (edit) starts `node .claude/helpers/hook-handler.cjs <event>`. Measured on the reference host below, that costs 16 to 19 ms per event at the median, p95 up to 39 ms. The `ruflo-core` plugin's own `PreToolUse` hook shells out to the CLI and, in a live session, finished a median 337 ms after `hook-handler`'s on every Bash call.
 
-Claude Code now offers mods: a plugin whose `hooks/hooks.json` names a hooks module, `register(on, options)`, hooking engine events as in-process middleware `($, e, next)`. The API is early access and may change without notice.
+The 3.49.0 release fixed a class of bugs that comes from the same model:
+
+- copied helpers broke in `"type":"module"` projects (#3555);
+- they could be tampered with, which needed a signed manifest (#3565);
+- an older CLI refreshing helpers mid-session overwrote them;
+- some fallbacks were silent ("Router not available").
+
+Claude Code now offers mods: a plugin whose `hooks/hooks.json` names a hooks module, `register(on, options)`, hooking engine events as in-process middleware `($, e, next)`. Since the launch, Claude Code can also write a mod, install it and hot-reload it mid-session, and its built-ins (`/diff` and others) ship as swappable mods.
 
 ### Verified facts the design rests on
 
-Each fact was checked against Claude Code 2.1.282 (`claude plugin validate`, `claude plugin test`, a debug log of a live `claude -p` session) or read from the upstream `mods/` sources and declarations.
+Each fact was checked on Claude Code 2.1.282 and 2.1.287 (`claude plugin validate`, `claude plugin test`, debug logs of live `claude -p` sessions) or read from the upstream `mods/` sources, the generated declarations and Anthropic's `code-modernization` plugin.
 
-- A hooks module runs in its own environment: no Node, no fs, no network, no process. Everything goes through `$`. `claude plugin validate` refuses an import outside the plugin folder ("it is outside the plugin's folder"). It also refuses `$` passed to anything other than a top-level function of the same file, because the engine reads a module's `$` uses off its source.
-- Whether a module loads is decided by a server-side rollout switch (`tengu_plugin_hooks_modules`, cached in `~/.claude.json`). On this account it flipped off and on twice in one afternoon.
-  - **While it served off**, `claude plugin test` refused to run, and a live session with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1` logged "hooks module not loaded … the rollout switch served off".
-  - **While it served on**, the plugin loaded with the variable unset, both from `--plugin-dir` and installed from the marketplace. That was tested with an isolated `CLAUDE_CONFIG_DIR`, a local marketplace and `claude plugin install ruflo-mods@ruflo`.
-  - **The variable** is therefore neither required nor sufficient on 2.1.282. `ruflo mods install` writes it anyway, as the CLI's messages ask for it, and `ruflo mods doctor` reports the switch as what decides.
-- `sec-default`, seated outermost for managed or Team/Enterprise organizations, continues past the user tier on `prompt.context`, `prompt.section`, `prompt.compose`, `settings.read` and `classic.*`. A person's plugins keep `prompt.submit` and its additive `context`. On `tool.check` it re-runs the chain without the user tier when a user-tier plugin loosened a verdict that a settings deny rule decided. Its `allowManagedModsOnly` option refuses user-tier modules at `plugin.register`.
-- `$.env.set` sets a variable on the Claude Code process and on everything it starts afterwards, settings hooks included.
-- `$.fs.read` rejects files over 4 MiB, and `$.fs.stat` rejects a missing path with ENOENT.
+- **Sandbox.** A hooks module runs in its own environment: no Node, no fs, no network, no process. Everything goes through `$`.
+- **Imports and `$` scanning.** `claude plugin validate` refuses:
+  - an import outside the plugin folder;
+  - `$` passed to anything but a top-level function of the same file;
+  - `$` calls deeper than `$.noun.method(input)`;
+  - computed `$[noun]` access.
+
+  The engine reads a module's `$` uses off its source and reports them (events hooked, calls made, environment variables read and written).
+- **Which Claude Code loads mods, and when.**
+  - **2.1.287** loads mods by default.
+  - **2.1.282** loads them only with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`. Live, without it: "not turned on for installed plugins in this process"; with it: loaded.
+  - **On either version**, a server-side rollout switch (`tengu_plugin_hooks_modules`, cached in `~/.claude.json`) can hold them off, the variable notwithstanding. While it served off, `claude plugin test` refused to run and live sessions logged "the rollout switch served off". It flipped between on and off several times in one afternoon, and between two accounts on this machine.
+  - **A stale binary can decide.** This machine had a 2.1.107 npm-global `claude` beside the 2.1.287 native one. Whichever comes first on PATH runs.
+- **`sec-default`**, seated outermost for managed or Team/Enterprise organizations:
+  - continues past the user tier on `prompt.context`, `prompt.section`, `prompt.compose`, `settings.read` and `classic.*`;
+  - leaves a person's plugins `prompt.submit` and its additive `context`;
+  - on `tool.check`, re-runs the chain without the user tier when a user-tier plugin loosened a verdict that a settings deny rule decided;
+  - with `allowManagedModsOnly`, refuses user-tier modules at `plugin.register`.
+
+  Admins can also withhold any `$` affordance from the plugins below them.
+- **`plugin.register` judging.** A user-tier hook on `plugin.register` judges every module admitted after it, including each hot reload. It reads the host's scan of that module (`uses.events`, `uses.calls`, `uses.env`) and may answer `{ refuse }`. Verified live in the kit: a refused module is reported as "refused by ruflo-mods" and never joins.
+- **`$` behaviour.**
+  - `$.env.set` sets a variable on the Claude Code process and on every hook it starts afterwards.
+  - `$.fs.read` rejects files over 4 MiB.
+  - `$.fs.stat` rejects a missing path with ENOENT.
+- **Types.** Claude Code 2.1.287 writes its authoritative declarations and a base `tsconfig.json` into `.claude-plugin/types/` (gitignored there) when it loads a plugin.
 
 ## Decision
 
@@ -31,118 +56,182 @@ Each fact was checked against Claude Code 2.1.282 (`claude plugin validate`, `cl
 
 The mod is its own plugin rather than a module added to `ruflo-core`, for three reasons:
 
-- **Opt-in.** Every `ruflo-core` install would otherwise start loading early-access code wherever function hooks are on.
+- **Opt-in.** Every `ruflo-core` install would otherwise start loading mod code wherever function hooks are on.
 - **Removable.** Uninstalling the plugin leaves ruflo exactly as it was. This is the ADR 150 rule.
-- **Separation.** `ruflo-core`'s classic `hooks.json` and the module never share a manifest, so a change to one cannot alter the other's loading.
+- **Separation.** `ruflo-core`'s classic `hooks.json` and the module never share a manifest.
 
-`ruflo mods install` (or `ruflo init --mods`) enables it. It writes `enabledPlugins["ruflo-mods@ruflo"]`, the `ruflo` marketplace and `env.CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` into `.claude/settings.local.json` by default, so the choice is one person's, not the repository's. It records what it added in `.claude-flow/mods/install.json`, and `ruflo mods uninstall` removes only that.
+`ruflo mods install` (or `ruflo init --mods`) enables it:
+
+- **Where it writes.** It sets `enabledPlugins["ruflo-mods@ruflo"]`, the `ruflo` marketplace and `env.CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` (for 2.1.277 to 2.1.286) in `.claude/settings.local.json` by default, so the choice is one person's, not the repository's.
+- **What it records.** It notes what it added in `.claude-flow/mods/install.json`, and `ruflo mods uninstall` removes only that.
+
+The module is shipped as `.ts` and loads directly (`"modules": ["./register.ts"]`). There is no build step, and the validator and the kit read the same source.
+
+The upstream reference pattern is a hybrid `hooks.json` holding classic command hooks beside `modules`. Ruflo's classic hooks already live elsewhere: the project settings `ruflo init` writes, and `ruflo-core`'s own `hooks.json`. So `ruflo-mods` carries only the module and hands events over at runtime (below). The scaffold template for other mods uses the hybrid form.
 
 ### What the mod does
 
 | Event | Classic equivalent | Mod behaviour |
 |---|---|---|
-| `prompt.submit` | `route` (UserPromptSubmit) | Routes in-process. The routing block, and the ranked-memory block from `ranked-context.json`, ride the prompt as `context`. The text is byte-identical to `hook-handler.cjs route`'s output (tested). No-match results carry the #3567 fields (`matched: false`, `reason: "no-match-default"`, confidence 0.3). |
-| `tool.check` | `pre-bash` (PreToolUse) | Tightens only. `stricter(chain, ruflo)` over `deny > ask > allow`. Applies the `pre-bash` dangerous-command list and the Claude Code rules of ruflo policy. |
-| `tool.call` (Write/Edit/MultiEdit) | `post-edit` (PostToolUse) | Records each finished edit, with `success: false` on error (ADR 174) and nothing for a denied call. Lines use `recordEdit`'s format and are written once per turn. |
+| `prompt.submit` | `route` | Routes in-process. The routing block, and the ranked-memory block from `ranked-context.json`, ride the prompt as `context`. The text is byte-identical to `hook-handler.cjs route`'s output (tested; live, the model quoted it). No-match results carry the #3567 fields (`matched: false`, `reason: "no-match-default"`, confidence 0.3). |
+| `tool.check` | `pre-bash` | Tightens only: `stricter(chain, ruflo)` over `deny > ask > allow`. Applies the `pre-bash` dangerous-command list and the Claude Code rules of ruflo policy. |
+| `tool.call` (Write/Edit/MultiEdit) | `post-edit` | Records each finished edit, with `success: false` on error (ADR 174) and nothing for a denied call. Lines use `recordEdit`'s format and are written once per turn. |
 | `turn.complete`, `session.end` | none | Write pending edit records. |
 | `session.start` | none (handshake) | Decides ownership, sets `RUFLO_MODS_OWNS`, registers `/ruflo-mods`, writes a heartbeat for `ruflo mods doctor`. |
-| `session.measure`, `agent.spawn` | `ruflo-cost-tracker` budget ladder | With the `costBudgetUsd` option, applies `budget.mjs`'s 50/75/90/100% ladder to the live session cost and says so once per rung. With `costHardStop`, denies new subagent spawns at 100%. |
-| `ui.status` (op) | statusline | One compact line. Skipped where the ruflo `statusline.cjs` is configured. |
+| `session.measure`, `agent.spawn` | `ruflo-cost-tracker` budget ladder | With `costBudgetUsd`, applies `budget.mjs`'s 50/75/90/100% ladder to live session cost, once per rung. With `costHardStop`, denies new subagent spawns at 100%. |
+| `plugin.register` | none | The mod trust gate (below). |
+| `engine.create` | none | Adds the `$.ruflo` noun, and takes the status-line drawer from the `$` beneath. |
+| `ui.status` (op) | statusline | One line: ruflo's own parts (skipped where the ruflo `statusline.cjs` runs) followed by other mods' segments. Only measured facts: an unmatched route says "no route (30%)", and nothing is estimated (#3567/#3572). |
 
-Context is injected through `prompt.submit` and not `prompt.context`, because under `sec-default` the user tier never sees `prompt.context`.
+`/ruflo-mods` is namespaced. The mod never registers a built-in's name such as `/diff`, or another plugin's (`/ruos*`, `ruflo-swarm-*`), so it composes with Claude Code's built-in mods instead of shadowing them.
+
+### The `$.ruflo` noun (contract: `plugins/ruflo-mods/types/index.d.ts`)
+
+The noun is flat, `$.ruflo.<method>(input)`, the only shape the validator accepts. It is declared on `EngineInterface` the way the telemetry mod declares `$.telemetry`, and `plugin.json` names it as `types`.
+
+- **`segment({ id, text })`.** Another mod contributes a status segment instead of drawing a second bar; `text: null` clears it. Segments are untrusted:
+  - the id must match `^[A-Za-z0-9_-]{1,32}$`;
+  - control and bidi-override characters are stripped and whitespace collapsed;
+  - text is cut to 48 characters;
+  - at most 8 segments, sorted by id;
+  - a bad id, or a new id past the cap, rejects.
+- **`lastRoute()`** returns the last route made.
+- **`snapshot()`** returns a copy of the measured state: owned events, routes, policy mode, tightened and observed counts, edits, budget and segments.
+
+Consumers are the ruOS mod (`ruos-desktop`, segment id `ruos`) and `ruflo-ruos` (ADR 405). Both feature-detect by calling and catching. ruflo-swarm (#3607) reads swarm state from disk and does not depend on the noun. Each side vendors the other's contract file with a parity test. The contract only grows; renaming is a breaking change.
 
 ### One owner per event: the handshake
 
 The classic hooks stay the default and the fallback; nothing removes them. The two paths agree at runtime:
 
-1. **Ownable events.** Only `route` and `post-edit` can be owned. They are side-effect events (context injection, learning records), where firing twice is the bug. `pre-bash` is a guard: both paths refuse the same commands, a second refusal changes nothing, and no handshake can ever switch a guard off. `session-restore`/`session-end` stay classic, because PageRank consolidation and intelligence init need Node.
-2. **The ownership decision.** At `session.start` the mod takes an event only if no classic hook in the merged settings runs it, or if every `hook-handler.cjs` a classic hook could run (the project's and `$HOME`'s copies) carries the handshake. One copy predating the handshake is enough to stand down. Unreadable settings mean the mod owns nothing.
-3. **The signal.** The mod sets `RUFLO_MODS_OWNS=route,post-edit` with `$.env.set`. `hook-handler.cjs` returns before doing any work for an event named there and only for `route`/`post-edit` (`ownedByMod`). `ruflo-core`'s `ruflo-hook.cjs` does the same for its `post-edit`, which otherwise races `hook-handler.cjs` for the same edit through the dedup claim.
-4. **Fallback.** If the mod is not loaded (function hooks off, rollout switch off, `allowManagedModsOnly`, `session.start` failed), the variable is never set, so every classic hook runs as before. The variable lives in the process environment, so it dies with the process; no stale state survives a crash.
+1. **Ownable events.** Only `route` and `post-edit` can be owned. They are side-effect events, where firing twice is the bug. `pre-bash` is a guard: a second refusal changes nothing, and no handshake can switch a guard off. Session restore and end stay classic, because PageRank consolidation and intelligence init need Node.
+2. **The decision.** At `session.start` the mod takes an event only if no classic hook in the merged settings runs it, or if every `hook-handler.cjs` a classic hook could run (the project's and `$HOME`'s) carries the handshake. One copy predating it is enough to stand down. Unreadable settings mean the mod owns nothing.
+3. **The signal.** The mod sets `RUFLO_MODS_OWNS=route,post-edit` with `$.env.set`. `hook-handler.cjs` (both shipped copies and the generator's fallback) returns before any work for `route`/`post-edit` named there. `ruflo-core`'s `ruflo-hook.cjs` does the same for its `post-edit`, which otherwise races `hook-handler.cjs` for the same edit.
+4. **Fallback.** If the mod is not loaded (an old Claude Code, the rollout switch off, `allowManagedModsOnly`, a failed start), the variable is never set and every classic hook runs. The variable dies with the process.
 
-Tests run the real `hook-handler.cjs` and `ruflo-hook.cjs` with the environment the mod set. They count exactly one routing block per prompt and one edit record per edit, both with a handshake-aware helper and with an older one. They also confirm that `pre-bash` blocks even when the variable names it.
+Tests run the real `hook-handler.cjs` and `ruflo-hook.cjs` with the environment the mod set. They count exactly one routing block per prompt and one edit record per edit, with a handshake-aware helper and with an older one. Live on 2.1.287, the mod owned `route`, the user-level classic `route` hook ran a handshake-aware helper beneath and exited, and the model quoted the routing line the mod injected.
+
+### The mod trust gate
+
+Self-modding means a Claude-written mod can be installed and run with Claude Code's access mid-session. The gate hooks `plugin.register`, first in registration order so it wraps everything else of ruflo's. It judges user-tier modules admitted after it, except itself and an allow-list, from the host's scan, never from the module's own claims.
+
+- **What counts as risky.**
+  - Calls: `process.run` (host commands), `http.fetch` (network), `env.set`.
+  - Hooks: `tool.check`, `tool.call`, `*`, `classic.*`, `plugin.register`, `prompt.compose`.
+- **Policy (`userConfig.modTrust`).**
+  - `observe` (default) names what the module can do in the transcript, or the debug log for a module with nothing risky.
+  - `refuse-risky` refuses a module with any risky call or hook unless it is named in `modTrustAllow`. Here the gate guards something, so a gate failure refuses too.
+  - `off` turns the gate off.
+- **What it cannot do.**
+  - It cannot judge modules admitted before it.
+  - It never judges prepend, append or builtin modules: the organization's and Claude Code's own, out of a person's reach by design.
+
+The ruflo CLI's plugin trust policy (#3557) is Node code and cannot run inside the sandbox, so the gate applies its own scan-based rule rather than that policy.
 
 ### Tiers and `sec-default`
 
 Ruflo loads in the user tier. Under `sec-default`:
 
 - `prompt.submit` context still reaches the model.
-- `settings.read` answers what the organization's tiers say, which the ownership decision reads.
-- `tool.check` from ruflo never loosens, so `sec-default`'s held-verdict recheck is never triggered by ruflo. A ruflo deny is not a settings rule deny, so `sec-default` does not need to hold it; it is the last word only because it is the strictest.
+- `settings.read` answers what the organization's tiers say.
+- Ruflo's `tool.check` never loosens, so the held-verdict recheck is never triggered by ruflo.
 - Under `allowManagedModsOnly` the module is refused whole, and the classic hooks keep every event.
+
+Middleware order is nesting, the first registered wrapping the rest. Every ruflo `$` call tolerates refusal. Status, log and toast calls are wrapped, the status line goes through one drawer from `engine.create`, and session start, route and trust degrade to "classic keeps everything" rather than failing the turn.
 
 ### Security model
 
-- **Tighten only.** `tool.check` merges the chain's verdict with ruflo's opinion by rank. A tie returns the chain's own object, so the `rule` that `sec-default` reads is never rewritten or erased. A property test covers every chain verdict, five policy states and seven inputs.
-- **Fail closed, by one step.** Only where ruflo guards something: if the policy projection exists but cannot be read or validated, or the hook throws, an `allow` becomes an `ask` and an `ask` or `deny` stands. An absent projection means no policy, which is not a failure.
-- **Input validation.** Every event field the mod reads is type-checked before use. A non-string command is checked as text (#2017). `file_path` is length-bounded. The projection is schema-validated, rule by rule.
-- **No network, process, model or MCP calls.** The smoke contract enforces it statically. The only environment variable written is `RUFLO_MODS_OWNS`; the only one read is `HOME`.
-- **No secrets** in the module. The heartbeat and install record hold no credentials.
-- **Policy projection.** A hooks module cannot read `state.json`: it holds the receipt ledger, 43 MB on the reference host and over the 4 MiB read limit. `policy-runtime.ts` therefore writes `.claude-flow/policy/claude-code.json` after every successful state write, owner-only and atomically. It holds the mode and only those rules whose `actions` name a `claude-code.` pattern explicitly. Rules with no actions or with `*` keep their meaning (MCP only), and the engine's default-deny never applies to Claude Code tools. Matching is a copy of `evaluator.ts ruleMatches`, held to over 10,000 rule-by-request comparisons against the real evaluator.
-- **#3602.** The mod never reads or writes `state.json`, receipts or the ledger anchor, so it cannot make #3602 worse. Deleting the projection only returns Claude Code tool calls to the no-mod baseline; it cannot loosen them. A stale projection left by a failed write can only be stricter or as loose as the baseline.
+- **Tighten only.** `tool.check` merges by rank; a tie returns the chain's own object, so the `rule` `sec-default` reads is never rewritten. A property test covers every chain verdict, five policy states and seven inputs. A kit test covers two tighten-only mods side by side (ruflo plus a ruOS-style guard): a deny from either holds.
+- **Fail closed, by one step, where ruflo guards something.** An unreadable or invalid policy projection, or a failure in the chain beneath, turns `allow` into `ask`. "Missing" means ENOENT only.
+- **Input validation.** Every event field the mod reads is type-checked before use. Segments are sanitized as above. The projection is schema-validated rule by rule.
+- **No network, process, model or MCP calls; no secrets.** The smoke contract enforces this statically. The only environment variable written is `RUFLO_MODS_OWNS`; the only one read is `HOME`. No command is ever built from event input.
+- **Policy projection.**
+  - **Why it exists.** A module cannot read `state.json`, whose receipt ledger is 43 MB here and over the 4 MiB limit. So `policy-runtime.ts` writes `.claude-flow/policy/claude-code.json` after each successful state write, owner-only and atomically.
+  - **What it holds.** The mode and only the rules whose `actions` name `claude-code.` explicitly. Rules with no actions or `*` keep their MCP-only meaning, and the engine's default-deny never applies to Claude Code tools.
+  - **How it matches.** Matching copies `evaluator.ts ruleMatches`, held to over 10,000 comparisons against the real evaluator.
+- **#3602.** The mod never reads or writes `state.json`, receipts or the anchor. Deleting the projection only returns to the no-mod baseline.
 
 ### What the mod does not carry
 
-- **Implicit confidence boost.** The classic route writes `lastMatchedPatterns` and boosts the previous match's confidence on every prompt. The mod scores ranked memory read-only, so with the mod owning `route` that boost does not happen.
-- **Rate-limit nudge.** The sponsored-capacity nudge (ADR 312/313) in the classic `route` is not ported.
+- **Confidence boost.** The classic route writes `lastMatchedPatterns` and boosts the previous match's confidence on each prompt. The mod scores ranked memory read-only.
+- **Rate-limit nudge.** The sponsored-capacity nudge (ADR 312/313) is not ported.
 - **Capability envelopes.** Workers' `CLAUDE_FLOW_CAPABILITY_ENVELOPE` is not applied to Claude Code tools.
-- **Lost lines.** `$.fs` has no append, so edit records are written by read-modify-write once per turn. A classic writer appending in the same instant can lose a line.
+- **Lost lines.** `$.fs` has no append, so edit records are written by read-modify-write once per turn, and a classic writer appending in the same instant can lose a line.
+- **Hot reload.** Reload rebuilds the in-memory state. Pending edits are written every turn, so a reload loses at most one turn's records. `$.state` would carry them across; deferred.
+
+### Scaffolding: governed mods for ruflo users
+
+`ruflo-plugin-creator` 0.3.0 adds a `create-mod` skill and `templates/mod/`. The template is a working mod:
+
+- a hybrid `hooks.json` whose classic fallback exits while the module runs (`MY_MOD_ACTIVE`);
+- a host adapter over literal `$` calls, refusal-tolerant;
+- a namespaced command and `userConfig`;
+- engine-kit tests and a tsconfig extending the generated types.
+
+It is validated, kit-tested and live-loaded on 2.1.287. The skill carries the rules above, so "Claude, mod yourself" has a governed path.
 
 ## Testing
 
 | Suite | Where | Result |
 |---|---|---|
-| Claude Code kit (`claude plugin test`), real engine | `plugins/ruflo-mods/tests` | 7/7 pass (ran while the rollout switch served on) |
-| Harness faithful to the declarations (vitest) | `v3/@claude-flow/cli/__tests__/mods` | 87/87 pass |
-| Existing CLI suite | `v3/@claude-flow/cli` | Same failures as `origin/main` in the same environment (4 memory tests), plus `helper-signing` until the manifest is re-signed |
+| Engine kit (`claude plugin test`), Claude Code 2.1.287 | `plugins/ruflo-mods/tests` | 15/15 |
+| Engine kit, mod template | `plugins/ruflo-plugin-creator/templates/mod/tests` | 1/1 |
+| Declaration-faithful harness (vitest, what CI runs) | `v3/@claude-flow/cli/__tests__/mods` | 99/99 |
+| Typecheck against the 2.1.287 generated types | `plugins/ruflo-mods`, the template | clean |
+| `claude plugin validate` (2.1.287) | plugin, template, marketplace | pass |
+| Smoke contracts | ruflo-mods 10/10, ruflo-plugin-creator 11/11 | pass |
+| Existing CLI suite | `v3/@claude-flow/cli` | Same 4 memory failures as `origin/main` in the same environment, plus `helper-signing` until the manifest is re-signed |
 
-Live runs, Claude Code 2.1.282 with `claude -p`:
+The engine-kit files import `claude-code/testing`, which the root vitest cannot resolve, so they are listed in `scripts/ci-test-baseline.txt` as #3605 and #3607 do.
 
-1. **`/ruflo-mods` via `--plugin-dir`.** The module was admitted at user tier and wrote its heartbeat. It owned nothing, correctly: this machine's user settings run an older `$HOME` hook-handler.
-2. **Enforce-mode projection denying `echo forbidden*`.** The engine logged `tool.check Bash: allow -> deny by plugin ruflo-mods: ruflo policy: denied-by:no-forbidden-echo`. The allowed command still ran.
-3. **Rollout switch off.** The module was refused and the session finished on the classic path.
-4. **Installed plugin.** Installed from a local marketplace into an isolated config, it loaded and owned `route, post-edit` (no classic hooks configured there).
+### Live runs (`claude -p`)
 
-No live prompt was routed by an owning mod, because the isolated config has no credentials for a model call.
-| Typecheck against the declarations (`tsc`, strict) | `plugins/ruflo-mods/tsconfig.json` | clean |
-| `claude plugin validate` | plugin and marketplace | pass |
-| Plugin smoke contract (static security) | `plugins/ruflo-mods/scripts/smoke.sh` | 9/9 |
-
-The kit needs the rollout switch on, so CI relies on the vitest harness, whose header lists what it models and what it does not. The typecheck needs the declarations `/plugin-types` writes. They are not vendored (early access, regenerated per release); copy them to `plugins/ruflo-mods/.claude/types/` and run `tsc -p plugins/ruflo-mods`.
+1. **2.1.287 with a handshake-aware helper.** The mod owned `route` and `post-edit`. The user-level classic route hook stood down, and the model quoted `Agent: tester` / `Confidence: 60.0%` from the injected context. `prompt.submit` settled in 57.8 ms, worker hop and the classic hook beneath included.
+2. **2.1.287, ten Bash calls.** Ruflo's `tool.check` settled in 1.6 to 4.0 ms (median about 1.9 ms, n=10), worker hop and the engine's own verdict included.
+3. **Enforce-mode projection denying `echo forbidden*`.** Logged `tool.check Bash: allow -> deny by plugin ruflo-mods: ruflo policy: denied-by:no-forbidden-echo`.
+4. **2.1.282.** Loaded with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`; "not turned on" without it.
+5. **Rollout switch off** (twice). The module was not loaded and the sessions finished on the classic path.
+6. **Installed from a local marketplace** into an isolated config. It loaded and owned `route, post-edit`.
 
 ## Benchmarks
 
-`npx tsx scripts/bench-mods-latency.ts`: Node 22.23.2, Ryzen 9 9950X; spawn n=40 after 3 warm-up runs, in-process n=2000. Median / p95 in milliseconds, same inputs and project, third of three consistent runs.
+`npx tsx scripts/bench-mods-latency.ts`: Node 22.23.2, Ryzen 9 9950X. Spawn n=40 after 3 warm-up runs, in-process n=2000. Median / p95 in milliseconds, same inputs and project, third of three consistent runs.
 
-| Event | Classic spawn | Classic, handed over (`RUFLO_MODS_OWNS` set) | Mod handler, in-process |
+| Event | Classic spawn | Classic, handed over | Mod handler (no engine hop) |
 |---|---|---|---|
 | route (`prompt.submit`) | 18.2 / 20.0 | 13.8 / 16.1 | 0.045 / 0.089 |
 | pre-bash (`tool.check`) | 17.1 / 20.5 | n/a (guards never hand over) | 0.005 / 0.007 |
 | post-edit (`tool.call`) | 19.0 / 32.4 | 13.8 / 23.2 | 0.001 / 0.003 |
 | edit plus per-turn write | | | 0.20 / 0.41 |
 
-How to read the table:
+How to read it:
 
-- **The mod column excludes Claude Code's own dispatch.** A live `claude -p` session logged the module's `tool.check` as "settled in 4.8 ms" and "2.6 ms" (n=2). Those figures cover the worker hop and `next()`, so they include the engine's own permission decision. That is the honest per-event comparison against the classic spawn.
-- **While a classic hook stays configured, its spawn still runs and returns early.** That costs about 13 to 14 ms of Node startup. The mod path then saves 4 to 5 ms and the duplicated work per owned event, not the whole spawn.
-- **The full saving needs the classic entries removed.** That is deferred, because a removed classic hook has no automatic fallback when the mod is refused.
-- **One optimization:** ranked-memory trigrams are computed once per file change rather than per prompt, which took the route handler from 0.159 to 0.045 ms at the median.
+- **The honest per-event comparison is the live engine figure.** `tool.check` settled at a median of about 1.9 ms (n=10, 2.1.287) against a 16 to 19 ms classic spawn. In the same session `ruflo-core`'s CLI-invoking `PreToolUse` hook ran a further median 337 ms per Bash call.
+- **While a classic hook stays configured, its spawn still runs and returns early,** at about 13 to 14 ms. The mod then saves 4 to 5 ms plus the duplicated work per owned event.
+- **The full saving needs the classic entries removed.** That is deferred (`mods install --exclusive`).
+- **Optimization.** Ranked-memory trigrams are computed once per file change, which took the route handler from 0.159 to 0.045 ms.
 
-## Other plugins (follow-ups, not built here)
+## Follow-ups (not built here)
 
-Implemented now: `ruflo-cost-tracker`'s budget ladder (`session.measure`, `agent.spawn`). Candidates, roughly by value:
+Ruflo plugins:
 
-1. **ruflo-aidefence:** scan tool results on `tool.call` for prompt injection (`context` warning) and PII in Write content (`tool.check` ask). This needs the AIMDS patterns shipped as a data file inside the plugin.
-2. **ruflo-observability:** spans from `turn.start` / `turn.step` / `turn.complete` and `tool.call` timing, without spawning.
-3. **ruflo-security-audit:** `tool.check` ask on dependency-changing commands such as `npm install` and lockfile writes.
-4. **ruflo-swarm / ruflo-agent:** 3-tier model selection on `agent.spawn`. This rewrites the model, which is not tightening, so it needs its own ADR.
-5. **ruflo-rag-memory / ruflo-agentdb:** memory recall into `prompt.submit` context through `$.mcp.call` to the ruflo MCP server.
-6. **ruflo-federation / x-gateway:** `session.receive` filtering for peer deliveries.
-7. **`ruflo mods install --exclusive`:** remove the owned classic entries, with `ruflo mods doctor` restoring them when the mod is refused.
+1. **ruflo-aidefence:** scan tool results on `tool.call` (`context` warning) and Write content (`tool.check` ask). Needs the AIMDS patterns as a data file in the plugin.
+2. **ruflo-observability:** spans from `turn.*` and `tool.call`.
+3. **ruflo-security-audit:** `tool.check` ask on dependency-changing commands.
+4. **Memory recall on Read** ("x-ray reads"): attach bounded, non-blocking pattern recall as context when Claude reads a file. Needs a cache the module can read without spawning.
+5. **3-tier model selection on `agent.spawn`.** This rewrites the model, which is not tightening, so it needs its own ADR. ruflo-swarm owns the swarm side (#3607).
+6. **`session.receive` filtering** for federation peers.
+7. **`ruflo mods install --exclusive`,** with the doctor restoring classic entries when the mod is refused.
+8. **The status line as an `AbovePrompt` `ui.render` row** instead of `ui.status`. `prompt.fill` for suggested ruflo commands, never auto-run.
 
-The remaining plugins (skills, agents, MCP-only) would gain nothing from function hooks.
+Built-in mods ruflo could offer replacements for: a policy-aware `/diff` pane (risk-scored hunks from `analyze_diff-risk`), and an agents listing filtered by ruflo routing (`agent.offer`). Both would be namespaced and never shadow the built-in.
+
+The remaining ruflo plugins (skills, agents, MCP-only) gain nothing from function hooks.
 
 ## Consequences
 
-- **Releases.** Ships with `@claude-flow/cli` (the `mods` command, doctor check, `init --mods`, policy projection) and the plugin marketplace. `plugins/ruflo-mods` and `plugins/ruflo-core` (`ruflo-hook.cjs`) reach users through the marketplace `git pull`, not npm. `hook-handler.cjs` changed in both copies, so the helpers manifest must be re-signed at release; until then `helper-signing.test.ts` fails on the content hash.
-- **API churn.** The module is written against early-access declarations. A Claude Code release can change them; `claude plugin validate` and the kit tests are the gate, and the classic path is unaffected either way.
+- **Releases.**
+  - Ships with `@claude-flow/cli`: the `mods` command, doctor checks, `init --mods`, policy projection and generator handshake.
+  - Reaches users through the marketplace `git pull`, not npm: `plugins/ruflo-mods`, `plugins/ruflo-plugin-creator` (0.3.0) and `plugins/ruflo-core` (`ruflo-hook.cjs`).
+  - `hook-handler.cjs` changed in both copies, so the helpers manifest must be re-signed at release.
+- **API churn.** The API is early access. `claude plugin validate` and the kit tests are the gate, and the classic path is unaffected either way.

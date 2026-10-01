@@ -84,10 +84,10 @@ export function probeMods(inputs: ProbeInputs): Finding[] {
 
   // 2a. Which Claude Code runs, and whether a stale install shadows it.
   findings.push({ name: 'claude installs', ...judgeInstalls(inputs.installs ?? findClaudeInstalls(env, home), envOn || settingsOn) });
-  // Observed on Claude Code 2.1.282 (ADR-404): the server-side rollout switch
-  // decides. Served on, an installed mod loaded with ENABLE_ENV unset; served
-  // off, it did not load with ENABLE_ENV=1. The variable is reported, never
-  // treated as sufficient.
+  // Observed live (ADR-404): 2.1.287 loads mods with ENABLE_ENV unset;
+  // 2.1.282 refuses them without it ("not turned on for installed plugins");
+  // on either, a server-side rollout switch served off holds them off, the
+  // variable notwithstanding. Which binary runs is the 'claude installs' finding.
   const rollout = get(readJson(join(home, '.claude.json')), 'cachedGrowthBookFeatures', 'tengu_plugin_hooks_modules');
   const enableMsg = `${ENABLE_ENV} ${envOn ? 'set in this environment' : settingsOn ? 'set in settings env' : 'not set'}`;
   findings.push(rollout === true

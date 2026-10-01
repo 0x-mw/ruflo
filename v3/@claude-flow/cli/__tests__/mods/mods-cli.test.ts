@@ -131,7 +131,7 @@ describe('ADR-404 mods probe and doctor', () => {
     expect(f.status).toBe('warn');
     expect(f.message).toContain('serves function hooks OFF');
     writeFileSync(join(home, '.claude.json'), JSON.stringify({ cachedGrowthBookFeatures: { tengu_plugin_hooks_modules: true } }));
-    expect(finding('function hooks', {}).status).toBe('pass'); // observed: loads with the variable unset while served on
+    expect(finding('function hooks', {}).status).toBe('pass'); // the variable is reported, never sufficient: the switch decides
   });
 
   it('reports a refusal by allowManagedModsOnly', () => {
