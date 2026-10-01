@@ -220,6 +220,11 @@
       "name": "ruflo-mods",
       "source": "./plugins/ruflo-mods",
       "description": "Early access (ADR-404): ruflo as a Claude Code mod (function hooks) \u2014 in-process routing, edit learning signals, tighten-only tool checks from ruflo policy, and the cost budget ladder. Opt-in via `ruflo mods install`; classic hooks stay the fallback"
+    },
+    {
+      "name": "ruflo-ruos",
+      "source": "./plugins/ruflo-ruos",
+      "description": "Run ruflo swarm agents on your own ruOS cloud desktops via the tenant-authenticated fleet MCP or per-tenant SSH; optional, removable"
     }
   ]
 }
