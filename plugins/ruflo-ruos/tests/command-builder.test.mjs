@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
   buildPrepare, buildPromptChunks, buildLaunch, buildPoll, buildStop, buildProbe,
-  parsePoll, parseLaunch, MAX_COMMAND_BYTES,
+  parsePoll, parseLaunch, MAX_COMMAND_BYTES, buildRepoSummary, parseRepoSummary,
 } from '../scripts/lib/command-builder.mjs';
 import { RuosError } from '../scripts/lib/types.mjs';
 
@@ -148,4 +148,13 @@ test('real /bin/sh: hostile prompt round-trips inert; run completes and stops', 
   sh(buildLaunch({ runId: run2, prompt: 'x', runner: 'claude' }), env2);
   await new Promise((r) => setTimeout(r, 200));
   assert.match(sh(buildStop(run2), env2), /RUOS_STOPPED/);
+});
+
+test('deploy hand-off probe is read-only and path-validated', () => {
+  const c = buildRepoSummary('projects/app');
+  assertOnlyExpectedRegions(c);
+  for (const verb of ['push', 'deploy', 'commit', 'reset', 'checkout']) assert.ok(!new RegExp(`git ${verb}`).test(c), verb);
+  for (const bad of ['../etc', 'a/../../b', '/abs', '$(id)', 'a b', "a'b", '-rf', '']) assert.throws(() => buildRepoSummary(bad), RuosError, bad);
+  assert.deepEqual(parseRepoSummary('RUOS_NOREPO'), { found: false });
+  assert.deepEqual(parseRepoSummary('RUOS_BRANCH:main\nRUOS_HEAD:abc\nRUOS_DIRTY:2\nRUOS_AHEAD:1\n'), { found: true, branch: 'main', head: 'abc', dirty: 2, ahead: '1' });
 });

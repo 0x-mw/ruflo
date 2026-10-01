@@ -13,6 +13,8 @@
  *   build --run <id> --prompt-file <f> [--model m] [--max-budget-usd n]
  *                              print the exact desktop_exec strings (session path)
  *   record <start|output|end> --run <id> ...   feed the swarm ledger (session path)
+ *   deploy-info --desktop <ref> --repo <path-under-$HOME>
+ *                              read-only: what a deploy from that repo would ship
  *   status                     transport configuration (no network)
  *
  * With no RUOS_MCP_URL/RUOS_MCP_TOKEN (and no RUOS_SSH_KEY for ssh) every
@@ -27,7 +29,7 @@ import { createSshTransport, sshConfigFromEnv } from './lib/ssh.mjs';
 import { createLedger, resolveCallTool, projectCwd } from './lib/ledger.mjs';
 import { RuosHostAdapter } from './lib/adapter.mjs';
 import { newRunId, assertRunId, assertAgentId, resolveDesktop, assertInt } from './lib/validate.mjs';
-import { buildPrepare, buildPromptChunks, buildLaunch, buildPoll, buildStop, buildProbe } from './lib/command-builder.mjs';
+import { buildPrepare, buildPromptChunks, buildLaunch, buildPoll, buildStop, buildProbe, buildRepoSummary, parseRepoSummary } from './lib/command-builder.mjs';
 import { nextAutoStop } from './lib/autostop.mjs';
 
 /**
@@ -140,6 +142,15 @@ export async function main(argv, env = process.env) {
       print(await adapter.stopDesktop({ desktop: String(args.desktop ?? ''), confirm: args.confirm === true }));
       return 0;
     }
+    case 'deploy-info': {
+      // Read-only hand-off: report repo state; never push or deploy.
+      const { adapter } = await buildAdapter(args, env);
+      const cmdline = buildRepoSummary(String(args.repo ?? ''));
+      const d = await adapter.resolve(String(args.desktop ?? ''));
+      print({ desktopId: d.id, repo: args.repo, ...parseRepoSummary((await adapter.transport.exec(d, cmdline, 30)).stdout),
+        next: 'review the diff, then deploy with your ruOS/project tooling; ruflo-ruos does not push or deploy' });
+      return 0;
+    }
     case 'logs': {
       const runId = assertRunId(args.run);
       const f = join(projectCwd(env), '.claude-flow', 'ruos', 'runs', `${runId}.log`);
@@ -165,7 +176,7 @@ export async function main(argv, env = process.env) {
     case 'record':
       return record(args, env);
     default:
-      print('usage: cli.mjs <status|hosts|run|stop|desktop-stop|logs|build|record> [options]  (see header)');
+      print('usage: cli.mjs <status|hosts|run|stop|desktop-stop|logs|build|record|deploy-info> [options]  (see header)');
       return cmd ? 2 : 0;
   }
 }

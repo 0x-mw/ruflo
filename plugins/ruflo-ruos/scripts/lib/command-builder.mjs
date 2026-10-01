@@ -89,7 +89,7 @@ export function buildLaunch(spec) {
   if (model) flags.push(`--model ${model}`);
   if (budget !== undefined) flags.push(`--max-budget-usd ${budget.toFixed(2)}`);
   // The inner script is a constant apart from the enum/number flags above.
-  const inner = `claude -p ${flags.join(' ')} < prompt.txt > out.log 2>&1; echo $? > exit.code`;
+  const inner = `claude -p ${flags.join(' ')} < prompt.txt > out.log 2>&1; echo $? > exit.code.tmp && mv exit.code.tmp exit.code`;
   // Setup runs as separate `|| exit` statements, never an `&&` chain ending
   // in `&` (that would background the whole chain in a subshell). In a
   // non-interactive shell the background job is not a group leader, so
@@ -134,6 +134,40 @@ export function buildStop(runId) {
       ` ; case "$p" in ''|*[!0-9]*) echo RUOS_NOPID; exit 4;; esac` +
       ` ; { kill -TERM -- -"$p" 2>/dev/null || kill -TERM "$p" 2>/dev/null; } && echo RUOS_STOPPED || echo RUOS_NOT_RUNNING`,
   );
+}
+
+/** a repo path on the desktop, relative to $HOME; no traversal, no quoting tricks */
+export const REPO_PATH_RE = /^(?!.*(^|\/)\.\.(\/|$))[A-Za-z0-9._][A-Za-z0-9._/-]{0,199}$/;
+
+/**
+ * Read-only deploy hand-off probe (ADR-405 §Deploy hand-off): what would be
+ * shipped from a repo on the desktop. It never pushes or deploys — ruOS's
+ * exec filter refuses `git push` / `fly deploy` literals by design, and the
+ * deploy decision stays with the user.
+ * @param {string} repoPath  path relative to $HOME
+ */
+export function buildRepoSummary(repoPath) {
+  if (typeof repoPath !== 'string' || !REPO_PATH_RE.test(repoPath)) {
+    throw new RuosError('invalid-input', 'repo path must be relative to $HOME without ..');
+  }
+  const d = `"$HOME/${repoPath}"`;
+  return seal(
+    `cd ${d} 2>/dev/null || { echo RUOS_NOREPO; exit 3; }` +
+      ` ; printf 'RUOS_BRANCH:%s\\n' "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"` +
+      ` ; printf 'RUOS_HEAD:%s\\n' "$(git rev-parse HEAD 2>/dev/null)"` +
+      ` ; printf 'RUOS_DIRTY:%s\\n' "$(git status --porcelain 2>/dev/null | wc -l)"` +
+      ` ; printf 'RUOS_AHEAD:%s\\n' "$(git rev-list --count @{u}..HEAD 2>/dev/null || echo unknown)"`,
+  );
+}
+
+/**
+ * @param {string} stdout
+ * @returns {{ found: boolean, branch?: string, head?: string, dirty?: number, ahead?: string }}
+ */
+export function parseRepoSummary(stdout) {
+  if (stdout.includes('RUOS_NOREPO')) return { found: false };
+  const get = (/** @type {string} */ k) => new RegExp(`RUOS_${k}:(.*)`).exec(stdout)?.[1]?.trim() ?? '';
+  return { found: true, branch: get('BRANCH'), head: get('HEAD'), dirty: Number(get('DIRTY')) || 0, ahead: get('AHEAD') };
 }
 
 /** Probe: is the runner present on this desktop? */
