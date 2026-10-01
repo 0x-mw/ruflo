@@ -1,0 +1,49 @@
+{
+  "name": "ruflo-mods",
+  "description": "ruflo as a Claude Code mod (function hooks, early access, ADR-404): in-process prompt routing, edit learning signals, tighten-only tool checks from ruflo policy, and the cost-tracker budget ladder on live session cost. Opt-in and removable: the classic hook-handler hooks stay the default and take every event back whenever the mod is not loaded.",
+  "version": "0.1.0",
+  "author": {
+    "name": "ruvnet",
+    "url": "https://github.com/ruvnet"
+  },
+  "homepage": "https://github.com/ruvnet/ruflo",
+  "license": "MIT",
+  "keywords": [
+    "ruflo",
+    "mods",
+    "function-hooks",
+    "routing",
+    "policy",
+    "cost"
+  ],
+  "userConfig": {
+    "routeContext": {
+      "type": "boolean",
+      "title": "Ranked memory with routes",
+      "description": "Add the ranked-memory block (.claude-flow/data/ranked-context.json) to each prompt's routing context, as the classic route hook does.",
+      "required": false,
+      "default": true
+    },
+    "statusLine": {
+      "type": "boolean",
+      "title": "ruflo status line",
+      "description": "Show a one-line ruflo status under the prompt. Never shown where the ruflo statusLine helper is already configured.",
+      "required": false,
+      "default": true
+    },
+    "costBudgetUsd": {
+      "type": "number",
+      "title": "Session budget (USD)",
+      "description": "Apply the cost-tracker budget ladder (50/75/90/100%) to this session's live cost. 0 turns it off.",
+      "required": false,
+      "default": 0
+    },
+    "costHardStop": {
+      "type": "boolean",
+      "title": "Halt agents at 100% of budget",
+      "description": "At 100% of the session budget, refuse new subagent spawns.",
+      "required": false,
+      "default": false
+    }
+  }
+}
