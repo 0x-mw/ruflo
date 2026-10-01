@@ -55,6 +55,10 @@ $CLI record start|output|end --run <runId> ...
 $CLI deploy-info --desktop <id> --repo projects/app
 ```
 
+## Status line (mod)
+
+When the ruflo mod (`ruflo-mods`) is loaded, this plugin's mod adds a `ruos` segment to ruflo's status line, e.g. `ruOS 2 agents · Work Desktop`, and clears it when no agent is running. It reads only `.claude-flow/ruos/hosts.json`, makes no network calls, and draws nothing without ruflo-mods. Verify it with `claude plugin test plugins/ruflo-ruos`.
+
 ## Swarm state
 
 Remote agents are recorded with ruflo's own tools: `agent_spawn` with `config.host = {kind: "ruos", desktopId, desktopName, transport, runId}`, then `agent_update`, then `claims_claim`/`claims_release` on `ruos-run-<runId>`. The plugin itself writes only to `.claude-flow/ruos/`:

@@ -25,7 +25,7 @@ grep -q '^name: ruos-host-operator$' "$ROOT/agents/ruos-host-operator.md" 2>/dev
 [[ -z "$miss" ]] && ok || bad "$miss"
 
 step "3. every source file under 500 lines"
-long=$(find "$ROOT/scripts" "$ROOT/tests" -name '*.mjs' -exec awk 'END{if(NR>500)print FILENAME":"NR}' {} \;)
+long=$(find "$ROOT/scripts" "$ROOT/tests" "$ROOT/hooks" \( -name '*.mjs' -o -name '*.ts' \) -exec awk 'END{if(NR>500)print FILENAME":"NR}' {} \;)
 [[ -z "$long" ]] && ok || bad "$long"
 
 step "4. no source path opens the :17870 executor"
@@ -55,7 +55,14 @@ else
   printf "SKIP (no tsc)\n"
 fi
 
-step "9. ADR-405 present"
+step "9. mod part: claude plugin validate + test (skipped if claude absent)"
+if command -v claude >/dev/null 2>&1 && claude plugin --help 2>/dev/null | grep -q 'test \['; then
+  if out=$(claude plugin validate "$ROOT" 2>&1) && out=$(claude plugin test "$ROOT" 2>&1); then ok; else bad "$(printf '%s' "$out" | tail -5)"; fi
+else
+  printf "SKIP (no claude CLI with plugin test)\n"
+fi
+
+step "10. ADR-405 present"
 [[ -f "$ROOT/../../v3/docs/adr/ADR-405-ruos-desktops-as-swarm-hosts.md" ]] && ok || bad "missing ADR"
 
 echo

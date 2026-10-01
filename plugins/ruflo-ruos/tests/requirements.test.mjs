@@ -154,7 +154,7 @@ test('no code path issues desktop_delete or secret_delete', async () => {
   const root = join(here, '..');
   /** @param {string} d @returns {string[]} */
   const walk = (d) => readdirSync(d).filter((n) => !n.startsWith('.') || n === '.claude-plugin').flatMap((n) => { const p = join(d, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
-  for (const file of walk(root).filter((p) => !p.includes(`${join(root, 'tests')}`) && /\.(mjs|md|sh|json)$/.test(p))) {
+  for (const file of walk(root).filter((p) => !p.includes(`${join(root, 'tests')}`) && /\.(mjs|ts|md|sh|json)$/.test(p))) {
     const text = readFileSync(file, 'utf8');
     for (const name of FORBIDDEN_TOOLS) {
       const hits = text.split('\n').filter((l) => l.includes(name) && !l.includes('FORBIDDEN_TOOLS = ') && !/never|human/i.test(l));

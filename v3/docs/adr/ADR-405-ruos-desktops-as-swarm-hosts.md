@@ -131,12 +131,13 @@ If the CLI cannot be resolved, or policy denies a call, the ledger degrades to t
 - The plugin has no npm dependencies.
 - The ruflo CLI is resolved at runtime and is optional.
 - The `$.ruos` and `$.ruflo` Claude Code mod nouns are never required. `$.ruos.desktops()` makes no network calls and may be stale, so freshness always comes from `desktop_status`.
-- **Mod part (deferred until mods-planner lands `segment`).** The planned contract follows `claude plugin validate`, which allows only flat `$.noun.method(input)` calls and rejects feature detection:
-  - status segment: `$.ruflo.segment({ id: 'ruos', text })`, with `text: null` to clear;
-  - read-only `$.ruos` calls: `desktops()`, `lite()`, `lastAudit({n})`, `viewOpen({machine})`, `viewClose()`, `viewIsOpen()`, from `@cognitum/ruos@0.2.0`;
-  - every call wrapped in try/catch with a fallback;
-  - types vendored from ruos-desktop `packages/ruos/mod/ruos/types/index.d.ts`, with a parity test.
-  `/ruflo-ruos:view` delegates to `/ruos view`.
+- **Mod part** (`hooks/register.ts`, `hooks/segment.ts`). This shipped after ruflo-mods landed `segment` in #3608 (ADR-404).
+  - On `session.start`, on each `prompt.submit` and every 15 s, it reads only the plugin's own `hosts.json` and sets `$.ruflo.segment({ id: 'ruos', text })`, e.g. "ruOS 2 agents · Work Desktop", with `text: null` once no agent runs.
+  - `claude plugin validate` allows only flat `$.noun.method(input)` calls and rejects feature detection, so the call sits in try/catch. Without the ruflo mod it rejects and nothing is drawn.
+  - It makes no network calls, takes no `$.ruos` dependency and issues no destructive tool.
+  - The `$.ruflo` type is vendored in `types/index.d.ts`, with a parity test against `plugins/ruflo-mods/types/index.d.ts`.
+  - It is verified by `claude plugin validate` and by `claude plugin test`: 3 tests, using a stand-in `$.ruflo` noun, plus a run without it.
+  - `$.ruos` (flat and read-only in `@cognitum/ruos@0.2.0`: `desktops()`, `lite()`, `lastAudit({n})`, `viewOpen({machine})`, `viewClose()`, `viewIsOpen()`) is not consumed yet. `/ruflo-ruos:view` delegates to `/ruos view` instead.
 
 ## Failure modes
 

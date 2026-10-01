@@ -140,3 +140,6 @@ plugins/ruflo-ruos/tests/ledger-cli.test.mjs
 plugins/ruflo-ruos/tests/requirements.test.mjs
 plugins/ruflo-ruos/tests/transports.test.mjs
 plugins/ruflo-ruos/tests/validate-autostop.test.mjs
+plugins/ruflo-ruos/tests/vendored-types.test.mjs
+# ruflo-ruos mod test: imports 'claude-code/testing' (run by `claude plugin test plugins/ruflo-ruos`)
+plugins/ruflo-ruos/tests/mod.test.ts
