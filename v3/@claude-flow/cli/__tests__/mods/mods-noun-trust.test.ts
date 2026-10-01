@@ -23,7 +23,7 @@ describe('ADR-404 $.ruflo noun', () => {
     const mod = loadMod(register, world);
     const built = await mod.create();
     await mod.dispatch('session.start', { cwd: '/work', surface: null, isInteractive: false }, (e) => ({ cwd: e.cwd }));
-    await built.ruflo.segment({ id: 'ruos', text: 'a\u0007b‮\n\tc' });
+    await built.ruflo.segment({ id: 'ruos', text: 'a\u0007b‮\n\tc\u001b[31m\u001b]8;;http://x\u0007' });
     await built.ruflo.segment({ id: 'aa', text: 'z'.repeat(100) });
     expect(world.statuses.at(-1)).toBe(`ruflo · ${'z'.repeat(47)}… · a b c`);
     await built.ruflo.segment({ id: 'aa', text: null });
@@ -61,15 +61,18 @@ describe('ADR-404 mod trust gate', () => {
       'process.run (runs host commands)', 'http.fetch (makes network requests)', 'on tool.check (can answer tool permission verdicts)',
     ]);
     expect(riskOf(scan({ uses: { events: 'nope', calls: [1] } as never }))).toEqual([]);
+    expect(riskOf(scan({ uses: { events: [], calls: ['fs.write'] } }))).toEqual(['fs.write (writes files (settings, hooks, helpers included))']);
   });
 
   it('judges only other user-tier modules; refuses only under refuse-risky', () => {
     const risky = scan({ uses: { events: ['*'], calls: [] } });
     expect(judge(risky, 'observe', new Set()).refuse).toBeUndefined();
     expect(judge(risky, 'refuse-risky', new Set()).refuse).toMatch(/sees every event/);
-    expect(judge(risky, 'refuse-risky', new Set(['m'])).judged).toBe(false);
+    expect(judge(risky, 'refuse-risky', new Set(['m@inline'])).judged).toBe(false); // provenance
+    expect(judge(risky, 'refuse-risky', new Set(['m'])).refuse).toBeDefined(); // a bare name is not trusted
     expect(judge({ ...risky, tier: 'prepend' }, 'refuse-risky', new Set()).judged).toBe(false);
-    expect(judge({ ...risky, name: 'ruflo-mods' }, 'refuse-risky', new Set()).judged).toBe(false);
+    // No self-exemption: a later module naming itself ruflo-mods is judged like any other.
+    expect(judge({ ...risky, name: 'ruflo-mods', provenance: 'ruflo-mods@inline' }, 'refuse-risky', new Set()).refuse).toMatch(/sees every event/);
     expect(judge(risky, 'off', new Set()).judged).toBe(false);
   });
 

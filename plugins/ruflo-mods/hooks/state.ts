@@ -71,6 +71,7 @@ export function setSegment(s: ModState, input: unknown): void {
     text === null
       ? ''
       : text
+          .replace(/\u001b\[[0-9;?]*[ -/]*[@-~]|\u001b\][^\u0007\u001b]*(?:\u0007|\u001b\\)?/g, '')
           .replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁠-⁩﻿]/g, ' ')
           .replace(/\s+/g, ' ')
           .trim()

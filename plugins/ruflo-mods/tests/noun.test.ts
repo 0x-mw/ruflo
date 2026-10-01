@@ -17,10 +17,10 @@ describe('noun', () => {
 
     expect((await $.command.run(segment('ruos', 'ruOS 1/2 agents\u001b[31m · Work‮Desktop'))).text).toBe('ok')
     expect((await $.command.run(segment('aaa', 'x'.repeat(200)))).text).toBe('ok')
-    expect(w.statuses.at(-1)).toBe(`ruflo · tester 60% · ${'x'.repeat(47)}… · ruOS 1/2 agents [31m · Work Desktop`)
+    expect(w.statuses.at(-1)).toBe(`ruflo · tester 60% · ${'x'.repeat(47)}… · ruOS 1/2 agents · Work Desktop`)
 
     await $.command.run(segment('aaa', null))
-    expect(w.statuses.at(-1)).toBe('ruflo · tester 60% · ruOS 1/2 agents [31m · Work Desktop')
+    expect(w.statuses.at(-1)).toBe('ruflo · tester 60% · ruOS 1/2 agents · Work Desktop')
 
     expect((await $.command.run(segment('bad id!', 'x'))).text).toMatch(/^error: /)
     for (let i = 0; i < 7; i++) await $.command.run(segment(`s${i}`, 'y'))

@@ -28,6 +28,7 @@ const RISKY_CALLS: Record<string, string> = {
   'process.run': 'runs host commands',
   'http.fetch': 'makes network requests',
   'env.set': 'changes the environment of later hooks and tools',
+  'fs.write': 'writes files (settings, hooks, helpers included)',
 }
 
 /** Hooks that decide for, or over, everything else. */
@@ -55,11 +56,16 @@ export function riskOf(scan: ModuleScan): string[] {
 export type TrustDecision = { readonly judged: boolean; readonly risk: readonly string[]; readonly refuse?: string }
 
 /**
- * Judges one registering module. Only user-tier modules other than this one
- * and the allow-listed are judged; refusal only under `refuse-risky`.
+ * Judges one registering module: user-tier modules not on the allow-list;
+ * refusal only under `refuse-risky`. The allow-list matches the loader's
+ * `provenance` (`name@marketplace`, `name@inline`), never the module's own
+ * `name`, which is its manifest's word and a rename walks past. There is no
+ * self-exemption: a module only judges those admitted after it, so ruflo-mods
+ * never meets its own registration, and a mod calling itself "ruflo-mods" is
+ * judged like any other.
  */
 export function judge(scan: ModuleScan, policy: TrustPolicy, allow: ReadonlySet<string>): TrustDecision {
-  if (policy === 'off' || scan.tier !== 'user' || scan.name === 'ruflo-mods' || allow.has(scan.name)) {
+  if (policy === 'off' || scan.tier !== 'user' || allow.has(scan.provenance)) {
     return { judged: false, risk: [] }
   }
   const risk = riskOf(scan)
@@ -67,7 +73,7 @@ export function judge(scan: ModuleScan, policy: TrustPolicy, allow: ReadonlySet<
     ? {
         judged: true,
         risk,
-        refuse: `ruflo mod trust (modTrust=refuse-risky): ${scan.name} ${risk.join('; ')}; allow it by name in modTrustAllow`,
+        refuse: `ruflo mod trust (modTrust=refuse-risky): ${scan.name} ${risk.join('; ')}; allow it by provenance (${scan.provenance}) in modTrustAllow`,
       }
     : { judged: true, risk }
 }
@@ -96,7 +102,7 @@ export function registerTrust(on: On, policy: TrustPolicy, allow: ReadonlySet<st
   }).catch(($, e, next) =>
     // Observing, a failure admits as Claude Code would without ruflo; set to
     // refuse, the gate guards something, so a module it could not judge stays out.
-    policy === 'refuse-risky' && e.tier === 'user' && e.name !== 'ruflo-mods' && !allow.has(e.name)
+    policy === 'refuse-risky' && e.tier === 'user' && !allow.has(e.provenance)
       ? { refuse: `ruflo mod trust could not judge ${e.name} (${next.error.message ?? next.error.kind}); refused (modTrust=refuse-risky)` }
       : next(e),
   )

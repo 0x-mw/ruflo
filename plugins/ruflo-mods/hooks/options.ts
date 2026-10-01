@@ -18,10 +18,10 @@ const bool = (value: unknown, fallback: boolean) =>
 
 const TRUST: readonly TrustPolicy[] = ['observe', 'refuse-risky', 'off']
 
-/** Plugin names, from a comma list or a string array; anything else is none. */
+/** Plugin ids (`name@marketplace`), from a comma list or a string array; anything else is none. */
 function names(value: unknown): ReadonlySet<string> {
   const list = typeof value === 'string' ? value.split(',') : Array.isArray(value) ? value : []
-  return new Set(list.filter((v): v is string => typeof v === 'string').map(v => v.trim()).filter(v => /^[A-Za-z0-9._-]{1,64}$/.test(v)))
+  return new Set(list.filter((v): v is string => typeof v === 'string').map(v => v.trim()).filter(v => /^[A-Za-z0-9._-]{1,64}@[A-Za-z0-9._-]{1,64}$/.test(v)))
 }
 
 export function readOptions(options: PluginOptions | undefined): ModOptions {

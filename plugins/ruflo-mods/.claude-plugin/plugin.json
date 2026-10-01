@@ -50,7 +50,7 @@
     "modTrust": {
       "type": "string",
       "title": "Mod trust gate",
-      "description": "How ruflo treats a hooks module installed or hot-reloaded after it (a mod Claude wrote, say). \"observe\" (default): name what it can do (host commands, network, environment, tool verdicts) in the transcript. \"refuse-risky\": refuse user-tier mods that can do any of those, unless named in modTrustAllow. \"off\": do not watch.",
+      "description": "How ruflo treats a hooks module installed or hot-reloaded after it (a mod Claude wrote, say). \"observe\" (default): name what it can do (host commands, network, environment, file writes, tool verdicts) in the transcript. \"refuse-risky\": refuse user-tier mods that can do any of those, unless listed in modTrustAllow. \"off\": do not watch.",
       "required": false,
       "default": "observe",
       "options": [
@@ -61,8 +61,8 @@
     },
     "modTrustAllow": {
       "type": "string",
-      "title": "Trusted mods",
-      "description": "Comma-separated plugin names the trust gate never refuses.",
+      "title": "Trusted mods (plugin ids)",
+      "description": "Comma-separated plugin ids as Claude Code keys them, name@marketplace (e.g. ruflo-swarm@ruflo), that the trust gate never refuses. Matched on where the plugin was installed from, not on the name it gives itself.",
       "required": false,
       "default": ""
     }

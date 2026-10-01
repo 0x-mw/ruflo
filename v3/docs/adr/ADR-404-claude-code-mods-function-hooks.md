@@ -113,10 +113,10 @@ Tests run the real `hook-handler.cjs` and `ruflo-hook.cjs` with the environment 
 
 ### The mod trust gate
 
-Self-modding means a Claude-written mod can be installed and run with Claude Code's access mid-session. The gate hooks `plugin.register`, first in registration order so it wraps everything else of ruflo's. It judges user-tier modules admitted after it, except itself and an allow-list, from the host's scan, never from the module's own claims.
+Self-modding means a Claude-written mod can be installed and run with Claude Code's access mid-session. The gate hooks `plugin.register`, first in registration order so it wraps everything else of ruflo's. It judges user-tier modules admitted after it, from the host's scan, never from the module's own claims. The allow-list matches the loader-keyed provenance (`name@marketplace`, e.g. `ruflo-swarm@ruflo`), never the self-declared `name`, which a rename walks past. There is no self-exemption: a module only judges modules admitted after it, so ruflo-mods never meets its own registration, and a later mod calling itself `ruflo-mods` is judged like any other.
 
 - **What counts as risky.**
-  - Calls: `process.run` (host commands), `http.fetch` (network), `env.set`.
+  - Calls: `process.run` (host commands), `http.fetch` (network), `env.set`, `fs.write` (any path, so settings, hooks and helpers included: a persistence route).
   - Hooks: `tool.check`, `tool.call`, `*`, `classic.*`, `plugin.register`, `prompt.compose`.
 - **Policy (`userConfig.modTrust`).**
   - `observe` (default) names what the module can do in the transcript, or the debug log for a module with nothing risky.
@@ -127,6 +127,8 @@ Self-modding means a Claude-written mod can be installed and run with Claude Cod
   - It never judges prepend, append or builtin modules: the organization's and Claude Code's own, out of a person's reach by design.
 
 The ruflo CLI's plugin trust policy (#3557) is Node code and cannot run inside the sandbox, so the gate applies its own scan-based rule rather than that policy.
+
+Sibling mods are risky by this rule: ruflo-swarm hooks `tool.call`, `agent.spawn` and an opt-in `*`; the ruOS mod hooks `tool.check`; the scaffold template calls `env.set`. Under the default `observe` they load unchanged. Under `refuse-risky` they must be allow-listed by provenance (`ruflo-swarm@ruflo`, and the ruOS mod's own id). Their lanes have been told.
 
 ### Tiers and `sec-default`
 

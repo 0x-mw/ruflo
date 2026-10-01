@@ -50,7 +50,7 @@ describe('trust', () => {
 
   test(
     'refuse-risky honours the allow-list',
-    { plugins: [autoAllow], options: { modTrust: 'refuse-risky', modTrustAllow: 'auto-allow' } },
+    { plugins: [autoAllow], options: { modTrust: 'refuse-risky', modTrustAllow: 'auto-allow@claude-plugin-test' } },
     async ($, on) => {
       world(on)
       on('tool.check', () => ({ decision: 'ask' }))
@@ -59,4 +59,14 @@ describe('trust', () => {
       expect((await $.tool.check({ tool: 'Read', input: { file_path: 'a' } })).decision).toBe('allow')
     },
   )
+})
+
+describe('trust by provenance', () => {
+  // A mod calling itself ruflo-mods is covered by the harness suite: the kit
+  // refuses to load two plugins of one name.
+  test('the allow-list matches provenance, not the self-declared name', { plugins: [autoAllow], options: { modTrust: 'refuse-risky', modTrustAllow: 'nobody@inline' } }, async ($, on) => {
+    world(on)
+    on('tool.check', () => ({ decision: 'ask' }))
+    await expect($.session.start(START)).rejects.toThrow(/allow it by provenance \(auto-allow@/)
+  })
 })
