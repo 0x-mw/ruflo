@@ -33,8 +33,9 @@ test('budget and model validation', () => {
 });
 
 test('run ids are path-safe', () => {
-  const id = newRunId(() => 1_790_000_000_000, (n) => Buffer.alloc(n, 0xab));
+  const id = newRunId((n) => Buffer.alloc(n, 0xab));
   assert.match(id, RUN_ID_RE);
+  assert.equal(id, `r-${'ab'.repeat(16)}`, '128 random bits');
 });
 
 const iso = (/** @type {number} */ ms) => new Date(ms).toISOString();

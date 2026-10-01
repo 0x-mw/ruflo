@@ -17,6 +17,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { RuosHostAdapter } from './lib/adapter.mjs';
 import { createLedger } from './lib/ledger.mjs';
+import { createExecPollTransport } from './lib/jobs.mjs';
 
 const n = Number(process.argv[process.argv.indexOf('--n') + 1]) || 20;
 const root = mkdtempSync(join(tmpdir(), 'ruflo-ruos-bench-'));
@@ -39,6 +40,7 @@ const desk = { id: 'a'.repeat(32), flyMachineId: null, name: 'local', displayNam
 const fleet = {
   listDesktops: async () => [{ ...desk, heartbeatAt: Math.floor(Date.now() / 1000) }],
   start: async () => {}, stop: async () => {}, keepAwake: async () => {},
+  llmRoute: async () => ({ route: 'shared', provider: 'local', gateway: 'configured', keyPresent: true }),
 };
 const prompt = 'Summarise the repository README in three bullet points.\n'.repeat(20);
 
@@ -59,9 +61,9 @@ for (let i = 0; i < n; i++) {
   raw.push(performance.now() - t);
 
   const ledger = createLedger({ cwd: join(root, 'proj'), callTool: null });
-  const adapter = new RuosHostAdapter({ fleet, transport, ledger, sleep: (ms) => new Promise((r) => setTimeout(r, Math.min(ms, 20))) });
+  const adapter = new RuosHostAdapter({ fleet, jobs: createExecPollTransport(transport), ledger, sleep: (ms) => new Promise((r) => setTimeout(r, Math.min(ms, 20))) });
   t = performance.now();
-  const out = await adapter.run({ desktop: desk.id, prompt, runId: `r-bench-${String(i).padStart(4, '0')}`, agentId: `bench-${i}`, timeoutSecs: 60, ignoreAutoStop: true });
+  const out = await adapter.run({ desktop: desk.id, prompt, runId: `r-bench${String(i).padStart(28, '0')}`, agentId: `bench-${i}`, timeoutSecs: 60, ignoreAutoStop: true });
   total.push(performance.now() - t);
   if (out.firstOutputMs !== null) firstOut.push(out.firstOutputMs);
 }
@@ -72,6 +74,6 @@ const result = {
   rawCallMs: stats(raw),
   adapterFirstOutputMs: stats(firstOut),
   adapterTotalMs: stats(total),
-  note: 'local /bin/sh, zero network; adapter = prepare + 1 chunk + launch + >=1 poll + ledger files. Poll sleep capped at 20ms here; production backs off 1s->5s.',
+  note: 'local /bin/sh, zero network; adapter = prepare + 1 chunk + launch + >=1 poll + ledger files. Poll sleep capped at 20ms here; production backs off 1s->10s.',
 };
 console.log(JSON.stringify(result, null, 2));

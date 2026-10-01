@@ -11,6 +11,8 @@
  *
  * The plugin additionally owns `.claude-flow/ruos/`:
  *   events.jsonl  append-only lifecycle events (ids/sizes/states only)
+ *   audit.jsonl   one record per run: runId, desktop, command sha256,
+ *                 start/end, exit, bytes (ruOS does not audit detached output)
  *   hosts.json    snapshot of the caller's desktops + which agents run there
  *   runs/<id>.log local copy of the remote output (mode 0600)
  * If ruflo's CLI cannot be resolved, or policy denies a call, the ledger
@@ -37,6 +39,7 @@ import { pathToFileURL } from 'node:url';
  * @property {(desktops: import('./types.mjs').Desktop[]) => void} snapshotHosts  merge host state, keep agent placements
  * @property {(desktopId: string|null, agentId: string, present: boolean) => void} setHostAgent  null desktopId + present=false removes the agent from every host
  * @property {(runId: string, chunk: Buffer) => void} appendOutput
+ * @property {(record: Record<string, unknown>) => void} audit  per-run record → audit.jsonl (no prompt/output text)
  * @property {string[]} warnings
  */
 
@@ -190,6 +193,10 @@ export function createLedger({ cwd, callTool, now = () => new Date() }) {
         const rest = h.agents.filter((/** @type {string} */ a) => a !== agentId);
         hosts.set(desktopId, { ...h, agents: present ? [...rest, agentId] : rest });
       });
+    },
+    audit(record) {
+      ensure();
+      appendFileSync(join(dir, 'audit.jsonl'), JSON.stringify({ ts: now().toISOString(), ...record }) + '\n', { mode: 0o600 });
     },
     appendOutput(runId, chunk) {
       ensure();

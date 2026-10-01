@@ -1,0 +1,190 @@
+// @ts-check
+/**
+ * Requirements from the live E2E (2026-10-01) and the ruOS lane's design
+ * rules: exec framing, jobs-API contract (ADR-105), no deletion tools,
+ * credentials + redaction, Lite filtering, LLM route check, audit record.
+ */
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { FleetMcpClient, fleetConfigFromEnv, normalizeExec, normalizeDesktops, FORBIDDEN_TOOLS } from '../scripts/lib/fleet-mcp.mjs';
+import { parseLaunch, parsePoll, parseStopped, buildLaunch, buildPoll, buildStop, buildPromptChunks, commandSha256 } from '../scripts/lib/command-builder.mjs';
+import { createJobsApiTransport, createRestJobsBackend, createExecPollTransport } from '../scripts/lib/jobs.mjs';
+import { RuosHostAdapter } from '../scripts/lib/adapter.mjs';
+import { RuosError } from '../scripts/lib/types.mjs';
+import { desktop, fakeClock, fakeFleet, fakeTransport, fakeLedger, ok, FLY_ID } from './fakes.mjs';
+
+const here = dirname(fileURLToPath(import.meta.url));
+const RUN = 'r-0123456789abcdef0123456789abcdef';
+const frame = (/** @type {string} */ cmd, /** @type {string} */ out) => ({
+  status: 'ok', exitCode: 0, completionVerified: true,
+  stdout: `▶ run: ${cmd}\n\n${out}\n\n✓ SUCCESS in 0s · 1 lines\n📝 transcript: /home/ruv/.ruos/activity/x.log\n`,
+});
+
+test('live framing: the echoed command never false-matches a marker', () => {
+  const spec = { runId: RUN, prompt: 'x', runner: /** @type {'claude'} */ ('claude') };
+  const launch = normalizeExec(frame(buildLaunch(spec), `RUOS_SHA:${'a'.repeat(64)}\nRUOS_PID:1995`));
+  assert.deepEqual(parseLaunch(launch.stdout), { sha256: 'a'.repeat(64), pid: 1995, noRunner: false });
+  const poll = normalizeExec(frame(buildPoll(RUN, 0), 'RUOS_POLL:0:22:0:UlVGTE9fUlVPU19MSVZFX09LIDQyCg=='));
+  const p = parsePoll(poll.stdout);
+  assert.ok(p !== 'norun' && p.chunk.toString() === 'RUFLO_RUOS_LIVE_OK 42\n');
+  // The raw (un-normalised) echo alone must not parse as a result either.
+  const echoOnly = `▶ run: ${buildLaunch(spec)}`;
+  assert.equal(parseLaunch(echoOnly).noRunner, false);
+  assert.equal(parseStopped(`▶ run: ${buildStop(RUN)}\nRUOS_NOT_RUNNING`), false);
+  assert.throws(() => parsePoll(`▶ run: ${buildPoll(RUN, 0)}`), RuosError);
+  const capped = normalizeExec({ stdout: '▶ run: seq\n\n0001 0002\n… [output truncated]\n', exitCode: 0 });
+  assert.equal(capped.truncated, true);
+  assert.equal(capped.stdout.trim(), '0001 0002');
+});
+
+/** In-memory jobs API that follows the ADR-105 contract. */
+function jobsServer() {
+  /** @type {Map<string, { owner: string, out: Buffer, state: string, exit: number|null, key: string }>} */
+  const jobs = new Map();
+  /** @type {any[]} */ const log = [];
+  let capHits = 0;
+  /** @type {typeof fetch} */
+  const f = async (url, init) => {
+    const u = new URL(String(url));
+    const method = init?.method ?? 'GET';
+    log.push({ method, path: u.pathname, search: u.search, body: init?.body ? JSON.parse(String(init.body)) : undefined, auth: /** @type {any} */ (init?.headers)?.authorization });
+    const json = (/** @type {number} */ status, /** @type {unknown} */ b) => new Response(JSON.stringify(b), { status });
+    if (u.pathname === '/api/v1/desktop/jobs' && method === 'GET') return json(200, { jobs: [...jobs.keys()] });
+    if (u.pathname === '/api/v1/desktop/jobs' && method === 'POST') {
+      if (capHits-- > 0) return json(429, { error: 'concurrency cap' });
+      const b = JSON.parse(String(init?.body));
+      for (const [id, j] of jobs) if (j.key === b.idempotency_key) return json(200, { job_id: id });
+      const id = `job_${jobs.size + 1}`;
+      jobs.set(id, { owner: 'me', out: Buffer.from('hello from the jobs api\n'), state: 'running', exit: null, key: b.idempotency_key });
+      return json(200, { job_id: id });
+    }
+    const id = decodeURIComponent(u.pathname.split('/').pop() ?? '');
+    const j = jobs.get(id);
+    if (!j || j.owner !== 'me') return json(404, { error: 'not found' });
+    if (method === 'DELETE') { j.state = 'cancelled'; return json(200, {}); }
+    const off = Number(u.searchParams.get('offset'));
+    const chunk = j.out.subarray(off, off + Number(u.searchParams.get('max')));
+    if (off + chunk.length >= j.out.length && j.state === 'running') { j.state = 'exited'; j.exit = 0; }
+    return json(200, { chunk: chunk.toString('base64'), next_offset: off + chunk.length, running: j.state === 'running', state: j.state, exit_code: j.exit, truncated: false });
+  };
+  return { f, log, jobs, setCapHits: (/** @type {number} */ n) => { capHits = n; }, foreign: (/** @type {string} */ id) => jobs.set(id, { owner: 'other', out: Buffer.alloc(0), state: 'running', exit: null, key: 'x' }) };
+}
+
+const staging = () => fakeTransport((cmd) => ok(cmd.includes('RUOS_PREPARED') ? 'RUOS_PREPARED' : ''));
+
+test('jobs API transport: start with idempotency key, stream to exit, audit, through the adapter', async () => {
+  const srv = jobsServer();
+  srv.setCapHits(1); // first create hits the per-tenant cap → adapter backs off
+  const backend = createRestJobsBackend({ baseUrl: 'https://fleet.example.test', token: 'tok', fetchImpl: srv.f });
+  assert.equal(await backend.detect(FLY_ID), true);
+  const clock = fakeClock();
+  const ledger = fakeLedger();
+  const adapter = new RuosHostAdapter({
+    fleet: fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]),
+    jobs: createJobsApiTransport(backend, staging()),
+    ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep,
+  });
+  /** @type {string[]} */ const seen = [];
+  const out = await adapter.run({ desktop: 'Work Desktop', prompt: 'secret task text', runId: RUN, agentId: 'a1', timeoutSecs: 600, onOutput: (c) => seen.push(c.toString()) });
+  assert.equal(out.status, 'completed');
+  assert.equal(out.jobs, 'jobs-api');
+  assert.equal(seen.join(''), 'hello from the jobs api\n');
+  const creates = srv.log.filter((r) => r.method === 'POST');
+  assert.equal(creates.length, 2, 'one capped attempt, one retry');
+  assert.deepEqual(Object.keys(creates[1].body).sort(), ['command', 'idempotency_key', 'machine', 'timeout_secs']);
+  assert.equal(creates[1].body.idempotency_key, RUN);
+  assert.equal(creates[1].body.machine, FLY_ID);
+  assert.ok(!JSON.stringify(creates).includes('secret task text'), 'prompt never in the job command');
+  assert.ok(ledger.warnings.some((w) => w.includes('concurrency cap')));
+  // Audit record: hash of the launched command, no prompt text.
+  assert.equal(ledger.audits.length, 1);
+  assert.match(ledger.audits[0].commandSha256, /^[0-9a-f]{64}$/);
+  assert.ok(!JSON.stringify(ledger.audits).includes('secret task text'));
+});
+
+test('jobs API: another tenant\'s id is 404 → not-owned, never retried', async () => {
+  const srv = jobsServer();
+  srv.foreign('job_other');
+  const t = createJobsApiTransport(createRestJobsBackend({ baseUrl: 'https://fleet.example.test', token: 'tok', fetchImpl: srv.f }), staging());
+  const before = srv.log.length;
+  await assert.rejects(t.poll(desktop(), 'job_other', 0), (e) => e instanceof RuosError && e.code === 'not-owned');
+  assert.equal(srv.log.length - before, 1, 'exactly one request');
+});
+
+test('jobs API: states map; a stopped desktop is resumable, not a silent success', async () => {
+  const backend = {
+    create: async () => ({ job_id: 'j1' }),
+    read: async () => ({ chunk: '', next_offset: 0, running: false, state: 'stopped', exit_code: null, truncated: false }),
+    cancel: async () => {},
+    list: async () => [],
+  };
+  const clock = fakeClock();
+  const adapter = new RuosHostAdapter({ fleet: fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]), jobs: createJobsApiTransport(backend, staging()), ledger: /** @type {any} */ (fakeLedger()), now: clock.now, sleep: clock.sleep });
+  await assert.rejects(adapter.run({ desktop: 'Work Desktop', prompt: 'x', runId: RUN, agentId: 'a1' }), (e) => e instanceof RuosError && e.code === 'auto-stopped' && /attach/.test(e.message));
+  const missing = createRestJobsBackend({ baseUrl: 'https://fleet.example.test', token: 'tok', fetchImpl: async () => new Response('', { status: 404 }) });
+  assert.equal(await missing.detect(FLY_ID), false, 'jobs API not deployed → fall back to exec-poll');
+});
+
+test('no code path issues desktop_delete or secret_delete', async () => {
+  // Runtime guard: refused before any network request.
+  let fetched = false;
+  const c = new FleetMcpClient({ url: 'https://fleet.example.test/mcp', token: 'tok', fetchImpl: async () => { fetched = true; return new Response('{}'); } });
+  for (const name of FORBIDDEN_TOOLS) await assert.rejects(c.callTool(name, {}), RuosError);
+  assert.equal(fetched, false);
+  // Static guard: the names appear only in the FORBIDDEN_TOOLS definition.
+  const root = join(here, '..');
+  /** @param {string} d @returns {string[]} */
+  const walk = (d) => readdirSync(d).filter((n) => !n.startsWith('.') || n === '.claude-plugin').flatMap((n) => { const p = join(d, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
+  for (const file of walk(root).filter((p) => !p.includes(`${join(root, 'tests')}`) && /\.(mjs|md|sh|json)$/.test(p))) {
+    const text = readFileSync(file, 'utf8');
+    for (const name of FORBIDDEN_TOOLS) {
+      const hits = text.split('\n').filter((l) => l.includes(name) && !l.includes('FORBIDDEN_TOOLS = ') && !/never|human/i.test(l));
+      assert.deepEqual(hits, [], `${file} mentions ${name}`);
+    }
+  }
+});
+
+test('credentials: env first, then @cognitum/ruos file; token never echoed', async () => {
+  assert.equal(fleetConfigFromEnv({ RUOS_MCP_URL: 'https://a/mcp', RUOS_MCP_TOKEN: 't' }, () => { throw new Error('no'); }).source, 'env');
+  const fromFile = fleetConfigFromEnv({ HOME: '/home/u' }, (p) => { assert.equal(p, '/home/u/.config/ruos/credentials.json'); return JSON.stringify({ access_token: 'oauth-tok' }); });
+  assert.deepEqual(fromFile, { url: 'https://ruos.cognitum.one/mcp', token: 'oauth-tok', source: 'credentials-file' });
+  assert.equal(fleetConfigFromEnv({ HOME: '/home/u' }, () => { throw new Error('ENOENT'); }).source, 'none');
+  const token = 'ruos_mcp_SUPERSECRET123';
+  const c = new FleetMcpClient({ url: 'https://fleet.example.test/mcp', token, fetchImpl: async () => new Response(JSON.stringify({ jsonrpc: '2.0', id: 1, error: { message: `bad token ${token}` } }), { status: 200 }) });
+  await assert.rejects(c.callTool('desktop_status', {}), (e) => e instanceof Error && !e.message.includes(token) && e.message.includes('[redacted]'));
+});
+
+test('Lite browsers are never host candidates', () => {
+  const raw = {
+    desktops: [{ machine_id: 'a'.repeat(32), fly_machine_id: 'b'.repeat(14), name: 'w' }],
+    lite_browsers: [{ machine_id: 'lite-2be6c1bd3e06f05ae8da5f470e4737c3', kind: 'lite_browser', state: 'running' }],
+  };
+  assert.deepEqual(normalizeDesktops(raw).map((d) => d.id), ['a'.repeat(32)]);
+  assert.deepEqual(normalizeDesktops({ desktops: [{ machine_id: 'c'.repeat(32), kind: 'lite_browser' }] }), []);
+});
+
+test('LLM route: no route fails fast before any exec; unconfigured gateway only warns', async () => {
+  const clock = fakeClock();
+  const t = fakeTransport(() => ok(''));
+  const fleet = fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]);
+  fleet.llmRoute = async () => ({ route: null, provider: null, gateway: null, keyPresent: false });
+  const adapter = new RuosHostAdapter({ fleet, jobs: createExecPollTransport(t), ledger: /** @type {any} */ (fakeLedger()), now: clock.now, sleep: clock.sleep });
+  await assert.rejects(adapter.run({ desktop: 'Work Desktop', prompt: 'x', runId: RUN, agentId: 'a1' }), (e) => e instanceof RuosError && e.code === 'llm-unconfigured');
+  assert.equal(t.commands.length, 0);
+
+  const sha = buildPromptChunks(RUN, 'x').sha256;
+  const t2 = fakeTransport((cmd) => {
+    if (cmd.includes('RUOS_NO_RUNNER')) return ok(`RUOS_SHA:${sha}\nRUOS_PID:1`);
+    if (cmd.includes('RUOS_POLL')) return ok('RUOS_POLL:0:0:0:');
+    return ok('RUOS_PREPARED');
+  });
+  const ledger = fakeLedger();
+  const a2 = new RuosHostAdapter({ fleet: fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]), jobs: createExecPollTransport(t2), ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep });
+  const out = await a2.run({ desktop: 'Work Desktop', prompt: 'x', runId: RUN, agentId: 'a1' });
+  assert.equal(out.status, 'completed');
+  assert.ok(out.warnings.some((w) => w.includes('shared route')), 'live-observed shape: gateway unconfigured, route shared → warn, not fail');
+  assert.equal(ledger.audits[0].commandSha256, commandSha256(buildLaunch({ runId: RUN, prompt: 'x', runner: 'claude' })));
+});

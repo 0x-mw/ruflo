@@ -2,14 +2,16 @@
 /**
  * ruOS host adapter (ADR-405): discover → (opt-in start) → launch → stream →
  * stop, with typed failures. Collaborators are injected (London-school):
- * Fleet (control plane), Transport (exec), Ledger (swarm state), clock.
+ * Fleet (control plane), JobTransport (launch/poll/cancel), Ledger (swarm
+ * state + audit), clock.
  */
 import { RuosError } from './types.mjs';
-import { resolveDesktop, assertRunId, assertAgentId, assertInt } from './validate.mjs';
-import {
-  buildPrepare, buildPromptChunks, buildLaunch, buildPoll, buildStop, parsePoll, parseLaunch,
-} from './command-builder.mjs';
+import { resolveDesktop, assertRunId, assertAgentId, assertInt, assertPrompt } from './validate.mjs';
 import { checkWindow } from './autostop.mjs';
+
+const TERMINAL = new Set(['exited', 'failed', 'cancelled']);
+export const POLL_MIN_MS = 1000;
+export const POLL_MAX_MS = 10_000;
 
 /** heartbeat older than this is not evidence the desktop is up */
 export const HEARTBEAT_FRESH_SECS = 180;
@@ -27,7 +29,8 @@ export function isUp(d, nowMs) {
 /**
  * @typedef {object} AdapterDeps
  * @property {import('./types.mjs').Fleet} fleet
- * @property {import('./types.mjs').Transport} transport
+ * @property {import('./types.mjs').JobTransport} jobs
+ * @property {'fleet-mcp'|'ssh'=} transportKind  the exec path under the job transport
  * @property {import('./ledger.mjs').Ledger} ledger
  * @property {() => number=} now
  * @property {(ms: number) => Promise<void>=} sleep
@@ -61,14 +64,19 @@ export function isUp(d, nowMs) {
  * @property {number|null} firstOutputMs  local call → first output byte
  * @property {number} totalMs
  * @property {string} swarmLedger
+ * @property {string|null} stopAt
+ * @property {'exec-poll'|'jobs-api'} jobs
  * @property {string[]} warnings
  */
+
+/** @typedef {{ bytes: number, firstOutputMs: number|null, offset: number }} Stream */
 
 export class RuosHostAdapter {
   /** @param {AdapterDeps} deps */
   constructor(deps) {
     this.fleet = deps.fleet;
-    this.transport = deps.transport;
+    this.jobs = deps.jobs;
+    this.transportKind = deps.transportKind ?? 'fleet-mcp';
     this.ledger = deps.ledger;
     this.now = deps.now ?? Date.now;
     this.sleep = deps.sleep ?? ((ms) => new Promise((r) => setTimeout(r, ms)));
@@ -116,19 +124,6 @@ export class RuosHostAdapter {
   }
 
   /**
-   * @param {import('./types.mjs').Desktop} desktop
-   * @param {string} command
-   * @param {number=} timeoutSecs
-   */
-  async exec(desktop, command, timeoutSecs = 30) {
-    const r = await this.transport.exec(desktop, command, timeoutSecs);
-    if (r.exitCode !== null && r.exitCode !== 0) {
-      throw new RuosError('remote-error', `remote command failed (exit ${r.exitCode}): ${(r.stdout + r.stderr).slice(0, 200)}`);
-    }
-    return r;
-  }
-
-  /**
    * After a transport failure mid-run: did the desktop stop under us?
    * @param {import('./types.mjs').Desktop} desktop
    * @param {unknown} err
@@ -147,6 +142,44 @@ export class RuosHostAdapter {
   }
 
   /**
+   * Fail fast when the desktop has no LLM route for `claude -p`. Observed
+   * live: `gateway: "unconfigured"` with `route: "shared"` still ran, so only
+   * a missing/disabled route is fatal; an unconfigured gateway is a warning.
+   */
+  async checkLlmRoute() {
+    let r;
+    try {
+      r = await this.fleet.llmRoute();
+    } catch (err) {
+      if (err instanceof RuosError && (err.code === 'auth-expired' || err.code === 'network-down')) throw err;
+      this.ledger.warnings.push('llm_route_get unavailable; launching without a route check');
+      return;
+    }
+    if (!r.route || ['none', 'disabled', 'off'].includes(r.route)) {
+      throw new RuosError('llm-unconfigured', 'the desktop has no LLM route for claude -p; configure one in ruOS (llm_route_set) first');
+    }
+    if (r.gateway === 'unconfigured' && !r.keyPresent) {
+      this.ledger.warnings.push(`llm route "${r.route}" with no gateway key; relying on the shared route`);
+    }
+  }
+
+  /**
+   * @param {import('./types.mjs').Desktop} desktop
+   * @param {import('./types.mjs').RunSpec & { timeoutSecs: number }} spec
+   */
+  async startWithBackoff(desktop, spec) {
+    for (let attempt = 0; ; attempt++) {
+      try {
+        return await this.jobs.start(desktop, spec);
+      } catch (err) {
+        if (!(err instanceof RuosError) || err.code !== 'capacity' || attempt >= 3) throw err;
+        this.ledger.warnings.push(`job concurrency cap reached; retry ${attempt + 1}/3`);
+        await this.sleep(5000 * 2 ** attempt);
+      }
+    }
+  }
+
+  /**
    * @param {RunOptions} o
    * @returns {Promise<RunOutcome>}
    */
@@ -156,6 +189,7 @@ export class RuosHostAdapter {
     const agentId = assertAgentId(o.agentId);
     const agentType = assertAgentId(o.agentType ?? 'coder');
     const timeoutSecs = assertInt(o.timeoutSecs ?? 900, 30, 6 * 3600, 'timeoutSecs');
+    assertPrompt(o.prompt); // validate before any remote call
 
     let desktop = await this.resolve(o.desktop);
     // The 23:00 auto-stop applies to cloud desktops only, not enrolled devices.
@@ -164,31 +198,29 @@ export class RuosHostAdapter {
       throw new RuosError('autostop-window', `run may outlast the next auto-stop in ${win.minutesUntilStop} min (weekday 23:00 America/Toronto); shorten --timeout or pass --ignore-autostop`);
     }
     desktop = await this.ensureUp(desktop, { allowStart: o.allowStart });
+    await this.checkLlmRoute();
     const name = desktop.displayName ?? desktop.name;
+    const stopAt = desktop.flyMachineId ? new Date(win.nextStopMs).toISOString() : null;
     /** @type {import('./types.mjs').HostRef} */
-    const host = { kind: 'ruos', desktopId: desktop.id, desktopName: name, transport: this.transport.kind, runId };
+    const host = { kind: 'ruos', desktopId: desktop.id, desktopName: name, transport: this.transportKind, jobs: this.jobs.kind, runId, stopAt };
 
-    const chunks = buildPromptChunks(runId, o.prompt); // validates the prompt before any remote call
     const claimed = await this.ledger.claim(runId, agentId, agentType);
     if (!claimed) throw new RuosError('invalid-input', `run ${runId} is already claimed`);
     await this.ledger.registerAgent(agentId, agentType, host, o.prompt);
     this.ledger.snapshotHosts([desktop]);
     this.ledger.setHostAgent(desktop.id, agentId, true);
 
-    let bytes = 0;
-    /** @type {number|null} */ let firstOutputMs = null;
+    /** @type {Stream} */
+    const st = { bytes: 0, firstOutputMs: null, offset: 0 };
     let dispatchMs = 0;
     /** @type {RunOutcome['status']} */ let status = 'failed';
     /** @type {number|null} */ let exitCode = null;
+    let commandSha256 = '';
+    let jobId = runId;
     try {
-      await this.exec(desktop, buildPrepare(runId));
-      for (const c of chunks.commands) await this.exec(desktop, c);
-      const lr = await this.transport.exec(desktop, buildLaunch({ runId, prompt: o.prompt, runner: 'claude', model: o.model, maxBudgetUsd: o.maxBudgetUsd }), 60);
-      const launched = parseLaunch(lr.stdout);
-      if (launched.noRunner) throw new RuosError('remote-error', 'claude is not installed on the desktop');
-      if (lr.exitCode !== null && lr.exitCode !== 0) throw new RuosError('remote-error', `launch failed (exit ${lr.exitCode})`);
-      if (launched.sha256 !== chunks.sha256) throw new RuosError('remote-error', 'prompt integrity check failed (sha256 mismatch)');
-      if (launched.pid === null) throw new RuosError('remote-error', 'runner did not report a pid');
+      const started = await this.startWithBackoff(desktop, { runId, prompt: o.prompt, runner: 'claude', model: o.model, maxBudgetUsd: o.maxBudgetUsd, timeoutSecs });
+      jobId = started.jobId;
+      commandSha256 = started.commandSha256;
       dispatchMs = this.now() - t0;
       this.ledger.event({ type: 'run.started', runId, agentId, desktopId: desktop.id, desktopName: name });
       if (desktop.flyMachineId) {
@@ -196,63 +228,104 @@ export class RuosHostAdapter {
           this.ledger.warnings.push('keepawake failed; idle autosleep may stop the run');
         });
       }
-
-      let offset = 0;
-      let delay = 1000;
-      for (;;) {
-        if (o.signal?.aborted) {
-          await this.transport.exec(desktop, buildStop(runId), 30).catch(() => {});
-          status = 'stopped';
-          break;
-        }
-        if (this.now() - t0 > timeoutSecs * 1000) {
-          await this.transport.exec(desktop, buildStop(runId), 30).catch(() => {});
-          throw new RuosError('timeout', `run exceeded ${timeoutSecs}s and was stopped`);
-        }
-        const p = parsePoll((await this.transport.exec(desktop, buildPoll(runId, offset), 30)).stdout);
-        if (p === 'norun') throw new RuosError('remote-error', 'run directory vanished on the desktop');
-        if (p.chunk.length > 0) {
-          if (firstOutputMs === null) firstOutputMs = this.now() - t0;
-          offset += p.chunk.length;
-          bytes += p.chunk.length;
-          this.ledger.appendOutput(runId, p.chunk);
-          o.onOutput?.(p.chunk);
-          this.ledger.event({ type: 'run.output', runId, agentId, desktopId: desktop.id, bytes: p.chunk.length });
-          delay = 1000;
-        }
-        if (p.exitCode === null && !p.alive && p.chunk.length === 0) {
-          // Re-check once: exit.code is written just after the runner exits.
-          const again = parsePoll((await this.transport.exec(desktop, buildPoll(runId, offset), 30)).stdout);
-          if (again !== 'norun' && again.exitCode === null && !again.alive) {
-            throw new RuosError('remote-error', 'runner died without an exit code (killed on the desktop?)');
-          }
-          continue;
-        }
-        if (p.exitCode !== null && offset >= p.size) {
-          exitCode = p.exitCode;
-          status = exitCode === 0 ? 'completed' : 'failed';
-          break;
-        }
-        if (p.chunk.length === 0) {
-          await this.sleep(delay);
-          delay = Math.min(delay * 1.5, 5000);
-        }
-      }
+      const end = await this.stream(desktop, jobId, runId, agentId, st, { t0, timeoutSecs, signal: o.signal, onOutput: o.onOutput });
+      status = end.status;
+      exitCode = end.exitCode;
     } catch (err) {
       const e = await this.classifyMidRun(desktop, err);
       this.ledger.event({ type: 'run.failed', runId, agentId, desktopId: desktop.id, error: e.code ?? 'remote-error' });
-      await this.finish(desktop.id, agentId, agentType, runId, 'failed', null, bytes);
+      this.audit({ runId, jobId, desktopId: desktop.id, agentId, commandSha256, t0, status: 'failed', exitCode: null, bytes: st.bytes, error: e.code });
+      await this.finish(desktop.id, agentId, agentType, runId, 'failed', null, st.bytes);
       throw e;
     }
     this.ledger.event({
       type: status === 'stopped' ? 'run.stopped' : status === 'completed' ? 'run.completed' : 'run.failed',
-      runId, agentId, desktopId: desktop.id, exitCode, bytes,
+      runId, agentId, desktopId: desktop.id, exitCode, bytes: st.bytes,
     });
-    await this.finish(desktop.id, agentId, agentType, runId, status, exitCode, bytes);
+    this.audit({ runId, jobId, desktopId: desktop.id, agentId, commandSha256, t0, status, exitCode, bytes: st.bytes });
+    await this.finish(desktop.id, agentId, agentType, runId, status, exitCode, st.bytes);
     return {
-      runId, agentId, desktopId: desktop.id, status, exitCode, bytes, dispatchMs, firstOutputMs,
-      totalMs: this.now() - t0, swarmLedger: this.ledger.swarmLedger, warnings: [...this.ledger.warnings],
+      runId, agentId, desktopId: desktop.id, status, exitCode, bytes: st.bytes, dispatchMs, firstOutputMs: st.firstOutputMs,
+      totalMs: this.now() - t0, swarmLedger: this.ledger.swarmLedger, stopAt, jobs: this.jobs.kind, warnings: [...this.ledger.warnings],
     };
+  }
+
+  /**
+   * Poll a job to a terminal state with adaptive backoff (1 s while output
+   * flows, up to 10 s when idle). Each exec poll is audited on ruOS and
+   * waits behind the desktop's run lock, so idle polling must stay sparse.
+   * @param {import('./types.mjs').Desktop} desktop
+   * @param {string} jobId
+   * @param {string} runId
+   * @param {string} agentId
+   * @param {Stream} st
+   * @param {{ t0: number, timeoutSecs: number, signal?: AbortSignal, onOutput?: (c: Buffer) => void }} o
+   * @returns {Promise<{ status: RunOutcome['status'], exitCode: number|null }>}
+   */
+  async stream(desktop, jobId, runId, agentId, st, o) {
+    let delay = POLL_MIN_MS;
+    let lostOnce = false;
+    for (;;) {
+      if (o.signal?.aborted) {
+        await this.jobs.cancel(desktop, jobId).catch(() => false);
+        return { status: 'stopped', exitCode: null };
+      }
+      if (this.now() - o.t0 > o.timeoutSecs * 1000) {
+        await this.jobs.cancel(desktop, jobId).catch(() => false);
+        throw new RuosError('timeout', `run exceeded ${o.timeoutSecs}s and was stopped`);
+      }
+      const p = await this.jobs.poll(desktop, jobId, st.offset);
+      if (p.chunk.length > 0) {
+        if (st.firstOutputMs === null) st.firstOutputMs = this.now() - o.t0;
+        st.bytes += p.chunk.length;
+        this.ledger.appendOutput(runId, p.chunk);
+        o.onOutput?.(p.chunk);
+        this.ledger.event({ type: 'run.output', runId, agentId, desktopId: desktop.id, bytes: p.chunk.length });
+      }
+      st.offset = Math.max(st.offset + p.chunk.length, p.nextOffset);
+      if (p.truncated) this.ledger.warnings.push('job output exceeded the server cap; tail truncated');
+      if (p.chunk.length > 0) { delay = POLL_MIN_MS; continue; }
+      if (TERMINAL.has(p.state)) {
+        return { status: p.state === 'exited' ? 'completed' : p.state === 'cancelled' ? 'stopped' : 'failed', exitCode: p.exitCode };
+      }
+      if (p.state === 'stopped') {
+        throw new RuosError('auto-stopped', `desktop stopped mid-run; HOME persists — wake it and \`attach --run ${runId}\` to read the output`);
+      }
+      if (p.state === 'lost') {
+        if (lostOnce) throw new RuosError('remote-error', 'runner died without an exit code (killed on the desktop?)');
+        lostOnce = true; // exit.code is written just after the runner exits: re-check once
+        continue;
+      }
+      await this.sleep(delay);
+      delay = Math.min(delay * 1.5, POLL_MAX_MS);
+    }
+  }
+
+  /**
+   * Re-attach to an existing run (e.g. after a desktop restart: HOME
+   * survives, the process does not). Reads output from `offset`; no claim.
+   * @param {{ desktop: string, runId: string, agentId?: string, offset?: number, timeoutSecs?: number, onOutput?: (c: Buffer) => void }} o
+   */
+  async attach(o) {
+    const runId = assertRunId(o.runId);
+    const desktop = await this.resolve(o.desktop);
+    /** @type {Stream} */
+    const st = { bytes: 0, firstOutputMs: null, offset: assertInt(o.offset ?? 0, 0, Number.MAX_SAFE_INTEGER, 'offset') };
+    const end = await this.stream(desktop, runId, runId, o.agentId ?? `ruos-${runId}`, st, { t0: this.now(), timeoutSecs: o.timeoutSecs ?? 300, onOutput: o.onOutput });
+    return { runId, desktopId: desktop.id, ...end, bytes: st.bytes, offset: st.offset };
+  }
+
+  /**
+   * ruflo's own per-run audit record: the detached process's output is not
+   * in the ruOS activity feed (ruOS ADR-045 covers only chat-proxy runs).
+   * @param {{ runId: string, jobId: string, desktopId: string, agentId: string, commandSha256: string, t0: number, status: string, exitCode: number|null, bytes: number, error?: string }} r
+   */
+  audit(r) {
+    this.ledger.audit({
+      runId: r.runId, jobId: r.jobId, desktopId: r.desktopId, agentId: r.agentId, jobs: this.jobs.kind,
+      commandSha256: r.commandSha256, startedAt: new Date(r.t0).toISOString(), endedAt: new Date(this.now()).toISOString(),
+      status: r.status, exitCode: r.exitCode, bytes: r.bytes, ...(r.error ? { error: r.error } : {}),
+    });
   }
 
   /**
@@ -272,14 +345,13 @@ export class RuosHostAdapter {
 
   /**
    * Stop a run (its process group) — explicit confirm required.
-   * @param {{ desktop: string, runId: string, confirm?: boolean }} o
+   * @param {{ desktop: string, runId: string, jobId?: string, confirm?: boolean }} o
    */
   async stopRun(o) {
     if (!o.confirm) throw new RuosError('confirm-required', 'stopping a run interrupts work; pass --confirm');
     const runId = assertRunId(o.runId);
     const desktop = await this.resolve(o.desktop);
-    const r = await this.transport.exec(desktop, buildStop(runId), 30);
-    const stopped = r.stdout.includes('RUOS_STOPPED');
+    const stopped = await this.jobs.cancel(desktop, o.jobId ?? runId);
     this.ledger.event({ type: 'run.stopped', runId, desktopId: desktop.id, state: stopped ? 'stopped' : 'not-running' });
     return { runId, desktopId: desktop.id, stopped };
   }

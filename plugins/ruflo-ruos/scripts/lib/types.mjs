@@ -26,6 +26,7 @@
  * @property {string} stdout
  * @property {string} stderr
  * @property {number|null} exitCode
+ * @property {boolean=} truncated   the fleet head-capped stdout
  */
 
 /**
@@ -41,6 +42,35 @@
  * @property {(id: string) => Promise<void>} start
  * @property {(id: string) => Promise<void>} stop
  * @property {(flyMachineId: string|null, minutes: number) => Promise<void>} keepAwake
+ * @property {() => Promise<{ route: string|null, provider: string|null, gateway: string|null, keyPresent: boolean }>} llmRoute
+ */
+
+/**
+ * A detached job on a desktop. Two implementations (jobs.mjs):
+ * ExecPollTransport (nohup + offset polling over desktop_exec, available
+ * now) and JobsApiTransport (ruOS ADR-105 jobs API, feature-detected).
+ * @typedef {object} JobStart
+ * @property {string} jobId
+ * @property {string} commandSha256   hash of the launched command (audit record)
+ */
+/**
+ * @typedef {'queued'|'running'|'exited'|'failed'|'cancelled'|'stopped'|'lost'} JobState
+ */
+/**
+ * @typedef {object} JobPoll
+ * @property {Buffer} chunk
+ * @property {number} nextOffset
+ * @property {boolean} running
+ * @property {JobState} state
+ * @property {number|null} exitCode
+ * @property {boolean} truncated
+ */
+/**
+ * @typedef {object} JobTransport
+ * @property {'exec-poll'|'jobs-api'} kind
+ * @property {(desktop: Desktop, spec: RunSpec & { timeoutSecs: number }) => Promise<JobStart>} start
+ * @property {(desktop: Desktop, jobId: string, offset: number) => Promise<JobPoll>} poll
+ * @property {(desktop: Desktop, jobId: string) => Promise<boolean>} cancel
  */
 
 /**
@@ -50,7 +80,9 @@
  * @property {string} desktopId
  * @property {string} desktopName
  * @property {'fleet-mcp'|'ssh'} transport
+ * @property {'exec-poll'|'jobs-api'=} jobs
  * @property {string} runId
+ * @property {string|null=} stopAt   next forced 23:00 America/Toronto stop (cloud desktops)
  */
 
 /**
@@ -82,7 +114,7 @@
  * @property {string=} state
  */
 
-/** @typedef {'not-configured'|'invalid-input'|'not-owned'|'ambiguous'|'confirm-required'|'auth-expired'|'network-down'|'desktop-stopped'|'auto-stopped'|'autostop-window'|'tool-error'|'remote-error'|'timeout'} RuosErrorCode */
+/** @typedef {'not-configured'|'invalid-input'|'not-owned'|'ambiguous'|'confirm-required'|'auth-expired'|'network-down'|'desktop-stopped'|'auto-stopped'|'autostop-window'|'tool-error'|'remote-error'|'timeout'|'insufficient-scope'|'capacity'|'llm-unconfigured'} RuosErrorCode */
 
 export class RuosError extends Error {
   /**

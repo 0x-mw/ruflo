@@ -30,7 +30,7 @@ long=$(find "$ROOT/scripts" "$ROOT/tests" -name '*.mjs' -exec awk 'END{if(NR>500
 
 step "4. no source path opens the :17870 executor"
 # The only allowed mentions are refusals/assertions, never a URL or connect.
-hits=$(grep -rnE "17870" "$ROOT/scripts" --include="*.mjs" | grep -vE "refus|never|ADR-070|includes\('17870'\)|port === '17870'" || true)
+hits=$(grep -rnE "17870" "$ROOT/scripts" --include="*.mjs" | grep -viE "refus|never|ADR-070|includes\('17870'\)|port === '17870'" || true)
 [[ -z "$hits" ]] && ok || bad "$hits"
 
 step "5. ssh is spawned with a fixed argv and shell:false"

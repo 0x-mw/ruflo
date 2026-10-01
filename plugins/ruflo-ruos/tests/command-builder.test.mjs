@@ -21,6 +21,7 @@ const HOSTILE = [
   'a\r\ntouch /tmp/ruflo-ruos-pwned',
   '${IFS}touch${IFS}/tmp/ruflo-ruos-pwned',
   '| touch /tmp/ruflo-ruos-pwned &',
+  "'\\'' ; touch /tmp/ruflo-ruos-pwned ; sh -c '", // sh -c '...' quote-break attempt
   'ünïcödé ✓ 🚀 ‮⁦ rtl',
   '\\x27 \\" %s %n',
 ];

@@ -21,8 +21,13 @@ import { RuosError } from './types.mjs';
 import { assertRunId, assertModel, assertBudget, assertInt, assertPrompt } from './validate.mjs';
 
 export const MAX_COMMAND_BYTES = 4000;
-/** largest output slice a single poll returns (raw bytes, before base64) */
-export const POLL_SLICE_BYTES = 48 * 1024;
+/**
+ * Largest output slice one poll returns (raw bytes, before base64).
+ * desktop_exec head-caps stdout at ~4 KiB INCLUDING its `▶ run:` echo of the
+ * ~430-byte poll command (measured live 2026-10-01): 2048 raw bytes → 2732
+ * base64 chars leaves headroom. parsePoll also tolerates truncation.
+ */
+export const POLL_SLICE_BYTES = 2048;
 
 const B64_RE = /^[A-Za-z0-9+/=]*$/;
 
@@ -167,8 +172,8 @@ export function buildRepoSummary(repoPath) {
  * @returns {{ found: boolean, branch?: string, head?: string, dirty?: number, ahead?: string }}
  */
 export function parseRepoSummary(stdout) {
-  if (stdout.includes('RUOS_NOREPO')) return { found: false };
-  const get = (/** @type {string} */ k) => new RegExp(`RUOS_${k}:(.*)`).exec(stdout)?.[1]?.trim() ?? '';
+  if (/^RUOS_NOREPO$/m.test(stdout)) return { found: false };
+  const get = (/** @type {string} */ k) => new RegExp(`^RUOS_${k}:(.*)$`, 'm').exec(stdout)?.[1]?.trim() ?? '';
   return { found: true, branch: get('BRANCH'), head: get('HEAD'), dirty: Number(get('DIRTY')) || 0, ahead: get('AHEAD') };
 }
 
@@ -185,13 +190,19 @@ export function buildProbe() {
  * @property {Buffer} chunk
  */
 
+/*
+ * All parsers match markers as WHOLE LINES. desktop_exec echoes the command
+ * it ran, and every builder command contains its own marker names, so a
+ * substring match would always fire (found live, 2026-10-01).
+ */
+
 /**
  * @param {string} stdout
  * @returns {PollResult|'norun'}
  */
 export function parsePoll(stdout) {
-  if (stdout.includes('RUOS_NORUN')) return 'norun';
-  const m = /RUOS_POLL:(-|\d+):(\d+):([01]):([A-Za-z0-9+/=]*)/.exec(stdout);
+  if (/^RUOS_NORUN$/m.test(stdout)) return 'norun';
+  const m = /^RUOS_POLL:(-|\d+):(\d+):([01]):([A-Za-z0-9+/=]*)$/m.exec(stdout);
   if (!m) throw new RuosError('remote-error', 'unparseable poll output');
   // If the transport truncated the result mid-quantum, decode only whole
   // quanta: the offset then advances by exactly what was received and the
@@ -210,11 +221,35 @@ export function parsePoll(stdout) {
  * @returns {{ sha256: string|null, pid: number|null, noRunner: boolean }}
  */
 export function parseLaunch(stdout) {
-  const sha = /RUOS_SHA:([0-9a-f]{64})/.exec(stdout);
-  const pid = /RUOS_PID:(\d+)/.exec(stdout);
+  const sha = /^RUOS_SHA:([0-9a-f]{64})$/m.exec(stdout);
+  const pid = /^RUOS_PID:(\d+)$/m.exec(stdout);
   return {
     sha256: sha ? sha[1] : null,
     pid: pid ? Number(pid[1]) : null,
-    noRunner: stdout.includes('RUOS_NO_RUNNER'),
+    noRunner: /^RUOS_NO_RUNNER$/m.test(stdout),
   };
+}
+
+/** @param {string} stdout */
+export const parseStopped = (stdout) => /^RUOS_STOPPED$/m.test(stdout);
+
+/** @param {string} cmd */
+export const commandSha256 = (cmd) => createHash('sha256').update(cmd, 'utf8').digest('hex');
+
+/**
+ * The command handed to the ruOS jobs API (ADR-105), which owns detaching,
+ * output capture, exit status and cancel. The prompt is staged first with
+ * buildPrepare + buildPromptChunks (same base64 path); this only decodes it
+ * and runs the runner in the foreground of the job.
+ * @param {import('./types.mjs').RunSpec} spec
+ */
+export function buildJobCommand(spec) {
+  const d = runDir(spec.runId);
+  if (spec.runner !== 'claude') throw new RuosError('invalid-input', 'runner must be claude');
+  const model = assertModel(spec.model);
+  const budget = assertBudget(spec.maxBudgetUsd);
+  const flags = ['--output-format text'];
+  if (model) flags.push(`--model ${model}`);
+  if (budget !== undefined) flags.push(`--max-budget-usd ${budget.toFixed(2)}`);
+  return seal(`umask 077 ; cd ${d} || exit 3 ; base64 -d prompt.b64 > prompt.txt || exit 5 ; exec claude -p ${flags.join(' ')} < prompt.txt`);
 }

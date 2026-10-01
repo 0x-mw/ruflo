@@ -123,11 +123,10 @@ export function resolveDesktop(owned, ref) {
 }
 
 /**
- * A deterministic-length, path-safe run id.
- * @param {() => number} now
+ * A path-safe run id with 128 random bits; also the jobs-API idempotency key.
  * @param {(n: number) => Buffer} randomBytes
  * @returns {string}
  */
-export function newRunId(now, randomBytes) {
-  return `r-${now().toString(36)}-${randomBytes(4).toString('hex')}`;
+export function newRunId(randomBytes) {
+  return `r-${randomBytes(16).toString('hex')}`;
 }

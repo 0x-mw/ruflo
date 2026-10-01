@@ -52,7 +52,7 @@ test('fleet MCP: refuses http and the executor port', async () => {
   }
 });
 
-test('fleet MCP: handshake, bearer, session id, SSE and structured payloads', async () => {
+test('fleet MCP: stateless tools/call, bearer, SSE and structured payloads', async () => {
   const { f, requests } = fakeFetch((name) => name === 'desktop_status'
     ? { result: text({ desktops: [{ machine_id: 'a'.repeat(32), fly_machine_id: 'b'.repeat(14), name: 'n', display_name: 'D', state: 'started', heartbeat_status: 'ok', last_heartbeat_at: 5, ready: true }, { machine_id: 'bogus' }] }), sse: true }
     : { result: { structuredContent: { stdout: 'RUOS_RUNNER_OK\n', exit_code: 0 } } });
@@ -61,17 +61,19 @@ test('fleet MCP: handshake, bearer, session id, SSE and structured payloads', as
   assert.equal(ds.length, 1, 'malformed ids are dropped');
   assert.equal(ds[0].flyMachineId, 'b'.repeat(14));
   const r = await createFleetTransport(client).exec(ds[0], 'echo', 999);
-  assert.deepEqual(r, { stdout: 'RUOS_RUNNER_OK\n', stderr: '', exitCode: 0 });
+  assert.deepEqual(r, { stdout: 'RUOS_RUNNER_OK\n', stderr: '', exitCode: 0, truncated: false });
   const call = requests.at(-1);
   assert.equal(call.headers.authorization, `Bearer ${TOKEN}`);
-  assert.equal(call.headers['mcp-session-id'], 'sess-1');
+  assert.equal(call.body.method, 'tools/call');
+  assert.ok(!requests.some((r) => r.body.method === 'initialize'), 'remote /mcp is stateless: no handshake');
   assert.deepEqual(call.body.params.arguments, { command: 'echo', machine: 'b'.repeat(14), timeout_secs: 300 });
 });
 
 test('fleet MCP failure typing: auth expired, network down, stopped, timeout', async () => {
   const mk = (/** @type {any} */ r) => new FleetMcpClient({ url: URL_, token: TOKEN, fetchImpl: fakeFetch(() => r).f });
   await assert.rejects(mk({ status: 401 }).callTool('desktop_exec', {}), (e) => e instanceof RuosError && e.code === 'auth-expired');
-  await assert.rejects(mk({ status: 403 }).callTool('desktop_exec', {}), (e) => e instanceof RuosError && e.code === 'auth-expired');
+  await assert.rejects(mk({ status: 403 }).callTool('desktop_exec', {}), (e) => e instanceof RuosError && e.code === 'insufficient-scope', 'read-only token on a control tool');
+  await assert.rejects(mk({ status: 403 }).callTool('desktop_status', {}), (e) => e instanceof RuosError && e.code === 'auth-expired');
   await assert.rejects(mk({ throws: new TypeError('fetch failed') }).callTool('desktop_exec', {}), (e) => e instanceof RuosError && e.code === 'network-down');
   const timeoutErr = Object.assign(new Error('t'), { name: 'TimeoutError' });
   await assert.rejects(mk({ throws: timeoutErr }).callTool('desktop_exec', {}), (e) => e instanceof RuosError && e.code === 'timeout');

@@ -2,7 +2,7 @@
 name: ruos-host-run
 description: Run a ruflo swarm agent on the user's own ruOS cloud desktop through the tenant-authenticated fleet MCP, stream its output, and record it in ruflo's swarm state. Use when the user wants an agent to run on a ruOS desktop, asks to "run this on my ruOS desktop", or places a swarm agent on a remote ruOS host.
 argument-hint: "<desktop> <task>"
-allowed-tools: Bash(node *) mcp__ruos__desktop_status mcp__ruos__desktop_exec mcp__ruos__desktop_keepawake mcp__ruos__desktop_start
+allowed-tools: Bash(node *) mcp__ruos__desktop_status mcp__ruos__desktop_exec mcp__ruos__desktop_keepawake mcp__ruos__desktop_start mcp__ruos__llm_route_get
 ---
 # Run a ruflo agent on a ruOS desktop (session path, ADR-405)
 
@@ -14,6 +14,11 @@ Transport rules — non-negotiable:
   `desktop_exec` command from task text.
 
 `CLI` below is `node "${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs"`.
+
+`desktop_exec` output is framed: the first line echoes your command (`▶ run: …`), and the
+last lines are `✓ SUCCESS…` and `📝 transcript:`. Read markers only from their own lines,
+never from the echo. Output is capped at about 4 KiB, so `poll` returns 2 KiB slices.
+Never call `desktop_delete` or `secret_delete`; deleting is the user's job.
 
 1. **Pick the host.** Call `desktop_status`. Resolve the user's desktop by `machine_id`,
    `fly_machine_id` or exact `display_name`; if it is not in that list, stop. Save the raw
@@ -30,6 +35,8 @@ Transport rules — non-negotiable:
    - `CLI record start --run <runId> --desktop "<ref>" --desktop-status-file status.json --task "<one-line summary>"`
      — registers the agent through ruflo's `agent_spawn` (with `config.host`) and claims
      `ruos-run-<runId>` via `claims_claim`.
+   Before launching, call `llm_route_get`. Stop if the desktop has no route. If the gateway is
+   "unconfigured" but the route is "shared", warn and continue.
 5. **Launch.** Call `desktop_exec` with each `steps[i]` in order (`machine` = the desktop's
    `fly_machine_id`). The last step prints `RUOS_SHA:<hash>` — it must equal
    `promptSha256`, else `desktop_exec` the `stop` string and abort. `RUOS_NO_RUNNER` means

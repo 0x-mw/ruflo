@@ -6,7 +6,9 @@
  *   hosts                      list your ruOS desktops (fleet MCP)
  *   run --desktop <ref> (--prompt <t> | --prompt-file <f>) [--agent-type coder]
  *       [--model haiku|sonnet|opus] [--timeout 900] [--max-budget-usd n]
- *       [--start] [--ignore-autostop] [--transport fleet-mcp|ssh] [--json]
+ *       [--start] [--ignore-autostop] [--transport fleet-mcp|ssh]
+ *       [--jobs auto|exec-poll|jobs-api] [--json]
+ *   attach --desktop <ref> --run <id> [--offset n]   re-read a run (e.g. after a restart)
  *   stop --desktop <ref> --run <id> --confirm
  *   desktop-stop --desktop <ref> --confirm
  *   logs --run <id>
@@ -17,8 +19,10 @@
  *                              read-only: what a deploy from that repo would ship
  *   status                     transport configuration (no network)
  *
- * With no RUOS_MCP_URL/RUOS_MCP_TOKEN (and no RUOS_SSH_KEY for ssh) every
- * networked command exits 2 with `not-configured` and makes no request.
+ * Credentials: RUOS_MCP_URL + RUOS_MCP_TOKEN, or ~/.config/ruos/credentials.json
+ * from @cognitum/ruos. With neither, every networked command exits 2 with
+ * `not-configured` and makes no request. SSH (--transport ssh) works only
+ * when this CLI runs on a same-tenant ruOS desktop (Fly 6PN).
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -30,6 +34,7 @@ import { createLedger, resolveCallTool, projectCwd } from './lib/ledger.mjs';
 import { RuosHostAdapter } from './lib/adapter.mjs';
 import { newRunId, assertRunId, assertAgentId, resolveDesktop, assertInt } from './lib/validate.mjs';
 import { buildPrepare, buildPromptChunks, buildLaunch, buildPoll, buildStop, buildProbe, buildRepoSummary, parseRepoSummary } from './lib/command-builder.mjs';
+import { createExecPollTransport, createJobsApiTransport, createRestJobsBackend } from './lib/jobs.mjs';
 import { nextAutoStop } from './lib/autostop.mjs';
 
 /**
@@ -62,12 +67,35 @@ async function buildAdapter(args, env) {
   const client = new FleetMcpClient(fleetConfigFromEnv(env));
   client.assertConfigured(); // the fleet MCP is always the control plane
   const kind = str(args.transport) ?? env.RUOS_TRANSPORT ?? 'fleet-mcp';
-  const transport = kind === 'ssh'
+  const exec = kind === 'ssh'
     ? createSshTransport(sshConfigFromEnv(env))
     : kind === 'fleet-mcp' ? createFleetTransport(client) : null;
-  if (!transport) throw new RuosError('invalid-input', 'transport must be fleet-mcp or ssh');
+  if (!exec) throw new RuosError('invalid-input', 'transport must be fleet-mcp or ssh');
+  const fleet = createFleet(client);
+  const jobs = await pickJobTransport(str(args.jobs) ?? env.RUOS_JOBS ?? 'auto', client, fleet, exec, env);
   const ledger = createLedger({ cwd: projectCwd(env), callTool: await resolveCallTool(projectCwd(env), env) });
-  return { adapter: new RuosHostAdapter({ fleet: createFleet(client), transport, ledger }), ledger };
+  return { adapter: new RuosHostAdapter({ fleet, jobs, ledger, transportKind: /** @type {'fleet-mcp'|'ssh'} */ (kind) }), ledger, exec };
+}
+
+/**
+ * Use the ruOS jobs API (ADR-105) when it is deployed, else exec-poll.
+ * @param {string} mode
+ * @param {FleetMcpClient} client
+ * @param {import('./lib/types.mjs').Fleet} fleet
+ * @param {import('./lib/types.mjs').Transport} exec
+ * @param {NodeJS.ProcessEnv} env
+ */
+async function pickJobTransport(mode, client, fleet, exec, env) {
+  if (mode === 'exec-poll') return createExecPollTransport(exec);
+  if (mode !== 'auto' && mode !== 'jobs-api') throw new RuosError('invalid-input', 'jobs must be auto, exec-poll or jobs-api');
+  const baseUrl = env.RUOS_API_URL || (client.url ? new URL(client.url).origin : undefined);
+  const token = /** @type {any} */ (client).token;
+  if (!baseUrl || !token) return createExecPollTransport(exec);
+  const rest = createRestJobsBackend({ baseUrl, token });
+  const first = (await fleet.listDesktops())[0];
+  const available = first ? await rest.detect(first.flyMachineId ?? first.id) : false;
+  if (!available && mode === 'jobs-api') throw new RuosError('not-configured', 'the ruOS jobs API is not available on this fleet yet');
+  return available ? createJobsApiTransport(rest, exec) : createExecPollTransport(exec);
 }
 
 /** @param {unknown} o */
@@ -98,6 +126,7 @@ export async function main(argv, env = process.env) {
       const f = fleetConfigFromEnv(env);
       print({
         fleetMcp: f.url && f.token ? 'configured' : 'not-configured',
+        credentialSource: f.source,
         ssh: env.RUOS_SSH_KEY ? 'configured' : 'not-configured',
         transport: env.RUOS_TRANSPORT ?? 'fleet-mcp',
         nextAutoStop: new Date(nextAutoStop(Date.now())).toISOString(),
@@ -114,7 +143,7 @@ export async function main(argv, env = process.env) {
     }
     case 'run': {
       const { adapter } = await buildAdapter(args, env);
-      const runId = newRunId(Date.now, randomBytes);
+      const runId = newRunId(randomBytes);
       const outcome = await adapter.run({
         desktop: String(args.desktop ?? ''),
         prompt: readPrompt(args),
@@ -144,12 +173,19 @@ export async function main(argv, env = process.env) {
     }
     case 'deploy-info': {
       // Read-only hand-off: report repo state; never push or deploy.
-      const { adapter } = await buildAdapter(args, env);
+      const { adapter, exec } = await buildAdapter(args, env);
       const cmdline = buildRepoSummary(String(args.repo ?? ''));
       const d = await adapter.resolve(String(args.desktop ?? ''));
-      print({ desktopId: d.id, repo: args.repo, ...parseRepoSummary((await adapter.transport.exec(d, cmdline, 30)).stdout),
-        next: 'review the diff, then deploy with your ruOS/project tooling; ruflo-ruos does not push or deploy' });
+      print({ desktopId: d.id, repo: args.repo, ...parseRepoSummary((await exec.exec(d, cmdline, 30)).stdout),
+        next: 'prepare a branch/PR and this summary for a human to review, merge and deploy; ruflo-ruos never pushes, deploys or publishes' });
       return 0;
+    }
+    case 'attach': {
+      const { adapter } = await buildAdapter(args, env);
+      const r = await adapter.attach({ desktop: String(args.desktop ?? ''), runId: String(args.run ?? ''), offset: str(args.offset) ? Number(args.offset) : 0,
+        onOutput: args.json ? undefined : (c) => process.stdout.write(c) });
+      if (args.json) print(r); else process.stderr.write(`\n[ruflo-ruos] ${r.status} exit=${r.exitCode} offset=${r.offset}\n`);
+      return r.status === 'completed' ? 0 : 1;
     }
     case 'logs': {
       const runId = assertRunId(args.run);
@@ -160,7 +196,7 @@ export async function main(argv, env = process.env) {
     }
     case 'build': {
       // Session path: Claude calls mcp__ruos__desktop_exec with these strings.
-      const runId = str(args.run) ? assertRunId(args.run) : newRunId(Date.now, randomBytes);
+      const runId = str(args.run) ? assertRunId(args.run) : newRunId(randomBytes);
       const prompt = readPrompt(args);
       const chunks = buildPromptChunks(runId, prompt);
       print({
@@ -176,7 +212,7 @@ export async function main(argv, env = process.env) {
     case 'record':
       return record(args, env);
     default:
-      print('usage: cli.mjs <status|hosts|run|stop|desktop-stop|logs|build|record|deploy-info> [options]  (see header)');
+      print('usage: cli.mjs <status|hosts|run|attach|stop|desktop-stop|logs|build|record|deploy-info> [options]  (see header)');
       return cmd ? 2 : 0;
   }
 }
@@ -199,7 +235,8 @@ async function record(args, env) {
     if (!statusFile) throw new RuosError('invalid-input', 'record start needs --desktop-status-file (desktop_status JSON)');
     const d = resolveDesktop(normalizeDesktops(JSON.parse(readFileSync(statusFile, 'utf8'))), String(args.desktop ?? ''));
     if (!(await ledger.claim(runId, agentId, agentType))) throw new RuosError('invalid-input', 'run already claimed');
-    await ledger.registerAgent(agentId, agentType, { kind: 'ruos', desktopId: d.id, desktopName: d.displayName ?? d.name, transport: 'fleet-mcp', runId }, String(args.task ?? ''));
+    const stopAt = d.flyMachineId ? new Date(nextAutoStop(Date.now())).toISOString() : null;
+    await ledger.registerAgent(agentId, agentType, { kind: 'ruos', desktopId: d.id, desktopName: d.displayName ?? d.name, transport: 'fleet-mcp', jobs: 'exec-poll', runId, stopAt }, String(args.task ?? ''));
     ledger.snapshotHosts([d]);
     ledger.setHostAgent(d.id, agentId, true);
     ledger.event({ type: 'run.started', runId, agentId, desktopId: d.id, desktopName: d.displayName ?? d.name });

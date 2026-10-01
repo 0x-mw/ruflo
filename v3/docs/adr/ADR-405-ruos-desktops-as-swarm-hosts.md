@@ -4,7 +4,7 @@ Status: Proposed
 
 Date: 2026 10 01
 
-Related: ADR 150 (removable integrations), ADR 324 (policy chokepoint), ADR 325 (claims plane), ruOS ADR-043 (exec literal filter), ruOS ADR-053 (per-tenant SSH :2222), ruOS ADR-070 (the desktop executor has no peer authentication), ruOS ADR-071 (remote MCP endpoint)
+Related: ADR 150 (removable integrations), ADR 324 (policy chokepoint), ADR 325 (claims plane), ruOS ADR-043 (exec literal filter), ruOS ADR-045 (activity tee), ruOS ADR-053 (per-tenant SSH :2222), ruOS ADR-070 (the desktop executor has no peer authentication), ruOS ADR-071 (remote MCP endpoint and tokens), ruOS ADR-081 (`desktop_exec`), ruOS ADR-094 (frozen remote tool contract), ruOS ADR-105 (jobs API, in progress)
 
 ## Context
 
@@ -12,81 +12,121 @@ ruOS gives each user their own cloud Linux desktops (Fly machines), plus enrolle
 
 There are three ways into a ruOS desktop. They have different trust properties:
 
-| Path | Authentication | Usable from |
+| Path | Authentication | Reachable from |
 |---|---|---|
-| ruOS fleet MCP (`desktop_status`, `desktop_exec`, `desktop_start`, `desktop_stop`, `desktop_keepawake`) | The caller's tenant credential. The fleet enforces machine ownership on every call. | Anywhere |
-| sshd on `:2222` (ruOS ADR-053 Phase 2) | Pubkey-only, with a per-tenant ed25519 key minted by the fleet. `authorized_keys` is replaced with that tenant's key each time the desktop is armed. | Only inside the Fly 6PN, so only from another of the same tenant's desktops |
+| ruOS fleet MCP / REST (`desktop_status`, `desktop_exec`, `desktop_start`, `desktop_stop`, `desktop_keepawake`, `llm_route_get`) | The caller's tenant token: a `ruos_mcp_` bearer or the `@cognitum/ruos` OAuth login. The fleet enforces machine ownership on every call. | **Anywhere.** This is the only path from outside a tenant. |
+| sshd on `:2222` (ruOS ADR-053 Phase 2) | Pubkey-only, with a per-tenant ed25519 key minted by the fleet. `authorized_keys` is replaced with that tenant's key each time the desktop is armed. No API returns the private key to an external client. | **Only inside the tenant's Fly 6PN**, i.e. desktop to desktop |
 | Desktop executor on `:17870` | None per tenant. It is guarded only by a spoofable `Host` header, binds all interfaces, and every tenant shares one flat Fly 6PN app (ruOS ADR-070). | Any machine on the 6PN |
 
 ## Decision
 
 ### Host model
 
-A ruOS desktop is a remote execution host for one or more ruflo swarm agents. The `ruflo-ruos` plugin places an agent on a host, launches `claude -p` there detached, streams its output back, and records the agent in ruflo's swarm state. The swarm topology, routing and coordination stay local. The desktop only runs the agent process.
+A ruOS desktop is a remote execution host for one or more ruflo swarm agents. The `ruflo-ruos` plugin places an agent on a host, starts `claude -p` there as a detached job, streams its output back, and records the agent in ruflo's swarm state. The swarm topology, routing and coordination stay local. The desktop only runs the agent process.
 
 ### Transports
 
-Two transports are allowed, both implemented in `plugins/ruflo-ruos/scripts/lib/`:
+1. **External: the fleet MCP / REST only** (`fleet-mcp.mjs`). This covers discovery, start, stop, keepawake, the LLM-route check, and exec.
+   - **Credentials.** `RUOS_MCP_URL` + `RUOS_MCP_TOKEN` from the environment, or the `@cognitum/ruos` credentials file (`~/.config/ruos/credentials.json`).
+     - Never embedded, logged or echoed; error messages redact the token.
+     - With neither present, every networked command exits 2 (`not-configured`) and sends no request.
+   - **Token scope.** Exec, start, stop and keepawake need a `desktop:control` token. A read-only token degrades to discovery and status, and control calls fail with `insufficient-scope`. Users should mint a control token with the narrowest lifetime.
+   - **Stateless.** Remote `/mcp` is stateless, so each call is a single `tools/call` with no handshake.
+   - **Refusals.** The client refuses plain `http` (except localhost) and any URL on port 17870.
+2. **In-tenant fan-out: SSH `:2222`** (`ssh.mjs`, opt-in with `--transport ssh` and `RUOS_SSH_KEY`).
+   - It works only when ruflo itself runs on one of the tenant's ruOS desktops, reaching sibling desktops at `<fly-id>.vm.<app>.internal`.
+   - Peers come from `~/.claude/federation/peers.json` or `GET /api/v1/cluster/peers` on that desktop.
+   - `ssh` is spawned with a fixed argv and `shell: false`, with `BatchMode` and `IdentitiesOnly`.
+   - `Permission denied (publickey)` maps to `auth-expired`, because arming is probabilistic per ruOS ADR-053.
+   - It is never usable from a laptop or workstation.
 
-1. **The fleet MCP** (`fleet-mcp.mjs`). This is the default and the only control plane, used for discovery, start, stop and keepawake. In a Claude Code session the user's connected `mcp__ruos__*` tools are used directly. A terminal run reads `RUOS_MCP_URL` and `RUOS_MCP_TOKEN` from the environment. Neither value is embedded or defaulted. With either unset the CLI exits 2 with `not-configured` and makes no request. The client refuses plain `http` (except localhost) and any URL on port 17870.
-2. **Per-tenant SSH on `:2222`** (`ssh.mjs`). It is opt-in (`--transport ssh`, `RUOS_SSH_KEY`) and works only when ruflo itself runs on one of the same tenant's ruOS desktops. `ssh` is spawned with a fixed argv and `shell: false`, with `BatchMode`, `IdentitiesOnly` and `StrictHostKeyChecking=accept-new`. The host is derived from the validated Fly machine id: `<fly-id>.vm.<app>.internal`. ADR-053 records that arming is probabilistic, so `Permission denied (publickey)` maps to `auth-expired` ("desktop not armed with this key").
+The `:17870` executor is excluded. Any path that called it would extend ADR-070's cross-tenant shell exposure into ruflo swarms. The plugin opens no connection to that port and sends no `Host` header, and its smoke contract greps for any use of it.
 
-The `:17870` executor is excluded. Any path that called it from a ruflo swarm would extend ADR-070's cross-tenant shell exposure into ruflo. The plugin sends no `Host` header and opens no connection to that port, and its smoke contract greps for any use of it. If ruOS ADR-070 lands per-request fleet authentication on the executor, a follow-up ADR can reconsider; until then the fleet MCP is the boundary.
+### Jobs: a `JobTransport` with two implementations
+
+The adapter drives a `JobTransport` (`jobs.mjs`) through `start`, `poll(offset)` and `cancel`:
+
+- **`ExecPollTransport`** is available now. It uses `desktop_exec` (ruOS ADR-081), which is synchronous. Its timeout defaults to 30 s and is clamped to 1–300 s; the same timeout bounds the wait for the desktop's run lock, so exec calls on one desktop serialise. Each call is audited and owner-scoped.
+  - **Launch.** The prompt is staged as base64 chunks into `~/.ruflo-ruos/runs/<runId>/`. HOME survives the 23:00 stop; `/tmp` does not. A detached `nohup setsid sh -c '<constant>'` runner then starts, and launch prints the prompt's sha256 and the runner's pid.
+  - **Poll.** Each poll returns `RUOS_POLL:<exit>:<size>:<alive>:<base64 slice>`.
+    - Only whole base64 quanta are decoded, so a truncated result never skips bytes.
+    - The `alive` flag (`kill -0`) detects a runner killed before it wrote its exit code. The exit code is written atomically (`tmp` + `mv`).
+    - The offset is tracked client-side.
+- **`JobsApiTransport`** is used when ruOS ADR-105 is detected: `GET /api/v1/desktop/jobs` exists.
+  - **Calls.** `POST /api/v1/desktop/jobs {machine, command, timeout_secs ≤ 21600, idempotency_key}` creates a job, `GET …/{id}?offset&max=65536` reads it by byte offset (base64 chunks, `truncated` flag), and `DELETE` cancels it.
+  - **States.** `queued | running | exited | failed | cancelled | stopped | lost`.
+  - **Server-side.** The server owns detach, capture, exit, cancel, keepawake and audit.
+  - **Idempotency.** The run id is the idempotency key, so a retried create returns the same job.
+  - **Error mapping.** A 404 means "not yours, or gone" and is never retried. A 409 or 429 means the per-tenant concurrency cap (`RUOS_JOBS_MAX_CONCURRENT`) was hit; the adapter backs off 5 s, 10 s, 20 s and then fails.
+  - **Backends.** Either REST with the tenant token, or the local stdio `@cognitum/ruos` server's `desktop_job_*` tools. Those tools are stdio-only and never exposed on the remote connector, which is frozen by ruOS ADR-094.
+  - **Selection.** `--jobs auto` (the default) feature-detects and falls back to exec-poll.
+
+Polling is adaptive: 1 s while output flows, backing off to 10 s when idle. Every exec poll is an audited call that waits behind the run lock.
 
 ### Command construction
 
-Every shell string sent to a desktop comes from one audited module, `command-builder.mjs`. The same strings go over both transports.
+Every shell string sent to a desktop comes from one audited module, `command-builder.mjs`. The same strings go over every transport.
 
-- Each command is one line of at most 4000 bytes, the `desktop_exec` limit.
+- Each command is one line of at most 4000 bytes.
 - The only variable regions are:
-  - a run id matching `^[a-z0-9][a-z0-9-]{5,62}$`;
+  - a run id: `r-` + 128 random bits in hex;
   - integers;
   - a model name from a fixed enum;
   - a canonicalised budget number;
   - base64 text inside single quotes.
-- Prompt text travels only as base64. It is appended to a file in chunks, decoded on the desktop, and fed to `claude -p` on stdin, so no shell ever parses it.
-- The decoded prompt's sha256 is checked against the local hash before the run is trusted.
-- Output returns as `RUOS_POLL:<exit>:<size>:<alive>:<base64 slice>`, so arbitrary bytes survive the JSON tool result. Only whole base64 quanta are decoded, so a truncated result never skips bytes. The `alive` flag (`kill -0` on the pid) detects a runner killed before it wrote its exit code.
-- Run files live in `~/.ruflo-ruos/runs/<runId>/` with `umask 077`. The exit code is written atomically (`tmp` + `mv`), so a poll never reads a half-written file.
-- The runner starts as `nohup setsid sh -c '<constant>'`. Stop signals its process group, after re-validating the pid file as digits on the desktop.
+- Prompt text travels only as base64 and reaches `claude -p` on stdin.
+- No command contains push, deploy or destructive literals, so ruOS's `validate_run` filter (ADR-043) never misfires. That filter is a mistake guard, not a sandbox.
 
-The ADR-043 literal filter passes these commands: `nohup`, `setsid` and `sh -c` are not on its denylist. That filter is a mistake guard, not a sandbox. The fleet's ownership check is the boundary.
+**Live finding:** `desktop_exec` stdout is framed. It begins with a `▶ run: <command>` echo and ends with `✓ SUCCESS…` and `📝 transcript:` trailers.
 
-### Swarm state and claims
+- Because the echo repeats the command, which contains its own marker names, every marker is matched as a whole line, and `normalizeExec` strips the frame.
+- stdout is head-capped at about 4 KiB, including that echo (`… [output truncated]`), so a poll slice is 2 KiB raw.
+
+### Swarm state, claims and audit
 
 The plugin does not add a claims system or an agent store. ADR-325 already describes four disconnected claim mechanisms. This plugin uses ruflo's local work-ownership board, the `claims_*` MCP tools (`.claude-flow/claims/claims.json`), which is ADR-325's "work ownership" responsibility in single-node form.
 
 | What | ruflo tool (called in-process via `callMCPTool`, so ADR-324 policy applies) |
 |---|---|
-| Register a remote agent | `agent_spawn` with `domain: "ruos"`, `config.host = {kind:"ruos", desktopId, desktopName, transport, runId}` |
+| Register a remote agent | `agent_spawn` with `domain: "ruos"`, `config.host = {kind:"ruos", desktopId, desktopName, transport, jobs, runId, stopAt}` |
 | Running / done | `agent_update` (`busy` → `idle`, `config.lastRemoteResult`) |
 | Ownership of the run | `claims_claim` / `claims_release`, issue `ruos-run-<runId>`, claimant `agent:<agentId>:<agentType>` |
 
+`stopAt` is the next forced 23:00 America/Toronto stop for cloud desktops. A scheduler can use it to avoid starting long jobs near the stop.
+
 The plugin itself owns only `.claude-flow/ruos/`:
 
-- `events.jsonl` holds lifecycle events carrying ids, sizes and states, never prompt or output text.
-- `hosts.json` is a snapshot of hosts and their agents.
+- `events.jsonl` holds lifecycle events: ids, sizes and states, never prompt or output text.
+- `hosts.json` is a merged snapshot of hosts and their current agents.
+- `audit.jsonl` holds one record per run: run id, job id, desktop, transport, the sha256 of the launched command, start, end, status, exit code and bytes. The detached process's output is not in the ruOS activity feed (ruOS ADR-045 tees only chat-proxy runs), so ruflo keeps its own record.
 - `runs/<runId>.log` is a local copy of the output, mode 0600.
 
-The swarm pane (`ruflo-swarm`) reads agents with `config.host.kind === "ruos"` plus these two files. If the CLI cannot be resolved, or policy denies a call, the ledger degrades to the plugin files and reports `swarmLedger: "unavailable"`. A remote run is never aborted because bookkeeping failed.
+If the CLI cannot be resolved, or policy denies a call, the ledger degrades to the plugin files and reports `swarmLedger: "unavailable"`.
+
+### LLM route
+
+`claude -p` on the desktop uses the desktop's own Claude auth and LLM route. Before launch the adapter calls `llm_route_get`:
+
+- **No route, or a disabled route:** the run fails fast with `llm-unconfigured`.
+- **`gateway: "unconfigured"` with `route: "shared"`:** this is only a warning. It was observed live, and `claude -p` succeeded with that shape.
 
 ### Cost and auto-stop
 
 - Starting a desktop is billable. The adapter starts one only with an explicit `--start`, and then waits for a fresh `last_heartbeat_at`, not `ready`.
-- The fleet stops cloud desktops at 23:00 America/Toronto every weekday. `desktop_keepawake` blocks idle autosleep but does not override that stop. The adapter computes the next stop with `Intl`, so DST is handled. A run whose timeout crosses it is refused unless the user passes `--ignore-autostop`.
-- At launch the adapter calls `desktop_keepawake` for the run's timeout plus 5 minutes.
-- Polls back off from 1 s to 5 s. Each poll is an audited `desktop_exec` that waits behind the desktop's run lock.
+- The fleet stops cloud desktops at 23:00 America/Toronto every weekday. `desktop_keepawake` blocks only idle autosleep. The adapter computes the next stop with `Intl` (DST-aware) and refuses a run whose timeout crosses it unless the user passes `--ignore-autostop`. At launch it holds keepawake for the timeout plus 5 minutes.
+- A desktop stopped mid-run is reported as `auto-stopped` and treated as resumable. HOME persists, so after `desktop_start`, `attach --run <id>` re-reads the run directory from any offset.
 
-### Deploy hand-off
+### Deletion and deploy
 
-After a run, `deploy-info` reports a repo's branch, HEAD, dirty count and commits ahead of upstream on the desktop. It never pushes or deploys. ruOS's exec filter refuses `git push` and `fly deploy` literals by design, and the deploy decision stays with the user.
+- The swarm never issues `desktop_delete` or `secret_delete`; deletion stays a human action. The client refuses those names before any request, and a test asserts that no file in the plugin emits them.
+- Deploy is **read-only**. After a run, `deploy-info` reports branch, HEAD, dirty count and commits ahead on the desktop. The hand-off is a branch or PR plus that summary, for a human to review, merge and deploy. ruflo-ruos never pushes, deploys or publishes, and there is no ruOS deploy tool to call.
 
 ### Removability (ADR-150 style)
 
 - ruflo works identically when the plugin is absent. The PR changes no file under `v3/`, apart from this ADR.
 - The plugin has no npm dependencies.
 - The ruflo CLI is resolved at runtime and is optional.
-- The `$.ruos` and `$.ruflo` Claude Code mod nouns are feature-detected and never required.
+- The `$.ruos` and `$.ruflo` Claude Code mod nouns are feature-detected and never required. `$.ruos.desktops()` makes no network calls and may be stale, so freshness always comes from `desktop_status`.
 
 ## Failure modes
 
@@ -94,34 +134,39 @@ Each failure surfaces as a typed `RuosError` code:
 
 | Failure | Detection | Code |
 |---|---|---|
-| Fleet credential expired or revoked | HTTP 401/403, or a tool error mentioning auth | `auth-expired` |
+| Credential expired or revoked | HTTP 401, or a tool error mentioning auth | `auth-expired` |
+| Read-only token on a control tool | HTTP 403 or a scope error | `insufficient-scope` |
 | Fleet unreachable | `fetch` network error | `network-down` |
 | Request hangs | `AbortSignal.timeout` | `timeout` |
 | Desktop stopped before the run | Heartbeat not fresh, and `--start` not given | `desktop-stopped` |
-| Desktop stopped mid-run (23:00 stop, idle autosleep) | A poll fails, then `desktop_status` shows the desktop down | `auto-stopped` |
-| Run would cross the auto-stop | `checkWindow` | `autostop-window` |
-| Desktop not the caller's | Not in `desktop_status` | `not-owned` |
+| Desktop stopped mid-run | Poll fails and `desktop_status` shows the desktop down, or the jobs API reports `stopped` | `auto-stopped` (resumable) |
+| Run would cross the auto-stop | `checkWindow` (cloud desktops only) | `autostop-window` |
+| Desktop not the caller's, or a Lite browser | Not in the hosted `desktop_status` list | `not-owned` |
+| Job id belongs to another tenant, or is gone | Jobs API 404 | `not-owned` (no retry) |
+| Tenant job concurrency cap | Jobs API 409/429 | `capacity`, after 3 backoffs |
+| No LLM route on the desktop | `llm_route_get` | `llm-unconfigured` |
 | Prompt corrupted in transit | sha256 mismatch | `remote-error` |
-| `claude` missing on the desktop | `RUOS_NO_RUNNER` | `remote-error` |
-| SSH key not armed | ssh exit 255 + `publickey` | `auth-expired` |
-| Run outlives its timeout | Wall-clock check; the process group is stopped | `timeout` |
-| Runner killed without an exit code | Poll shows `alive=0` and no exit code, twice | `remote-error` |
+| `claude` missing on the desktop | `RUOS_NO_RUNNER` line | `remote-error` |
+| Runner killed without an exit code | `alive=0` and no exit code, twice | `remote-error` |
+| Run outlives its timeout | Wall-clock check; the job is cancelled | `timeout` |
 
-On every failure the agent is set `idle` and the claim is released.
+On every failure the agent is set `idle`, the claim is released, and an audit record is written.
 
 ## Threat model
 
 | Threat | Mitigation |
 |---|---|
-| Cross-tenant shell via `:17870` | Transport excluded. Smoke check 4. Client refuses the port. |
-| Acting on another tenant's desktop | Ids resolve only against the caller's own `desktop_status`. The fleet re-checks ownership on every call. |
-| Shell injection from task text (including a prompt-injected agent writing the task) | Base64-only payloads. One builder. Tests run hostile prompts through a real `/bin/sh`. |
+| Cross-tenant shell via `:17870` | Transport excluded. Smoke check. Client refuses the port. |
+| Acting on another tenant's desktop or job | Ids resolve only against the caller's own `desktop_status`. The fleet re-checks ownership. A jobs-API 404 is never retried. |
+| Shell injection from task text (including a prompt-injected agent writing the task) | Base64-only payloads. One builder. Tests run hostile prompts through a real `/bin/sh`, and also attempt to break out of the `sh -c '…'` quoting. |
 | Injection via ids, model, budget, offset or repo path | Allow-list regexes. Canonical numbers. `..` and leading `-` refused. |
-| Credential leakage | Bearer token and SSH key path come only from the environment. They are never logged or written to events. |
-| Prompt or output leakage into shared state | Events carry ids and sizes only. Output is kept in a 0600 local file and a 0700 remote run dir. |
-| Accidental spend | No start without `--start`. Auto-stop window check. `--max-budget-usd` passes through to `claude -p`. |
-| Destructive operations | `stop` and `desktop-stop` require `--confirm`. No delete or provision verbs. |
-| Silent success (cognitum#620 pattern) | Every run needs a positive exit code from the desktop. A missing run dir or a missing pid is an error. |
+| Marker spoofing via the exec echo | Frame stripped. Whole-line marker matching. Tested with live-captured output. |
+| Credential leakage | Token comes only from env or the credentials file. Never logged or written to events or audit. Redacted in errors. |
+| Prompt or output leakage into shared state | Events and audit carry ids, hashes and sizes only. Output is kept in a 0600 local file and a 0700 remote run dir. |
+| Accidental spend | No start without `--start`. Auto-stop window check. `--max-budget-usd` passes through to `claude -p`. Capacity backoff is bounded. |
+| Destructive operations | Cancel and `desktop-stop` require `--confirm`. `desktop_delete` and `secret_delete` are never issued. Deploy is read-only. |
+| Silent success (cognitum#620 pattern) | Every run needs a positive terminal state with an exit code. A lost runner, a missing run dir or a missing pid is an error. |
+| SSH host-key trust | **Accepted risk:** `StrictHostKeyChecking=accept-new` is trust-on-first-use. This is acceptable only inside one tenant's 6PN, where the peer set comes from the fleet and the key is per-tenant. |
 
 Residual risk: the remote `claude -p` runs with the desktop user's full trust. That is the user's own desktop, and its tool permissions are governed by its own Claude Code settings.
 
@@ -130,15 +175,37 @@ Residual risk: the remote `claude -p` runs with the desktop user's full trust. T
 **Positive:**
 - Swarm agents can run on the user's own ruOS desktops, visible in the swarm pane.
 - No new trust path is added.
-- Swarm state stays one source of truth.
+- One source of truth for swarm state.
+- The jobs API slots in behind the same interface when it lands.
 
 **Negative:**
-- Streaming is poll-based, because `desktop_exec` is request/response. Each poll costs one audited fleet call.
-- SSH works only desktop-to-desktop.
-- The fleet MCP's `desktop_exec` output shape is normalised defensively (`stdout|output`, `exit_code|exitCode`). A change on the ruOS side is caught by the live check, not by unit tests.
+- Until ADR-105 lands, streaming is poll-based over audited exec calls, with about 2 KiB per poll because of the head cap.
+- SSH works only desktop to desktop.
 
 ## Verification
 
-- `bash plugins/ruflo-ruos/scripts/smoke.sh` runs the structural checks, the no-`:17870` grep, an offline exit-2 check, and the full `node --test` suite.
-- The suite includes London-school adapter tests, transport failure typing with injected `fetch` and `spawn`, injection tests, real-`/bin/sh` execution of the builder output, and an integration test against the in-tree CLI's real `agent_spawn` and `claims_*` tools.
-- The live end-to-end and benchmark results are recorded in the PR.
+- `bash plugins/ruflo-ruos/scripts/smoke.sh` runs the structural checks, the no-`:17870` grep, an offline exit-2 check, `tsc --checkJs`, and the full `node --test` suite.
+- The suite includes:
+  - London-school adapter tests;
+  - transport failure typing;
+  - jobs-API contract mocks: idempotency, 404, capacity, states;
+  - injection tests through a real `/bin/sh`;
+  - parsing of live-captured exec output;
+  - the deletion-tool guard;
+  - an integration test against the in-tree CLI's `agent_spawn` and `claims_*`.
+
+**Live end-to-end, 2026-10-01**, on rUv's existing "Work Desktop" (approved, bounded):
+
+- **Window:** `desktop_start` at 21:45:48Z, `desktop_stop` at 21:47:35Z. `desktop_status` then showed `state: stopped`, `heartbeat_status: asleep`.
+- **LLM route:** `llm_route_get` returned `{route: "shared", gateway: "unconfigured", key_present: false}`.
+- **Run:** the builder's launch steps started `claude -p --model haiku --max-budget-usd 0.10`.
+  - The prompt's sha256 matched on the desktop.
+  - The detached runner survived the exec returning (`alive=1`).
+  - The second poll returned exit 0 with `RUFLO_RUOS_LIVE_OK 42`, about 11 s after launch.
+- **Latency:** spacing between 9 back-to-back `desktop_exec` calls, measured on the desktop clock, had a median of 676 ms, p95 842 ms and minimum 174 ms. The whole batch of 10 calls took 9.45 s including session overhead.
+- **Output cap:** about 4 KiB, including the echo.
+
+Not verified live:
+- SSH (6PN-only);
+- the env-token terminal path;
+- the jobs API, which is not deployed yet.

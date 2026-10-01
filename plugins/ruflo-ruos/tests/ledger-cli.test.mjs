@@ -74,7 +74,9 @@ test('real ruflo CLI: agent store carries config.host and claims round-trip', { 
   assert.equal(start.swarmLedger, 'cli');
   const store = JSON.parse(readFileSync(join(cwd, '.claude-flow/agents/store.json'), 'utf8'));
   assert.equal(store.agents['ruos-int-1'].status, 'busy');
-  assert.deepEqual(store.agents['ruos-int-1'].config.host, { kind: 'ruos', desktopId: DESKTOP_ID, desktopName: 'Work Desktop', transport: 'fleet-mcp', runId: 'r-ledger-0002' });
+  const h = store.agents['ruos-int-1'].config.host;
+  assert.deepEqual({ ...h, stopAt: undefined }, { kind: 'ruos', desktopId: DESKTOP_ID, desktopName: 'Work Desktop', transport: 'fleet-mcp', jobs: 'exec-poll', runId: 'r-ledger-0002', stopAt: undefined });
+  assert.match(h.stopAt, /T0[34]:00:00\.000Z$/, '23:00 Toronto deadline recorded');
   const claims = JSON.parse(readFileSync(join(cwd, '.claude-flow/claims/claims.json'), 'utf8'));
   assert.equal(claims.claims['ruos-run-r-ledger-0002'].claimant.agentId, 'ruos-int-1');
   run(['record', 'output', '--run', 'r-ledger-0002', '--agent-id', 'ruos-int-1', '--b64', Buffer.from('hi').toString('base64')]);

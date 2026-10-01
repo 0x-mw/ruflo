@@ -45,6 +45,7 @@ export function fakeFleet(desktops) {
     start: async (/** @type {string} */ id) => { calls.push(['start', [id]]); },
     stop: async (/** @type {string} */ id) => { calls.push(['stop', [id]]); },
     keepAwake: async (/** @type {string|null} */ f, /** @type {number} */ m) => { calls.push(['keepAwake', [f, m]]); },
+    llmRoute: async () => { calls.push(['llmRoute', []]); return { route: 'shared', provider: 'cognitum', gateway: 'unconfigured', keyPresent: false }; },
   };
 }
 
@@ -88,5 +89,7 @@ export function fakeLedger() {
     snapshotHosts: (/** @type {unknown[]} */ ...a) => { calls.push(['snapshotHosts', a]); },
     setHostAgent: (/** @type {unknown[]} */ ...a) => { calls.push(['setHostAgent', a]); },
     appendOutput: (/** @type {string} */ _r, /** @type {Buffer} */ c) => { output.push(c); },
+    audits: /** @type {any[]} */ ([]),
+    audit(/** @type {any} */ r) { this.audits.push(r); },
   };
 }
