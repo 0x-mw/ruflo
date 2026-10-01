@@ -29,4 +29,4 @@ Scaffold a mod the governed way, instead of an ad-hoc one: the template already 
    claude -p --plugin-dir <dir> "/<name>-status"   # writes .claude-plugin/types/ and proves a live load
    npx tsc -p <dir>                  # against those generated types
    ```
-7. **Ship it in a plugin marketplace** (`marketplace.json` entry), installed with `/plugin install <name>@<marketplace>` and picked up with `/reload-plugins`. If ruflo-mods is installed with `modTrust: refuse-risky`, a mod using `process.run`, `http.fetch`, `env.set` or hooking `tool.check`/`tool.call`/`*` is refused unless named in `modTrustAllow` — the template sets `env.set` (the fallback handshake), so allow it by name.
+7. **Ship it in a plugin marketplace** (`marketplace.json` entry), installed with `/plugin install <name>@<marketplace>` and picked up with `/reload-plugins`. If ruflo-mods is installed with `modTrust: refuse-risky`, a mod using `process.run`, `http.fetch`, `env.set` or `fs.write`, or hooking `tool.check`/`tool.call`/`*`, is refused unless its plugin id (`<name>@<marketplace>`) is in `modTrustAllow` — the template sets `env.set` (the fallback handshake), so allow-list it by id.
