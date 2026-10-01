@@ -151,7 +151,9 @@ export function createJobsApiTransport(backend, exec, nonce = defaultNonce) {
  *   POST 409 → same key, different request: a client bug, never retried
  *   POST 429 → per-tenant cap (4), no server queue → `capacity` (adapter backs off)
  *   GET  503 → desktop up but the poll did not answer → retried here with backoff
+ *   400 → invalid-input (e.g. a Lite machine target), never retried
  *   401 → auth-expired · 403 → insufficient-scope · 404 → not-owned (never retried)
+ *   DELETE 200 → job ends `cancelled`, exit 143, output before the cancel kept
  * @param {{ baseUrl: string, token: string, fetchImpl?: typeof fetch, sleep?: (ms: number) => Promise<void> }} o
  * @returns {JobsBackend & { detect: (machine: string) => Promise<boolean> }}
  */
@@ -178,6 +180,7 @@ export function createRestJobsBackend(o) {
     } catch {
       throw new RuosError('network-down', 'ruOS jobs API unreachable');
     }
+    if (res.status === 400) throw new RuosError('invalid-input', 'jobs API refused the request (400; e.g. a Lite browser target has no shell); not retried');
     if (res.status === 401) throw new RuosError('auth-expired', 'jobs API refused the credential');
     if (res.status === 403) throw new RuosError('insufficient-scope', 'jobs API needs a desktop:control token');
     if (res.status === 404) throw new RuosError('not-owned', 'job not found (not yours, or gone)');

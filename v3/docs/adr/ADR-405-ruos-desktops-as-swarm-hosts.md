@@ -66,15 +66,25 @@ The adapter drives a `JobTransport` (`jobs.mjs`) through `start`, `poll(offset)`
     - `wait_ms` is a long-poll, so the adapter skips its own sleep, guarded against a server that answers instantly.
     - `503` means the desktop is up but the poll didn't answer; it is retried with 1 s, 2 s and 4 s backoff.
     - Polls do not take the desktop's run lock.
-  - **Cancel and list.** `DELETE …/jobs/{id}` sends TERM, then KILL after 10 s, and the job becomes `cancelled`. `GET …/jobs?machine=` lists jobs newest first.
+  - **Cancel and list.** `DELETE …/jobs/{id}` returns `200`, sends TERM, then KILL after 10 s. The job ends `cancelled` with `exit_code` 143 (SIGTERM) and keeps the output written before the cancel. The adapter keeps reading output for up to 15 s after a cancel, and reports `cancelled` as **stopped**, never failed. `GET …/jobs?machine=` lists jobs newest first.
   - **States.**
     - `exited` carries any exit code; only 0 counts as `completed`.
     - `failed` means the launch never reached the desktop, or the job's own timeout fired.
     - `stopped` is re-pollable after `desktop_start`, so it is surfaced as resumable `auto-stopped`.
     - `queued`, `running`, `cancelled` and `lost` are the others.
-  - **Errors.** A `404` means "not yours, or gone" and is never retried. 401 maps to `auth-expired`, 403 to `insufficient-scope`.
+  - **Errors.** A `400` (e.g. targeting a Lite browser, which has no shell) maps to `invalid-input` and is never retried. A `404` means "not yours, or gone" and is never retried. 401 maps to `auth-expired`, 403 to `insufficient-scope`.
   - **Backends.** REST with the tenant token, or the local stdio `@cognitum/ruos` server's `desktop_job_start/poll/list/cancel`. Those tools are stdio-only; the hosted remote MCP is unchanged at 42 tools (ruOS ADR-094).
-  - **Verification status:** **contract-tested, not exercised live.** Mocks reproduce the exact live codes and fields: 202, 200 replay, 409, 429, 503, 404, queued with `running: true`, `exited` with a non-zero code, and `wait_ms`. No live call was made, because no control-scoped token was available and a live run needs separate spend approval. ruOS's own 1195 service tests pass, but it has not yet run a live end-to-end of these endpoints either.
+  - **Verification status:** ruOS validated the jobs API contract live (end-to-end by the ruOS lane, fleet `64261be`, Work Desktop):
+    - POST returned 202 `queued`;
+    - a replay returned 200 `idempotent_replay` with the same `job_id`;
+    - the same key with a different command returned 409;
+    - `wait_ms=5000` long-poll returned all output in order, then `exited` with exit 0;
+    - `stop_at` was the next 23:00 ET;
+    - an unknown id returned 404, and the list was newest first;
+    - a Lite target returned 400;
+    - DELETE returned 200, and the job ended `cancelled` with exit 143.
+
+    ruflo's `JobsApiTransport` is **contract-tested against it, not called live by ruflo**. The mocks reproduce those exact codes and fields. ruflo made no live call: no control-scoped token was available, and a call would need separate spend approval.
 
 Polling is adaptive: 1 s while output flows, backing off to 10 s when idle. Every exec poll is an audited call that waits behind the run lock. Jobs-API polls long-poll server-side instead.
 

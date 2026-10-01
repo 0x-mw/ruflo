@@ -12,6 +12,8 @@ import { checkWindow } from './autostop.mjs';
 const TERMINAL = new Set(['exited', 'failed', 'cancelled']);
 export const POLL_MIN_MS = 1000;
 export const POLL_MAX_MS = 10_000;
+/** after a cancel, keep reading output for at most this long (server KILLs at 10 s) */
+export const CANCEL_DRAIN_MS = 15_000;
 
 /** heartbeat older than this is not evidence the desktop is up */
 export const HEARTBEAT_FRESH_SECS = 180;
@@ -265,9 +267,15 @@ export class RuosHostAdapter {
   async stream(desktop, jobId, runId, agentId, st, o) {
     let delay = POLL_MIN_MS;
     let lostOnce = false;
+    /** @type {number|null} */ let cancelAt = null;
     for (;;) {
-      if (o.signal?.aborted) {
+      if (o.signal?.aborted && cancelAt === null) {
+        // Cancel, then keep draining: the job API keeps output written
+        // before the cancel and ends `cancelled` (exit 143, SIGTERM).
         await this.jobs.cancel(desktop, jobId).catch(() => false);
+        cancelAt = this.now();
+      }
+      if (cancelAt !== null && this.now() - cancelAt > CANCEL_DRAIN_MS) {
         return { status: 'stopped', exitCode: null };
       }
       if (this.now() - o.t0 > o.timeoutSecs * 1000) {
@@ -288,12 +296,14 @@ export class RuosHostAdapter {
       if (p.chunk.length > 0) { delay = POLL_MIN_MS; continue; }
       if (TERMINAL.has(p.state)) {
         // `exited` carries any exit code (ADR-105): only 0 is completed.
-        const status = p.state === 'cancelled' ? 'stopped' : p.state === 'exited' && p.exitCode === 0 ? 'completed' : 'failed';
+        // `cancelled` (exit 143) is a stop, never a failure.
+        const status = p.state === 'cancelled' || cancelAt !== null ? 'stopped' : p.state === 'exited' && p.exitCode === 0 ? 'completed' : 'failed';
         return { status, exitCode: p.exitCode };
       }
       if (p.state === 'stopped') {
         throw new RuosError('auto-stopped', `desktop stopped mid-run; HOME persists — wake it and \`attach --run ${runId}\` to read the output`);
       }
+      if (p.state === 'lost' && cancelAt !== null) return { status: 'stopped', exitCode: p.exitCode }; // we killed it
       if (p.state === 'lost') {
         if (lostOnce) throw new RuosError('remote-error', 'runner died without an exit code (killed on the desktop?)');
         lostOnce = true; // exit.code is written just after the runner exits: re-check once

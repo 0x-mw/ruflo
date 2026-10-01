@@ -226,6 +226,7 @@ function adr105Server() {
     const json = (/** @type {number} */ status, /** @type {unknown} */ b) => new Response(JSON.stringify(b), { status });
     if (u.pathname === '/api/v1/desktop/jobs' && method === 'POST') {
       if (!body.idempotency_key) return json(400, { error: 'idempotency_key required' });
+      if (String(body.machine).startsWith('lite-')) return json(400, { error: 'Lite browsers have no shell' });
       const prev = byKey.get(body.idempotency_key);
       if (prev) {
         return JSON.stringify(prev.body) === JSON.stringify(body)
@@ -240,8 +241,13 @@ function adr105Server() {
     const id = u.pathname.split('/').pop() ?? '';
     const job = [...byKey.entries()].find(([k]) => `job_${k.slice(2, 10)}` === id)?.[1];
     if (!job) return json(404, { error: 'not found' });
-    if (method === 'DELETE') { job.state = 'cancelled'; return json(200, {}); }
+    if (method === 'DELETE') { job.state = 'cancelled'; job.exit = 143; return json(200, { job_id: id, state: 'cancelled' }); }
     if (unanswered-- > 0) return new Response('', { status: 503 });
+    if (job.state === 'cancelled') {
+      const off = Number(u.searchParams.get('offset'));
+      const chunk = job.out.subarray(off);
+      return json(200, { chunk: chunk.toString('base64'), next_offset: off + chunk.length, running: false, state: 'cancelled', exit_code: 143, truncated: false, desktop: 'up' });
+    }
     job.polls++;
     if (job.polls === 1) return json(200, { chunk: '', next_offset: 0, running: true, state: 'queued', exit_code: null, truncated: false, desktop: 'up' });
     const off = Number(u.searchParams.get('offset'));
@@ -302,4 +308,33 @@ test('ADR-105: timeout_secs above 21600 is clamped client-side, never refused', 
   const t = createJobsApiTransport(createRestJobsBackend({ baseUrl: 'https://ruos.cognitum.one', token: 'tok', fetchImpl: srv.f }), staging(), () => N);
   await t.start(desktop(), { runId: RUN, prompt: 'p', runner: 'claude', timeoutSecs: 30000 });
   assert.equal(srv.log.find((r) => r.method === 'POST')?.body.timeout_secs, 21600);
+});
+
+test('ADR-105: a Lite target is 400 → invalid-input, never retried', async () => {
+  const srv = adr105Server();
+  const backend = createRestJobsBackend({ baseUrl: 'https://ruos.cognitum.one', token: 'tok', fetchImpl: srv.f });
+  await assert.rejects(backend.create({ machine: 'lite-2be6c1bd3e06f05ae8da5f470e4737c3', command: 'x', timeout_secs: 60, idempotency_key: RUN }),
+    (e) => e instanceof RuosError && e.code === 'invalid-input');
+  assert.equal(srv.log.filter((r) => r.method === 'POST').length, 1);
+});
+
+test('ADR-105: cancel → 200, job ends cancelled with exit 143, output before the cancel kept, reported as stopped', async () => {
+  const srv = adr105Server();
+  const clock = fakeClock();
+  const backend = createRestJobsBackend({ baseUrl: 'https://ruos.cognitum.one', token: 'tok', fetchImpl: srv.f, sleep: clock.sleep });
+  const ledger = fakeLedger();
+  const adapter = new RuosHostAdapter({
+    fleet: fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]),
+    jobs: createJobsApiTransport(backend, staging(), () => N),
+    ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep,
+  });
+  const ac = new AbortController();
+  ac.abort(); // cancel right after the first (queued) poll
+  /** @type {string[]} */ const seen = [];
+  const out = await adapter.run({ desktop: 'Work Desktop', prompt: 'p', runId: RUN, agentId: 'a1', signal: ac.signal, onOutput: (c) => seen.push(c.toString()) });
+  assert.equal(out.status, 'stopped', 'cancelled is a stop, not a failure');
+  assert.equal(out.exitCode, 143);
+  assert.equal(seen.join(''), 'exit three\n', 'output written before the cancel is kept');
+  assert.equal(srv.log.filter((r) => r.method === 'DELETE').length, 1);
+  assert.equal(ledger.events.at(-1).type, 'run.stopped');
 });
