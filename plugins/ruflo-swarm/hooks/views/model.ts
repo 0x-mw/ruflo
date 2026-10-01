@@ -26,6 +26,8 @@ export type PaneModel = {
   decisions: Decision[]
   usage: string
   route: string
+  /** ruOS desktops hosting swarm agents, one line each; empty when no agent runs remotely and no host file is there. */
+  remote: string[]
   missing: string[]
   confirm: PendingConfirm | null
   outcome: ActionOutcome | null
@@ -47,6 +49,38 @@ const CLAIMED = new Set(['in_progress', 'running', 'assigned'])
 const DONE = new Set(['completed', 'done'])
 const FAILED = new Set(['failed', 'cancelled'])
 
+const ageOf = (ms: number): string => {
+  const s = Math.max(0, Math.round(ms / 1000))
+
+  return s < 60 ? `${s}s` : s < 3600 ? `${Math.floor(s / 60)}m` : `${Math.floor(s / 3600)}h`
+}
+
+/** The ruOS hosts section: each desktop with its state, heartbeat age and agents; "not on disk" when agents name a host and no snapshot exists. */
+export function remoteLines(snapshot: State['snapshot'], nowMs: number): string[] {
+  if (snapshot === null) {
+    return []
+  }
+
+  const hosts = snapshot.ruos.hosts
+  const remoteAgents = snapshot.agents.filter(agent => agent.remote !== undefined).length
+  const note = snapshot.ruos.note !== undefined ? [snapshot.ruos.note] : []
+
+  if (hosts === null) {
+    return remoteAgents > 0 ? [`ruOS hosts: not on disk (${remoteAgents} agent${remoteAgents === 1 ? '' : 's'} name one)`, ...note] : note
+  }
+
+  return [
+    ...hosts.slice(0, 20).map(host => {
+      const beat = host.heartbeatAt !== undefined ? ` · heartbeat ${ageOf(nowMs - Date.parse(host.heartbeatAt))} ago` : ' · no heartbeat'
+
+      return `${host.name} · ${host.state}${beat} · ${host.agents.length} agent${host.agents.length === 1 ? '' : 's'}`
+    }),
+    ...(hosts.length > 20 ? [`+${hosts.length - 20} more hosts`] : []),
+    ...(hosts.length === 0 ? ['no ruOS hosts'] : []),
+    ...note,
+  ]
+}
+
 const short = (id: string) => (id.length > 14 ? `…${id.slice(-8)}` : id)
 
 /** A cost or a token count as the engine gave it; a figure it left out is `n/a`, never zero. */
@@ -63,22 +97,27 @@ export function usageLine(usage: State['usage']): string {
   return `cost ${cost} · context ${tokens}${window}${percent}`
 }
 
-/** The router's last pick seen this session, with its score; under the threshold it says so instead of naming a winner. */
-export function routeLine(route: State['route'], threshold: number): string {
+/**
+ * The router's last pick the pane has seen (kept in `$.store`, so it may come from an earlier session: its age says),
+ * with its score; under the threshold it says so instead of naming a winner.
+ */
+export function routeLine(route: State['route'], threshold: number, nowMs = Date.now()): string {
   if (route === null) {
-    return 'router: no pick seen this session'
+    return 'router: no pick seen yet'
   }
 
   const score = `${Math.round(route.confidence * 100)}%`
   const alt = route.alternatives[0] !== undefined ? ` · alt ${route.alternatives[0].agent} ${Math.round(route.alternatives[0].confidence * 100)}%` : ''
 
+  const age = route.atMs > 0 ? ` · ${ageOf(nowMs - route.atMs)} ago` : ''
+
   if (!route.matched) {
-    return `router: no match (best ${route.agent} ${score})`
+    return `router: no match (best ${route.agent} ${score})${age}`
   }
 
   return route.confidence < threshold
-    ? `router: below threshold ${Math.round(threshold * 100)}% (best ${route.agent} ${score})${alt}`
-    : `router: ${route.agent} ${score}${route.pattern !== undefined ? ` (${route.pattern})` : ''}${alt}`
+    ? `router: below threshold ${Math.round(threshold * 100)}% (best ${route.agent} ${score})${alt}${age}`
+    : `router: ${route.agent} ${score}${route.pattern !== undefined ? ` (${route.pattern})` : ''}${alt}${age}`
 }
 
 function nextOf(state: State, members: readonly Member[], board: PaneModel['board']): PaneModel['next'] {
@@ -161,7 +200,8 @@ export function paneModelOf(state: State, columns: number, rows: number, nowMs: 
     proposals: snapshot?.hive?.pending.filter(proposal => proposal.status === 'pending') ?? [],
     decisions: (snapshot?.hive?.history ?? []).slice(-2).reverse(),
     usage: usageLine(state.usage),
-    route: routeLine(state.route, state.options.routeThreshold),
+    route: routeLine(state.route, state.options.routeThreshold, nowMs),
+    remote: remoteLines(snapshot, nowMs),
     missing: (snapshot?.missing ?? []).map(key => MISSING_WORDS[key]),
     confirm: state.confirm,
     outcome: state.outcome,

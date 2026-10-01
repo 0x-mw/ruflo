@@ -95,7 +95,7 @@ describe('register', () => {
     expect(status).toContain('swarm …4-u3ktj4 · hierarchical · running')
     expect(status).toContain('· coder (ruflo) busy')
     expect(status).toContain('tasks: 1 pending, 1 claimed, 0 done')
-    expect(status).toContain('router: no pick seen this session')
+    expect(status).toContain('router: no pick seen yet')
     expect(status).toContain('cost $0.421 · context 68k/200k (34%)')
     expect(topology).toContain('hierarchical (strategy specialized, max 8 agents, hive consensus byzantine)')
     expect(topology).toContain('★ queen')
@@ -106,5 +106,15 @@ describe('register', () => {
     for (const text of [status, json, topology, claims, consensus]) {
       expect(text).not.toContain(HIVE_TOKEN)
     }
+  })
+
+  test('what the pane keeps across reloads is kept per folder: a router pick from another project never shows here', async ($, on) => {
+    const world = worldOf(on, RUFLO_RUN)
+
+    mock.clock(on)
+    world.stored.set('ruflo-swarm/ui:/elsewhere', { selected: null, selectedTask: null, isClosedByPerson: false, route: { task: 't', agent: 'coder', confidence: 0.9, matched: true, alternatives: [], atMs: 1 } })
+    await $.session.start(SESSION)
+
+    expect(textOf(await $.ui.render(PANE))).toContain('router: no pick seen yet')
   })
 })

@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { idOf, parseAgents, parseClaims, parseHive, parseRoute, parseSwarmStore, parseTasks, plain, routeFromStore } from '../hooks/reader/parse'
+import { parseEvents, parseHosts, remoteHostOf, runWord } from '../hooks/reader/ruos'
 import { readSnapshot, type ReadCache } from '../hooks/reader/snapshot'
 import { HIVE_TOKEN, RUFLO_RUN } from './fixtures/ruflo-run'
 
@@ -48,7 +49,7 @@ describe('parse (vitest)', () => {
 
     await readSnapshot(fs, cache, 0)
     await readSnapshot(fs, cache, 1)
-    expect(reads).toBe(6)
+    expect(reads, "six swarm files and the two ruOS files, once each").toBe(8)
   })
 
   it('ids are only what ruflo mints; text is printable and bounded', () => {
@@ -67,5 +68,15 @@ describe('parse (vitest)', () => {
     expect(parseRoute('no json here', 0)).toBeNull()
     expect(routeFromStore({ task: 't', agent: 'x', confidence: 'high', atMs: 1 })).toBeNull()
     expect(routeFromStore(pick)).toMatchObject({ agent: 'architect', confidence: 0.41 })
+  })
+
+  it('reads the ruflo-ruos remote-host contract and keeps only ids, names and states', () => {
+    expect(remoteHostOf({ host: { kind: 'ruos', desktopId: 'm-1', desktopName: 'desk', transport: 'ssh', runId: 'run-1' } })).toEqual({ desktopId: 'm-1', desktopName: 'desk', transport: 'ssh', runId: 'run-1' })
+    expect(parseHosts('{"hosts":[{"desktopId":"m-1","name":"desk","state":"running","agents":["agent-1","bad id"]}]}')).toEqual([{ desktopId: 'm-1', name: 'desk', state: 'running', agents: ['agent-1'] }])
+
+    const [event] = parseEvents('{"ts":3,"type":"run.failed","runId":"run-1","exitCode":2,"error":"secret"}')
+
+    expect(event).toEqual({ ts: 3, type: 'run.failed', runId: 'run-1', exitCode: 2 })
+    expect(event !== undefined && runWord(event)).toBe('failed (exit 2)')
   })
 })

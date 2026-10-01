@@ -42,6 +42,7 @@ export function statusText(state: State, nowMs: number, asJson: boolean): string
         tasks: model.board,
         claims: snapshot.claims,
         hive: snapshot.hive,
+        ruos: snapshot.ruos,
         route: state.route,
         usage: state.usage,
         missing: snapshot.missing,
@@ -61,6 +62,7 @@ export function statusText(state: State, nowMs: number, asJson: boolean): string
     `agents: ${model.counts.map(entry => `${entry.state} ${entry.count}`).join(', ') || 'none'}`,
     ...model.members.slice(0, 20).map(member => `  ${member.isLeader ? '★' : '·'} ${member.label} (${member.source}) ${member.word}`),
     `tasks: ${b.pending} pending, ${b.claimed} claimed, ${b.done} done${b.failed > 0 ? `, ${b.failed} failed` : ''}`,
+    ...(model.remote.length > 0 ? ['ruOS hosts:', ...model.remote.map(line => `  ${line}`)] : []),
     model.route,
     model.usage,
   ]

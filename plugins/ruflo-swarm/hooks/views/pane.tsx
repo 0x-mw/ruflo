@@ -380,6 +380,7 @@ export function paneView(kit: Kit, model: PaneModel, actions: PaneActions): Rend
   const shownDetail = take(detail(kit, model, actions, Math.min(12, Math.max(2, budget - 8))))
   const shownBoard = take(board(kit, model, Math.min(8, Math.max(1, budget - 10)), actions))
   const shownConsensus = take(consensus(kit, model, actions))
+  const shownRemote = model.remote.length > 0 ? take({ rows: 1 + model.remote.length, node: <Box flexDirection="column">{rule(kit, 'ruOS hosts', model.columns)}{model.remote.map(line => <Text>{clip(line, model.columns)}</Text>)}</Box> }) : null
   const shownTopology = take({ rows: 1 + model.topology.length, node: <Box flexDirection="column">{rule(kit, 'Topology', model.columns)}{model.topology.map(line => <Text>{line}</Text>)}</Box> })
   const shownSignals = take({ rows: 2, node: <Box flexDirection="column"><Text>{clip(model.route, model.columns)}</Text><Text dimColor>{clip(model.usage, model.columns)}</Text></Box> })
   const shownNext = take(nextRow(kit, model, actions))
@@ -392,6 +393,7 @@ export function paneView(kit: Kit, model: PaneModel, actions: PaneActions): Rend
       {shownDetail}
       {shownBoard}
       {shownConsensus}
+      {shownRemote}
       {shownTopology}
       {shownSignals}
       {shownNext}

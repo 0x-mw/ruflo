@@ -1,3 +1,4 @@
+import { runWord, type RunEventType } from '../reader/ruos'
 import type { Snapshot } from '../reader/snapshot'
 
 /** How a tile is coloured: the five states the pane names. */
@@ -174,6 +175,7 @@ export function noteListed(activity: Activity, listed: readonly { id: string; ty
 }
 
 const RUFLO_STATES: Record<string, MemberState> = { idle: 'idle', busy: 'working', terminated: 'done' }
+const RUN_STATES: Partial<Record<RunEventType, MemberState>> = { 'run.started': 'working', 'run.output': 'working', 'run.completed': 'done', 'run.failed': 'failed', 'run.stopped': 'done' }
 const LOOP_STATES: Record<string, MemberState> = { running: 'working', pending: 'working', completed: 'done', failed: 'failed', killed: 'failed' }
 
 /**
@@ -192,17 +194,23 @@ export function membersOf(snapshot: Snapshot | null, activity: Activity, nowMs: 
 
   const coordinator = (snapshot?.agents ?? []).find(agent => /coordinator|queen/.test(agent.type) && agent.status !== 'terminated')
 
+  const events = snapshot?.ruos.events ?? []
+
   for (const agent of snapshot?.agents ?? []) {
     const held = claimsOf(agent.id)
     const isBlocked = held.some(claim => claim.status === 'blocked')
+    const remote = agent.remote
+    // On a ruOS desktop the newest lifecycle event for its run (or the agent) says where it stands.
+    const run = remote === undefined ? undefined : events.filter(event => event.type !== 'desktop.state' && ((remote.runId !== undefined && event.runId === remote.runId) || event.agentId === agent.id)).sort((a, b) => b.ts - a.ts)[0]
+    const runState = run === undefined ? undefined : RUN_STATES[run.type]
 
     members.push({
       id: agent.id,
-      label: agent.type,
+      label: remote === undefined ? agent.type : `${agent.type} @${remote.desktopName}`,
       role: agent.type,
       source: 'ruflo',
-      state: isBlocked ? 'blocked' : (RUFLO_STATES[agent.status] ?? 'idle'),
-      word: isBlocked ? 'blocked' : agent.status,
+      state: isBlocked ? 'blocked' : (runState ?? RUFLO_STATES[agent.status] ?? 'idle'),
+      word: isBlocked ? 'blocked' : run !== undefined ? runWord(run) : agent.status,
       isLeader: queen === undefined && coordinator?.id === agent.id,
       claims: held.length,
       calls: 0,

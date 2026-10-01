@@ -30,7 +30,7 @@ describe('pane', () => {
     expect(text).toContain('Write login tests → unassigned')
     expect(text).toContain('design (raft) for 0 · against 0')
     expect(text).toContain('├─ coder')
-    expect(text).toContain('router: no pick seen this session')
+    expect(text).toContain('router: no pick seen yet')
     expect(text).toContain('cost $0.421 · context 68k/200k (34%)')
     expect(text).not.toContain(HIVE_TOKEN)
     expect(buttonKeysOf(tree)).toEqual(expect.arrayContaining(['hide', 'prev', 'next', 'logs', 'task-prev', 'task-next', 'offer', 'reroute', 'vote-yes', 'vote-no']))

@@ -3,6 +3,7 @@
  * Every one takes text from disk that another process wrote, so each tolerates any shape: what it cannot read
  * is left out, never guessed. Nothing here reads, keeps or returns the hive's `hiveToken`.
  */
+import { remoteHostOf, type RemoteHost } from './ruos'
 
 /** Text longer than this is not read: a store that size is not one the CLI wrote, and parsing it would stall a hook. */
 export const MAX_TEXT = 4_000_000
@@ -28,6 +29,8 @@ export type AgentRecord = {
   taskCount?: number
   model?: string
   createdAt?: string
+  /** Where the agent runs, when ruflo-ruos placed it on a ruOS desktop (`config.host`, see ./ruos). */
+  remote?: RemoteHost
 }
 
 export type TaskRecord = {
@@ -182,6 +185,7 @@ export function parseAgents(text: string | null): AgentRecord[] {
         ...(numberOf(agent.taskCount) !== undefined && { taskCount: numberOf(agent.taskCount) }),
         ...(stringOf(agent.model, 40) !== undefined && { model: stringOf(agent.model, 40) }),
         ...(stringOf(agent.createdAt, 40) !== undefined && { createdAt: stringOf(agent.createdAt, 40) }),
+        ...(remoteHostOf(agent.config) !== null && { remote: remoteHostOf(agent.config) as RemoteHost }),
       },
     ]
   })

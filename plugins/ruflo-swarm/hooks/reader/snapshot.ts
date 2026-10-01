@@ -11,6 +11,7 @@ import {
   type SwarmInfo,
   type TaskRecord,
 } from './parse'
+import { EVENTS_MAX, parseEvents, parseHosts, RUOS_EVENTS, RUOS_HOSTS, type RunEvent, type RuosHost } from './ruos'
 
 /** The file calls a reader makes, as `$.fs` answers them; every one may be refused. */
 export type ReaderFs = {
@@ -36,6 +37,8 @@ export type Snapshot = {
   tasks: TaskRecord[]
   claims: ClaimRecord[]
   hive: HiveInfo | null
+  /** ruOS desktops that host swarm agents (ruflo-ruos): null hosts when the snapshot file is absent. */
+  ruos: { hosts: RuosHost[] | null; events: RunEvent[]; note?: string }
   /** The facts that are not on disk (no file, unreadable, or not in a shape ruflo writes), by key. */
   missing: FileKey[]
   /** True when any of ruflo's swarm files is there at all: the pane has something of its own to show. */
@@ -84,12 +87,14 @@ export async function readSnapshot(fs: ReaderFs, cache: ReadCache, nowMs: number
       ? { id: pointer.id, topology: pointer.topology ?? 'unknown', status: pointer.status ?? 'unknown', agentIds: [], ...(pointer.strategy !== undefined && { strategy: pointer.strategy }) }
       : null)
 
+  const ruos = await readRuos(fs, cache)
   const parsed = {
     swarm,
     agents: parseAgents(text('agents')),
     tasks: parseTasks(text('tasks')),
     claims: parseClaims(text('claims')),
     hive: parseHive(text('hive')),
+    ruos,
   }
 
   const missing = keys.filter(key => {
@@ -111,4 +116,22 @@ export async function readSnapshot(fs: ReaderFs, cache: ReadCache, nowMs: number
     hasSwarm: swarm !== null || parsed.agents.length > 0 || parsed.hive !== null,
     readAtMs: nowMs,
   }
+}
+
+/** The ruOS host snapshot and the tail of its event log. The log is read whole (there is no ranged read), so past a size it is not read. */
+async function readRuos(fs: ReaderFs, cache: ReadCache): Promise<Snapshot['ruos']> {
+  const hosts = parseHosts(await textOf(fs, cache, RUOS_HOSTS))
+  let size = -1
+
+  try {
+    size = (await fs.stat(RUOS_EVENTS))?.size ?? -1
+  } catch {
+    return { hosts, events: [] }
+  }
+
+  if (size > EVENTS_MAX) {
+    return { hosts, events: [], note: `ruOS event log is ${Math.round(size / 1_000_000)} MB: not read` }
+  }
+
+  return { hosts, events: parseEvents(await textOf(fs, cache, RUOS_EVENTS)) }
 }

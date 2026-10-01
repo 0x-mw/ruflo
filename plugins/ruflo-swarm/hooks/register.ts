@@ -7,7 +7,7 @@ import type { Host, OpenResult } from './host'
 import { isAnimating, LEAD, newActivity, noteCall, noteDone, noteListed, noteResult, noteSpawn } from './model/members'
 import { parseRoute, plain } from './reader/parse'
 import { readSnapshot, type ReadCache } from './reader/snapshot'
-import { CLI_PREFIXES, newState, PANE_ID, persistedOf, restore, STORE_KEY, type State } from './state'
+import { CLI_PREFIXES, newState, PANE_ID, persistedOf, restore, storeKeyOf, type State } from './state'
 import { paneModelOf } from './views/model'
 import { paneView } from './views/pane'
 
@@ -65,7 +65,7 @@ export function register(on: On, raw: PluginOptions) {
   let host: Host | null = null
 
   const persist = () => {
-    void host?.storeSet(STORE_KEY, persistedOf(state)).catch(() => undefined)
+    void host?.storeSet(storeKeyOf(state.cwd), persistedOf(state)).catch(() => undefined)
   }
 
   async function refresh(): Promise<void> {
@@ -225,7 +225,7 @@ export function register(on: On, raw: PluginOptions) {
     await Promise.all([
       ...COMMANDS.map(spec => bound.registerCommand(spec).catch(() => undefined)),
       bound
-        .storeGet(STORE_KEY)
+        .storeGet(storeKeyOf(e.cwd))
         .then(value => restore(state, value))
         .catch(() => undefined),
     ])

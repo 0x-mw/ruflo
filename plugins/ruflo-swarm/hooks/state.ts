@@ -8,8 +8,11 @@ import type { Snapshot } from './reader/snapshot'
 export const PLUGIN_NAME = 'ruflo-swarm'
 export const PANE_ID = 'ruflo-swarm'
 
-/** The `$.store` key the few facts that must outlive a hot reload sit under. */
-export const STORE_KEY = 'ruflo-swarm/ui'
+/**
+ * The `$.store` key the few facts that must outlive a hot reload sit under. `$.store` is the plugin's, not the folder's,
+ * so the key carries the working directory: a router pick or a selection never follows the person into another project.
+ */
+export const storeKeyOf = (cwd: string): string => `ruflo-swarm/ui:${cwd}`
 
 /** How the pane reaches the ruflo CLI. Each is a fixed argv prefix; only `npx` may touch the network. */
 export const CLI_PREFIXES = {
