@@ -866,6 +866,19 @@ const initClaudeAction = async (ctx: CommandContext): Promise<CommandResult> => 
       }
     }
 
+    // ADR-404 — opt into the Claude Code mod path. Additive: the classic
+    // hooks just written stay the default and the fallback.
+    if (ctx.flags.mods === true) {
+      output.writeln();
+      try {
+        const { installMod } = await import('../mods/install.js');
+        const installed = installMod(ctx.cwd, 'local');
+        output.writeln(output.success(`  ✓ ruflo-mods enabled in ${installed.settingsFile} (early access; run "ruflo mods doctor")`));
+      } catch (err) {
+        output.writeln(output.warning(`  ruflo-mods not enabled: ${err instanceof Error ? err.message : String(err)}`));
+      }
+    }
+
     if (!startDaemon && !startAll) {
       const bin = (process.argv[1] || '').includes('ruflo') ? 'ruflo' : 'claude-flow';
       output.writeln(output.bold('Next steps:'));
@@ -1666,6 +1679,13 @@ export const initCommand: Command = {
     {
       name: 'start-daemon',
       description: 'Auto-start daemon after init',
+      type: 'boolean',
+      default: false,
+    },
+    {
+      // ADR-404 — Claude Code function hooks are early access; opt-in only.
+      name: 'mods',
+      description: 'Also enable the ruflo Claude Code mod (function hooks, early access); classic hooks stay as fallback',
       type: 'boolean',
       default: false,
     },
