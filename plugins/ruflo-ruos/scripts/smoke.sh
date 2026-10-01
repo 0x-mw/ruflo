@@ -46,7 +46,16 @@ rm -rf "$tmp"
 step "7. unit + injection + failure-path tests"
 if out=$(cd "$ROOT" && node --test tests/*.test.mjs 2>&1); then ok; else bad "$(printf '%s' "$out" | grep -E '^not ok' | head -5)"; fi
 
-step "8. ADR-405 present"
+step "8. sources type-check (tsc --checkJs, skipped if tsc absent)"
+TSC="$ROOT/../../node_modules/.bin/tsc"
+if [[ -x "$TSC" ]]; then
+  if out=$("$TSC" --noEmit --allowJs --checkJs --strict --target es2022 --module nodenext --moduleResolution nodenext \
+      --types node --skipLibCheck "$ROOT/scripts/cli.mjs" "$ROOT"/scripts/lib/*.mjs 2>&1); then ok; else bad "$(printf '%s' "$out" | head -5)"; fi
+else
+  printf "SKIP (no tsc)\n"
+fi
+
+step "9. ADR-405 present"
 [[ -f "$ROOT/../../v3/docs/adr/ADR-405-ruos-desktops-as-swarm-hosts.md" ]] && ok || bad "missing ADR"
 
 echo

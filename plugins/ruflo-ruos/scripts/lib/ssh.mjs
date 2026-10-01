@@ -16,7 +16,7 @@ export const SSH_PORT = 2222;
 
 /**
  * @typedef {object} SshOptions
- * @property {string} keyPath    path to the tenant's ed25519 private key
+ * @property {string|undefined} keyPath  path to the tenant ed25519 private key (required)
  * @property {string=} user      remote user (default 'ruv')
  * @property {string=} app       Fly app name (default 'ruos-desktop')
  * @property {typeof nodeSpawn=} spawnImpl
