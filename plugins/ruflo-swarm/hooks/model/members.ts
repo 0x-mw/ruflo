@@ -155,12 +155,17 @@ export function noteDone(activity: Activity, agentId: string, reason: string, no
 }
 
 /** `$.agent.list()` as the engine answered it: types and statuses for loops the hooks saw start before this module did. */
-export function noteListed(activity: Activity, listed: readonly { id: string; type: string; status: string; description?: string }[], nowMs: number): void {
+export function noteListed(activity: Activity, listed: readonly { id: string; type: string; status: string; description?: string; name?: string }[], nowMs: number): void {
   for (const agent of listed.slice(0, MAX_LOOPS)) {
     const loop = loopFor(activity, agent.id, nowMs)
 
     loop.role = roleOf(agent.type)
     loop.status = agent.status
+
+    // A named Agent call runs as an in-process teammate, listed as type `teammate`: its name is what tells it apart.
+    if (agent.name !== undefined && agent.name !== '') {
+      loop.name = agent.name.slice(0, 40)
+    }
 
     if (agent.description !== undefined && loop.description === undefined) {
       loop.description = agent.description
@@ -214,7 +219,8 @@ export function membersOf(snapshot: Snapshot | null, activity: Activity, nowMs: 
 
     members.push({
       id: loop.id,
-      label: isLead ? 'claude (main)' : (loop.name ?? loop.role),
+      // A loop known only from its tool calls (no spawn or listing reached the hooks) is said to be one, not given a role.
+      label: isLead ? 'claude (main)' : (loop.name ?? (loop.role === 'agent' ? `subagent …${loop.id.slice(-4)}` : loop.role)),
       role: loop.role,
       source: isLead ? 'lead' : 'claude',
       state: base === 'working' && isQuiet && !isLead ? 'idle' : base,
