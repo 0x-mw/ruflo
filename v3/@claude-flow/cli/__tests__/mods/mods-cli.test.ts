@@ -10,6 +10,7 @@ import { join } from 'node:path';
 import { installMod, uninstallMod, withModEnabled, withModRemoved, ENABLE_ENV, MOD_PLUGIN_ID } from '../../src/mods/install.js';
 import { projectionOf, syncPolicyProjection, PROJECTION_RELATIVE } from '../../src/mods/policy-projection.js';
 import { probeMods } from '../../src/mods/probe.js';
+import { findClaudeInstalls, judgeInstalls, versionLess } from '../../src/mods/claude-installs.js';
 import { modsCommand } from '../../src/commands/mods.js';
 import { setPolicyMode, upsertPolicyRule } from '../../src/services/policy-runtime.js';
 import { parseProjection } from '../../../../../plugins/ruflo-mods/hooks/guard/policy';
@@ -26,7 +27,7 @@ afterEach(() => {
 });
 const read = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
 const finding = (name: string, env: NodeJS.ProcessEnv = {}, managedPath = join(home, 'none.json')) =>
-  probeMods({ projectRoot: root, home, env, managedPath }).find((f) => f.name === name)!;
+  probeMods({ projectRoot: root, home, env, managedPath, installs: [] }).find((f) => f.name === name)!;
 
 describe('ADR-404 mods install / uninstall', () => {
   it('enables the plugin, the marketplace and the early-access switch in settings.local.json', () => {
@@ -171,5 +172,46 @@ describe('ADR-404 mods probe and doctor', () => {
     expect(doctor.exitCode).toBe(0);
     expect((await sub('uninstall').action!(ctx())).success).toBe(true);
     expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
+  });
+});
+
+describe('ADR-404 claude installs', () => {
+  const at = (path: string, version: string | null) => ({ path, version });
+
+  it('mods on by default from 2.1.287; the env var for 2.1.277..2.1.286; older predates mods', () => {
+    expect(judgeInstalls([at('/home/u/.local/bin/claude', '2.1.287')], false)).toMatchObject({ status: 'pass' });
+    expect(judgeInstalls([at('/c', '2.1.282')], false)).toMatchObject({ status: 'warn', message: expect.stringContaining('need CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 (not set)') });
+    expect(judgeInstalls([at('/c', '2.1.282')], true)).toMatchObject({ status: 'pass' });
+    expect(judgeInstalls([at('/c', '2.1.107')], true)).toMatchObject({ status: 'warn', message: expect.stringContaining('predates mods') });
+    expect(judgeInstalls([], false).status).toBe('warn');
+  });
+
+  it('flags a mixed install: a stale claude first on PATH, or beside the current one', () => {
+    const shadowed = judgeInstalls([at('/usr/bin/claude', '2.1.107'), at('/home/u/.local/bin/claude', '2.1.287')], false);
+    expect(shadowed.status).toBe('warn');
+    expect(shadowed.message).toContain('predates mods');
+    expect(shadowed.message).toContain('also installed: /home/u/.local/bin/claude (2.1.287)');
+    const beside = judgeInstalls([at('/home/u/.local/bin/claude', '2.1.287'), at('/usr/bin/claude', '2.1.107')], false);
+    expect(beside).toMatchObject({ status: 'warn', message: expect.stringContaining('a stale one can shadow') });
+  });
+
+  it('versionLess compares numerically', () => {
+    expect(versionLess('2.1.107', '2.1.287')).toBe(true);
+    expect(versionLess('2.1.287', '2.1.287')).toBe(false);
+    expect(versionLess('2.10.0', '2.9.9')).toBe(false);
+  });
+
+  it('finds every claude on PATH in order, de-duplicated by real path', () => {
+    const a = mkdtempSync(join(tmpdir(), 'ruflo-mods-path-a-'));
+    const b = mkdtempSync(join(tmpdir(), 'ruflo-mods-path-b-'));
+    try {
+      writeFileSync(join(a, 'claude'), '');
+      writeFileSync(join(b, 'claude'), '');
+      const found = findClaudeInstalls({ PATH: [a, b, a].join(':') }, join(a, 'nohome'), (p) => (p.startsWith(a) ? '2.1.107' : '2.1.287'));
+      expect(found).toEqual([at(join(a, 'claude'), '2.1.107'), at(join(b, 'claude'), '2.1.287')]);
+    } finally {
+      rmSync(a, { recursive: true, force: true });
+      rmSync(b, { recursive: true, force: true });
+    }
   });
 });

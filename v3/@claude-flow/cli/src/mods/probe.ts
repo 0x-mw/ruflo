@@ -9,6 +9,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { homedir, platform } from 'node:os';
 import { join, resolve } from 'node:path';
 
+import { findClaudeInstalls, judgeInstalls, type ClaudeInstall } from './claude-installs.js';
 import { ENABLE_ENV, MOD_PLUGIN_ID, readRecord, readSettingsFile, settingsFileFor } from './install.js';
 import { PROJECTION_RELATIVE } from './policy-projection.js';
 
@@ -48,6 +49,8 @@ export interface ProbeInputs {
   home?: string;
   env?: NodeJS.ProcessEnv;
   managedPath?: string;
+  /** Claude Code binaries on PATH; discovered (each `--version` run) when absent. */
+  installs?: ClaudeInstall[];
 }
 
 export function probeMods(inputs: ProbeInputs): Finding[] {
@@ -78,6 +81,9 @@ export function probeMods(inputs: ProbeInputs): Finding[] {
       return false;
     }
   });
+
+  // 2a. Which Claude Code runs, and whether a stale install shadows it.
+  findings.push({ name: 'claude installs', ...judgeInstalls(inputs.installs ?? findClaudeInstalls(env, home), envOn || settingsOn) });
   // Observed on Claude Code 2.1.282 (ADR-404): the server-side rollout switch
   // decides. Served on, an installed mod loaded with ENABLE_ENV unset; served
   // off, it did not load with ENABLE_ENV=1. The variable is reported, never
