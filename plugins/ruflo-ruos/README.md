@@ -25,7 +25,7 @@ Mint a **`desktop:control`** token with the narrowest lifetime. A read-only toke
 - It never logs your token.
 - With no credentials, every networked command exits 2 and makes no request.
 
-**Jobs.** `--jobs auto` (the default) uses the ruOS jobs API (ADR-105) when it is deployed, and otherwise polls `desktop_exec`. The poll path is a detached `nohup` runner under `~/.ruflo-ruos/runs/`, read by byte offset about 2 KiB at a time, because `desktop_exec` output is head-capped at about 4 KiB.
+**Jobs.** `--jobs auto` (the default) uses the live ruOS jobs API (ADR-105: long-poll, 64 KiB chunks) when your fleet answers it, and otherwise polls `desktop_exec`. The poll path is a detached `nohup` runner under `~/.ruflo-ruos/runs/`, read by byte offset about 2 KiB at a time, because `desktop_exec` output is head-capped at about 4 KiB.
 
 ## Commands
 

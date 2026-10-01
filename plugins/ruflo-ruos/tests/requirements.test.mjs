@@ -204,3 +204,102 @@ test('LLM route: no route fails fast before any exec; unconfigured gateway only 
   assert.ok(out.warnings.some((w) => w.includes('shared route')), 'live-observed shape: gateway unconfigured, route shared → warn, not fail');
   assert.equal(ledger.audits[0].commandSha256, commandSha256(buildLaunch({ runId: RUN, prompt: 'x', runner: 'claude' }, N).split(N).join('<nonce>')), 'nonce-masked, stable hash');
 });
+
+/**
+ * Mock of the LIVE ruos-desktop ADR-105 contract (fleet 64261be), exact codes:
+ * POST 202 new / 200 idempotent_replay / 409 same key + different request /
+ * 429 cap; GET 503 once (desktop up, poll unanswered), queued with running:true,
+ * wait_ms honoured; 404 for another tenant's id.
+ */
+function adr105Server() {
+  /** @type {Map<string, { body: any, out: Buffer, state: string, exit: number|null, polls: number }>} */
+  const byKey = new Map();
+  /** @type {any[]} */ const log = [];
+  let cap = 0;
+  let unanswered = 0;
+  /** @type {typeof fetch} */
+  const f = async (url, init) => {
+    const u = new URL(String(url));
+    const method = init?.method ?? 'GET';
+    const body = init?.body ? JSON.parse(String(init.body)) : undefined;
+    log.push({ method, path: u.pathname, query: Object.fromEntries(u.searchParams), body });
+    const json = (/** @type {number} */ status, /** @type {unknown} */ b) => new Response(JSON.stringify(b), { status });
+    if (u.pathname === '/api/v1/desktop/jobs' && method === 'POST') {
+      if (!body.idempotency_key) return json(400, { error: 'idempotency_key required' });
+      const prev = byKey.get(body.idempotency_key);
+      if (prev) {
+        return JSON.stringify(prev.body) === JSON.stringify(body)
+          ? json(200, { job_id: `job_${body.idempotency_key.slice(2, 10)}`, state: prev.state, idempotent_replay: true })
+          : json(409, { error: 'idempotency key reused with a different request' });
+      }
+      if (cap-- > 0) return json(429, { error: 'concurrency cap' });
+      byKey.set(body.idempotency_key, { body, out: Buffer.from('exit three\n'), state: 'queued', exit: null, polls: 0 });
+      return json(202, { job_id: `job_${body.idempotency_key.slice(2, 10)}`, state: 'queued' });
+    }
+    if (u.pathname === '/api/v1/desktop/jobs' && method === 'GET') return json(200, { jobs: [] });
+    const id = u.pathname.split('/').pop() ?? '';
+    const job = [...byKey.entries()].find(([k]) => `job_${k.slice(2, 10)}` === id)?.[1];
+    if (!job) return json(404, { error: 'not found' });
+    if (method === 'DELETE') { job.state = 'cancelled'; return json(200, {}); }
+    if (unanswered-- > 0) return new Response('', { status: 503 });
+    job.polls++;
+    if (job.polls === 1) return json(200, { chunk: '', next_offset: 0, running: true, state: 'queued', exit_code: null, truncated: false, desktop: 'up' });
+    const off = Number(u.searchParams.get('offset'));
+    const chunk = job.out.subarray(off);
+    job.state = 'exited'; job.exit = 3; // `exited` carries ANY exit code
+    return json(200, { chunk: chunk.toString('base64'), next_offset: off + chunk.length, running: false, state: 'exited', exit_code: 3, truncated: false, desktop: 'up', stop_at: '2026-10-02T03:00:00.000Z' });
+  };
+  return { f, log, setCap: (/** @type {number} */ n) => { cap = n; }, setUnanswered: (/** @type {number} */ n) => { unanswered = n; } };
+}
+
+test('ADR-105 live contract: 202, 200 replay, 409, 429, 503, queued, exited≠0, wait_ms', async () => {
+  const srv = adr105Server();
+  /** @type {number[]} */ const backoffs = [];
+  const backend = createRestJobsBackend({ baseUrl: 'https://ruos.cognitum.one', token: 'tok', fetchImpl: srv.f, sleep: async (ms) => { backoffs.push(ms); } });
+  const body = { machine: FLY_ID, command: 'x', timeout_secs: 60, idempotency_key: RUN };
+  const created = await backend.create(body);
+  assert.match(created.job_id, /^job_/);
+  const replay = await backend.create(body);
+  assert.equal(replay.job_id, created.job_id, '200 replay reuses the job id');
+  assert.equal(replay.idempotent_replay, true);
+  const before = srv.log.length;
+  await assert.rejects(backend.create({ ...body, command: 'different' }), (e) => e instanceof RuosError && e.code === 'invalid-input' && /client bug/.test(e.message));
+  assert.equal(srv.log.length - before, 1, '409 is never retried');
+  srv.setCap(1);
+  await assert.rejects(backend.create({ ...body, idempotency_key: 'r-ffffffffffffffffffffffffffffffff' }), (e) => e instanceof RuosError && e.code === 'capacity');
+  srv.setUnanswered(2);
+  const first = await backend.read(created.job_id, 0, 65536, 20000);
+  assert.deepEqual(backoffs, [1000, 2000], '503 retried with backoff');
+  assert.equal(first.state, 'queued');
+  assert.equal(first.running, true, 'running is true while queued');
+  const getLog = srv.log.filter((r) => r.method === 'GET' && r.path.includes('/jobs/')).at(-1);
+  assert.equal(getLog.query.wait_ms, '20000');
+  assert.equal(getLog.query.max, '65536');
+});
+
+test('ADR-105 through the adapter: queued → exited with exit 3 is failed, not completed; 429 backs off', async () => {
+  const srv = adr105Server();
+  srv.setCap(1);
+  const clock = fakeClock();
+  const backend = createRestJobsBackend({ baseUrl: 'https://ruos.cognitum.one', token: 'tok', fetchImpl: srv.f, sleep: clock.sleep });
+  const ledger = fakeLedger();
+  const adapter = new RuosHostAdapter({
+    fleet: fakeFleet([desktop({ heartbeatAt: Math.floor(clock.now() / 1000) })]),
+    jobs: createJobsApiTransport(backend, staging(), () => N),
+    ledger: /** @type {any} */ (ledger), now: clock.now, sleep: clock.sleep,
+  });
+  /** @type {string[]} */ const seen = [];
+  const out = await adapter.run({ desktop: 'Work Desktop', prompt: 'p', runId: RUN, agentId: 'a1', timeoutSecs: 900, onOutput: (c) => seen.push(c.toString()) });
+  assert.equal(out.status, 'failed', '`exited` with exit_code 3');
+  assert.equal(out.exitCode, 3);
+  assert.equal(seen.join(''), 'exit three\n');
+  assert.equal(srv.log.filter((r) => r.method === 'POST').length, 2, 'one 429, one accepted create');
+  assert.equal(srv.log.find((r) => r.method === 'POST' && r.body)?.body.timeout_secs, 900);
+});
+
+test('ADR-105: timeout_secs above 21600 is clamped client-side, never refused', async () => {
+  const srv = adr105Server();
+  const t = createJobsApiTransport(createRestJobsBackend({ baseUrl: 'https://ruos.cognitum.one', token: 'tok', fetchImpl: srv.f }), staging(), () => N);
+  await t.start(desktop(), { runId: RUN, prompt: 'p', runner: 'claude', timeoutSecs: 30000 });
+  assert.equal(srv.log.find((r) => r.method === 'POST')?.body.timeout_secs, 21600);
+});

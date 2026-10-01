@@ -80,16 +80,31 @@ export function createExecPollTransport(exec, nonce = defaultNonce) {
 }
 
 /**
- * Minimal backend contract for the jobs API (REST or stdio MCP adapter).
+ * Backend contract for the ruOS jobs API (ruos-desktop ADR-105, live).
+ * @typedef {object} JobsRead
+ * @property {string} chunk          base64
+ * @property {number} next_offset
+ * @property {boolean} running       true while queued too: "keep polling"
+ * @property {string} state
+ * @property {number|null} exit_code
+ * @property {boolean} truncated
+ * @property {('up'|'asleep'|'unknown')=} desktop
+ * @property {string=} stop_at
+ * @property {string|null=} error
+ */
+/**
  * @typedef {object} JobsBackend
- * @property {(body: { machine: string, command: string, timeout_secs: number, idempotency_key: string }) => Promise<{ job_id: string }>} create
- * @property {(jobId: string, offset: number, max: number) => Promise<{ chunk: string, next_offset: number, running: boolean, state: string, exit_code: number|null, truncated: boolean }>} read
+ * @property {(body: { machine: string, command: string, timeout_secs: number, idempotency_key: string }) => Promise<{ job_id: string, state?: string, idempotent_replay?: boolean }>} create
+ * @property {(jobId: string, offset: number, max: number, waitMs: number) => Promise<JobsRead>} read
  * @property {(jobId: string) => Promise<void>} cancel
  * @property {(machine: string) => Promise<unknown[]>} list
  */
 
 const STATES = new Set(['queued', 'running', 'exited', 'failed', 'cancelled', 'stopped', 'lost']);
 export const JOBS_CHUNK_MAX = 65536;
+/** server long-poll cap is 25 000 ms; leave headroom under the request timeout */
+export const JOBS_WAIT_MS = 20_000;
+export const JOBS_TIMEOUT_MAX = 21_600;
 
 /**
  * @param {JobsBackend} backend
@@ -100,20 +115,22 @@ export const JOBS_CHUNK_MAX = 65536;
 export function createJobsApiTransport(backend, exec, nonce = defaultNonce) {
   return {
     kind: 'jobs-api',
+    longPoll: true,
     async start(desktop, spec) {
       await stagePrompt(exec, desktop, spec, nonce);
       const command = buildJobCommand(spec);
       const { job_id } = await backend.create({
         machine: desktop.flyMachineId ?? desktop.id,
         command,
-        timeout_secs: assertInt(spec.timeoutSecs, 1, 21600, 'timeoutSecs'),
+        // The server clamps above 21 600 s; we never ask for more.
+        timeout_secs: Math.min(assertInt(spec.timeoutSecs, 1, 7 * 86_400, 'timeoutSecs'), JOBS_TIMEOUT_MAX),
         idempotency_key: assertRunId(spec.runId),
       });
       if (typeof job_id !== 'string' || !/^[A-Za-z0-9_-]{1,128}$/.test(job_id)) throw new RuosError('remote-error', 'jobs API returned an invalid job id');
       return { jobId: job_id, commandSha256: commandSha256(command) };
     },
     async poll(_desktop, jobId, offset) {
-      const r = await backend.read(jobId, offset, JOBS_CHUNK_MAX);
+      const r = await backend.read(jobId, offset, JOBS_CHUNK_MAX, JOBS_WAIT_MS);
       const state = STATES.has(r.state) ? /** @type {import('./types.mjs').JobState} */ (r.state) : 'lost';
       const chunk = Buffer.from(String(r.chunk ?? ''), 'base64');
       // Trust byte offsets, not chunk length: the server may skip a capped tail.
@@ -121,29 +138,34 @@ export function createJobsApiTransport(backend, exec, nonce = defaultNonce) {
       return { chunk, nextOffset, running: r.running === true, state, exitCode: typeof r.exit_code === 'number' ? r.exit_code : null, truncated: r.truncated === true };
     },
     async cancel(_desktop, jobId) {
-      await backend.cancel(jobId);
+      await backend.cancel(jobId); // TERM, then KILL after 10 s → cancelled
       return true;
     },
   };
 }
 
 /**
- * REST backend for the jobs API with the tenant token. Status mapping:
- * 401 → auth-expired, 403 → insufficient-scope, 404 → not-owned (another
- * tenant's id or gone — never retried), 409/429 → capacity (per-tenant
- * RUOS_JOBS_MAX_CONCURRENT cap; the adapter backs off).
- * @param {{ baseUrl: string, token: string, fetchImpl?: typeof fetch }} o
+ * REST backend for the live jobs API, Bearer token with `desktop:control`.
+ * Status mapping (ADR-105):
+ *   POST 202 new · 200 `idempotent_replay` → success, reuse job_id
+ *   POST 409 → same key, different request: a client bug, never retried
+ *   POST 429 → per-tenant cap (4), no server queue → `capacity` (adapter backs off)
+ *   GET  503 → desktop up but the poll did not answer → retried here with backoff
+ *   401 → auth-expired · 403 → insufficient-scope · 404 → not-owned (never retried)
+ * @param {{ baseUrl: string, token: string, fetchImpl?: typeof fetch, sleep?: (ms: number) => Promise<void> }} o
  * @returns {JobsBackend & { detect: (machine: string) => Promise<boolean> }}
  */
 export function createRestJobsBackend(o) {
   const f = o.fetchImpl ?? globalThis.fetch;
+  const sleep = o.sleep ?? ((ms) => new Promise((r) => setTimeout(r, ms)));
   const base = new URL('/api/v1/desktop/jobs', o.baseUrl).toString();
   /**
    * @param {string} method
    * @param {string} url
    * @param {unknown=} body
+   * @param {number=} timeoutMs
    */
-  const call = async (method, url, body) => {
+  const call = async (method, url, body, timeoutMs = 60_000) => {
     /** @type {Response} */
     let res;
     try {
@@ -151,7 +173,7 @@ export function createRestJobsBackend(o) {
         method,
         headers: { authorization: `Bearer ${o.token}`, 'content-type': 'application/json', accept: 'application/json' },
         body: body === undefined ? undefined : JSON.stringify(body),
-        signal: AbortSignal.timeout(60_000),
+        signal: AbortSignal.timeout(timeoutMs),
       });
     } catch {
       throw new RuosError('network-down', 'ruOS jobs API unreachable');
@@ -159,7 +181,9 @@ export function createRestJobsBackend(o) {
     if (res.status === 401) throw new RuosError('auth-expired', 'jobs API refused the credential');
     if (res.status === 403) throw new RuosError('insufficient-scope', 'jobs API needs a desktop:control token');
     if (res.status === 404) throw new RuosError('not-owned', 'job not found (not yours, or gone)');
-    if (res.status === 409 || res.status === 429) throw new RuosError('capacity', 'per-tenant job concurrency cap reached');
+    if (res.status === 409) throw new RuosError('invalid-input', 'idempotency key reused with a different request (client bug; not retried)');
+    if (res.status === 429) throw new RuosError('capacity', 'per-tenant job concurrency cap reached (no server queue)');
+    if (res.status === 503) throw new RuosError('timeout', 'desktop did not answer the poll (503)');
     if (!res.ok) throw new RuosError('tool-error', `jobs API HTTP ${res.status}`);
     const text = await res.text();
     return text ? JSON.parse(text) : {};
@@ -168,13 +192,25 @@ export function createRestJobsBackend(o) {
   const jobUrl = (id) => `${base}/${encodeURIComponent(id)}`;
   return {
     create: (body) => call('POST', base, body),
-    read: (id, offset, max) => call('GET', `${jobUrl(id)}?offset=${offset}&max=${max}`),
+    read: async (id, offset, max, waitMs) => {
+      const wait = Math.max(0, Math.min(25_000, Math.floor(waitMs)));
+      const url = `${jobUrl(id)}?offset=${offset}&max=${max}${wait ? `&wait_ms=${wait}` : ''}`;
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await call('GET', url, undefined, wait + 30_000);
+        } catch (e) {
+          // 503 = desktop up but the poll did not answer: bounded backoff.
+          if (!(e instanceof RuosError) || e.code !== 'timeout' || attempt >= 3) throw e;
+          await sleep(1000 * 2 ** attempt);
+        }
+      }
+    },
     cancel: async (id) => { await call('DELETE', jobUrl(id)); },
     list: async (machine) => {
       const r = await call('GET', `${base}?machine=${encodeURIComponent(machine)}`);
       return Array.isArray(r.jobs) ? r.jobs : Array.isArray(r) ? r : [];
     },
-    /** Feature detection: the list route exists → the jobs API is deployed. */
+    /** Feature detection: the list route answers → the jobs API is deployed. */
     detect: async (machine) => {
       try {
         await call('GET', `${base}?machine=${encodeURIComponent(machine)}`);

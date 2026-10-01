@@ -4,7 +4,7 @@ Status: Proposed
 
 Date: 2026 10 01
 
-Related: ADR 150 (removable integrations), ADR 324 (policy chokepoint), ADR 325 (claims plane), ruOS ADR-043 (exec literal filter), ruOS ADR-045 (activity tee), ruOS ADR-053 (per-tenant SSH :2222), ruOS ADR-070 (the desktop executor has no peer authentication), ruOS ADR-071 (remote MCP endpoint and tokens), ruOS ADR-081 (`desktop_exec`), ruOS ADR-094 (frozen remote tool contract), ruOS ADR-105 (jobs API, in progress)
+Related: ADR 150 (removable integrations), ADR 324 (policy chokepoint), ADR 325 (claims plane), ruOS ADR-043 (exec literal filter), ruOS ADR-045 (activity tee), ruOS ADR-053 (per-tenant SSH :2222), ruOS ADR-070 (the desktop executor has no peer authentication), ruOS ADR-071 (remote MCP endpoint and tokens), ruOS ADR-081 (`desktop_exec`), ruOS ADR-094 (frozen remote tool contract), ruOS ADR-105 (async jobs API, live since 2026-10-01)
 
 ## Context
 
@@ -52,16 +52,31 @@ The adapter drives a `JobTransport` (`jobs.mjs`) through `start`, `poll(offset)`
     - Only whole base64 quanta are decoded, so a truncated result never skips bytes.
     - The `alive` flag (`kill -0`) detects a runner killed before it wrote its exit code. The exit code is written atomically (`tmp` + `mv`).
     - The offset is tracked client-side.
-- **`JobsApiTransport`** is used when ruOS ADR-105 is detected: `GET /api/v1/desktop/jobs` exists.
-  - **Calls.** `POST /api/v1/desktop/jobs {machine, command, timeout_secs ≤ 21600, idempotency_key}` creates a job, `GET …/{id}?offset&max=65536` reads it by byte offset (base64 chunks, `truncated` flag), and `DELETE` cancels it.
-  - **States.** `queued | running | exited | failed | cancelled | stopped | lost`.
-  - **Server-side.** The server owns detach, capture, exit, cancel, keepawake and audit.
-  - **Idempotency.** The run id is the idempotency key, so a retried create returns the same job.
-  - **Error mapping.** A 404 means "not yours, or gone" and is never retried. A 409 or 429 means the per-tenant concurrency cap (`RUOS_JOBS_MAX_CONCURRENT`) was hit; the adapter backs off 5 s, 10 s, 20 s and then fails.
-  - **Backends.** Either REST with the tenant token, or the local stdio `@cognitum/ruos` server's `desktop_job_*` tools. Those tools are stdio-only and never exposed on the remote connector, which is frozen by ruOS ADR-094.
-  - **Selection.** `--jobs auto` (the default) feature-detects and falls back to exec-poll.
+- **`JobsApiTransport`** targets the ruOS async jobs API. That API is **live in production** since 2026-10-01 (ruos-desktop #380, fleet `64261be`, ruos-desktop ADR-105). `--jobs auto` (the default) feature-detects it with `GET /api/v1/desktop/jobs?machine=` and falls back to exec-poll.
+  - **Auth.** A Bearer token with `desktop:control` scope: a control `ruos_mcp_` token or the OAuth access token.
+  - **Create.** `POST /api/v1/desktop/jobs {machine, command, timeout_secs, idempotency_key}`.
+    - `idempotency_key` is required; it is the run id.
+    - A new job returns `202 {job_id, state}`.
+    - Replaying the same key returns `200 {…, idempotent_replay: true}`; the adapter treats that as success and reuses `job_id`.
+    - The same key with a different request returns `409`. That is a client bug, so it surfaces as `invalid-input` and is never retried.
+    - The per-tenant cap of 4 returns `429`, with no server-side queue. That maps to `capacity`, and the adapter backs off 5 s, 10 s and 20 s, so the queueing happens in the swarm.
+    - `timeout_secs` above 21 600 is clamped by the server; the client clamps too.
+  - **Read.** `GET …/jobs/{id}?offset&max=65536&wait_ms=20000` returns `chunk` (base64), `next_offset`, `running`, `state`, `exit_code`, `truncated`, `desktop` (`up|asleep|unknown`), `stop_at` and more.
+    - `running` stays true while the job is `queued`, meaning "keep polling".
+    - `wait_ms` is a long-poll, so the adapter skips its own sleep, guarded against a server that answers instantly.
+    - `503` means the desktop is up but the poll didn't answer; it is retried with 1 s, 2 s and 4 s backoff.
+    - Polls do not take the desktop's run lock.
+  - **Cancel and list.** `DELETE …/jobs/{id}` sends TERM, then KILL after 10 s, and the job becomes `cancelled`. `GET …/jobs?machine=` lists jobs newest first.
+  - **States.**
+    - `exited` carries any exit code; only 0 counts as `completed`.
+    - `failed` means the launch never reached the desktop, or the job's own timeout fired.
+    - `stopped` is re-pollable after `desktop_start`, so it is surfaced as resumable `auto-stopped`.
+    - `queued`, `running`, `cancelled` and `lost` are the others.
+  - **Errors.** A `404` means "not yours, or gone" and is never retried. 401 maps to `auth-expired`, 403 to `insufficient-scope`.
+  - **Backends.** REST with the tenant token, or the local stdio `@cognitum/ruos` server's `desktop_job_start/poll/list/cancel`. Those tools are stdio-only; the hosted remote MCP is unchanged at 42 tools (ruOS ADR-094).
+  - **Verification status:** **contract-tested, not exercised live.** Mocks reproduce the exact live codes and fields: 202, 200 replay, 409, 429, 503, 404, queued with `running: true`, `exited` with a non-zero code, and `wait_ms`. No live call was made, because no control-scoped token was available and a live run needs separate spend approval. ruOS's own 1195 service tests pass, but it has not yet run a live end-to-end of these endpoints either.
 
-Polling is adaptive: 1 s while output flows, backing off to 10 s when idle. Every exec poll is an audited call that waits behind the run lock.
+Polling is adaptive: 1 s while output flows, backing off to 10 s when idle. Every exec poll is an audited call that waits behind the run lock. Jobs-API polls long-poll server-side instead.
 
 ### Command construction
 
@@ -190,7 +205,7 @@ Residual risk: the remote `claude -p` runs with the desktop user's full trust. T
 - The jobs API slots in behind the same interface when it lands.
 
 **Negative:**
-- Until ADR-105 lands, streaming is poll-based over audited exec calls, with about 2 KiB per poll because of the head cap.
+- On the exec-poll fallback, streaming is poll-based over audited exec calls, with about 2 KiB per poll because of the head cap. The jobs API removes that limit, with 64 KiB chunks and long-polling.
 - SSH works only desktop to desktop.
 
 ## Verification
@@ -219,4 +234,4 @@ Residual risk: the remote `claude -p` runs with the desktop user's full trust. T
 Not verified live:
 - SSH (6PN-only);
 - the env-token terminal path;
-- the jobs API, which is not deployed yet.
+- the jobs API: it is live in production but only contract-tested here (see above).

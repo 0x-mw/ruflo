@@ -274,6 +274,7 @@ export class RuosHostAdapter {
         await this.jobs.cancel(desktop, jobId).catch(() => false);
         throw new RuosError('timeout', `run exceeded ${o.timeoutSecs}s and was stopped`);
       }
+      const polledAt = this.now();
       const p = await this.jobs.poll(desktop, jobId, st.offset);
       if (p.chunk.length > 0) {
         if (st.firstOutputMs === null) st.firstOutputMs = this.now() - o.t0;
@@ -286,7 +287,9 @@ export class RuosHostAdapter {
       if (p.truncated) this.ledger.warnings.push('job output exceeded the server cap; tail truncated');
       if (p.chunk.length > 0) { delay = POLL_MIN_MS; continue; }
       if (TERMINAL.has(p.state)) {
-        return { status: p.state === 'exited' ? 'completed' : p.state === 'cancelled' ? 'stopped' : 'failed', exitCode: p.exitCode };
+        // `exited` carries any exit code (ADR-105): only 0 is completed.
+        const status = p.state === 'cancelled' ? 'stopped' : p.state === 'exited' && p.exitCode === 0 ? 'completed' : 'failed';
+        return { status, exitCode: p.exitCode };
       }
       if (p.state === 'stopped') {
         throw new RuosError('auto-stopped', `desktop stopped mid-run; HOME persists — wake it and \`attach --run ${runId}\` to read the output`);
@@ -296,6 +299,9 @@ export class RuosHostAdapter {
         lostOnce = true; // exit.code is written just after the runner exits: re-check once
         continue;
       }
+      // With long-poll the server already waited (wait_ms); only guard against
+      // a server that answers instantly so the loop never spins.
+      if (this.jobs.longPoll && this.now() - polledAt >= POLL_MIN_MS) continue;
       await this.sleep(delay);
       delay = Math.min(delay * 1.5, POLL_MAX_MS);
     }

@@ -68,6 +68,7 @@
 /**
  * @typedef {object} JobTransport
  * @property {'exec-poll'|'jobs-api'} kind
+ * @property {boolean=} longPoll   poll() itself waits server-side; no client sleep between polls
  * @property {(desktop: Desktop, spec: RunSpec & { timeoutSecs: number }) => Promise<JobStart>} start
  * @property {(desktop: Desktop, jobId: string, offset: number) => Promise<JobPoll>} poll
  * @property {(desktop: Desktop, jobId: string) => Promise<boolean>} cancel
