@@ -15,6 +15,7 @@ plugins/ruflo-mods/tests/cost.test.ts
 plugins/ruflo-mods/tests/noun.test.ts
 plugins/ruflo-mods/tests/register.test.ts
 plugins/ruflo-mods/tests/trust.test.ts
+plugins/ruflo-plugin-creator/templates/mod/tests/register.test.ts
 plugins/ruflo-workflows/scripts/gaia-audit.test.mjs
 ruflo/src/ruvocal/src/lib/components/chat/MarkdownRenderer.svelte.test.ts
 ruflo/src/ruvocal/src/lib/migrations/migrations.spec.ts

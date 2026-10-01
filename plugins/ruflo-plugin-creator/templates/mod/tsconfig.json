@@ -1,0 +1,4 @@
+{
+  "//": "Claude Code (>= 2.1.287) writes its declarations and this base config into .claude-plugin/types/ when it loads or validates the plugin.",
+  "extends": "./.claude-plugin/types/tsconfig.json"
+}
