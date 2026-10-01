@@ -139,7 +139,8 @@ export function vote(proposalId: string, voterId: string, isFor: boolean): Actio
 export function reroute(description: string): ActionSpec | null {
   const task = plain(description, 400)
 
-  return task === ''
+  // A value that starts with a dash would be read by the CLI as a flag of its own.
+  return task === '' || task.startsWith('-')
     ? null
     : { label: 'ask the router', args: ['hooks', 'route', '--task', task, '--format', 'json'], isDestructive: false, expect: 'a pick printed by the router' }
 }

