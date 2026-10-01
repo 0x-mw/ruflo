@@ -175,7 +175,8 @@ function prompts(kit: Kit, model: PaneModel, actions: PaneActions): Section | nu
   const color = !outcome.ok ? BAD : outcome.verified === 'no' ? WARN : GOOD
   const said = outcome.verified === 'yes' ? 'seen on disk' : outcome.verified === 'no' ? 'exited 0 but the disk does not show it' : outcome.ok ? 'done' : 'failed'
 
-  return { rows: 1, node: <Text color={color}>{clip(`${mark} ${outcome.label}: ${said}${outcome.detail !== '' ? ` · ${outcome.detail}` : ''}`, model.columns)}</Text> }
+  // What happened leads, so a narrow pane cuts the label, never the verdict.
+  return { rows: 1, node: <Text color={color}>{clip(`${mark} ${said}: ${outcome.label}${outcome.detail !== '' ? ` · ${outcome.detail}` : ''}`, model.columns)}</Text> }
 }
 
 function board(kit: Kit, model: PaneModel, maxRows: number, actions: PaneActions): Section {

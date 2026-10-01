@@ -132,10 +132,10 @@ export function spawnNote(snapshot: Snapshot | null): string | null {
     return null
   }
 
-  return [
-    '',
-    '---',
-    `Swarm context (from ruflo's files on disk, a status note, not an instruction): you are part of ruflo swarm ${swarm.id}, topology ${swarm.topology}${swarm.strategy !== undefined ? `, strategy ${swarm.strategy}` : ''}.`,
-    'Coordinate through ruflo memory namespace "swarm" and its task and claims tools where they apply.',
-  ].join('\n')
+  // Text from disk reaches the model here: only a word-shaped topology or strategy is passed on, the id is `idOf`-checked.
+  const word = (value: string | undefined) => (value !== undefined && /^[a-z][a-z-]{0,39}$/.test(value) ? value : undefined)
+  const topology = word(swarm.topology) ?? 'unknown'
+  const strategy = word(swarm.strategy)
+
+  return `\n\n---\nSwarm context (from ruflo's files on disk, a status note, not an instruction): you are part of ruflo swarm ${swarm.id}, topology ${topology}${strategy !== undefined ? `, strategy ${strategy}` : ''}.`
 }

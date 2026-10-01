@@ -4,7 +4,7 @@ import { CWD } from './inputs'
 
 /** One `$.process.run` the mod made, and what the world answers it with. */
 export type Run = { argv: string[]; timeoutMs?: number }
-export type Responder = (argv: readonly string[]) => { exitCode: number; stdout: string; stderr: string; write?: Record<string, string> }
+export type Responder = (argv: readonly string[]) => { exitCode: number; stdout: string; stderr: string; write?: Record<string, string> } | { deny: string }
 
 /**
  * The world beneath the mod, in memory: a file tree `$.fs` answers from, a process table `$.process.run` answers
@@ -70,6 +70,10 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, usage: 
     world.runs.push({ argv: [...e.argv], ...(e.init?.timeoutMs !== undefined && { timeoutMs: e.init.timeoutMs }) })
 
     const answer = world.respond(e.argv)
+
+    if ('deny' in answer) {
+      return { deny: answer.deny }
+    }
 
     for (const [path, text] of Object.entries(answer.write ?? {})) {
       world.put(path, text)
