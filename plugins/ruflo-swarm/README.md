@@ -93,6 +93,10 @@ commands, skills and agents above behave as they always have.
   network), `routeThreshold`, `injectSpawnContext` (off by default: appends a one-line swarm note to spawned subagents'
   prompts) and `audit` (off by default: event names, tool names and agent ids into ruflo memory, never content).
 - The mod does not register `prompt.submit` or `tool.check` hooks, and its `tool.call` hook only observes.
+- **With the ruflo-mods trust gate:** if you set `modTrust: refuse-risky`, the gate refuses this mod. The mod hooks
+  `tool.call` and, with `audit` on, `*`, and it calls `process.run`. To keep it, add its provenance to `modTrustAllow`:
+  `ruflo-swarm@ruflo`. The gate matches name@marketplace, not the plugin name. Under the default `modTrust: observe`
+  the mod loads unchanged.
 
 Tests run on the engine's own kit: `claude plugin test plugins/ruflo-swarm` (run `scripts/fetch-mod-types.sh` once
 first if you want `tsc -p plugins/ruflo-swarm` to typecheck). The pure readers also run under vitest:
