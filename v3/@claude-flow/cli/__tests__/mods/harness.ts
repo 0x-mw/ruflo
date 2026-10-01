@@ -180,5 +180,10 @@ export function loadMod(register: (on: any, options: any) => unknown, world: Wor
     return run(0, e);
   }
 
-  return { $, dispatch, regs, events: () => [...new Set(regs.map((r) => r.event))] };
+  /** Runs the engine.create fold over `$` (core answers `$` as built so far). */
+  async function create(): Promise<any> {
+    return dispatch('engine.create', { plugins: ['ruflo-mods'] }, () => $);
+  }
+
+  return { $, dispatch, create, regs, events: () => [...new Set(regs.map((r) => r.event))] };
 }

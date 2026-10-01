@@ -1,4 +1,5 @@
 import { describe, expect, test, tier } from 'claude-code/testing'
+import type { Plugin } from 'claude-code/testing'
 
 import { HELPER, prompt, ROOT, START, world } from './fixtures/world'
 
@@ -8,7 +9,30 @@ const CLASSIC_ROUTE = {
   hooks: { UserPromptSubmit: [{ hooks: [{ command: 'node "$CLAUDE_PROJECT_DIR/.claude/helpers/hook-handler.cjs" route' }] }] },
 }
 
+/** A second tighten-only guard, as ruOS ships one: deny destructive ruOS tools. */
+const ruosGuard: Plugin = {
+  name: 'ruos-guard',
+  tier: 'user',
+  register: on => {
+    on('tool.check', async ($, e, next) => {
+      const verdict = await next(e)
+      return /^mcp__ruos__(desktop|secret)_delete$/.test(e.tool) ? { decision: 'deny', reason: 'ruos: confirm first' } : verdict
+    })
+  },
+}
+
 describe('register', () => {
+  test('two tighten-only tool.check mods compose: a deny from either holds, nothing loosens', { plugins: [ruosGuard] }, async ($, on) => {
+    world(on)
+    on('tool.check', ($, e) => (e.tool === 'Read' ? { decision: 'deny', reason: 'rule', rule: 'Read(.env)' } : { decision: 'allow' }))
+    await $.session.start(START)
+
+    expect(await $.tool.check({ tool: 'mcp__ruos__desktop_delete', input: {} })).toMatchObject({ decision: 'deny', reason: 'ruos: confirm first' })
+    expect((await $.tool.check({ tool: 'Bash', input: { command: 'rm -rf /' } })).decision).toBe('deny')
+    expect(await $.tool.check({ tool: 'Read', input: { file_path: '.env' } })).toMatchObject({ decision: 'deny', rule: 'Read(.env)' })
+    expect((await $.tool.check({ tool: 'Bash', input: { command: 'ls' } })).decision).toBe('allow')
+  })
+
   test('owns route and post-edit where no classic hook runs them, and says so to the classic hooks', async ($, on) => {
     const w = world(on)
     await $.session.start(START)

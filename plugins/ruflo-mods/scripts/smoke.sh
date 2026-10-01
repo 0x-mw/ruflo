@@ -32,7 +32,7 @@ hits=$(grep -rnE '\$\.(http|process|model|mcp)\.' "$HOOKS" || true)
 
 step "5. only the documented events are hooked"
 events=$(grep -rhoE "on\('[a-z.*]+'" "$HOOKS" | sort -u | tr '\n' ' ')
-expected="on('agent.spawn' on('command.run' on('prompt.submit' on('session.end' on('session.measure' on('session.start' on('tool.call' on('tool.check' on('turn.complete' "
+expected="on('agent.spawn' on('command.run' on('engine.create' on('plugin.register' on('prompt.submit' on('session.end' on('session.measure' on('session.start' on('tool.call' on('tool.check' on('turn.complete' "
 [[ "$events" == "$expected" ]] && ok || bad "got: $events"
 
 step "6. tool.check merges with stricter() (tighten-only)"
@@ -50,6 +50,11 @@ sec=$(grep -rniE "(api[_-]?key|secret|password|token)\s*[:=]\s*['\"][^'\"]{8,}" 
 step "9. every hooks file is under 500 lines"
 long=$(find "$HOOKS" -name '*.ts' -exec awk 'END { if (NR > 500) print FILENAME }' {} \;)
 [[ -z "$long" ]] && ok || bad "$long"
+
+step "10. the \$.ruflo contract is declared and flat (one input per method)"
+grep -q '"types": "./types/index.d.ts"' "$ROOT/.claude-plugin/plugin.json" \
+  && grep -q "ruflo: Ruflo" "$ROOT/types/index.d.ts" \
+  && ! grep -qE "^\s+[a-z]+: \{" "$ROOT/types/index.d.ts" && ok || bad "types/index.d.ts must declare a flat Ruflo noun"
 
 printf "\n%d passed, %d failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]

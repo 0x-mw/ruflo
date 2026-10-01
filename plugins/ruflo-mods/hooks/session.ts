@@ -2,7 +2,7 @@ import type { EngineInterface, On } from 'claude-code'
 
 import { HANDSHAKE_MARKER, ownedEvents } from './ownership'
 import type { ModOptions } from './options'
-import { report, under, type ModState } from './state'
+import { redraw, report, under, type ModState } from './state'
 
 const HELPER = '.claude/helpers/hook-handler.cjs'
 
@@ -50,6 +50,7 @@ export function registerSession(on: On, state: ModState, options: ModOptions) {
     state.owned = new Set(ownedEvents(settings, await helperHonours($)))
     await $.env.set('RUFLO_MODS_OWNS', state.owned.size ? [...state.owned].join(',') : undefined)
     state.statusLine = options.statusLine && !hasClassicStatusLine(settings)
+    redraw(state)
     await $.command
       .register({ name: 'ruflo-mods', description: 'ruflo mods: what this session routed, recorded and tightened' })
       .catch(() => undefined)
@@ -59,9 +60,13 @@ export function registerSession(on: On, state: ModState, options: ModOptions) {
   }).catch(async ($, e, next) => {
     state.owned = new Set()
     await $.env.set('RUFLO_MODS_OWNS', undefined).catch(() => undefined)
-    $.ui.log(`ruflo mods: session start failed (${next.error.message ?? next.error.kind}); classic hooks keep every event`, {
-      to: 'debug',
-    })
+    try {
+      $.ui.log(`ruflo mods: session start failed (${next.error.message ?? next.error.kind}); classic hooks keep every event`, {
+        to: 'debug',
+      })
+    } catch {
+      // a withheld ui.log changes nothing: the classic hooks already have every event
+    }
     // Replay-safe: resolves to what the hook's own call settled to, or runs
     // the hooks beneath once when it never called.
     return next(e)

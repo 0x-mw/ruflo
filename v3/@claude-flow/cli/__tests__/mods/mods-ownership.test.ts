@@ -29,6 +29,7 @@ const CLASSIC = {
 
 async function start(world: World, options: Record<string, unknown> = {}) {
   const mod = loadMod(register, world, options);
+  await mod.create(); // the engine runs the engine.create fold before any other hook
   const next = await mod.dispatch('session.start', { cwd: world.root, surface: 'terminal', isInteractive: true }, (e) => ({ cwd: e.cwd }));
   return { mod, next };
 }
@@ -106,11 +107,11 @@ describe('ADR-404 session start', () => {
     const world = memoryWorld('/work', { statusLine: { type: 'command', command: 'node .claude/helpers/statusline.cjs' } });
     const { mod } = await start(world);
     await mod.dispatch('prompt.submit', { text: 'build', wait: false, origin: { kind: 'composer' } }, (e) => e);
-    expect(world.statuses).toEqual([]);
+    expect(world.statuses.filter(Boolean)).toEqual([]); // cleared, never drawn
     const plain = memoryWorld('/work', {});
     const started = await start(plain);
     await started.mod.dispatch('prompt.submit', { text: 'build', wait: false, origin: { kind: 'composer' } }, (e) => e);
-    expect(plain.statuses).toEqual(['ruflo · coder 60%']);
+    expect(plain.statuses.filter(Boolean)).toEqual(['ruflo · coder 60%']);
   });
 });
 

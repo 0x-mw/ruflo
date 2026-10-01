@@ -1,7 +1,7 @@
 import type { On } from 'claude-code'
 
 import type { ModOptions } from '../options'
-import { statusText, type ModState } from '../state'
+import { redraw, type ModState } from '../state'
 import { alertLevel, isRaised } from './budget'
 
 /**
@@ -25,8 +25,12 @@ export function registerCost(on: On, state: ModState, options: ModOptions) {
     const raised = isRaised(state.budget.level, level)
     state.budget = { level, usd, limit }
     if (raised) {
-      $.ui.toast(`ruflo budget ${level}: $${usd.toFixed(2)} of $${limit.toFixed(2)} this session`)
-      if (state.statusLine) $.ui.status(statusText(state))
+      try {
+        $.ui.toast(`ruflo budget ${level}: $${usd.toFixed(2)} of $${limit.toFixed(2)} this session`)
+      } catch {
+        // a refused toast never fails the hook
+      }
+      redraw(state)
     }
     return result
   })

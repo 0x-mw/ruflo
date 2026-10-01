@@ -2,7 +2,7 @@ import type { On } from 'claude-code'
 
 import { cachedFile } from '../files'
 import type { ModOptions } from '../options'
-import { statusText, under, type ModState } from '../state'
+import { redraw, under, type ModState } from '../state'
 import { formatRoute } from './format'
 import { parseRanked, rankedContext } from './ranked-context'
 import { routeTask } from './route-task'
@@ -34,7 +34,7 @@ export function registerRoute(on: On, state: ModState, options: ModOptions) {
       if (context) blocks.push(context)
     }
     blocks.push(formatRoute(text, result))
-    if (state.statusLine) $.ui.status(statusText(state))
+    redraw(state)
 
     return next({ ...e, context: [...(e.context ?? []), blocks.join('\n')] })
   }).catch(($, e, next) => next(e)) // a broken plugin never blocks a prompt

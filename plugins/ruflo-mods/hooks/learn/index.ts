@@ -1,7 +1,7 @@
 import type { EngineInterface, On } from 'claude-code'
 
 import { isMissing } from '../files'
-import { statusText, under, type ModState } from '../state'
+import { redraw, under, type ModState } from '../state'
 import { appendRecords, EDIT_TOOLS, editedFile, MAX_LINES, PENDING_PATH, rufloSessionId, SESSION_PATH } from './insights'
 
 /** Written early once this many edits wait, so a long turn holds little. */
@@ -26,7 +26,11 @@ export async function flushEdits($: EngineInterface, state: ModState): Promise<v
   } catch (error) {
     state.edits.unshift(...records)
     state.edits.splice(0, Math.max(0, state.edits.length - MAX_LINES))
-    $.ui.log(`ruflo mods: edit records not written yet (${String((error as Error)?.message ?? error)})`, { to: 'debug' })
+    try {
+      $.ui.log(`ruflo mods: edit records not written yet (${String((error as Error)?.message ?? error)})`, { to: 'debug' })
+    } catch {
+      // nothing more to do: the records wait for the next turn
+    }
   }
 }
 
@@ -49,7 +53,7 @@ export function registerLearn(on: On, state: ModState) {
       sessionId: null,
     })
     state.editCount++
-    if (state.statusLine) $.ui.status(statusText(state))
+    redraw(state)
     if (state.edits.length >= FLUSH_AT) await flushEdits($, state)
     return result
   })

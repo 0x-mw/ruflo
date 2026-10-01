@@ -135,14 +135,21 @@ describe('ADR-404 ruflo verdicts', () => {
     }
   });
 
-  it('a hook failure is caught: allow becomes ask, nothing loosens', async () => {
+  it('a refused ui.log is swallowed: observe still changes nothing', async () => {
     const world = memoryWorld();
     withProjection(world, 'observe', [DENY_BASH_RULE]);
-    world.failLog = true; // observe logs, the log throws, the hook fails
+    world.failLog = true;
     const mod = await started(world);
-    expect(await check(mod, 'Bash', { command: 'git push' }, { decision: 'allow' })).toMatchObject({ decision: 'ask' });
-    const deny = { decision: 'deny' as D, rule: 'x' };
-    expect(await check(mod, 'Bash', { command: 'git push' }, deny)).toBe(deny);
+    const chain = { decision: 'allow' as D };
+    expect(await check(mod, 'Bash', { command: 'git push' }, chain)).toBe(chain);
+  });
+
+  it('when the world beneath fails, the catch answers ask: ruflo could not judge', async () => {
+    const mod = await started(memoryWorld());
+    const out = await mod.dispatch('tool.check', { tool: 'Read', input: {}, tool_use_id: 'x' }, () => {
+      throw new Error('engine verdict failed');
+    });
+    expect(out).toMatchObject({ decision: 'ask' });
   });
 
   it('an absent projection is no policy, not a failure', async () => {

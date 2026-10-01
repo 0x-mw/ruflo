@@ -1,7 +1,7 @@
 import type { On } from 'claude-code'
 
 import { cachedFile, type Read } from '../files'
-import { statusText, under, type ModState } from '../state'
+import { redraw, under, type ModState } from '../state'
 import { dangerousCommandVerdict } from './dangerous-command'
 import { parseProjection, policyOpinion, PROJECTION_PATH, type Projection } from './policy'
 import { stricter, type Verdict } from './verdict'
@@ -57,12 +57,16 @@ export function registerGuard(on: On, state: ModState) {
     const { verdict, observed } = opinionOf(state, read, tool, e.input)
     if (observed) {
       state.observed++
-      $.ui.log(`ruflo policy (observe): ${tool} ${observed}`, { to: 'debug' })
+      try {
+        $.ui.log(`ruflo policy (observe): ${tool} ${observed}`, { to: 'debug' })
+      } catch {
+        // a refused log never turns an observation into a failure
+      }
     }
     const merged = stricter(chain, verdict)
     if (merged !== chain) {
       state.tightened++
-      if (state.statusLine) $.ui.status(statusText(state))
+      redraw(state)
     }
     return merged
   }).catch(async ($, e, next) => {
