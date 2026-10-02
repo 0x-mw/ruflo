@@ -155,7 +155,9 @@ describe('BBS boot screen', () => {
     const done = text(bootPicture('demo', 60, 3_800, 10, 10), 60)
 
     expect(done).toContain('CONNECT 115200 / ARQ / V.42bis')
-    expect(done).toContain('█▀█ █ █ █▀▀ █   █▀█')
+    expect(done).toContain('██████  ██  ██  ██████')
+    expect(text(bootPicture('demo', 60, 1_400, 3, 10), 60)).toMatch(/[.:=+*#%@]/)
+    expect(done).toContain('AGENTS WELCOME.')
     expect(done).toContain('> handshake ok · node demo')
     expect(done).toContain('100%  reads 10/10')
   })

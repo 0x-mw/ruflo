@@ -1,4 +1,4 @@
-import type { CommandSpec, PaneOpenArgs, ProcessRunResult, Timer, UiBlitArgs } from 'claude-code'
+import type { CommandSpec, HookStream, PaneOpenArgs, ProcessRunResult, ProcessSpawnChunk, ProcessSpawnResult, Timer, UiBlitArgs } from 'claude-code'
 
 import type { ReaderFs } from './data/files'
 import type { RufloRoute, RufloSnapshot } from '../types'
@@ -25,6 +25,8 @@ export type Host = {
   panes: () => Promise<readonly { id: string; isShown: boolean; isFocused: boolean }[]>
   registerCommand: (spec: CommandSpec) => Promise<unknown>
   run: (argv: readonly string[], timeoutMs: number) => Promise<ProcessRunResult>
+  /** Starts a command and streams what it writes; `input` goes to its stdin, which is then closed. */
+  spawn: (argv: readonly string[], input?: string) => HookStream<ProcessSpawnChunk, ProcessSpawnResult>
   usage: () => Promise<{ costUsd?: number; contextPercent?: number }>
   /** The ruflo / claude-flow MCP tools the model can call now, and the servers they come from. */
   rufloTools: () => Promise<{ tools: number; servers: string[] }>

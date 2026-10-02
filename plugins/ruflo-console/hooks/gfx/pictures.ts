@@ -5,6 +5,9 @@
  * where it is not.
  */
 import { Braille, COLOR, Grid, mix, ramp, sparkline } from './raster'
+import { bigText } from './font'
+
+export { bootPicture, BOOT_ROWS } from './boot'
 
 export type TopoNode = { id: string; label: string; status: string; isLeader: boolean; /** When the console last saw an event about it. */ pulseAtMs?: number }
 export type TopoModel = { topology: string; nodes: TopoNode[] }
@@ -269,57 +272,34 @@ export function bannerPicture(project: string, columns: number, t: number): Grid
   return grid
 }
 
-/** The boot screen's height. */
-export const BOOT_ROWS = 10
+const NEON_CORAL = 0xff7a59
 
 /**
- * The BBS boot screen, played for the first seconds after the pane opens: a modem dials, connects, the logo draws in
- * line by line, and a bar fills with the first round of ruflo reads. `age` is ms since the pane opened; the bar mixes
- * elapsed time with the reads that have answered (`done` of `total`), so it moves even before any read returns.
+ * A view's BBS title: its name in the two-row half-block font, magenta to coral like the ANSI art boards, framed by
+ * dithered ░▒▓ ramps, with a slow shimmer down the letters (decoration). Two rows.
  */
-export function bootPicture(project: string, columns: number, age: number, done: number, total: number): Grid {
-  const grid = new Grid(columns, BOOT_ROWS)
-  const GREEN = 0x39ff14
-  const type = (y: number, from: number, text: string, color: number, msPerChar = 22): boolean => {
-    if (age < from) return false
+export function titlePicture(name: string, columns: number, t: number): Grid {
+  const grid = new Grid(columns, 2)
+  const [top, bottom] = bigText(name)
+  const edge = '░▒▓'
+  const x0 = edge.length + 1
+  const width = Math.max(top.length, bottom.length)
+  const shimmer = ((t / 40) % (width + 30)) - 15
 
-    const shown = text.slice(0, Math.min(text.length, Math.floor((age - from) / msPerChar)))
+  for (let y = 0; y < 2; y++) {
+    ;[...edge].forEach((ch, i) => grid.set(i, y, ch, mix(0x3a0f2e, NEON_MAGENTA, (i + 1) / edge.length)))
+    ;[...(y === 0 ? top : bottom)].forEach((ch, i) => {
+      if (ch === ' ' || x0 + i >= columns) return
 
-    grid.text(0, y, shown.slice(0, columns), color)
+      const glow = Math.max(0, 1 - Math.abs(i - shimmer) / 3)
 
-    return shown.length === text.length
-  }
-
-  type(0, 0, 'ATDT ruflo.local', COLOR.dim)
-  if (age >= 450) grid.text(0, 1, 'RING… RING…'.slice(0, columns), COLOR.dim)
-  type(2, 800, 'CONNECT 115200 / ARQ / V.42bis', GREEN, 12)
-
-  // The logo draws in a row at a time, magenta to cyan, with the banner's sweep.
-  const sweep = ((age / 28) % (LOGO[0].length + 40)) - 20
-
-  LOGO.forEach((line, y) => {
-    if (age < 1200 + y * 220) return
-    ;[...line].forEach((ch, x) => {
-      if (ch === ' ' || x >= columns) return
-
-      const glow = Math.max(0, 1 - Math.abs(x - sweep) / 4)
-
-      grid.set(x, 4 + y, ch, mix(mix(NEON_MAGENTA, NEON_CYAN, x / (LOGO[0].length - 1)), 0xffffff, glow * 0.7))
+      grid.set(x0 + i, y, ch, mix(mix(NEON_MAGENTA, NEON_CORAL, i / Math.max(1, width - 1)), 0xffffff, glow * 0.6))
     })
-  })
-  if (age >= 1700 && columns > LOGO[0].length + 6) grid.text(LOGO[0].length + 2, 4, '░▒▓ AGENT SWARM CONSOLE'.slice(0, columns - LOGO[0].length - 2), NEON_MAGENTA)
-  type(7, 1900, `> handshake ok · node ${project}`, NEON_CYAN, 14)
+    ;[...'▓▒░'].forEach((ch, i) => {
+      const x = x0 + width + 1 + i
 
-  // LOADING [▓▓▓▓░░░░] 58%  reads 6/10, with a blinking cursor while it runs.
-  if (age >= 1900) {
-    // Full by ~2.9 s once the reads have answered, so 100% shows before the boot ends at BOOT_MIN_MS (3.2 s).
-    const pct = Math.min(1, 0.55 * Math.min(1, (age - 1900) / 1000) + 0.45 * (total > 0 ? done / total : 1))
-    const barWidth = Math.max(6, Math.min(24, columns - 30))
-    const filled = Math.round(pct * barWidth)
-    const line = `LOADING [${'▓'.repeat(filled)}${'░'.repeat(barWidth - filled)}] ${String(Math.round(pct * 100)).padStart(3)}%  reads ${done}/${total}`
-
-    grid.text(0, 9, line.slice(0, columns), pct >= 1 ? GREEN : NEON_CYAN)
-    if (Math.floor(age / 400) % 2 === 0 && line.length + 1 < columns) grid.set(line.length + 1, 9, '█', NEON_CYAN)
+      if (x < columns) grid.set(x, y, ch, mix(NEON_MAGENTA, 0x3a0f2e, (i + 1) / edge.length))
+    })
   }
 
   return grid

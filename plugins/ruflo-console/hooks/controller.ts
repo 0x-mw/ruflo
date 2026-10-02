@@ -353,6 +353,10 @@ export function createController(state: State, host: Host): Controller {
       'auto-open',
       host.after(50, () => {
         state.timers.delete('auto-open')
+        // /ruflo <view> may have opened it in the meantime: that choice stands.
+        if (state.pane.isOpen) return
+        // The BBS look opens on its main menu, as a board does after login.
+        if (state.options.look === 'bbs') state.view = 'menu'
         void open(false).then(result => {
           state.pane.autoReason = result.isPlaced ? '' : result.reason || 'not placed'
           host.invalidate()

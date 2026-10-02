@@ -116,8 +116,8 @@ describe('CLI JSON', () => {
     expect(jsonAfter('no json here')).toBeNull()
   })
 
-  it('no probe reaches the network but the opt-in roster; plugins list and verify are never run', () => {
-    expect(PROBES.filter(probe => probe.isNetwork === true).map(probe => probe.id)).toEqual(['roster'])
+  it('no probe reaches the network but the opt-in roster and registry; plugins list and verify are never run', () => {
+    expect(PROBES.filter(probe => probe.isNetwork === true).map(probe => probe.id)).toEqual(['roster', 'registry'])
 
     for (const probe of PROBES) {
       expect(probe.args.slice(0, 2).join(' ')).not.toBe('plugins list')
@@ -146,9 +146,9 @@ describe('graphics', () => {
     const state = newState({})
 
     state.view = 'learning'
-    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'curve', 'pipeline', 'patterns'])
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'title', 'curve', 'pipeline', 'patterns'])
     state.view = 'memory'
-    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header'])
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'title'])
   })
 
   it('the budget ladder marks 50/75/90/100% and fills to the spend', () => {

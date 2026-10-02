@@ -7,7 +7,7 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
 import type { Grid } from '../gfx/raster'
-import type { State, ViewId } from '../state'
+import type { HarnessId, State, ViewId } from '../state'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
 
@@ -37,6 +37,10 @@ export type Actions = {
   run: (id: string, text?: string) => boolean
   /** Cycles the events view's filter. */
   filter: () => void
+  /** The terminal view: pick a harness, follow the field, ask to run its text, stop the run, clear the scrollback. */
+  /** The main menu's prompt: a key or a name takes the person to that area. */
+  menu: (text: string) => void
+  term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; clear: () => void; load: (id: HarnessId, text: string) => void }
 }
 
 export type Ctx = {
@@ -113,7 +117,11 @@ export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
     const head = `▓▒░ ${title.toUpperCase()} ░▒▓`
     const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
 
-    return row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: head }), ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: THEME.info, children: right })])
+    // A blank line above each section, so the board breathes instead of packing every block together.
+    return col(ctx, [
+      ctx.kit.Text({ children: ' ' }),
+      row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: head }), ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: THEME.info, children: right })]),
+    ])
   }
 
   const fill = Math.max(1, ctx.columns - title.length - right.length - 3)
@@ -129,8 +137,9 @@ export function kv(ctx: Ctx, label: string, value: string, color?: string): Rend
   const neonValue = look === 'bbs' && color === undefined ? { color: THEME.info } : {}
 
   return row(ctx, [
-    ctx.kit.Text(look === 'bbs' ? { color: NEON_LABEL, children: `${label.padEnd(16)} ` } : { dimColor: true, children: `${label.padEnd(16)} ` }),
-    ctx.kit.Text({ wrap: 'truncate-end', ...(isNa ? { dimColor: true } : color !== undefined ? { color } : neonValue), children: clip(value, Math.max(4, ctx.columns - 18)) }),
+    // BBS rows sit indented one column, with two spaces between label and value.
+    ctx.kit.Text(look === 'bbs' ? { color: NEON_LABEL, children: ` ${label.padEnd(16)}  ` } : { dimColor: true, children: `${label.padEnd(16)} ` }),
+    ctx.kit.Text({ wrap: 'truncate-end', ...(isNa ? { dimColor: true } : color !== undefined ? { color } : neonValue), children: clip(value, Math.max(4, ctx.columns - (look === 'bbs' ? 20 : 18))) }),
   ])
 }
 

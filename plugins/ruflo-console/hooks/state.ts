@@ -9,7 +9,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'agent'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'agent'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -21,6 +21,7 @@ export type ViewId = 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' 
  * current tab adds its label, and `blurb` is the one line under the bar that says what the view is for.
  */
 export const VIEWS: readonly { id: ViewId; key: string; label: string; short: string; icon: string; blurb: string; rows: number }[] = [
+  { id: 'menu', key: '0', label: 'Main Menu', short: 'Mnu', icon: '📟', blurb: 'the board: every area by its key, the line status, and a prompt that takes a key or a name', rows: 32 },
   { id: 'overview', key: '1', label: 'Overview', short: 'Ovr', icon: '🏠', blurb: 'what ruflo is doing here: subsystems, mods, health alerts and live activity', rows: 26 },
   { id: 'swarm', key: '2', label: 'Swarm', short: 'Swm', icon: '🐝', blurb: 'the swarm as ruflo wrote it: topology, agents at work, and the hive-mind votes', rows: 30 },
   { id: 'claims', key: '3', label: 'Claims', short: 'Clm', icon: '📌', blurb: 'who holds which task: claim, release, hand off or steal, each after a y/n confirm', rows: 30 },
@@ -34,6 +35,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', icon: '✅', blurb: 'decisions waiting for a person: votes, stealable claims, refused mods, budget', rows: 24 },
   { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '📡', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },
   { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '🎯', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
+  { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 34 },
+  { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'a second terminal: ask codex, claude or the ruflo CLI, each run confirmed, its output streamed', rows: 32 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -103,8 +106,14 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
   }
 }
 
-/** A mutating action waiting for the person's second press. */
-export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number }
+/** A mutating action waiting for the person's second press; `shows` is the command line when it is not a ruflo one. */
+export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string }
+
+/** The harnesses the terminal view can ask. */
+export type HarnessId = 'codex' | 'claude' | 'ruflo'
+
+/** One line of the terminal's scrollback: what was asked (`in`), what came back, or the console's own note (`sys`). */
+export type TermLine = { kind: 'in' | 'out' | 'err' | 'sys'; text: string }
 
 /** What an action did: what ran, how it exited, whether the disk shows the change, and anything it printed to show. */
 export type Outcome = { label: string; ok: boolean; verified: 'yes' | 'no' | 'n/a'; detail: string; atMs: number; lines?: string[] }
@@ -166,6 +175,15 @@ export type State = {
   isRefreshing: boolean
   /** When the band above the prompt last drew: the disk is re-read on the fast cadence only while it is seen. */
   barDrawnAtMs: number
+  /** The terminal view: the harness picked, the field's text, the scrollback, and the run in flight. */
+  terminal: {
+    harness: HarnessId
+    draft: string
+    lines: TermLine[]
+    running: { label: string; startedAtMs: number; stop: () => void } | null
+    /** The text the last Enter asked about: Enter on the same text again confirms it. */
+    asked: { key: string; label: string } | null
+  }
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -207,6 +225,7 @@ export function newState(raw: PluginOptions | undefined): State {
     isActing: false,
     isRefreshing: false,
     barDrawnAtMs: 0,
+    terminal: { harness: 'codex', draft: '', lines: [], running: null, asked: null },
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

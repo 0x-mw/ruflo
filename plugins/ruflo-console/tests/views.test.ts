@@ -41,7 +41,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'overview')
 
-    expect(rasters).toEqual(['header', 'activity'])
+    expect(rasters).toEqual(['header', 'title', 'activity'])
     expect(text).toContain('v3.50.0 (npx-offline)')
     expect(text).toContain('running per daemon-state.json')
     expect(text).toContain('1 ruflo server connected (plugin_ruflo-core_ruflo) · 2 tools callable now')
@@ -59,7 +59,7 @@ describe('views', () => {
 
     const { text, rasters, tree } = await drawn($, 'swarm')
 
-    expect(rasters).toEqual(['header', 'topology'])
+    expect(rasters).toEqual(['header', 'title', 'topology'])
     expect(text).toContain('hierarchical · specialized · running · max 6')
     // One label per agent (no repeated type), then status; a short id instead of the full one.
     expect(text).toMatch(/▸● \ncoder\s+idle\s+tasks/)
@@ -76,7 +76,7 @@ describe('views', () => {
 
     const { text, rasters, tree } = await drawn($, 'claims')
 
-    expect(rasters).toEqual(['header', 'flow'])
+    expect(rasters).toEqual(['header', 'title', 'flow'])
     expect(text).toContain('1 active · 1 stealable · 0 handoff')
     expect(text).toContain('no claims tool sets a TTL today')
     expect(text).toMatch(/console-demo-2.*stealable/)
@@ -90,7 +90,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'federation')
 
-    expect(rasters).toEqual(['header', 'fedmap'])
+    expect(rasters).toEqual(['header', 'title', 'fedmap'])
     expect(text).toContain('agentbbs agentbbs-not-found')
     expect(text).toContain('Off: the roster is on the public relay')
     expect(world.runs.some(argv => argv.join(' ').includes('x_federation_roster'))).toBe(false)
@@ -103,7 +103,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'plugins')
 
-    expect(rasters).toEqual(['header', 'health'])
+    expect(rasters).toEqual(['header', 'title', 'health'])
     expect(text).toContain('STALE: the clone does not list ruflo-mods')
     expect(text).toContain('2 ruflo · 1 enabled · 2 total')
   })
@@ -116,7 +116,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'learning')
 
-    expect(rasters).toEqual(['header', 'curve', 'pipeline', 'patterns'])
+    expect(rasters).toEqual(['header', 'title', 'curve', 'pipeline', 'patterns'])
     expect(text).toContain('tester 60% · keyword match')
     expect(text).toMatch(/\d+\/9 succeeded \(\d+% success rate, N=9\)/)
     expect(text).toContain('consolidate: EWC consolidations')
@@ -129,7 +129,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'metaharness')
 
-    expect(rasters).toEqual(['header', 'radar', 'trend'])
+    expect(rasters).toEqual(['header', 'title', 'radar', 'trend'])
     expect(text).toContain('$0.024')
     expect(text).toContain('valid · 0 commits · 0 receipts')
   })
@@ -147,7 +147,7 @@ describe('views', () => {
 
     const cost = await drawn($, 'cost')
 
-    expect(cost.rasters).toEqual(['header', 'gauge', 'burn'])
+    expect(cost.rasters).toEqual(['header', 'title', 'gauge', 'burn'])
     expect(cost.text).toContain('$0.421')
     expect(cost.text).toContain('WARNING · $3.90 of $5.00 (78%)')
   })
@@ -157,7 +157,7 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    expect((await drawn($, 'timeline')).rasters).toEqual(['header', 'gantt'])
+    expect((await drawn($, 'timeline')).rasters).toEqual(['header', 'title', 'gantt'])
 
     const approvals = await drawn($, 'approvals')
 
@@ -200,5 +200,58 @@ describe('views', () => {
     await $.session.start(SESSION)
 
     expect((await drawn($, 'missions')).text).toContain('n/a — no .claude-flow/missions/observation.json')
+  })
+
+  test('x.ruv.io: the federation menu with its commands, and no registry or roster asked with the network off', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters } = await drawn($, 'xruv')
+
+    expect(rasters).toEqual(['header', 'title'])
+    expect(text).toContain(' JOIN ....')
+    expect(text).toContain('WORK CLAIMS')
+    expect(text).toContain('Turn on federationNetwork in /config')
+    expect(world.runs.some(argv => /x_federation_(registry|roster)/.test(argv.join(' ')))).toBe(false)
+  })
+
+  test('terminal: the harness picker, what the pick runs, and the text field; nothing runs unasked', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'terminal')
+
+    expect(text).toContain('[c: CODEX]')
+    expect(text).toContain('codex exec in a read-only sandbox')
+    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
+    expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
+  })
+
+  test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command())
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+    const menu = await pane.drawn()
+
+    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'title'])
+    expect(textOf(menu)).toContain('■Swarm Commands■')
+    expect(textOf(menu)).toContain('Swarm Topology')
+    expect(textOf(menu)).toContain('ANSI-BBS')
+    expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-prompt'])
+
+    await pane.input({ key: 'menu-prompt', text: 'w', kind: 'submit' })
+    expect(textOf(await pane.drawn())).toContain('MAIN MENU')
+
+    await pane.press({ key: 'tab-menu' })
+    await pane.input({ key: 'menu-prompt', text: 'nope', kind: 'submit' })
+    expect(textOf(await pane.drawn())).toContain('no area "nope"')
+    await pane.unmount()
   })
 })

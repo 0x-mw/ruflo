@@ -37,6 +37,13 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
   }
 
   async function execute(spec: ActionSpec): Promise<void> {
+    // A harness run reports into the terminal and may take minutes: it does not hold the other buttons.
+    if (spec.run !== undefined) {
+      void spec.run()
+
+      return
+    }
+
     state.isActing = true
     host.invalidate()
 
@@ -87,7 +94,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     }
 
     pendingSpec = spec
-    state.pending = { label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now() }
+    state.pending = { label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now(), ...(spec.shows !== undefined && { shows: spec.shows }) }
     host.invalidate()
   }
 

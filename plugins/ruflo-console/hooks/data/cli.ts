@@ -1,7 +1,7 @@
 /**
  * The facts that are not on disk, asked of the ruflo CLI with fixed argv and read from its JSON. Every probe here was run
- * against @claude-flow/cli 3.50.0 and is local: none reaches the network except `roster`, which runs only when the
- * person turns `federationNetwork` on. `plugins list` is never run (it fetches the IPFS registry), nor `verify` (it
+ * against @claude-flow/cli 3.50.0 and is local: none reaches the network except `roster` and `registry`, which run only
+ * when the person turns `federationNetwork` on. `plugins list` is never run (it fetches the IPFS registry), nor `verify` (it
  * fetches a manifest from GitHub).
  */
 import { msOf, numberOf, plain, recordOf, stringOf, valuesOf } from './parse'
@@ -296,7 +296,7 @@ export type Channels = { channels: { id: string; name?: string; atMs?: number }[
 export const channelsProbe: Probe<Channels> = {
   id: 'channels',
   args: exec('x_federation_channel_list', {}),
-  views: ['federation'],
+  views: ['federation', 'xruv'],
   everyMs: 60_000,
   timeoutMs: 30_000,
   parse: stdout => {
@@ -325,7 +325,7 @@ export type Roster = { members: { name: string; detail?: string }[]; relay?: str
 export const rosterProbe: Probe<Roster> = {
   id: 'roster',
   args: exec('x_federation_roster', {}),
-  views: ['federation'],
+  views: ['federation', 'xruv'],
   everyMs: 120_000,
   timeoutMs: 45_000,
   isNetwork: true,
@@ -355,7 +355,69 @@ export const rosterProbe: Probe<Roster> = {
   },
 }
 
-export const PROBES = [versionProbe, memoryProbe, namespacesProbe, scoreProbe, flywheelProbe, auditProbe, intelligenceProbe, peersProbe, channelsProbe, rosterProbe] as const
+export type Registry = {
+  relay?: string
+  httpBase?: string
+  gatewayPubkey?: string
+  swarmTag?: string
+  registration?: { isOpen: boolean; endpoint?: string; auth?: string; limits?: string }
+  join: string[]
+  channels: { name: string; purpose?: string }[]
+}
+
+/**
+ * The federation's own description of itself (ruv://federation/registry, from the x.ruv.io gateway): reaches the
+ * network, so it runs only with `federationNetwork` on. Every string is the gateway's, capped and stripped of control
+ * characters, and drawn as data.
+ */
+export const registryProbe: Probe<Registry> = {
+  id: 'registry',
+  args: exec('x_federation_registry', {}),
+  views: ['xruv'],
+  everyMs: 600_000,
+  timeoutMs: 45_000,
+  isNetwork: true,
+  parse: stdout => {
+    const value = objectOf(stdout)
+
+    if (value === null) {
+      return null
+    }
+
+    const reg = recordOf(value.registration)
+    const limits = recordOf(reg?.limits)
+    const limitText = limits === null ? undefined : Object.entries(limits).slice(0, 4).flatMap(([key, n]) => (numberOf(n) === undefined ? [] : [`${plain(key, 16)} ${numberOf(n)}`])).join(' · ')
+    const out: Registry = {
+      join: (Array.isArray(value.join) ? value.join : []).slice(0, 6).flatMap(step => (typeof step === 'string' ? [plain(step, 200)] : [])),
+      channels: (Array.isArray(value.defaultChannels) ? value.defaultChannels : []).slice(0, 8).flatMap(entry => {
+        const channel = recordOf(entry)
+        const name = stringOf(channel?.channel, 32)
+        const purpose = stringOf(channel?.purpose, 120)
+
+        return name === undefined ? [] : [{ name, ...(purpose !== undefined && { purpose }) }]
+      }),
+    }
+    const relay = stringOf(value.relay, 60)
+    const httpBase = stringOf(value.httpBase, 60)
+    const gatewayPubkey = stringOf(value.gatewayPubkey, 64)
+    const swarmTag = stringOf(value.swarmTag, 32)
+
+    if (relay !== undefined) out.relay = relay
+    if (httpBase !== undefined) out.httpBase = httpBase
+    if (gatewayPubkey !== undefined) out.gatewayPubkey = gatewayPubkey
+    if (swarmTag !== undefined) out.swarmTag = swarmTag
+    if (reg !== null) {
+      const endpoint = stringOf(reg.endpoint, 80)
+      const auth = stringOf(reg.authentication, 20)
+
+      out.registration = { isOpen: reg.enabled === true, ...(endpoint !== undefined && { endpoint }), ...(auth !== undefined && { auth }), ...(limitText !== undefined && limitText !== '' && { limits: limitText }) }
+    }
+
+    return out
+  },
+}
+
+export const PROBES = [versionProbe, memoryProbe, namespacesProbe, scoreProbe, flywheelProbe, auditProbe, intelligenceProbe, peersProbe, channelsProbe, rosterProbe, registryProbe] as const
 
 export type ProbeId = (typeof PROBES)[number]['id']
 

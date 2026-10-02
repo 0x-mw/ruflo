@@ -15,18 +15,22 @@ import { federationView } from './federation'
 import { learningView } from './learning'
 import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
+import { menuView } from './menu'
 import { metaharnessView } from './metaharness'
 import { missionsView } from './missions'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
 import { pluginsView } from './plugins'
 import { swarmView } from './swarm'
+import { terminalView } from './terminal'
+import { xruvView } from './xruv'
 
 export const NARROW = 44
 /** Width from which every tab spells its name beside its emoji (the 1-9 row is about 128 columns with names). */
 const WIDE_TABS = 140
 
 const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
+  menu: menuView,
   overview: overviewView,
   swarm: swarmView,
   claims: claimsView,
@@ -40,6 +44,8 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   approvals: approvalsView,
   events: eventsView,
   missions: missionsView,
+  xruv: xruvView,
+  terminal: terminalView,
   agent: agentView,
 }
 
@@ -51,7 +57,7 @@ function tabs(ctx: Ctx): RenderElement {
     return text(ctx, `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label} · /ruflo help`, { bold: true, color: THEME.head })
   }
 
-  // Two rows: the nine data views (1-9), then the four management views (g q e m). Each tab is its emoji; the
+  // Two rows: the nine data views (1-9), then the management views and the two boards (g q e m, w x.ruv.io, i terminal). Each tab is its emoji; the
   // current one is highlighted, and from WIDE_TABS columns every tab also spells its name. The line under the bar
   // always names the current view and says what it is for. The dock width is the engine's (it keeps where the
   // divider was left), so the narrow form must fit about 60 columns.
@@ -117,7 +123,7 @@ function confirmRow(ctx: Ctx): RenderElement | null {
     ctx,
     [
       text(ctx, `Confirm: ${pending.label}?`, { bold: true, color: THEME.warn }),
-      text(ctx, `runs: ruflo ${pending.args.join(' ')}`, { dimColor: true }),
+      text(ctx, `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}`, { dimColor: true }),
       row(ctx, [button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }), button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' })]),
     ],
     'confirm',
@@ -166,6 +172,29 @@ function footer(ctx: Ctx): RenderElement {
  * make that tall), it goes compact: no title strip, and the confirm row and the footer's buttons move up under the
  * tabs, so every control stays on screen while the view below scrolls.
  */
+/**
+ * The Wildcat-board furniture for the BBS look: under the banner a welcome line and the networks this node is on,
+ * the way boards listed their nets; and the current view's name as block art under the tabs.
+ */
+function wildcat(ctx: Ctx): { strip: RenderElement[]; art: RenderElement[] } {
+  const art = ctx.pictures.get('title')
+
+  return {
+    strip: [
+      row(ctx, [
+        ctx.kit.Text({ bold: true, color: THEME.head, children: 'RUFLO ' }),
+        ctx.kit.Text({ color: THEME.info, children: 'x.ruv.io ' }),
+        ctx.kit.Text({ bold: true, color: THEME.ok, children: clip('AGENTS WELCOME.', Math.max(4, ctx.columns - 16)) }),
+      ], 'welcome'),
+      row(ctx, [
+        ctx.kit.Text({ color: THEME.head, children: 'NETWORKS: ' }),
+        ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip('x.ruv.io * relay.ruv.io * agentbbs * mcp * claude code', Math.max(4, ctx.columns - 10)) }),
+      ], 'networks'),
+    ],
+    art: art !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(art.toRaster('title'))] : [],
+  }
+}
+
 export function paneView(ctx: Ctx): RenderElement {
   setLook(ctx.state.options.look)
 
@@ -183,7 +212,11 @@ export function paneView(ctx: Ctx): RenderElement {
   const isCompact = ctx.state.pane.rows > 0 && ctx.state.pane.rows < rowsOf(ctx.state.view)
   const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
   const about = blurb(ctx)
-  const parts = isCompact ? [tabs(ctx), ...(confirm !== null ? [confirm] : []), footer(ctx), body] : [...title, tabs(ctx), ...(about !== null ? [about] : []), body, ...(confirm !== null ? [confirm] : []), footer(ctx)]
+  const bbs = isBbs() && !isCompact ? wildcat(ctx) : { strip: [], art: [] }
+  const gap = isBbs() && !isCompact ? [text(ctx, ' ')] : []
+  const parts = isCompact
+    ? [tabs(ctx), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
+    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, body, ...(confirm !== null ? [confirm] : []), ...gap, footer(ctx)]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }

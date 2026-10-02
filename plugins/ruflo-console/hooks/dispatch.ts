@@ -72,7 +72,9 @@ export async function dispatch(control: Controller, state: State, args: string, 
     case 'open':
       // Without a pane to show (claude -p, an SDK host), the view is answered as text in the command's row instead.
       if (!state.isInteractive) return { text: await dumpOf(control, state, intent.view ?? state.view) }
+      // The BBS look lands on its main menu when the cockpit opens with no view named, like a board after login.
       if (intent.view !== null) control.setView(intent.view)
+      else if (!state.pane.isOpen && state.options.look === 'bbs') control.setView('menu')
 
       return open(control, state, VIEWS.find(view => view.id === state.view)?.label ?? 'Agent')
     case 'help':
