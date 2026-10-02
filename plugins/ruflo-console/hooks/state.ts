@@ -93,7 +93,7 @@ export type State = {
   probes: Map<string, ProbeResult>
   ruflo: { snapshot: RufloSnapshot | null; route: RufloRoute | null; error: string | null }
   usage: { costUsd?: number; contextPercent?: number } | null
-  rufloTools: number | null
+  rufloTools: { tools: number; servers: string[] } | null
   mods: ModSeen[]
   /** Tool calls the console saw, per 5 s bucket, newest last: a measured series. */
   activity: number[]

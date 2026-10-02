@@ -102,7 +102,12 @@ export function topologyPicture(model: TopoModel, columns: number, rows: number,
     for (const lag of [0, 0.5]) {
       const k = (((t / 1400 + i * 0.13 + lag) % 1) + 1) % 1
 
-      canvas.dot(p.x + (q.x - p.x) * k, p.y + (q.y - p.y) * k, COLOR.warn)
+      const x = p.x + (q.x - p.x) * k
+      const y = p.y + (q.y - p.y) * k
+
+      // Two dots wide, so a pulse on a vertical edge stands out of the line rather than sitting on its dots.
+      canvas.dot(x, y, COLOR.warn)
+      canvas.dot(x + 1, y, COLOR.warn)
     }
   })
 

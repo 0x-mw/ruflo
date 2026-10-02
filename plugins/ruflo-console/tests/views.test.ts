@@ -44,7 +44,7 @@ describe('views', () => {
 
     expect(text).toContain('v3.50.0 (npx-offline)')
     expect(text).toContain('running per daemon-state.json')
-    expect(text).toContain('2 ruflo tools callable now')
+    expect(text).toContain('1 ruflo server connected (claude-flow) · 2 tools callable now')
     expect(text).toContain('1 entries')
     expect(text).toContain('manifest v3.32.24')
     expect(text).toContain('signature not checked here')

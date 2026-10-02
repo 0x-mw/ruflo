@@ -10,7 +10,7 @@ import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
 import { NARROW, paneView } from './views/pane'
 
-const RUFLO_TOOL = /^mcp__(?:claude-flow|ruflo|plugin_ruflo[\w-]*)__/
+const RUFLO_TOOL = /^mcp__(claude-flow|ruflo|plugin_ruflo[\w-]*)__/
 
 /**
  * Binds a Host from `$`, every member spelled `$.noun.method(...)` here and nowhere else, so the engine reads what
@@ -45,7 +45,11 @@ function hostOf($: EngineInterface, cwd: string): Host {
 
       return { ...(usage.cost?.usd !== undefined && { costUsd: usage.cost.usd }), ...(usage.context?.percent !== undefined && { contextPercent: usage.context.percent }) }
     },
-    rufloTools: async () => (await $.tool.list()).filter(tool => RUFLO_TOOL.test(tool.name)).length,
+    rufloTools: async () => {
+      const names = (await $.tool.list()).flatMap(tool => RUFLO_TOOL.exec(tool.name)?.slice(1, 2) ?? [])
+
+      return { tools: names.length, servers: [...new Set(names)].sort() }
+    },
     settings: async () => $.settings.read(),
     home: async () => $.env.get('HOME'),
     // `$.ruflo` exists only where ruflo-mods is seated; validate refuses feature-detecting a noun, so these are
@@ -85,7 +89,7 @@ export const register: Register = (on, raw: PluginOptions) => {
     await Promise.all([
       bound.registerCommand({ name: 'ruflo-console', description: 'ruflo console: swarms, claims, federation, plugins, learning, MetaHarness, memory', argumentHint: '[view|close|status]' }).catch(() => undefined),
       bound.storeGet(storeKeyOf(e.cwd)).then(value => restore(state, value), () => undefined),
-      bound.rufloTools().then(n => void (state.rufloTools = n), () => undefined),
+      bound.rufloTools().then(counted => void (state.rufloTools = counted), () => undefined),
     ])
     control.start()
     void control.refresh()

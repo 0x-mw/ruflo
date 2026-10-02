@@ -25,8 +25,8 @@ export type Host = {
   registerCommand: (spec: CommandSpec) => Promise<unknown>
   run: (argv: readonly string[], timeoutMs: number) => Promise<ProcessRunResult>
   usage: () => Promise<{ costUsd?: number; contextPercent?: number }>
-  /** How many ruflo / claude-flow MCP tools the model can call now. */
-  rufloTools: () => Promise<number>
+  /** The ruflo / claude-flow MCP tools the model can call now, and the servers they come from. */
+  rufloTools: () => Promise<{ tools: number; servers: string[] }>
   settings: () => Promise<unknown>
   home: () => Promise<string | undefined>
   rufloSnapshot: () => Promise<RufloSnapshot>

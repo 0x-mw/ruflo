@@ -51,16 +51,25 @@ export const NOSTR_KEY = '.ruflo/nostr.key'
 export type Read = { text: string; mtimeMs: number } | { text: null; reason: 'missing' | 'too-large' | 'refused'; size?: number }
 
 /** The text of each file as last read, by path, with the mtime and size it was read at. */
-export type ReadCache = Map<string, { mtimeMs: number; size: number; text: string }>
+export type ReadCache = Map<string, { mtimeMs: number; size: number; text: string } | { missingUntilMs: number }>
+
+/** A path found missing is not stat-ed again for this long: a file ruflo creates shows up within it. */
+export const MISSING_RECHECK_MS = 10_000
 
 /** Reads one file, unless its mtime and size match what was read last; stats first, so a huge file is never read. */
 export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string): Promise<Read> {
   let stat: { mtimeMs?: number; size?: number } | undefined
 
+  const before = cache.get(path)
+
+  if (before !== undefined && 'missingUntilMs' in before && before.missingUntilMs > Date.now()) {
+    return { text: null, reason: 'missing' }
+  }
+
   try {
     stat = await fs.stat(path)
   } catch {
-    cache.delete(path)
+    cache.set(path, { missingUntilMs: Date.now() + MISSING_RECHECK_MS })
 
     return { text: null, reason: 'missing' }
   }
@@ -74,7 +83,7 @@ export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string):
     return { text: null, reason: 'too-large', size }
   }
 
-  const held = cache.get(path)
+  const held = before !== undefined && 'text' in before ? before : undefined
 
   if (held !== undefined && mtimeMs >= 0 && held.mtimeMs === mtimeMs && held.size === size) {
     return { text: held.text, mtimeMs }
@@ -101,7 +110,8 @@ export type DiskRead = { project: Record<ProjectKey, Read>; home: Record<keyof t
 
 /** Reads every file in parallel; nothing here rejects. `home` is null when the home directory is unknown. */
 export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home: string | null): Promise<DiskRead> {
-  const before = new Map([...cache].map(([path, held]) => [path, held.mtimeMs]))
+  const mtimeOf = (held: ReadCache extends Map<string, infer V> ? V : never) => ('mtimeMs' in held ? held.mtimeMs : -1)
+  const before = new Map([...cache].map(([path, held]) => [path, mtimeOf(held)]))
   const projectKeys = Object.keys(PROJECT) as ProjectKey[]
   const homeKeys = Object.keys(HOME) as (keyof typeof HOME)[]
   const missingHome: Read = { text: null, reason: 'missing' }
@@ -119,7 +129,7 @@ export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home
   let changed = 0
 
   for (const [path, held] of cache) {
-    if (before.get(path) !== held.mtimeMs) {
+    if ('mtimeMs' in held && before.get(path) !== held.mtimeMs) {
       changed += 1
     }
   }

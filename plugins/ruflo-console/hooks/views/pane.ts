@@ -29,7 +29,7 @@ const BODIES = {
 } as const
 
 function tabs(ctx: Ctx): RenderElement {
-  const isShort = ctx.columns < 104
+  const isShort = ctx.columns < 100
 
   if (ctx.columns < NARROW) {
     const index = VIEWS.findIndex(view => view.id === ctx.state.view)
@@ -37,16 +37,17 @@ function tabs(ctx: Ctx): RenderElement {
     return text(ctx, `${index + 1}/${VIEWS.length} ${VIEWS[index]?.label ?? ''} · 1-8 switch · h help`, { bold: true, color: THEME.head })
   }
 
-  return row(
-    ctx,
-    VIEWS.map(view => {
+  return ctx.kit.Box({
+    flexDirection: 'row',
+    gap: 1,
+    key: 'tabs',
+    children: VIEWS.map(view => {
       const isCurrent = view.id === ctx.state.view
       const label = isShort ? view.label.slice(0, view.id === 'metaharness' ? 4 : 5) : view.label
 
       return ctx.kit.Button({ key: `tab-${view.id}`, label: isCurrent ? `${label}◂` : label, hotkey: view.key, plain: true, ...(isCurrent ? {} : { dimColor: true }), onPress: () => ctx.act.view(view.id) })
     }),
-    'tabs',
-  )
+  })
 }
 
 function help(ctx: Ctx): RenderElement {
@@ -102,7 +103,7 @@ function footer(ctx: Ctx): RenderElement {
 
   parts.push(
     row(ctx, [
-      text(ctx, clip(`${read} · ${keys}`, Math.max(10, ctx.columns - 24)), { dimColor: true }),
+      text(ctx, `${clip(`${read} · ${keys}`, Math.max(10, ctx.columns - 34))} `, { dimColor: true }),
       ...(ctx.columns >= NARROW ? [button(ctx, 'refresh', 'Refresh', ctx.act.refresh, { hotkey: 'r' }), button(ctx, 'help', 'Help', ctx.act.help, { hotkey: 'h' }), button(ctx, 'close', 'Close', ctx.act.close, { hotkey: 'x' })] : []),
     ]),
   )

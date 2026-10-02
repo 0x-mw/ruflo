@@ -36,7 +36,16 @@ export function overviewView(ctx: Ctx): RenderElement {
       daemon?.running === true ? THEME.ok : undefined,
     ),
   )
-  rows.push(kv(ctx, 'MCP tools', state.rufloTools === null ? 'n/a' : state.rufloTools > 0 ? `${state.rufloTools} ruflo tools callable now (Claude Code's tool list)` : 'none connected in this session', state.rufloTools !== null && state.rufloTools > 0 ? THEME.ok : undefined))
+  const mcp = state.rufloTools
+
+  rows.push(
+    kv(
+      ctx,
+      'MCP',
+      mcp === null ? 'n/a' : mcp.tools > 0 ? `${mcp.servers.length} ruflo server${mcp.servers.length === 1 ? '' : 's'} connected (${mcp.servers.join(', ')}) · ${mcp.tools} tools callable now` : 'no ruflo MCP server connected in this session',
+      mcp !== null && mcp.tools > 0 ? THEME.ok : undefined,
+    ),
+  )
   rows.push(kv(ctx, 'memory DB', memory !== null ? `${count(memory.total)} entries · ${count(memory.vectors)} vectors · ${memory.backend}${memory.storage !== undefined ? ` · ${memory.storage}` : ''}` : sourceLine(state.probes.get('memory'), nowMs, 'n/a').text))
   rows.push(
     kv(

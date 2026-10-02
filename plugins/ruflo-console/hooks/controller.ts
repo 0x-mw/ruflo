@@ -19,6 +19,7 @@ const PENDING_TTL_MS = 30_000
 const MAX_PARALLEL_PROBES = 2
 const BAR_FRESH_MS = 10_000
 const IDLE_REFRESH_MS = 30_000
+const TOOLS_RECOUNT_MS = 30_000
 
 export type Controller = {
   refresh: () => Promise<void>
@@ -57,6 +58,7 @@ export function createController(state: State, host: Host): Controller {
   let lastSegment: string | null | undefined
   let lastSpend: number | undefined
   let hasDrawn = false
+  let toolsCountedAt = 0
   const lastAttempt = new Map<string, number>()
 
   const persist = () => void host.storeSet(storeKeyOf(state.cwd), { view: state.view }).catch(() => undefined)
@@ -76,6 +78,12 @@ export function createController(state: State, host: Host): Controller {
   /** A read that starts after this call: what an action checks, since a read already running may predate its write. */
   async function freshRead(): Promise<void> {
     await inflight?.catch(() => undefined)
+
+    // A file the action just created must not wait out the missing-file backoff.
+    for (const [path, held] of state.cache) {
+      if ('missingUntilMs' in held) state.cache.delete(path)
+    }
+
     await refresh()
   }
 
@@ -85,6 +93,12 @@ export function createController(state: State, host: Host): Controller {
     const started = Date.now()
 
     try {
+      // Claude Code connects MCP servers after the session starts: count the ruflo tools again now and then.
+      if (Date.now() - toolsCountedAt >= TOOLS_RECOUNT_MS) {
+        toolsCountedAt = Date.now()
+        void host.rufloTools().then(counted => void (state.rufloTools = counted), () => undefined)
+      }
+
       const [settings, usage, snapshot, route] = await Promise.all([
         host.settings().catch(() => null),
         host.usage().catch(() => null),
@@ -285,9 +299,10 @@ export function createController(state: State, host: Host): Controller {
   }
 
   function setView(view: State['view']): void {
+    state.isHelp = false
+
     if (view !== state.view) {
       state.view = view
-      state.isHelp = false
       state.mounted.clear()
       persist()
       // A new view asks for its own height inline; the dock ignores it.
@@ -351,7 +366,7 @@ export function createController(state: State, host: Host): Controller {
 
   const actions: Actions = {
     view: setView,
-    refresh: () => void refresh().then(() => probe(true)),
+    refresh: () => void freshRead().then(() => probe(true)),
     help: () => {
       state.isHelp = !state.isHelp
       host.invalidate()
