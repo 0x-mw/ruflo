@@ -12,6 +12,7 @@ import type { SkillActions } from '../skills'
 import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
 import type { HarnessId, State, ViewId } from '../state'
+import type { VectorActions } from '../vector'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
 
@@ -52,6 +53,8 @@ export type Actions = {
   skills: SkillActions & MoreSkillActions
   /** The Memory Lab: its fields, search, browse filter, and an entry's open or delete (each through the runner). */
   memory: MemoryActions
+  /** The Vector Lab: its fields, its entries (asked or run through the runner), and rvlite queries handed to the terminal. */
+  vector: VectorActions
 }
 
 export type Ctx = {

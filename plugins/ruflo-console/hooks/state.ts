@@ -6,13 +6,14 @@ import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
 import { emptySkills, type SkillsState } from './data/skills'
 import { emptyMemoryLab, type MemoryLabState } from './memory-lab'
+import { emptyVector, type VectorState } from './data/vector'
 import type { Snapshot } from './data/snapshot'
 import type { RufloRoute, RufloSnapshot } from '../types'
 
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -49,6 +50,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'perf', key: '', label: 'Performance', short: 'Prf', icon: '📈', blurb: 'metrics, profile, benchmarks, bottlenecks and a latency sparkline from each run', rows: 30 },
   { id: 'automate', key: '', label: 'Automation', short: 'Aut', icon: '🤖', blurb: 'workflows, the twelve background workers and their daemon, autopilot, sessions, config and a task kanban', rows: 44 },
   { id: 'neural', key: '', label: 'Learning Lab', short: 'Lab', icon: '🧪', blurb: 'train neural patterns and watch the loss, ask the router which agent fits a task, and why', rows: 36 },
+  // No hotkey either: reached from the tab, the menu prompt (vector) or /ruflo vector.
+  { id: 'vector', key: '', label: 'Vector Lab', short: 'Vec', icon: '🧲', blurb: 'ruvector: the shared brain, RVF stores, rvlite queries, decompile, workers, edge, hooks intel and your pi identity', rows: 44 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -237,6 +240,8 @@ export type State = {
   memoryLab: MemoryLabState
   /** The Automation and Learning Lab views: the lists a click asked for, and this session's training runs. */
   auto: AutoState
+  /** The Vector Lab's fields; its runs land in `lab` under vec- ids. */
+  vector: VectorState
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -285,6 +290,7 @@ export function newState(raw: PluginOptions | undefined): State {
     skills: emptySkills(),
     memoryLab: emptyMemoryLab(),
     auto: emptyAuto(),
+    vector: emptyVector(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

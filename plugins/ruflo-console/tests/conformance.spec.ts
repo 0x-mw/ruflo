@@ -85,6 +85,19 @@ function helpOf(words: readonly string[]): string {
   return helpCache.get(key) as string
 }
 
+/** `<ruvector CLI> <words…> --help` as text, cached: the Vector Lab's entries run the ruvector CLI, not ruflo's. */
+function rvHelpOf(prefix: readonly string[], words: readonly string[]): string {
+  const key = `rv ${prefix.join(' ')} ${words.join(' ')}`
+
+  if (!helpCache.has(key)) {
+    const run = spawnSync(prefix[0] as string, [...prefix.slice(1), ...words, '--help'], { encoding: 'utf8', timeout: 90_000 })
+
+    helpCache.set(key, `${run.stdout ?? ''}${run.stderr ?? ''}`.replace(/\u001b\[[0-9;]*m/g, ''))
+  }
+
+  return helpCache.get(key) as string
+}
+
 /** The command path of an argv: its leading words up to the first flag, at most three. */
 function pathOf(args: readonly string[]): string[] {
   const words: string[] = []
@@ -134,6 +147,22 @@ describe.skipIf(process.env.RUFLO_CONFORMANCE !== '1')('console actions vs the r
 
     for (const { id, spec } of await allSpecs()) {
       const args = spec.args as readonly string[]
+
+      // Another CLI than ruflo's: the ruvector ones are checked against its help; `claude plugin configure` (Cost) is fixed, not a flag set to verify here.
+      if (spec.argv !== undefined && !spec.argv.some(word => word.startsWith('ruvector'))) continue
+
+      if (spec.argv !== undefined) {
+        const at = spec.argv.findIndex(word => word.startsWith('ruvector'))
+        const rest = spec.argv.slice(at + 1)
+        const path = pathOf(rest)
+        const help = rvHelpOf(spec.argv.slice(0, at + 1), path)
+
+        if (!/Usage:/i.test(help)) problems.push(`${id}: no such ruvector command "${path.join(' ')}"`)
+
+        for (const flag of rest.filter(word => /^--[a-z]/.test(word))) if (!help.includes(flag)) problems.push(`${id}: ruvector "${path.join(' ')}" declares no ${flag}`)
+
+        continue
+      }
 
       if (args[0] === 'mcp' && args[1] === 'exec') {
         const tool = args[args.indexOf('-t') + 1] ?? ''

@@ -29,6 +29,7 @@ import { secureView } from './secure'
 import { skillsView } from './skills'
 import { swarmView } from './swarm'
 import { terminalView } from './terminal'
+import { vectorView } from './vector'
 import { xruvView } from './xruv'
 
 export const NARROW = 44
@@ -64,6 +65,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   perf: perfView,
   automate: automateView,
   neural: neuralView,
+  vector: vectorView,
   agent: agentView,
 }
 

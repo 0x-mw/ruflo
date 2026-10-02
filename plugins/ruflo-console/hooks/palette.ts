@@ -18,6 +18,7 @@ import { neuralEntries } from './neural'
 import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
 import { XRUV } from './xruv'
+import { VEC, vecSpec, vecWhy } from './vector'
 import { selection } from './views/select'
 
 export type PaletteRun =
@@ -156,6 +157,12 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   // Automation and the Learning Lab: reads run at once, the rest ask first; per-row verbs come from the lists last read.
   for (const entry of [...automateEntries(state), ...neuralEntries(state)]) {
     add(entry.id, entry.group, entry.label, entry.make !== undefined ? { kind: 'text', keyword: entry.id, make: entry.make } : { kind: 'spec', spec: entry.spec ?? null, why: entry.why ?? '' })
+  }
+
+  // The Vector Lab: a typed entry's id is its keyword (`/ruflo run vec-brain-search hnsw`); n/a ones say why.
+  for (const entry of VEC) {
+    if (entry.field !== undefined && entry.na === undefined) add(entry.id, 'vector', `${entry.label} <${entry.rule ?? 'text'}>`, { kind: 'text', keyword: entry.id, make: text => vecSpec(entry, state, text) })
+    else add(entry.id, 'vector', entry.label, { kind: 'spec', spec: vecSpec(entry, state), why: vecWhy(entry, state) })
   }
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
