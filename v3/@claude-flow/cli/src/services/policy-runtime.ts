@@ -143,7 +143,11 @@ function lockOwnerIsDead(lockPath: string): boolean {
   }
 }
 
-async function acquireLock(lockPath: string): Promise<() => void> {
+/**
+ * Exported for ADR-406 mission storage, which takes the same per-file lock
+ * (pid, pid namespace and boot id identify a dead owner) rather than a copy.
+ */
+export async function acquireLock(lockPath: string): Promise<() => void> {
   const started = Date.now();
   while (Date.now() - started < LOCK_WAIT_MS) {
     try {
