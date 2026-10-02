@@ -43,26 +43,35 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
   async function execute(spec: ActionSpec): Promise<void> {
     // A harness run reports into the terminal and may take minutes: it does not hold the other buttons.
     if (spec.run !== undefined) {
-      void spec.run()
+      const running = spec.run()
+
+      // A read that runs its own command (a skills search) is waited on, so `/ruflo run` answers with what it found.
+      if (spec.isReadOnly === true) await running
 
       return
     }
 
+    // The x.ruv.io board keeps its own result panel, so its runs never show in the MetaHarness lab.
+    const panel = spec.board === 'xruv' ? state.xruv : state.lab
+
     state.isActing = true
-    if (spec.lab !== undefined) state.lab.running = { id: spec.lab, label: spec.label, startedAtMs: Date.now() }
+    if (spec.lab !== undefined) panel.running = { id: spec.lab, label: spec.label, startedAtMs: Date.now() }
     host.invalidate()
 
     try {
-      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000)
+      const result = await host.run(spec.argv ?? [...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000, spec.stdin)
       const answer = /"success"\s*:\s*(true|false)/.exec(result.stdout)?.[1]
       const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1] ?? /\[ERROR\]\s*(.{0,160})/.exec(result.stdout)?.[1]
-      const ok = result.exitCode === 0 && answer !== 'false' && error === undefined
+      // `mcp exec` wraps a tool's failure as `"isError": true` with its message escaped inside: that is a failure too.
+      const ok = result.exitCode === 0 && answer !== 'false' && error === undefined && !/"isError"\s*:\s*true/.test(result.stdout)
 
       // A lab run's output goes to the lab's result panel, scrolled from its top; the footer keeps the one-line outcome.
       if (spec.lab !== undefined) {
-        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
+        panel.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: spec.read?.(result.stdout, result.stderr, ok) ?? (spec.lines ?? ((out, err) => labLines(spec.lab ?? '', out, err)))(result.stdout, result.stderr), atMs: Date.now() }
         state.select.item = 0
       }
+      // Keyed on the exit, not on `ok`: relay text in a read may carry an "error" key of its own.
+      if (result.exitCode === 0) spec.onOutput?.(result.stdout)
 
       if (spec.isReadOnly === true) {
         say(spec.label, ok, ok ? 'the ruflo CLI answered:' : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`, spec.lab === undefined ? outputLines(result.stdout) : undefined)
@@ -78,17 +87,17 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
         label: spec.label,
         ok: ok && verified !== 'no',
         verified,
-        detail: ok ? `ruflo answered ok; expected ${spec.expect}` : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`,
+        detail: ok ? `${spec.argv === undefined ? 'ruflo' : 'the command'} answered ok; expected ${spec.expect}` : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`,
         atMs: Date.now(),
       }
     } catch (error) {
       const why = plain(error instanceof Error ? error.message : String(error), 160) || 'refused'
 
-      if (spec.lab !== undefined) state.lab.result = { id: spec.lab, label: spec.label, ok: false, exitCode: null, ...(spec.note !== undefined && { note: spec.note }), lines: [why], atMs: Date.now() }
+      if (spec.lab !== undefined) panel.result = { id: spec.lab, label: spec.label, ok: false, exitCode: null, ...(spec.note !== undefined && { note: spec.note }), lines: [why], atMs: Date.now() }
       say(spec.label, false, why)
     } finally {
       state.isActing = false
-      state.lab.running = null
+      panel.running = null
       host.invalidate()
     }
   }
@@ -97,6 +106,8 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     state.palette.isOpen = false
 
     if (spec === null) {
+      pendingSpec = null
+      state.pending = null
       say('nothing to do', false, why)
 
       return
@@ -145,7 +156,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
         ask(entry.run.spec, entry.run.why)
         break
       case 'text':
-        ask(entry.run.make(text), `type "${entry.run.keyword} <text>"; text may not start with -`)
+        ask(entry.run.make(text), entry.run.why?.(text) ?? `type "${entry.run.keyword} <text>"; text may not start with -`)
         break
       case 'view':
         deps.setView(entry.run.view)

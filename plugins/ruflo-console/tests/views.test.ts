@@ -1,10 +1,14 @@
 import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
+import { autoAnswer, FAKE_SECRET, WF_ID } from './fixtures/automate'
+import { EVOLVE_FILES, EVOLVE_OUT, R4 } from './fixtures/evolve'
 import { HIVE_FILES, RAFT_ID, WORKERS } from './fixtures/hive'
+import { MEM_OUT } from './fixtures/memory'
 import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
-import { FIND_OUT, LS_GLOBAL } from './fixtures/skills'
+import { FIND_OUT, LIST_OUT, LS_GLOBAL, USE_OUT } from './fixtures/skills'
+import { VEC_OUT } from './fixtures/vector'
 import { cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const HOME_FILES = {
@@ -19,22 +23,10 @@ const HOME_FILES = {
   '.claude/plugins/marketplaces/ruflo/.claude-plugin/marketplace.json': JSON.stringify({ name: 'ruflo', plugins: [{ name: 'ruflo-core' }, { name: 'ruflo-swarm' }] }),
 }
 
-type Engine = Parameters<TestBody>[0]
-
-/** Opens the console on `view` via /ruflo, waits for its probes, and answers its drawing and its Raster keys. */
-async function drawn($: Engine, view: string, columns = 110) {
-  await $.command.run(command(view))
-  await $.command.run(command('status'))
-
-  const pane = await $.ui.mount({ ...paneAt(columns), plugin: PLUGIN })
-  const tree = await pane.drawn()
-
-  await pane.unmount()
-
-  return { text: textOf(tree), tree, rasters: elementsOf(tree, 'Raster').map(keyOf) }
-}
+import { drawn } from './fixtures/views'
 
 describe('views', () => {
+
   test('overview: every subsystem from disk, the CLI or the engine, health alerts, the activity raster', { options: { boot: false } }, async ($, on) => {
     fakeRuflo().register(on, {})
     worldOf(on, RUFLO_FILES, { home: HOME_FILES })
@@ -78,13 +70,17 @@ describe('views', () => {
   })
 
   test('hive: the honeycomb, quorum and fault tolerance, proposals, workers, decisions, broadcasts, no token', { options: { boot: false } }, async ($, on) => {
-    worldOf(on, HIVE_FILES)
+    const world = worldOf(on, HIVE_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
 
     const { text, rasters, tree } = await drawn($, 'hive')
 
-    expect(rasters).toEqual(['header', 'title', 'hive'])
+    // The comb, a chamber per open proposal, and the strip (shield, terms, pheromones); nothing asked, nothing run.
+    expect(rasters).toEqual(['header', 'title', 'hive', 'hive-chambers', 'hive-strip'])
+    expect(text).toContain('3 in the comb · 1 byzantine')
+    expect(text).toMatch(/voting chambers/i)
+    expect(world.runs.filter(argv => argv.includes('hive-mind') || argv.some(arg => arg.startsWith('hive-mind_')))).toEqual([])
     expect(text).toContain('queen-1790903321632 · term 2')
     expect(text).toContain('raft · proposals vote raft')
     expect(text).toContain('tolerates 1 faulty of 3 (raft f < n/2)')
@@ -99,6 +95,25 @@ describe('views', () => {
     expect(text).not.toContain(HIVE_TOKEN)
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['hive-propose', 'hive-broadcast'])
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['hive-vote-yes', 'hive-vote-no', 'hive-spawn-worker']))
+  })
+
+  test('hive: with no hive, an empty comb with its egg holds the start buttons, and nothing runs unasked', { options: { boot: false } }, async ($, on) => {
+    const files = Object.fromEntries(Object.entries(HIVE_FILES).filter(([path]) => !path.startsWith('.claude-flow/hive-mind/')))
+    const world = worldOf(on, files)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters, tree } = await drawn($, 'hive')
+
+    expect(rasters).toEqual(['header', 'title', 'hive-egg', 'hive-egg-base'])
+    expect(text).toContain('the comb is empty · the egg is where the queen will sit')
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['start-hive', 'start-hive-workers']))
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+
+    await pane.press({ key: 'start-hive' })
+    await pane.unmount()
+    expect(world.runs.filter(argv => argv.includes('hive-mind'))).toEqual([])
   })
 
   test('hive: a vote asks before it runs, then runs one fixed argv as the next worker on yes', { options: { boot: false } }, async ($, on) => {
@@ -221,6 +236,14 @@ describe('views', () => {
     expect(cost.rasters).toEqual(['header', 'title', 'gauge', 'burn'])
     expect(cost.text).toContain('$0.421')
     expect(cost.text).toContain('WARNING · $3.90 of $5.00 (78%)')
+    expect(cost.text).toContain('WHERE IT GOES')
+    expect(cost.text).toContain('AI terminal')
+    expect(cost.text).toContain('8 decisions')
+    expect(cost.text).toContain('5 routes · spend n/a · tokens n/a')
+    expect(cost.text).toContain('$1.100 · ruflo-mods budget')
+    expect(cost.text).toContain('50% · $2.50')
+    expect(elementsOf(cost.tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['cost-budget-1', 'cost-budget-5', 'cost-budget-10', 'cost-budget-25', 'cost-budget-apply', 'cost-model-stats']))
+    expect(elementsOf(cost.tree, 'Input').map(keyOf)).toEqual(['cost-budget'])
   })
 
   test('timeline, approvals and events draw from what was seen; the drill-down opens an agent', { options: { boot: false } }, async ($, on) => {
@@ -270,7 +293,10 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    expect((await drawn($, 'missions')).text).toContain('n/a — no .claude-flow/missions/observation.json')
+    const missions = await drawn($, 'missions')
+
+    expect(missions.text).toContain('No mission yet (ADR-406)')
+    expect(elementsOf(missions.tree, 'Input').map(keyOf)).toEqual(['start-field-mission'])
   })
 
   test('x.ruv.io: the federation menu with its commands, and no registry or roster asked with the network off', { options: { boot: false } }, async ($, on) => {
@@ -303,48 +329,6 @@ describe('views', () => {
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
   })
 
-  test('skills: installed, search and create sections; opening lists, nothing else runs until asked and confirmed', { options: { boot: false } }, async ($, on) => {
-    const world = worldOf(on, RUFLO_FILES)
-    const skillRuns = () => world.runs.filter(argv => argv[2] === 'skills').map(argv => argv.slice(3).join(' '))
-
-    world.respond = argv => (argv[2] !== 'skills' ? cliAnswer(argv) : argv[3] === 'ls' ? { exitCode: 0, stdout: argv.includes('-g') ? LS_GLOBAL : '[]', stderr: '' } : argv[3] === 'find' ? { exitCode: 0, stdout: FIND_OUT, stderr: '' } : { exitCode: 0, stdout: 'done\n', stderr: '' })
-    mock.clock(on)
-    await $.session.start(SESSION)
-
-    const { text, tree } = await drawn($, 'skills')
-
-    expect(text).toContain('INSTALLED')
-    expect(text).toContain('SEARCH')
-    expect(text).toContain('CREATE')
-    expect(text).toContain('0 project · 2 global')
-    expect(text).toMatch(/ faceless-explainer \.+/)
-    expect(text).toContain('Claude Code, Codex')
-    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['skills-search', 'skills-create'])
-    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['sk-update-0', 'sk-remove-0', 'sk-edit-0']))
-    // The tab has no hotkey, and the current one reads without a key.
-    expect(text).toContain('[🧰 SKILLS]')
-    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json'])
-
-    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
-
-    await pane.input({ key: 'skills-search', text: 'react', kind: 'submit' })
-
-    const found = textOf(await pane.drawn())
-
-    expect(found).toMatch(/ mattpocock\/skills@tdd \.*/)
-    expect(found).toContain('1M installs')
-    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json', 'find react'])
-
-    await pane.press({ key: 'sk-addg-0' })
-    expect(textOf(await pane.drawn())).toContain('runs: npx -y skills add mattpocock/skills@tdd -g -y')
-    expect(skillRuns().some(line => line.startsWith('add'))).toBe(false)
-
-    await pane.press({ key: 'confirm' })
-    await pane.drawn()
-    expect(skillRuns()).toContain('add mattpocock/skills@tdd -g -y')
-    await pane.unmount()
-  })
-
   test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
@@ -367,6 +351,88 @@ describe('views', () => {
     await pane.press({ key: 'tab-menu' })
     await pane.input({ key: 'menu-prompt', text: 'nope', kind: 'submit' })
     expect(textOf(await pane.drawn())).toContain('no area "nope"')
+    await pane.unmount()
+  })
+
+  test('automate: worker cards and the kanban from disk, nothing run on open; a read runs at once, a spend asks first, secrets masked', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    const mine = () => world.runs.map(argv => argv.slice(4)).filter(argv => /workflow_|session_|config_|task_|neural|autopilot|hooks (route|explain|worker)|daemon/.test(argv.join(' ')))
+
+    world.respond = argv => autoAnswer(argv) ?? cliAnswer(argv)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters } = await drawn($, 'automate')
+
+    expect(rasters).toEqual(['header', 'title'])
+    expect(text).toContain('● MAP')
+    expect(text).toContain('137 runs · 0 failed')
+    expect(text).toContain('◐ OPTIMIZE')
+    expect(text).toContain('○ ULTRALEARN')
+    expect(text).toContain('PENDING (1)')
+    expect(text).toContain('Build the console overview')
+    expect(text).toMatch(/WORKFLOWS[\s\S]*AUTOPILOT[\s\S]*SESSIONS[\s\S]*CONFIG/)
+    expect(mine()).toEqual([])
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+
+    await pane.press({ key: 'run-auto-wf-list' })
+    expect(mine()).toEqual([['mcp', 'exec', '-t', 'workflow_list', '-p', '{"limit":20}']])
+    expect(textOf(await pane.drawn())).toContain('ship the console')
+
+    await pane.press({ key: `run-auto-wf-run-${WF_ID}` })
+    const asked = textOf(await pane.drawn())
+
+    expect(asked).toContain(`Confirm: run workflow ${WF_ID} (its task steps call a model)?`)
+    expect(asked).toContain(`runs: ruflo mcp exec -t workflow_execute -p ${JSON.stringify({ workflowId: WF_ID })}`)
+    expect(asked).toContain('COSTS MONEY')
+    expect(mine()).toHaveLength(1)
+    await pane.press({ key: 'confirm' })
+    expect(mine()[1]).toEqual(['mcp', 'exec', '-t', 'workflow_execute', '-p', JSON.stringify({ workflowId: WF_ID })])
+
+    await pane.press({ key: 'run-auto-cfg-list' })
+    const config = textOf(await pane.drawn())
+
+    expect(config).toContain('providers.anthropic.apiKey')
+    expect(config).toContain('•••••• (hidden)')
+    expect(config).not.toContain(FAKE_SECRET)
+    await pane.unmount()
+  })
+
+  test('learning lab: what was learned from disk; training asks first, runs one argv and draws the loss; route runs at once', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    const mine = () => world.runs.map(argv => argv.slice(4).join(' ')).filter(line => /^(neural|hooks (route|explain)|mcp exec -t (neural|hooks_intelligence))/.test(line))
+
+    world.respond = argv => autoAnswer(argv) ?? cliAnswer(argv)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters } = await drawn($, 'neural')
+
+    expect(rasters).toEqual(['header', 'title'])
+    expect(text).toMatch(/trajectories\s+30\.8k/)
+    expect(text).toMatch(/TRAINING[\s\S]*ROUTER/)
+    expect(mine()).toEqual([])
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.press({ key: 'run-nn-train-coordination-20' })
+    const asked = textOf(await pane.drawn())
+
+    expect(asked).toContain('Confirm: train coordination patterns for 20 epochs?')
+    expect(asked).toContain('runs: ruflo neural train --pattern coordination --epochs 20')
+    expect(mine()).toEqual([])
+    await pane.press({ key: 'confirm' })
+    expect(mine()).toEqual(['neural train --pattern coordination --epochs 20'])
+
+    const trained = textOf(await pane.drawn())
+
+    expect(trained).toContain('Final Loss: 4.289e-3')
+    expect(trained).toMatch(/loss ▄ +last 4\.289e-3/)
+
+    await pane.input({ key: 'in-nn-route', text: 'fix the login bug', kind: 'submit' })
+    expect(mine()[1]).toBe('hooks route --task fix the login bug --format json')
+    expect(textOf(await pane.drawn())).toContain('→ tester · 49%')
     await pane.unmount()
   })
 })

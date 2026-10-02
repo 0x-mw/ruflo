@@ -4,13 +4,19 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
+import { evolveActions } from './evolve'
+import { devtoolsActions } from './devtools'
 import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
+import { startSpec } from './starts'
 import { plain } from './data/parse'
 import type { Host } from './host'
+import { memoryActions } from './memory-lab'
 import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
 import { skillActions } from './skills'
+import { moreSkillActions } from './skills-lab'
 import { PANE_ID, viewOf, type State } from './state'
+import { vectorActions } from './vector'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
 
@@ -54,6 +60,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       void freshRead().then(() => probe(true))
       // The skills lists come from `npx skills`, not the disk read: r asks for them again on that view.
       if (state.view === 'skills') actions.skills.list()
+      if (state.view === 'evolve') actions.evolve.reread()
     },
     help: () => {
       state.isHelp = !state.isHelp
@@ -118,6 +125,9 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       if (best !== undefined) runner.runEntry(best, best.run.kind === 'text' ? state.palette.query.trim().slice(best.run.keyword.length).trim() : '')
     },
     run: (id, text = '') => runner.runById(id, text),
+    costBudgetDraft: text => {
+      state.costBudgetDraft = text.slice(0, 40)
+    },
     filter: () => {
       const order = ['all', ...EVENT_KINDS] as const
       const at = order.indexOf(state.eventFilter)
@@ -125,6 +135,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       state.eventFilter = order[(at + 1) % order.length] ?? 'all'
       host.invalidate()
     },
+    focus: key => void host.focus(PANE_ID, key).catch(() => undefined),
+    start: (id, text = '') => runner.ask(startSpec(id, Date.now(), text), id === 'mission' || id === 'task' ? 'type it first (it may not start with -)' : 'that start cannot run here'),
     // The main menu's prompt, as a board's: a key (2, w, i), a name (swarm, x.ruv.io), ? for help, O to log off.
     menu: text => {
       const word = text.trim().toLowerCase()
@@ -249,7 +261,12 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       },
     },
     // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
-    skills: skillActions(state, host, runner, text => actions.term.load('claude', text)),
+    skills: { ...skillActions(state, host, runner, text => actions.term.load('claude', text)), ...moreSkillActions(state, host, runner, text => actions.term.load('claude', text)) },
+    memory: memoryActions(state, runner, host.invalidate),
+    // An rvlite query is MCP-only: it goes to the AI terminal typed, as ▸ edit does, and runs only when sent.
+    vector: vectorActions(state, runner, text => actions.term.load('claude', text)),
+    evolve: evolveActions(state, host, text => actions.term.load('claude', text)),
+    devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }
 
   return actions

@@ -37,7 +37,9 @@ function entryRow(ctx: Ctx, entry: LabEntry, lead: number): RenderElement {
 /** The last run: what it was, how it exited, what it cost, and a window of its lines. */
 function resultRows(ctx: Ctx): RenderElement[] {
   const { state, nowMs } = ctx
-  const { result, running } = state.lab
+  // Other labs (the Memory Lab's mem- runs) share the runner's lab slot: only MetaHarness runs show here.
+  const result = state.lab.result?.id.startsWith('mh-') === true ? state.lab.result : null
+  const running = state.lab.running?.id.startsWith('mh-') === true ? state.lab.running : null
   const right = running !== null ? `running ${Math.round((nowMs - running.startedAtMs) / 1000)}s` : result === null ? 'nothing run yet' : `${result.ok ? '✓' : '✗'} exit ${result.exitCode ?? 'n/a'} · ${ago(result.atMs, nowMs)}`
   const rows: RenderElement[] = [rule(ctx, 'Result', right)]
 

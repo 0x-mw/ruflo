@@ -5,7 +5,8 @@
  */
 import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
-import { PROBES, type ProbeResult } from './data/cli'
+import { PROBES, probeArgv, type ProbeResult } from './data/cli'
+import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
 import { readSnapshot } from './data/snapshot'
@@ -13,6 +14,7 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
+import { loadEvolve } from './evolve'
 import { listSkills } from './skills'
 import { CLI_PREFIXES, isBooting, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
@@ -21,6 +23,8 @@ import { picturesOf } from './views/frames'
 const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
 const MAX_PARALLEL_PROBES = 2
+/** The CLI probes and the x.ruv.io board's two network reads, one cadence and one option gate for all. */
+const ALL_PROBES = [...PROBES, ...X_PROBES]
 const BAR_FRESH_MS = 10_000
 const IDLE_REFRESH_MS = 30_000
 const TOOLS_RECOUNT_MS = 30_000
@@ -177,7 +181,7 @@ export function createController(state: State, host: Host): Controller {
   const probesInFlight = new Map<string, Promise<void>>()
 
   /** One probe run at a time per probe: a second ask while it runs joins it. */
-  function runProbe(probe: (typeof PROBES)[number]): Promise<void> {
+  function runProbe(probe: (typeof ALL_PROBES)[number]): Promise<void> {
     const held = probesInFlight.get(probe.id)
 
     if (held !== undefined) return held
@@ -189,14 +193,14 @@ export function createController(state: State, host: Host): Controller {
     return run
   }
 
-  async function runProbeOnce(probe: (typeof PROBES)[number]): Promise<void> {
+  async function runProbeOnce(probe: (typeof ALL_PROBES)[number]): Promise<void> {
     const held: ProbeResult = state.probes.get(probe.id) ?? { value: null, okAtMs: null, error: null, errorAtMs: null, isRunning: false }
 
     state.probes.set(probe.id, { ...held, isRunning: true })
     lastAttempt.set(probe.id, Date.now())
 
     try {
-      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...probe.args], probe.timeoutMs)
+      const result = await host.run(probeArgv(probe, state.options.cli), probe.timeoutMs)
       const value = result.exitCode === 0 ? (probe.parse(result.stdout) as unknown) : null
 
       state.probes.set(
@@ -220,7 +224,7 @@ export function createController(state: State, host: Host): Controller {
   /** Runs the probes the view in front draws, each no more often than its cadence; `force` ignores the cadence. */
   async function probe(force = false): Promise<void> {
     const now = Date.now()
-    const due = PROBES.filter(
+    const due = ALL_PROBES.filter(
       entry =>
         (isVisible() || force) &&
         entry.views.includes(state.view) &&
@@ -328,7 +332,7 @@ export function createController(state: State, host: Host): Controller {
   /** `closeOnEscape` false: take the keys but leave Esc handing them back, as an auto-opened pane does. */
   async function open(focus = true, closeOnEscape = focus): Promise<{ isPlaced: boolean; reason: string }> {
     try {
-      const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(focus && { focus: true, holdToasts: true }), ...(closeOnEscape && { closeOnEscape: true }) })
+      const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(state.dockColumns > 0 && { columns: state.dockColumns }), ...(focus && { focus: true, holdToasts: true }), ...(closeOnEscape && { closeOnEscape: true }) })
       const isPlaced = result === undefined || result.isPlaced !== false
 
       if (isPlaced && !state.pane.isOpen) state.pane.bootAtMs = Date.now()
@@ -388,7 +392,7 @@ export function createController(state: State, host: Host): Controller {
       state.mounted.clear()
       persist()
       // A new view asks for its own height inline; the dock ignores it.
-      if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(view) }).catch(() => undefined)
+      if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(view), ...(state.dockColumns > 0 && { columns: state.dockColumns }) }).catch(() => undefined)
       void probe(true)
     }
 
@@ -400,6 +404,8 @@ export function createController(state: State, host: Host): Controller {
       void listSkills(state, host)
       focusField('skills-search')
     }
+    // Opening Self-Evolution reads ruflo's own flywheel files (local, no CLI run); its checks wait for a click.
+    if (view === 'evolve') void loadEvolve(state, host)
   }
 
   /**

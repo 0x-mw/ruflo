@@ -8,9 +8,12 @@ import type { RenderElement } from 'claude-code'
 import { HELP } from '../commands'
 import { isBooting, isCompactPane, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
+import { automateView } from './automate'
 import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
+import { evolveView } from './evolve'
+import { devtoolsView } from './devtools'
 import { federationView } from './federation'
 import { hiveView } from './hive'
 import { learningView } from './learning'
@@ -18,16 +21,23 @@ import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
 import { menuView } from './menu'
 import { metaharnessView } from './metaharness'
+import { neuralView } from './neural'
 import { missionsView } from './missions'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
+import { perfView } from './perf'
 import { pluginsView } from './plugins'
+import { secureView } from './secure'
 import { skillsView } from './skills'
 import { swarmView } from './swarm'
 import { terminalView } from './terminal'
+import { vectorView } from './vector'
 import { xruvView } from './xruv'
 
 export const NARROW = 44
+
+/** The keyless views that keep a tab of their own (the rest are reached from the main menu). */
+const CORE_TABS = new Set<ViewId>(['hive', 'skills'])
 
 /** The networks the Wildcat strip names, each with the view a click on it opens. */
 const NETWORKS: readonly (readonly [string, ViewId])[] = [['x.ruv.io', 'xruv'], ['relay.ruv.io', 'xruv'], ['agentbbs', 'federation'], ['mcp', 'plugins'], ['claude code', 'terminal']]
@@ -53,6 +63,13 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   xruv: xruvView,
   terminal: terminalView,
   skills: skillsView,
+  secure: secureView,
+  perf: perfView,
+  automate: automateView,
+  neural: neuralView,
+  vector: vectorView,
+  evolve: evolveView,
+  devtools: devtoolsView,
   agent: agentView,
 }
 
@@ -75,16 +92,20 @@ function tabs(ctx: Ctx): RenderElement {
 
     // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
     // (from a drill-down, b goes back).
-    // BBS: the current tab is framed like a menu pick, [2: 🐝 SWARM]; the name always shows there, in capitals.
+    // The current tab always names itself, whatever the width: [3: 📌 CLAIMS], [📟 MAIN MENU]. The others are their emoji (or
+    // emoji and name from WIDE_TABS columns), since a name on every tab does not fit a dock.
     // A view with no hotkey (key '') has no key to show: [🧰 SKILLS], and its tab is pressed, not typed.
     const prefix = view.key === '' ? '' : `${view.key}: `
-    const current = isBbs() ? `[${prefix}${view.icon}${withNames || view.label.length <= 6 ? ` ${view.label.toUpperCase()}` : ''}]` : `${prefix}${words}`
+    const current = isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}`
 
     if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: current })] })
 
     return ctx.kit.Button({ key: `tab-${view.id}`, label: words, ...(view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
-  const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.map(tab) })
+  // The tab bar keeps the keyed views and the core keyless ones; the many other views (labs, tools) are tabs only while
+  // open, and are reached from the main menu (0), where each is listed with its group.
+  const isTab = (view: (typeof VIEWS)[number]) => view.key !== '' || CORE_TABS.has(view.id) || view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
+  const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.filter(isTab).map(tab) })
   // The first row runs to the last digit-keyed view, so a keyless view sits where VIEWS puts it (Hive-Mind after Swarm).
   const split = VIEWS.reduce((last, view, i) => (/^[0-9]$/.test(view.key) ? i + 1 : last), 0)
 
@@ -134,7 +155,8 @@ function confirmRow(ctx: Ctx): RenderElement | null {
     ctx,
     [
       text(ctx, `Confirm: ${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
-      text(ctx, `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}`, { dimColor: true }),
+      // Wrapped, not clipped: the person says yes to the whole argv, so all of it shows (a JSON argument runs long).
+      ctx.kit.Text({ dimColor: true, wrap: 'wrap', children: `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}` }),
       ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
       row(ctx, [button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }), button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' })]),
     ],
@@ -229,11 +251,16 @@ export function paneView(ctx: Ctx): RenderElement {
   const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
   const about = blurb(ctx)
   const bbs = isBbs() ? wildcat(ctx) : { strip: [], art: [] }
+  // The status row (keys, sync, Palette, Actions) sits above the body, so a tall view cannot push it off the screen; only the main menu keeps it below its prompt, as a BBS does.
+  const isMenu = ctx.state.view === 'menu'
+  // The terminal's own Enter-again confirm stays under its field, where the field is.
+  const isTerminal = ctx.state.view === 'terminal'
   const gap = isBbs() && !isCompact ? [text(ctx, ' ')] : []
+  // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
     ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
-    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, body, ...(confirm !== null ? [confirm] : []), ...gap, footer(ctx)]
+    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }

@@ -1,23 +1,33 @@
 /**
- * The Hive-Mind view: what `.claude-flow/hive-mind/state.json` records. The queen and her term, the consensus strategy
- * with the fault tolerance and quorum it implies, every worker with its role and liveness, the open proposals against
- * their bar (pick one with j/k), the decided ones, and the broadcasts. Every action asks y/n first and runs one fixed
- * argv: vote (as the next worker that has not voted), propose, broadcast, spawn.
+ * The Hive-Mind view: what `.claude-flow/hive-mind/state.json` records, drawn as a living comb. The hero honeycomb (the
+ * queen crowned in the centre, her workers ringed around her by role, lit by liveness, Byzantine voters in red, scars
+ * of past decisions), a voting chamber per open proposal (pick one with j/k), the strip with the fault-tolerance
+ * shield, the term timeline and the pheromone ticker; then the same facts in words. Every action asks y/n first and
+ * runs one fixed argv: vote (as the next worker that has not voted), propose, broadcast, spawn. With no hive yet, an
+ * empty comb with a glowing egg holds the start buttons.
  */
 import type { RenderElement } from 'claude-code'
 
-import { faultTolerance, membersOf, nextVoter, nodesOf, pickedProposal, proposalStrategyOf, proposeBlock, requiredVotes, tallyOf, type Liveness, type Member, type Tally } from '../data/hive'
-import { shortId, type HiveInfo } from '../data/parse'
-import { HIVE_COLOR, type HiveCell, type HivePictureModel } from '../gfx/hive'
+import { Arrivals, faultTolerance, membersOf, nextVoter, nodesOf, pickedProposal, proposalStrategyOf, proposeBlock, requiredVotes, tallyOf, waveOf, type Liveness, type Member, type Tally } from '../data/hive'
+import { shortId, type HiveInfo, type Proposal } from '../data/parse'
+import { hivePicture, type HiveCell, type HivePictureModel, type Role } from '../gfx/hive'
+import { chambersPicture, MAX_CHAMBERS, type Chamber } from '../gfx/hive-chamber'
+import { eggBottomPicture, eggTopPicture } from '../gfx/hive-egg'
+import { stripPicture, type Mark, type StripModel } from '../gfx/hive-strip'
+import type { Grid } from '../gfx/raster'
 import type { State } from '../state'
-import { ago, button, clip, col, kv, picture, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, kv, picture, row, rule, starts, text, THEME, type Ctx } from './common'
 
 const ROLE_GLYPH: Record<string, string> = { worker: '●', specialist: '◆', scout: '▲' }
-const LIVE_COLOR: Record<Liveness, number> = { busy: HIVE_COLOR.yellow, idle: HIVE_COLOR.cyan, error: HIVE_COLOR.pink, down: HIVE_COLOR.grey, unknown: HIVE_COLOR.wall }
 const LIVE_THEME = (liveness: Liveness): { color?: string; dimColor?: boolean } =>
   liveness === 'busy' ? { color: THEME.warn } : liveness === 'idle' ? { color: THEME.info } : liveness === 'error' ? { color: THEME.bad } : { dimColor: true }
 
 const glyphOf = (member: Member): string => (member.isKnown ? (ROLE_GLYPH[member.role] ?? '●') : '○')
+const roleOf = (member: Member): Role => (member.isKnown && (member.role === 'worker' || member.role === 'specialist' || member.role === 'scout') ? member.role : 'unknown')
+
+/** The starts an empty hive offers: the palette ids `starts.ts` registers, each asking first with its exact argv. */
+/** When the console first saw each broadcast: the ticker slides a new one in, once. */
+const arrivals = new Arrivals()
 
 /** The bar a proposal must clear, as the CLI's rule reads in words. */
 function ruleOf(strategy: string, preset?: string): string {
@@ -27,32 +37,121 @@ function ruleOf(strategy: string, preset?: string): string {
   return 'majority'
 }
 
-/** The honeycomb's model for this frame: the queen, each worker's cell with its ballot on the picked proposal, the meters. */
-export function hivePictureModelOf(state: State, nowMs: number, pulses: Map<string, number>): HivePictureModel | null {
+/** The honeycomb's model for this frame: the queen, each worker's cell with its ballot on the picked proposal, the scars. */
+export function hivePictureModelOf(state: State, nowMs: number): HivePictureModel | null {
   const snap = state.snapshot
   const hive = snap?.hive ?? null
 
   if (snap === null || hive === null) return null
 
   const picked = pickedProposal(hive, state.select.item)
-  const queenPulse = hive.queen === undefined ? undefined : pulses.get(hive.queen)
+  // Red walls for a voter any open proposal excluded as Byzantine, the same count the heading gives.
+  const flagged = new Set(hive.pending.flatMap(proposal => proposal.byzantine))
   const members = membersOf(hive, snap.hiveAgents, snap.agents).map((member): HiveCell => {
     const ballot = picked?.ballots.find(entry => entry.voter === member.id)
-    const vote = picked?.byzantine.includes(member.id) === true ? 'byzantine' : ballot === undefined ? undefined : ballot.isFor ? 'for' : 'against'
-    const pulseAtMs = pulses.get(member.id)
+    const wave = waveOf(state.events, member.id, nowMs)
 
-    return { id: member.id, glyph: glyphOf(member), tag: shortId(member.id).slice(-3), color: LIVE_COLOR[member.liveness], ...(vote !== undefined && { vote }), ...(pulseAtMs !== undefined && { pulseAtMs }) }
+    return {
+      id: member.id,
+      role: roleOf(member),
+      glow: member.liveness,
+      tag: shortId(member.id).slice(-4),
+      ...(picked !== null && { vote: ballot === undefined ? ('pending' as const) : ballot.isFor ? ('for' as const) : ('against' as const) }),
+      ...(flagged.has(member.id) && { isByzantine: true }),
+      ...(wave !== null && { wave }),
+    }
   })
 
   return {
-    queen: { id: hive.queen ?? 'queen', glyph: hive.queen === undefined ? '?' : '♛', tag: hive.queenTerm === undefined ? '' : `T${hive.queenTerm}`, color: hive.queen === undefined ? HIVE_COLOR.grey : HIVE_COLOR.magenta, ...(queenPulse !== undefined && { pulseAtMs: queenPulse }) },
+    queen: { tag: hive.queenTerm === undefined ? '' : `T${hive.queenTerm}`, isKnown: hive.queen !== undefined },
     members,
-    meters: hive.pending.map(proposal => {
-      const tally = tallyOf(hive, proposal, nowMs)
-
-      return { label: proposal.type, votesFor: proposal.votesFor, votesAgainst: proposal.votesAgainst, required: tally.required, nodes: tally.nodes, note: noteOf(tally), isPicked: proposal.id === picked?.id }
-    }),
+    scars: hive.history
+      .slice(-8)
+      .reverse()
+      .map(decision => ({ label: decision.type, isPassed: decision.result === 'approved' })),
   }
+}
+
+/** The open proposals the chambers show: at most MAX_CHAMBERS, the window sliding so the picked one is always in it. */
+export function shownProposals(hive: HiveInfo, picked: Proposal | null): Proposal[] {
+  const at = picked === null ? 0 : hive.pending.findIndex(entry => entry.id === picked.id)
+  const from = Math.max(0, Math.min(hive.pending.length - MAX_CHAMBERS, at - MAX_CHAMBERS + 1))
+
+  return hive.pending.slice(from, from + MAX_CHAMBERS)
+}
+
+export function chambersOf(state: State, hive: HiveInfo, nowMs: number): Chamber[] {
+  const picked = pickedProposal(hive, state.select.item)
+
+  return shownProposals(hive, picked).map(proposal => {
+    const tally = tallyOf(hive, proposal, nowMs)
+
+    return {
+      label: proposal.type,
+      note: noteOf(tally),
+      votesFor: proposal.votesFor,
+      votesAgainst: proposal.votesAgainst,
+      required: tally.required,
+      nodes: tally.nodes,
+      ballots: proposal.ballots.map(ballot => {
+        const wave = waveOf(state.events, ballot.voter, nowMs)
+
+        return { tag: shortId(ballot.voter), isFor: ballot.isFor, ...(wave !== null && (wave.kind === 'for' || wave.kind === 'against') && { atMs: wave.atMs }) }
+      }),
+      byzantine: proposal.byzantine,
+      isPicked: proposal.id === picked?.id,
+    }
+  })
+}
+
+/** The strip's model: the shield, the dated marks on the term timeline, and the broadcasts newest first. */
+export function stripOf(hive: HiveInfo, nowMs: number): StripModel {
+  const marks: Mark[] = [
+    ...hive.history.flatMap(decision => (decision.decidedAtMs === undefined ? [] : [{ atMs: decision.decidedAtMs, kind: decision.result === 'approved' ? ('passed' as const) : ('failed' as const), label: decision.type, ...(decision.term !== undefined && { term: decision.term }) }])),
+    ...hive.pending.flatMap(proposal => (proposal.proposedAtMs === undefined ? [] : [{ atMs: proposal.proposedAtMs, kind: 'opened' as const, label: proposal.type, ...(proposal.term !== undefined && { term: proposal.term }) }])),
+  ].sort((a, b) => a.atMs - b.atMs)
+  const seen = arrivals.arrivedAt(`${hive.createdAtMs ?? 0}:${hive.queen ?? ''}`, hive.broadcasts.map(entry => entry.id), nowMs)
+  const times = [hive.createdAtMs, hive.queenElectedAtMs, hive.updatedAtMs, ...marks.map(mark => mark.atMs)].filter((ms): ms is number => ms !== undefined)
+  // The axis runs from the hive's first date to its last write: read from the file, so it holds still between writes.
+  const startMs = times.length === 0 ? 0 : Math.min(...times)
+
+  return {
+    shield: faultTolerance(hive.strategy, hive.workers.length),
+    strategy: hive.strategy ?? 'n/a',
+    startMs,
+    endMs: times.length === 0 ? 1 : Math.max(startMs + 1, ...times),
+    ...(hive.queenTerm !== undefined && { term: hive.queenTerm }),
+    ...(hive.queenElectedAtMs !== undefined && { electedAtMs: hive.queenElectedAtMs }),
+    marks,
+    pheromones: hive.broadcasts
+      .slice()
+      .reverse()
+      .map(entry => ({ id: entry.id, text: `${entry.priority === 'normal' ? '' : `[${entry.priority}] `}${entry.from}: ${entry.message}`, isLoud: entry.priority === 'high' || entry.priority === 'critical', arrivedAtMs: seen.get(entry.id) ?? Number.NEGATIVE_INFINITY })),
+    keys: hive.memoryKeys.filter(key => key !== 'broadcasts'),
+  }
+}
+
+/** Every Hive-Mind picture for one instant, by Raster key: the comb, chambers and strip, or the empty comb's egg. */
+export function hivePictures(state: State, columns: number, nowMs: number, t: number): Map<string, Grid> {
+  const pictures = new Map<string, Grid>()
+  const hive = state.snapshot?.hive ?? null
+
+  if (state.snapshot === null) return pictures
+
+  if (hive === null) {
+    pictures.set('hive-egg', eggTopPicture(Math.min(columns, 96)))
+    pictures.set('hive-egg-base', eggBottomPicture(Math.min(columns, 96)))
+
+    return pictures
+  }
+
+  const model = hivePictureModelOf(state, nowMs)
+
+  if (model !== null) pictures.set('hive', hivePicture(model, columns, t))
+  if (hive.pending.length > 0) pictures.set('hive-chambers', chambersPicture(chambersOf(state, hive, nowMs), columns, t))
+  pictures.set('hive-strip', stripPicture(stripOf(hive, nowMs), columns, t))
+
+  return pictures
 }
 
 /** A proposal's strategy, term and state of play in a few words. */
@@ -101,7 +200,7 @@ function workersSection(ctx: Ctx, hive: HiveInfo, members: Member[]): RenderElem
   const picked = pickedProposal(hive, ctx.state.select.item)
   const rows: RenderElement[] = [rule(ctx, 'Workers', `${members.length} · role · liveness · ballot on the picked proposal`)]
 
-  if (members.length === 0) rows.push(text(ctx, 'No workers have joined. A vote needs a registered worker: spawn one below.', { dimColor: true }))
+  if (members.length === 0) rows.push(starts(ctx, 'No workers have joined. A vote needs a registered worker.', ['hive-workers']))
 
   for (const member of members.slice(0, 12)) {
     const ballot = picked?.ballots.find(entry => entry.voter === member.id)
@@ -152,7 +251,8 @@ function proposalsSection(ctx: Ctx, hive: HiveInfo): RenderElement[] {
         ...(voter === null ? [] : [button(ctx, 'hive-vote-yes', 'Vote for', () => void ctx.act.run('hive-vote-yes'), { hotkey: 'f' }), button(ctx, 'hive-vote-no', 'Vote against', () => void ctx.act.run('hive-vote-no'), { hotkey: 'a' })]),
       ]),
     )
-    rows.push(text(ctx, voter === null ? `vote: n/a — ${hive.workers.length === 0 ? 'no registered worker to vote as (the CLI counts only workers): spawn one' : 'every worker has voted on it'}` : `a vote is cast as the next worker that has not voted: ${voter}`, { dimColor: true }))
+    if (voter === null && hive.workers.length === 0) rows.push(starts(ctx, 'No registered worker to vote as (the CLI counts only workers).', ['hive-workers'], 'vote-'))
+    else rows.push(text(ctx, voter === null ? `vote: n/a — ${hive.workers.length === 0 ? 'no registered worker to vote as (the CLI counts only workers): spawn one' : 'every worker has voted on it'}` : `a vote is cast as the next worker that has not voted: ${voter}`, { dimColor: true }))
   }
 
   return rows
@@ -215,26 +315,41 @@ function actSection(ctx: Ctx, hive: HiveInfo): RenderElement[] {
   return rows
 }
 
+/**
+ * No hive yet: the empty comb with its egg, the start buttons inside it (between the comb's two halves), and the way
+ * in said plainly. The buttons run the starts' palette ids, so each asks first with its exact argv.
+ */
+function emptyComb(ctx: Ctx): RenderElement[] {
+  return [
+    picture(ctx, 'hive-egg', 'an empty comb: no queen yet'),
+    text(ctx, '   the comb is empty · the egg is where the queen will sit · start a hive, then spawn workers to fill the comb', { color: THEME.warn }),
+    starts(ctx, 'Start a hive with a queen, then spawn workers to fill the comb.', ['hive', 'hive-workers']),
+    picture(ctx, 'hive-egg-base', ''),
+  ]
+}
+
 export function hiveView(ctx: Ctx): RenderElement {
   const snap = ctx.state.snapshot
   const hive = snap?.hive ?? null
 
   if (snap === null) return text(ctx, 'reading ruflo state…', { dimColor: true })
 
-  if (hive === null) {
-    return col(ctx, [rule(ctx, 'Hive-Mind', 'not initialised'), text(ctx, 'No hive-mind here. `npx ruflo hive-mind init --consensus raft` starts one with a queen; spawn workers to vote.', { dimColor: true })], 'hive')
-  }
+  if (hive === null) return col(ctx, [rule(ctx, 'Hive-Mind', 'not initialised'), ...emptyComb(ctx)], 'hive')
 
   const members = membersOf(hive, snap.hiveAgents, snap.agents)
+  const byzantine = new Set(hive.pending.flatMap(proposal => proposal.byzantine)).size
 
   return col(
     ctx,
     [
-      rule(ctx, 'Hive-Mind', `${hive.topology} · ${hive.strategy ?? 'consensus n/a'}`),
-      ...summary(ctx, hive, members),
+      rule(ctx, 'Hive-Mind', `${hive.topology} · ${hive.strategy ?? 'consensus n/a'} · ${members.length} in the comb${byzantine > 0 ? ` · ${byzantine} byzantine` : ''}`),
       picture(ctx, 'hive', `honeycomb needs a terminal: the queen and ${members.length} workers`),
-      text(ctx, '♛ queen · ● worker ◆ specialist ▲ scout ○ in no store · yellow busy, cyan idle, grey down · walls: green for, pink against, yellow byzantine · a cell flashes 2 s when its vote lands', { dimColor: true }),
+      text(ctx, '♛ queen · ● worker ◆ specialist ▲ scout ○ in no store · brighter = busier · ballot dot: green for, pink against, · not yet · red walls ✖ byzantine · ✔ ✘ scars: decided · a wave runs to the queen for 2 s when a vote lands', { dimColor: true }),
+      ...(hive.pending.length > 0 ? [rule(ctx, 'Voting chambers', `${hive.pending.length} open · for fills from the left, against from the right, ┃ the quorum lines`), picture(ctx, 'hive-chambers', `${hive.pending.length} open proposal${hive.pending.length === 1 ? '' : 's'}`)] : []),
       ...proposalsSection(ctx, hive),
+      rule(ctx, 'Terms · pheromones', 'the shield: faulty workers survived, f of n'),
+      picture(ctx, 'hive-strip', 'the term timeline and the broadcast ticker need a terminal'),
+      ...summary(ctx, hive, members),
       ...workersSection(ctx, hive, members),
       ...historySection(ctx, hive),
       ...broadcastSection(ctx, hive),

@@ -182,6 +182,27 @@ The MetaHarness view (`views/metaharness.ts`, `views/mh-lab.ts`, `mh-lab.ts`) ke
 
 The audit-list probe now reads the fields the CLI emits (`key`, `startedAt`, `finishedAt`); before, the trend never had real points.
 
+## 11a. Labs and starts (0.8.0)
+
+Every ruflo capability is a view with buttons and fields, never a command to copy. Besides the first eleven areas, 0.8.0 adds keyless views reached from the main menu, the tab, or `/ruflo <name>`:
+
+| View | What it covers | Notes |
+|---|---|---|
+| Memory Lab | browse, search, store, delete, AgentDB, embeddings, upkeep | two stores; the CLI reads one, the view warns |
+| Cost & Budget | set a budget, where spend goes, the burn projection | the one write sends only `costBudgetUsd` to `claude plugin configure ruflo-mods@ruflo --values-stdin` |
+| Security & Doctor, Performance | scans, paste check, policy, every doctor check; metrics, profile, benchmarks | scans write `.claude/security-scans`, so they ask first |
+| Automation, Learning Lab | workflows, the 12 workers, autopilot, sessions, config, a task kanban; train, route, explain | per-row verbs come from the lists last read |
+| Vector Lab | the ruvector CLI (pinned version): shared brain, RVF, workers, edge, hooks, identity | rvlite queries are MCP-only and go to the terminal typed, never run |
+| Self-Evolution | flywheel receipts, ledger, lineage, the policy gate, the witness, Autogenous and rGi | promotion is never offered from the pane |
+| Dev Tools | GitHub reads, diff analysis, agenticow, WASM, browser, terminal, providers, maintenance | GitHub rows are read-only |
+| Skills (plus) | use without installing, preview, add to chosen agents, update, restore, sync | |
+
+Empty sections offer the start (`init`, `daemon`, `swarm`, spawn, `hive-mind init`, `pretrain`, a task, a mission) as a confirm-gated button. The x.ruv.io board's rows are whole-row buttons: pressing a name runs its read, asks for its write, or focuses its field; unregister says why in the Result panel (the gateway has no leave endpoint).
+
+Two layout rules came from live clicks that seemed dead: the Result panel sits at the top of the x.ruv.io board and the confirm row above every view's body, because in a tall view anything below the fold is never seen.
+
+`tests/conformance.spec.ts` (`RUFLO_CONFORMANCE=1`) runs every action's argv against the real CLI's help and source, every `mcp exec` tool name against the registered tools, and the Vector Lab's argv against the ruvector CLI.
+
 ## 12. Release gates
 
 A console change ships only when all of these hold:

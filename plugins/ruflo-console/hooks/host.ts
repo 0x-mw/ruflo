@@ -26,7 +26,7 @@ export type Host = {
   closePane: (id: string) => Promise<void>
   panes: () => Promise<readonly { id: string; isShown: boolean; isFocused: boolean }[]>
   registerCommand: (spec: CommandSpec) => Promise<unknown>
-  run: (argv: readonly string[], timeoutMs: number) => Promise<ProcessRunResult>
+  run: (argv: readonly string[], timeoutMs: number, stdin?: string) => Promise<ProcessRunResult>
   /** Starts a command and streams what it writes; `input` goes to its stdin, which is then closed. */
   spawn: (argv: readonly string[], input?: string) => HookStream<ProcessSpawnChunk, ProcessSpawnResult>
   usage: () => Promise<{ costUsd?: number; contextPercent?: number }>
