@@ -25,6 +25,15 @@ export type Steps = {
 export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps): Actions {
   const { freshRead, probe, setView, drill, close } = steps
 
+  /**
+   * After a command typed in the terminal field (/ruflo, /new, /up…) the rows above the field change, and the engine
+   * does not keep the focus ring on it: the next keys would fire hotkeys or leave the pane. Put the ring back.
+   */
+  const keepField = () => {
+    // After the redraw: from inside the submit's own dispatch the ring is moved before the new rows land.
+    host.after(80, () => void host.focus(PANE_ID, 'term-input').catch(() => undefined))
+  }
+
   /** j/k: what moves depends on the view in front. */
   function select(by: number): void {
     const view = state.view
@@ -149,6 +158,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         if (text.trim() === '/new') {
           state.terminal.draft = ''
           newSession(state, host)
+          keepField()
 
           return
         }
@@ -159,6 +169,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         if (move !== undefined) {
           state.terminal.draft = ''
           actions.term.scroll(move)
+          keepField()
 
           return
         }
@@ -173,6 +184,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
           if (state.terminal.asked !== null && state.pending?.label === state.terminal.asked.label) runner.cancel()
           state.terminal.asked = null
           host.invalidate()
+          keepField()
 
           return
         }

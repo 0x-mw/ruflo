@@ -1,6 +1,6 @@
 # ADR 407: The ruflo-console cockpit: interface, AI terminal and safety contract
 
-Status: Accepted (sections 9–11 in progress)
+Status: Accepted
 
 Date: 2026 10 02
 
@@ -71,6 +71,8 @@ The band says what is happening now, most urgent first, so a narrow band truncat
 
 Totals (patterns learned, router picks) live in their own views, not on the band.
 
+Every part is a link: a click opens the console on the view it is about, with the keys. The same holds for the main menu's status-bar facts and the Wildcat strip's network names.
+
 ## 6. AI terminal
 
 The terminal view is a conversation with **codex**, **claude**, a **swarm** of both at once, or one **ruflo** CLI command.
@@ -92,6 +94,10 @@ The terminal view is a conversation with **codex**, **claude**, a **swarm** of b
 
 **Keys.** The field takes the keys when the view opens and after a harness pick (`$.ui.focus`). `/codex`, `/claude`, `/swarm`, `/ruflo` and `/new` work from inside the field.
 
+**Scrolling.** The conversation is a window that scrolls: ▲ older, ▼ newer and ⤓ end, or `/up`, `/down` and `/end` from the field. While the window is scrolled up, new output waits below and is counted; it never pulls the view down.
+
+**Framing.** Each turn is framed: `╭─ you → agent`, then `├─ agent`, then a gutter in that agent's colour, closed by `╰─ ✓ 3 s · $0.012`. Answers get a light reading of markdown (headings, bullets, framed code) and wrap at word boundaries. A past question can be clicked to put it back in the field.
+
 ## 7. x.ruv.io board
 
 A BBS main menu of what the open federation offers: join, roster, sync, work claims, channels, registry, and the admin-only invites, admit and publish. `▸ open` puts the matching `ruflo federation …` command into the terminal; it does not run it.
@@ -104,34 +110,77 @@ Every change goes through the runner as one fixed argv and is confirmed first. T
 
 The console never promotes, publishes or expands its own authority. MetaHarness promotion is shown as a command for the person to run, never offered as a one-key action from the pane.
 
-## 9. Skills (in progress)
+## 9. Skills
 
-A Skills view on the `npx skills` CLI:
-- installed skills (`skills ls --json`, project and global)
-- search (`skills find`, text output parsed)
-- add, remove, update and init, each confirmed first
-- "edit", which hands the skill to the AI terminal
+A Skills view on the `npx skills` CLI (`views/skills.ts`, `data/skills.ts`, `skills.ts`). It has no hotkey and is reached from the menu (NETWORK & EXTEND → extend) or by typing `skills`.
 
-It has no hotkey and is reached from the menu or by name.
+**Installed.** `skills ls --json` for the project and `ls -g --json` for global. Both run when the view opens.
 
-## 10. Hive-Mind (in progress)
+**Search.** `skills find <query>` prints text, not JSON. The console strips its ANSI and parses `owner/repo@skill  N installs` with its skills.sh URL.
 
-A dedicated Hive-Mind view. Functionally:
-- queen and members
-- consensus strategy, quorum and fault tolerance (byzantine f < n/3, raft f < n/2)
-- proposals with tallies against the required votes, and their history
-- confirmed vote, propose and broadcast actions through the hive-mind MCP tools
+**Changes.** Each of these goes through the runner, is confirmed first, and re-lists installed skills afterwards:
+- `add <id> [-g] -y`
+- `remove <name> [-g] -y`
+- `update [name] -y`
+- `init <name>`
 
-Visually, a honeycomb Raster in which a cell pulses only after that member's vote. The Swarm view keeps a one-line summary.
+**Edit.** "Edit" hands the skill's name and path to the AI terminal. The console never writes skill files itself.
 
-## 11. MetaHarness lab (in progress)
+**Input rules.** Input is validated before it reaches any argv: no leading `-`, only `[A-Za-z0-9@/._ -]`, and a length cap.
 
-Full coverage of the `metaharness` surface, in three tiers:
-- **Inspect ($0, read-only, runs at once):** genome, mcp-scan, threat-model, gepa, bench verify, drift and audit-trend.
-- **Audit and compare (confirmed):** oia-audit and similarity.
-- **Evolve and test (confirmed, cost labelled):** redblue (mock judge by default), learn (dry-run by default), evolve, security-bench and flywheel run.
+**Network.** The reads reach the network (the npx package download, and skills.sh for search), so they run only when the person acts.
 
-Promotion stays out of the pane (§8). Each capability also has a palette id, so it works headless.
+## 10. Hive-Mind
+
+A dedicated Hive-Mind view (`views/hive.ts`, `hive.ts`, `data/hive.ts`, `gfx/hive.ts`), keyless, after Swarm. Its data comes from `.claude-flow/hive-mind/state.json`, with worker roles and liveness from `.claude-flow/agents.json`, where `hive-mind spawn` writes.
+
+**What it shows:**
+- the queen's id, term and election time
+- the consensus strategy
+- members with roles and liveness
+- fault tolerance from the CLI's own formulas (byzantine f < n/3, raft f < n/2)
+- open proposals: per-voter ballots, votes against the required count, the raft timeout and the quorum preset
+- decided proposals as history
+- broadcasts and shared-memory keys
+
+Gossip and crdt state no tolerance bound and read n/a.
+
+**Actions.** Each is confirmed first:
+- vote, cast through `hive-mind consensus`, which carries the capability token the console never reads
+- propose, broadcast and spawn, through `mcp exec`
+
+**Votes.** A vote is cast **as the next registered worker that has not voted**. The CLI counts only registered workers, and it exits 0 when it refuses a vote. Earlier palette and Approvals votes, cast as `console-operator`, were therefore dropped silently. All three paths now share this rule. With no worker left, they say why and run nothing.
+
+**Picture.** A honeycomb Raster with the queen at the centre. A cell pulses for 2 s after that member's vote, join or leave. The Swarm view keeps a summary with `▸ open hive`.
+
+## 11. MetaHarness lab
+
+The MetaHarness view (`views/metaharness.ts`, `views/mh-lab.ts`, `mh-lab.ts`) keeps Readiness, Flywheel and the audit trend. It adds a lab of every verb, each checked against `commands/metaharness.ts` and the MCP schemas. Each lab entry is also a palette id (`/ruflo run mh-genome`), so it works headless.
+
+**Inspect: runs at once, $0.**
+- score, genome, mcp-scan (findings by severity), threat-model, `doctor --component metaharness`
+- audit-trend and similarity, comparing the newest audit-list key with an older one
+- drift-from-history `--dry-run`, flywheel receipts
+- gepa genome and render; gepa analyze is typed into the terminal, since it needs a transcript path
+- bench verify, evolve without `--confirm` (it only plans), learn without `--run`
+- redblue attack, redblue `--mock-judge`
+
+**Writes: confirmed first.**
+- oia-audit (to memory)
+- bench create, redblue init
+- evolve `--confirm` (local compute, no model calls)
+- flywheel run `--proposer local`
+
+**Spends: confirmed first, and the confirm row says so.**
+- redblue with a real judge, capped at `--max-cost-usd 3`
+- security-bench, which may call models (MCP only)
+- `learn --run`, which is typed into the terminal, so it is asked twice
+
+**Never from the pane.** `flywheel promote <receipt> --public-key <pem> --confirm` is shown as a command for the person to run themselves (§8), and the same goes for evidence-reset. `mint` is not surfaced.
+
+**Result panel.** Shows the label, the exit, the cost note and the output lines. j/k scrolls it.
+
+The audit-list probe now reads the fields the CLI emits (`key`, `startedAt`, `finishedAt`); before, the trend never had real points.
 
 ## 12. Release gates
 
@@ -152,4 +201,4 @@ The recording driver aborts rather than type into Claude's own prompt. It never 
 ## 14. Sources
 
 - `plugins/ruflo-console/hooks/{state,harness,stream,bindings,controller}.ts`, `hooks/views/{pane,frames,menu,bar,terminal,xruv}.ts`, `hooks/gfx/{neon,boot,pictures}.ts`
-- PRs #3625–#3632 (band, BBS look, Wildcat round, neon boot, AI terminal, compact and focus fixes)
+- PRs #3625–#3632 (band, BBS look, Wildcat round, neon boot, AI terminal, compact and focus fixes) and the 0.7.0 release (Skills, Hive-Mind, MetaHarness lab, scrollable framed terminal, clickable band and strip, now-first band, grouped menu)
