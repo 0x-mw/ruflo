@@ -18,6 +18,8 @@ export type Host = {
   storeGet: (key: string) => Promise<unknown>
   storeSet: (key: string, value: unknown) => Promise<void>
   invalidate: () => void
+  /** Moves a pane's focus ring onto an element it drew (a field), while the pane holds the keys. */
+  focus: (paneId: string, key: string) => Promise<unknown>
   /** Fire and forget: a blit resolves only once painted, and blits between frames fold anyway. */
   blit: (args: UiBlitArgs) => void
   openPane: (pane: PaneOpenArgs) => Promise<OpenResult>

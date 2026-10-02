@@ -6,7 +6,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
-import { isBooting, rowsOf, VIEWS, type ViewId } from '../state'
+import { isBooting, isCompactPane, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
@@ -209,13 +209,14 @@ export function paneView(ctx: Ctx): RenderElement {
   const body = ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx)
   const confirm = confirmRow(ctx)
   const header = ctx.pictures.get('header')
-  const isCompact = ctx.state.pane.rows > 0 && ctx.state.pane.rows < rowsOf(ctx.state.view)
+  const isCompact = isCompactPane(ctx.state)
   const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
   const about = blurb(ctx)
-  const bbs = isBbs() && !isCompact ? wildcat(ctx) : { strip: [], art: [] }
+  const bbs = isBbs() ? wildcat(ctx) : { strip: [], art: [] }
   const gap = isBbs() && !isCompact ? [text(ctx, ' ')] : []
+  // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
-    ? [tabs(ctx), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
+    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
     : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, body, ...(confirm !== null ? [confirm] : []), ...gap, footer(ctx)]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })

@@ -9,7 +9,7 @@ import { plain } from './data/parse'
 import type { Host } from './host'
 import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
-import { viewOf, type State } from './state'
+import { PANE_ID, viewOf, type State } from './state'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
 
@@ -128,6 +128,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       harness: id => {
         state.terminal.harness = id
         host.invalidate()
+        // Pressing the pick moved the focus ring onto its button: give the field the keys back.
+        if (state.pane.isFocused) void host.focus(PANE_ID, 'term-input').catch(() => undefined)
       },
       draft: text => {
         state.terminal.draft = text
