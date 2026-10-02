@@ -128,6 +128,11 @@ export function generate(input: GenerateInput): GenerateResult {
     // whether or not an engine was available to confirm it.
     const engineHooks: ModCommandHook[] = hooksFromValidations(engine.validations)
       .map((h) => sourceHooks.find((s) => s.plugin === h.plugin && s.command === h.command) ?? h);
+    // A plugin whose matcher the engine reports as `?` names its commands only in source: keep those.
+    const dynamicPlugins = new Set(engine.validations.filter((v) => v.dynamicCommandHook).map((v) => v.plugin));
+    for (const s of sourceHooks) {
+      if (dynamicPlugins.has(s.plugin) && !engineHooks.some((h) => h.plugin === s.plugin && h.command === s.command)) engineHooks.push(s);
+    }
     const useEngine = engine.validations.length > 0 && engine.validations.every((v) => v.passed === true);
     const inventory = collectInventory({
       repoRoot: input.repoRoot,

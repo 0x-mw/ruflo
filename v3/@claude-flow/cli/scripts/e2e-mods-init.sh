@@ -80,14 +80,14 @@ check "settings.json declares extraKnownMarketplaces.ruflo" "js \"s.extraKnownMa
 check "settings.json sets CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1" "js \"s.env?.CLAUDE_CODE_ENABLE_FUNCTION_HOOKS === '1'\""
 check "classic hooks still written" "js \"JSON.stringify(s.hooks ?? {}).includes('hook-handler.cjs')\""
 check "init ran marketplace add at project scope" "grep -q '✓ claude plugin marketplace add ruvnet/ruflo --scope project' '$W/init.log'"
-check "init installed ruflo-mods and ruflo-swarm" "grep -q '✓ claude plugin install ruflo-mods@ruflo --scope project' '$W/init.log' && grep -q '✓ claude plugin install ruflo-swarm@ruflo --scope project' '$W/init.log'"
-check "init reports ruflo-console pending" "grep -q 'ruflo-console@ruflo --scope project (pending' '$W/init.log'"
+check "init installed ruflo-mods, ruflo-swarm and ruflo-console" "grep -q '✓ claude plugin install ruflo-mods@ruflo --scope project' '$W/init.log' && grep -q '✓ claude plugin install ruflo-swarm@ruflo --scope project' '$W/init.log' && grep -q '✓ claude plugin install ruflo-console@ruflo --scope project' '$W/init.log'"
 check "init states what loads and the rollout-switch fallback" "grep -q 'rollout switch off, they do nothing and the classic hooks keep every event' '$W/init.log'"
 cc plugin list --json > "$W/plugin-list.json" 2>/dev/null
 check "claude plugin list: ruflo-mods@ruflo installed and enabled" "js \"has('ruflo-mods@ruflo')\""
 check "claude plugin list: ruflo-swarm@ruflo installed and enabled" "js \"has('ruflo-swarm@ruflo')\""
+check "claude plugin list: ruflo-console@ruflo installed and enabled" "js \"has('ruflo-console@ruflo')\""
 ruflo mods status --json > "$W/status.json" 2>/dev/null
-check "mods status: ruflo-console reported pending" "grep -A3 'plugin ruflo-console@ruflo' '$W/status.json' | grep -q pending"
+check "mods status: ruflo-console loads (not pending)" "! grep -A3 'plugin ruflo-console@ruflo' '$W/status.json' | grep -q pending"
 ruflo mods doctor > "$W/doctor.log" 2>&1; rc=$?
 check "mods doctor exits 0" "[[ $rc -eq 0 ]]"
 FRESH_W="$W"

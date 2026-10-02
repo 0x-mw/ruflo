@@ -11121,6 +11121,132 @@
     {
       "definition": {
         "argumentsSchema": {
+          "maxLength": 1024,
+          "type": "string"
+        },
+        "disposition": "view",
+        "id": "ruflo-console/ruflo",
+        "kind": "query",
+        "legacyNames": [],
+        "modNames": [
+          "ruflo"
+        ],
+        "modelVisibility": "same-as-legacy",
+        "ownerPlugin": "ruflo-console",
+        "requiredCapabilities": [],
+        "requiredHostFeatures": [
+          "command.register"
+        ],
+        "revision": 1,
+        "schemaVersion": 1,
+        "source": {
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
+          "path": "plugins/ruflo-console/hooks/register.ts",
+          "repository": "ruvnet/ruflo"
+        },
+        "viewId": "ruflo-console/ruflo"
+      },
+      "divergent": false,
+      "notes": [
+        "registered by a function-hook mod; exists only while that mod is loaded"
+      ],
+      "sources": [
+        {
+          "binding": "mod-register",
+          "channel": "mod-registration",
+          "digest": "sha256:ffe068efbc87930a56a025f536e2ab1ae7b88f6f73484603279079e74cd51ccb",
+          "observedInvocation": "/ruflo",
+          "package": "ruflo-console@ruflo",
+          "shippedIn": [],
+          "sourcePath": "plugins/ruflo-console/hooks/register.ts"
+        },
+        {
+          "binding": "mod-register",
+          "channel": "mod-registration",
+          "digest": "sha256:267dec2e2e39444fa3e74090597e744270a4e3895cc9e9cee9a715300c6edb61",
+          "observedInvocation": "/ruflo",
+          "package": "ruflo-mods@ruflo",
+          "shippedIn": [],
+          "sourcePath": "plugins/ruflo-mods/hooks/register.ts"
+        },
+        {
+          "binding": "mod-register",
+          "channel": "mod-registration",
+          "digest": "sha256:5f4ab3f7bd004b10c6b2c9c02db7707d7418833cce3114bb481c6f694f8638d4",
+          "observedInvocation": "/ruflo",
+          "package": "ruflo-swarm@ruflo",
+          "shippedIn": [],
+          "sourcePath": "plugins/ruflo-swarm/hooks/register.ts"
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "definition": {
+        "argumentsSchema": {
+          "maxLength": 1024,
+          "type": "string"
+        },
+        "disposition": "view",
+        "id": "ruflo-console/ruflo-console",
+        "kind": "query",
+        "legacyNames": [],
+        "modNames": [
+          "ruflo-console"
+        ],
+        "modelVisibility": "same-as-legacy",
+        "ownerPlugin": "ruflo-console",
+        "requiredCapabilities": [],
+        "requiredHostFeatures": [
+          "command.register"
+        ],
+        "revision": 1,
+        "schemaVersion": 1,
+        "source": {
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
+          "path": "plugins/ruflo-console/hooks/register.ts",
+          "repository": "ruvnet/ruflo"
+        },
+        "viewId": "ruflo-console/ruflo-console"
+      },
+      "divergent": false,
+      "notes": [
+        "registered by a function-hook mod; exists only while that mod is loaded"
+      ],
+      "sources": [
+        {
+          "binding": "mod-register",
+          "channel": "mod-registration",
+          "digest": "sha256:ffe068efbc87930a56a025f536e2ab1ae7b88f6f73484603279079e74cd51ccb",
+          "observedInvocation": "/ruflo-console",
+          "package": "ruflo-console@ruflo",
+          "shippedIn": [],
+          "sourcePath": "plugins/ruflo-console/hooks/register.ts"
+        },
+        {
+          "binding": "mod-register",
+          "channel": "mod-registration",
+          "digest": "sha256:267dec2e2e39444fa3e74090597e744270a4e3895cc9e9cee9a715300c6edb61",
+          "observedInvocation": "/ruflo-console",
+          "package": "ruflo-mods@ruflo",
+          "shippedIn": [],
+          "sourcePath": "plugins/ruflo-mods/hooks/register.ts"
+        },
+        {
+          "binding": "mod-register",
+          "channel": "mod-registration",
+          "digest": "sha256:5f4ab3f7bd004b10c6b2c9c02db7707d7418833cce3114bb481c6f694f8638d4",
+          "observedInvocation": "/ruflo-console",
+          "package": "ruflo-swarm@ruflo",
+          "shippedIn": [],
+          "sourcePath": "plugins/ruflo-swarm/hooks/register.ts"
+        }
+      ],
+      "status": "shipped"
+    },
+    {
+      "definition": {
+        "argumentsSchema": {
           "maxLength": 8192,
           "type": "string"
         },
@@ -11996,7 +12122,7 @@
         "revision": 1,
         "schemaVersion": 1,
         "source": {
-          "commit": "8a1e11f3bde0ba6c3855f23e420eeb6f003c8374",
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
           "path": "plugins/ruflo-mods/hooks/session.ts",
           "repository": "ruvnet/ruflo"
         },
@@ -12010,7 +12136,7 @@
         {
           "binding": "mod-register",
           "channel": "mod-registration",
-          "digest": "sha256:1e09a065293c6375ba3b3217df30af34c13ac2bb76c45a999481aa0d66d1829d",
+          "digest": "sha256:2ed654965391a2fd6c9f208c094e88bfd8fa6b468d5189da74040e50b9953312",
           "observedInvocation": "/ruflo-mods",
           "package": "ruflo-mods@ruflo",
           "shippedIn": [],
@@ -12716,7 +12842,7 @@
         "revision": 1,
         "schemaVersion": 1,
         "source": {
-          "commit": "8ceed8810b9bbae9596270f5172935ae62edfe5b",
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
           "path": "plugins/ruflo-swarm/hooks/commands.ts",
           "repository": "ruvnet/ruflo"
         },
@@ -12730,7 +12856,7 @@
         {
           "binding": "mod-register",
           "channel": "mod-registration",
-          "digest": "sha256:881c470446c3b0d20e4930b23001cb20ca2f0689562350546e30737869616234",
+          "digest": "sha256:8c960de3d7e1850ecff9b2fbbc36db68b5f124d8ddb784dc3f3b9d1248a3472d",
           "observedInvocation": "/ruflo-swarm-claims",
           "package": "ruflo-swarm@ruflo",
           "shippedIn": [],
@@ -12761,7 +12887,7 @@
         "revision": 1,
         "schemaVersion": 1,
         "source": {
-          "commit": "8ceed8810b9bbae9596270f5172935ae62edfe5b",
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
           "path": "plugins/ruflo-swarm/hooks/commands.ts",
           "repository": "ruvnet/ruflo"
         },
@@ -12775,7 +12901,7 @@
         {
           "binding": "mod-register",
           "channel": "mod-registration",
-          "digest": "sha256:881c470446c3b0d20e4930b23001cb20ca2f0689562350546e30737869616234",
+          "digest": "sha256:8c960de3d7e1850ecff9b2fbbc36db68b5f124d8ddb784dc3f3b9d1248a3472d",
           "observedInvocation": "/ruflo-swarm-consensus",
           "package": "ruflo-swarm@ruflo",
           "shippedIn": [],
@@ -12806,7 +12932,7 @@
         "revision": 1,
         "schemaVersion": 1,
         "source": {
-          "commit": "8ceed8810b9bbae9596270f5172935ae62edfe5b",
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
           "path": "plugins/ruflo-swarm/hooks/commands.ts",
           "repository": "ruvnet/ruflo"
         },
@@ -12820,7 +12946,7 @@
         {
           "binding": "mod-register",
           "channel": "mod-registration",
-          "digest": "sha256:881c470446c3b0d20e4930b23001cb20ca2f0689562350546e30737869616234",
+          "digest": "sha256:8c960de3d7e1850ecff9b2fbbc36db68b5f124d8ddb784dc3f3b9d1248a3472d",
           "observedInvocation": "/ruflo-swarm-pane",
           "package": "ruflo-swarm@ruflo",
           "shippedIn": [],
@@ -12851,7 +12977,7 @@
         "revision": 1,
         "schemaVersion": 1,
         "source": {
-          "commit": "8ceed8810b9bbae9596270f5172935ae62edfe5b",
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
           "path": "plugins/ruflo-swarm/hooks/commands.ts",
           "repository": "ruvnet/ruflo"
         },
@@ -12865,7 +12991,7 @@
         {
           "binding": "mod-register",
           "channel": "mod-registration",
-          "digest": "sha256:881c470446c3b0d20e4930b23001cb20ca2f0689562350546e30737869616234",
+          "digest": "sha256:8c960de3d7e1850ecff9b2fbbc36db68b5f124d8ddb784dc3f3b9d1248a3472d",
           "observedInvocation": "/ruflo-swarm-status",
           "package": "ruflo-swarm@ruflo",
           "shippedIn": [],
@@ -12896,7 +13022,7 @@
         "revision": 1,
         "schemaVersion": 1,
         "source": {
-          "commit": "8ceed8810b9bbae9596270f5172935ae62edfe5b",
+          "commit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
           "path": "plugins/ruflo-swarm/hooks/commands.ts",
           "repository": "ruvnet/ruflo"
         },
@@ -12910,7 +13036,7 @@
         {
           "binding": "mod-register",
           "channel": "mod-registration",
-          "digest": "sha256:881c470446c3b0d20e4930b23001cb20ca2f0689562350546e30737869616234",
+          "digest": "sha256:8c960de3d7e1850ecff9b2fbbc36db68b5f124d8ddb784dc3f3b9d1248a3472d",
           "observedInvocation": "/ruflo-swarm-topology",
           "package": "ruflo-swarm@ruflo",
           "shippedIn": [],
@@ -13011,7 +13137,7 @@
         {
           "binding": "mod-middleware-on-markdown",
           "channel": "mod-registration",
-          "digest": "sha256:2a743e04846e61d9bce6c9a39c266a8e44977c055d590b53697b950cc21f5bf1",
+          "digest": "sha256:5f4ab3f7bd004b10c6b2c9c02db7707d7418833cce3114bb481c6f694f8638d4",
           "observedInvocation": "/ruflo-swarm:watch",
           "package": "ruflo-swarm@ruflo",
           "shippedIn": [],
@@ -13433,6 +13559,6 @@
       "status": "shipped"
     }
   ],
-  "sourceCommit": "8a1e11f3bde0ba6c3855f23e420eeb6f003c8374",
-  "sourceDigest": "sha256:a21f24c53c5620e6f9f4f630fd58358c307ac5526eda503787fb19748671e5f8"
+  "sourceCommit": "5194355c2a1e1066b674f9a76d5d74f9e1fd0aec",
+  "sourceDigest": "sha256:220a22890159ac6079ed8bfe5a8e6c8d3323ba6eac5f45773810b6a18c54acdb"
 }

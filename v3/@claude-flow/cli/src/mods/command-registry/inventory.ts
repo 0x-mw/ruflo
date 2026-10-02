@@ -230,7 +230,7 @@ export function scanModHooksFromSource(repoRoot: string): ModCommandHook[] {
         const text = readFileSync(full, 'utf8');
         const seen = new Set<string>();
         for (const m of text.matchAll(/command\.run'\s*,\s*\{\s*command:\s*'([a-z0-9._:-]+)'/gi)) seen.add(m[1]);
-        for (const m of text.matchAll(/\.register\(\{\s*name:\s*'([a-z0-9._:-]+)'/gi)) seen.add(m[1]);
+        for (const m of text.matchAll(/\.register(?:Command)?\(\{\s*name:\s*'([a-z0-9._:-]+)'/gi)) seen.add(m[1]);
         for (const m of text.matchAll(/\{\s*name:\s*'(ruflo-[a-z0-9-]+)'\s*,\s*description:/gi)) seen.add(m[1]);
         for (const command of [...seen].sort()) {
           hooks.push({ plugin, command, sourcePath: toPosix(relative(repoRoot, full)) });

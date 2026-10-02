@@ -19,6 +19,8 @@ export interface PluginValidation {
   readonly passed: boolean | 'unknown';
   readonly commandHooks: readonly string[];
   readonly hostCalls: readonly string[];
+  /** A `command.run{command=?}` matcher: names chosen at run time, which only the source scan can list. */
+  readonly dynamicCommandHook?: true;
   readonly reason?: string;
 }
 
@@ -40,10 +42,14 @@ export function parseValidateOutput(plugin: string, status: number | null, text:
   const lines = text.split('\n');
   const hooksText = lines.filter((l) => /\.(?:ts|js) hooks:\s/.test(l)).join('\n');
   const callsText = lines.filter((l) => /\.(?:ts|js) calls:\s/.test(l)).join('\n');
-  const commandHooks = [...new Set([...hooksText.matchAll(/command\.run\{command=([^}]+)\}/g)].map((m) => m[1]))].sort();
+  // `command=a|b` is one matcher on two names; `command=?` is computed at run time, so it names nothing.
+  const commandHooks = [...new Set([...hooksText.matchAll(/command\.run\{command=([^}]+)\}/g)]
+    .flatMap((m) => m[1].split('|'))
+    .filter((name) => name !== '?'))].sort();
+  const dynamicCommandHook = /command\.run\{command=\?\}/.test(hooksText);
   const hostCalls = [...new Set([...callsText.matchAll(/\$\.([a-zA-Z]+\.[a-zA-Z]+)/g)].map((m) => m[1]))].sort();
   const passed = /Validation passed/.test(text) && status === 0;
-  return { plugin, passed, commandHooks, hostCalls, ...(passed ? {} : { reason: text.trim().split('\n').slice(-3).join(' | ').slice(0, 300) }) };
+  return { plugin, passed, commandHooks, hostCalls, ...(dynamicCommandHook ? { dynamicCommandHook: true as const } : {}), ...(passed ? {} : { reason: text.trim().split('\n').slice(-3).join(' | ').slice(0, 300) }) };
 }
 
 function sha256File(path: string): string {

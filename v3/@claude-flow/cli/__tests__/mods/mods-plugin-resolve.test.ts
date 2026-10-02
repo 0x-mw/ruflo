@@ -37,7 +37,7 @@ function fakeFs(files: Record<string, unknown>, dirs: string[] = []): ReadFs {
 }
 
 const known = { [join(CFG, 'plugins', 'known_marketplaces.json')]: { ruflo: { source: { source: 'github', repo: 'ruvnet/ruflo' }, installLocation: CLONE } } };
-const fresh = { [manifest('ruflo-mods')]: '{}', [manifest('ruflo-swarm')]: '{}' };
+const fresh = { [manifest('ruflo-mods')]: '{}', [manifest('ruflo-swarm')]: '{}', [manifest('ruflo-console')]: '{}' };
 const staleOnlySwarm = { [manifest('ruflo-swarm')]: '{}' };
 const installedHere = (entry: Record<string, unknown> = {}) => ({
   [join(CFG, 'plugins', 'installed_plugins.json')]: { version: 2, plugins: { 'ruflo-mods@ruflo': [{ scope: 'local', installPath: CACHE, projectPath: ROOT, ...entry }] } },
@@ -81,14 +81,15 @@ describe('ADR-404 plugin resolution: findings', () => {
   it('the reported bug: a stale clone and no cached install FAILS with the exact commands', () => {
     const f = byName(resolveFindings(ROOT, 'local', CFG, fakeFs({ ...known, ...staleOnlySwarm }, [CLONE])));
     expect(f['plugin ruflo-mods@ruflo']).toMatchObject({ status: 'fail', message: expect.stringContaining('/ruflo-mods is an unknown command') });
-    expect(f['plugin ruflo-mods@ruflo']!.fix).toBe(`cd "${ROOT}" && claude plugin marketplace update ruflo && claude plugin install ruflo-mods@ruflo --scope local && claude plugin install ruflo-swarm@ruflo --scope local`);
+    expect(f['plugin ruflo-mods@ruflo']!.fix).toBe(`cd "${ROOT}" && claude plugin marketplace update ruflo && claude plugin install ruflo-mods@ruflo --scope local && claude plugin install ruflo-swarm@ruflo --scope local && claude plugin install ruflo-console@ruflo --scope local`);
     expect(f['plugin ruflo-swarm@ruflo']!.status).toBe('pass');
   });
 
-  it('a plugin not yet in the marketplace is pending (warn), never a failure', () => {
-    const f = byName(resolveFindings(ROOT, 'project', CFG, fakeFs({ ...known, ...fresh }, [CLONE])));
-    expect(f['plugin ruflo-console@ruflo']).toMatchObject({ status: 'warn', message: expect.stringContaining('pending') });
-    expect(MOD_PLUGINS.find((p) => p.id === 'ruflo-console@ruflo')!.required).toBe(false);
+  it('ruflo-console is required: a clone without it is stale (fail), never pending', () => {
+    expect(MOD_PLUGINS.find((p) => p.id === 'ruflo-console@ruflo')!.required).toBe(true);
+    const f = byName(resolveFindings(ROOT, 'project', CFG, fakeFs({ ...known, [manifest('ruflo-mods')]: '{}', [manifest('ruflo-swarm')]: '{}' }, [CLONE])));
+    expect(f['plugin ruflo-console@ruflo']).toMatchObject({ status: 'fail' });
+    expect(f['plugin ruflo-console@ruflo']!.message).not.toContain('pending');
   });
 
   it('no clone yet: warn (Claude Code clones it at its next interactive start); the fix adds it at the same scope', () => {
@@ -113,10 +114,10 @@ describe('ADR-404 plugin resolution: findings', () => {
     expect(Object.keys(f)).toEqual(['ruflo marketplace', 'plugin ruflo-mods@ruflo']);
   });
 
-  it('repairCommands quotes the project root and installs only required plugins', () => {
+  it('repairCommands quotes the project root and installs every required plugin', () => {
     const cmds = repairCommands('/a b/c', 'local', true);
     expect(cmds[0]).toBe('cd "/a b/c"');
-    expect(cmds.join('\n')).not.toContain('ruflo-console');
+    expect(cmds.join('\n')).toContain('claude plugin install ruflo-console@ruflo --scope local');
   });
 });
 
@@ -156,7 +157,7 @@ describe('ADR-404 repair', () => {
     return { exec, calls, fs };
   };
 
-  it('adds the unknown marketplace at the scope, then installs what the clone carries; ruflo-console is pending', async () => {
+  it('adds the unknown marketplace at the scope, then installs every mod plugin the clone carries', async () => {
     const { exec, calls, fs } = harness([], { ...known, ...fresh });
     const r = await repairPluginInstall({ projectRoot: ROOT, scope: 'project', configDir: CFG, claude: '/bin/claude', exec, env: {}, fs });
     expect(r.ok).toBe(true);
@@ -164,8 +165,8 @@ describe('ADR-404 repair', () => {
       ['plugin marketplace add ruvnet/ruflo --scope project', ROOT, MARKETPLACE_TIMEOUT_MS],
       ['plugin install ruflo-mods@ruflo --scope project', ROOT, INSTALL_TIMEOUT_MS],
       ['plugin install ruflo-swarm@ruflo --scope project', ROOT, INSTALL_TIMEOUT_MS],
+      ['plugin install ruflo-console@ruflo --scope project', ROOT, INSTALL_TIMEOUT_MS],
     ]);
-    expect(r.steps.at(-1)).toMatchObject({ state: 'pending', argv: ['plugin', 'install', 'ruflo-console@ruflo', '--scope', 'project'] });
     expect(calls.flatMap((c) => c.args)).not.toContain('-y');
   });
 
@@ -184,7 +185,7 @@ describe('ADR-404 repair', () => {
     const second = harness([0, 1, 0], { ...known, ...fresh });
     const collected = await repairPluginInstall({ projectRoot: ROOT, scope: 'local', configDir: CFG, claude: '/bin/claude', exec: second.exec, env: {}, fs: second.fs });
     expect(collected.ok).toBe(false);
-    expect(second.calls).toHaveLength(3);
+    expect(second.calls).toHaveLength(4);
   });
 
   it('an exec that throws is a failed step, not a crash', async () => {
