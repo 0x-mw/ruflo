@@ -93,6 +93,15 @@ describe('palette and /ruflo', () => {
     expect((await $.command.run(command('swarm status'))).text).toMatch(/^ruflo-swarm is not loaded in this session/)
   })
 
+  test('the engine saying no hook answered /ruflo mods is not an answer: the hint shows', async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    on('command.run', () => ({ text: 'ruflo-console registered /ruflo but no command.run hook answered it: add on("command.run", ...)' }))
+    await $.session.start(SESSION)
+
+    expect((await $.command.run(command('mods'))).text).toMatch(/^ruflo-mods is not loaded in this session/)
+  })
+
   test('/ruflo mods and /ruflo swarm <sub> are answered by the plugin beneath that owns them', async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)

@@ -11,6 +11,9 @@ import { VIEWS, type State } from './state'
 import { barText } from './views/bar'
 import { viewText } from './views/pane'
 
+/** The engine's words when a registered command reaches it with no hook answering (Claude Code 2.1.287). */
+const NO_HOOK_ANSWERED = /registered \/ruflo but no command\.run hook answered/
+
 export type Delegate = () => Promise<{ text?: string } | undefined>
 
 /** The one-line answer of `/ruflo status`, with the measured render, refresh and frame costs. */
@@ -53,7 +56,8 @@ export async function dispatch(control: Controller, state: State, args: string, 
       try {
         const answer = await delegate()
 
-        if (typeof answer?.text === 'string' && answer.text.trim() !== '') return { text: answer.text }
+        // With nothing beneath, the engine answers in its own words that no hook answered: that is no answer either.
+        if (typeof answer?.text === 'string' && answer.text.trim() !== '' && !NO_HOOK_ANSWERED.test(answer.text)) return { text: answer.text }
       } catch {
         // Nothing beneath answers this command: fall through to the hint.
       }
