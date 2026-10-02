@@ -163,4 +163,5 @@ plugins/ruflo-console/tests/actions.test.ts
 plugins/ruflo-console/tests/behaviour.test.ts
 plugins/ruflo-console/tests/palette.test.ts
 plugins/ruflo-console/tests/views.test.ts
+plugins/ruflo-console/tests/labs.test.ts
 plugins/ruflo-console/tests/xruv.test.ts

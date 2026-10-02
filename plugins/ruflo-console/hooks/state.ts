@@ -4,6 +4,7 @@ import type { ProbeResult } from './data/cli'
 import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
 import { emptySkills, type SkillsState } from './data/skills'
+import { emptyMemoryLab, type MemoryLabState } from './memory-lab'
 import type { Snapshot } from './data/snapshot'
 import type { RufloRoute, RufloSnapshot } from '../types'
 
@@ -32,7 +33,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'plugins', key: '5', label: 'Plugins', short: 'Plg', icon: '🧩', blurb: 'ruflo plugins: installed, enabled, in the marketplace clone, and loaded as mods', rows: 30 },
   { id: 'learning', key: '6', label: 'Learning', short: 'Lrn', icon: '🧠', blurb: 'router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline', rows: 30 },
   { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness, the flywheel, the audit trend, and a lab that runs every MetaHarness verb', rows: 40 },
-  { id: 'memory', key: '8', label: 'Memory', short: 'Mem', icon: '💾', blurb: 'AgentDB entries by namespace: what the swarm has stored', rows: 22 },
+  { id: 'memory', key: '8', label: 'Memory', short: 'Mem', icon: '💾', blurb: 'the Memory Lab: browse, search, store and delete entries; AgentDB, embeddings and upkeep, each a button', rows: 60 },
   { id: 'cost', key: '9', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'set a budget, see where spend is reported, and project its burn', rows: 40 },
   { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', icon: '🕒', blurb: 'each agent busy or idle over the last minutes, beside Claude Code tool calls', rows: 24 },
   { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', icon: '✅', blurb: 'decisions waiting for a person: votes, stealable claims, refused mods, budget', rows: 24 },
@@ -226,6 +227,8 @@ export type State = {
   }
   /** The skills view: installed skills, the last search, and the change running now. */
   skills: SkillsState
+  /** The Memory Lab's fields and picks (its last run is `lab.result`, under a mem- id). */
+  memoryLab: MemoryLabState
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -272,6 +275,7 @@ export function newState(raw: PluginOptions | undefined): State {
     barDrawnAtMs: 0,
     terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, costReports: 0, scroll: 0, unseen: 0, asked: null },
     skills: emptySkills(),
+    memoryLab: emptyMemoryLab(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

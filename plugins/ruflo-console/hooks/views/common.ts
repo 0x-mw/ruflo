@@ -7,6 +7,7 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
 import type { Grid } from '../gfx/raster'
+import type { MemoryActions } from '../memory-lab'
 import type { SkillActions } from '../skills'
 import { START_LABEL, type StartId } from '../starts'
 import type { HarnessId, State, ViewId } from '../state'
@@ -48,6 +49,8 @@ export type Actions = {
   term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }
   /** The skills view: list, search, and the confirm-gated add, remove, update and create; edit loads the terminal. */
   skills: SkillActions
+  /** The Memory Lab: its fields, search, browse filter, and an entry's open or delete (each through the runner). */
+  memory: MemoryActions
 }
 
 export type Ctx = {

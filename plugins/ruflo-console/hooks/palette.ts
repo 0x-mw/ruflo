@@ -8,6 +8,7 @@ import { START_IDS, START_LABEL, startSpec } from './starts'
 import { BUDGET_PRESETS, budgetWhy, inspectModels, setBudget } from './cost'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
+import { MEM_KEYWORDS, MEM_LAB, memSpecOf, memWhy } from './memory-lab'
 import { LAB, labSpec, labWhy } from './mh-lab'
 import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
@@ -52,7 +53,7 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast', 'task', 'mission', 'cost-budget', 'x-join', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-hub', 'x-admit'] as const
+const TEXT_KEYWORDS: readonly string[] = ['route', 'store', 'search', 'propose', 'broadcast', 'task', 'mission', 'cost-budget', 'x-join', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-hub', 'x-admit', ...MEM_KEYWORDS]
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
@@ -133,6 +134,11 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
     // An admin row without the token is a spec with its reason, so `/ruflo run x-admit …` says why instead of "type …".
     if (entry.takes !== undefined && (entry.kind !== 'admin' || state.xruv.hasAdminToken === true)) add(entry.id, 'x.ruv.io', `${entry.id.slice(2)} <${entry.takes}>: ${entry.label}`, { kind: 'text', keyword: entry.id, make: text => entry.spec(state, text) })
     else add(entry.id, 'x.ruv.io', entry.label, { kind: 'spec', spec: entry.spec(state, ''), why: entry.why(state, '') })
+  }
+
+  // The Memory Lab: an entry that takes text reads it after its id (`mem-search jwt refresh`), the rest run as they are.
+  for (const entry of MEM_LAB) {
+    add(entry.id, 'memory', entry.label, entry.takes === undefined ? { kind: 'spec', spec: memSpecOf(entry, '', state), why: memWhy(entry) } : { kind: 'text', keyword: entry.id, make: text => memSpecOf(entry, text, state) })
   }
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })

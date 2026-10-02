@@ -2,6 +2,7 @@ import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
 import { HIVE_FILES, RAFT_ID, WORKERS } from './fixtures/hive'
+import { MEM_OUT } from './fixtures/memory'
 import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
 import { FIND_OUT, LS_GLOBAL } from './fixtures/skills'
@@ -19,22 +20,10 @@ const HOME_FILES = {
   '.claude/plugins/marketplaces/ruflo/.claude-plugin/marketplace.json': JSON.stringify({ name: 'ruflo', plugins: [{ name: 'ruflo-core' }, { name: 'ruflo-swarm' }] }),
 }
 
-type Engine = Parameters<TestBody>[0]
-
-/** Opens the console on `view` via /ruflo, waits for its probes, and answers its drawing and its Raster keys. */
-async function drawn($: Engine, view: string, columns = 110) {
-  await $.command.run(command(view))
-  await $.command.run(command('status'))
-
-  const pane = await $.ui.mount({ ...paneAt(columns), plugin: PLUGIN })
-  const tree = await pane.drawn()
-
-  await pane.unmount()
-
-  return { text: textOf(tree), tree, rasters: elementsOf(tree, 'Raster').map(keyOf) }
-}
+import { drawn } from './fixtures/views'
 
 describe('views', () => {
+
   test('overview: every subsystem from disk, the CLI or the engine, health alerts, the activity raster', { options: { boot: false } }, async ($, on) => {
     fakeRuflo().register(on, {})
     worldOf(on, RUFLO_FILES, { home: HOME_FILES })
@@ -231,80 +220,6 @@ describe('views', () => {
     expect(elementsOf(cost.tree, 'Input').map(keyOf)).toEqual(['cost-budget'])
   })
 
-  test('cost: a preset asks first, names the exact change, and sends one fixed argv with JSON stdin on yes', { options: { boot: false } }, async ($, on) => {
-    const world = worldOf(on, RUFLO_FILES)
-    mock.clock(on)
-    await $.session.start(SESSION)
-    await drawn($, 'cost')
-
-    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
-    const setters = () => world.runs.filter(argv => argv.includes('--values-stdin'))
-
-    await pane.press({ key: 'cost-budget-5' })
-    const ask = textOf(await pane.drawn())
-
-    expect(ask).toContain('Confirm: set ruflo-mods@ruflo costBudgetUsd to $5?')
-    expect(ask).toContain('runs: claude plugin configure ruflo-mods@ruflo --values-stdin · stdin {"costBudgetUsd":"5"}')
-    expect(ask).toContain('restart/reload may be needed')
-    expect(setters()).toHaveLength(0)
-    await pane.press({ key: 'confirm' })
-    expect(setters()).toEqual([['claude', 'plugin', 'configure', 'ruflo-mods@ruflo', '--values-stdin']])
-    expect(world.inputs).toEqual(['{"costBudgetUsd":"5"}'])
-    await pane.press({ key: 'cost-budget-25' })
-    await pane.press({ key: 'cancel' })
-    expect(setters()).toHaveLength(1)
-    await pane.input({ key: 'cost-budget', text: '12.5', kind: 'change' })
-    await pane.press({ key: 'cost-budget-apply' })
-    expect(textOf(await pane.drawn())).toContain('costBudgetUsd to $12.5?')
-    await pane.input({ key: 'cost-budget', text: '--help', kind: 'submit' })
-    expect(textOf(await pane.drawn())).toContain('budget must be a number from 0.01 to 10000 USD')
-    expect((await $.command.run(command('yes'))).text).toBe('Nothing is waiting for a confirm.')
-    expect(setters()).toHaveLength(1)
-    await pane.unmount()
-  })
-
-  test('cost: unsupported configuration says where to set it and no preset or custom entry runs a setter', { options: { boot: false } }, async ($, on) => {
-    const world = worldOf(on, RUFLO_FILES)
-
-    world.respond = argv => argv.includes('configure') ? { exitCode: 1, stdout: '', stderr: 'unknown command configure' } : cliAnswer(argv)
-    mock.clock(on)
-    await $.session.start(SESSION)
-    const cost = await drawn($, 'cost')
-
-    expect(cost.text).toContain('set costBudgetUsd in /config → ruflo-mods')
-    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
-
-    await pane.press({ key: 'cost-budget-1' })
-    expect(textOf(await pane.drawn())).not.toContain('Confirm:')
-    await pane.input({ key: 'cost-budget', text: '5', kind: 'submit' })
-    expect((await $.command.run(command('yes'))).text).toBe('Nothing is waiting for a confirm.')
-    expect(world.runs.some(argv => argv.includes('--values-stdin'))).toBe(false)
-    await pane.unmount()
-  })
-
-  test('cost: its probes stay on Cost and model inspection is an immediate offline read', { options: { boot: false, cli: 'npx' } }, async ($, on) => {
-    const world = worldOf(on, RUFLO_FILES)
-
-    mock.clock(on)
-    await $.session.start(SESSION)
-    await drawn($, 'overview')
-    expect(world.runs.some(argv => argv.includes('model-stats') || argv.includes('configure'))).toBe(false)
-    const costStart = world.runs.length
-
-    await drawn($, 'cost')
-    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
-    const before = world.runs.filter(argv => argv.includes('model-stats')).length
-
-    await pane.press({ key: 'cost-model-stats' })
-    expect(textOf(await pane.drawn())).not.toContain('Confirm:')
-    const reads = world.runs.filter(argv => argv.includes('model-stats'))
-
-    expect(reads).toHaveLength(before + 1)
-    expect(reads.every(argv => argv[1] === '--offline')).toBe(true)
-    expect(world.runs.slice(costStart).filter(argv => argv[0] === 'npx').every(argv => argv[1] === '--offline')).toBe(true)
-    await pane.unmount()
-  })
-
   test('timeline, approvals and events draw from what was seen; the drill-down opens an agent', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
@@ -428,48 +343,6 @@ describe('views', () => {
     await pane.drawn()
     expect(skillRuns()).toContain('add mattpocock/skills@tdd -g -y')
     await pane.unmount()
-  })
-
-  test('empty sections offer the button that starts them, not a command to copy; a start asks first and runs one fixed argv', { options: { boot: false } }, async ($, on) => {
-    const { ".claude-flow/hive-mind/state.json": _hive, ...withoutHive } = RUFLO_FILES
-    const world = worldOf(on, withoutHive)
-
-    mock.clock(on)
-    await $.session.start(SESSION)
-
-    // A project with no hive-mind: the view says so and offers to start one.
-    await $.command.run(command('hive'))
-
-    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
-    const hive = await pane.drawn()
-
-    expect(textOf(hive)).toContain('No hive-mind here yet')
-    expect(textOf(hive)).not.toContain('npx ruflo')
-    expect(elementsOf(hive, 'Button').map(keyOf)).toContain('start-hive')
-
-    await pane.press({ key: 'start-hive' })
-    expect(textOf(await pane.drawn())).toContain('Confirm: start a hive-mind: a queen with raft consensus?')
-    expect(world.runs.some(argv => argv.includes('hive-mind') && argv.includes('init'))).toBe(false)
-
-    await pane.press({ key: 'confirm' })
-
-    const ran = world.runs.filter(argv => argv.includes('hive-mind') && argv.includes('init'))
-
-    expect(ran.map(argv => argv.slice(4))).toEqual([['hive-mind', 'init', '--consensus', 'raft']])
-    await pane.unmount()
-  })
-
-  test('starts that take a sentence refuse a leading dash and an empty one; nothing runs', { options: { boot: false } }, async ($, on) => {
-    const world = worldOf(on, RUFLO_FILES)
-
-    mock.clock(on)
-    await $.session.start(SESSION)
-
-    for (const text of ['', '--force']) {
-      expect((await $.command.run(command(`run start-task ${text}`))).text ?? '').not.toMatch(/^Asked: /)
-    }
-
-    expect(world.runs.some(argv => argv.includes('task') && argv.includes('create'))).toBe(false)
   })
 
   test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {
