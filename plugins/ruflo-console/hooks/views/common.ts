@@ -37,6 +37,7 @@ export type Actions = {
   paletteRun: (id: string) => void
   paletteSubmit: () => void
   run: (id: string, text?: string) => boolean
+  costBudgetDraft: (text: string) => void
   /** Cycles the events view's filter. */
   filter: () => void
   /** The terminal view: pick a harness, follow the field, ask to run its text, stop the run, clear the scrollback. */

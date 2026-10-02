@@ -56,7 +56,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     host.invalidate()
 
     try {
-      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000)
+      const result = await host.run(spec.argv ?? [...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000, spec.stdin)
       const answer = /"success"\s*:\s*(true|false)/.exec(result.stdout)?.[1]
       const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1] ?? /\[ERROR\]\s*(.{0,160})/.exec(result.stdout)?.[1]
       const ok = result.exitCode === 0 && answer !== 'false' && error === undefined
@@ -83,7 +83,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
         label: spec.label,
         ok: ok && verified !== 'no',
         verified,
-        detail: ok ? `ruflo answered ok; expected ${spec.expect}` : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`,
+        detail: ok ? `${spec.argv === undefined ? 'ruflo' : 'the command'} answered ok; expected ${spec.expect}` : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`,
         atMs: Date.now(),
       }
     } catch (error) {
@@ -102,6 +102,8 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     state.palette.isOpen = false
 
     if (spec === null) {
+      pendingSpec = null
+      state.pending = null
       say('nothing to do', false, why)
 
       return
@@ -150,7 +152,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
         ask(entry.run.spec, entry.run.why)
         break
       case 'text':
-        ask(entry.run.make(text), `type "${entry.run.keyword} <text>"; text may not start with -`)
+        ask(entry.run.make(text), entry.run.why?.(text) ?? `type "${entry.run.keyword} <text>"; text may not start with -`)
         break
       case 'view':
         deps.setView(entry.run.view)

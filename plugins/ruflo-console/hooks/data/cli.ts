@@ -6,13 +6,16 @@
  */
 import { idOf, msOf, numberOf, plain, recordOf, stringOf, valuesOf } from './parse'
 
-import type { ViewId } from '../state'
+import { CLI_PREFIXES, type CliChoice, type ViewId } from '../state'
 
 export type { ViewId }
 
 export type Probe<T> = {
   id: string
   args: readonly string[]
+  /** A local executable for a capability check, or an offline-only ruflo read. */
+  argv?: readonly string[]
+  isOffline?: boolean
   /** The views that draw it: a probe runs only while one of them is in front (the overview's run with the bar too). */
   views: readonly ViewId[]
   everyMs: number
@@ -45,6 +48,37 @@ export function jsonAfter(stdout: string): unknown {
 const objectOf = (stdout: string) => recordOf(jsonAfter(stdout))
 const exec = (tool: string, params: Record<string, unknown>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const
 
+/** Offline probes never let the download-enabled CLI choice reach the registry. */
+export const probeArgv = (probe: Pick<Probe<unknown>, 'args' | 'argv' | 'isOffline'>, cli: CliChoice): readonly string[] => probe.argv ?? [...CLI_PREFIXES[probe.isOffline && cli === 'npx' ? 'npx-offline' : cli], ...probe.args]
+
+/** Help only: older Claude builds must not get a guessed configuration command. */
+export const budgetConfigProbe: Probe<boolean> = {
+  id: 'budget-config', args: [], argv: ['claude', 'plugin', 'configure', '--help'], views: ['cost'], everyMs: 600_000, timeoutMs: 10_000,
+  parse: stdout => /Usage: claude plugin configure/.test(stdout) && /--values-stdin/.test(stdout),
+}
+
+export type ModelStats = { isAvailable: boolean; total?: number; models: { name: string; count: number }[] }
+
+/** Persisted router decisions, not billing: the CLI records neither model dollars nor tokens here. */
+export const modelStatsProbe: Probe<ModelStats> = {
+  id: 'model-stats', args: ['hooks', 'model-stats', '--format', 'json'], views: ['cost'], everyMs: 30_000, timeoutMs: 30_000, isOffline: true,
+  parse: stdout => {
+    const value = objectOf(stdout)
+
+    if (value === null || typeof value.available !== 'boolean') return null
+
+    const countOf = (n: unknown) => typeof n === 'number' && Number.isSafeInteger(n) && n >= 0 ? n : undefined
+    const total = countOf(value.totalDecisions)
+    const models = Object.entries(recordOf(value.modelDistribution) ?? {}).slice(0, 12).flatMap(([name, n]) => {
+      const count = countOf(n)
+
+      return count === undefined ? [] : [{ name: plain(name, 40), count }]
+    })
+
+    return { isAvailable: value.available, ...(total !== undefined && { total }), models }
+  },
+}
+
 export const versionProbe: Probe<string> = {
   id: 'version',
   args: ['--version'],
@@ -59,7 +93,7 @@ export type MemoryStats = { backend: string; total?: number; vectors?: number; s
 export const memoryProbe: Probe<MemoryStats> = {
   id: 'memory',
   args: ['memory', 'stats', '--format', 'json'],
-  views: ['overview', 'memory', 'cost'],
+  views: ['overview', 'memory'],
   everyMs: 30_000,
   timeoutMs: 30_000,
   parse: stdout => {
@@ -421,7 +455,7 @@ export const registryProbe: Probe<Registry> = {
   },
 }
 
-export const PROBES = [versionProbe, memoryProbe, namespacesProbe, scoreProbe, flywheelProbe, auditProbe, intelligenceProbe, peersProbe, channelsProbe, rosterProbe, registryProbe] as const
+export const PROBES = [versionProbe, memoryProbe, namespacesProbe, scoreProbe, flywheelProbe, auditProbe, intelligenceProbe, peersProbe, channelsProbe, rosterProbe, registryProbe, budgetConfigProbe, modelStatsProbe] as const
 
 export type ProbeId = (typeof PROBES)[number]['id']
 

@@ -221,6 +221,88 @@ describe('views', () => {
     expect(cost.rasters).toEqual(['header', 'title', 'gauge', 'burn'])
     expect(cost.text).toContain('$0.421')
     expect(cost.text).toContain('WARNING · $3.90 of $5.00 (78%)')
+    expect(cost.text).toContain('WHERE IT GOES')
+    expect(cost.text).toContain('AI terminal')
+    expect(cost.text).toContain('8 decisions')
+    expect(cost.text).toContain('5 routes · spend n/a · tokens n/a')
+    expect(cost.text).toContain('$1.100 · ruflo-mods budget')
+    expect(cost.text).toContain('50% · $2.50')
+    expect(elementsOf(cost.tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['cost-budget-1', 'cost-budget-5', 'cost-budget-10', 'cost-budget-25', 'cost-budget-apply', 'cost-model-stats']))
+    expect(elementsOf(cost.tree, 'Input').map(keyOf)).toEqual(['cost-budget'])
+  })
+
+  test('cost: a preset asks first, names the exact change, and sends one fixed argv with JSON stdin on yes', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await drawn($, 'cost')
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+    const setters = () => world.runs.filter(argv => argv.includes('--values-stdin'))
+
+    await pane.press({ key: 'cost-budget-5' })
+    const ask = textOf(await pane.drawn())
+
+    expect(ask).toContain('Confirm: set ruflo-mods@ruflo costBudgetUsd to $5?')
+    expect(ask).toContain('runs: claude plugin configure ruflo-mods@ruflo --values-stdin · stdin {"costBudgetUsd":"5"}')
+    expect(ask).toContain('restart/reload may be needed')
+    expect(setters()).toHaveLength(0)
+    await pane.press({ key: 'confirm' })
+    expect(setters()).toEqual([['claude', 'plugin', 'configure', 'ruflo-mods@ruflo', '--values-stdin']])
+    expect(world.inputs).toEqual(['{"costBudgetUsd":"5"}'])
+    await pane.press({ key: 'cost-budget-25' })
+    await pane.press({ key: 'cancel' })
+    expect(setters()).toHaveLength(1)
+    await pane.input({ key: 'cost-budget', text: '12.5', kind: 'change' })
+    await pane.press({ key: 'cost-budget-apply' })
+    expect(textOf(await pane.drawn())).toContain('costBudgetUsd to $12.5?')
+    await pane.input({ key: 'cost-budget', text: '--help', kind: 'submit' })
+    expect(textOf(await pane.drawn())).toContain('budget must be a number from 0.01 to 10000 USD')
+    expect((await $.command.run(command('yes'))).text).toBe('Nothing is waiting for a confirm.')
+    expect(setters()).toHaveLength(1)
+    await pane.unmount()
+  })
+
+  test('cost: unsupported configuration says where to set it and no preset or custom entry runs a setter', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    world.respond = argv => argv.includes('configure') ? { exitCode: 1, stdout: '', stderr: 'unknown command configure' } : cliAnswer(argv)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    const cost = await drawn($, 'cost')
+
+    expect(cost.text).toContain('set costBudgetUsd in /config → ruflo-mods')
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.press({ key: 'cost-budget-1' })
+    expect(textOf(await pane.drawn())).not.toContain('Confirm:')
+    await pane.input({ key: 'cost-budget', text: '5', kind: 'submit' })
+    expect((await $.command.run(command('yes'))).text).toBe('Nothing is waiting for a confirm.')
+    expect(world.runs.some(argv => argv.includes('--values-stdin'))).toBe(false)
+    await pane.unmount()
+  })
+
+  test('cost: its probes stay on Cost and model inspection is an immediate offline read', { options: { boot: false, cli: 'npx' } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await drawn($, 'overview')
+    expect(world.runs.some(argv => argv.includes('model-stats') || argv.includes('configure'))).toBe(false)
+    const costStart = world.runs.length
+
+    await drawn($, 'cost')
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+    const before = world.runs.filter(argv => argv.includes('model-stats')).length
+
+    await pane.press({ key: 'cost-model-stats' })
+    expect(textOf(await pane.drawn())).not.toContain('Confirm:')
+    const reads = world.runs.filter(argv => argv.includes('model-stats'))
+
+    expect(reads).toHaveLength(before + 1)
+    expect(reads.every(argv => argv[1] === '--offline')).toBe(true)
+    expect(world.runs.slice(costStart).filter(argv => argv[0] === 'npx').every(argv => argv[1] === '--offline')).toBe(true)
+    await pane.unmount()
   })
 
   test('timeline, approvals and events draw from what was seen; the drill-down opens an agent', { options: { boot: false } }, async ($, on) => {

@@ -9,6 +9,9 @@ import type { Snapshot } from './data/snapshot'
 export type ActionSpec = {
   label: string
   args: readonly string[]
+  /** A fixed command outside ruflo, or an offline read, with optional JSON on stdin. */
+  argv?: readonly string[]
+  stdin?: string
   expect: string
   verify?: (snapshot: Snapshot) => boolean
   /** Reads only: runs at once, without the confirm step, and shows what the CLI printed. */

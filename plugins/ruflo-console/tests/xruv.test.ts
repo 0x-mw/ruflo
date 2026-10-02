@@ -131,7 +131,9 @@ describe('x.ruv.io board', () => {
     const asked = await $.command.run(command(`run x-join ${INVITE}`))
     const shown = textOf(await $.ui.render(paneAt(120)))
 
-    expect(asked.text).toBe('Asked: join x.ruv.io with your own key and an invite. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.')
+    // The first line asks; the next say exactly what runs (the code masked) and that it reaches the network.
+    expect((asked.text ?? '').split('\n')[0]).toBe('Asked: join x.ruv.io with your own key and an invite. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.')
+    expect(asked.text).toContain('with your invite code, masked here')
     expect(shown).toContain('your invite code, masked here')
     expect(shown).not.toContain(INVITE)
 

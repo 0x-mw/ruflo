@@ -33,7 +33,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'learning', key: '6', label: 'Learning', short: 'Lrn', icon: '🧠', blurb: 'router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline', rows: 30 },
   { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness, the flywheel, the audit trend, and a lab that runs every MetaHarness verb', rows: 40 },
   { id: 'memory', key: '8', label: 'Memory', short: 'Mem', icon: '💾', blurb: 'AgentDB entries by namespace: what the swarm has stored', rows: 22 },
-  { id: 'cost', key: '9', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'this session spend against the budget, and how fast it is burning', rows: 20 },
+  { id: 'cost', key: '9', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'set a budget, see where spend is reported, and project its burn', rows: 40 },
   { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', icon: '🕒', blurb: 'each agent busy or idle over the last minutes, beside Claude Code tool calls', rows: 24 },
   { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', icon: '✅', blurb: 'decisions waiting for a person: votes, stealable claims, refused mods, budget', rows: 24 },
   { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '📡', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },
@@ -165,6 +165,8 @@ export type State = {
   probes: Map<string, ProbeResult>
   ruflo: { snapshot: RufloSnapshot | null; route: RufloRoute | null; error: string | null }
   usage: { costUsd?: number; contextPercent?: number } | null
+  /** The custom budget field, kept across redraws. */
+  costBudgetDraft: string
   rufloTools: { tools: number; servers: string[] } | null
   mods: ModSeen[]
   denied: Denied[]
@@ -214,6 +216,8 @@ export type State = {
     /** Turns and spend this session, as the agents reported them. */
     turns: { codex: number; claude: number }
     costUsd: number
+    /** How many terminal results actually reported dollars, including measured zero. */
+    costReports: number
     /** Screen rows scrolled up from the newest (0 follows the tail), and how many lines arrived while scrolled up. */
     scroll: number
     unseen: number
@@ -242,6 +246,7 @@ export function newState(raw: PluginOptions | undefined): State {
     probes: new Map(),
     ruflo: { snapshot: null, route: null, error: null },
     usage: null,
+    costBudgetDraft: '',
     rufloTools: null,
     mods: [],
     denied: [],
@@ -265,7 +270,7 @@ export function newState(raw: PluginOptions | undefined): State {
     xruv: { result: null, running: null, pubkey: null, hasAdminToken: null },
     isRefreshing: false,
     barDrawnAtMs: 0,
-    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },
+    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, costReports: 0, scroll: 0, unseen: 0, asked: null },
     skills: emptySkills(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },

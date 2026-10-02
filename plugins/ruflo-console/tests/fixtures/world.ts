@@ -2,6 +2,7 @@ import type { On, RenderElement, RenderInput, RenderNode, SessionStartInput } fr
 import type { Plugin } from 'claude-code/testing'
 
 import { CLI_OUT } from './ruflo-run'
+import { CONFIGURE_HELP, MODEL_STATS } from './cost'
 
 export const PLUGIN = 'ruflo-console'
 export const CWD = '/work'
@@ -34,6 +35,7 @@ export type World = {
   runs: string[][]
   /** Every path the mod asked fs.read for, refused or not. */
   reads: string[]
+  inputs: string[]
   blits: string[]
   opened: string[]
   commands: string[]
@@ -49,6 +51,9 @@ export type World = {
 export function cliAnswer(argv: readonly string[]): Answer {
   const line = argv.join(' ')
   const out = (name: string): Answer => ({ exitCode: 0, stdout: CLI_OUT[name] ?? '', stderr: '' })
+
+  if (line === 'claude plugin configure --help') return { exitCode: 0, stdout: CONFIGURE_HELP, stderr: '' }
+  if (line.includes('hooks model-stats')) return { exitCode: 0, stdout: MODEL_STATS, stderr: '' }
 
   if (line.endsWith('--version')) return out('version')
   if (line.includes('memory stats')) return out('memory-stats')
@@ -80,6 +85,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
     files: all,
     runs: [],
     reads: [],
+    inputs: [],
     blits: [],
     opened: [],
     commands: [],
@@ -112,6 +118,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
     if (refuse) return { deny: 'process.run withheld' }
 
     world.runs.push([...e.argv])
+    if (e.init?.stdin !== undefined) world.inputs.push(e.init.stdin)
 
     const answer = world.respond(e.argv)
 

@@ -5,7 +5,7 @@
  */
 import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
-import { PROBES, type ProbeResult } from './data/cli'
+import { PROBES, probeArgv, type ProbeResult } from './data/cli'
 import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
@@ -199,7 +199,7 @@ export function createController(state: State, host: Host): Controller {
     lastAttempt.set(probe.id, Date.now())
 
     try {
-      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...probe.args], probe.timeoutMs)
+      const result = await host.run(probeArgv(probe, state.options.cli), probe.timeoutMs)
       const value = result.exitCode === 0 ? (probe.parse(result.stdout) as unknown) : null
 
       state.probes.set(

@@ -211,7 +211,10 @@ async function runAgent(state: State, host: Host, agent: AgentId, prompt: string
     },
     done: ({ costUsd, tokens, isError, message }) => {
       if (agent === 'codex' || agent === 'claude') term.turns[agent] += 1
-      if (costUsd !== undefined) term.costUsd += costUsd
+      if (costUsd !== undefined) {
+        term.costUsd += costUsd
+        term.costReports += 1
+      }
       ended = isError === true ? `✗ ${message ?? 'failed'}` : `✓ ${secs()}${costUsd !== undefined ? ` · $${costUsd.toFixed(3)}` : ''}${tokens !== undefined ? ` · ${tokens.toLocaleString('en-US')} tokens` : ''}`
     },
   }
