@@ -1,4 +1,4 @@
-# ADR 406: Ruflo command coverage through compatible Claude Code mods
+# ADR 406: Ruflo mission control through compatible Claude Code mods
 
 Status: Proposed
 
@@ -6,11 +6,15 @@ Date: 2026 10 01
 
 Decision owner: Ruflo maintainers
 
-Scope: Ruflo command discovery, slash commands, optional mod interfaces, lifecycle ownership, packaging, and migration validation
+Scope: Ruflo mission control, durable mission lifecycle, command discovery, slash command compatibility, optional mod interfaces, budgets, execution evidence, client recovery, packaging, and migration validation
 
 Extends: ADR 404, Ruflo as a Claude Code Mod. Complements ADR 405, ruOS desktops as swarm hosts. Preserves the policy and release authority boundaries in ADR 150, ADR 174, ADR 322A, and ADR 324/325 as referenced by the repository agent guide.
 
 ## 1. Decision
+
+Build Ruflo mission control as an agent management interface inside Claude Code, backed by a durable runtime that is independent of any individual interface. The mission is the primary management object: objective, plan, agents, permissions, budget, execution, evidence, and acceptance criteria. Claude Code mods are one client; CLI, MCP, ruOS, and a future web interface use the same governed runtime contract.
+
+This is a proposed product architecture, not a claim that a complete mission runtime or all client adapters already exist. Command compatibility is the foundation; mission lifecycle and recovery are additional implementation milestones.
 
 Extend the existing Ruflo mod implementation with a canonical command registry and two compatible delivery adapters: existing Markdown command workflows and optional Claude Code mod interfaces. Preserve existing names, arguments, prompt semantics, tool access, policy decisions, and model visible results. Rich interfaces are additive and removable.
 
@@ -64,6 +68,10 @@ Existing policy modes and permissions remain independent of interface mode. Enab
 | I10 | No secret or untrusted memory content becomes an instruction through a view | Redaction and prompt boundary tests |
 | I11 | Unknown capability, policy, source freshness, or completion stays unknown | Refusal, timeout, stale data, and malformed response tests |
 | I12 | CLI, MCP, Codex integrations, and headless use remain functional without mod code | Packed artifact regression suites |
+| I13 | Mission state and execution authority survive loss of any one UI client | Cross client disconnect and recovery drill |
+| I14 | Concurrent clients cannot silently overwrite mission state or reuse obsolete authority | Revision conflict and fencing tests |
+| I15 | Completion requires acceptance evidence for the exact mission and artifact revision | Stale, forged, partial, and mismatched evidence rejection |
+| I16 | Budget reservations are atomic and unknown charges remain accounted for | Concurrent dispatch and provider timeout tests |
 
 ## 5. Architecture and ownership
 
@@ -230,6 +238,8 @@ All new paths below are proposed. Existing named paths are integration points, n
 | P5 workflow coverage | Prompt fixtures and verified engine affordances | Per-command delegates or direct adapters with disposition reasons | Every cataloged command reachable without semantic regression |
 | P6 release qualification | Packed CLI and marketplace candidates | Compatibility report, signed helper updates if needed, migration/rollback guide | All release gates pass; separate release authorization |
 
+P6 qualifies the command compatibility release only. The mission control product additionally requires M0 through M3 in section 19; it must not be advertised as complete at P6.
+
 Extend existing `src/commands/mods.ts` for proposed catalog, compatibility, and workbench management subcommands after CLI naming review. Do not silently change existing install behavior to enable the workbench. Extend `plugins/ruflo-mods/types/index.d.ts` only for necessary additive contracts. Reuse `plugins/ruflo-swarm/hooks/commands.ts` and its controller through reviewed shared interfaces without cross-folder sandbox imports.
 
 Add tests under the existing `v3/@claude-flow/cli/__tests__/mods` family and a new workbench engine test directory. Add deterministic catalog and packed artifact validation to the existing build/release workflow. Command generation must not overwrite customized project files during ordinary install or update.
@@ -292,7 +302,158 @@ Some commands will remain delegates indefinitely if the engine cannot preserve t
 
 The first implementation decision is P0 plus P1, followed by an observation only workbench. The largest risk is semantic drift or duplicated actions hidden behind a successful UI. The acceptance test is to replay the full command fixture inventory with mods off and on, inject lifecycle and transport failures, and verify unchanged permissions and exactly one intended execution or an explicit unresolved outcome.
 
-## 19. Sources
+## 19. Mission control architecture and implementation
+
+### 19.1 Product contract and interface
+
+The interface must answer six practical questions: what objective is being pursued, who is doing the work, what is blocked, what authority and budget remain, what actually changed, and what evidence proves success.
+
+| View | Contents | Primary action |
+|---|---|---|
+| Missions | Objective, owner, lifecycle state, freshness, budget, acceptance summary | Create or resume a mission |
+| Plan | Task dependency graph, selected executors, estimated cost, capability scope | Review and authorize a plan revision |
+| Execution | Task progress, executor health, claims, resource leases, blocked dependencies | Request pause, cancellation, or scoped replanning |
+| Memory and decisions | Retrieved sources, provenance, competing options, recorded rationale | Inspect or exclude evidence from a future plan revision |
+| Evaluation | Baseline versus candidate, quality, cost, latency, safety, failed criteria | Request evaluation or review its receipt |
+| Evidence and recovery | Artifact digests, executor receipts, acceptance verdicts, checkpoints, rollback target | Verify completion or request an authorized rollback |
+
+The terminal interface begins with a mission list and focused detail view, not six permanent panes. It must remain useful in a narrow terminal. Each action has a text command equivalent. Display rationale and observable decisions, never hidden model reasoning. Plan estimates are labeled estimates; measured spend and verified results have separate fields.
+
+### 19.2 Runtime authority and ecosystem roles
+
+The mission service owns durable state transitions, dispatch admission, budget reservations, and evidence indexing. It invokes existing Ruflo policy and executor integrations. Its persistence and transactional implementation must be selected from actual runtime capabilities during M0.
+
+| Component | Proposed mission role | Boundary |
+|---|---|---|
+| Ruflo | Coordination, task dependencies, policy routing, mission state | Recording a task does not execute it |
+| RuVector | Retrieval, memory provenance, optional decision comparisons | Retrieved similarity is not authorization or verified truth |
+| MetaHarness | Baseline and candidate evaluations, reproducible comparisons | An evaluation result cannot authorize its own promotion |
+| Autogenous | Optional adaptation lineage and governed rollback evidence | Adapter must be verified; cannot widen mission authority |
+| ruOS or another admitted executor | Execute work in an identified environment and return evidence | Provisioned desktop, transport connection, and healthy executor are different states |
+| Claude Code mod, MCP, CLI, web | Observe and submit scoped requests | No client owns the authoritative mission state |
+
+Existing standalone commands continue to work without creating missions. Commands invoked from a mission bind to its task, policy, budget, and execution identity. A command is enrolled only when its effects and recovery semantics are understood. Reading an existing command's status must not retroactively claim ownership of its execution.
+
+### 19.3 Mission record
+
+Proposed logical schema; this is not a currently exported SDK type:
+
+```ts
+interface MissionRecord {
+  schemaVersion: 1;
+  missionId: string;
+  tenantId: string;
+  workspaceId: string;
+  ownerPrincipalId: string;
+  revision: number;
+  objective: string;
+  plan: { revision: number; digest: string; taskGraphRef: string };
+  policyRef: string;
+  authorizationRef?: string;
+  budgetRef: string;
+  executionMode: 'durable-executor' | 'session-bound';
+  state: MissionState;
+  evidenceRefs: readonly string[];
+  acceptance: { revision: number; criteriaDigest: string };
+  lastEventSequence: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+type MissionState =
+  | 'draft' | 'planned' | 'awaitingAuthorization' | 'queued'
+  | 'running' | 'pauseRequested' | 'paused' | 'blocked'
+  | 'verifying' | 'completed' | 'failed'
+  | 'cancelRequested' | 'cancelled';
+```
+
+Executor connection state is a separate observation: healthy, stale, disconnected, or unknown. A disconnected executor does not establish failure or cancellation. Store connection age and last acknowledged execution ID alongside the observation.
+
+Use append-only transition records with sequence numbers and materialized snapshots. Each record binds mission ID, expected revision, principal, request ID, policy decision reference, and server timestamp. A hash chain detects changes but does not by itself establish trusted origin; verified claims need an authenticated producer or the existing signed receipt mechanism.
+
+### 19.4 State transitions and authority
+
+| From | Request or event | To | Required condition |
+|---|---|---|---|
+| draft | Plan validated | planned | Task graph, scope, budget, and acceptance criteria are well formed |
+| planned | Authority missing | awaitingAuthorization | Concrete plan and effects available for review |
+| planned or awaitingAuthorization | Admission accepted | queued | Current authorization covers the exact plan and budget reservation |
+| queued | Executor acknowledges | running | Executor identity and lease are valid |
+| running | Pause accepted | pauseRequested | No further task admission; in-flight work remains tracked |
+| pauseRequested | Quiescence confirmed | paused | Tasks reached safe checkpoints or completed |
+| running or queued | Dependency, authority, or budget unavailable | blocked | Record reason and unresolved in-flight operations |
+| paused or blocked | Resume admitted | queued | Fresh policy, budget, dependency, and checkpoint checks |
+| running | Required tasks settled | verifying | No unresolved required operation or unknown mutation outcome |
+| verifying | All acceptance criteria satisfied | completed | Evidence binds to the current plan, criteria, and exact artifacts |
+| verifying | Acceptance fails | failed | Failure evidence recorded; replanning creates a new plan revision |
+| any nonterminal state | Cancellation admitted | cancelRequested | Stop new admission and request executor cancellation |
+| cancelRequested | All relevant executors acknowledge settlement | cancelled | Preserve effects already produced and outstanding remediation |
+| active state | Verified unrecoverable failure | failed | Do not equate lost connectivity with verified failure |
+
+Retries from failed missions create a new authorized attempt and preserve prior evidence. Terminal mission history is immutable. Rollback is a linked compensating operation with its own status and verification; a completed mission does not become uncompleted by rewriting its history.
+
+Replanning records a new plan revision, fences obsolete dispatch, and invalidates approval when effects, targets, requested capabilities, or approved limits change beyond the existing authorization. User approval is not repeated for unchanged actions already covered by a valid scope.
+
+### 19.5 Task graph, leases, and execution recovery
+
+Each task identifies dependencies, executor requirements, capability ceiling, workspace or resource claims, invocation IDs, checkpoint format, and acceptance evidence. Dependencies must form an acyclic graph or use an explicit bounded loop construct with a stop condition, iteration limit, and budget.
+
+Schedule ready tasks only after policy and atomic budget admission. Concurrent executors claim scoped leases with fencing epochs. A replacement worker cannot mutate resources using an older epoch. Lease expiry triggers reconciliation, not blind replay. Commands without backend idempotency or queryable outcomes remain blocked after ambiguous completion until their effects are established.
+
+Durable execution requires a runtime or executor whose lifetime is independent of the Claude process. If a task uses a Claude session bound tool, declare it `session-bound`; closing that session cannot be promised to preserve execution. Such work must checkpoint and await a compatible session, or report its unresolved outcome. The product must not hide this distinction under a universal background running badge.
+
+### 19.6 Budgets and resource control
+
+Use explicit currency and integer monetary units. Track estimated cost, settled spend, reserved maximum cost, and unresolved charge exposure separately. Admission requires settled spend plus reserved exposure plus the new reservation to remain within the authorized ceiling. Reservations include in-flight work; atomic updates prevent parallel tasks from oversubscribing the budget.
+
+Budget dimensions include provider spend, tokens, wall time, concurrency, retries, and selected compute resources. Lowering limits applies immediately to new admission. Raising them requires existing sufficient authority or a new approval. Provider calls with uncertain final charges keep their reservation until reconciled; unknown usage is never reset to zero.
+
+A strict monetary ceiling is supported only when the provider's maximum charge can be bounded and existing work fits the reservation. Otherwise label it an admission ceiling with disclosed overshoot exposure. On exhaustion, block new tasks and request safe quiescence; do not promise that an already accepted external request can be cancelled or refunded.
+
+Observation panels incur no model calls. Optional recommendations or plan generation explicitly consume a mission or user approved planning budget.
+
+### 19.7 Shared API and multiple clients
+
+Proposed semantic operations are `mission.create`, `mission.plan`, `mission.get`, `mission.events`, `mission.requestAction`, and `mission.verify`. Transport names and schemas are finalized during M0. CLI, MCP, and future web adapters share versioned validation and authorization; they do not reinterpret mission policy independently.
+
+Every mutation includes request ID and expected mission revision. The server derives principal and tenant from authenticated context and rejects stale revisions with a refreshable conflict. A browser session cannot inherit a terminal credential simply because it knows a mission ID. Read access and control access are distinct and rechecked on reconnect.
+
+Consumers resume events from a durable cursor. Delivery may repeat events; clients deduplicate by mission ID and sequence. A retention gap requires a new snapshot with its sequence boundary, followed by replay. Never infer new execution requests from replayed display events.
+
+Cross device recovery requires an authorized reachable runtime. A local mission service may remain loopback only; remote access is a separately authenticated deployment capability. The initial acceptance test may use two local clients, but must not claim remote or web recovery until those adapters are implemented and tested.
+
+### 19.8 Evidence and verified completion
+
+Define acceptance criteria before execution. Each criterion names its check, inputs, baseline if relevant, threshold, evidence producer, and whether independent validation is required. Results bind task ID, attempt, source or artifact digest, tool or evaluator version, environment, and exit or verification status.
+
+Completion requires all mandatory criteria to pass with no unknown required operations. Optional criteria and waived criteria remain visible. Waivers require an authorized acceptance revision and cannot silently relax safety or governance rules. An agent narrative, task status flag, UI animation, or successful transport response cannot serve as a completion receipt.
+
+Candidate comparisons use the same declared workload and resource accounting. MetaHarness results and Autogenous recommendations remain advisory to the separately authorized promotion path. Rollback success requires evidence of restored artifact identity and health, not just acceptance of a rollback command.
+
+### 19.9 Mission delivery stages
+
+| Stage | Inputs and assumptions | Outputs | Acceptance gate |
+|---|---|---|---|
+| M0 contract and storage | Existing runtime, identity, policy, and persistence audit; independent executor availability unknown | Versioned mission schemas, transition validator, durable store decision, migration design | State replay and revision conflict tests pass |
+| M1 mission observation | M0 plus P2 workbench | Mission list, plan, task graph, evidence and budget views | Snapshot plus event replay reconstructs the same state |
+| M2 governed execution | P4 dispatch, M0 authority, admitted executor | Task admission, budget reservations, pause/cancel/replan, durable invocation references | Fault suite shows no unauthorized or duplicated effects |
+| M3 client recovery | M2 and at least two implemented authorized clients | Cursor recovery, control conflicts, executor reconciliation, rollback drill | Cross client mission recovery test passes |
+
+Suggested new runtime module path is `v3/@claude-flow/cli/src/missions/`, subject to M0's reuse decision. Do not place the durable service inside mod hooks. Full web UI delivery and remote ruOS execution remain separate adapters, each with its own evidence and access checks.
+
+### 19.10 Mission acceptance and failure tests
+
+The primary acceptance scenario uses a durable executor and a controlled three task mission: produce an artifact, evaluate it, and verify acceptance. Start through the Claude Code mod, record mission ID and cursor, close Claude Code during execution, then reconnect using an authorized CLI or MCP client. Recover the same mission revision, task identities, budget reservations, evidence, and available controls. Complete or pause through that client with no duplicated task dispatch. Reopen Claude Code and reconstruct the same state.
+
+Repeat with a session bound executor and require an honest blocked or unknown state rather than a false claim of continued work. Repeat with a client lacking control scope and require observation only.
+
+Additional required tests cover concurrent client pause and replan requests, revoked authority on reconnect, stale fencing epochs, budget exhaustion during parallel admission, delayed provider charges, event replay duplicates, cursor retention gaps, invalid evidence signatures, evidence for the wrong artifact, service restart, disk full, and rollback with failed health confirmation.
+
+Proposed local recovery target is p95 below 2 seconds for a mission of 100 tasks and 1,000 retained events, excluding authentication interaction and remote network delay. Test at least 30 reconnects and report hardware, dataset size, cold versus warm behavior, and actual measurements. Recovery must make zero provider calls and submit zero new execution requests.
+
+The business acceptance experiment compares 20 representative missions using the existing CLI workflow against the workbench. Target a 20% reduction in median time to locate and diagnose blocked work, with no increase in incorrect actions or task failures. This is an evaluation target, not a claimed benefit. Safety, compatibility, and evidence correctness remain mandatory even if the usability target is met.
+
+## 20. Sources
 
 Repository links are pinned to the reviewed source commit. Benchmark and engine claims inside linked ADRs remain those documents' reports.
 
