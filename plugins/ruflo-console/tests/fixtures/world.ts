@@ -111,7 +111,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
   on('env.get', ($, e) => (refuse ? { deny: 'env withheld' } : { value: e.name === 'HOME' ? HOME : undefined }))
   on('settings.read', () => (refuse ? { deny: 'settings withheld' } : { value: { enabledPlugins: { 'ruflo-core@ruflo': true } } as never }))
   on('session.usage', () => (refuse ? { deny: 'usage withheld' } : { value: { context: { tokens: 50_000, window: 200_000, percent: 25 }, rateLimits: [], cost: { usd: 0.4213 } } as never }))
-  on('tool.list', () => (refuse ? { deny: 'tools withheld' } : { value: [{ name: 'mcp__claude-flow__swarm_init' }, { name: 'mcp__claude-flow__claims_board' }, { name: 'Read' }] as never }))
+  on('tool.list', () => (refuse ? { deny: 'tools withheld' } : { value: [{ name: 'mcp__plugin_ruflo-core_ruflo__swarm_init' }, { name: 'mcp__plugin_ruflo-core_ruflo__claims_board' }, { name: 'Read' }] as never }))
   on('store.get', ($, e) => (refuse ? { deny: 'store withheld' } : { value: world.stored.get(e.key) }))
   on('store.set', ($, e) => {
     if (refuse) return { deny: 'store withheld' }

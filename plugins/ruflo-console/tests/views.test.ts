@@ -44,7 +44,7 @@ describe('views', () => {
     expect(rasters).toEqual(['header', 'activity'])
     expect(text).toContain('v3.50.0 (npx-offline)')
     expect(text).toContain('running per daemon-state.json')
-    expect(text).toContain('1 ruflo server connected (claude-flow) · 2 tools callable now')
+    expect(text).toContain('1 ruflo server connected (plugin_ruflo-core_ruflo) · 2 tools callable now')
     expect(text).toContain('manifest v3.32.24')
     expect(text).toContain('seated · policy observe · routed 4')
     expect(text).toContain('swarm-1790903031804-y9rnjr · hierarchical · running · 2 agents')
