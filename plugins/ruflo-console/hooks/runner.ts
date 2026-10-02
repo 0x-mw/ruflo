@@ -6,6 +6,7 @@
 import type { ActionSpec } from './actions'
 import { plain } from './data/parse'
 import type { Host } from './host'
+import { labLines } from './mh-lab'
 import { outputLines } from './ops'
 import { filterPalette, paletteEntries, textOfQuery, type PaletteEntry } from './palette'
 import { CLI_PREFIXES, type State } from './state'
@@ -26,10 +27,13 @@ export type Runner = {
   cancel: () => void
   runEntry: (entry: PaletteEntry, text: string) => void
   runById: (id: string, text: string) => boolean
+  /** Resolves when the read started last has finished: `/ruflo run` waits on it to answer with what it printed. */
+  settled: () => Promise<void>
 }
 
 export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner {
   let pendingSpec: ActionSpec | null = null
+  let inflight: Promise<void> = Promise.resolve()
 
   const say = (label: string, ok: boolean, detail: string, lines?: string[]) => {
     state.outcome = { label, ok, verified: 'n/a', detail, atMs: Date.now(), ...(lines !== undefined && { lines }) }
@@ -45,16 +49,23 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     }
 
     state.isActing = true
+    if (spec.lab !== undefined) state.lab.running = { id: spec.lab, label: spec.label, startedAtMs: Date.now() }
     host.invalidate()
 
     try {
-      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...spec.args], 90_000)
+      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000)
       const answer = /"success"\s*:\s*(true|false)/.exec(result.stdout)?.[1]
       const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1] ?? /\[ERROR\]\s*(.{0,160})/.exec(result.stdout)?.[1]
       const ok = result.exitCode === 0 && answer !== 'false' && error === undefined
 
+      // A lab run's output goes to the lab's result panel, scrolled from its top; the footer keeps the one-line outcome.
+      if (spec.lab !== undefined) {
+        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
+        state.select.item = 0
+      }
+
       if (spec.isReadOnly === true) {
-        say(spec.label, ok, ok ? 'the ruflo CLI answered:' : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`, outputLines(result.stdout))
+        say(spec.label, ok, ok ? 'the ruflo CLI answered:' : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`, spec.lab === undefined ? outputLines(result.stdout) : undefined)
 
         return
       }
@@ -71,9 +82,13 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
         atMs: Date.now(),
       }
     } catch (error) {
-      say(spec.label, false, plain(error instanceof Error ? error.message : String(error), 160) || 'refused')
+      const why = plain(error instanceof Error ? error.message : String(error), 160) || 'refused'
+
+      if (spec.lab !== undefined) state.lab.result = { id: spec.lab, label: spec.label, ok: false, exitCode: null, ...(spec.note !== undefined && { note: spec.note }), lines: [why], atMs: Date.now() }
+      say(spec.label, false, why)
     } finally {
       state.isActing = false
+      state.lab.running = null
       host.invalidate()
     }
   }
@@ -88,13 +103,13 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     }
 
     if (spec.isReadOnly === true) {
-      void execute(spec)
+      inflight = execute(spec)
 
       return
     }
 
     pendingSpec = spec
-    state.pending = { label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now(), ...(spec.shows !== undefined && { shows: spec.shows }) }
+    state.pending = { label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now(), ...(spec.shows !== undefined && { shows: spec.shows }), ...(spec.note !== undefined && { note: spec.note }) }
     host.invalidate()
   }
 
@@ -158,5 +173,5 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     return true
   }
 
-  return { ask, confirm, cancel, runEntry, runById }
+  return { ask, confirm, cancel, runEntry, runById, settled: () => inflight }
 }

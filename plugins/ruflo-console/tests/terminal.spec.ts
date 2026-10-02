@@ -10,6 +10,7 @@ import { argvOf, harnessSpec, isLive, newSession, send, termText, whyNotRun } fr
 import type { Host } from '../hooks/host'
 import { newState, restoreSessions, type State } from '../hooks/state'
 import { claudeParser, codexEvent, eventOf, type Sink } from '../hooks/stream'
+import { screenOf } from '../hooks/views/terminal'
 
 type Chunk = { stream: 'stdout' | 'stderr'; text: string }
 
@@ -117,7 +118,7 @@ describe('terminal sessions', () => {
     send(state, host, 'where is auth?')
     await settled(state)
 
-    expect(shown(state)).toEqual(['in:codex> where is auth?', 'tool:$ rg -n auth src', 'out:Auth lives in src/auth.ts.', expect.stringMatching(/^sys:✓ \d+ s · 940 tokens$/)])
+    expect(shown(state)).toEqual(['codex in:where is auth?', 'codex head:codex', 'codex tool:$ rg -n auth src', 'codex out:Auth lives in src/auth.ts.', expect.stringMatching(/^codex end:✓ \d+ s · 940 tokens$/)])
     expect(state.terminal.sessions.codex).toBe('01a0fe1f-b077-7793-9612-f134bd61bc85')
     expect(stored.get('ruflo-console/term:/work')).toEqual({ codex: '01a0fe1f-b077-7793-9612-f134bd61bc85' })
     expect(state.terminal.turns.codex).toBe(1)
@@ -132,7 +133,7 @@ describe('terminal sessions', () => {
     send(state, host, 'hi')
     await settled(state)
 
-    expect(shown(state)).toEqual(['in:claude> hi', 'out:Hello there', 'out:second', 'tool:⚙ Read src/auth.ts', expect.stringMatching(/^sys:✓ \d+ s · \$0\.012$/)])
+    expect(shown(state)).toEqual(['claude in:hi', 'claude head:claude', 'claude out:Hello there', 'claude out:second', 'claude tool:⚙ Read src/auth.ts', expect.stringMatching(/^claude end:✓ \d+ s · \$0\.012$/)])
     expect(state.terminal.sessions.claude).toBe('6b1c2d3e-0000-4000-8000-000000000001')
     expect(state.terminal.costUsd).toBeCloseTo(0.0123)
   })
@@ -183,6 +184,33 @@ describe('terminal sessions', () => {
     claudeParser()({ type: 'assistant', message: { content: [{ type: 'text', text: 'whole' }] } }, sink)
     expect(lines).toEqual(['tool:✎ update a.ts', 'out:whole'])
     expect(termText('  a‮b\u0007\u001b]0;title\u0007c  ')).toBe('  abc')
+  })
+})
+
+describe('terminal screen', () => {
+  it('frames each turn, reads light markdown, and lets a question be clicked to ask again', () => {
+    const rows = screenOf(
+      [
+        { kind: 'in', text: 'explain auth', from: 'claude' },
+        { kind: 'head', text: 'claude', from: 'claude' },
+        { kind: 'out', text: '## Auth', from: 'claude' },
+        { kind: 'out', text: '- tokens expire', from: 'claude' },
+        { kind: 'out', text: '```ts', from: 'claude' },
+        { kind: 'out', text: 'const a = 1', from: 'claude' },
+        { kind: 'out', text: '```', from: 'claude' },
+        { kind: 'end', text: '✓ 3 s', from: 'claude' },
+      ],
+      60,
+    )
+
+    expect(rows.map(entry => `${entry.gutter}${entry.text}`)).toEqual(['  ', '╭─ you → claude', '│  explain auth', '├─ claude', '│  Auth', '│  • tokens expire', '│  ┌┄ ts', '│  ┆ const a = 1', '│  └┄', '╰─ ✓ 3 s'])
+    expect(rows[2]?.reuse).toBe('explain auth')
+  })
+
+  it('wraps a long answer at word boundaries instead of cutting it', () => {
+    const rows = screenOf([{ kind: 'out', text: 'one two three four five six seven', from: 'codex' }], 14)
+
+    expect(rows.map(entry => entry.text)).toEqual(['one two three', 'four five six', 'seven'])
   })
 })
 

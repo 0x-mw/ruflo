@@ -13,6 +13,7 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
+import { listSkills } from './skills'
 import { CLI_PREFIXES, isBooting, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
@@ -324,9 +325,10 @@ export function createController(state: State, host: Host): Controller {
     state.timers.clear()
   }
 
-  async function open(focus = true): Promise<{ isPlaced: boolean; reason: string }> {
+  /** `closeOnEscape` false: take the keys but leave Esc handing them back, as an auto-opened pane does. */
+  async function open(focus = true, closeOnEscape = focus): Promise<{ isPlaced: boolean; reason: string }> {
     try {
-      const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(focus && { focus: true, closeOnEscape: true, holdToasts: true }) })
+      const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(focus && { focus: true, holdToasts: true }), ...(closeOnEscape && { closeOnEscape: true }) })
       const isPlaced = result === undefined || result.isPlaced !== false
 
       if (isPlaced && !state.pane.isOpen) state.pane.bootAtMs = Date.now()
@@ -393,11 +395,25 @@ export function createController(state: State, host: Host): Controller {
     host.invalidate()
     // The terminal is for typing: its field takes the keys as it opens, so letters reach it, not the pane's hotkeys.
     if (view === 'terminal') focusField('term-input')
+    // Opening the skills view is the person asking for its lists (npx skills reaches the network, so never unasked).
+    if (view === 'skills') {
+      void listSkills(state, host)
+      focusField('skills-search')
+    }
   }
 
-  /** Moves the pane's focus ring onto one of its fields; refused (the pane does not hold the keys), nothing happens. */
+  /**
+   * Puts the keys in one of the pane's fields. A pane that opened by itself (panel=auto) does not hold the keys, and a
+   * mouse click on a tab does not give them, so a person who clicked their way to the terminal would type into
+   * Claude's prompt instead. Here the pane takes the keys first (an open with focus), then the ring moves to the field.
+   */
   function focusField(key: string): void {
-    if (state.pane.isOpen && state.pane.isFocused) void host.focus(PANE_ID, key).catch(() => undefined)
+    if (!state.pane.isOpen) return
+
+    const toField = () => void host.focus(PANE_ID, key).catch(() => undefined)
+
+    if (state.pane.isFocused) toField()
+    else void open(true, false).then(result => result.isPlaced && toField())
   }
 
   function drill(agentId: string): void {

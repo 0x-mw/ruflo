@@ -1,9 +1,11 @@
 import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
+import { HIVE_FILES, RAFT_ID, WORKERS } from './fixtures/hive'
 import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
-import { command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
+import { FIND_OUT, LS_GLOBAL } from './fixtures/skills'
+import { cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const HOME_FILES = {
   '.claude/plugins/installed_plugins.json': JSON.stringify({
@@ -66,7 +68,56 @@ describe('views', () => {
     expect(text).toMatch(/· #[a-z0-9]{4,6}/)
     expect(text).toContain('design (raft) pending · for 0 · against 0')
     expect(text).not.toContain(HIVE_TOKEN)
-    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['agent-next', 'agent-prev', 'drill', 'palette', 'actions']))
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['agent-next', 'agent-prev', 'drill', 'palette', 'actions', 'open-hive']))
+    // The Hive-Mind tab has no hotkey: every digit and letter is taken.
+    const tabProps = (key: string) => (elementsOf(tree, 'Button').find(button => keyOf(button) === key) as { props?: Record<string, unknown> } | undefined)?.props
+
+    expect(tabProps('tab-claims')?.hotkey).toBe('3')
+    expect(tabProps('tab-hive')).toBeDefined()
+    expect(tabProps('tab-hive')?.hotkey).toBeUndefined()
+  })
+
+  test('hive: the honeycomb, quorum and fault tolerance, proposals, workers, decisions, broadcasts, no token', { options: { boot: false } }, async ($, on) => {
+    worldOf(on, HIVE_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters, tree } = await drawn($, 'hive')
+
+    expect(rasters).toEqual(['header', 'title', 'hive'])
+    expect(text).toContain('queen-1790903321632 · term 2')
+    expect(text).toContain('raft · proposals vote raft')
+    expect(text).toContain('tolerates 1 faulty of 3 (raft f < n/2)')
+    expect(text).toContain('2 of 3 votes to pass (majority)')
+    expect(text).toContain('3 · 1 busy · 1 idle · 0 down · 1 in no agent store')
+    expect(text).toContain('▸◇ design (raft T2 · timed out) pending · for 1 · against 0')
+    expect(text).toContain('need 2 of 3')
+    expect(text).toContain(`a vote is cast as the next worker that has not voted: ${WORKERS[1]}`)
+    expect(text).toContain('budget → rejected · for 1 · against 2 · bft · 1 byzantine')
+    expect(text).toContain('[high] system: freeze the main branch')
+    expect(text).toContain('propose: n/a — raft term 2 already has design')
+    expect(text).not.toContain(HIVE_TOKEN)
+    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['hive-propose', 'hive-broadcast'])
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['hive-vote-yes', 'hive-vote-no', 'hive-spawn-worker']))
+  })
+
+  test('hive: a vote asks before it runs, then runs one fixed argv as the next worker on yes', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, HIVE_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('hive'))
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+    const votes = () => world.runs.filter(argv => argv.includes('consensus'))
+
+    await pane.press({ key: 'hive-vote-yes' })
+    expect(textOf(await pane.drawn())).toContain(`Confirm: vote for design (${RAFT_ID}) as worker ${WORKERS[1]}?`)
+    expect(votes()).toHaveLength(0)
+
+    await pane.press({ key: 'confirm' })
+    expect(votes()).toHaveLength(1)
+    expect(votes()[0]?.slice(4)).toEqual(['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', RAFT_ID, '--vote', 'yes', '--voter-id', WORKERS[1], '--format', 'json'])
+    await pane.unmount()
   })
 
   test('claims: the flow diagram with lanes and rings, the board, and the act row', { options: { boot: false } }, async ($, on) => {
@@ -132,6 +183,26 @@ describe('views', () => {
     expect(rasters).toEqual(['header', 'title', 'radar', 'trend'])
     expect(text).toContain('$0.024')
     expect(text).toContain('valid · 0 commits · 0 receipts')
+  })
+
+  test('metaharness lab: every verb by purpose with its cost tag and button; promote is a command, never a button', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'metaharness')
+    const buttons = elementsOf(tree, 'Button').map(keyOf)
+
+    expect(text).toMatch(/LAB · INSPECT/i)
+    expect(text).toMatch(/LAB · EVOLVE & TEST/i)
+    expect(text).toMatch(/ \$\$ \n REDBLUE JUDGED \.+/)
+    expect(text).toContain('ruflo metaharness flywheel promote <receipt-id> --public-key <approved-ed25519.pem> --confirm')
+    expect(text).toContain('nothing run yet')
+    expect(buttons).toEqual(expect.arrayContaining(['lab-mh-genome', 'lab-mh-mcp-scan', 'lab-mh-audit', 'lab-mh-redblue-real', 'lab-mh-learn-run', 'lab-mh-flywheel-run']))
+    expect(buttons.some(key => /promote/.test(key))).toBe(false)
+    // Drawing the lab runs nothing but the view's own probes.
+    expect(world.runs.some(argv => /genome|mcp-scan|redblue|evolve|learn/.test(argv.join(' ')))).toBe(false)
   })
 
   test('memory and cost: entries, a namespace sample; spend, the gauge, the ladder and the burn', { options: { boot: false } }, async ($, on) => {
@@ -232,6 +303,48 @@ describe('views', () => {
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
   })
 
+  test('skills: installed, search and create sections; opening lists, nothing else runs until asked and confirmed', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    const skillRuns = () => world.runs.filter(argv => argv[2] === 'skills').map(argv => argv.slice(3).join(' '))
+
+    world.respond = argv => (argv[2] !== 'skills' ? cliAnswer(argv) : argv[3] === 'ls' ? { exitCode: 0, stdout: argv.includes('-g') ? LS_GLOBAL : '[]', stderr: '' } : argv[3] === 'find' ? { exitCode: 0, stdout: FIND_OUT, stderr: '' } : { exitCode: 0, stdout: 'done\n', stderr: '' })
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'skills')
+
+    expect(text).toContain('INSTALLED')
+    expect(text).toContain('SEARCH')
+    expect(text).toContain('CREATE')
+    expect(text).toContain('0 project · 2 global')
+    expect(text).toMatch(/ faceless-explainer \.+/)
+    expect(text).toContain('Claude Code, Codex')
+    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['skills-search', 'skills-create'])
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['sk-update-0', 'sk-remove-0', 'sk-edit-0']))
+    // The tab has no hotkey, and the current one reads without a key.
+    expect(text).toContain('[🧰 SKILLS]')
+    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json'])
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.input({ key: 'skills-search', text: 'react', kind: 'submit' })
+
+    const found = textOf(await pane.drawn())
+
+    expect(found).toMatch(/ mattpocock\/skills@tdd \.*/)
+    expect(found).toContain('1M installs')
+    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json', 'find react'])
+
+    await pane.press({ key: 'sk-addg-0' })
+    expect(textOf(await pane.drawn())).toContain('runs: npx -y skills add mattpocock/skills@tdd -g -y')
+    expect(skillRuns().some(line => line.startsWith('add'))).toBe(false)
+
+    await pane.press({ key: 'confirm' })
+    await pane.drawn()
+    expect(skillRuns()).toContain('add mattpocock/skills@tdd -g -y')
+    await pane.unmount()
+  })
+
   test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
@@ -242,7 +355,8 @@ describe('views', () => {
     const menu = await pane.drawn()
 
     expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'title'])
-    expect(textOf(menu)).toContain('■Swarm Commands■')
+    expect(textOf(menu)).toContain('▓▒░ SWARM ░▒▓')
+    expect(textOf(menu)).toContain('── live')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
     expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-prompt'])

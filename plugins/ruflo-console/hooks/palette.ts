@@ -3,8 +3,11 @@
  * entries from the state; the controller runs the one picked. Text-taking entries (route, store, search) read their
  * argument from the query after their keyword: `route fix the login bug`.
  */
+import { HIVE_ROLES, pickedProposal } from './data/hive'
+import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
-import { AGENT_TYPES, agentLogs, dispatchWorker, harnessAudit, harnessScore, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
+import { LAB, labSpec, labWhy } from './mh-lab'
+import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
 import { selection } from './views/select'
 
@@ -46,7 +49,7 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS = ['route', 'store', 'search'] as const
+const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast'] as const
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
@@ -81,13 +84,37 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   add('swarm-init', 'swarm', 'start a swarm: init hierarchical, max 8, specialized', { kind: 'spec', spec: swarmInit(), why: '' })
   add('swarm-stop', 'swarm', 'stop the swarm', { kind: 'spec', spec: swarmStop(), why: '' })
 
-  for (const proposal of state.snapshot?.hive?.pending.slice(-3) ?? []) {
-    add(`vote-yes-${proposal.id}`, 'hive', `vote yes on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: vote(proposal.id, true), why: 'that proposal id cannot be passed to ruflo' })
-    add(`vote-no-${proposal.id}`, 'hive', `vote no on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: vote(proposal.id, false), why: 'that proposal id cannot be passed to ruflo' })
+  // A vote counts only from a registered worker (the CLI exits 0 on a refused one), so the palette votes as the next
+  // worker that has not voted, as the Hive-Mind view does; with no worker left it says so instead of a silent no-op.
+  const hiveNow = state.snapshot?.hive ?? null
+
+  for (const proposal of hiveNow?.pending.slice(-3) ?? []) {
+    const why = 'no registered worker is left to vote as (hive-mind spawn adds workers), or the proposal id cannot be passed'
+
+    add(`vote-yes-${proposal.id}`, 'hive', `vote yes on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: hiveNow === null ? vote(proposal.id, true) : hiveVote(hiveNow, proposal, true), why })
+    add(`vote-no-${proposal.id}`, 'hive', `vote no on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: hiveNow === null ? vote(proposal.id, false) : hiveVote(hiveNow, proposal, false), why })
   }
 
-  add('mh-score', 'metaharness', 'score the harness now (metaharness score)', { kind: 'spec', spec: harnessScore(), why: '' })
-  add('mh-audit', 'metaharness', 'run a MetaHarness audit (oia-audit)', { kind: 'spec', spec: harnessAudit(), why: '' })
+  const hive = state.snapshot?.hive ?? null
+  const picked = pickedProposal(hive, state.select.item)
+
+  // The Hive-Mind view's actions; a text entry's id is its keyword, as `runById` reads the text after it.
+  if (hive !== null) {
+    if (picked !== null) {
+      const why = hive.workers.length === 0 ? 'no registered worker to vote as: spawn one' : 'every worker has voted on it'
+
+      add('hive-vote-yes', 'hive', `vote for ${picked.type} as the next worker (${picked.id})`, { kind: 'spec', spec: hiveVote(hive, picked, true), why })
+      add('hive-vote-no', 'hive', `vote against ${picked.type} as the next worker (${picked.id})`, { kind: 'spec', spec: hiveVote(hive, picked, false), why })
+    }
+
+    add('propose', 'hive', 'propose <type: text>: put a decision to the hive', { kind: 'text', keyword: 'propose', make: text => hivePropose(hive, text) })
+    add('broadcast', 'hive', 'broadcast <text>: message every hive worker', { kind: 'text', keyword: 'broadcast', make: hiveBroadcast })
+
+    for (const role of HIVE_ROLES) add(`hive-spawn-${role}`, 'hive', `spawn a hive ${role} and join it`, { kind: 'spec', spec: hiveSpawn(hive, role), why: 'unknown role' })
+  }
+
+  // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
+  for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 
@@ -95,7 +122,7 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   add('store', 'memory', 'store <text>: save a note in memory namespace console', { kind: 'text', keyword: 'store', make: text => memoryStore(text, nowMs) })
   add('search', 'memory', 'search <query>: semantic memory search', { kind: 'text', keyword: 'search', make: memorySearch })
 
-  for (const view of VIEWS) add(`view-${view.id}`, 'views', `go to ${view.label} (${view.key})`, { kind: 'view', view: view.id })
+  for (const view of VIEWS) add(`view-${view.id}`, 'views', `go to ${view.label}${view.key === '' ? '' : ` (${view.key})`}`, { kind: 'view', view: view.id })
 
   add('refresh', 'console', 'refresh now', { kind: 'command', name: 'refresh' })
   add('help', 'console', 'help: keys and commands', { kind: 'command', name: 'help' })

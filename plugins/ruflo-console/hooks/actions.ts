@@ -17,6 +17,12 @@ export type ActionSpec = {
   run?: () => Promise<void>
   /** The command line the confirm row shows when it is not `ruflo <args>`. */
   shows?: string
+  /** A MetaHarness lab entry's id: the runner keeps what it printed for the lab's result panel. */
+  lab?: string
+  /** What a run costs or writes, in words: the confirm row and the result panel show it. */
+  note?: string
+  /** How long the CLI may take; 90 s when unset. */
+  timeoutMs?: number
 }
 
 export const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const

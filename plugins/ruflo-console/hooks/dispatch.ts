@@ -8,6 +8,7 @@ import { CATALOG_PATH, commandsText, FALLBACK, parseCatalog, type Catalog } from
 import type { Controller } from './controller'
 import { median, p95 } from './controller'
 import { plain } from './data/parse'
+import { labAnswer } from './mh-lab'
 import { VIEWS, type State } from './state'
 import { barText } from './views/bar'
 import { viewText } from './views/pane'
@@ -104,13 +105,16 @@ export async function dispatch(control: Controller, state: State, args: string, 
 
       return open(control, state, 'palette')
     case 'run': {
+      const askedAtMs = Date.now()
       const isRun = control.actions.run(intent.paletteId, intent.text)
 
       if (!isRun) return { text: `No palette entry "${plain(intent.paletteId, 40)}" right now. /ruflo palette lists them; ids look like spawn-coder, claim-release, worker-audit, route.` }
 
       await control.open()
+      // A lab read answers with what it printed, so `/ruflo run mh-genome` works headless.
+      if (state.pending === null) await control.runner.settled()
 
-      return { text: state.pending !== null ? `Asked: ${state.pending.label}. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.` : (state.outcome?.label ?? 'done') }
+      return { text: state.pending !== null ? `Asked: ${state.pending.label}. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.` : (labAnswer(state, intent.paletteId, askedAtMs) ?? (state.outcome !== null && !state.outcome.ok ? `${state.outcome.label}: ${state.outcome.detail}` : (state.outcome?.label ?? 'done'))) }
     }
     case 'confirm':
       if (state.pending === null) return { text: 'Nothing is waiting for a confirm.' }
@@ -121,9 +125,11 @@ export async function dispatch(control: Controller, state: State, args: string, 
         return { text: 'Cancelled.' }
       }
 
+      const confirmedAtMs = Date.now()
+
       await control.runner.confirm()
 
-      return { text: state.outcome === null ? 'Ran.' : `${state.outcome.ok ? '✓' : '✗'} ${state.outcome.label}: ${state.outcome.detail}${state.outcome.verified === 'yes' ? ' (on disk)' : state.outcome.verified === 'no' ? ' (not on disk yet)' : ''}` }
+      return { text: labAnswer(state, null, confirmedAtMs) ?? (state.outcome === null ? 'Ran.' : `${state.outcome.ok ? '✓' : '✗'} ${state.outcome.label}: ${state.outcome.detail}${state.outcome.verified === 'yes' ? ' (on disk)' : state.outcome.verified === 'no' ? ' (not on disk yet)' : ''}`) }
     case 'agent': {
       const who = intent.who.toLowerCase()
       const agent = state.snapshot?.agents.find(entry => entry.id.toLowerCase() === who || entry.name?.toLowerCase() === who) ?? state.snapshot?.agents.find(entry => entry.id.toLowerCase().endsWith(who))

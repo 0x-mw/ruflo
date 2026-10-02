@@ -10,7 +10,7 @@
  */
 import type { ActionSpec } from './actions'
 import type { Host } from './host'
-import { CLI_PREFIXES, push, termStoreKeyOf, type AgentId, type HarnessId, type State, type TermLine } from './state'
+import { CLI_PREFIXES, PANE_ID, push, termStoreKeyOf, type AgentId, type HarnessId, type State, type TermLine } from './state'
 import { claudeParser, codexEvent, eventOf, type Sink } from './stream'
 
 export const TERM_MAX_LINES = 600
@@ -73,11 +73,28 @@ export function termText(line: string, max = 400, trim = true): string {
   return out.length <= max ? out : `${out.slice(0, max - 1)}…`
 }
 
+/** Appends one line; while the person has scrolled up, the window stays put and the new line is counted instead. */
+function add(state: State, line: TermLine): void {
+  push(state.terminal.lines, line, TERM_MAX_LINES)
+  if (state.terminal.scroll > 0) state.terminal.unseen += 1
+}
+
 function note(state: State, kind: TermLine['kind'], text: string, from?: AgentId): void {
-  for (const line of text.split('\n')) push(state.terminal.lines, { kind, text: termText(line), ...(from !== undefined && { from }) }, TERM_MAX_LINES)
+  for (const line of text.split('\n')) add(state, { kind, text: termText(line), ...(from !== undefined && { from }) })
 }
 
 const persist = (state: State, host: Host) => void host.storeSet(termStoreKeyOf(state.cwd), state.terminal.sessions).catch(() => undefined)
+
+/**
+ * A run starting or ending adds or drops rows above the field (the spinner, the turn's last line), and the engine
+ * does not keep the focus ring on the field across that: the person's next keys would leave it. Put it back after
+ * the redraw, while the terminal is in front and the pane holds the keys.
+ */
+function keepField(state: State, host: Host): void {
+  host.after(80, () => {
+    if (state.view === 'terminal' && state.pane.isFocused) void host.focus(PANE_ID, 'term-input').catch(() => undefined)
+  })
+}
 
 /** Why the field's text cannot be sent now, or null when it can. */
 export function whyNotRun(state: State, text: string): string | null {
@@ -124,11 +141,13 @@ export function harnessSpec(state: State, host: Host, text: string): ActionSpec 
 export function send(state: State, host: Host, text: string): void {
   const harness = harnessOf(state.terminal.harness)
   const prompt = text.trim().slice(0, MAX_PROMPT)
-  const isMany = harness.agents.length > 1
 
-  note(state, 'in', `${harness.label}> ${prompt}`)
+  // A new question brings the window back to the tail, so its answer is seen streaming in.
+  state.terminal.scroll = 0
+  state.terminal.unseen = 0
+  note(state, 'in', prompt, harness.agents.length === 1 ? harness.agents[0] : undefined)
 
-  for (const agent of harness.agents) void runAgent(state, host, agent, prompt, isMany)
+  for (const agent of harness.agents) void runAgent(state, host, agent, prompt)
 }
 
 /** Forgets the picked harness's sessions: the next question starts new ones (and is asked first). */
@@ -144,9 +163,10 @@ export function newSession(state: State, host: Host): void {
   host.invalidate()
 }
 
-async function runAgent(state: State, host: Host, agent: AgentId, prompt: string, isTagged: boolean): Promise<void> {
+async function runAgent(state: State, host: Host, agent: AgentId, prompt: string): Promise<void> {
   const term = state.terminal
-  const tag = isTagged ? agent : undefined
+  // Every line names its agent: the screen draws each answer in that agent's colour, tagged where several talk.
+  const tag = agent
   const startedAtMs = Date.now()
   const secs = () => `${Math.round((Date.now() - startedAtMs) / 1000)} s`
   // claude takes the session id the console picks; it counts once the CLI reports the session started.
@@ -176,8 +196,8 @@ async function runAgent(state: State, host: Host, agent: AgentId, prompt: string
 
       parts.forEach((part, i) => {
         if (i > 0 || open === null) {
-          open = { kind: 'out', text: '', ...(tag !== undefined && { from: tag }) }
-          push(term.lines, open, TERM_MAX_LINES)
+          open = { kind: 'out', text: '', from: tag }
+          add(state, open)
         }
         open.text = termText(open.text + part, 2_000, false)
       })
@@ -215,6 +235,8 @@ async function runAgent(state: State, host: Host, agent: AgentId, prompt: string
   const partial = { stdout: '', stderr: '' }
 
   term.runs.set(agent, { label: agent, startedAtMs, stop })
+  keepField(state, host)
+  note(state, 'head', agent, tag)
   host.invalidate()
 
   const take = (from: 'stdout' | 'stderr', line: string) => {
@@ -249,13 +271,14 @@ async function runAgent(state: State, host: Host, agent: AgentId, prompt: string
     if (claudeId !== undefined && !sawSession) delete term.sessions.claude
     // A stream read to its end with events but no answer drawn: the CLI's format moved, and silence would hide it.
     if (parse !== null && !isStopped && !isAnswered && ended === null) note(state, 'err', `no answer read from ${events} ${agent} event${events === 1 ? '' : 's'}: has its --json format changed?`, tag)
-    note(state, 'sys', isStopped ? `stopped after ${secs()}` : (ended ?? (result.code === 0 ? `✓ ${secs()}` : `✗ exit ${result.code ?? result.signal ?? '?'} · ${secs()}`)), tag)
+    note(state, 'end', isStopped ? `stopped after ${secs()}` : (ended ?? (result.code === 0 ? `✓ ${secs()}` : `✗ exit ${result.code ?? result.signal ?? '?'} · ${secs()}`)), tag)
   } catch (error) {
     if (claudeId !== undefined && !sawSession) delete term.sessions.claude
-    note(state, 'sys', isStopped ? `stopped after ${secs()}` : `✗ ${argv[0]}: ${error instanceof Error ? error.message : String(error)} (is it installed and on PATH?)`, tag)
+    note(state, 'end', isStopped ? `stopped after ${secs()}` : `✗ ${argv[0]}: ${error instanceof Error ? error.message : String(error)} (is it installed and on PATH?)`, tag)
   } finally {
     cap.cancel()
     term.runs.delete(agent)
+    keepField(state, host)
     host.invalidate()
   }
 }

@@ -40,13 +40,32 @@ describe('band', () => {
     const parts = barParts(state, 0)
 
     expect(parts.filter(part => part.tone === 'attention').map(part => part.text)).toEqual(['2 to approve (q)'])
-    expect(barText(state, 0)).toBe('ruflo · 2 to approve (q) · 2 agents idle · $1,011 this session · 2 claims (1 stealable) · routed → coder · +12 learned')
+    // Nothing moving: it says so; the totals (routes, patterns learned) live in their views, not on the band.
+    expect(barText(state, 0)).toBe('ruflo · 2 to approve (q) · idle · 2 agents ready · 2 claims (1 stealable) · $1,011 this session')
+  })
+
+  it('leads with what is happening now: who works on what and for how long, terminal runs, a fresh event', async () => {
+    const state = await capturedState(['ruflo-core', 'ruflo-swarm', 'ruflo-mods', 'ruflo-console'])
+    const snap = state.snapshot as NonNullable<typeof state.snapshot>
+    const agent = snap.agents[0] as (typeof snap.agents)[number]
+
+    agent.status = 'busy'
+    snap.tasks.push({ id: 'task-9', type: 'feature', description: 'add OAuth login to the API gateway', status: 'in_progress', assignedTo: [agent.id] })
+    state.statusLog.set(agent.id, [{ atMs: 0, status: 'busy' }])
+    state.terminal.runs.set('codex', { label: 'codex', startedAtMs: 100_000, stop: () => undefined })
+    state.events.push({ atMs: 150_000, kind: 'claims', text: 'claim task-9 by coder' })
+
+    const parts = barParts(state, 160_000)
+
+    expect(parts.filter(part => part.tone === 'live').map(part => part.text)).toEqual([`▶ ${agent.name ?? agent.type} on add OAuth login to the API gateway 2m`, '💻 codex answering 1m'])
+    expect(barText(state, 160_000)).toContain('claim task-9 by coder · 10s ago')
+    expect(barText(state, 160_000)).not.toContain('idle')
   })
 
   it('a stale marketplace clone shows as an alert, not as a separate word', async () => {
     const state = await capturedState(['ruflo-core', 'ruflo-swarm'])
 
-    expect(barParts(state, 0).find(part => part.text.startsWith('⚠'))).toEqual({ text: '⚠ 1 alert', tone: 'attention' })
+    expect(barParts(state, 0).find(part => part.text.startsWith('⚠'))).toEqual({ text: '⚠ 1 alert', tone: 'attention', go: 'overview' })
     expect(barText(state, 0)).not.toContain('STALE')
   })
 

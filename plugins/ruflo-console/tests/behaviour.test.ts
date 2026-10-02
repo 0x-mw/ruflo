@@ -149,7 +149,8 @@ describe('behaviour', () => {
 
       expect(elementsOf(tree, 'Raster').length === 0).toBe(isNarrow)
       expect(elementsOf(tree, 'Button').map(keyOf).includes('claim')).toBe(!isNarrow)
-      if (isNarrow) expect(textOf(tree)).toContain('4/16 Claims')
+      // The count is VIEWS.length, which grows with each view: hold the position and the name, not the total.
+      if (isNarrow) expect(textOf(tree)).toMatch(/5\/\d+ Claims/)
       await pane.unmount()
     }
   })
@@ -229,7 +230,8 @@ describe('behaviour', () => {
     // One Text per part (attention parts are coloured); the row lays them side by side, the harness joins with \n.
     const band = textOf(await $.ui.render(BAND)).replace(/\n/g, '')
 
-    expect(band).toContain('ruflo · 3 to approve (q) · ⚠ 1 alert · 2 agents idle · $0.42 this session · 2 claims (1 stealable)')
+    // Urgent first, then what is happening now (a fresh event), then the standing context.
+    expect(band).toContain('ruflo · 3 to approve (q) · ⚠ 1 alert · router picked tester (60%) · 0s ago · 2 claims')
     expect(band).not.toMatch(/0\/\d+ busy|\d patterns/)
     expect(band).toContain('open console')
     expect(textOf(await $.ui.render({ ...BAND, props: { ...BAND.props, hasSurvey: true } }))).toBe('engine')
@@ -244,6 +246,24 @@ describe('behaviour', () => {
 
     for (let i = 0; i < 4; i++) await clock.advance(125)
     expect(world.blits.length).toBe(stopped)
+  })
+
+  test('the band is clickable: a part opens the console on the view it is about, with the keys', { options: { boot: false } }, async ($, on) => {
+    fakeRuflo().register(on, {})
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    on('ui.render', () => ({ type: 'Text', children: ['engine'] }) as never)
+    await $.session.start(SESSION)
+    await $.command.run(command('status'))
+
+    const band = await $.ui.mount({ ...BAND, plugin: PLUGIN })
+
+    // The first part is "3 to approve (q)".
+    await band.press({ key: 'band-0' })
+    expect(world.openArgs.at(-1)).toMatchObject({ id: 'ruflo-console', focus: true })
+    expect(world.stored.get('ruflo-console/ui:/work')).toMatchObject({ view: 'approvals' })
+    await band.unmount()
   })
 
   test('on the desktop surface, which has no Raster, every picture becomes a text line and the tree is accepted', { options: { boot: false } }, async ($, on) => {

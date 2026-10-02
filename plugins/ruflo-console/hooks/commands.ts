@@ -88,7 +88,7 @@ export const HELP = [
   '',
   'Open and switch',
   `  /ruflo                     open the cockpit (also opens by itself where it can dock, panel=auto)`,
-  `  /ruflo <view>              ${VIEWS.map(view => `${view.id} (${view.key})`).join(', ')}`,
+  `  /ruflo <view>              ${VIEWS.map(view => (view.key === '' ? view.id : `${view.id} (${view.key})`)).join(', ')}`,
   '  /ruflo agent <id|name>     drill into one agent: role, task, claims, activity, logs, timeline',
   '  /ruflo back | close | status',
   '  /ruflo dump <view>         a view as plain text, without the pane (for claude -p and scripts)',

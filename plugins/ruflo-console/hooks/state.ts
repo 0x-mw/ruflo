@@ -3,13 +3,14 @@ import type { PluginOptions, Timer } from 'claude-code'
 import type { ProbeResult } from './data/cli'
 import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
+import { emptySkills, type SkillsState } from './data/skills'
 import type { Snapshot } from './data/snapshot'
 import type { RufloRoute, RufloSnapshot } from '../types'
 
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'agent'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -24,11 +25,13 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'menu', key: '0', label: 'Main Menu', short: 'Mnu', icon: '📟', blurb: 'the board: every area by its key, the line status, and a prompt that takes a key or a name', rows: 32 },
   { id: 'overview', key: '1', label: 'Overview', short: 'Ovr', icon: '🏠', blurb: 'what ruflo is doing here: subsystems, mods, health alerts and live activity', rows: 26 },
   { id: 'swarm', key: '2', label: 'Swarm', short: 'Swm', icon: '🐝', blurb: 'the swarm as ruflo wrote it: topology, agents at work, and the hive-mind votes', rows: 30 },
+  // No hotkey: every digit and letter is taken. It is reached from the tab, the menu, the palette or /ruflo hive.
+  { id: 'hive', key: '', label: 'Hive-Mind', short: 'Hiv', icon: '👑', blurb: 'the queen, her workers and their votes: quorum, fault tolerance, proposals and broadcasts', rows: 40 },
   { id: 'claims', key: '3', label: 'Claims', short: 'Clm', icon: '📌', blurb: 'who holds which task: claim, release, hand off or steal, each after a y/n confirm', rows: 30 },
   { id: 'federation', key: '4', label: 'Federation', short: 'Fed', icon: '🌐', blurb: 'this node, its peers, keys and channels, placed by how far each is trusted', rows: 26 },
   { id: 'plugins', key: '5', label: 'Plugins', short: 'Plg', icon: '🧩', blurb: 'ruflo plugins: installed, enabled, in the marketplace clone, and loaded as mods', rows: 30 },
   { id: 'learning', key: '6', label: 'Learning', short: 'Lrn', icon: '🧠', blurb: 'router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline', rows: 30 },
-  { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness by axis, the audit trend, and the flywheel champion', rows: 26 },
+  { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness, the flywheel, the audit trend, and a lab that runs every MetaHarness verb', rows: 40 },
   { id: 'memory', key: '8', label: 'Memory', short: 'Mem', icon: '💾', blurb: 'AgentDB entries by namespace: what the swarm has stored', rows: 22 },
   { id: 'cost', key: '9', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'this session spend against the budget, and how fast it is burning', rows: 20 },
   { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', icon: '🕒', blurb: 'each agent busy or idle over the last minutes, beside Claude Code tool calls', rows: 24 },
@@ -37,6 +40,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '🎯', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
   { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 34 },
   { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
+  // No hotkey: every digit and letter is taken. The tab, the menu prompt and /ruflo skills reach it by name.
+  { id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): what is installed here and globally, search, add, update, remove, create', rows: 34 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -47,7 +52,7 @@ export const rowsOf = (view: ViewId): number => (view === 'agent' ? AGENT_VIEW.r
 export const viewOf = (word: string): ViewId | null => {
   const lower = word.trim().toLowerCase()
 
-  return VIEWS.find(view => view.id === lower || view.key === lower || view.label.toLowerCase() === lower || (lower.length >= 3 && view.id.startsWith(lower)))?.id ?? null
+  return VIEWS.find(view => view.id === lower || (view.key !== '' && view.key === lower) || view.label.toLowerCase() === lower || (lower.length >= 3 && view.id.startsWith(lower)))?.id ?? null
 }
 
 /**
@@ -107,7 +112,10 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
 }
 
 /** A mutating action waiting for the person's second press; `shows` is the command line when it is not a ruflo one. */
-export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string }
+export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string; note?: string }
+
+/** The MetaHarness lab's last run: what it was, how it exited, its cost note, and its output as lines to scroll. */
+export type LabResult = { id: string; label: string; ok: boolean; exitCode: number | null; note?: string; lines: string[]; atMs: number }
 
 /** The harnesses the terminal view can ask; `swarm` asks codex and claude at once. */
 export type HarnessId = 'codex' | 'claude' | 'ruflo' | 'swarm'
@@ -115,10 +123,11 @@ export type HarnessId = 'codex' | 'claude' | 'ruflo' | 'swarm'
 export type AgentId = Exclude<HarnessId, 'swarm'>
 
 /**
- * One line of the terminal's scrollback: what was asked (`in`), what came back, a tool the agent used (`tool`), or
+ * One line of the terminal's scrollback: what was asked (`in`), an agent starting its answer (`head`), what came back,
+ * a tool it used (`tool`), how its turn ended (`end`), or
  * the console's own note (`sys`); `from` names the agent when more than one is talking.
  */
-export type TermLine = { kind: 'in' | 'out' | 'err' | 'sys' | 'tool'; text: string; from?: AgentId }
+export type TermLine = { kind: 'in' | 'head' | 'out' | 'err' | 'sys' | 'tool' | 'end'; text: string; from?: AgentId }
 
 /** A conversation kept per project: codex's thread id, claude's session id, so a follow-up resumes it. */
 export type TermSessions = { codex?: string; claude?: string }
@@ -182,6 +191,8 @@ export type State = {
   pending: Pending | null
   outcome: Outcome | null
   isActing: boolean
+  /** The MetaHarness lab: its last result, and the run in flight (j/k scroll the result through `select.item`). */
+  lab: { result: LabResult | null; running: { id: string; label: string; startedAtMs: number } | null }
   isRefreshing: boolean
   /** When the band above the prompt last drew: the disk is re-read on the fast cadence only while it is seen. */
   barDrawnAtMs: number
@@ -198,9 +209,14 @@ export type State = {
     /** Turns and spend this session, as the agents reported them. */
     turns: { codex: number; claude: number }
     costUsd: number
+    /** Screen rows scrolled up from the newest (0 follows the tail), and how many lines arrived while scrolled up. */
+    scroll: number
+    unseen: number
     /** The text the last Enter asked about: Enter on the same text again confirms it. */
     asked: { key: string; label: string } | null
   }
+  /** The skills view: installed skills, the last search, and the change running now. */
+  skills: SkillsState
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -240,9 +256,11 @@ export function newState(raw: PluginOptions | undefined): State {
     pending: null,
     outcome: null,
     isActing: false,
+    lab: { result: null, running: null },
     isRefreshing: false,
     barDrawnAtMs: 0,
-    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, asked: null },
+    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },
+    skills: emptySkills(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

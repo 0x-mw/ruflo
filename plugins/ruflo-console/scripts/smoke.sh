@@ -11,9 +11,9 @@ step() { printf "→ %s ... " "$1"; }
 ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 
-step "1. plugin.json declares ruflo-console 0.6.2"
+step "1. plugin.json declares ruflo-console 0.7.0"
 grep -q '"name": "ruflo-console"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.6.2"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.7.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -72,7 +72,7 @@ step "13. marketplace lists ruflo-console"
 grep -q '"name": "ruflo-console"' "$REPO/.claude-plugin/marketplace.json" && ok || bad "missing marketplace entry"
 
 step "14. pure specs pass under vitest"
-if (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/pure.spec.ts plugins/ruflo-console/tests/vendored-types.spec.ts >/dev/null 2>&1); then ok; else bad "vitest specs failed"; fi
+if (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/pure.spec.ts plugins/ruflo-console/tests/vendored-types.spec.ts plugins/ruflo-console/tests/mh-lab.spec.ts>/dev/null 2>&1); then ok; else bad "vitest specs failed"; fi
 
 printf "\n%d passed, %d failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]

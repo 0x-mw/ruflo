@@ -12,6 +12,7 @@ import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
 import { federationView } from './federation'
+import { hiveView } from './hive'
 import { learningView } from './learning'
 import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
@@ -21,11 +22,15 @@ import { missionsView } from './missions'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
 import { pluginsView } from './plugins'
+import { skillsView } from './skills'
 import { swarmView } from './swarm'
 import { terminalView } from './terminal'
 import { xruvView } from './xruv'
 
 export const NARROW = 44
+
+/** The networks the Wildcat strip names, each with the view a click on it opens. */
+const NETWORKS: readonly (readonly [string, ViewId])[] = [['x.ruv.io', 'xruv'], ['relay.ruv.io', 'xruv'], ['agentbbs', 'federation'], ['mcp', 'plugins'], ['claude code', 'terminal']]
 /** Width from which every tab spells its name beside its emoji (the 1-9 row is about 128 columns with names). */
 const WIDE_TABS = 140
 
@@ -33,6 +38,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   menu: menuView,
   overview: overviewView,
   swarm: swarmView,
+  hive: hiveView,
   claims: claimsView,
   federation: federationView,
   plugins: pluginsView,
@@ -46,6 +52,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   missions: missionsView,
   xruv: xruvView,
   terminal: terminalView,
+  skills: skillsView,
   agent: agentView,
 }
 
@@ -69,18 +76,22 @@ function tabs(ctx: Ctx): RenderElement {
     // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
     // (from a drill-down, b goes back).
     // BBS: the current tab is framed like a menu pick, [2: 🐝 SWARM]; the name always shows there, in capitals.
-    const current = isBbs() ? `[${view.key}: ${view.icon}${withNames || view.label.length <= 6 ? ` ${view.label.toUpperCase()}` : ''}]` : `${view.key}: ${words}`
+    // A view with no hotkey (key '') has no key to show: [🧰 SKILLS], and its tab is pressed, not typed.
+    const prefix = view.key === '' ? '' : `${view.key}: `
+    const current = isBbs() ? `[${prefix}${view.icon}${withNames || view.label.length <= 6 ? ` ${view.label.toUpperCase()}` : ''}]` : `${prefix}${words}`
 
     if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: current })] })
 
-    return ctx.kit.Button({ key: `tab-${view.id}`, label: words, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
+    return ctx.kit.Button({ key: `tab-${view.id}`, label: words, ...(view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
   const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.map(tab) })
+  // The first row runs to the last digit-keyed view, so a keyless view sits where VIEWS puts it (Hive-Mind after Swarm).
+  const split = VIEWS.reduce((last, view, i) => (/^[0-9]$/.test(view.key) ? i + 1 : last), 0)
 
   return ctx.kit.Box({
     flexDirection: 'column',
     key: 'tabs',
-    children: [line(VIEWS.filter(view => /^[0-9]$/.test(view.key)), 'tabs-views'), line(VIEWS.filter(view => !/^[0-9]$/.test(view.key)), 'tabs-manage')],
+    children: [line(VIEWS.slice(0, split), 'tabs-views'), line(VIEWS.slice(split), 'tabs-manage')],
   })
 }
 
@@ -122,8 +133,9 @@ function confirmRow(ctx: Ctx): RenderElement | null {
   return col(
     ctx,
     [
-      text(ctx, `Confirm: ${pending.label}?`, { bold: true, color: THEME.warn }),
+      text(ctx, `Confirm: ${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
       text(ctx, `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}`, { dimColor: true }),
+      ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
       row(ctx, [button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }), button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' })]),
     ],
     'confirm',
@@ -186,9 +198,13 @@ function wildcat(ctx: Ctx): { strip: RenderElement[]; art: RenderElement[] } {
         ctx.kit.Text({ color: THEME.info, children: 'x.ruv.io ' }),
         ctx.kit.Text({ bold: true, color: THEME.ok, children: clip('AGENTS WELCOME.', Math.max(4, ctx.columns - 16)) }),
       ], 'welcome'),
+      // Each network is a link to the view that shows it.
       row(ctx, [
         ctx.kit.Text({ color: THEME.head, children: 'NETWORKS: ' }),
-        ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip('x.ruv.io * relay.ruv.io * agentbbs * mcp * claude code', Math.max(4, ctx.columns - 10)) }),
+        ...NETWORKS.flatMap(([name, view], i) => [
+          ...(i > 0 ? [ctx.kit.Text({ color: THEME.info, dimColor: true, children: ' * ' })] : []),
+          ctx.kit.Button({ key: `net-${view}-${i}`, label: name, plain: true, onPress: () => ctx.act.view(view) }),
+        ]),
       ], 'networks'),
     ],
     art: art !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(art.toRaster('title'))] : [],

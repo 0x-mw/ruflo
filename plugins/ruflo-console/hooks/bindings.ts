@@ -9,6 +9,7 @@ import { plain } from './data/parse'
 import type { Host } from './host'
 import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
+import { skillActions } from './skills'
 import { PANE_ID, viewOf, type State } from './state'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
@@ -23,6 +24,15 @@ export type Steps = {
 
 export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps): Actions {
   const { freshRead, probe, setView, drill, close } = steps
+
+  /**
+   * After a command typed in the terminal field (/ruflo, /new, /up…) the rows above the field change, and the engine
+   * does not keep the focus ring on it: the next keys would fire hotkeys or leave the pane. Put the ring back.
+   */
+  const keepField = () => {
+    // After the redraw: from inside the submit's own dispatch the ring is moved before the new rows land.
+    host.after(80, () => void host.focus(PANE_ID, 'term-input').catch(() => undefined))
+  }
 
   /** j/k: what moves depends on the view in front. */
   function select(by: number): void {
@@ -40,7 +50,11 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
 
   const actions: Actions = {
     view: setView,
-    refresh: () => void freshRead().then(() => probe(true)),
+    refresh: () => {
+      void freshRead().then(() => probe(true))
+      // The skills lists come from `npx skills`, not the disk read: r asks for them again on that view.
+      if (state.view === 'skills') actions.skills.list()
+    },
     help: () => {
       state.isHelp = !state.isHelp
       host.invalidate()
@@ -144,6 +158,18 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         if (text.trim() === '/new') {
           state.terminal.draft = ''
           newSession(state, host)
+          keepField()
+
+          return
+        }
+
+        // /up /down /end scroll the conversation from the field (it holds the keys, so PgUp would only type).
+        const move = { '/up': 12, '/down': -12, '/end': -state.terminal.scroll }[text.trim()]
+
+        if (move !== undefined) {
+          state.terminal.draft = ''
+          actions.term.scroll(move)
+          keepField()
 
           return
         }
@@ -158,6 +184,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
           if (state.terminal.asked !== null && state.pending?.label === state.terminal.asked.label) runner.cancel()
           state.terminal.asked = null
           host.invalidate()
+          keepField()
 
           return
         }
@@ -199,7 +226,20 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       fresh: () => newSession(state, host),
       clear: () => {
         state.terminal.lines = []
+        state.terminal.scroll = 0
+        state.terminal.unseen = 0
         host.invalidate()
+      },
+      scroll: by => {
+        state.terminal.scroll = Math.max(0, state.terminal.scroll + by)
+        if (state.terminal.scroll === 0) state.terminal.unseen = 0
+        host.invalidate()
+      },
+      // A click on an earlier question puts it back in the field, ready to edit or send again.
+      reuse: text => {
+        state.terminal.draft = text
+        host.invalidate()
+        if (state.pane.isFocused) void host.focus(PANE_ID, 'term-input').catch(() => undefined)
       },
       // A menu entry elsewhere (x.ruv.io) opens the terminal with its command typed, not run: Enter twice runs it.
       load: (id, text) => {
@@ -208,6 +248,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         setView('terminal')
       },
     },
+    // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
+    skills: skillActions(state, host, runner, text => actions.term.load('claude', text)),
   }
 
   return actions
