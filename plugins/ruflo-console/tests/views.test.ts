@@ -230,4 +230,28 @@ describe('views', () => {
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
   })
+
+  test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command())
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+    const menu = await pane.drawn()
+
+    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'title'])
+    expect(textOf(menu)).toContain('■Swarm Commands■')
+    expect(textOf(menu)).toContain('Swarm Topology')
+    expect(textOf(menu)).toContain('ANSI-BBS')
+    expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-prompt'])
+
+    await pane.input({ key: 'menu-prompt', text: 'w', kind: 'submit' })
+    expect(textOf(await pane.drawn())).toContain('MAIN MENU')
+
+    await pane.press({ key: 'tab-menu' })
+    await pane.input({ key: 'menu-prompt', text: 'nope', kind: 'submit' })
+    expect(textOf(await pane.drawn())).toContain('no area "nope"')
+    await pane.unmount()
+  })
 })

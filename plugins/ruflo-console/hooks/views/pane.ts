@@ -15,6 +15,7 @@ import { federationView } from './federation'
 import { learningView } from './learning'
 import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
+import { menuView } from './menu'
 import { metaharnessView } from './metaharness'
 import { missionsView } from './missions'
 import { overviewView } from './overview'
@@ -29,6 +30,7 @@ export const NARROW = 44
 const WIDE_TABS = 140
 
 const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
+  menu: menuView,
   overview: overviewView,
   swarm: swarmView,
   claims: claimsView,

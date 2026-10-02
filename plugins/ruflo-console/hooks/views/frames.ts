@@ -131,7 +131,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo · ${project}`, Math.min(width, 40), t))
     // BBS: each view's name as ANSI-style block art under the tabs.
     if (state.options.look === 'bbs') {
-      const name = state.isHelp ? 'help' : state.palette.isOpen ? 'palette' : state.view === 'agent' ? 'agent' : (VIEWS.find(view => view.id === state.view)?.label ?? state.view)
+      const name = state.isHelp ? 'help' : state.palette.isOpen ? 'palette' : state.view === 'agent' ? 'agent' : state.view === 'menu' ? 'ruflo bbs' : (VIEWS.find(view => view.id === state.view)?.label ?? state.view)
 
       pictures.set('title', titlePicture(name, Math.min(width, 80), t))
     }

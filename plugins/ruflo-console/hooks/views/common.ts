@@ -38,6 +38,8 @@ export type Actions = {
   /** Cycles the events view's filter. */
   filter: () => void
   /** The terminal view: pick a harness, follow the field, ask to run its text, stop the run, clear the scrollback. */
+  /** The main menu's prompt: a key or a name takes the person to that area. */
+  menu: (text: string) => void
   term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; clear: () => void; load: (id: HarnessId, text: string) => void }
 }
 

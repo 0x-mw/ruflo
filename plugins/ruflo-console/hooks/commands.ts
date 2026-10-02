@@ -105,7 +105,7 @@ export const HELP = [
   '  /ruflo swarm pane|status|topology|claims|consensus   ruflo-swarm (was /ruflo-swarm-*)',
   '',
   'Pane keys (while it holds the keyboard: /ruflo opens it with the keys, or click it; ctrl+x tab reaches the band, not the pane)',
-  '  1-9 views · g timeline · q approvals · e events · m missions · w x.ruv.io · i terminal · p palette · x actions for the selection',
+  '  0 main menu · 1-9 views · g timeline · q approvals · e events · m missions · w x.ruv.io · i terminal · p palette · x actions for the selection',
   '  terminal: c codex · l claude · u ruflo · in the field Enter shows the command, Enter again runs it · s stop · z clear',
   '  j/k select · d drill in · b back · r refresh · h help · f event filter · y/n confirm',
   '  Esc: a pane /ruflo opened closes; one that opened by itself (panel=auto) only hands the keys back. ✕ or /ruflo close closes either',

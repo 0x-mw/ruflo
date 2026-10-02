@@ -28,7 +28,7 @@ describe('behaviour', () => {
 
     const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
 
-    expect(textOf(await pane.drawn())).toContain('🏠 OVERVIEW')
+    expect(textOf(await pane.drawn())).toContain('📟 MAIN MENU')
     await pane.press({ key: 'tab-claims' })
     expect(textOf(await pane.drawn())).toContain('📌 CLAIMS')
     expect(world.stored.get('ruflo-console/ui:/work')).toEqual({ view: 'claims', isClosedByPerson: false })
@@ -149,7 +149,7 @@ describe('behaviour', () => {
 
       expect(elementsOf(tree, 'Raster').length === 0).toBe(isNarrow)
       expect(elementsOf(tree, 'Button').map(keyOf).includes('claim')).toBe(!isNarrow)
-      if (isNarrow) expect(textOf(tree)).toContain('3/15 Claims')
+      if (isNarrow) expect(textOf(tree)).toContain('4/16 Claims')
       await pane.unmount()
     }
   })

@@ -55,7 +55,7 @@ export function terminalView(ctx: Ctx): RenderElement {
     rows.push(
       ctx.kit.Input({
         key: 'term-input',
-        label: `${harness.label}> `,
+        label: harness.label,
         placeholder: harness.id === 'ruflo' ? 'a ruflo command: swarm status, memory search -q auth …' : `ask ${harness.label} about this project…`,
         value: term.draft,
         submitLabel: 'ask',

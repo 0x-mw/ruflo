@@ -9,7 +9,7 @@ import { plain } from './data/parse'
 import type { Host } from './host'
 import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
-import type { State } from './state'
+import { viewOf, type State } from './state'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
 
@@ -46,7 +46,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       host.invalidate()
     },
     close: () => void close(),
-    back: () => setView(state.view === 'agent' ? state.back : 'overview'),
+    back: () => setView(state.view === 'agent' ? state.back : state.options.look === 'bbs' ? 'menu' : 'overview'),
     confirm: () => void runner.confirm(),
     cancel: runner.cancel,
     select,
@@ -110,6 +110,19 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
 
       state.eventFilter = order[(at + 1) % order.length] ?? 'all'
       host.invalidate()
+    },
+    // The main menu's prompt, as a board's: a key (2, w, i), a name (swarm, x.ruv.io), ? for help, O to log off.
+    menu: text => {
+      const word = text.trim().toLowerCase()
+      const view = viewOf(word)
+
+      if (word === '') return
+      if (word === '?' || word === 'h' || word === 'help') actions.help()
+      else if (word === 'p') actions.palette('all')
+      else if (word === 'r') actions.refresh()
+      else if (word === 'o' || word === 'bye' || word === 'logoff') actions.close()
+      else if (view !== null) setView(view)
+      else runner.ask(null, `no area "${plain(word, 24)}": type a key from the menu, or ? for help`)
     },
     term: {
       harness: id => {
