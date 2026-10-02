@@ -7,6 +7,7 @@ import { EVENT_KINDS } from './data/events'
 import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { plain } from './data/parse'
 import type { Host } from './host'
+import { memoryActions } from './memory-lab'
 import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
 import { skillActions } from './skills'
@@ -250,6 +251,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     },
     // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
     skills: skillActions(state, host, runner, text => actions.term.load('claude', text)),
+    memory: memoryActions(state, runner, host.invalidate),
   }
 
   return actions

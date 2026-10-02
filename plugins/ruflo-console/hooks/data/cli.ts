@@ -54,7 +54,8 @@ export const versionProbe: Probe<string> = {
   parse: stdout => /v?(\d+\.\d+\.\d+[\w.-]*)/.exec(stdout)?.[1] ?? null,
 }
 
-export type MemoryStats = { backend: string; total?: number; vectors?: number; storage?: string; oldestMs?: number; newestMs?: number }
+/** `unread`: rows in the second store (.swarm/agentdb-memory.db, the MCP path's) that the CLI's counts leave out. */
+export type MemoryStats = { backend: string; total?: number; vectors?: number; storage?: string; oldestMs?: number; newestMs?: number; unread?: number }
 
 export const memoryProbe: Probe<MemoryStats> = {
   id: 'memory',
@@ -76,8 +77,10 @@ export const memoryProbe: Probe<MemoryStats> = {
     const storage = stringOf(recordOf(value.storage)?.total, 30)
     const oldestMs = msOf(value.oldestEntry)
     const newestMs = msOf(value.newestEntry)
+    const unread = numberOf(recordOf(value.unreadStore)?.rows)
 
     if (total !== undefined) stats.total = total
+    if (unread !== undefined) stats.unread = unread
     if (vectors !== undefined) stats.vectors = vectors
     if (storage !== undefined) stats.storage = storage
     if (oldestMs !== undefined) stats.oldestMs = oldestMs
@@ -87,7 +90,10 @@ export const memoryProbe: Probe<MemoryStats> = {
   },
 }
 
-export type Namespaces = { sampled: number; byName: { name: string; count: number }[] }
+/** One listed entry, as `memory list --format json` answers it: what the Memory Lab browses and opens. */
+export type MemoryEntry = { key: string; namespace: string; size?: number; atMs?: number; hasVector: boolean }
+
+export type Namespaces = { sampled: number; byName: { name: string; count: number }[]; entries?: MemoryEntry[] }
 
 /** Namespaces of the newest 500 entries: a sample, and the view says so. */
 export const namespacesProbe: Probe<Namespaces> = {
@@ -104,14 +110,22 @@ export const namespacesProbe: Probe<Namespaces> = {
     }
 
     const counts = new Map<string, number>()
+    const entries: MemoryEntry[] = []
 
     for (const entry of value.slice(0, 500)) {
-      const name = stringOf(recordOf(entry)?.namespace, 40) ?? '(none)'
+      const record = recordOf(entry)
+      const name = stringOf(record?.namespace, 40) ?? '(none)'
+      const key = stringOf(record?.key, 128)
+      const size = numberOf(record?.size)
+      const atMs = msOf(record?.updatedAt ?? record?.createdAt)
 
       counts.set(name, (counts.get(name) ?? 0) + 1)
+      if (key !== undefined) entries.push({ key, namespace: name, hasVector: record?.hasEmbedding === true, ...(size !== undefined && { size }), ...(atMs !== undefined && { atMs }) })
     }
 
-    return { sampled: Math.min(500, value.length), byName: [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, 12) }
+    entries.sort((a, b) => (b.atMs ?? 0) - (a.atMs ?? 0))
+
+    return { sampled: Math.min(500, value.length), byName: [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count).slice(0, 12), entries }
   },
 }
 

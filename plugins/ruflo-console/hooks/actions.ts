@@ -23,6 +23,8 @@ export type ActionSpec = {
   note?: string
   /** How long the CLI may take; 90 s when unset. */
   timeoutMs?: number
+  /** A lab entry's own reading of what it printed; the MetaHarness reader when unset. */
+  lines?: (stdout: string, stderr: string) => string[]
 }
 
 export const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const

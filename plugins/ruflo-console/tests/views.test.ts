@@ -2,6 +2,7 @@ import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
 import { HIVE_FILES, RAFT_ID, WORKERS } from './fixtures/hive'
+import { MEM_OUT } from './fixtures/memory'
 import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
 import { FIND_OUT, LS_GLOBAL } from './fixtures/skills'
@@ -20,6 +21,26 @@ const HOME_FILES = {
 }
 
 type Engine = Parameters<TestBody>[0]
+
+/** The captured world, with the Memory Lab's reads answered from a two-entry store (auth/beta, notes/alpha). */
+function memoryWorld(on: Parameters<TestBody>[1]) {
+  const world = worldOf(on, RUFLO_FILES)
+  const out = (stdout: string) => ({ exitCode: 0, stdout, stderr: '' })
+
+  world.respond = argv => {
+    const line = argv.join(' ')
+
+    if (line.includes('memory stats')) return out(MEM_OUT.stats ?? '')
+    if (line.includes('memory list')) return out(MEM_OUT.list ?? '')
+    if (line.includes('memory retrieve')) return out(MEM_OUT.retrieve ?? '')
+    if (line.includes('memory search')) return out(MEM_OUT.search ?? '')
+    if (line.includes('memory_search_unified')) return out(MEM_OUT.unified ?? '')
+
+    return cliAnswer(argv)
+  }
+
+  return world
+}
 
 /** Opens the console on `view` via /ruflo, waits for its probes, and answers its drawing and its Raster keys. */
 async function drawn($: Engine, view: string, columns = 110) {
@@ -221,6 +242,94 @@ describe('views', () => {
     expect(cost.rasters).toEqual(['header', 'title', 'gauge', 'burn'])
     expect(cost.text).toContain('$0.421')
     expect(cost.text).toContain('WARNING · $3.90 of $5.00 (78%)')
+  })
+
+  test('memory lab: gauge, namespace bars, recency, browse, search, entry fields and every group; nothing runs unasked', { options: { boot: false } }, async ($, on) => {
+    const world = memoryWorld(on)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'memory')
+
+    for (const section of ['AGENTDB', 'NAMESPACES', 'RECENCY', 'BROWSE', 'SEARCH', 'ENTRY', 'RESULT', 'LAB · MEMORY', 'LAB · AGENTDB', 'LAB · EMBEDDINGS', 'LAB · MAINTAIN']) expect(text).toContain(`▓▒░ ${section} ░▒▓`)
+    expect(text).toContain('1/2 of the newest listed carry a vector')
+    expect(text).toContain('2 more rows in .swarm/agentdb-memory.db')
+    expect(text).toMatch(/ ◆ beta \.+/)
+    expect(text).toMatch(/del \n DELETE \.+/)
+    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['mem-query', 'mem-namespace', 'mem-key', 'mem-value', 'mem-text'])
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['mem-ns-0', 'mem-open-0', 'mem-del-0', 'mem-lab-mem-stats', 'mem-lab-mem-cleanup', 'mem-lab-mem-rabitq-build']))
+    // Opening it runs only its two local probes.
+    expect(world.runs.filter(argv => /memory (retrieve|search|store|delete|export)|mcp exec -t (memory_|agentdb_|embeddings_)/.test(argv.join(' ')))).toEqual([])
+  })
+
+  test('memory lab: view reads at once with one fixed argv; delete and store ask with their argv, then run it on yes', { options: { boot: false } }, async ($, on) => {
+    const world = memoryWorld(on)
+    const ran = (word: string) => world.runs.filter(argv => argv[5] === word).map(argv => argv.slice(4).join(' '))
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('memory'))
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.drawn()
+    await pane.press({ key: 'mem-open-0' })
+
+    const opened = textOf(await pane.drawn())
+
+    expect(opened).not.toContain('Confirm:')
+    expect(opened).toContain('auth/beta · 25 chars · read 1× · has a vector')
+    expect(opened).toContain('jwt refresh tokens rotate')
+    expect(ran('retrieve')).toEqual(['memory retrieve --key beta --namespace auth --format json'])
+
+    await pane.press({ key: 'mem-del-0' })
+
+    const asked = textOf(await pane.drawn())
+
+    expect(asked).toContain('runs: ruflo memory delete --key beta --namespace auth --force')
+    expect(asked).toContain('DELETES FOR GOOD')
+    expect(ran('delete')).toEqual([])
+    await pane.press({ key: 'confirm' })
+    await pane.drawn()
+    expect(ran('delete')).toEqual(['memory delete --key beta --namespace auth --force'])
+
+    await pane.input({ key: 'mem-namespace', text: 'notes', kind: 'change' })
+    await pane.input({ key: 'mem-key', text: 'alpha', kind: 'change' })
+    await pane.input({ key: 'mem-value', text: 'the quick brown fox', kind: 'submit' })
+    expect(textOf(await pane.drawn())).toContain('runs: ruflo memory store --key alpha --value the quick brown fox --namespace notes')
+    expect(ran('store')).toEqual([])
+    await pane.press({ key: 'confirm' })
+    await pane.drawn()
+    expect(ran('store')).toEqual(['memory store --key alpha --value the quick brown fox --namespace notes'])
+    await pane.unmount()
+  })
+
+  test('memory lab: search runs at once from its field and headless, a bad key never reaches the CLI', { options: { boot: false } }, async ($, on) => {
+    const world = memoryWorld(on)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const answer = (await $.command.run(command('run mem-search token rotation'))).text ?? ''
+
+    expect(answer).toContain('0.684  auth/beta  jwt refresh tokens rotate')
+    expect((await $.command.run(command('run mem-delete auth --force'))).text).not.toMatch(/^Asked/)
+    expect((await $.command.run(command('run mem-cleanup'))).text).toBe('Asked: memory cleanup. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.')
+    await $.command.run(command('no'))
+    await $.command.run(command('memory'))
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.drawn()
+    await pane.press({ key: 'mem-scope' })
+    await pane.input({ key: 'mem-query', text: 'token rotation', kind: 'submit' })
+    expect(textOf(await pane.drawn())).toContain('0.684  auth/beta [agentdb]  jwt refresh tokens rotate')
+    expect(world.runs.map(argv => argv.slice(4).join(' ')).filter(line => /search|delete|cleanup/.test(line))).toEqual([
+      'memory search --query token rotation --limit 10 --format json',
+      'mcp exec -t memory_search_unified -p {"query":"token rotation","limit":10}',
+    ])
+    await pane.unmount()
   })
 
   test('timeline, approvals and events draw from what was seen; the drill-down opens an agent', { options: { boot: false } }, async ($, on) => {
