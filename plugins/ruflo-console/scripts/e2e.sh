@@ -38,10 +38,17 @@ PROJ="$REPO"
 cli() { (cd "$PROJ" && $CLI "$@") >>"$OUT/cli.log" 2>&1; }
 json() { node -e "$1" "$PROJ" 2>/dev/null; }
 
+RUNTIME_DIRS="agents tasks claims swarm hive-mind"
+
 # ---------------------------------------------------------------- 1. real ruflo state
 if [[ "$TARGET" == repo ]]; then
   git -C "$REPO" status --porcelain >"$OUT/git-before.txt"
   git -C "$REPO" diff --stat -- .claude/helpers v3/@claude-flow/cli/.claude/helpers >"$OUT/helpers-before.txt"
+  # ruflo's runtime stores are gitignored, so git cannot put them back: keep a copy and restore it at the end, or each
+  # run's agents and claims pile up in the repo for the next run (and the next session) to see.
+  for dir in $RUNTIME_DIRS; do
+    [[ -d "$REPO/.claude-flow/$dir" ]] && mkdir -p "$OUT/runtime-before" && cp -a "$REPO/.claude-flow/$dir" "$OUT/runtime-before/"
+  done
 else
   mkdir -p "$PROJ" && git -C "$PROJ" init -q
   check S1 "ruflo init (branch CLI) makes a ruflo project, classic hooks included" cli.log cli init --force
@@ -108,6 +115,8 @@ claude_p s2-view "$PROJ" "${PLUGINS[@]}" "/ruflo claims"
 check S2 "headless /ruflo <view> answers the view as text" s2-view.txt has "$OUT/s2-view.txt" "$TASK"
 claude_p s2-dump-overview "$PROJ" "${PLUGINS[@]}" "/ruflo dump overview"
 check S2 "dump waits for its CLI probes (memory DB is measured, not 'asking')" s2-dump-overview.txt grep -qE "^memory DB +${MEM_N} entries" "$OUT/s2-dump-overview.txt"
+claude_p s2-commands "$PROJ" "${PLUGINS[@]}" "/ruflo commands swarm"
+check S2 "/ruflo commands browses the ADR-406 catalog" s2-commands.txt grep -qE "[0-9]+ of [0-9]+ commands in the ruflo command catalog \(ADR-406" "$OUT/s2-commands.txt"
 claude_p s2-dump-swarm "$PROJ" "${PLUGINS[@]}" "/ruflo dump swarm"
 check S2 "swarm view shows the real agents (ids from the store)" s2-dump-swarm.txt has "$OUT/s2-dump-swarm.txt" "$CODER"
 claude_p s2-dump-claims "$PROJ" "${PLUGINS[@]}" "/ruflo dump claims"
@@ -115,7 +124,7 @@ check S2 "claims view shows the claim held by e2e-coder" s2-dump-claims.txt has 
 check S2 "claims view shows the handoff to the tester" s2-dump-claims.txt has "$OUT/s2-dump-claims.txt" "→ tester"
 claude_p s2-dump-memory "$PROJ" "${PLUGINS[@]}" "/ruflo dump memory"
 check S2 "memory view shows the CLI's entry count ($MEM_N)" s2-dump-memory.txt grep -qE "^entries +${MEM_N} " "$OUT/s2-dump-memory.txt"
-for name in s2-status s2-help s2-mods s2-swarm s2-alias s2-view s2-dump-overview s2-dump-swarm s2-dump-claims s2-dump-memory; do check S2 "no refused tree or failed hook ($name)" "$name.log" clean_log "$OUT/$name.log"; done
+for name in s2-status s2-help s2-mods s2-swarm s2-alias s2-view s2-commands s2-dump-overview s2-dump-swarm s2-dump-claims s2-dump-memory; do check S2 "no refused tree or failed hook ($name)" "$name.log" clean_log "$OUT/$name.log"; done
 
 # ---------------------------------------------------------------- 3. interactive pane under tmux
 tmux_start "$PROJ" "$OUT/s3.log" "${PLUGINS[@]}"
@@ -174,7 +183,10 @@ TMUX_COLUMNS=100 tmux_start "$PROJ" "$OUT/s3b.log" "${PLUGINS[@]}"
 check S3b "100 columns: the session starts" s3b-start.txt settle_dialogs
 tmux_cmd "/ruflo claims"
 check S3b "100 columns: the pane seats inline (no dock) and opens on Claims" s3b-inline.txt wait_for s3b-inline "Claims ─" 20
-check S3b "100 columns: the whole view fits the rows it asked for (its footer buttons are on screen)" s3b-inline.txt has "$OUT/s3b-inline.txt" "[ Close ]"
+INLINE_ROWS=$(awk '/╭/{s=NR} /╰/{e=NR} END{print (s && e) ? e-s-1 : 0}' "$OUT/s3b-inline.txt")
+echo "inline pane at 100 columns: Claims asked for 30 rows, the layout gave $INLINE_ROWS" >"$OUT/s3b-rows.txt"
+check S3b "100 columns: the whole pane is on screen, both borders (asked 30 rows, got $INLINE_ROWS)" s3b-inline.txt grep -q "╰" "$OUT/s3b-inline.txt"
+check S3b "100 columns: given fewer rows, the controls stay on screen (compact: buttons under the tabs)" s3b-inline.txt has "$OUT/s3b-inline.txt" "[ Close ]"
 check S3b "100 columns: the prompt is still on screen below the pane" s3b-inline.txt grep -q "^❯" "$OUT/s3b-inline.txt"
 check S3b "no refused tree or failed hook" s3b.log clean_log "$OUT/s3b.log"
 tmux_stop
@@ -233,6 +245,11 @@ if [[ "$TARGET" == repo ]]; then
   comm -13 <(sort "$OUT/git-before.txt") <(sort "$OUT/git-after.txt") | awk '$1 == "M" { print $2 }' | while read -r path; do
     git -C "$REPO" checkout -- "$path" && echo "restored $path" >>"$OUT/git-restored.txt"
   done
+  for dir in $RUNTIME_DIRS; do
+    rm -rf "${REPO:?}/.claude-flow/$dir"
+    [[ -d "$OUT/runtime-before/$dir" ]] && cp -a "$OUT/runtime-before/$dir" "$REPO/.claude-flow/"
+  done
+  echo "restored .claude-flow/{${RUNTIME_DIRS// /,}} to their state before the run" >>"$OUT/git-restored.txt"
 fi
 
 echo "evidence: $OUT"
