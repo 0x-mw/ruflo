@@ -270,7 +270,10 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    expect((await drawn($, 'missions')).text).toContain('n/a — no .claude-flow/missions/observation.json')
+    const missions = await drawn($, 'missions')
+
+    expect(missions.text).toContain('No mission yet (ADR-406)')
+    expect(elementsOf(missions.tree, 'Input').map(keyOf)).toEqual(['start-field-mission'])
   })
 
   test('x.ruv.io: the federation menu with its commands, and no registry or roster asked with the network off', { options: { boot: false } }, async ($, on) => {
@@ -343,6 +346,48 @@ describe('views', () => {
     await pane.drawn()
     expect(skillRuns()).toContain('add mattpocock/skills@tdd -g -y')
     await pane.unmount()
+  })
+
+  test('empty sections offer the button that starts them, not a command to copy; a start asks first and runs one fixed argv', { options: { boot: false } }, async ($, on) => {
+    const { ".claude-flow/hive-mind/state.json": _hive, ...withoutHive } = RUFLO_FILES
+    const world = worldOf(on, withoutHive)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    // A project with no hive-mind: the view says so and offers to start one.
+    await $.command.run(command('hive'))
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+    const hive = await pane.drawn()
+
+    expect(textOf(hive)).toContain('No hive-mind here yet')
+    expect(textOf(hive)).not.toContain('npx ruflo')
+    expect(elementsOf(hive, 'Button').map(keyOf)).toContain('start-hive')
+
+    await pane.press({ key: 'start-hive' })
+    expect(textOf(await pane.drawn())).toContain('Confirm: start a hive-mind: a queen with raft consensus?')
+    expect(world.runs.some(argv => argv.includes('hive-mind') && argv.includes('init'))).toBe(false)
+
+    await pane.press({ key: 'confirm' })
+
+    const ran = world.runs.filter(argv => argv.includes('hive-mind') && argv.includes('init'))
+
+    expect(ran.map(argv => argv.slice(4))).toEqual([['hive-mind', 'init', '--consensus', 'raft']])
+    await pane.unmount()
+  })
+
+  test('starts that take a sentence refuse a leading dash and an empty one; nothing runs', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    for (const text of ['', '--force']) {
+      expect((await $.command.run(command(`run start-task ${text}`))).text ?? '').not.toMatch(/^Asked: /)
+    }
+
+    expect(world.runs.some(argv => argv.includes('task') && argv.includes('create'))).toBe(false)
   })
 
   test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {

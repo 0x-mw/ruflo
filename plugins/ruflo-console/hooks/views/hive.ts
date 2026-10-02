@@ -10,7 +10,7 @@ import { faultTolerance, membersOf, nextVoter, nodesOf, pickedProposal, proposal
 import { shortId, type HiveInfo } from '../data/parse'
 import { HIVE_COLOR, type HiveCell, type HivePictureModel } from '../gfx/hive'
 import type { State } from '../state'
-import { ago, button, clip, col, kv, picture, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, kv, picture, row, rule, starts, text, THEME, type Ctx } from './common'
 
 const ROLE_GLYPH: Record<string, string> = { worker: '●', specialist: '◆', scout: '▲' }
 const LIVE_COLOR: Record<Liveness, number> = { busy: HIVE_COLOR.yellow, idle: HIVE_COLOR.cyan, error: HIVE_COLOR.pink, down: HIVE_COLOR.grey, unknown: HIVE_COLOR.wall }
@@ -101,7 +101,7 @@ function workersSection(ctx: Ctx, hive: HiveInfo, members: Member[]): RenderElem
   const picked = pickedProposal(hive, ctx.state.select.item)
   const rows: RenderElement[] = [rule(ctx, 'Workers', `${members.length} · role · liveness · ballot on the picked proposal`)]
 
-  if (members.length === 0) rows.push(text(ctx, 'No workers have joined. A vote needs a registered worker: spawn one below.', { dimColor: true }))
+  if (members.length === 0) rows.push(starts(ctx, 'No workers have joined. A vote needs a registered worker.', ['hive-workers']))
 
   for (const member of members.slice(0, 12)) {
     const ballot = picked?.ballots.find(entry => entry.voter === member.id)
@@ -152,7 +152,8 @@ function proposalsSection(ctx: Ctx, hive: HiveInfo): RenderElement[] {
         ...(voter === null ? [] : [button(ctx, 'hive-vote-yes', 'Vote for', () => void ctx.act.run('hive-vote-yes'), { hotkey: 'f' }), button(ctx, 'hive-vote-no', 'Vote against', () => void ctx.act.run('hive-vote-no'), { hotkey: 'a' })]),
       ]),
     )
-    rows.push(text(ctx, voter === null ? `vote: n/a — ${hive.workers.length === 0 ? 'no registered worker to vote as (the CLI counts only workers): spawn one' : 'every worker has voted on it'}` : `a vote is cast as the next worker that has not voted: ${voter}`, { dimColor: true }))
+    if (voter === null && hive.workers.length === 0) rows.push(starts(ctx, 'No registered worker to vote as (the CLI counts only workers).', ['hive-workers'], 'vote-'))
+    else rows.push(text(ctx, voter === null ? `vote: n/a — ${hive.workers.length === 0 ? 'no registered worker to vote as (the CLI counts only workers): spawn one' : 'every worker has voted on it'}` : `a vote is cast as the next worker that has not voted: ${voter}`, { dimColor: true }))
   }
 
   return rows
@@ -222,7 +223,7 @@ export function hiveView(ctx: Ctx): RenderElement {
   if (snap === null) return text(ctx, 'reading ruflo state…', { dimColor: true })
 
   if (hive === null) {
-    return col(ctx, [rule(ctx, 'Hive-Mind', 'not initialised'), text(ctx, 'No hive-mind here. `npx ruflo hive-mind init --consensus raft` starts one with a queen; spawn workers to vote.', { dimColor: true })], 'hive')
+    return col(ctx, [rule(ctx, 'Hive-Mind', 'not initialised'), starts(ctx, 'No hive-mind here yet: start one with a queen, then spawn workers to vote.', ['hive', 'hive-workers'])], 'hive')
   }
 
   const members = membersOf(hive, snap.hiveAgents, snap.agents)

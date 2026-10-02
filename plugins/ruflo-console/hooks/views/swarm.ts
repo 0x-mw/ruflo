@@ -1,7 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { agentLabels, shortId } from '../data/parse'
-import { button, clip, col, kv, picture, row, rule, text, THEME, type Ctx } from './common'
+import { button, clip, col, kv, picture, row, rule, starts, text, THEME, type Ctx } from './common'
 import { selection } from './select'
 
 const STATUS_COLOR = (status: string): string | undefined =>
@@ -22,7 +22,7 @@ export function swarmView(ctx: Ctx): RenderElement {
   if (snap === null) return text(ctx, 'reading ruflo state…', { dimColor: true })
 
   if (swarm === null && hive === null && agents.length === 0) {
-    rows.push(text(ctx, 'No swarm on disk here. `npx ruflo swarm init --topology hierarchical` starts one (or p → "start a swarm").', { dimColor: true }))
+    rows.push(starts(ctx, 'No swarm here yet: start a hierarchical one, then spawn agents into it.', ['swarm', 'spawn-coder', 'spawn-tester', 'spawn-reviewer']))
 
     return col(ctx, rows, 'swarm')
   }
@@ -62,7 +62,7 @@ export function swarmView(ctx: Ctx): RenderElement {
 
   // A short summary: the Hive-Mind view (👑) holds the queen, quorum, proposals, voting and broadcasts.
   if (hive === null) {
-    rows.push(text(ctx, 'n/a — `npx ruflo hive-mind init` for queen-led consensus', { dimColor: true }))
+    rows.push(starts(ctx, 'No hive-mind yet: queen-led consensus for the swarm.', ['hive'], 'swarm-'))
   } else {
     const newest = hive.pending.at(-1)
 

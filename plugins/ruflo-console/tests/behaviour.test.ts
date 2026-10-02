@@ -131,7 +131,7 @@ describe('behaviour', () => {
     expect(overview).toContain('n/a — no swarm on disk')
     expect(overview).not.toMatch(/\b0 agents\b/)
     await $.command.run(command('swarm'))
-    expect(textOf(await $.ui.render(paneAt(110)))).toContain('No swarm on disk here')
+    expect(textOf(await $.ui.render(paneAt(110)))).toContain('No swarm here yet: start a hierarchical one')
     expect(textOf(await $.ui.render(BAND))).toBe('engine')
   })
 

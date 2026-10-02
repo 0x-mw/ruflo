@@ -4,6 +4,7 @@
  * argument from the query after their keyword: `route fix the login bug`.
  */
 import { HIVE_ROLES, pickedProposal } from './data/hive'
+import { START_IDS, START_LABEL, startSpec } from './starts'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
 import { LAB, labSpec, labWhy } from './mh-lab'
@@ -49,7 +50,7 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast'] as const
+const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast', 'task', 'mission'] as const
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
@@ -80,6 +81,11 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   if (task !== null && agent !== null) add('task-claim', 'claims', `claim task ${task.id} for ${agent.name ?? agent.type}`, { kind: 'spec', spec: claimTask(task, agent), why: 'an id cannot be passed to ruflo' })
 
   for (const type of AGENT_TYPES) add(`spawn-${type}`, 'swarm', `spawn ${/^[aeiou]/.test(type) ? 'an' : 'a'} ${type} agent`, { kind: 'spec', spec: spawnAgent(type, nowMs), why: 'unknown agent type' })
+
+  // One-click starts, also reachable as `/ruflo run <id>`: everything an empty section offers.
+  for (const id of START_IDS) add(id, 'start', `${START_LABEL[id]}`, { kind: 'spec', spec: startSpec(id, nowMs), why: 'that start cannot run here' })
+  add('task', 'start', 'task <text>: put a task on the board', { kind: 'text', keyword: 'task', make: text => startSpec('task', nowMs, text) })
+  add('mission', 'start', 'mission <objective>: create an ADR-406 mission', { kind: 'text', keyword: 'mission', make: text => startSpec('mission', nowMs, text) })
 
   add('swarm-init', 'swarm', 'start a swarm: init hierarchical, max 8, specialized', { kind: 'spec', spec: swarmInit(), why: '' })
   add('swarm-stop', 'swarm', 'stop the swarm', { kind: 'spec', spec: swarmStop(), why: '' })

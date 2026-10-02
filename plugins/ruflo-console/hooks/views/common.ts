@@ -8,6 +8,7 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 import type { ProbeResult } from '../data/cli'
 import type { Grid } from '../gfx/raster'
 import type { SkillActions } from '../skills'
+import { START_LABEL, type StartId } from '../starts'
 import type { HarnessId, State, ViewId } from '../state'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
@@ -39,6 +40,8 @@ export type Actions = {
   /** Cycles the events view's filter. */
   filter: () => void
   /** The terminal view: pick a harness, follow the field, ask to run its text, stop the run, clear the scrollback. */
+  /** A one-click start for an empty section (init, swarm, hive, workers…): asks, runs, and re-reads the disk. */
+  start: (id: StartId, text?: string) => void
   /** The main menu's prompt: a key or a name takes the person to that area. */
   menu: (text: string) => void
   term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }
@@ -159,6 +162,24 @@ export function picture(ctx: Ctx, key: string, fallback: string): RenderElement 
 
 export function button(ctx: Ctx, key: string, label: string, onPress: () => void, options: { hotkey?: string; primary?: boolean } = {}): RenderElement {
   return ctx.kit.Button({ key, label, onPress, ...(options.hotkey !== undefined && { hotkey: options.hotkey }), ...(options.primary === true && { variant: 'primary' as const }) })
+}
+
+/** A start that takes a sentence (a task, a mission objective): a text field whose Enter asks, with the confirm after. */
+export function startField(ctx: Ctx, id: StartId, placeholder: string): RenderElement {
+  return ctx.kit.Input === undefined
+    ? text(ctx, ` ${START_LABEL[id]}: this surface has no text field (/ruflo run ${id} <text>)`, { dimColor: true })
+    : ctx.kit.Input({ key: `start-field-${id}`, label: START_LABEL[id], placeholder, submitLabel: 'ask', onSubmit: value => ctx.act.start(id, value) })
+}
+
+/**
+ * What an empty section offers instead of a command to copy: a line saying what is missing, then a button per start
+ * (each asks first, with the exact command on the confirm row, and the view fills in once it has run).
+ */
+export function starts(ctx: Ctx, why: string, ids: readonly StartId[], scope = ''): RenderElement {
+  return col(ctx, [
+    text(ctx, ` ${why}`, { color: THEME.warn }),
+    row(ctx, [text(ctx, ' '), ...ids.map(id => button(ctx, `start-${scope}${id}`, `▸ ${START_LABEL[id]}`, () => ctx.act.start(id)))]),
+  ])
 }
 
 /** How a CLI-sourced fact reads: its value's age, running, failing with a stale value, or never measured. */
