@@ -251,12 +251,16 @@ export function paneView(ctx: Ctx): RenderElement {
   const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
   const about = blurb(ctx)
   const bbs = isBbs() ? wildcat(ctx) : { strip: [], art: [] }
+  // The status row (keys, sync, Palette, Actions) sits above the body, so a tall view cannot push it off the screen; only the main menu keeps it below its prompt, as a BBS does.
+  const isMenu = ctx.state.view === 'menu'
+  // The terminal's own Enter-again confirm stays under its field, where the field is.
+  const isTerminal = ctx.state.view === 'terminal'
   const gap = isBbs() && !isCompact ? [text(ctx, ' ')] : []
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
     ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
-    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, ...(confirm !== null ? [confirm] : []), body, ...gap, footer(ctx)]
+    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }

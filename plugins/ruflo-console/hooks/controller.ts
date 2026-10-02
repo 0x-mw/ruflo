@@ -332,7 +332,7 @@ export function createController(state: State, host: Host): Controller {
   /** `closeOnEscape` false: take the keys but leave Esc handing them back, as an auto-opened pane does. */
   async function open(focus = true, closeOnEscape = focus): Promise<{ isPlaced: boolean; reason: string }> {
     try {
-      const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(focus && { focus: true, holdToasts: true }), ...(closeOnEscape && { closeOnEscape: true }) })
+      const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(state.dockColumns > 0 && { columns: state.dockColumns }), ...(focus && { focus: true, holdToasts: true }), ...(closeOnEscape && { closeOnEscape: true }) })
       const isPlaced = result === undefined || result.isPlaced !== false
 
       if (isPlaced && !state.pane.isOpen) state.pane.bootAtMs = Date.now()
@@ -392,7 +392,7 @@ export function createController(state: State, host: Host): Controller {
       state.mounted.clear()
       persist()
       // A new view asks for its own height inline; the dock ignores it.
-      if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(view) }).catch(() => undefined)
+      if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(view), ...(state.dockColumns > 0 && { columns: state.dockColumns }) }).catch(() => undefined)
       void probe(true)
     }
 

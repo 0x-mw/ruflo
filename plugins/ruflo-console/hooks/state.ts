@@ -199,6 +199,8 @@ export type State = {
   eventFilter: 'all' | ConsoleEvent['kind']
   /** When the newest learning point arrived: the curve draws it in from there. */
   curveGrewAtMs: number
+  /** The dock width asked for (RUFLO_CONSOLE_COLUMNS, 40 to 400); 0 leaves the engine's share. A request: a dragged width wins. */
+  dockColumns: number
   pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string; /** When the pane last opened: the BBS boot screen plays from here. */ bootAtMs: number }
   /** The size of each Raster as last mounted, by key: a blit of any other size is refused, so none is sent. */
   mounted: Map<string, { columns: number; rows: number }>
@@ -284,6 +286,7 @@ export function newState(raw: PluginOptions | undefined): State {
     statusLog: new Map(),
     eventFilter: 'all',
     curveGrewAtMs: 0,
+    dockColumns: 0,
     pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '', bootAtMs: 0 },
     mounted: new Map(),
     select: { claim: 0, agent: 0, task: 0, item: 0 },

@@ -23,7 +23,7 @@ const GROUPS: readonly { title: string; sections: readonly { name: string; items
   {
     title: 'INTELLIGENCE',
     sections: [
-      { name: 'learn', items: [{ key: '6', label: 'Learning', go: 'learning' }, { key: '·', label: 'Neural', go: 'neural' }, { key: '·', label: 'Self-Evolution', go: 'evolve' }, { key: '7', label: 'MetaHarness', go: 'metaharness' }, { key: '·', label: 'Self-Evolution', go: 'evolve' }] },
+      { name: 'learn', items: [{ key: '6', label: 'Learning', go: 'learning' }, { key: '·', label: 'Neural', go: 'neural' }, { key: '7', label: 'MetaHarness', go: 'metaharness' }, { key: '·', label: 'Self-Evolution', go: 'evolve' }] },
       { name: 'remember', items: [{ key: '8', label: 'Memory Lab', go: 'memory' }, { key: '·', label: 'Vector Lab', go: 'vector' }] },
       { name: 'spend', items: [{ key: '9', label: 'Cost & Budget', go: 'cost' }, { key: '·', label: 'Performance', go: 'perf' }] },
     ],
@@ -32,7 +32,7 @@ const GROUPS: readonly { title: string; sections: readonly { name: string; items
     title: 'SAFETY & OPS',
     sections: [
       { name: 'protect', items: [{ key: '·', label: 'Security & Doctor', go: 'secure' }] },
-      { name: 'build', items: [{ key: '·', label: 'Automation', go: 'automate' }, { key: '·', label: 'Dev Tools', go: 'devtools' }] },
+      { name: 'build', items: [{ key: '·', label: 'Dev Tools', go: 'devtools' }] },
     ],
   },
   {

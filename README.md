@@ -52,7 +52,7 @@ User --> Ruflo (CLI/MCP) --> Router --> Swarm --> Agents --> Memory --> LLM Prov
 
 ![The ruflo console inside Claude Code: swarm topology, claims, approvals, missions, events and more](docs/assets/ruflo-console-tour.gif)
 
-<sub>The <code>/ruflo</code> console running in Claude Code — <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
+<sub>The <code>/ruflo</code> console running in Claude Code (Claude on the left, the cockpit on the right): agents spawned and tasks created from the prompt show up live in the swarm, claims and memory views. <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
 
 **Install the mods from the ruflo marketplace** (Claude Code 2.1.287 or later; mods run with your account's permissions and are not sandboxed, so read the code first):
 
