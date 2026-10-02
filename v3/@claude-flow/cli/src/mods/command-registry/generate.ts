@@ -110,7 +110,11 @@ export function generate(input: GenerateInput): GenerateResult {
       proposedNames: PROPOSED_NAMES,
       existingNames: new Set(preliminary.map((r) => r.key)),
     });
-    const engineHooks: ModCommandHook[] = hooksFromValidations(engine.validations);
+    // The engine confirms which command hooks exist; the source scan knows which
+    // file declares each. Prefer the declaring file so the catalog is the same
+    // whether or not an engine was available to confirm it.
+    const engineHooks: ModCommandHook[] = hooksFromValidations(engine.validations)
+      .map((h) => sourceHooks.find((s) => s.plugin === h.plugin && s.command === h.command) ?? h);
     const useEngine = engine.validations.length > 0 && engine.validations.every((v) => v.passed === true);
     const inventory = collectInventory({
       repoRoot: input.repoRoot,
