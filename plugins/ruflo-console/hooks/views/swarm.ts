@@ -60,14 +60,17 @@ export function swarmView(ctx: Ctx): RenderElement {
 
   rows.push(rule(ctx, 'Hive-mind', hive === null ? 'not initialised' : `${hive.strategy ?? 'consensus'}${hive.queen !== undefined ? ` · queen ${hive.queen}` : ''}`))
 
+  // A short summary: the Hive-Mind view (👑) holds the queen, quorum, proposals, voting and broadcasts.
   if (hive === null) {
     rows.push(text(ctx, 'n/a — `npx ruflo hive-mind init` for queen-led consensus', { dimColor: true }))
   } else {
-    for (const proposal of hive.pending.slice(-3)) rows.push(text(ctx, `◇ ${proposal.type} (${proposal.strategy}) ${proposal.status} · for ${proposal.votesFor} · against ${proposal.votesAgainst} · ${proposal.id}`, { color: THEME.warn }))
-    for (const decision of hive.history.slice(-2)) rows.push(text(ctx, `◆ ${decision.type} → ${decision.result} · for ${decision.votesFor} · against ${decision.votesAgainst}`, { dimColor: true }))
-    if (hive.pending.length === 0 && hive.history.length === 0) rows.push(text(ctx, 'no proposals yet', { dimColor: true }))
-    if (hive.pending.length > 0) rows.push(text(ctx, 'vote from Approvals (q) or the palette (p → vote)', { dimColor: true }))
+    const newest = hive.pending.at(-1)
+
+    rows.push(text(ctx, `${hive.workers.length} workers · ${hive.pending.length} open · ${hive.history.length} decided · ${hive.broadcasts.length} broadcasts`, { dimColor: true }))
+    if (newest !== undefined) rows.push(text(ctx, `◇ ${newest.type} (${newest.strategy}) ${newest.status} · for ${newest.votesFor} · against ${newest.votesAgainst} · ${newest.id}`, { color: THEME.warn }))
   }
+
+  if (ctx.columns >= 44) rows.push(row(ctx, [button(ctx, 'open-hive', '▸ open hive', () => ctx.act.view('hive'))]))
 
   return col(ctx, rows, 'swarm')
 }

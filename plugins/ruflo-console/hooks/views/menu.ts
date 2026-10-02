@@ -13,6 +13,8 @@ const MENUS: readonly { title: string; items: readonly Item[] }[] = [
     items: [
       { key: '1', label: 'Overview', go: 'overview' },
       { key: '2', label: 'Swarm Topology', go: 'swarm' },
+      // No hotkey is free; the prompt takes its name (hive) and the entry is clickable.
+      { key: '👑', label: 'Hive-Mind', go: 'hive' },
       { key: '3', label: 'Claims Board', go: 'claims' },
       { key: 'q', label: 'Approvals', go: 'approvals' },
       { key: 'm', label: 'Missions', go: 'missions' },
