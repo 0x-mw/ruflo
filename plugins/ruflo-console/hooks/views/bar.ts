@@ -1,32 +1,45 @@
 /**
- * The band above the prompt: one row naming what ruflo is doing here, with a mark that pulses while Claude works.
+ * The band above the prompt: one row saying what is happening here now, with a mark that pulses while Claude works.
+ * Parts come most-urgent first, so a narrow band truncates the least useful ones: what needs a person, who is
+ * working on what (and for how long), the AI terminal's runs, the newest event while it is fresh; only then the
+ * standing context (claims, this session's spend). With nothing happening it says so, and when it last did.
  * Each part is a fact on disk or n/a; a part with nothing to say is left out rather than shown as zero.
- * Parts come most-important first, so a narrow band truncates the least useful ones: what needs a person,
- * then the swarm, this session's spend, claims, the router's last pick, and what was learned since load.
  */
 import type { RenderElement } from 'claude-code'
 
 import { alertsOf, approvalsOf } from '../data/alerts'
+import { agentLabels } from '../data/parse'
 import type { State } from '../state'
-import { clip, count, type Kit } from './common'
+import { ago, clip, type Kit } from './common'
 
 export const BAR_KEY = 'mark'
 
-export type BarPart = { text: string; tone: 'attention' | 'plain' }
+export type BarPart = { text: string; tone: 'attention' | 'live' | 'plain' }
 
-/** The swarm in words: how many agents and how many are working, never "0/0". */
-function swarmText(state: State): string | null {
+/** How long an event counts as "now" on the band. */
+const FRESH_MS = 60_000
+
+const since = (atMs: number | undefined, nowMs: number): string => (atMs === undefined ? '' : ` ${ago(atMs, nowMs).replace(' ago', '')}`)
+
+/** Who is working, each on what: the agent's in-progress task, or just "working". At most two, then a count. */
+function workingParts(state: State, nowMs: number): BarPart[] {
   const snap = state.snapshot
 
-  if (snap?.swarm == null) return null
+  if (snap === null) return []
 
-  const total = snap.swarm.agentIds.length || snap.agents.length
+  const busy = snap.agents.filter(agent => /busy|active|working/i.test(agent.status))
+  const labels = agentLabels(snap.agents)
+  const parts = busy.slice(0, 2).map(agent => {
+    const task = snap.tasks.find(entry => entry.assignedTo.includes(agent.id) && /progress|running|active/i.test(entry.status))
+    const what = task !== undefined ? ` on ${clip(task.description || task.type, 40)}` : ' working'
+    const span = state.statusLog.get(agent.id)?.at(-1)?.atMs
 
-  if (total === 0) return 'swarm, no agents'
+    return { text: `▶ ${labels.get(agent.id) ?? agent.type}${what}${since(span, nowMs)}`, tone: 'live' as const }
+  })
 
-  const busy = snap.agents.filter(agent => /busy|active/i.test(agent.status)).length
+  if (busy.length > 2) parts.push({ text: `+${busy.length - 2} more working`, tone: 'live' })
 
-  return busy === 0 ? `${total} agent${total === 1 ? '' : 's'} idle` : `${busy}/${total} agents busy`
+  return parts
 }
 
 /** Dollars a person reads at a glance: cents under $100, whole dollars with separators above. */
@@ -45,11 +58,24 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
   if (approvals > 0) parts.push({ text: `${approvals} to approve (q)`, tone: 'attention' })
   if (alerts > 0) parts.push({ text: `⚠ ${alerts} alert${alerts === 1 ? '' : 's'}`, tone: 'attention' })
 
-  const swarm = swarmText(state)
+  // What is happening now: agents at work, the AI terminal's runs, and the newest event while it is fresh.
+  parts.push(...workingParts(state, nowMs))
 
-  if (swarm !== null) parts.push({ text: swarm, tone: 'plain' })
-  if (state.usage?.costUsd !== undefined && state.usage.costUsd >= 0.01) parts.push({ text: `${money(state.usage.costUsd)} this session`, tone: 'plain' })
+  for (const [agent, run] of state.terminal.runs) parts.push({ text: `💻 ${agent} answering${since(run.startedAtMs, nowMs)}`, tone: 'live' })
 
+  const latest = state.events.at(-1)
+  const isFresh = latest !== undefined && nowMs - latest.atMs < FRESH_MS
+
+  if (isFresh) parts.push({ text: `${clip(latest.text, 44)} ·${since(latest.atMs, nowMs)} ago`, tone: 'plain' })
+
+  // Nothing moving: say so, with how many agents stand ready and when something last happened.
+  if (!parts.some(part => part.tone === 'live') && !isFresh && snap?.swarm != null) {
+    const ready = snap.agents.length
+
+    parts.push({ text: `${ready > 0 ? `idle · ${ready} agent${ready === 1 ? '' : 's'} ready` : 'swarm, no agents'}${latest !== undefined ? ` · last activity${since(latest.atMs, nowMs)} ago` : ''}`, tone: 'plain' })
+  }
+
+  // Standing context last: claims held, this session's spend.
   const claims = snap?.claims ?? []
 
   if (claims.length > 0) {
@@ -58,16 +84,7 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
     parts.push({ text: `${claims.length} claim${claims.length === 1 ? '' : 's'}${stealable > 0 ? ` (${stealable} stealable)` : ''}`, tone: 'plain' })
   }
 
-  if (state.ruflo.route !== null) parts.push({ text: `routed → ${state.ruflo.route.agent}`, tone: 'plain' })
-
-  // Learning shows as growth since the console loaded; the running total lives in the Learning view (6).
-  const patterns = state.history.patterns
-
-  if (patterns.length > 1) {
-    const learned = (patterns[patterns.length - 1] as { value: number }).value - (patterns[0] as { value: number }).value
-
-    if (learned > 0) parts.push({ text: `+${count(learned)} learned`, tone: 'plain' })
-  }
+  if (state.usage?.costUsd !== undefined && state.usage.costUsd >= 0.01) parts.push({ text: `${money(state.usage.costUsd)} this session`, tone: 'plain' })
 
   return parts
 }
@@ -89,7 +106,7 @@ export function barView(kit: Kit, state: State, columns: number, mark: RenderEle
     const words = ` · ${part.text}`
 
     if (room <= 3) break
-    children.push(kit.Text({ wrap: 'truncate-end', ...(part.tone === 'attention' ? { color: 'warning' } : { dimColor: true }), children: clip(words, room) }))
+    children.push(kit.Text({ wrap: 'truncate-end', ...(part.tone === 'attention' ? { color: 'warning' } : part.tone === 'live' ? { color: 'success' } : { dimColor: true }), children: clip(words, room) }))
     room -= words.length
   }
 

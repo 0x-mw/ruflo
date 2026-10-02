@@ -229,7 +229,8 @@ describe('behaviour', () => {
     // One Text per part (attention parts are coloured); the row lays them side by side, the harness joins with \n.
     const band = textOf(await $.ui.render(BAND)).replace(/\n/g, '')
 
-    expect(band).toContain('ruflo · 3 to approve (q) · ⚠ 1 alert · 2 agents idle · $0.42 this session · 2 claims (1 stealable)')
+    // Urgent first, then what is happening now (a fresh event), then the standing context.
+    expect(band).toContain('ruflo · 3 to approve (q) · ⚠ 1 alert · router picked tester (60%) · 0s ago · 2 claims')
     expect(band).not.toMatch(/0\/\d+ busy|\d patterns/)
     expect(band).toContain('open console')
     expect(textOf(await $.ui.render({ ...BAND, props: { ...BAND.props, hasSurvey: true } }))).toBe('engine')

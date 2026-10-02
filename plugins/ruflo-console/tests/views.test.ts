@@ -242,7 +242,8 @@ describe('views', () => {
     const menu = await pane.drawn()
 
     expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'title'])
-    expect(textOf(menu)).toContain('■Swarm Commands■')
+    expect(textOf(menu)).toContain('▓▒░ SWARM ░▒▓')
+    expect(textOf(menu)).toContain('── live')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
     expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-prompt'])

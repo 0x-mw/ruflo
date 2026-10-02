@@ -1,47 +1,50 @@
 import type { RenderElement } from 'claude-code'
 
-import type { ViewId } from '../state'
+import { VIEWS, type ViewId } from '../state'
 import { barParts } from './bar'
 import { clip, col, isBbs, row, text, THEME, type Ctx } from './common'
 
-type Item = { key: string; label: string; go: ViewId | 'palette' | 'help' | 'close' }
+type Item = { key: string; label: string; go: string }
 
-/** The board's three menus, as the old BBS main menus grouped their commands. Keys are the pane's own hotkeys. */
-const MENUS: readonly { title: string; items: readonly Item[] }[] = [
+/**
+ * The board's menus: four groups, each split into short sub-sections, the way the old BBS main menus grouped their
+ * commands. Keys are the pane's own hotkeys; an area without one (`·`) is reached by its name at the prompt. An
+ * entry for a view this build does not have is left out.
+ */
+const GROUPS: readonly { title: string; sections: readonly { name: string; items: readonly Item[] }[] }[] = [
   {
-    title: 'Swarm Commands',
-    items: [
-      { key: '1', label: 'Overview', go: 'overview' },
-      { key: '2', label: 'Swarm Topology', go: 'swarm' },
-      { key: '3', label: 'Claims Board', go: 'claims' },
-      { key: 'q', label: 'Approvals', go: 'approvals' },
-      { key: 'm', label: 'Missions', go: 'missions' },
-      { key: 'g', label: 'Agent Timeline', go: 'timeline' },
-      { key: 'e', label: 'Event Stream', go: 'events' },
+    title: 'SWARM',
+    sections: [
+      { name: 'live', items: [{ key: '1', label: 'Overview', go: 'overview' }, { key: '2', label: 'Swarm Topology', go: 'swarm' }, { key: '·', label: 'Hive-Mind', go: 'hive' }] },
+      { name: 'work', items: [{ key: '3', label: 'Claims Board', go: 'claims' }, { key: 'm', label: 'Missions', go: 'missions' }, { key: 'q', label: 'Approvals', go: 'approvals' }] },
+      { name: 'watch', items: [{ key: 'g', label: 'Agent Timeline', go: 'timeline' }, { key: 'e', label: 'Event Stream', go: 'events' }] },
     ],
   },
   {
-    title: 'System Features',
-    items: [
-      { key: '4', label: 'Federation', go: 'federation' },
-      { key: '5', label: 'Plugins & Mods', go: 'plugins' },
-      { key: '6', label: 'Learning', go: 'learning' },
-      { key: '7', label: 'MetaHarness', go: 'metaharness' },
-      { key: '8', label: 'Memory Base', go: 'memory' },
-      { key: '9', label: 'Cost & Budget', go: 'cost' },
+    title: 'INTELLIGENCE',
+    sections: [
+      { name: 'learn', items: [{ key: '6', label: 'Learning', go: 'learning' }, { key: '7', label: 'MetaHarness', go: 'metaharness' }] },
+      { name: 'remember', items: [{ key: '8', label: 'Memory Base', go: 'memory' }] },
+      { name: 'spend', items: [{ key: '9', label: 'Cost & Budget', go: 'cost' }] },
     ],
   },
   {
-    title: 'Other Commands',
-    items: [
-      { key: 'w', label: 'x.ruv.io Board', go: 'xruv' },
-      { key: 'i', label: 'Terminal', go: 'terminal' },
-      { key: 'p', label: 'Command Palette', go: 'palette' },
-      { key: 'h', label: 'Help', go: 'help' },
-      { key: 'O', label: 'Log Off', go: 'close' },
+    title: 'NETWORK & EXTEND',
+    sections: [
+      { name: 'federate', items: [{ key: '4', label: 'Federation', go: 'federation' }, { key: 'w', label: 'x.ruv.io Board', go: 'xruv' }] },
+      { name: 'extend', items: [{ key: '5', label: 'Plugins & Mods', go: 'plugins' }, { key: '·', label: 'Skills', go: 'skills' }] },
+    ],
+  },
+  {
+    title: 'TOOLS',
+    sections: [
+      { name: 'run', items: [{ key: 'i', label: 'AI Terminal', go: 'terminal' }, { key: 'p', label: 'Command Palette', go: 'palette' }] },
+      { name: 'session', items: [{ key: 'h', label: 'Help', go: 'help' }, { key: 'O', label: 'Log Off', go: 'close' }] },
     ],
   },
 ]
+
+const COMMANDS = new Set(['palette', 'help', 'close'])
 
 const mmss = (ms: number): string => {
   const s = Math.max(0, Math.floor(ms / 1000))
@@ -51,14 +54,17 @@ const mmss = (ms: number): string => {
 
 /**
  * The main menu, the board's front door: where the cockpit lands when it opens in the BBS look. The name in block
- * art comes from the frame; under it the host line, three boxed menus whose entries go where their keys go, a status
+ * art comes from the frame; under it the host line, four boxed groups whose entries go where their keys go, a status
  * bar in the old modem style with this project's live facts, and a prompt that takes a key or a name and Enter.
  */
 export function menuView(ctx: Ctx): RenderElement {
   const { state, nowMs } = ctx
   const project = state.cwd.split('/').filter(Boolean).at(-1) ?? 'ruflo'
-  const go = (item: Item) => () => (item.go === 'palette' ? ctx.act.palette('all') : item.go === 'help' ? ctx.act.help() : item.go === 'close' ? ctx.act.close() : ctx.act.view(item.go))
-  const width = Math.max(18, Math.floor((ctx.columns - 4) / (ctx.columns >= 66 ? 3 : 1)))
+  const go = (item: Item) => () => (item.go === 'palette' ? ctx.act.palette('all') : item.go === 'help' ? ctx.act.help() : item.go === 'close' ? ctx.act.close() : ctx.act.view(item.go as ViewId))
+  const isShown = (item: Item) => COMMANDS.has(item.go) || VIEWS.some(view => view.id === item.go)
+  // Two boxes a row where the pane is wide enough, else one; each box is a group with its own border.
+  const perRow = ctx.columns >= 60 ? 2 : 1
+  const width = Math.max(24, Math.floor((ctx.columns - 1) / perRow) - 1)
   const rows: RenderElement[] = []
 
   rows.push(
@@ -77,36 +83,42 @@ export function menuView(ctx: Ctx): RenderElement {
   )
   rows.push(text(ctx, ' '))
 
-  rows.push(
+  // Each group a bordered box: ▓▒░ TITLE ░▒▓ on top, then its sub-sections, each a dim ── name ── rule and its items.
+  const box = (group: (typeof GROUPS)[number]) =>
     ctx.kit.Box({
-      flexDirection: 'row',
-      flexWrap: 'wrap',
+      flexDirection: 'column',
+      width,
       borderStyle: 'single',
       borderColor: isBbs() ? '#d0d0d0' : 'inactive',
       paddingX: 1,
-      key: 'menu-box',
-      children: MENUS.map(menu =>
-        ctx.kit.Box({
-          flexDirection: 'column',
-          width,
-          key: `menu-${menu.title}`,
-          children: [
-            ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: clip(`■${menu.title}■`, width) }),
-            ...menu.items.map(item =>
-              ctx.kit.Box({
-                flexDirection: 'row',
-                key: `mi-${item.key}`,
-                children: [
-                  ctx.kit.Text({ bold: true, children: `(${item.key})` }),
-                  ctx.kit.Button({ key: `menu-go-${item.key}`, label: clip(item.label, width - 4), plain: true, onPress: go(item) }),
-                ],
-              }),
-            ),
-          ],
+      key: `menu-${group.title}`,
+      children: [
+        ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: clip(`▓▒░ ${group.title} ░▒▓`, width - 4) }),
+        ...group.sections.flatMap(section => {
+          const items = section.items.filter(isShown)
+
+          return items.length === 0
+            ? []
+            : [
+                ctx.kit.Text({ color: THEME.info, dimColor: true, wrap: 'truncate-end', children: clip(`── ${section.name} ${'─'.repeat(Math.max(0, width - section.name.length - 8))}`, width - 4) }),
+                ...items.map(item =>
+                  ctx.kit.Box({
+                    flexDirection: 'row',
+                    key: `mi-${item.go}`,
+                    children: [
+                      ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${item.key})` }),
+                      ctx.kit.Button({ key: `menu-go-${item.go}`, label: clip(item.label, width - 9), plain: true, onPress: go(item) }),
+                    ],
+                  }),
+                ),
+              ]
         }),
-      ),
-    }),
-  )
+      ],
+    })
+
+  for (let i = 0; i < GROUPS.length; i += perRow) {
+    rows.push(ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `menu-row-${i}`, children: GROUPS.slice(i, i + perRow).map(box) }))
+  }
 
   // The status bar under the box: the line, then what is live in this project, then how long the board has been open.
   const online = mmss(nowMs - (state.pane.bootAtMs > 0 ? state.pane.bootAtMs : state.loadedAtMs))
