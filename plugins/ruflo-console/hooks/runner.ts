@@ -60,7 +60,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
 
       // A lab run's output goes to the lab's result panel, scrolled from its top; the footer keeps the one-line outcome.
       if (spec.lab !== undefined) {
-        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
+        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: spec.read?.(result.stdout, result.stderr, ok) ?? labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
         state.select.item = 0
       }
 

@@ -8,6 +8,7 @@ import type { RenderElement } from 'claude-code'
 import { HELP } from '../commands'
 import { isBooting, isCompactPane, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
+import { automateView } from './automate'
 import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
@@ -18,6 +19,7 @@ import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
 import { menuView } from './menu'
 import { metaharnessView } from './metaharness'
+import { neuralView } from './neural'
 import { missionsView } from './missions'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
@@ -53,6 +55,8 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   xruv: xruvView,
   terminal: terminalView,
   skills: skillsView,
+  automate: automateView,
+  neural: neuralView,
   agent: agentView,
 }
 

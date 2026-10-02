@@ -6,7 +6,9 @@
 import { HIVE_ROLES, pickedProposal } from './data/hive'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
+import { automateEntries } from './automate'
 import { LAB, labSpec, labWhy } from './mh-lab'
+import { neuralEntries } from './neural'
 import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
 import { selection } from './views/select'
@@ -49,7 +51,8 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast'] as const
+/** A text entry's id is its keyword: the Automation and Learning Lab ones are prefixed, so none shadows another. */
+const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast', 'auto-wf-new', 'auto-wf-validate', 'auto-ap-history', 'auto-ses-save', 'auto-cfg-get', 'auto-cfg-set', 'auto-task-new', 'nn-train', 'nn-route', 'nn-explain', 'nn-predict'] as const
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
@@ -115,6 +118,11 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
 
   // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
   for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
+
+  // Automation and the Learning Lab: reads run at once, the rest ask first; per-row verbs come from the lists last read.
+  for (const entry of [...automateEntries(state), ...neuralEntries(state)]) {
+    add(entry.id, entry.group, entry.label, entry.make !== undefined ? { kind: 'text', keyword: entry.id, make: entry.make } : { kind: 'spec', spec: entry.spec ?? null, why: entry.why ?? '' })
+  }
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 

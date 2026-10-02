@@ -1,5 +1,6 @@
 import type { PluginOptions, Timer } from 'claude-code'
 
+import { emptyAuto, type AutoState } from './data/automate'
 import type { ProbeResult } from './data/cli'
 import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
@@ -10,7 +11,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'automate' | 'neural' | 'agent'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -42,6 +43,9 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
   // No hotkey: every digit and letter is taken. The tab, the menu prompt and /ruflo skills reach it by name.
   { id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): what is installed here and globally, search, add, update, remove, create', rows: 34 },
+  // No hotkeys either: the menu prompt, the tab and /ruflo automate or /ruflo neural reach them by name.
+  { id: 'automate', key: '', label: 'Automation', short: 'Aut', icon: '🤖', blurb: 'workflows, the twelve background workers and their daemon, autopilot, sessions, config and a task kanban', rows: 44 },
+  { id: 'neural', key: '', label: 'Learning Lab', short: 'Lab', icon: '🧪', blurb: 'train neural patterns and watch the loss, ask the router which agent fits a task, and why', rows: 36 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -217,6 +221,8 @@ export type State = {
   }
   /** The skills view: installed skills, the last search, and the change running now. */
   skills: SkillsState
+  /** The Automation and Learning Lab views: the lists a click asked for, and this session's training runs. */
+  auto: AutoState
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -261,6 +267,7 @@ export function newState(raw: PluginOptions | undefined): State {
     barDrawnAtMs: 0,
     terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },
     skills: emptySkills(),
+    auto: emptyAuto(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }
