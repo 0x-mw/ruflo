@@ -33,7 +33,7 @@ describe('MCP service destinations are operator-controlled', () => {
     await expect(call('seraphina_guidance', { goal: 'test', [field]: 'https://attacker.example' })).rejects.toThrow(/configured/);
     expect(fetch).not.toHaveBeenCalled();
   });
-  it.each(['http://127.0.0.1:19999', 'http://169.254.169.254', 'file:///etc/passwd', 'https://trusted-gateway.example@attacker.example', 'https://trusted-gateway.example:444', 'https://trusted-gateway.example/other', 'https://trusted-gateway.example?x=1', 'https://trusted-gateway.example#x', {}, null])('rejects hostile or malformed override %j', async gatewayUrl => {
+  it.each(['http://127.0.0.1:19999', 'http://169.254.169.254', 'file:///etc/passwd', 'https://trusted-gateway.example@attacker.example', 'https://trusted-gateway.example:444', 'https://trusted-gateway.example/other', 'https://trusted-gateway.example?x=1', 'https://trusted-gateway.example#x', {}, 0, false])('rejects hostile or malformed override %j', async gatewayUrl => {
     await expect(call('x_federation_publish', { gatewayUrl, msgType: 'Status', payload: {} })).rejects.toThrow();
     expect(fetch).not.toHaveBeenCalled();
   });
@@ -51,9 +51,21 @@ describe('MCP service destinations are operator-controlled', () => {
     expect(fetch).toHaveBeenLastCalledWith('https://trusted-llm.example/v1/messages', expect.objectContaining({ headers: expect.objectContaining({ 'x-api-key': 'SYNTHETIC-LLM-CANARY' }) }));
     expect(JSON.parse(String(vi.mocked(fetch).mock.calls.at(-1)![1]!.body)).model).toBe('cognitum-high');
   });
-  it.each(['http://public.example', 'http://localhost:19999', 'file:///tmp/test', 'https://user:pass@trusted.example', 'https://trusted.example?x=1', 'https://trusted.example#x'])('rejects unsafe operator configuration %s', async value => {
+  it.each(['http://public.example', 'http://localhost.attacker.example', 'http://127.0.0.1.nip.io', 'http://10.0.0.1', 'file:///tmp/test', 'https://user:pass@trusted.example', 'https://trusted.example?x=1', 'https://trusted.example#x'])('rejects unsafe operator configuration %s', async value => {
     vi.stubEnv('RUFLO_X_GATEWAY_URL', value);
     await expect(call('x_federation_sync')).rejects.toThrow();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+  it.each([undefined, null, ''])('an absent override (%j) asserts nothing: the configured gateway is used', async gatewayUrl => {
+    await call('x_federation_sync', { gatewayUrl });
+    expect(fetch).toHaveBeenCalledWith('https://trusted-gateway.example/mcp', expect.objectContaining({ redirect: 'error' }));
+  });
+  it('operator config may name a loopback HTTP service; a matching assertion passes, another port does not', async () => {
+    vi.stubEnv('RUFLO_X_GATEWAY_URL', 'http://localhost:8080');
+    await call('x_federation_sync', { gatewayUrl: 'http://localhost:8080/' });
+    expect(fetch).toHaveBeenCalledWith('http://localhost:8080/mcp', expect.anything());
+    vi.mocked(fetch).mockClear();
+    await expect(call('x_federation_publish', { gatewayUrl: 'http://localhost:9999', msgType: 'Status', payload: {} })).rejects.toThrow(/must match/);
     expect(fetch).not.toHaveBeenCalled();
   });
   it('validates the LLM configuration before any gateway fetch', async () => {
