@@ -30,7 +30,8 @@ export function hiveVote(hive: HiveInfo, proposal: Proposal, isFor: boolean): Ac
 
   return {
     label: `vote ${isFor ? 'for' : 'against'} ${proposal.type} (${id}) as worker ${voter}`,
-    args: ['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', id, '--vote', isFor ? 'yes' : 'no', '--voter-id', voter],
+    // JSON out: the subcommand exits 0 on a refused vote, and only its JSON carries the tool's "error" for the runner.
+    args: ['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', id, '--vote', isFor ? 'yes' : 'no', '--voter-id', voter, '--format', 'json'],
     expect: `${voter}'s ballot on the proposal, or the proposal decided`,
     verify: snapshot => snapshot.hive?.history.some(entry => entry.id === id) === true || snapshot.hive?.pending.some(entry => entry.id === id && entry.ballots.some(ballot => ballot.voter === voter)) === true,
   }

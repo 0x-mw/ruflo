@@ -76,7 +76,7 @@ describe('hive actions', () => {
     const proposal = hive.pending[0] as HiveInfo['pending'][number]
 
     expect(nextVoter(hive, proposal)).toBe(WORKERS[1])
-    expect(hiveVote(hive, proposal, false)?.args).toEqual(['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', RAFT_ID, '--vote', 'no', '--voter-id', WORKERS[1]])
+    expect(hiveVote(hive, proposal, false)?.args).toEqual(['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', RAFT_ID, '--vote', 'no', '--voter-id', WORKERS[1], '--format', 'json'])
     expect(hiveVote({ ...hive, workers: [] }, proposal, true)).toBeNull()
   })
 

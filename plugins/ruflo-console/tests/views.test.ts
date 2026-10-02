@@ -115,7 +115,7 @@ describe('views', () => {
 
     await pane.press({ key: 'confirm' })
     expect(votes()).toHaveLength(1)
-    expect(votes()[0]?.slice(4)).toEqual(['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', RAFT_ID, '--vote', 'yes', '--voter-id', WORKERS[1]])
+    expect(votes()[0]?.slice(4)).toEqual(['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', RAFT_ID, '--vote', 'yes', '--voter-id', WORKERS[1], '--format', 'json'])
     await pane.unmount()
   })
 

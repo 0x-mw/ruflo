@@ -80,6 +80,7 @@ function summary(ctx: Ctx, hive: HiveInfo, members: Member[]): RenderElement[] {
   const required = requiredVotes(strategy ?? 'raft', nodesOf(hive))
   const isRaft = strategy === 'raft'
   const counts = (liveness: Liveness) => members.filter(member => member.liveness === liveness).length
+  const keys = hive.memoryKeys.filter(key => key !== 'broadcasts').length
 
   return [
     kv(
@@ -92,7 +93,7 @@ function summary(ctx: Ctx, hive: HiveInfo, members: Member[]): RenderElement[] {
     kv(ctx, 'fault tolerance', tolerance === null ? `n/a — ${workers === 0 ? 'no workers' : `no bound stated for ${hive.strategy ?? 'this strategy'}`}` : `tolerates ${tolerance.faulty} faulty of ${tolerance.of} (${tolerance.rule})`),
     kv(ctx, 'quorum', `${required} of ${nodesOf(hive)} votes to pass (${ruleOf(strategy ?? 'raft')})${workers === 0 ? ' · the CLI counts an empty hive as one node' : ''}`),
     kv(ctx, 'workers', workers === 0 ? 'none yet — spawn one below' : `${workers} · ${counts('busy')} busy · ${counts('idle')} idle · ${counts('down') + counts('error')} down · ${members.filter(member => !member.isKnown).length} in no agent store`),
-    kv(ctx, 'shared memory', `${hive.memoryKeys.length} key${hive.memoryKeys.length === 1 ? '' : 's'} · ${hive.broadcasts.length} broadcast${hive.broadcasts.length === 1 ? '' : 's'} · updated ${ago(hive.updatedAtMs, ctx.nowMs)}`),
+    kv(ctx, 'shared memory', `${keys} key${keys === 1 ? '' : 's'} · ${hive.broadcasts.length} broadcast${hive.broadcasts.length === 1 ? '' : 's'} · updated ${ago(hive.updatedAtMs, ctx.nowMs)}`),
   ]
 }
 
