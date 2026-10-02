@@ -3,10 +3,23 @@
 ruflo as a Claude Code mod (function hooks): on by default in Claude Code >= 2.1.287; from 2.1.277 with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`. Design and evidence: [ADR-404](../../v3/docs/adr/ADR-404-claude-code-mods-function-hooks.md).
 
 ```bash
-ruflo mods install      # opt in for this project (.claude/settings.local.json)
-ruflo mods doctor       # function hooks on? refused by policy? what does it own?
+ruflo mods install      # opt in for this project (.claude/settings.local.json) and install the plugin
+ruflo mods doctor       # plugin installed? function hooks on? refused by policy? what does it own?
 ruflo mods uninstall    # remove only what install added
 ```
+
+`ruflo mods install` writes `enabledPlugins["ruflo-mods@ruflo"]` and the `ruflo` marketplace into settings, then installs the plugin the way you would by hand, when a `claude` binary is on PATH:
+
+```bash
+claude plugin marketplace update ruflo                  # or, first time: claude plugin marketplace add ruvnet/ruflo --scope local
+claude plugin install ruflo-mods@ruflo --scope local    # in the project directory (--scope project after `ruflo mods install --scope project`)
+```
+
+Settings alone are not enough. Claude Code installs from its local clone of the `ruflo` marketplace (`~/.claude/plugins/marketplaces/ruflo`, or under `$CLAUDE_CONFIG_DIR`), and a clone from before ruflo-mods shipped has no `plugins/ruflo-mods`. Claude Code then skips the enabled plugin without a word, and `/ruflo-mods` is an unknown command. `ruflo mods status` and `ruflo mods doctor` report this as two findings, `ruflo marketplace` and `ruflo-mods installed`, with the exact commands to run.
+
+- `--no-plugin-install` writes settings only and runs no `claude` command.
+- `--dry-run` prints the settings and the `claude` commands without running either.
+- If `claude` is missing or a step fails, install prints the manual commands and still exits 0. Pass `--strict` to exit 1 instead.
 
 In a session, `/ruflo-mods` reports what the mod owns, routed, recorded and tightened.
 

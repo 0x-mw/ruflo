@@ -11,6 +11,7 @@ import { join, resolve } from 'node:path';
 
 import { findClaudeInstalls, judgeInstalls, type ClaudeInstall } from './claude-installs.js';
 import { ENABLE_ENV, MOD_PLUGIN_ID, readRecord, readSettingsFile, settingsFileFor } from './install.js';
+import { claudeConfigDir, resolveFindings, type ReadFs } from './plugin-resolve.js';
 import { PROJECTION_RELATIVE } from './policy-projection.js';
 
 export const HANDSHAKE_MARKER = 'RUFLO_MODS_OWNS';
@@ -51,16 +52,21 @@ export interface ProbeInputs {
   managedPath?: string;
   /** Claude Code binaries on PATH; discovered (each `--version` run) when absent. */
   installs?: ClaudeInstall[];
+  /** Claude Code's config directory; CLAUDE_CONFIG_DIR, else ~/.claude, when absent. */
+  configDir?: string;
+  /** Reads for the plugin-resolution findings; the real filesystem when absent. */
+  fs?: ReadFs;
 }
 
 export function probeMods(inputs: ProbeInputs): Finding[] {
   const root = resolve(inputs.projectRoot);
   const home = inputs.home ?? homedir();
   const env = inputs.env ?? process.env;
+  const configDir = inputs.configDir ?? claudeConfigDir(env, home);
   const findings: Finding[] = [];
 
   // 1. Enabled for this project?
-  const files = [settingsFileFor(root, 'local'), settingsFileFor(root, 'project'), join(home, '.claude', 'settings.json')];
+  const files = [settingsFileFor(root, 'local'), settingsFileFor(root, 'project'), join(configDir, 'settings.json')];
   const enabledIn = files.find((f) => {
     try {
       return get(readSettingsFile(f), 'enabledPlugins', MOD_PLUGIN_ID) === true;
@@ -69,8 +75,15 @@ export function probeMods(inputs: ProbeInputs): Finding[] {
     }
   });
   findings.push(enabledIn
-    ? { name: 'ruflo-mods plugin', status: 'pass', message: `enabled in ${enabledIn}` }
+    ? { name: 'ruflo-mods plugin', status: 'pass', message: `enabled in settings: ${enabledIn} (whether Claude Code can load it: see below)` }
     : { name: 'ruflo-mods plugin', status: 'warn', message: 'not enabled; classic hooks handle every event', fix: 'ruflo mods install' });
+
+  // 1a. Enabled is a request; Claude Code silently skips a plugin it cannot
+  // resolve (a marketplace clone older than ruflo-mods, nothing installed).
+  if (enabledIn) {
+    const scope = enabledIn === files[0] ? 'local' : enabledIn === files[1] ? 'project' : 'user';
+    findings.push(...resolveFindings(root, scope, configDir, inputs.fs));
+  }
 
   // 2. Function hooks switched on for installed plugins (early access).
   const envOn = env[ENABLE_ENV] === '1';

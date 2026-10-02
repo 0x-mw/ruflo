@@ -20,7 +20,7 @@ function isolated() {
   mkdirSync(bin, { recursive: true });
   writeFileSync(join(bin, 'codex'), '#!/bin/sh\nexit 1\n');
   chmodSync(join(bin, 'codex'), 0o755);
-  const env = { ...process.env, HOME: home, USERPROFILE: home, CODEX_HOME: join(home, '.codex'), PATH: `${bin}${delimiter}${process.env.PATH ?? ''}`, CI: '1' };
+  const env = { ...process.env, HOME: home, USERPROFILE: home, CLAUDE_CONFIG_DIR: join(home, '.claude'), CODEX_HOME: join(home, '.codex'), PATH: `${bin}${delimiter}${process.env.PATH ?? ''}`, CI: '1' };
   const run = (...args: string[]) => execFileSync(process.execPath, [CLI_BIN, ...args], { cwd, env, encoding: 'utf8', timeout: 120_000 });
   return { home, cwd, run, done: () => { rmSync(home, { recursive: true, force: true }); rmSync(cwd, { recursive: true, force: true }); } };
 }
@@ -36,9 +36,22 @@ describe.skipIf(!CLI_BUILT)('ADR-404 mods through the built CLI', () => {
       const shared = JSON.parse(readFileSync(join(t.cwd, '.claude', 'settings.json'), 'utf8'));
       expect(JSON.stringify(shared.hooks.UserPromptSubmit)).toContain('hook-handler.cjs');
 
-      expect(t.run('doctor', '--component', 'mods')).toContain('ruflo mods (ADR-404)');
+      // Enabled in settings, but this isolated HOME has no ruflo marketplace
+      // clone and nothing installed: Claude Code would skip the plugin, so
+      // doctor fails with the exact commands instead of reporting it fine.
+      let doctor: { status?: number; stdout?: string } = {};
+      try {
+        t.run('doctor', '--component', 'mods');
+      } catch (error) {
+        doctor = error as typeof doctor;
+      }
+      expect(doctor.status).toBe(1);
+      expect(doctor.stdout).toContain('ruflo mods (ADR-404)');
+      expect(doctor.stdout).toContain('ruflo-mods installed: not installed for this project');
       const status = JSON.parse(t.run('mods', 'status', '--json').replace(/^[^[]*/, ''));
-      expect(status.find((f: { name: string }) => f.name === 'ruflo-mods plugin').status).toBe('pass');
+      const named = (name: string) => status.find((f: { name: string }) => f.name === name);
+      expect(named('ruflo-mods plugin').status).toBe('pass'); // enabled in settings
+      expect(named('ruflo-mods installed')).toMatchObject({ status: 'fail', fix: expect.stringContaining('claude plugin install ruflo-mods@ruflo --scope local') });
 
       t.run('mods', 'uninstall');
       expect(JSON.parse(readFileSync(join(t.cwd, '.claude', 'settings.local.json'), 'utf8'))).toEqual({});

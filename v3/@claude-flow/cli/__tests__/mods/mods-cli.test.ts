@@ -9,7 +9,7 @@ import { join } from 'node:path';
 
 import { installMod, uninstallMod, withModEnabled, withModRemoved, ENABLE_ENV, MOD_PLUGIN_ID } from '../../src/mods/install.js';
 import { projectionOf, syncPolicyProjection, PROJECTION_RELATIVE } from '../../src/mods/policy-projection.js';
-import { probeMods } from '../../src/mods/probe.js';
+import { probeMods, type Finding } from '../../src/mods/probe.js';
 import { findClaudeInstalls, judgeInstalls, versionLess } from '../../src/mods/claude-installs.js';
 import { modsCommand } from '../../src/commands/mods.js';
 import { setPolicyMode, upsertPolicyRule } from '../../src/services/policy-runtime.js';
@@ -163,15 +163,81 @@ describe('ADR-404 mods probe and doctor', () => {
     expect(finding('policy projection')).toMatchObject({ status: 'warn', fix: 'ruflo mods sync-policy' });
   });
 
-  it('the command runs install, status, doctor and uninstall', async () => {
+  describe('the command', () => {
     const sub = (name: string) => modsCommand.subcommands!.find((s) => s.name === name)!;
     const ctx = (flags: Record<string, unknown> = {}) => ({ args: [], flags: { projectRoot: root, ...flags }, cwd: root, interactive: false }) as any;
-    expect((await sub('install').action!(ctx())).success).toBe(true);
-    expect((await sub('install').action!(ctx({ scope: 'global' }))).success).toBe(false);
-    const doctor = await sub('doctor').action!(ctx({ json: true }));
-    expect(doctor.exitCode).toBe(0);
-    expect((await sub('uninstall').action!(ctx())).success).toBe(true);
-    expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
+    const saved = { PATH: process.env.PATH, HOME: process.env.HOME, CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR };
+    let bin: string;
+    // Never the real ~/.claude or a real claude: an isolated config dir, HOME and PATH.
+    beforeEach(() => {
+      bin = join(home, 'bin');
+      mkdirSync(bin, { recursive: true });
+      process.env.PATH = bin;
+      process.env.HOME = home;
+      process.env.CLAUDE_CONFIG_DIR = join(home, 'cfg');
+    });
+    afterEach(() => {
+      for (const [k, v] of Object.entries(saved)) {
+        if (v === undefined) delete process.env[k];
+        else process.env[k] = v;
+      }
+    });
+    /** A stand-in claude: records its argv; with ok=true it installs the plugin the way Claude Code records it. */
+    const fakeClaude = (ok: boolean) => {
+      const cfg = join(home, 'cfg', 'plugins');
+      const script = ok
+        ? `#!/bin/sh
+echo "$@" >> "${home}/calls"
+case "$2" in
+  marketplace) /bin/mkdir -p "${cfg}/marketplaces/ruflo/plugins/ruflo-mods/.claude-plugin" && echo '{}' > "${cfg}/marketplaces/ruflo/plugins/ruflo-mods/.claude-plugin/plugin.json"
+    printf '{"ruflo":{"installLocation":"%s"}}' "${cfg}/marketplaces/ruflo" > "${cfg}/known_marketplaces.json" ;;
+  install) /bin/mkdir -p "${cfg}/cache/m" && printf '{"version":2,"plugins":{"ruflo-mods@ruflo":[{"scope":"local","installPath":"%s","projectPath":"%s"}]}}' "${cfg}/cache/m" "$(pwd)" > "${cfg}/installed_plugins.json" ;;
+esac
+`
+        : `#!/bin/sh\necho "$@" >> "${home}/calls"\necho "network down" >&2\nexit 1\n`;
+      writeFileSync(join(bin, 'claude'), script, { mode: 0o755 });
+    };
+    // Only the plugin commands; status also asks each claude its --version.
+    const calls = () => (existsSync(join(home, 'calls')) ? readFileSync(join(home, 'calls'), 'utf8').trim().split('\n').filter((l) => l.startsWith('plugin ')) : []);
+
+    it('runs install, status, doctor and uninstall (--no-plugin-install: settings only)', async () => {
+      fakeClaude(true);
+      expect((await sub('install').action!(ctx({ pluginInstall: false }))).success).toBe(true);
+      expect(calls()).toEqual([]);
+      expect((await sub('install').action!(ctx({ scope: 'global' }))).success).toBe(false);
+      // Enabled in settings but not resolvable: status reports (exit 0), doctor fails.
+      const status = await sub('status').action!(ctx({ json: true }));
+      expect(status.success).toBe(true);
+      expect((status.data as Finding[]).find((f) => f.name === 'ruflo-mods installed')!.status).toBe('fail');
+      expect((await sub('doctor').action!(ctx({ json: true }))).exitCode).toBe(1);
+      expect((await sub('uninstall').action!(ctx())).success).toBe(true);
+      expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
+    });
+
+    it('install makes the plugin resolvable: adds the marketplace at the scope, installs, and doctor passes the check', async () => {
+      fakeClaude(true);
+      const r = await sub('install').action!(ctx());
+      expect(r).toMatchObject({ success: true, data: { resolvable: true } });
+      expect(calls()).toEqual(['plugin marketplace add ruvnet/ruflo --scope local', 'plugin install ruflo-mods@ruflo --scope local']);
+      const findings = (await sub('status').action!(ctx({ json: true }))).data as Finding[];
+      expect(findings.filter((f) => f.name === 'ruflo marketplace' || f.name === 'ruflo-mods installed').map((f) => f.status)).toEqual(['pass', 'pass']);
+      // Second run: the marketplace is known now, so it is updated, not re-added.
+      await sub('install').action!(ctx());
+      expect(calls()[2]).toBe('plugin marketplace update ruflo');
+    });
+
+    it('a failed repair prints the manual commands; exit 1 only with --strict', async () => {
+      fakeClaude(false);
+      expect(await sub('install').action!(ctx())).toMatchObject({ success: true, data: { resolvable: false } });
+      expect(await sub('install').action!(ctx({ strict: true }))).toMatchObject({ success: false, exitCode: 1 });
+      expect(calls()).toHaveLength(2); // stopped at the marketplace step each time
+    });
+
+    it('no claude on PATH: settings are still written, the repair is reported as manual', async () => {
+      const r = await sub('install').action!(ctx({ strict: true }));
+      expect(r).toMatchObject({ success: false, exitCode: 1, data: { resolvable: false } });
+      expect(read(join(root, '.claude', 'settings.local.json')).enabledPlugins[MOD_PLUGIN_ID]).toBe(true);
+    });
   });
 });
 
