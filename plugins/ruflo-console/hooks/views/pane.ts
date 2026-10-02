@@ -62,7 +62,7 @@ function tabs(ctx: Ctx): RenderElement {
 
     // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
     // (from a drill-down, b goes back).
-    if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: `${view.key}:${words}` })] })
+    if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: `${view.key}: ${words}` })] })
 
     return ctx.kit.Button({ key: `tab-${view.id}`, label: words, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
