@@ -121,7 +121,7 @@ export function terminalView(ctx: Ctx): RenderElement {
       ...(term.runs.size > 0 ? [button(ctx, 'term-stop', 'Stop', ctx.act.term.stop, { hotkey: 's' })] : []),
       ...(harness.id !== 'ruflo' ? [button(ctx, 'term-new', 'New session', ctx.act.term.fresh, { hotkey: 'o' })] : []),
       button(ctx, 'term-clear', 'Clear', ctx.act.term.clear, { hotkey: 'z' }),
-      text(ctx, isLive(state) ? '  live: Enter sends' : '  Enter shows the command · Enter again runs it', { dimColor: true }),
+      text(ctx, isLive(state) ? '  live: Enter sends · /codex /claude /swarm /ruflo switch · /new' : '  Enter shows the command, Enter again runs it · /codex /claude /swarm /ruflo switch', { dimColor: true }),
     ]),
   )
 

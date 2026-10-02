@@ -106,7 +106,7 @@ export const HELP = [
   '',
   'Pane keys (while it holds the keyboard: /ruflo opens it with the keys, or click it; ctrl+x tab reaches the band, not the pane)',
   '  0 main menu · 1-9 views · g timeline · q approvals · e events · m missions · w x.ruv.io · i terminal · p palette · x actions for the selection',
-  '  terminal: c codex · l claude · v swarm (both) · u ruflo · sessions remember the conversation per project; the first message asks, then Enter sends · /new or o new session · s stop · z clear',
+  '  terminal: the field takes the keys; /codex /claude /swarm /ruflo switch harness, /new starts over · sessions remember the conversation per project; the first message asks, then Enter sends · Tab to s stop, o new, z clear',
   '  j/k select · d drill in · b back · r refresh · h help · f event filter · y/n confirm',
   '  Esc: a pane /ruflo opened closes; one that opened by itself (panel=auto) only hands the keys back. ✕ or /ruflo close closes either',
   '  (? and Enter cannot be pane hotkeys in this Claude Code build: use h, and d to drill in)',

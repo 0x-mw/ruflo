@@ -4,7 +4,7 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
-import { harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
+import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { filterPalette, paletteEntries } from './palette'
@@ -144,6 +144,20 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         if (text.trim() === '/new') {
           state.terminal.draft = ''
           newSession(state, host)
+
+          return
+        }
+
+        // /codex /claude /swarm /ruflo switch harness from the field, which holds the keys (its hotkeys would type).
+        const pick = HARNESSES.find(entry => text.trim() === `/${entry.id}`)
+
+        if (pick !== undefined) {
+          state.terminal.draft = ''
+          state.terminal.harness = pick.id
+          // An ask the previous harness left on screen goes with it.
+          if (state.terminal.asked !== null && state.pending?.label === state.terminal.asked.label) runner.cancel()
+          state.terminal.asked = null
+          host.invalidate()
 
           return
         }
