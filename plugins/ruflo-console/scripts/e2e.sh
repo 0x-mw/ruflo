@@ -151,10 +151,15 @@ sleep 1
 mtimes() { stat -c %Y "$PROJ"/.claude-flow/agents/store.json "$PROJ"/.claude-flow/claims/claims.json "$PROJ"/.claude-flow/swarm/swarm-state.json 2>/dev/null | tr '\n' ' '; }
 BEFORE_MT="$(mtimes)"
 tmux_shot s3-anim-a
-sleep 0.45
-tmux_shot s3-anim-b
-[[ "$BEFORE_MT" == "$(mtimes)" ]] && pass S3 "the swarm files did not change between the two captures" state.txt || fail S3 "the swarm files changed between the captures" state.txt
-if ! diff -q <(stable s3-anim-a) <(stable s3-anim-b) >/dev/null; then pass S3 "two captures differ while the data is unchanged (animation runs)" s3-anim-a.ansi; else fail S3 "two captures identical: no animation" s3-anim-a.ansi; fi
+# The heartbeat and the title sweep each rest part of their cycle: up to eight captures over ~3 s, one must differ.
+MOVED=0
+for _ in $(seq 1 8); do
+  sleep 0.35
+  tmux_shot s3-anim-b
+  if ! diff -q <(stable s3-anim-a) <(stable s3-anim-b) >/dev/null; then MOVED=1; break; fi
+done
+[[ "$BEFORE_MT" == "$(mtimes)" ]] && pass S3 "the swarm files did not change between the captures" state.txt || fail S3 "the swarm files changed between the captures" state.txt
+if ((MOVED)); then pass S3 "captures differ while the data is unchanged (animation runs)" s3-anim-a.ansi; else fail S3 "eight captures over ~3 s identical: no animation" s3-anim-a.ansi; fi
 tmux_cmd "/ruflo close"
 sleep 2
 tmux_shot s3-closed-a
