@@ -50,7 +50,9 @@ User --> Ruflo (CLI/MCP) --> Router --> Swarm --> Agents --> Memory --> LLM Prov
 
 ---
 
-![Ruflo Plugins](./ruflo-plugins.gif)
+![The ruflo console inside Claude Code: swarm topology, claims, approvals, missions, events and more](docs/assets/ruflo-console-tour.gif)
+
+<sub>The <code>/ruflo</code> console running in Claude Code — <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
 
 ## Quick Start
 
