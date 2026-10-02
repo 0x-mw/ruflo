@@ -1,126 +1,207 @@
 /**
- * The terminal view's second terminal: a line of text sent to another harness (codex, claude, or one ruflo CLI
- * command), its output streamed into a scrollback. Each harness is a fixed argv; the person's text reaches a model
- * harness on stdin, never as an argument, so it cannot be read as a flag, and the ruflo harness splits it into words
- * with no shell. A run costs money, so it is asked like any other change: y runs it, n drops it.
+ * The terminal view's second terminal: a conversation with codex or claude (or both at once, the swarm), or one ruflo
+ * CLI command. Each agent keeps a session per project, so a follow-up resumes the conversation: codex by its thread
+ * id (`codex exec resume`), claude by a session id the console picks (`--session-id`, then `--resume`). Their JSON
+ * streams are read as they arrive (stream.ts), so the answer types out and each tool call shows as it runs.
+ *
+ * Starting or resuming a session costs money, so it is asked once (Enter shows the command, Enter again runs it);
+ * after that the session is live for this Claude Code session and Enter sends. A ruflo command is asked every time.
+ * The person's text reaches an agent on stdin, never as an argument, so it cannot be read as a flag.
  */
 import type { ActionSpec } from './actions'
 import type { Host } from './host'
-import { CLI_PREFIXES, push, type HarnessId, type State, type TermLine } from './state'
+import { CLI_PREFIXES, push, termStoreKeyOf, type AgentId, type HarnessId, type State, type TermLine } from './state'
+import { claudeParser, codexEvent, eventOf, type Sink } from './stream'
 
-export const TERM_MAX_LINES = 400
-/** The engine kills a spawned child only when the loop ends: the console ends it at ten minutes, as `run` would. */
+export const TERM_MAX_LINES = 600
+/** The engine ends a spawned child only when its loop ends: the console ends a run at ten minutes. */
 export const RUN_CAP_MS = 10 * 60_000
-const MAX_PROMPT = 4_000
+const MAX_PROMPT = 8_000
 
-export type Harness = {
-  id: HarnessId
-  /** The picker's hotkey in the terminal view. */
-  key: string
-  label: string
-  /** What it runs and what it may do, in the words the view shows. */
-  about: string
-  argv: (state: State, text: string) => readonly string[] | null
-  /** True: the text goes on stdin; false: it is part of the argv. */
-  isStdin: boolean
-}
+export type Harness = { id: HarnessId; key: string; label: string; about: string; agents: readonly AgentId[] }
 
 export const HARNESSES: readonly Harness[] = [
-  {
-    id: 'codex',
-    key: 'c',
-    label: 'codex',
-    about: 'codex exec in a read-only sandbox: reads this project, writes nothing · billed to your OpenAI plan',
-    argv: () => ['codex', 'exec', '--sandbox', 'read-only', '--skip-git-repo-check', '-'],
-    isStdin: true,
-  },
-  {
-    id: 'claude',
-    key: 'l',
-    label: 'claude',
-    about: 'claude -p in plan mode, at most $1 a run: answers, edits nothing · billed to your Claude plan',
-    argv: () => ['claude', '-p', '--permission-mode', 'plan', '--max-budget-usd', '1'],
-    isStdin: true,
-  },
-  {
-    id: 'ruflo',
-    key: 'u',
-    label: 'ruflo',
-    about: 'one ruflo CLI command, split on spaces with no shell (swarm status, memory search -q auth) · local unless it reaches out',
-    argv: (state, text) => {
-      const words = text.split(/\s+/).filter(word => word !== '')
-
-      return words.length === 0 || words.length > 40 ? null : [...CLI_PREFIXES[state.options.cli], ...words]
-    },
-    isStdin: false,
-  },
+  { id: 'codex', key: 'c', label: 'codex', about: 'codex exec, read-only sandbox, one thread per project · billed to your OpenAI plan', agents: ['codex'] },
+  { id: 'claude', key: 'l', label: 'claude', about: 'claude -p in plan mode, at most $1 a turn, one session per project · billed to your Claude plan', agents: ['claude'] },
+  { id: 'swarm', key: 'v', label: 'swarm', about: 'codex and claude together: one question to both, answering side by side in their own sessions', agents: ['codex', 'claude'] },
+  { id: 'ruflo', key: 'u', label: 'ruflo', about: 'one ruflo CLI command, split on spaces with no shell (swarm status, memory search -q auth) · asked each time', agents: ['ruflo'] },
 ]
 
 export const harnessOf = (id: HarnessId): Harness => HARNESSES.find(harness => harness.id === id) ?? (HARNESSES[0] as Harness)
 
+/** A v4 UUID for a new claude session (not a secret: it only names the conversation). */
+function uuid(): string {
+  const hex = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16))
+
+  hex[12] = '4'
+  hex[16] = ((parseInt(hex[16] as string, 16) & 0x3) | 0x8).toString(16)
+
+  return `${hex.slice(0, 8).join('')}-${hex.slice(8, 12).join('')}-${hex.slice(12, 16).join('')}-${hex.slice(16, 20).join('')}-${hex.slice(20).join('')}`
+}
+
+/** The argv for one agent's next turn: a new session, or the saved one resumed. */
+export function argvOf(state: State, agent: AgentId, text: string): readonly string[] | null {
+  const session = agent === 'ruflo' ? undefined : state.terminal.sessions[agent]
+
+  switch (agent) {
+    case 'codex':
+      return session === undefined
+        ? ['codex', 'exec', '--json', '--sandbox', 'read-only', '--skip-git-repo-check', '-']
+        : ['codex', 'exec', 'resume', '--json', '--skip-git-repo-check', '-c', 'sandbox_mode="read-only"', session, '-']
+    case 'claude':
+      return ['claude', '-p', '--output-format', 'stream-json', '--verbose', '--include-partial-messages', '--permission-mode', 'plan', '--max-budget-usd', '1', ...(session === undefined ? [] : ['--resume', session])]
+    case 'ruflo': {
+      const words = text.split(/\s+/).filter(word => word !== '')
+
+      return words.length === 0 || words.length > 40 ? null : [...CLI_PREFIXES[state.options.cli], ...words]
+    }
+  }
+}
+
 /**
- * One line of a harness's output as the scrollback keeps it: ANSI sequences, control and bidirectional characters
- * gone, tabs as two spaces, indentation kept (unlike `plain`, which folds whitespace for one-line facts).
+ * One line of an agent's output as the scrollback keeps it: ANSI sequences, control and bidirectional characters
+ * gone, tabs as two spaces, indentation kept. `trim` false keeps a trailing space (a token typed mid-sentence).
  */
-export function termText(line: string, max = 400): string {
+export function termText(line: string, max = 400, trim = true): string {
   const cleaned = line
     .replace(/\u001b\][^\u0007\u001b]*(\u0007|\u001b\\)/g, '')
     .replace(/\u001b\[[0-9;?]*[ -/]*[@-~]/g, '')
     .replace(/\t/g, '  ')
     .replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, '')
-    .trimEnd()
+  const out = trim ? cleaned.trimEnd() : cleaned
 
-  return cleaned.length <= max ? cleaned : `${cleaned.slice(0, max - 1)}…`
+  return out.length <= max ? out : `${out.slice(0, max - 1)}…`
 }
 
-function note(state: State, kind: TermLine['kind'], text: string): void {
-  for (const line of text.split('\n')) push(state.terminal.lines, { kind, text: termText(line) }, TERM_MAX_LINES)
+function note(state: State, kind: TermLine['kind'], text: string, from?: AgentId): void {
+  for (const line of text.split('\n')) push(state.terminal.lines, { kind, text: termText(line), ...(from !== undefined && { from }) }, TERM_MAX_LINES)
 }
 
-/** Why the field's text cannot be asked now, or null when it can. */
+const persist = (state: State, host: Host) => void host.storeSet(termStoreKeyOf(state.cwd), state.terminal.sessions).catch(() => undefined)
+
+/** Why the field's text cannot be sent now, or null when it can. */
 export function whyNotRun(state: State, text: string): string | null {
-  if (state.terminal.running !== null) return `${state.terminal.running.label} is still running: stop it first (s)`
+  const harness = harnessOf(state.terminal.harness)
+  const busy = harness.agents.find(agent => state.terminal.runs.has(agent))
+
   if (text.trim() === '') return 'type something first'
-  if (harnessOf(state.terminal.harness).argv(state, text.trim()) === null) return 'that is not one ruflo command (1 to 40 words)'
+  if (busy !== undefined) return `${busy} is still answering: wait, or stop it (s)`
+  if (harness.id === 'ruflo' && argvOf(state, 'ruflo', text.trim()) === null) return 'that is not one ruflo command (1 to 40 words)'
 
   return null
 }
 
-/** The confirm-gated ask for the field's text, or null (see `whyNotRun`). */
+/** True when the text can go straight to the agents: every one of them has a session the person said yes to. */
+export const isLive = (state: State): boolean => {
+  const agents = harnessOf(state.terminal.harness).agents
+
+  return agents.every(agent => agent !== 'ruflo' && state.terminal.isLive[agent])
+}
+
+/** The confirm-gated ask that opens (or resumes) the harness's sessions with this text, or null (see `whyNotRun`). */
 export function harnessSpec(state: State, host: Host, text: string): ActionSpec | null {
+  if (whyNotRun(state, text) !== null) return null
+
   const harness = harnessOf(state.terminal.harness)
   const prompt = text.trim().slice(0, MAX_PROMPT)
-  const argv = whyNotRun(state, prompt) === null ? harness.argv(state, prompt) : null
-
-  if (argv === null) return null
-
-  const input = harness.isStdin ? prompt : undefined
-  const short = termText(prompt.replace(/\s+/g, ' '), 48)
+  const plans = harness.agents.map(agent => ({ agent, argv: argvOf(state, agent, prompt) ?? [] }))
+  const verb = harness.agents.every(agent => agent !== 'ruflo' && state.terminal.sessions[agent] !== undefined) ? 'resume' : 'start'
 
   return {
-    label: `ask ${harness.label}: ${short}`,
-    args: argv,
-    shows: `${argv.join(' ')}${input !== undefined ? '  (your text on stdin)' : ''}`,
+    label: harness.id === 'ruflo' ? `ruflo ${termText(prompt.replace(/\s+/g, ' '), 48)}` : `${verb} a ${harness.label} session: ${termText(prompt.replace(/\s+/g, ' '), 40)}`,
+    args: plans[0]?.argv ?? [],
+    shows: plans.map(plan => `${plan.argv.join(' ')}${plan.agent === 'ruflo' ? '' : '  (your text on stdin)'}`).join('  &  '),
     expect: 'its output in the terminal',
-    run: () => runHarness(state, host, harness.label, argv, prompt, input),
+    run: async () => {
+      for (const agent of harness.agents) if (agent !== 'ruflo') state.terminal.isLive[agent] = true
+
+      send(state, host, prompt)
+    },
   }
 }
 
-/** Runs one harness command, streaming each line it writes into the scrollback; s stops it, and so does the cap. */
-export async function runHarness(state: State, host: Host, label: string, argv: readonly string[], prompt: string, input: string | undefined): Promise<void> {
+/** Sends the text to every agent of the picked harness at once; each streams into the shared scrollback. */
+export function send(state: State, host: Host, text: string): void {
+  const harness = harnessOf(state.terminal.harness)
+  const prompt = text.trim().slice(0, MAX_PROMPT)
+  const isMany = harness.agents.length > 1
+
+  note(state, 'in', `${harness.label}> ${prompt}`)
+
+  for (const agent of harness.agents) void runAgent(state, host, agent, prompt, isMany)
+}
+
+/** Forgets the picked harness's sessions: the next question starts new ones (and is asked first). */
+export function newSession(state: State, host: Host): void {
+  for (const agent of harnessOf(state.terminal.harness).agents) {
+    if (agent === 'ruflo') continue
+    delete state.terminal.sessions[agent]
+    state.terminal.isLive[agent] = false
+  }
+
+  note(state, 'sys', `── new ${state.terminal.harness} session: the next question starts fresh ──`)
+  persist(state, host)
+  host.invalidate()
+}
+
+async function runAgent(state: State, host: Host, agent: AgentId, prompt: string, isTagged: boolean): Promise<void> {
+  const term = state.terminal
+  const tag = isTagged ? agent : undefined
   const startedAtMs = Date.now()
   const secs = () => `${Math.round((Date.now() - startedAtMs) / 1000)} s`
-  const partial = { out: '', err: '' }
-  let isStopped = false
+  // claude takes the session id the console picks; it counts once the CLI reports the session started.
+  const claudeId = agent === 'claude' && term.sessions.claude === undefined ? uuid() : undefined
+  const base = argvOf(state, agent, prompt)
 
-  note(state, 'in', `${label}> ${prompt}`)
+  if (base === null) return
+
+  const argv = claudeId === undefined ? base : [...base, '--session-id', claudeId]
+  const parse = agent === 'codex' ? codexEvent : agent === 'claude' ? claudeParser() : null
+  let open: TermLine | null = null
+  let sawSession = false
+  let isStopped = false
+  let ended: string | null = null
+  let events = 0
+  let isAnswered = false
+  const sink: Sink = {
+    line: (kind, text) => {
+      open = null
+      if (kind === 'out') isAnswered = true
+      note(state, kind, text, tag)
+    },
+    type: text => {
+      const parts = text.split('\n')
+
+      isAnswered = true
+
+      parts.forEach((part, i) => {
+        if (i > 0 || open === null) {
+          open = { kind: 'out', text: '', ...(tag !== undefined && { from: tag }) }
+          push(term.lines, open, TERM_MAX_LINES)
+        }
+        open.text = termText(open.text + part, 2_000, false)
+      })
+    },
+    session: id => {
+      sawSession = true
+      if (agent !== 'ruflo' && term.sessions[agent] !== id) {
+        term.sessions[agent] = id
+        persist(state, host)
+      }
+    },
+    done: ({ costUsd, tokens, isError, message }) => {
+      if (agent === 'codex' || agent === 'claude') term.turns[agent] += 1
+      if (costUsd !== undefined) term.costUsd += costUsd
+      ended = isError === true ? `✗ ${message ?? 'failed'}` : `✓ ${secs()}${costUsd !== undefined ? ` · $${costUsd.toFixed(3)}` : ''}${tokens !== undefined ? ` · ${tokens.toLocaleString('en-US')} tokens` : ''}`
+    },
+  }
 
   let stream: ReturnType<Host['spawn']>
 
   try {
-    stream = host.spawn(argv, input)
+    stream = host.spawn(argv, agent === 'ruflo' ? undefined : prompt)
   } catch (error) {
-    note(state, 'sys', `${argv[0]} did not start: ${error instanceof Error ? error.message : String(error)}`)
+    note(state, 'err', `${argv[0]} did not start: ${error instanceof Error ? error.message : String(error)}`, tag)
     host.invalidate()
 
     return
@@ -131,39 +212,50 @@ export async function runHarness(state: State, host: Host, label: string, argv: 
     void stream.return(undefined as never).catch(() => undefined)
   }
   const cap = host.after(RUN_CAP_MS, stop)
+  const partial = { stdout: '', stderr: '' }
 
-  state.terminal.running = { label, startedAtMs, stop }
+  term.runs.set(agent, { label: agent, startedAtMs, stop })
   host.invalidate()
 
-  const flush = () => {
-    for (const kind of ['out', 'err'] as const) {
-      if (partial[kind] !== '') note(state, kind, partial[kind])
-      partial[kind] = ''
+  const take = (from: 'stdout' | 'stderr', line: string) => {
+    if (from === 'stderr' || parse === null) {
+      // codex and claude write progress to stderr; only a line that reads as an error is worth a row.
+      if (parse === null || /error|denied|not found|invalid/i.test(line)) sink.line(from === 'stderr' ? 'err' : 'out', line)
+
+      return
+    }
+
+    const event = eventOf(line)
+
+    if (event !== null) {
+      events += 1
+      parse(event, sink)
     }
   }
 
   try {
     for await (const chunk of stream) {
-      const kind = chunk.stream === 'stderr' ? 'err' : 'out'
-      const lines = (partial[kind] + chunk.text).split('\n')
+      const lines = (partial[chunk.stream] + chunk.text).split('\n')
 
-      partial[kind] = lines.pop() ?? ''
-
-      for (const line of lines) push(state.terminal.lines, { kind, text: termText(line) }, TERM_MAX_LINES)
+      partial[chunk.stream] = lines.pop() ?? ''
+      for (const line of lines) if (line.trim() !== '' || parse === null) take(chunk.stream, line)
       host.invalidate()
     }
 
-    flush()
+    for (const from of ['stdout', 'stderr'] as const) if (partial[from].trim() !== '') take(from, partial[from])
 
     const result = await stream.result
 
-    note(state, 'sys', isStopped ? `stopped after ${secs()}` : result.signal !== null ? `ended by ${result.signal} after ${secs()}` : `exit ${result.code ?? '?'} · ${secs()}`)
+    if (claudeId !== undefined && !sawSession) delete term.sessions.claude
+    // A stream read to its end with events but no answer drawn: the CLI's format moved, and silence would hide it.
+    if (parse !== null && !isStopped && !isAnswered && ended === null) note(state, 'err', `no answer read from ${events} ${agent} event${events === 1 ? '' : 's'}: has its --json format changed?`, tag)
+    note(state, 'sys', isStopped ? `stopped after ${secs()}` : (ended ?? (result.code === 0 ? `✓ ${secs()}` : `✗ exit ${result.code ?? result.signal ?? '?'} · ${secs()}`)), tag)
   } catch (error) {
-    flush()
-    note(state, 'sys', isStopped ? `stopped after ${secs()}` : `${argv[0]}: ${error instanceof Error ? error.message : String(error)} (is it installed and on PATH?)`)
+    if (claudeId !== undefined && !sawSession) delete term.sessions.claude
+    note(state, 'sys', isStopped ? `stopped after ${secs()}` : `✗ ${argv[0]}: ${error instanceof Error ? error.message : String(error)} (is it installed and on PATH?)`, tag)
   } finally {
     cap.cancel()
-    state.terminal.running = null
+    term.runs.delete(agent)
     host.invalidate()
   }
 }

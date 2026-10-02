@@ -21,7 +21,7 @@ export type ViewId = 'menu' | 'overview' | 'swarm' | 'claims' | 'federation' | '
  * current tab adds its label, and `blurb` is the one line under the bar that says what the view is for.
  */
 export const VIEWS: readonly { id: ViewId; key: string; label: string; short: string; icon: string; blurb: string; rows: number }[] = [
-  { id: 'menu', key: '0', label: 'Main Menu', short: 'Mnu', icon: '📟', blurb: 'the board: every area by its key, the line status, and a prompt that takes a key or a name', rows: 32 },
+  { id: 'menu', key: '0', label: 'Main Menu', short: 'Mnu', icon: '📟', blurb: 'the board: every area by its key, the line status, and a prompt that takes a key or a name', rows: 40 },
   { id: 'overview', key: '1', label: 'Overview', short: 'Ovr', icon: '🏠', blurb: 'what ruflo is doing here: subsystems, mods, health alerts and live activity', rows: 26 },
   { id: 'swarm', key: '2', label: 'Swarm', short: 'Swm', icon: '🐝', blurb: 'the swarm as ruflo wrote it: topology, agents at work, and the hive-mind votes', rows: 30 },
   { id: 'claims', key: '3', label: 'Claims', short: 'Clm', icon: '📌', blurb: 'who holds which task: claim, release, hand off or steal, each after a y/n confirm', rows: 30 },
@@ -36,7 +36,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '📡', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },
   { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '🎯', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
   { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 34 },
-  { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'a second terminal: ask codex, claude or the ruflo CLI, each run confirmed, its output streamed', rows: 32 },
+  { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -109,11 +109,21 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
 /** A mutating action waiting for the person's second press; `shows` is the command line when it is not a ruflo one. */
 export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string }
 
-/** The harnesses the terminal view can ask. */
-export type HarnessId = 'codex' | 'claude' | 'ruflo'
+/** The harnesses the terminal view can ask; `swarm` asks codex and claude at once. */
+export type HarnessId = 'codex' | 'claude' | 'ruflo' | 'swarm'
+/** What actually runs: a swarm is a codex run and a claude run side by side. */
+export type AgentId = Exclude<HarnessId, 'swarm'>
 
-/** One line of the terminal's scrollback: what was asked (`in`), what came back, or the console's own note (`sys`). */
-export type TermLine = { kind: 'in' | 'out' | 'err' | 'sys'; text: string }
+/**
+ * One line of the terminal's scrollback: what was asked (`in`), what came back, a tool the agent used (`tool`), or
+ * the console's own note (`sys`); `from` names the agent when more than one is talking.
+ */
+export type TermLine = { kind: 'in' | 'out' | 'err' | 'sys' | 'tool'; text: string; from?: AgentId }
+
+/** A conversation kept per project: codex's thread id, claude's session id, so a follow-up resumes it. */
+export type TermSessions = { codex?: string; claude?: string }
+
+export const termStoreKeyOf = (cwd: string): string => `ruflo-console/term:${cwd}`
 
 /** What an action did: what ran, how it exited, whether the disk shows the change, and anything it printed to show. */
 export type Outcome = { label: string; ok: boolean; verified: 'yes' | 'no' | 'n/a'; detail: string; atMs: number; lines?: string[] }
@@ -175,12 +185,19 @@ export type State = {
   isRefreshing: boolean
   /** When the band above the prompt last drew: the disk is re-read on the fast cadence only while it is seen. */
   barDrawnAtMs: number
-  /** The terminal view: the harness picked, the field's text, the scrollback, and the run in flight. */
+  /** The terminal view: the harness picked, the field's text, the scrollback, and the runs in flight. */
   terminal: {
     harness: HarnessId
     draft: string
     lines: TermLine[]
-    running: { label: string; startedAtMs: number; stop: () => void } | null
+    /** One run per agent at most; codex and claude may run at the same time. */
+    runs: Map<AgentId, { label: string; startedAtMs: number; stop: () => void }>
+    /** The conversations to resume, and which of them the person has said yes to in this Claude Code session. */
+    sessions: TermSessions
+    isLive: { codex: boolean; claude: boolean }
+    /** Turns and spend this session, as the agents reported them. */
+    turns: { codex: number; claude: number }
+    costUsd: number
     /** The text the last Enter asked about: Enter on the same text again confirms it. */
     asked: { key: string; label: string } | null
   }
@@ -225,7 +242,7 @@ export function newState(raw: PluginOptions | undefined): State {
     isActing: false,
     isRefreshing: false,
     barDrawnAtMs: 0,
-    terminal: { harness: 'codex', draft: '', lines: [], running: null, asked: null },
+    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, asked: null },
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }
@@ -252,6 +269,21 @@ export function restore(state: State, value: unknown): void {
 
   state.pane.isClosedByPerson = held.isClosedByPerson === true
 }
+
+const SESSION_ID = /^[A-Za-z0-9][A-Za-z0-9-]{7,63}$/
+
+/** The terminal's saved conversations: only id-shaped strings come back, since each one becomes an argv element. */
+export function restoreSessions(state: State, value: unknown): void {
+  const held = value !== null && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+
+  for (const agent of ['codex', 'claude'] as const) {
+    const id = held[agent]
+
+    if (typeof id === 'string' && SESSION_ID.test(id)) state.terminal.sessions[agent] = id
+  }
+}
+
+export const isSessionId = (id: string): boolean => SESSION_ID.test(id)
 
 /** The BBS boot screen's span: at least BOOT_MIN_MS, longer while the first read is still out, never past BOOT_MAX_MS. */
 export const BOOT_MIN_MS = 3_200

@@ -155,9 +155,11 @@ describe('BBS boot screen', () => {
     const done = text(bootPicture('demo', 60, 3_800, 10, 10), 60)
 
     expect(done).toContain('CONNECT 115200 / ARQ / V.42bis')
-    expect(done).toContain('██████  ██  ██  ██████')
-    expect(text(bootPicture('demo', 60, 1_400, 3, 10), 60)).toMatch(/[.:=+*#%@]/)
-    expect(done).toContain('AGENTS WELCOME.')
+    expect(done).toContain('│ ~~~~~ │')
+    expect(done).toContain('▐▌')
+    // The tubes are dark before the line connects, lit once it has: the same cell, two colours.
+    const fgAt = (age: number) => { const g = bootPicture('demo', 60, age, 3, 10); for (let i = 0; i < g.columns * g.rows; i++) if (g.cells[i * 3] === 0x256d) return g.cells[i * 3 + 1]; return -1 }
+    expect(fgAt(500)).not.toBe(fgAt(3_800))
     expect(done).toContain('> handshake ok · node demo')
     expect(done).toContain('100%  reads 10/10')
   })

@@ -226,7 +226,8 @@ describe('views', () => {
     const { text, tree } = await drawn($, 'terminal')
 
     expect(text).toContain('[c: CODEX]')
-    expect(text).toContain('codex exec in a read-only sandbox')
+    expect(text).toContain('codex exec, read-only sandbox, one thread per project')
+    expect(text).toContain('codex: new session')
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
   })
@@ -240,7 +241,7 @@ describe('views', () => {
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
     const menu = await pane.drawn()
 
-    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'title'])
+    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['title'])
     expect(textOf(menu)).toContain('■Swarm Commands■')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
