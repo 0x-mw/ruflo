@@ -153,6 +153,8 @@ describe('palette and /ruflo', () => {
 
     expect(answer).toMatch(/^✓ mcp-scan: static MCP findings by severity · exit 0\n/)
     expect(answer).toContain('  [low] 12 unpinned dependency range(s)')
+    // An entry that cannot run headless says why: the typed ones name the command to type.
+    expect((await $.command.run(command('run mh-learn-run'))).text).toBe('nothing to do: type it in the terminal (i): ruflo metaharness learn --run --format json --host claude-code --model haiku --slice <path>')
   })
 
   test('/ruflo help, an unknown word, and the hints when ruflo-mods or ruflo-swarm are not loaded', { options: { boot: false } }, async ($, on) => {
