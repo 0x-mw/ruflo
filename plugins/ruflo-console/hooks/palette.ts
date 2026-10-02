@@ -83,9 +83,15 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   add('swarm-init', 'swarm', 'start a swarm: init hierarchical, max 8, specialized', { kind: 'spec', spec: swarmInit(), why: '' })
   add('swarm-stop', 'swarm', 'stop the swarm', { kind: 'spec', spec: swarmStop(), why: '' })
 
-  for (const proposal of state.snapshot?.hive?.pending.slice(-3) ?? []) {
-    add(`vote-yes-${proposal.id}`, 'hive', `vote yes on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: vote(proposal.id, true), why: 'that proposal id cannot be passed to ruflo' })
-    add(`vote-no-${proposal.id}`, 'hive', `vote no on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: vote(proposal.id, false), why: 'that proposal id cannot be passed to ruflo' })
+  // A vote counts only from a registered worker (the CLI exits 0 on a refused one), so the palette votes as the next
+  // worker that has not voted, as the Hive-Mind view does; with no worker left it says so instead of a silent no-op.
+  const hiveNow = state.snapshot?.hive ?? null
+
+  for (const proposal of hiveNow?.pending.slice(-3) ?? []) {
+    const why = 'no registered worker is left to vote as (hive-mind spawn adds workers), or the proposal id cannot be passed'
+
+    add(`vote-yes-${proposal.id}`, 'hive', `vote yes on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: hiveNow === null ? vote(proposal.id, true) : hiveVote(hiveNow, proposal, true), why })
+    add(`vote-no-${proposal.id}`, 'hive', `vote no on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: hiveNow === null ? vote(proposal.id, false) : hiveVote(hiveNow, proposal, false), why })
   }
 
   const hive = state.snapshot?.hive ?? null

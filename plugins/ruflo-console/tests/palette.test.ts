@@ -1,5 +1,6 @@
 import { describe, expect, mock, test } from 'claude-code/testing'
 
+import { HIVE_FILES, WORKERS } from './fixtures/hive'
 import { RUFLO_FILES } from './fixtures/ruflo-run'
 import { command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
@@ -67,8 +68,8 @@ describe('palette and /ruflo', () => {
     expect((await $.command.run(command('run nope'))).text).toMatch(/^No palette entry "nope"/)
   })
 
-  test('approvals: a hive proposal is voted on in place, as console-operator, after a confirm', { options: { boot: false } }, async ($, on) => {
-    const world = worldOf(on, RUFLO_FILES)
+  test('approvals: a hive vote is cast as a registered worker after a confirm, since only such a vote counts', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, { ...RUFLO_FILES, ...HIVE_FILES })
     mock.clock(on)
     await $.session.start(SESSION)
     await $.command.run(command('approvals'))
@@ -78,8 +79,20 @@ describe('palette and /ruflo', () => {
     await pane.press({ key: 'approve-0' })
     await pane.press({ key: 'confirm' })
 
-    expect(runsOf(world.runs, 'consensus')[0]?.slice(4)).toEqual(['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', 'proposal-1790903321981-23aov7', '--vote', 'yes', '--voter-id', 'console-operator'])
+    const argv = runsOf(world.runs, 'consensus')[0]?.slice(4) ?? []
+
+    expect(argv.slice(0, 4)).toEqual(['hive-mind', 'consensus', '--action', 'vote'])
+    expect(WORKERS).toContain(argv[argv.indexOf('--voter-id') + 1])
     await pane.unmount()
+  })
+
+  test('approvals: with no registered worker to vote as, nothing runs and it says why (the CLI would drop the vote silently)', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    expect((await $.command.run(command('run vote-yes-proposal-1790903321981-23aov7'))).text).not.toMatch(/^Asked: /)
+    expect(runsOf(world.runs, 'consensus')).toHaveLength(0)
   })
 
   test('/ruflo help, an unknown word, and the hints when ruflo-mods or ruflo-swarm are not loaded', { options: { boot: false } }, async ($, on) => {

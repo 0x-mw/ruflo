@@ -4,6 +4,7 @@ import { RUFLO_FILES } from './fixtures/ruflo-run'
 import { command, SESSION, worldOf } from './fixtures/world'
 
 /** Every palette action that changes something: the selection it needs, and the head of the argv it must run. */
+// Hive votes are covered in palette.test.ts and hive.spec.ts: they need a world with registered workers.
 const CASES: { id: string; setup?: string[]; text?: string; head: string[] }[] = [
   { id: 'task-claim', head: ['mcp', 'exec', '-t', 'claims_claim'] },
   { id: 'claim-release', head: ['mcp', 'exec', '-t', 'claims_release'] },
@@ -14,7 +15,6 @@ const CASES: { id: string; setup?: string[]; text?: string; head: string[] }[] =
   { id: 'spawn-tester', head: ['agent', 'spawn', '--type', 'tester'] },
   { id: 'swarm-init', head: ['swarm', 'init', '--topology', 'hierarchical', '--max-agents', '8', '--strategy', 'specialized'] },
   { id: 'swarm-stop', head: ['swarm', 'stop'] },
-  { id: 'vote-no-proposal-1790903321981-23aov7', head: ['hive-mind', 'consensus', '--action', 'vote', '--proposal-id', 'proposal-1790903321981-23aov7', '--vote', 'no'] },
   { id: 'mh-audit', head: ['metaharness', 'oia-audit'] },
   { id: 'worker-optimize', head: ['hooks', 'worker', 'dispatch', '--trigger', 'optimize'] },
   { id: 'store', text: 'remember the login fix', head: ['memory', 'store', '--key'] },
