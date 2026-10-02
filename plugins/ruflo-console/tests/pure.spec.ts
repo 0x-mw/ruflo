@@ -146,9 +146,9 @@ describe('graphics', () => {
     const state = newState({})
 
     state.view = 'learning'
-    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'curve', 'pipeline', 'patterns'])
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'title', 'curve', 'pipeline', 'patterns'])
     state.view = 'memory'
-    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header'])
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'title'])
   })
 
   it('the budget ladder marks 50/75/90/100% and fills to the spend', () => {

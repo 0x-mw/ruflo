@@ -5,6 +5,7 @@
  * where it is not.
  */
 import { Braille, COLOR, Grid, mix, ramp, sparkline } from './raster'
+import { bigText } from './font'
 
 export type TopoNode = { id: string; label: string; status: string; isLeader: boolean; /** When the console last saw an event about it. */ pulseAtMs?: number }
 export type TopoModel = { topology: string; nodes: TopoNode[] }
@@ -264,6 +265,39 @@ export function bannerPicture(project: string, columns: number, t: number): Grid
 
     grid.text(x0, 1, node, NEON_CYAN)
     if (Math.floor(t / 530) % 2 === 0 && x0 + node.length + 1 < columns) grid.set(x0 + node.length + 1, 1, '█', NEON_CYAN)
+  }
+
+  return grid
+}
+
+const NEON_CORAL = 0xff7a59
+
+/**
+ * A view's BBS title: its name in the two-row half-block font, magenta to coral like the ANSI art boards, framed by
+ * dithered ░▒▓ ramps, with a slow shimmer down the letters (decoration). Two rows.
+ */
+export function titlePicture(name: string, columns: number, t: number): Grid {
+  const grid = new Grid(columns, 2)
+  const [top, bottom] = bigText(name)
+  const edge = '░▒▓'
+  const x0 = edge.length + 1
+  const width = Math.max(top.length, bottom.length)
+  const shimmer = ((t / 40) % (width + 30)) - 15
+
+  for (let y = 0; y < 2; y++) {
+    ;[...edge].forEach((ch, i) => grid.set(i, y, ch, mix(0x3a0f2e, NEON_MAGENTA, (i + 1) / edge.length)))
+    ;[...(y === 0 ? top : bottom)].forEach((ch, i) => {
+      if (ch === ' ' || x0 + i >= columns) return
+
+      const glow = Math.max(0, 1 - Math.abs(i - shimmer) / 3)
+
+      grid.set(x0 + i, y, ch, mix(mix(NEON_MAGENTA, NEON_CORAL, i / Math.max(1, width - 1)), 0xffffff, glow * 0.6))
+    })
+    ;[...'▓▒░'].forEach((ch, i) => {
+      const x = x0 + width + 1 + i
+
+      if (x < columns) grid.set(x, y, ch, mix(NEON_MAGENTA, 0x3a0f2e, (i + 1) / edge.length))
+    })
   }
 
   return grid

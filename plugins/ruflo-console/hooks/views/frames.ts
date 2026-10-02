@@ -11,11 +11,11 @@ import type { Channels, Peers, Roster } from '../data/cli'
 import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePicture, type Stage } from '../gfx/charts'
 import { flowModelOf, flowPicture, flowRows } from '../gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture, type FedNode, type HealthRow, type Lane } from '../gfx/maps'
-import { activityPicture, bannerPicture, bootPicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
+import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
 import type { Grid } from '../gfx/raster'
 import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
-import { isBooting, rowsOf, type State } from '../state'
+import { isBooting, rowsOf, VIEWS, type State } from '../state'
 import { live } from './common'
 import { openTasks } from './select'
 
@@ -129,6 +129,12 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
     pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo · ${project}`, Math.min(width, 40), t))
+    // BBS: each view's name as ANSI-style block art under the tabs.
+    if (state.options.look === 'bbs') {
+      const name = state.isHelp ? 'help' : state.palette.isOpen ? 'palette' : state.view === 'agent' ? 'agent' : (VIEWS.find(view => view.id === state.view)?.label ?? state.view)
+
+      pictures.set('title', titlePicture(name, Math.min(width, 80), t))
+    }
   }
 
   switch (state.view) {
