@@ -38,14 +38,14 @@ export function createMissionTools(factory: MissionPortFactory = defaultFactory)
   return [
     {
       name: 'mission_create',
-      description: 'Create a mission (objective only; draft state). Idempotent per requestId. Recording a mission does not execute anything.',
+      description: 'Create a draft mission (objective only), idempotent per requestId. Use when starting governed multi-step work that several clients (CLI, MCP, the Claude Code workbench) must observe and control through one durable record. task_create is wrong because a task has no plan revision, budget ceiling or acceptance evidence. Recording a mission executes nothing.',
       category: 'mission',
       inputSchema: { type: 'object', properties: { requestId: REQUEST_ID, objective: { type: 'string', maxLength: 2000 } }, required: ['requestId', 'objective'] },
       handler: call('create'),
     },
     {
       name: 'mission_plan',
-      description: 'Submit or revise a mission plan (task graph, acceptance criteria, budget). Requires expectedRevision; a stale revision returns a conflict with the current one. Revising invalidates prior authorization.',
+      description: 'Submit or revise a mission plan: acyclic task graph, acceptance criteria and budget ceiling in integer minor units. Use when a mission needs a reviewable plan before any authorization or admission. Editing plan state through memory_store is wrong because it bypasses revision checks: a stale expectedRevision here returns a conflict with the current revision, and a revision invalidates prior authorization.',
       category: 'mission',
       inputSchema: {
         type: 'object',
@@ -56,14 +56,14 @@ export function createMissionTools(factory: MissionPortFactory = defaultFactory)
     },
     {
       name: 'mission_get',
-      description: 'Read one mission (record, plan, budget, tasks, evidence, executor observation) or list missions. Read only; task status is recorded state, only evidence.verified is verified.',
+      description: 'Read one mission (record, plan, budget, tasks, evidence, executor observation) or list missions; read only. Use when you need the authoritative current state of a mission before acting on it. Inferring state from task_status or a UI badge is wrong because task status is recorded state; only evidence.verified counts as verified, and a disconnected executor is not a failure.',
       category: 'mission',
       inputSchema: { type: 'object', properties: { missionId: MISSION_ID } },
       handler: call('get'),
     },
     {
       name: 'mission_events',
-      description: 'Mission events after a cursor (afterSequence). Delivery may repeat: deduplicate by (missionId, seq). gap=true means reload with mission_get before replaying.',
+      description: 'Read mission events after a durable cursor (afterSequence). Use when resuming or reconnecting a client and you need exactly what changed since your last sequence. Re-reading mission_get in a loop is wrong because it loses the transition history; delivery here may repeat, so deduplicate by (missionId, seq), and gap=true means reload with mission_get before replaying.',
       category: 'mission',
       inputSchema: {
         type: 'object',
@@ -74,7 +74,7 @@ export function createMissionTools(factory: MissionPortFactory = defaultFactory)
     },
     {
       name: 'mission_request_action',
-      description: 'Request a scoped control action: requestAuthorization, pause, cancel (admit/resume report executor-unavailable until a durable executor is admitted). A request is not authorization; the runtime decides.',
+      description: 'Request a scoped mission control action: requestAuthorization, pause or cancel (admit and resume report executor-unavailable until a durable executor is admitted). Use when a person or agent wants a running or planned mission to change course. Calling task_cancel or killing a process is wrong because it skips the revision check and executor acknowledgement; a request is not authorization, the runtime decides.',
       category: 'mission',
       inputSchema: {
         type: 'object',
