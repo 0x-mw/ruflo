@@ -52,7 +52,7 @@ export function registerSession(on: On, state: ModState, options: ModOptions) {
     state.statusLine = options.statusLine && !hasClassicStatusLine(settings)
     redraw(state)
     await $.command
-      .register({ name: 'ruflo-mods', description: 'ruflo mods: what this session routed, recorded and tightened' })
+      .register({ name: 'ruflo-mods', description: 'Same as /ruflo mods: what this session routed, recorded and tightened' })
       .catch(() => undefined)
     const heartbeat = { startedAt: new Date().toISOString(), owned: [...state.owned], statusLine: state.statusLine }
     await $.fs.write(under(state, HEARTBEAT_PATH), `${JSON.stringify(heartbeat, null, 2)}\n`).catch(() => undefined)
@@ -73,4 +73,12 @@ export function registerSession(on: On, state: ModState, options: ModOptions) {
   })
 
   on('command.run', { command: 'ruflo-mods' }, () => ({ text: report(state) }))
+
+  // `/ruflo` is ruflo-console's one command for every ruflo mod; its `mods` subcommand is this report. The console
+  // registers `/ruflo`; this hook answers `mods` wherever it sits in the chain and passes every other word on.
+  // `/ruflo-mods` above stays registered as its alias: ADR-406 removes, renames or reassigns no command.
+  // `/ruflo-console` is the same command as `/ruflo` (kept by ADR-406), so its `mods` is answered too.
+  for (const command of ['ruflo', 'ruflo-console'] as const) {
+    on('command.run', { command }, ($, e, next) => (e.args.trim().split(/\s+/)[0]?.toLowerCase() === 'mods' ? { text: report(state) } : next(e)))
+  }
 }

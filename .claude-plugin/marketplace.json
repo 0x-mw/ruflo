@@ -225,6 +225,11 @@
       "name": "ruflo-ruos",
       "source": "./plugins/ruflo-ruos",
       "description": "Run ruflo swarm agents on your own ruOS cloud desktops via the tenant-authenticated fleet MCP or per-tenant SSH; optional, removable"
+    },
+    {
+      "name": "ruflo-console",
+      "source": "./plugins/ruflo-console",
+      "description": "Early access: ruflo's cockpit as a Claude Code mod (function hooks) and the one /ruflo command for every ruflo mod \u2014 overview with health alerts, swarm topology, claims flow, federation map, plugin health, learning pipeline, MetaHarness radar, memory, cost gauge, agent timeline, approvals and events; a command palette for confirm-gated actions through the ruflo CLI; auto-opens where it docks; no network by default"
     }
   ]
 }

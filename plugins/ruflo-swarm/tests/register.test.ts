@@ -15,7 +15,7 @@ describe('register', () => {
     expect(world.opened).toEqual([])
   })
 
-  test('with a swarm on disk the pane opens once the fullscreen hint draws; on the main screen it waits', async ($, on) => {
+  test('with panel auto and a swarm on disk the pane opens once the fullscreen hint draws; on the main screen it waits', { options: { panel: 'auto' } }, async ($, on) => {
     const world = worldOf(on, RUFLO_RUN)
     const clock = mock.clock(on)
 
@@ -32,7 +32,36 @@ describe('register', () => {
     expect(world.opened).toEqual([PLUGIN])
   })
 
-  test('with no swarm on disk nothing opens, and the pane says how to start one', async ($, on) => {
+  test('by default (panel command) nothing opens unasked, swarm or not: ruflo-console owns auto-start', async ($, on) => {
+    const world = worldOf(on, RUFLO_RUN)
+    const clock = mock.clock(on)
+
+    on('ui.render', () => ({ type: 'Text', children: [''] }))
+    await $.session.start(SESSION)
+    await $.ui.render(HINT)
+    await clock.advance(200)
+    expect(world.opened).toEqual([])
+  })
+
+  test('/ruflo swarm <sub> answers as the kept alias names do; other /ruflo words pass on', async ($, on) => {
+    worldOf(on, RUFLO_RUN)
+    mock.clock(on)
+    on('command.run', ($, e) => ({ text: `beneath: ${e.args}` }))
+    await $.session.start(SESSION)
+
+    const ruflo = (args: string) => $.command.run({ ...command('ruflo'), args })
+
+    for (const sub of ['status', 'topology', 'claims', 'consensus'] as const) {
+      expect((await ruflo(`swarm ${sub}`)).text).toBe((await $.command.run(command(`ruflo-swarm-${sub}`))).text)
+    }
+
+    expect((await $.command.run({ ...command('ruflo-console'), args: 'swarm topology' })).text).toBe((await $.command.run(command('ruflo-swarm-topology'))).text)
+    expect((await ruflo('swarm pane')).text).toBe('Swarm pane shown')
+    expect((await ruflo('swarm')).text).toBe('beneath: swarm')
+    expect((await ruflo('mods')).text).toBe('beneath: mods')
+  })
+
+  test('with no swarm on disk nothing opens, and the pane says how to start one', { options: { panel: 'auto' } }, async ($, on) => {
     const world = worldOf(on, { 'README.md': 'x' })
     const clock = mock.clock(on)
 

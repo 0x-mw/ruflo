@@ -2,7 +2,7 @@ import type { EngineInterface, On, PluginOptions } from 'claude-code'
 
 import { paneActionsOf, type Controller } from './actions/controller'
 import { AUDIT_FLUSH_MS, auditRow, noteAudit, takeFlush } from './audit'
-import { claimsText, COMMANDS, consensusText, spawnNote, statusText, topologyText } from './commands'
+import { claimsText, COMMANDS, consensusText, isSwarmSub, spawnNote, statusText, SWARM_SUBS, topologyText, type SwarmSub } from './commands'
 import type { Host, OpenResult } from './host'
 import { isAnimating, LEAD, newActivity, noteCall, noteDone, noteListed, noteResult, noteSpawn } from './model/members'
 import { parseRoute, plain } from './reader/parse'
@@ -305,26 +305,67 @@ export function register(on: On, raw: PluginOptions) {
 
   // -------------------------------------------------------------- commands
 
-  on('command.run', { command: 'ruflo-swarm-pane' }, async ($, e, next) => {
-    if (host === null) {
-      return next(e)
+  /** The five swarm commands, each by its subcommand word: what `/ruflo swarm <sub>` and the old names both answer. */
+  async function answer(sub: SwarmSub, args: string): Promise<{ text: string }> {
+    const bound = host as Host
+
+    switch (sub) {
+      case 'pane': {
+        const arg = args.trim().toLowerCase()
+
+        if (arg === 'close' || (arg === '' && state.pane.isOpen)) {
+          state.pane.isOpen = false
+          state.pane.isClosedByPerson = true
+          persist()
+          await bound.closePane(PANE_ID).catch(() => undefined)
+
+          return { text: 'Swarm pane hidden' }
+        }
+
+        const opened = await openPane()
+
+        return { text: opened.isPlaced ? 'Swarm pane shown' : `The swarm pane could not be shown: ${opened.reason}` }
+      }
+      case 'status':
+        await refresh()
+
+        return { text: statusText(state, Date.now(), args.trim().toLowerCase() === 'json') }
+      case 'topology':
+        await refresh()
+
+        return { text: topologyText(state, Date.now()) }
+      case 'claims':
+        await refresh()
+
+        return { text: claimsText(state) }
+      case 'consensus':
+        await refresh()
+
+        return { text: consensusText(state) }
     }
+  }
 
-    const arg = e.args.trim().toLowerCase()
+  /**
+   * `/ruflo swarm <pane|status|topology|claims|consensus>`: ruflo-console registers `/ruflo` for every ruflo mod, and
+   * this hook answers its swarm subcommands wherever it sits in the chain, passing every other word on.
+   */
+  // `/ruflo-console` is the same command as `/ruflo` (kept by ADR-406), so its swarm subcommands are answered too.
+  for (const command of ['ruflo', 'ruflo-console'] as const) {
+    on('command.run', { command }, async ($, e, next) => {
+      const [head = '', sub = '', ...rest] = e.args.trim().split(/\s+/)
 
-    if (arg === 'close' || (arg === '' && state.pane.isOpen)) {
-      state.pane.isOpen = false
-      state.pane.isClosedByPerson = true
-      persist()
-      await host.closePane(PANE_ID).catch(() => undefined)
+      if (host === null || head.toLowerCase() !== 'swarm' || !isSwarmSub(sub.toLowerCase())) {
+        return next(e)
+      }
 
-      return { text: 'Swarm pane hidden' }
-    }
+      return answer(sub.toLowerCase() as SwarmSub, rest.join(' '))
+    })
+  }
 
-    const opened = await openPane()
-
-    return { text: opened.isPlaced ? 'Swarm pane shown' : `The swarm pane could not be shown: ${opened.reason}` }
-  })
+  // The old names stay registered as aliases of `/ruflo swarm <sub>`: ADR-406 removes, renames or reassigns no command.
+  for (const sub of SWARM_SUBS) {
+    on('command.run', { command: `ruflo-swarm-${sub}` }, async ($, e, next) => (host === null ? next(e) : answer(sub, e.args)))
+  }
 
   /** The plugin's markdown `/ruflo-swarm:watch` still runs as it always has; with the mod it opens the pane as well. */
   on('command.run', { command: 'ruflo-swarm:watch' }, async ($, e, next) => {
@@ -333,46 +374,6 @@ export function register(on: On, raw: PluginOptions) {
     }
 
     return next(e)
-  })
-
-  on('command.run', { command: 'ruflo-swarm-status' }, async ($, e, next) => {
-    if (host === null) {
-      return next(e)
-    }
-
-    await refresh()
-
-    return { text: statusText(state, Date.now(), e.args.trim().toLowerCase() === 'json') }
-  })
-
-  on('command.run', { command: 'ruflo-swarm-topology' }, async ($, e, next) => {
-    if (host === null) {
-      return next(e)
-    }
-
-    await refresh()
-
-    return { text: topologyText(state, Date.now()) }
-  })
-
-  on('command.run', { command: 'ruflo-swarm-claims' }, async ($, e, next) => {
-    if (host === null) {
-      return next(e)
-    }
-
-    await refresh()
-
-    return { text: claimsText(state) }
-  })
-
-  on('command.run', { command: 'ruflo-swarm-consensus' }, async ($, e, next) => {
-    if (host === null) {
-      return next(e)
-    }
-
-    await refresh()
-
-    return { text: consensusText(state) }
   })
 
   // ----------------------------------------------------------------- turns

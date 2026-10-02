@@ -87,9 +87,11 @@ commands, skills and agents above behave as they always have.
   the prompt (a person still presses Enter). Stop, steal and hand off ask for a second press. After each action the
   pane re-reads the disk and says whether the change shows there. A CLI that exits 0 while nothing changes on disk is
   reported as unverified.
-- **Commands**: `/ruflo-swarm-pane`, `/ruflo-swarm-status [json]`, `/ruflo-swarm-topology`, `/ruflo-swarm-claims`,
-  `/ruflo-swarm-consensus`. `/ruflo-swarm:watch` also opens the pane.
-- **Options** (`/config`): `panel` (auto | command | off), `cli` (`npx-offline`, the default, never touches the
+- **Commands**: `/ruflo swarm pane|status [json]|topology|claims|consensus`, through ruflo-console's `/ruflo`. The old
+  `/ruflo-swarm-pane`, `/ruflo-swarm-status`, `/ruflo-swarm-topology`, `/ruflo-swarm-claims` and
+  `/ruflo-swarm-consensus` stay registered as aliases (ADR-406: no command is removed or renamed). `/ruflo-swarm:watch` also opens the pane.
+- **Options** (`/config`): `panel` (command, the default since ruflo-console's cockpit is the pane that opens by
+  itself | auto | off), `cli` (`npx-offline`, the default, never touches the
   network), `routeThreshold`, `injectSpawnContext` (off by default: appends a one-line swarm note to spawned subagents'
   prompts) and `audit` (off by default: event names, tool names and agent ids into ruflo memory, never content).
 - The mod does not register `prompt.submit` or `tool.check` hooks, and its `tool.call` hook only observes.
