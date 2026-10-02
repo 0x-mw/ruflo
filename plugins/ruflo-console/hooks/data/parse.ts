@@ -66,7 +66,7 @@ export const msOf = (value: unknown): number | undefined => {
 
 export type SwarmInfo = { id: string; topology: string; status: string; maxAgents?: number; strategy?: string; agentIds: string[]; updatedAt?: string }
 export type AgentRecord = { id: string; type: string; name?: string; status: string; health?: number; taskCount?: number; createdAtMs?: number }
-export type TaskRecord = { id: string; type: string; description: string; status: string; assignedTo: string[] }
+export type TaskRecord = { id: string; type: string; description: string; status: string; assignedTo: string[]; createdAtMs?: number }
 export type Claimant = { kind: 'agent' | 'human'; id: string; agentType?: string; name?: string }
 export type ClaimRecord = {
   issueId: string
@@ -182,6 +182,7 @@ export function parseTasks(text: string | null): TaskRecord[] {
             description: plain(task.description, 200),
             status: stringOf(task.status, 20) ?? 'unknown',
             assignedTo: (Array.isArray(task.assignedTo) ? task.assignedTo : []).slice(0, 50).flatMap(agent => (idOf(agent) !== null ? [agent as string] : [])),
+            ...(msOf(task.createdAt) !== undefined && { createdAtMs: msOf(task.createdAt) }),
           },
         ]
   })
