@@ -120,6 +120,32 @@ function power(tube: Tube, age: number, isAnimated: boolean): number {
   return 0.9 + 0.1 * Math.sin(age / 210 + tube.seed)
 }
 
+const NOISE = '#%@$&*+=?!/\\<>[]{}01'
+
+/**
+ * Now and then, once the sign is lit, a glitch: for ~110 ms one row slips one or two cells sideways and a few of its
+ * cells flash to random letters, the way a bad line garbles an ANSI screen.
+ */
+function glitch(grid: Grid, age: number): void {
+  const slot = Math.floor(age / 110)
+
+  if (age < 1_600 || hash(slot, 97) % 11 !== 0) return
+
+  const y = 1 + (hash(slot, 3) % (grid.rows - 2))
+  const shift = hash(slot, 5) % 2 === 0 ? 1 + (hash(slot, 9) % 2) : -1 - (hash(slot, 9) % 2)
+  const row = grid.cells.slice(y * grid.columns * 3, (y + 1) * grid.columns * 3)
+
+  for (let x = 0; x < grid.columns; x++) {
+    const from = Math.min(grid.columns - 1, Math.max(0, x - shift))
+    const at = (y * grid.columns + x) * 3
+
+    grid.cells[at] = row[from * 3] ?? 0x20
+    grid.cells[at + 1] = row[from * 3 + 1] ?? 0
+    grid.cells[at + 2] = row[from * 3 + 2] ?? 0
+    if (hash(x, slot) % 9 === 0 && grid.cells[at] !== 0x20) grid.cells[at] = NOISE.codePointAt(hash(slot, x) % NOISE.length) ?? 0x23
+  }
+}
+
 /** The wall behind the sign: bricks a row tall in a running bond, teal on the left warming to rose on the right. */
 function wall(x: number, y: number, columns: number): number {
   const base = mix(0x0f2f38, 0x3a1230, x / Math.max(1, columns - 1))
@@ -159,14 +185,27 @@ export function neonPicture(columns: number, age: number, isAnimated: boolean): 
     }
   }
 
-  for (const cell of SIGN.cells) {
+  const frame = Math.floor(age / 60)
+
+  for (const [i, cell] of SIGN.cells.entries()) {
     const level = levels[cell.tube] ?? 0
     const color = SIGN.tubes[cell.tube]?.color ?? 0xffffff
     const at = (cell.y * columns + cell.x + left) * 3
     const under = grid.cells[at + 2] ?? 0
+    // Animated, each cell of a tube resolves at its own moment after the strike: until then it is a random letter
+    // flickering in the tube's colour, the image-to-ASCII materialise.
+    const resolveAt = (SIGN.tubes[cell.tube]?.strikeMs ?? 0) + (hash(i, 7) % 520)
+    const isResolving = isAnimated && age >= resolveAt - 520 && age < resolveAt
+
+    if (isResolving) {
+      grid.set(cell.x + left, cell.y, NOISE[hash(i, frame) % NOISE.length] as string, mix(CORE[color] ?? 0xffffff, color, (hash(frame, i) % 100) / 100))
+      continue
+    }
 
     grid.set(cell.x + left, cell.y, cell.ch, level <= 0.05 ? UNLIT : mix(UNLIT, CORE[color] ?? 0xffffff, Math.min(1, level)), level <= 0.05 || cell.ch === '~' ? under : mix(under, color, Math.min(1, level)))
   }
+
+  if (isAnimated) glitch(grid, age)
 
   // The hardware stays dark: clips over the frame, wires up and down off the panel.
   for (const cx of SIGN.clips) {

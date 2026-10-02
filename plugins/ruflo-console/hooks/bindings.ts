@@ -4,7 +4,7 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
-import { harnessSpec, whyNotRun } from './harness'
+import { harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { filterPalette, paletteEntries } from './palette'
@@ -132,11 +132,34 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       draft: text => {
         state.terminal.draft = text
       },
-      // Enter asks: the confirm row shows the exact command. Enter again on the same text runs it, as a terminal
-      // would; the field keeps the keys throughout (Esc would hand them back to the prompt). y and n work too.
+      // In a live session Enter sends, as in a chat. Otherwise Enter asks: the confirm row shows the exact command,
+      // and Enter again on the same text runs it (the field keeps the keys throughout; y and n work too).
+      // `/new` in the field starts a fresh session.
       submit: text => {
         const key = `${state.terminal.harness}\u0000${text.trim()}`
         const asked = state.terminal.asked
+
+        if (text.trim() === '/new') {
+          state.terminal.draft = ''
+          newSession(state, host)
+
+          return
+        }
+
+        if (isLive(state)) {
+          const why = whyNotRun(state, text)
+
+          if (why !== null) {
+            runner.ask(null, why)
+
+            return
+          }
+
+          state.terminal.draft = ''
+          send(state, host, text)
+
+          return
+        }
 
         if (asked !== null && asked.key === key && state.pending?.label === asked.label) {
           state.terminal.asked = null
@@ -153,7 +176,10 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         runner.ask(spec, whyNotRun(state, text) ?? 'nothing to run')
         state.terminal.asked = spec !== null ? { key, label: spec.label } : null
       },
-      stop: () => state.terminal.running?.stop(),
+      stop: () => {
+        for (const run of state.terminal.runs.values()) run.stop()
+      },
+      fresh: () => newSession(state, host),
       clear: () => {
         state.terminal.lines = []
         host.invalidate()

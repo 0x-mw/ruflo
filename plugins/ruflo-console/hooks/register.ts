@@ -6,7 +6,7 @@ import { plain } from './data/parse'
 import { dispatch } from './dispatch'
 import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
-import { newState, PANE_ID, restore, storeKeyOf } from './state'
+import { newState, PANE_ID, restore, restoreSessions, storeKeyOf, termStoreKeyOf } from './state'
 import { BAR_KEY, barView } from './views/bar'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
@@ -94,6 +94,7 @@ export const register: Register = (on, raw: PluginOptions) => {
       // Kept for good (ADR-406: no command is removed or renamed): `/ruflo-console` is the same command as `/ruflo`.
       bound.registerCommand({ name: 'ruflo-console', description: 'Same as /ruflo: the ruflo console', argumentHint: '[view|palette|help]' }).catch(() => undefined),
       bound.storeGet(storeKeyOf(e.cwd)).then(value => restore(state, value), () => undefined),
+      bound.storeGet(termStoreKeyOf(e.cwd)).then(value => restoreSessions(state, value), () => undefined),
       bound.rufloTools().then(counted => void (state.rufloTools = counted), () => undefined),
     ])
     control.start()
