@@ -10,6 +10,7 @@ import { join, resolve } from 'node:path';
 import {
   CATALOG_RELATIVE_PATH,
   INIT_COMMAND_CATEGORIES,
+  anchorCommit,
   buildCatalog,
   catalogDigest,
   collectInventory,
@@ -38,6 +39,8 @@ function put(rel: string, text: string): void {
 function fixtureRepo(): void {
   put('.claude/commands/sparc/architect.md', '---\nallowed-tools: Read, Bash\nargument-hint: <task>\n---\nDesign $ARGUMENTS\n');
   put('.claude/commands/agents/README.md', '# Agents\n');
+  put('.claude/commands/analysis/COMMAND_COMPLIANCE_REPORT.md', '# Report\n');
+  put('.claude/commands/analysis/performance-report.md', 'Report on $ARGUMENTS\n');
   put('.claude/commands/claude-flow-help.md', 'help\n');
   put('v3/@claude-flow/cli/.claude/commands/sparc/architect.md', '---\nallowed-tools: Read, Bash\n---\nDesign it differently $ARGUMENTS\n');
   put('v3/@claude-flow/cli/.claude/commands/claude-flow-help.md', 'help\n');
@@ -106,6 +109,9 @@ describe('inventory and catalog over a fixture repository', () => {
     const readme = byId.get('project/agents:readme')!;
     expect(readme.status).toBe('documentation');
     expect(readme.definition.kind).toBe('help');
+    expect(byId.get('project/analysis:command_compliance_report')!.status).toBe('documentation');
+    // A lower-case workflow whose name contains "report" is a workflow, not docs.
+    expect(byId.get('project/analysis:performance-report')!.definition).toMatchObject({ kind: 'prompt', disposition: 'delegate' });
 
     const watch = byId.get('ruflo-swarm/ruflo-swarm:watch')!;
     expect(watch.sources.map((s) => s.binding)).toEqual(['markdown-loader', 'mod-middleware-on-markdown']);
@@ -157,6 +163,15 @@ describe('validator (P1 gate)', () => {
     expect(validateEntries([entry('a', 'one'), entry('a', 'two')]).errors.join()).toMatch(/duplicate id a/);
     expect(validateEntries([entry('a', 'one'), entry('b', 'ONE')]).errors.join()).toMatch(/duplicate name \/ONE/);
     expect(validateEntries([entry('a', 'one'), entry('b', 'two')]).valid).toBe(true);
+  });
+});
+
+describe('catalog anchor commit', () => {
+  it('is the newest commit touching an inventoried path, not any commit under the roots', () => {
+    const commits = { byPath: { 'a.md': 'c2', 'b.md': 'c3' }, order: ['c1', 'c2', 'c3'], dirty: new Set<string>() };
+    expect(anchorCommit(['a.md', 'b.md'], commits)).toBe('c2');
+    expect(anchorCommit(['a.md', 'x.md'], commits)).toBe('uncommitted');
+    expect(anchorCommit(['a.md'], { ...commits, dirty: new Set(['a.md']) })).toBe('uncommitted');
   });
 });
 

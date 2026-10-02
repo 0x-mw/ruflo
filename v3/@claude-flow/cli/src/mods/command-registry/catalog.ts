@@ -23,7 +23,10 @@ import {
 import { sha256Hex, type RawCommand } from './inventory.js';
 
 export const REPOSITORY = 'ruvnet/ruflo';
-const DOC_NAME = /^(?:readme|changelog|.*report.*|.*compliance.*)$/i;
+// Loader-exposed documentation is named in capitals (README, CHANGELOG,
+// COMMAND_COMPLIANCE_REPORT). Lower-case names such as `performance-report`
+// are real workflows and must not be matched by content words.
+const DOC_NAME = /^[A-Z][A-Z0-9_]+$/;
 const CHANNEL_PRIORITY: Record<InventorySource['channel'], number> = {
   'repo-project-commands': 0,
   'cli-init-template': 1,

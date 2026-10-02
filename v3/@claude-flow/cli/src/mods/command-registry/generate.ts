@@ -36,24 +36,37 @@ export const defaultRunner: Runner = (file, args, env) => {
   }
 };
 
-/** Last commit per repository-relative path, in one `git log` pass; dirty paths are `uncommitted`. */
-export function lastCommits(repoRoot: string, roots: readonly string[], run: Runner = defaultRunner): { byPath: Record<string, string>; newest: string } {
+/**
+ * Last commit per repository-relative path, in one `git log` pass; dirty paths
+ * are dropped (they read as `uncommitted`). `order` lists commits newest first.
+ */
+export function lastCommits(repoRoot: string, roots: readonly string[], run: Runner = defaultRunner): { byPath: Record<string, string>; order: string[]; dirty: Set<string> } {
   const log = run('git', ['-C', repoRoot, 'log', '--format=%x00%H', '--name-only', '--', ...roots], process.env);
   const byPath: Record<string, string> = {};
+  const order: string[] = [];
   let current = '';
-  let newest = '';
   for (const line of log.stdout.split('\n')) {
-    if (line.startsWith('\u0000')) { current = line.slice(1).trim(); if (!newest) newest = current; continue; }
+    if (line.startsWith('\u0000')) { current = line.slice(1).trim(); order.push(current); continue; }
     const path = line.trim();
     if (path && current && !(path in byPath)) byPath[path] = current;
   }
   const status = run('git', ['-C', repoRoot, 'status', '--porcelain', '--untracked-files=all', '--', ...roots], process.env);
-  let dirty = false;
+  const dirty = new Set<string>();
   for (const line of status.stdout.split('\n')) {
     const path = line.slice(3).trim();
-    if (path) { delete byPath[path]; dirty = true; }
+    if (path) { delete byPath[path]; dirty.add(path); }
   }
-  return { byPath, newest: dirty || !newest ? 'uncommitted' : newest };
+  return { byPath, order, dirty };
+}
+
+/**
+ * The catalog's anchor: the newest commit that touched a file the catalog
+ * actually inventories, so unrelated plugin commits do not make it stale.
+ */
+export function anchorCommit(paths: readonly string[], commits: ReturnType<typeof lastCommits>): string {
+  if (paths.some((p) => commits.dirty.has(p) || !commits.byPath[p])) return 'uncommitted';
+  const used = new Set(paths.map((p) => commits.byPath[p]));
+  return commits.order.find((c) => used.has(c)) ?? 'uncommitted';
 }
 
 /** `npm pack --dry-run --json` file list for a package directory, made repository-relative. */
@@ -125,7 +138,7 @@ export function generate(input: GenerateInput): GenerateResult {
     const options: CatalogOptions = {
       commits: commits.byPath,
       packageContentsInspected: Object.keys(packed).length > 0,
-      sourceCommit: commits.newest,
+      sourceCommit: anchorCommit([...new Set(inventory.map((r) => r.source.sourcePath))], commits),
     };
     return {
       inventory,

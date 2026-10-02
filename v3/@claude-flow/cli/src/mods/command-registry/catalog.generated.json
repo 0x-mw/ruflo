@@ -877,9 +877,9 @@
           "maxLength": 8192,
           "type": "string"
         },
-        "disposition": "legacy",
+        "disposition": "delegate",
         "id": "project/analysis:performance-report",
-        "kind": "help",
+        "kind": "prompt",
         "legacyNames": [
           "analysis:performance-report"
         ],
@@ -903,7 +903,6 @@
       },
       "divergent": true,
       "notes": [
-        "documentation file exposed by the engine command loader; not an executable workflow",
         "copies differ between delivery channels; see sources[].digest"
       ],
       "sources": [
@@ -931,7 +930,7 @@
           "sourcePath": "v3/@claude-flow/cli/.claude/commands/analysis/performance-report.md"
         }
       ],
-      "status": "documentation"
+      "status": "shipped"
     },
     {
       "definition": {
@@ -13434,6 +13433,6 @@
       "status": "shipped"
     }
   ],
-  "sourceCommit": "d3a3979ae64380b39020888de5a89e204a108c75",
-  "sourceDigest": "sha256:b11779b021abfb7c79ce96683b2ffd48bce766202de14ef9a13d88e9744817a8"
+  "sourceCommit": "8a1e11f3bde0ba6c3855f23e420eeb6f003c8374",
+  "sourceDigest": "sha256:a21f24c53c5620e6f9f4f630fd58358c307ac5526eda503787fb19748671e5f8"
 }
