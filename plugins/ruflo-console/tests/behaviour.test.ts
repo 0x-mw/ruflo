@@ -20,6 +20,21 @@ describe('behaviour', () => {
     await pane.unmount()
   })
 
+  test('the selected tab always names itself, however long the name: [7: 🔬 METAHARNESS], [🧰 SKILLS]', { options: { boot: false } }, async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    for (const [view, tab] of [['metaharness', '[7: 🔬 METAHARNESS]'], ['skills', '[🧰 SKILLS]'], ['menu', '[0: 📟 MAIN MENU]'], ['federation', '[4: 🌐 FEDERATION]']] as const) {
+      await $.command.run(command(view))
+
+      const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+
+      expect(textOf(await pane.drawn())).toContain(tab)
+      await pane.unmount()
+    }
+  })
+
   test('a tab hotkey switches the view and the choice is kept for this folder only', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)

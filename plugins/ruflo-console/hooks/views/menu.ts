@@ -16,16 +16,23 @@ const GROUPS: readonly { title: string; sections: readonly { name: string; items
     title: 'SWARM',
     sections: [
       { name: 'live', items: [{ key: '1', label: 'Overview', go: 'overview' }, { key: '2', label: 'Swarm Topology', go: 'swarm' }, { key: '·', label: 'Hive-Mind', go: 'hive' }] },
-      { name: 'work', items: [{ key: '3', label: 'Claims Board', go: 'claims' }, { key: 'm', label: 'Missions', go: 'missions' }, { key: 'q', label: 'Approvals', go: 'approvals' }] },
+      { name: 'work', items: [{ key: '3', label: 'Claims Board', go: 'claims' }, { key: 'm', label: 'Missions', go: 'missions' }, { key: 'q', label: 'Approvals', go: 'approvals' }, { key: '·', label: 'Automation', go: 'automate' }] },
       { name: 'watch', items: [{ key: 'g', label: 'Agent Timeline', go: 'timeline' }, { key: 'e', label: 'Event Stream', go: 'events' }] },
     ],
   },
   {
     title: 'INTELLIGENCE',
     sections: [
-      { name: 'learn', items: [{ key: '6', label: 'Learning', go: 'learning' }, { key: '7', label: 'MetaHarness', go: 'metaharness' }] },
-      { name: 'remember', items: [{ key: '8', label: 'Memory Base', go: 'memory' }] },
-      { name: 'spend', items: [{ key: '9', label: 'Cost & Budget', go: 'cost' }] },
+      { name: 'learn', items: [{ key: '6', label: 'Learning', go: 'learning' }, { key: '·', label: 'Neural', go: 'neural' }, { key: '7', label: 'MetaHarness', go: 'metaharness' }, { key: '·', label: 'Self-Evolution', go: 'evolve' }] },
+      { name: 'remember', items: [{ key: '8', label: 'Memory Lab', go: 'memory' }, { key: '·', label: 'Vector Lab', go: 'vector' }] },
+      { name: 'spend', items: [{ key: '9', label: 'Cost & Budget', go: 'cost' }, { key: '·', label: 'Performance', go: 'perf' }] },
+    ],
+  },
+  {
+    title: 'SAFETY & OPS',
+    sections: [
+      { name: 'protect', items: [{ key: '·', label: 'Security & Doctor', go: 'secure' }] },
+      { name: 'build', items: [{ key: '·', label: 'Dev Tools', go: 'devtools' }] },
     ],
   },
   {

@@ -29,6 +29,9 @@ import { xruvView } from './xruv'
 
 export const NARROW = 44
 
+/** The keyless views that keep a tab of their own (the rest are reached from the main menu). */
+const CORE_TABS = new Set<ViewId>(['hive', 'skills'])
+
 /** The networks the Wildcat strip names, each with the view a click on it opens. */
 const NETWORKS: readonly (readonly [string, ViewId])[] = [['x.ruv.io', 'xruv'], ['relay.ruv.io', 'xruv'], ['agentbbs', 'federation'], ['mcp', 'plugins'], ['claude code', 'terminal']]
 /** Width from which every tab spells its name beside its emoji (the 1-9 row is about 128 columns with names). */
@@ -75,16 +78,20 @@ function tabs(ctx: Ctx): RenderElement {
 
     // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
     // (from a drill-down, b goes back).
-    // BBS: the current tab is framed like a menu pick, [2: 🐝 SWARM]; the name always shows there, in capitals.
+    // The current tab always names itself, whatever the width: [3: 📌 CLAIMS], [📟 MAIN MENU]. The others are their emoji (or
+    // emoji and name from WIDE_TABS columns), since a name on every tab does not fit a dock.
     // A view with no hotkey (key '') has no key to show: [🧰 SKILLS], and its tab is pressed, not typed.
     const prefix = view.key === '' ? '' : `${view.key}: `
-    const current = isBbs() ? `[${prefix}${view.icon}${withNames || view.label.length <= 6 ? ` ${view.label.toUpperCase()}` : ''}]` : `${prefix}${words}`
+    const current = isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}`
 
     if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: current })] })
 
     return ctx.kit.Button({ key: `tab-${view.id}`, label: words, ...(view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
-  const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.map(tab) })
+  // The tab bar keeps the keyed views and the core keyless ones; the many other views (labs, tools) are tabs only while
+  // open, and are reached from the main menu (0), where each is listed with its group.
+  const isTab = (view: (typeof VIEWS)[number]) => view.key !== '' || CORE_TABS.has(view.id) || view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
+  const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.filter(isTab).map(tab) })
   // The first row runs to the last digit-keyed view, so a keyless view sits where VIEWS puts it (Hive-Mind after Swarm).
   const split = VIEWS.reduce((last, view, i) => (/^[0-9]$/.test(view.key) ? i + 1 : last), 0)
 
