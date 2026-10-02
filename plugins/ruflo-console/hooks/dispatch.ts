@@ -35,7 +35,7 @@ async function open(control: Controller, state: State, label: string): Promise<{
   return { text: opened.isPlaced ? `ruflo console: ${label}` : `The ruflo console could not be shown: ${opened.reason}` }
 }
 
-const DUMP_WAIT_MS = 20_000
+const DUMP_WAIT_MS = 8_000
 
 /** The catalog this plugin ships (read once per session), or the built-in mod list when it is missing or another contract. */
 async function loadCatalog(control: Controller): Promise<Catalog> {

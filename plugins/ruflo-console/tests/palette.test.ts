@@ -163,7 +163,7 @@ describe('palette and /ruflo', () => {
     on('command.run', ($, e) => ({ text: `beneath: ${e.command} ${e.args}` }))
     await $.session.start(SESSION)
 
-    expect(world.commands).toEqual(expect.arrayContaining(['ruflo', 'ruflo-console']))
+    expect([...world.commands].sort()).toEqual(['ruflo', 'ruflo-console'])
     expect((await $.command.run({ ...command('help'), command: 'ruflo-console' })).text).toBe((await $.command.run(command('help'))).text)
     expect((await $.command.run({ ...command('mods'), command: 'ruflo-console' })).text).toBe('beneath: ruflo-console mods')
   })
