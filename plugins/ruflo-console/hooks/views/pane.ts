@@ -23,8 +23,8 @@ import { pluginsView } from './plugins'
 import { swarmView } from './swarm'
 
 export const NARROW = 44
-/** Width from which the current tab spells its name beside its icon. */
-const WIDE_TABS = 110
+/** Width from which every tab spells its name beside its emoji (the 1-9 row is about 128 columns with names). */
+const WIDE_TABS = 140
 
 const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   overview: overviewView,
@@ -51,23 +51,27 @@ function tabs(ctx: Ctx): RenderElement {
     return text(ctx, `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label} · /ruflo help`, { bold: true, color: THEME.head })
   }
 
-  // Every tab is its icon; the current one adds its name in the heading colour, so the bar reads at a glance and
-  // still fits a docked pane. The names are in /ruflo help and in the line under the bar.
+  // Two rows: the nine data views (1-9), then the four management views (g q e m). Each tab is its emoji; the
+  // current one is highlighted, and from WIDE_TABS columns every tab also spells its name. The line under the bar
+  // always names the current view and says what it is for. The dock width is the engine's (it keeps where the
+  // divider was left), so the narrow form must fit about 60 columns.
+  const withNames = ctx.columns >= WIDE_TABS
+  const tab = (view: (typeof VIEWS)[number]): RenderElement => {
+    const isCurrent = view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
+    const words = withNames ? `${view.icon} ${view.label}` : view.icon
+
+    // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
+    // (from a drill-down, b goes back).
+    if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: `${view.key}: ${words}` })] })
+
+    return ctx.kit.Button({ key: `tab-${view.id}`, label: words, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
+  }
+  const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.map(tab) })
+
   return ctx.kit.Box({
-    flexDirection: 'row',
-    gap: 1,
+    flexDirection: 'column',
     key: 'tabs',
-    children: VIEWS.map(view => {
-      const isCurrent = view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
-
-      // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
-      // (from a drill-down, b goes back).
-      // The dock's width is the engine's (it keeps where the divider was left): the name joins the icon only where
-      // the bar has room for it, and the line under the bar always leads with it.
-      if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: ctx.columns >= WIDE_TABS ? `${view.key}:${view.icon} ${view.label}` : `${view.key}:${view.icon}` })] })
-
-      return ctx.kit.Button({ key: `tab-${view.id}`, label: view.icon, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
-    }),
+    children: [line(VIEWS.filter(view => /^[0-9]$/.test(view.key)), 'tabs-views'), line(VIEWS.filter(view => !/^[0-9]$/.test(view.key)), 'tabs-manage')],
   })
 }
 
