@@ -13,6 +13,7 @@ const who = (claim: ClaimRecord): string => (claim.claimant.kind === 'agent' ? `
 export function claimsView(ctx: Ctx): RenderElement {
   const snap = ctx.state.snapshot
   const claims = snap?.claims ?? []
+  const agents = snap?.agents ?? []
   const pick = selection(ctx.state)
   const stealable = claims.filter(claim => claim.isStealable).length
   const handoffs = claims.filter(claim => claim.handoffTo !== undefined || claim.status === 'handoff-pending').length
@@ -33,7 +34,8 @@ export function claimsView(ctx: Ctx): RenderElement {
 
     claims.slice(0, 10).forEach(claim => {
       const isPicked = pick.claim?.issueId === claim.issueId
-      const flags = [claim.isStealable ? 'stealable' : '', claim.handoffTo !== undefined ? `→ ${claim.handoffTo}` : ''].filter(Boolean).join(' ')
+      const target = claim.handoffTo === undefined ? undefined : (agents.find(agent => agent.id === claim.handoffTo) ?? null)
+      const flags = [claim.isStealable ? 'stealable' : '', claim.handoffTo !== undefined ? `→ ${target?.name ?? target?.type ?? claim.handoffTo}` : ''].filter(Boolean).join(' ')
 
       rows.push(
         text(ctx, clip(`${isPicked ? '▸' : ' '} ${claim.issueId.padEnd(22)} ${who(claim).padEnd(34)} ${claim.status.padEnd(9)} ${claim.progress ?? 0}%  ${flags}`, ctx.columns), {
@@ -46,13 +48,8 @@ export function claimsView(ctx: Ctx): RenderElement {
   }
 
   rows.push(rule(ctx, 'Act', ctx.state.isActing ? 'running…' : ''))
-  rows.push(
-    text(
-      ctx,
-      `claim ${pick.claim?.issueId ?? 'n/a'} · agent ${pick.agent !== null ? `${pick.agent.name ?? pick.agent.type} (${pick.agent.id})` : 'n/a — no agents on disk'} · task ${pick.task?.id ?? 'n/a — every task is claimed'}`,
-      { dimColor: true },
-    ),
-  )
+  rows.push(text(ctx, `picked claim ${pick.claim?.issueId ?? 'n/a'} · agent ${pick.agent !== null ? `${pick.agent.name ?? pick.agent.type} (${pick.agent.id})` : 'n/a — no agents on disk'}`, { dimColor: true }))
+  rows.push(text(ctx, `open task ${pick.task === null ? 'n/a — every task is claimed' : `${pick.task.id}: ${pick.task.description || pick.task.type}`}`, { dimColor: true }))
 
   if (ctx.columns >= 44) {
     rows.push(
