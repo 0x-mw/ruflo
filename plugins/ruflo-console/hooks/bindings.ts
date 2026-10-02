@@ -4,6 +4,7 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
+import { harnessSpec, whyNotRun } from './harness'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { filterPalette, paletteEntries } from './palette'
@@ -109,6 +110,47 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
 
       state.eventFilter = order[(at + 1) % order.length] ?? 'all'
       host.invalidate()
+    },
+    term: {
+      harness: id => {
+        state.terminal.harness = id
+        host.invalidate()
+      },
+      draft: text => {
+        state.terminal.draft = text
+      },
+      // Enter asks: the confirm row shows the exact command. Enter again on the same text runs it, as a terminal
+      // would; the field keeps the keys throughout (Esc would hand them back to the prompt). y and n work too.
+      submit: text => {
+        const key = `${state.terminal.harness}\u0000${text.trim()}`
+        const asked = state.terminal.asked
+
+        if (asked !== null && asked.key === key && state.pending?.label === asked.label) {
+          state.terminal.asked = null
+          state.terminal.draft = ''
+          void runner.confirm()
+
+          return
+        }
+
+        state.terminal.draft = text
+
+        const spec = harnessSpec(state, host, text)
+
+        runner.ask(spec, whyNotRun(state, text) ?? 'nothing to run')
+        state.terminal.asked = spec !== null ? { key, label: spec.label } : null
+      },
+      stop: () => state.terminal.running?.stop(),
+      clear: () => {
+        state.terminal.lines = []
+        host.invalidate()
+      },
+      // A menu entry elsewhere (x.ruv.io) opens the terminal with its command typed, not run: Enter twice runs it.
+      load: (id, text) => {
+        state.terminal.harness = id
+        state.terminal.draft = text
+        setView('terminal')
+      },
     },
   }
 

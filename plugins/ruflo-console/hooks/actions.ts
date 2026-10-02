@@ -13,6 +13,10 @@ export type ActionSpec = {
   verify?: (snapshot: Snapshot) => boolean
   /** Reads only: runs at once, without the confirm step, and shows what the CLI printed. */
   isReadOnly?: boolean
+  /** Not a ruflo CLI call: what runs instead once confirmed (a terminal harness), reporting for itself. */
+  run?: () => Promise<void>
+  /** The command line the confirm row shows when it is not `ruflo <args>`. */
+  shows?: string
 }
 
 export const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const

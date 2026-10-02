@@ -1,7 +1,7 @@
 {
   "name": "ruflo-console",
-  "description": "ruflo's cockpit inside Claude Code and the one /ruflo command for every ruflo mod (function hooks, early access). Views: overview with health alerts, swarm topology graph, claims flow with TTL rings, federation map, plugin health matrix, learning curve and pipeline, MetaHarness radar and audit trend, memory, cost gauge, agent timeline, approvals queue, event stream, agent drill-down; a command palette for confirm-gated actions through the ruflo CLI; a band above the prompt. Reads ruflo's files and the CLI's local JSON; anything not measured reads n/a; no network by default.",
-  "version": "0.3.0",
+  "description": "ruflo's cockpit inside Claude Code and the one /ruflo command for every ruflo mod (function hooks, early access). Views: overview with health alerts, swarm topology graph, claims flow with TTL rings, federation map, plugin health matrix, learning curve and pipeline, MetaHarness radar and audit trend, memory, cost gauge, agent timeline, approvals queue, event stream, an x.ruv.io federation board, a second terminal for codex, claude and the ruflo CLI (each run confirmed), agent drill-down; a command palette for confirm-gated actions through the ruflo CLI; a band above the prompt. Reads ruflo's files and the CLI's local JSON; anything not measured reads n/a; no network by default.",
+  "version": "0.4.0",
   "author": {
     "name": "ruvnet",
     "url": "https://github.com/ruvnet"
@@ -73,7 +73,7 @@
     "federationNetwork": {
       "type": "boolean",
       "title": "Ask the federation relay",
-      "description": "Lets the federation view ask the public relay (wss://relay.ruv.io) for the roster. Off by default: without it the console makes no network request.",
+      "description": "Lets the federation and x.ruv.io views ask the public relay (wss://relay.ruv.io) for the roster and the x.ruv.io gateway for its registry. Off by default: without it the console makes no network request.",
       "default": false
     },
     "look": {

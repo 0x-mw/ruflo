@@ -149,7 +149,7 @@ describe('behaviour', () => {
 
       expect(elementsOf(tree, 'Raster').length === 0).toBe(isNarrow)
       expect(elementsOf(tree, 'Button').map(keyOf).includes('claim')).toBe(!isNarrow)
-      if (isNarrow) expect(textOf(tree)).toContain('3/13 Claims')
+      if (isNarrow) expect(textOf(tree)).toContain('3/15 Claims')
       await pane.unmount()
     }
   })

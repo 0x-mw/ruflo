@@ -11,9 +11,9 @@ step() { printf "→ %s ... " "$1"; }
 ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 
-step "1. plugin.json declares ruflo-console 0.3.0"
+step "1. plugin.json declares ruflo-console 0.4.0"
 grep -q '"name": "ruflo-console"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.3.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.4.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -33,10 +33,10 @@ http=$(grep -rnE '\$\.http\.' "$HOOKS" || true)
 outside=$(grep -rnE '\$\.(fs|process|ui|clock|store|env|ruflo|tool|session|settings|command)\.' "$HOOKS" | grep -vE '^[^:]+:[0-9]+:\s*(\*|//|/\*)' | grep -v '/register.ts:' || true)
 [[ -z "$http" && -z "$outside" ]] && ok || bad "http: $http outside: $outside"
 
-step "6. never runs plugins list or verify (network) and the roster is the one network probe"
+step "6. never runs plugins list or verify (network); roster and registry are the two network probes, both opt-in"
 cmds=$(grep -nE "args: \['(plugins|verify)'" "$HOOKS/data/cli.ts" || true)
 net=$(grep -c "isNetwork: true" "$HOOKS/data/cli.ts")
-[[ -z "$cmds" && "$net" == "1" ]] && grep -q "federationNetwork" "$HOOKS/controller.ts" && ok || bad "cmds: $cmds network probes: $net"
+[[ -z "$cmds" && "$net" == "2" ]] && grep -q "federationNetwork" "$HOOKS/controller.ts" && ok || bad "cmds: $cmds network probes: $net"
 
 step "7. private key files are never read paths"
 # The federation folder is listed for its file names (node ids); a key file's path never reaches fs.read.

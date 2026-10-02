@@ -201,4 +201,33 @@ describe('views', () => {
 
     expect((await drawn($, 'missions')).text).toContain('n/a — no .claude-flow/missions/observation.json')
   })
+
+  test('x.ruv.io: the federation menu with its commands, and no registry or roster asked with the network off', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters } = await drawn($, 'xruv')
+
+    expect(rasters).toEqual(['header', 'title'])
+    expect(text).toContain(' JOIN ....')
+    expect(text).toContain('WORK CLAIMS')
+    expect(text).toContain('Turn on federationNetwork in /config')
+    expect(world.runs.some(argv => /x_federation_(registry|roster)/.test(argv.join(' ')))).toBe(false)
+  })
+
+  test('terminal: the harness picker, what the pick runs, and the text field; nothing runs unasked', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'terminal')
+
+    expect(text).toContain('[c: CODEX]')
+    expect(text).toContain('codex exec in a read-only sandbox')
+    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
+    expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
+  })
 })

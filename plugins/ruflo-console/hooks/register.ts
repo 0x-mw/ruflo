@@ -43,6 +43,7 @@ function hostOf($: EngineInterface, cwd: string): Host {
     panes: async () => $.ui.panes(),
     registerCommand: async spec => $.command.register(spec),
     run: async (argv, timeoutMs) => $.process.run(argv, { cwd, timeoutMs }),
+    spawn: (argv, input) => $.process.spawn({ argv, cwd, ...(input !== undefined && { input }) }),
     usage: async () => {
       const usage = await $.session.usage()
 

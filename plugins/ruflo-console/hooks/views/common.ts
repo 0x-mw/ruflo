@@ -7,7 +7,7 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
 import type { Grid } from '../gfx/raster'
-import type { State, ViewId } from '../state'
+import type { HarnessId, State, ViewId } from '../state'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
 
@@ -37,6 +37,8 @@ export type Actions = {
   run: (id: string, text?: string) => boolean
   /** Cycles the events view's filter. */
   filter: () => void
+  /** The terminal view: pick a harness, follow the field, ask to run its text, stop the run, clear the scrollback. */
+  term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; clear: () => void; load: (id: HarnessId, text: string) => void }
 }
 
 export type Ctx = {

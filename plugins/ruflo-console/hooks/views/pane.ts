@@ -21,6 +21,8 @@ import { overviewView } from './overview'
 import { paletteView } from './palette'
 import { pluginsView } from './plugins'
 import { swarmView } from './swarm'
+import { terminalView } from './terminal'
+import { xruvView } from './xruv'
 
 export const NARROW = 44
 /** Width from which every tab spells its name beside its emoji (the 1-9 row is about 128 columns with names). */
@@ -40,6 +42,8 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   approvals: approvalsView,
   events: eventsView,
   missions: missionsView,
+  xruv: xruvView,
+  terminal: terminalView,
   agent: agentView,
 }
 
@@ -51,7 +55,7 @@ function tabs(ctx: Ctx): RenderElement {
     return text(ctx, `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label} · /ruflo help`, { bold: true, color: THEME.head })
   }
 
-  // Two rows: the nine data views (1-9), then the four management views (g q e m). Each tab is its emoji; the
+  // Two rows: the nine data views (1-9), then the management views and the two boards (g q e m, w x.ruv.io, i terminal). Each tab is its emoji; the
   // current one is highlighted, and from WIDE_TABS columns every tab also spells its name. The line under the bar
   // always names the current view and says what it is for. The dock width is the engine's (it keeps where the
   // divider was left), so the narrow form must fit about 60 columns.
@@ -117,7 +121,7 @@ function confirmRow(ctx: Ctx): RenderElement | null {
     ctx,
     [
       text(ctx, `Confirm: ${pending.label}?`, { bold: true, color: THEME.warn }),
-      text(ctx, `runs: ruflo ${pending.args.join(' ')}`, { dimColor: true }),
+      text(ctx, `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}`, { dimColor: true }),
       row(ctx, [button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }), button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' })]),
     ],
     'confirm',
