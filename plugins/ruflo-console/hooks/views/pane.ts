@@ -135,6 +135,7 @@ function confirmRow(ctx: Ctx): RenderElement | null {
     [
       text(ctx, `Confirm: ${pending.label}?`, { bold: true, color: THEME.warn }),
       text(ctx, `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}`, { dimColor: true }),
+      ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
       row(ctx, [button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }), button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' })]),
     ],
     'confirm',

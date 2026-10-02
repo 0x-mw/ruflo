@@ -72,7 +72,7 @@ step "13. marketplace lists ruflo-console"
 grep -q '"name": "ruflo-console"' "$REPO/.claude-plugin/marketplace.json" && ok || bad "missing marketplace entry"
 
 step "14. pure specs pass under vitest"
-if (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/pure.spec.ts plugins/ruflo-console/tests/vendored-types.spec.ts >/dev/null 2>&1); then ok; else bad "vitest specs failed"; fi
+if (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/pure.spec.ts plugins/ruflo-console/tests/vendored-types.spec.ts plugins/ruflo-console/tests/mh-lab.spec.ts>/dev/null 2>&1); then ok; else bad "vitest specs failed"; fi
 
 printf "\n%d passed, %d failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]

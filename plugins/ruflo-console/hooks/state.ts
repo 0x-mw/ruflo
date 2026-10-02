@@ -31,7 +31,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'federation', key: '4', label: 'Federation', short: 'Fed', icon: '🌐', blurb: 'this node, its peers, keys and channels, placed by how far each is trusted', rows: 26 },
   { id: 'plugins', key: '5', label: 'Plugins', short: 'Plg', icon: '🧩', blurb: 'ruflo plugins: installed, enabled, in the marketplace clone, and loaded as mods', rows: 30 },
   { id: 'learning', key: '6', label: 'Learning', short: 'Lrn', icon: '🧠', blurb: 'router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline', rows: 30 },
-  { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness by axis, the audit trend, and the flywheel champion', rows: 26 },
+  { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness, the flywheel, the audit trend, and a lab that runs every MetaHarness verb', rows: 40 },
   { id: 'memory', key: '8', label: 'Memory', short: 'Mem', icon: '💾', blurb: 'AgentDB entries by namespace: what the swarm has stored', rows: 22 },
   { id: 'cost', key: '9', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'this session spend against the budget, and how fast it is burning', rows: 20 },
   { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', icon: '🕒', blurb: 'each agent busy or idle over the last minutes, beside Claude Code tool calls', rows: 24 },
@@ -112,7 +112,10 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
 }
 
 /** A mutating action waiting for the person's second press; `shows` is the command line when it is not a ruflo one. */
-export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string }
+export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string; note?: string }
+
+/** The MetaHarness lab's last run: what it was, how it exited, its cost note, and its output as lines to scroll. */
+export type LabResult = { id: string; label: string; ok: boolean; exitCode: number | null; note?: string; lines: string[]; atMs: number }
 
 /** The harnesses the terminal view can ask; `swarm` asks codex and claude at once. */
 export type HarnessId = 'codex' | 'claude' | 'ruflo' | 'swarm'
@@ -188,6 +191,8 @@ export type State = {
   pending: Pending | null
   outcome: Outcome | null
   isActing: boolean
+  /** The MetaHarness lab: its last result, and the run in flight (j/k scroll the result through `select.item`). */
+  lab: { result: LabResult | null; running: { id: string; label: string; startedAtMs: number } | null }
   isRefreshing: boolean
   /** When the band above the prompt last drew: the disk is re-read on the fast cadence only while it is seen. */
   barDrawnAtMs: number
@@ -251,6 +256,7 @@ export function newState(raw: PluginOptions | undefined): State {
     pending: null,
     outcome: null,
     isActing: false,
+    lab: { result: null, running: null },
     isRefreshing: false,
     barDrawnAtMs: 0,
     terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },

@@ -6,7 +6,8 @@
 import { HIVE_ROLES, pickedProposal } from './data/hive'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
-import { AGENT_TYPES, agentLogs, dispatchWorker, harnessAudit, harnessScore, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
+import { LAB, labSpec, labWhy } from './mh-lab'
+import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
 import { selection } from './views/select'
 
@@ -112,8 +113,8 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
     for (const role of HIVE_ROLES) add(`hive-spawn-${role}`, 'hive', `spawn a hive ${role} and join it`, { kind: 'spec', spec: hiveSpawn(hive, role), why: 'unknown role' })
   }
 
-  add('mh-score', 'metaharness', 'score the harness now (metaharness score)', { kind: 'spec', spec: harnessScore(), why: '' })
-  add('mh-audit', 'metaharness', 'run a MetaHarness audit (oia-audit)', { kind: 'spec', spec: harnessAudit(), why: '' })
+  // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
+  for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 

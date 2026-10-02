@@ -56,6 +56,12 @@ export function cliAnswer(argv: readonly string[]): Answer {
   if (line.includes('hooks_intelligence_stats')) return out('intel')
   if (line.includes('federation_bbs_peers')) return out('bbs-peers')
   if (line.includes('x_federation_channel_list')) return out('channels')
+  if (line.includes('metaharness audit-list')) return out('mh-audit-list')
+  if (line.includes('metaharness mcp-scan')) return out('mh-mcp-scan')
+  if (line.includes('metaharness threat-model')) return out('mh-threat')
+  if (line.includes('metaharness redblue run --mock-judge')) return out('mh-redblue-mock')
+  if (line.includes('metaharness gepa --op render')) return out('mh-gepa-render')
+  if (line.includes('doctor --component metaharness')) return out('mh-doctor')
 
   return { exitCode: 0, stdout: '{"success": true}', stderr: '' }
 }

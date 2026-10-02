@@ -4,7 +4,7 @@
  * when the person turns `federationNetwork` on. `plugins list` is never run (it fetches the IPFS registry), nor `verify` (it
  * fetches a manifest from GitHub).
  */
-import { msOf, numberOf, plain, recordOf, stringOf, valuesOf } from './parse'
+import { idOf, msOf, numberOf, plain, recordOf, stringOf, valuesOf } from './parse'
 
 import type { ViewId } from '../state'
 
@@ -186,11 +186,14 @@ export const flywheelProbe: Probe<Flywheel> = {
   },
 }
 
-export type AuditTrend = { total: number; points: { atMs: number; worst?: string; findings?: number }[] }
+export type AuditTrend = { total: number; points: { atMs: number; worst?: string; findings?: number; key?: string }[] }
 
 const SEVERITY: Record<string, number> = { clean: 0, low: 1, medium: 2, high: 3, critical: 4 }
 
-/** Stored MetaHarness audits, oldest first: the trend line's points. Reads memory; runs nothing. */
+/**
+ * Stored MetaHarness audits, oldest first: the trend line's points, each with its memory key (the lab diffs the newest
+ * two). audit-list answers `{key, startedAt, finishedAt, worst}` per record. Reads memory; runs nothing.
+ */
 export const auditProbe: Probe<AuditTrend> = {
   id: 'audits',
   args: ['metaharness', 'audit-list', '--format', 'json'],
@@ -206,11 +209,12 @@ export const auditProbe: Probe<AuditTrend> = {
 
     const points = value.records.slice(0, 50).flatMap(entry => {
       const record = recordOf(entry)
-      const atMs = msOf(record?.timestamp ?? record?.generatedAt ?? record?.createdAt ?? recordOf(record?.value)?.generatedAt)
+      const atMs = msOf(record?.finishedAt ?? record?.startedAt ?? record?.timestamp ?? record?.generatedAt ?? record?.createdAt ?? recordOf(record?.value)?.generatedAt)
       const worst = stringOf(record?.worst ?? recordOf(record?.value)?.worst, 12)
       const findings = numberOf(record?.findings ?? recordOf(record?.value)?.findingCount)
+      const key = idOf(record?.key) ?? undefined
 
-      return atMs === undefined ? [] : [{ atMs, ...(worst !== undefined && { worst }), ...(findings !== undefined && { findings }) }]
+      return atMs === undefined ? [] : [{ atMs, ...(worst !== undefined && { worst }), ...(findings !== undefined && { findings }), ...(key !== undefined && { key }) }]
     })
 
     points.sort((a, b) => a.atMs - b.atMs)
