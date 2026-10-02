@@ -134,6 +134,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       state.eventFilter = order[(at + 1) % order.length] ?? 'all'
       host.invalidate()
     },
+    focus: key => void host.focus(PANE_ID, key).catch(() => undefined),
     start: (id, text = '') => runner.ask(startSpec(id, Date.now(), text), id === 'mission' || id === 'task' ? 'type it first (it may not start with -)' : 'that start cannot run here'),
     // The main menu's prompt, as a board's: a key (2, w, i), a name (swarm, x.ruv.io), ? for help, O to log off.
     menu: text => {

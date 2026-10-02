@@ -250,10 +250,11 @@ export function paneView(ctx: Ctx): RenderElement {
   const about = blurb(ctx)
   const bbs = isBbs() ? wildcat(ctx) : { strip: [], art: [] }
   const gap = isBbs() && !isCompact ? [text(ctx, ' ')] : []
+  // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
     ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
-    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, body, ...(confirm !== null ? [confirm] : []), ...gap, footer(ctx)]
+    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, ...(confirm !== null ? [confirm] : []), body, ...gap, footer(ctx)]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }

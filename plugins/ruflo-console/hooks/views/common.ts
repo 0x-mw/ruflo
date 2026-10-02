@@ -46,6 +46,8 @@ export type Actions = {
   filter: () => void
   /** The terminal view: pick a harness, follow the field, ask to run its text, stop the run, clear the scrollback. */
   /** A one-click start for an empty section (init, swarm, hive, workers…): asks, runs, and re-reads the disk. */
+  /** Puts the keys in one of the pane's fields by its key (a row that takes text focuses its field). */
+  focus: (key: string) => void
   start: (id: StartId, text?: string) => void
   /** The main menu's prompt: a key or a name takes the person to that area. */
   menu: (text: string) => void

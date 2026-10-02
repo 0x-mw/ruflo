@@ -195,4 +195,45 @@ describe('x.ruv.io board', () => {
     expect((await $.command.run(command('run x-invite'))).text).toContain('the console never shows one')
     expect(world.runs.some(argv => argv.includes('x_federation_invite_mint'))).toBe(false)
   })
+
+  test('the whole row is clickable: pressing a row name reads, asks, or focuses its field; nothing is a dead label', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    world.respond = respond
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('xruv'))
+
+    const pane = await $.ui.mount({ ...paneAt(120), surface: 'terminal' as const, plugin: PLUGIN })
+    const keys = elementsOf(await pane.drawn(), 'Button').map(keyOf)
+    const names = keys.filter(key => key.startsWith('xr-name-') || key.startsWith('xr-about-'))
+
+    // Every row has both its name and its about line as buttons, so a click anywhere on the row lands on one.
+    for (const id of ['x-join', 'x-bbs-identity', 'x-registry', 'x-roster', 'x-claims', 'x-sync', 'x-channels', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-unregister']) {
+      expect(names).toContain(`xr-name-${id}`)
+      expect(names).toContain(`xr-about-${id}`)
+    }
+
+    // A read row: the name fetches at once, one fixed argv, and the result panel answers.
+    await pane.press({ key: 'xr-name-x-claims' })
+    expect(fedRuns(world.runs).map(argv => argv.slice(4))).toEqual([['mcp', 'exec', '-t', 'x_federation_claims', '-p', '{}']])
+    expect(textOf(await pane.drawn())).toContain('repo:ruflo#42')
+
+    // The about line does the same as the name.
+    await pane.press({ key: 'xr-about-x-roster' })
+    expect(fedRuns(world.runs).some(argv => argv.includes('x_federation_roster'))).toBe(true)
+
+    // A write row asks first and sends nothing until confirmed.
+    const before = fedRuns(world.runs).length
+
+    await pane.press({ key: 'xr-name-x-join' })
+    expect(textOf(await pane.drawn())).toMatch(/join x\.ruv\.io/i)
+    expect(fedRuns(world.runs)).toHaveLength(before)
+
+    // Unregister has no gateway endpoint: pressing it says so in the board, and runs nothing.
+    await pane.press({ key: 'xr-name-x-unregister' })
+    expect(fedRuns(world.runs)).toHaveLength(before)
+    expect(textOf(await pane.drawn())).toContain('✗ nothing to do')
+    await pane.unmount()
+  })
 })

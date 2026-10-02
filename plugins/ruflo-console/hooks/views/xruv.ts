@@ -6,7 +6,7 @@ import { INVITE_COMMAND, UNREGISTER_WHY, XRUV, type XEntry, type XGroup } from '
 import { ago, button, clip, col, kv, live, row, rule, sourceLine, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
-export const XRUV_ROWS = 12
+export const XRUV_ROWS = 8
 
 /** Each kind as a four-cell tag: reads, writes that ask first, and the gateway-identity rows that need the token. */
 const TAG = { read: { text: ' rd ', color: () => THEME.ok }, write: { text: ' wr ', color: () => THEME.info }, admin: { text: ' ad ', color: () => THEME.warn } } as const
@@ -25,18 +25,31 @@ function rowButton(ctx: Ctx, entry: XEntry): RenderElement | null {
   return ctx.kit.Button({ key: `xr-${entry.id}`, label: entry.kind === 'read' ? ' ▸ fetch' : ' ▸ ask', plain: true, dimColor: true, onPress: () => void ctx.act.run(entry.id) })
 }
 
-/** One menu row, dotted to its purpose: the tag, the name, what it does, and its button. */
+/**
+ * What pressing a row's name does: a text-taking row focuses its field (the next keys type into it), the invite row
+ * types its command into the terminal, and every other row runs its action (a read fetches, a write asks, and
+ * unregister or an admin row without the token says why in the Result panel).
+ */
+function pressOf(ctx: Ctx, entry: XEntry): () => void {
+  if (entry.id === 'x-invite') return () => ctx.act.term.load('ruflo', INVITE_COMMAND)
+  if (entry.takes !== undefined && entry.id !== 'x-join') return () => ctx.act.focus(`xr-in-${entry.id}`)
+
+  return () => void ctx.act.run(entry.id)
+}
+
+/** One menu row, dotted to its purpose: the tag, the name and what it does (both buttons: the whole row is clickable), and its own button. */
 function entryRow(ctx: Ctx, entry: XEntry, lead: number): RenderElement {
   const tag = TAG[entry.kind]
   const isOff = entry.id === 'x-unregister' || (entry.kind === 'admin' && ctx.state.xruv.hasAdminToken !== true)
   const action = rowButton(ctx, entry)
+  const press = pressOf(ctx, entry)
 
   return row(
     ctx,
     [
       ctx.kit.Text({ bold: true, color: tag.color(), children: ` ${tag.text}` }),
-      ctx.kit.Text({ bold: true, color: entry.kind === 'admin' ? THEME.warn : THEME.head, children: ` ${entry.name} `.padEnd(lead, '.') }),
-      ctx.kit.Text({ color: THEME.info, dimColor: isOff, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 18)) }),
+      ctx.kit.Button({ key: `xr-name-${entry.id}`, label: ` ${entry.name} `.padEnd(lead, '.'), plain: true, onPress: press }),
+      ctx.kit.Button({ key: `xr-about-${entry.id}`, label: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 18)), plain: true, dimColor: true, onPress: press }),
       ...(action === null ? [] : [action]),
     ],
     `xr-row-${entry.id}`,
@@ -49,7 +62,7 @@ function field(ctx: Ctx, entry: XEntry, placeholder: string): RenderElement {
 
   if (Input === undefined) return text(ctx, `   from the palette (p): ${entry.id} <${entry.takes ?? ''}>`, { dimColor: true })
 
-  return Input({ key: `xr-in-${entry.id}`, label: `  ${entry.name.toLowerCase()}`, placeholder, submitLabel: entry.kind === 'read' ? 'fetch' : 'ask', onSubmit: value => void ctx.act.run(entry.id, value) })
+  return Input({ key: `xr-in-${entry.id}`, label: `  ▸ ${entry.name.toLowerCase()}`, placeholder, submitLabel: entry.kind === 'read' ? 'fetch' : 'ask', onSubmit: value => void ctx.act.run(entry.id, value) })
 }
 
 /** This node: its Nostr key (only whether the file exists), the pubkey a result named, and the join and leave rows. */
@@ -142,14 +155,14 @@ function channelRows(ctx: Ctx, lead: number): RenderElement[] {
 
   if (held !== null && held.channels.length > 0) {
     for (const channel of held.channels.slice(0, 6)) {
-      rows.push(row(ctx, [text(ctx, ` # ${clip(channel.name ?? channel.id, 18).padEnd(18)} ${channel.id.padEnd(22)} ${channel.id.startsWith('prv:') ? 'private' : 'public '} · ${ago(channel.atMs, nowMs)} `), readBtn(channel.id)], `xr-ch-${channel.id}`))
+      rows.push(row(ctx, [ctx.kit.Button({ key: `xr-chname-${channel.id}`, label: ` # ${clip(channel.name ?? channel.id, 18).padEnd(18)} ${channel.id.padEnd(22)} ${channel.id.startsWith('prv:') ? 'private' : 'public '} · ${ago(channel.atMs, nowMs)} `, plain: true, onPress: () => void ctx.act.run('x-read', channel.id) }), readBtn(channel.id)], `xr-ch-${channel.id}`))
     }
   } else {
     rows.push(text(ctx, ` ${held === null ? sourceLine(state.probes.get('channels'), nowMs, 'channels').text : 'no channel keys held here yet'}`, { dimColor: true }))
   }
 
   for (const room of rooms.slice(0, 4)) {
-    rows.push(row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: ` #${room.name.padEnd(14)} ` }), ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip(room.purpose ?? '', Math.max(4, ctx.columns - 28)) }), readBtn(`pub:${room.name}`)], `xr-room-${room.name}`))
+    rows.push(row(ctx, [ctx.kit.Button({ key: `xr-roomname-${room.name}`, label: ` #${room.name.padEnd(14)} ${clip(room.purpose ?? '', Math.max(4, ctx.columns - 32))}`, plain: true, onPress: () => void ctx.act.run('x-read', `pub:${room.name}`) }), readBtn(`pub:${room.name}`)], `xr-room-${room.name}`))
   }
 
   const first = held?.channels[0]?.id ?? (rooms[0] !== undefined ? `pub:${rooms[0].name}` : 'pub:general')
@@ -192,6 +205,14 @@ function resultRows(ctx: Ctx): RenderElement[] {
 
   if (running !== null) rows.push(text(ctx, ` ▸ ${running.label} … ${Math.floor(nowMs / 500) % 2 === 0 ? '█' : ' '}`, { color: THEME.warn }))
 
+  // A row that cannot run (unregister, an admin row without its token) answers here with why, never silently.
+  const { outcome } = state
+
+  if (outcome !== null && !outcome.ok && (result === null || outcome.atMs > result.atMs)) {
+    rows.push(text(ctx, ` ✗ ${outcome.label}`, { bold: true, color: THEME.warn }))
+    rows.push(text(ctx, `   ${outcome.detail}`))
+  }
+
   if (result === null) {
     if (running === null) rows.push(text(ctx, ' ▸ fetch shows its answer here at once; a write shows here after you confirm (y)', { dimColor: true }))
 
@@ -231,11 +252,12 @@ export function xruvView(ctx: Ctx): RenderElement {
   const rows: RenderElement[] = [
     rule(ctx, 'Main menu', 'ruflo federation · x_federation_* tools'),
     text(ctx, ' rd reads at once · wr asks first (y) and says what it sends · ad signs as the gateway (admin token)', { dimColor: true }),
+    // The result sits at the top: a click far down the board answers where it can be seen, not below the fold.
+    ...resultRows(ctx),
     ...identityRows(ctx, lead),
     ...networkRows(ctx, lead),
     ...channelRows(ctx, lead),
     ...adminRows(ctx, lead),
-    ...resultRows(ctx),
   ]
 
   return col(ctx, rows, 'xruv')
