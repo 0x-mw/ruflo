@@ -134,6 +134,26 @@ describe('views', () => {
     expect(text).toContain('valid · 0 commits · 0 receipts')
   })
 
+  test('metaharness lab: every verb by purpose with its cost tag and button; promote is a command, never a button', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'metaharness')
+    const buttons = elementsOf(tree, 'Button').map(keyOf)
+
+    expect(text).toMatch(/LAB · INSPECT/i)
+    expect(text).toMatch(/LAB · EVOLVE & TEST/i)
+    expect(text).toMatch(/ \$\$ \n REDBLUE JUDGED \.+/)
+    expect(text).toContain('ruflo metaharness flywheel promote <receipt-id> --public-key <approved-ed25519.pem> --confirm')
+    expect(text).toContain('nothing run yet')
+    expect(buttons).toEqual(expect.arrayContaining(['lab-mh-genome', 'lab-mh-mcp-scan', 'lab-mh-audit', 'lab-mh-redblue-real', 'lab-mh-learn-run', 'lab-mh-flywheel-run']))
+    expect(buttons.some(key => /promote/.test(key))).toBe(false)
+    // Drawing the lab runs nothing but the view's own probes.
+    expect(world.runs.some(argv => /genome|mcp-scan|redblue|evolve|learn/.test(argv.join(' ')))).toBe(false)
+  })
+
   test('memory and cost: entries, a namespace sample; spend, the gauge, the ladder and the burn', { options: { boot: false } }, async ($, on) => {
     fakeRuflo().register(on, {})
     worldOf(on, RUFLO_FILES)

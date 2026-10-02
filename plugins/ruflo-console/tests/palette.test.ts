@@ -82,6 +82,79 @@ describe('palette and /ruflo', () => {
     await pane.unmount()
   })
 
+  test('lab: an inspect entry runs at once with one fixed argv, and its lines fill the result panel', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('metaharness'))
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+
+    await pane.press({ key: 'lab-mh-mcp-scan' })
+
+    const text = textOf(await pane.drawn())
+
+    expect(text).not.toContain('Confirm:')
+    expect(text).toContain('by severity: critical 0 · high 0 · medium 0 · low 1 · info 0')
+    expect(text).toContain('[low] 12 unpinned dependency range(s)')
+    expect(world.runs.filter(argv => argv.includes('mcp-scan')).map(argv => argv.slice(4))).toEqual([['metaharness', 'mcp-scan', '--format', 'json']])
+    await pane.unmount()
+  })
+
+  test('lab: a spending entry asks first with its cost on the confirm row, and runs nothing on no', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('metaharness'))
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+
+    await pane.press({ key: 'lab-mh-redblue-real' })
+
+    const text = textOf(await pane.drawn())
+
+    expect(text).toContain('Confirm: redblue run with a real model judge (spends, capped at $3)?')
+    expect(text).toContain('runs: ruflo metaharness redblue run --tests 10 --max-cost-usd 3 --format json')
+    expect(text).toContain('COSTS MONEY: a real model judges each attack')
+    await pane.press({ key: 'cancel' })
+    expect(world.runs.some(argv => argv.includes('redblue'))).toBe(false)
+    await pane.unmount()
+  })
+
+  test('lab: promote is never run, not even with every lab button pressed and every ask confirmed', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('metaharness'))
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+    const keys = elementsOf(await pane.drawn(), 'Button').map(keyOf).filter(key => key.startsWith('lab-mh-'))
+
+    expect(keys.length).toBeGreaterThan(20)
+
+    for (const key of keys) {
+      await $.command.run(command('metaharness'))
+      await pane.press({ key })
+      if (textOf(await pane.drawn()).includes('Confirm:')) await pane.press({ key: 'confirm' })
+    }
+
+    expect(world.runs.some(argv => argv.includes('promote'))).toBe(false)
+    expect(world.runs.some(argv => argv.includes('flywheel') && argv.includes('--confirm'))).toBe(false)
+    expect((await $.command.run(command('run mh-promote'))).text).toMatch(/^No palette entry "mh-promote"/)
+    await pane.unmount()
+  })
+
+  test('lab headless: /ruflo run mh-mcp-scan answers with what the scan printed', { options: { boot: false } }, async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start({ ...SESSION, isInteractive: false })
+
+    const answer = (await $.command.run(command('run mh-mcp-scan'))).text ?? ''
+
+    expect(answer).toMatch(/^✓ mcp-scan: static MCP findings by severity · exit 0\n/)
+    expect(answer).toContain('  [low] 12 unpinned dependency range(s)')
+  })
+
   test('/ruflo help, an unknown word, and the hints when ruflo-mods or ruflo-swarm are not loaded', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)

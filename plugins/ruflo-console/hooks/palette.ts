@@ -4,7 +4,8 @@
  * argument from the query after their keyword: `route fix the login bug`.
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
-import { AGENT_TYPES, agentLogs, dispatchWorker, harnessAudit, harnessScore, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
+import { LAB, labSpec, labWhy } from './mh-lab'
+import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
 import { selection } from './views/select'
 
@@ -86,8 +87,8 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
     add(`vote-no-${proposal.id}`, 'hive', `vote no on ${proposal.type} (${proposal.id})`, { kind: 'spec', spec: vote(proposal.id, false), why: 'that proposal id cannot be passed to ruflo' })
   }
 
-  add('mh-score', 'metaharness', 'score the harness now (metaharness score)', { kind: 'spec', spec: harnessScore(), why: '' })
-  add('mh-audit', 'metaharness', 'run a MetaHarness audit (oia-audit)', { kind: 'spec', spec: harnessAudit(), why: '' })
+  // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
+  for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 
