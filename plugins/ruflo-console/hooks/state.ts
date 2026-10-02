@@ -193,6 +193,11 @@ export type State = {
   isActing: boolean
   /** The MetaHarness lab: its last result, and the run in flight (j/k scroll the result through `select.item`). */
   lab: { result: LabResult | null; running: { id: string; label: string; startedAtMs: number } | null }
+  /**
+   * The x.ruv.io board: its own result panel (j/k scroll it too), this node's Nostr pubkey once a result named it
+   * (the key file is never read), and whether RUFLO_X_ADMIN_TOKEN is set (only that boolean is kept; null: not asked).
+   */
+  xruv: { result: LabResult | null; running: { id: string; label: string; startedAtMs: number } | null; pubkey: string | null; hasAdminToken: boolean | null }
   isRefreshing: boolean
   /** When the band above the prompt last drew: the disk is re-read on the fast cadence only while it is seen. */
   barDrawnAtMs: number
@@ -257,6 +262,7 @@ export function newState(raw: PluginOptions | undefined): State {
     outcome: null,
     isActing: false,
     lab: { result: null, running: null },
+    xruv: { result: null, running: null, pubkey: null, hasAdminToken: null },
     isRefreshing: false,
     barDrawnAtMs: 0,
     terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },

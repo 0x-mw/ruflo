@@ -9,6 +9,7 @@ import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } fr
 import { LAB, labSpec, labWhy } from './mh-lab'
 import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
+import { XRUV } from './xruv'
 import { selection } from './views/select'
 
 export type PaletteRun =
@@ -49,7 +50,7 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast'] as const
+const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast', 'x-join', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-hub', 'x-admit'] as const
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
@@ -115,6 +116,13 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
 
   // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
   for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
+
+  // The x.ruv.io board: reads run at once (the ask is the consent), writes ask first, admin rows need the token.
+  for (const entry of XRUV) {
+    // An admin row without the token is a spec with its reason, so `/ruflo run x-admit …` says why instead of "type …".
+    if (entry.takes !== undefined && (entry.kind !== 'admin' || state.xruv.hasAdminToken === true)) add(entry.id, 'x.ruv.io', `${entry.id.slice(2)} <${entry.takes}>: ${entry.label}`, { kind: 'text', keyword: entry.id, make: text => entry.spec(state, text) })
+    else add(entry.id, 'x.ruv.io', entry.label, { kind: 'spec', spec: entry.spec(state, ''), why: entry.why(state, '') })
+  }
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 

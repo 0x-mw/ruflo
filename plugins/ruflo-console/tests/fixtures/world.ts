@@ -32,6 +32,8 @@ export type Answer = { exitCode: number; stdout: string; stderr: string } | { de
 export type World = {
   files: Map<string, string>
   runs: string[][]
+  /** Every path the mod asked fs.read for, refused or not. */
+  reads: string[]
   blits: string[]
   opened: string[]
   commands: string[]
@@ -70,13 +72,14 @@ export function cliAnswer(argv: readonly string[]): Answer {
  * Seats an in-memory world beneath the plugin: files under CWD and HOME, a process table, the store, the panes, and
  * records of what the mod asked for. `refuseAll` refuses every one of those affordances, as an administrator may.
  */
-export function worldOf(on: On, files: Readonly<Record<string, string>>, options: { refuseAll?: boolean; home?: Readonly<Record<string, string>> } = {}): World {
+export function worldOf(on: On, files: Readonly<Record<string, string>>, options: { refuseAll?: boolean; home?: Readonly<Record<string, string>>; env?: Readonly<Record<string, string>> } = {}): World {
   let tick = 1_000
   const all = new Map<string, string>([...Object.entries(files).map(([path, text]) => [`${CWD}/${path}`, text] as const), ...Object.entries(options.home ?? {}).map(([path, text]) => [`${HOME}/${path}`, text] as const)])
   const mtimes = new Map<string, number>([...all.keys()].map(path => [path, tick]))
   const world: World = {
     files: all,
     runs: [],
+    reads: [],
     blits: [],
     opened: [],
     commands: [],
@@ -93,7 +96,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
   const refuse = options.refuseAll === true
 
   on('session.start', ($, e) => ({ cwd: e.cwd }))
-  on('fs.read', ($, e) => (refuse || !all.has(e.path) ? { deny: `ENOENT: ${e.path}` } : { value: all.get(e.path) as string }))
+  on('fs.read', ($, e) => (world.reads.push(e.path), refuse || !all.has(e.path) ? { deny: `ENOENT: ${e.path}` } : { value: all.get(e.path) as string }))
   on('fs.stat', ($, e) => {
     const text = all.get(e.path)
 
@@ -114,7 +117,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
 
     return 'deny' in answer ? { deny: answer.deny } : { value: { ...answer, isStdoutTruncated: false, isStderrTruncated: false } }
   })
-  on('env.get', ($, e) => (refuse ? { deny: 'env withheld' } : { value: e.name === 'HOME' ? HOME : undefined }))
+  on('env.get', ($, e) => (refuse ? { deny: 'env withheld' } : { value: e.name === 'HOME' ? HOME : options.env?.[e.name] }))
   on('settings.read', () => (refuse ? { deny: 'settings withheld' } : { value: { enabledPlugins: { 'ruflo-core@ruflo': true } } as never }))
   on('session.usage', () => (refuse ? { deny: 'usage withheld' } : { value: { context: { tokens: 50_000, window: 200_000, percent: 25 }, rateLimits: [], cost: { usd: 0.4213 } } as never }))
   on('tool.list', () => (refuse ? { deny: 'tools withheld' } : { value: [{ name: 'mcp__plugin_ruflo-core_ruflo__swarm_init' }, { name: 'mcp__plugin_ruflo-core_ruflo__claims_board' }, { name: 'Read' }] as never }))

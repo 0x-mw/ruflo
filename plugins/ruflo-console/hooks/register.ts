@@ -88,6 +88,11 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     state.home = (await bound.home().catch(() => undefined)) ?? null
     state.configDir = (await bound.configDir().catch(() => undefined)) ?? (state.home === null ? null : `${state.home}/.claude`)
+    // The x.ruv.io board's admin rows: only whether the token is set is kept, never its value.
+    state.xruv.hasAdminToken = await (async () => $.env.get('RUFLO_X_ADMIN_TOKEN'))().then(
+      value => typeof value === 'string' && value !== '',
+      () => null,
+    )
     await Promise.all([
       bound
         .registerCommand({ name: 'ruflo', description: 'ruflo: the cockpit (views, palette, agents, approvals) and every ruflo mod command — /ruflo help', argumentHint: '[view|palette|agent <id>|mods|swarm <sub>|help]' })

@@ -23,6 +23,12 @@ export type ActionSpec = {
   note?: string
   /** How long the CLI may take; 90 s when unset. */
   timeoutMs?: number
+  /** The x.ruv.io board's result panel instead of the MetaHarness lab's, for a spec with a `lab` id. */
+  board?: 'xruv'
+  /** What the result panel shows of the output, when not the lab's reading of it. */
+  lines?: (stdout: string, stderr: string) => string[]
+  /** Called with what the CLI printed when the run succeeded: a board read fills its section from it. */
+  onOutput?: (stdout: string) => void
 }
 
 export const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const

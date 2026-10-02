@@ -48,8 +48,11 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
       return
     }
 
+    // The x.ruv.io board keeps its own result panel, so its runs never show in the MetaHarness lab.
+    const panel = spec.board === 'xruv' ? state.xruv : state.lab
+
     state.isActing = true
-    if (spec.lab !== undefined) state.lab.running = { id: spec.lab, label: spec.label, startedAtMs: Date.now() }
+    if (spec.lab !== undefined) panel.running = { id: spec.lab, label: spec.label, startedAtMs: Date.now() }
     host.invalidate()
 
     try {
@@ -60,9 +63,10 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
 
       // A lab run's output goes to the lab's result panel, scrolled from its top; the footer keeps the one-line outcome.
       if (spec.lab !== undefined) {
-        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
+        panel.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: (spec.lines ?? ((out, err) => labLines(spec.lab ?? '', out, err)))(result.stdout, result.stderr), atMs: Date.now() }
         state.select.item = 0
       }
+      if (ok) spec.onOutput?.(result.stdout)
 
       if (spec.isReadOnly === true) {
         say(spec.label, ok, ok ? 'the ruflo CLI answered:' : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`, spec.lab === undefined ? outputLines(result.stdout) : undefined)
@@ -84,11 +88,11 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     } catch (error) {
       const why = plain(error instanceof Error ? error.message : String(error), 160) || 'refused'
 
-      if (spec.lab !== undefined) state.lab.result = { id: spec.lab, label: spec.label, ok: false, exitCode: null, ...(spec.note !== undefined && { note: spec.note }), lines: [why], atMs: Date.now() }
+      if (spec.lab !== undefined) panel.result = { id: spec.lab, label: spec.label, ok: false, exitCode: null, ...(spec.note !== undefined && { note: spec.note }), lines: [why], atMs: Date.now() }
       say(spec.label, false, why)
     } finally {
       state.isActing = false
-      state.lab.running = null
+      panel.running = null
       host.invalidate()
     }
   }
