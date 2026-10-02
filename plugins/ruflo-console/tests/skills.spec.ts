@@ -146,19 +146,20 @@ describe('the skills actions', () => {
 
       return argv[3] === 'ls' ? { exitCode: 0, stdout: argv.includes('-g') ? '[]' : JSON.stringify(isAdded ? [{ name: 'tdd', path: '/work/.agents/skills/tdd', scope: 'project', agents: ['Claude Code'] }] : []), stderr: '' } : { exitCode: 0, stdout: 'Installed tdd\n', stderr: '' }
     })
-    const spec = addSpec(state, host, { id: 'mattpocock/skills@tdd' }, 'project')
+    // Listed lowercase, as the CLI installs it: the check still finds it.
+    const spec = addSpec(state, host, { id: 'mattpocock/skills@TDD' }, 'project')
 
     runner.ask(spec, '')
-    expect(state.pending?.shows).toBe('npx -y skills add mattpocock/skills@tdd -y')
+    expect(state.pending?.shows).toBe('npx -y skills add mattpocock/skills@TDD -y')
     expect(runs).toEqual([])
 
     await runner.confirm()
     for (let i = 0; i < 20 && state.skills.busy !== null; i++) await settle()
     await settle()
 
-    expect(runs[0]).toEqual(['npx', '-y', 'skills', 'add', 'mattpocock/skills@tdd', '-y'])
+    expect(runs[0]).toEqual(['npx', '-y', 'skills', 'add', 'mattpocock/skills@TDD', '-y'])
     expect(runs.slice(1).map(argv => argv[3])).toEqual(['ls', 'ls'])
-    expect(state.outcome).toMatchObject({ label: 'add skill mattpocock/skills@tdd to this project', ok: true, verified: 'yes' })
+    expect(state.outcome).toMatchObject({ label: 'add skill mattpocock/skills@TDD to this project', ok: true, verified: 'yes' })
     expect(state.skills.last?.label).toBe(state.outcome?.label)
   })
 

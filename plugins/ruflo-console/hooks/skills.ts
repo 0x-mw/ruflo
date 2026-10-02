@@ -150,7 +150,8 @@ function change(state: State, host: Host, label: string, argv: readonly string[]
   }
 }
 
-const isIn = (name: string, scope: Scope) => (installed: InstalledSkill[]) => installed.some(skill => skill.name === name && skill.scope === scope)
+/** The CLI lowercases a skill's folder name on install, so a listed name is matched without case. */
+const isIn = (name: string, scope: Scope) => (installed: InstalledSkill[]) => installed.some(skill => skill.name.toLowerCase() === name.toLowerCase() && skill.scope === scope)
 
 export function addSpec(state: State, host: Host, found: FoundSkill, scope: Scope): ActionSpec | null {
   const id = skillIdOf(found.id)
