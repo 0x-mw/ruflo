@@ -95,7 +95,7 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   add('store', 'memory', 'store <text>: save a note in memory namespace console', { kind: 'text', keyword: 'store', make: text => memoryStore(text, nowMs) })
   add('search', 'memory', 'search <query>: semantic memory search', { kind: 'text', keyword: 'search', make: memorySearch })
 
-  for (const view of VIEWS) add(`view-${view.id}`, 'views', `go to ${view.label} (${view.key})`, { kind: 'view', view: view.id })
+  for (const view of VIEWS) add(`view-${view.id}`, 'views', `go to ${view.label}${view.key === '' ? '' : ` (${view.key})`}`, { kind: 'view', view: view.id })
 
   add('refresh', 'console', 'refresh now', { kind: 'command', name: 'refresh' })
   add('help', 'console', 'help: keys and commands', { kind: 'command', name: 'help' })

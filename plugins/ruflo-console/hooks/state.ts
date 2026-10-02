@@ -3,13 +3,14 @@ import type { PluginOptions, Timer } from 'claude-code'
 import type { ProbeResult } from './data/cli'
 import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
+import { emptySkills, type SkillsState } from './data/skills'
 import type { Snapshot } from './data/snapshot'
 import type { RufloRoute, RufloSnapshot } from '../types'
 
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'agent'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -37,6 +38,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '🎯', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
   { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 34 },
   { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
+  // No hotkey: every digit and letter is taken. The tab, the menu prompt and /ruflo skills reach it by name.
+  { id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): what is installed here and globally, search, add, update, remove, create', rows: 34 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -47,7 +50,7 @@ export const rowsOf = (view: ViewId): number => (view === 'agent' ? AGENT_VIEW.r
 export const viewOf = (word: string): ViewId | null => {
   const lower = word.trim().toLowerCase()
 
-  return VIEWS.find(view => view.id === lower || view.key === lower || view.label.toLowerCase() === lower || (lower.length >= 3 && view.id.startsWith(lower)))?.id ?? null
+  return VIEWS.find(view => view.id === lower || (view.key !== '' && view.key === lower) || view.label.toLowerCase() === lower || (lower.length >= 3 && view.id.startsWith(lower)))?.id ?? null
 }
 
 /**
@@ -205,6 +208,8 @@ export type State = {
     /** The text the last Enter asked about: Enter on the same text again confirms it. */
     asked: { key: string; label: string } | null
   }
+  /** The skills view: installed skills, the last search, and the change running now. */
+  skills: SkillsState
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -247,6 +252,7 @@ export function newState(raw: PluginOptions | undefined): State {
     isRefreshing: false,
     barDrawnAtMs: 0,
     terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },
+    skills: emptySkills(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

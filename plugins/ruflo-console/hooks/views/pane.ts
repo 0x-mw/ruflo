@@ -21,6 +21,7 @@ import { missionsView } from './missions'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
 import { pluginsView } from './plugins'
+import { skillsView } from './skills'
 import { swarmView } from './swarm'
 import { terminalView } from './terminal'
 import { xruvView } from './xruv'
@@ -49,6 +50,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   missions: missionsView,
   xruv: xruvView,
   terminal: terminalView,
+  skills: skillsView,
   agent: agentView,
 }
 
@@ -72,11 +74,13 @@ function tabs(ctx: Ctx): RenderElement {
     // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
     // (from a drill-down, b goes back).
     // BBS: the current tab is framed like a menu pick, [2: 🐝 SWARM]; the name always shows there, in capitals.
-    const current = isBbs() ? `[${view.key}: ${view.icon}${withNames || view.label.length <= 6 ? ` ${view.label.toUpperCase()}` : ''}]` : `${view.key}: ${words}`
+    // A view with no hotkey (key '') has no key to show: [🧰 SKILLS], and its tab is pressed, not typed.
+    const prefix = view.key === '' ? '' : `${view.key}: `
+    const current = isBbs() ? `[${prefix}${view.icon}${withNames || view.label.length <= 6 ? ` ${view.label.toUpperCase()}` : ''}]` : `${prefix}${words}`
 
     if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: current })] })
 
-    return ctx.kit.Button({ key: `tab-${view.id}`, label: words, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
+    return ctx.kit.Button({ key: `tab-${view.id}`, label: words, ...(view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
   const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.map(tab) })
 
