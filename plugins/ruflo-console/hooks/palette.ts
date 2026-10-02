@@ -9,6 +9,7 @@ import { BUDGET_PRESETS, budgetWhy, inspectModels, setBudget } from './cost'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
 import { MEM_KEYWORDS, MEM_LAB, memSpecOf, memWhy } from './memory-lab'
+import { EVOLVE, evolveSpec, evolveWhy } from './evolve'
 import { LAB, labSpec, labWhy } from './mh-lab'
 import { PERF } from './perf'
 import { SECURE, SECURE_KEYWORDS, SECURE_TEXT, secSpec, secTextSpec } from './secure'
@@ -134,6 +135,8 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
 
   // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
   for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
+  // The Self-Evolution checks: reads at once, the gate check asks; promotion is never an entry (see evolve.ts).
+  for (const entry of EVOLVE) add(entry.id, 'evolve', entry.label, { kind: 'spec', spec: evolveSpec(entry, state), why: evolveWhy(entry) })
 
   // The x.ruv.io board: reads run at once (the ask is the consent), writes ask first, admin rows need the token.
   for (const entry of XRUV) {

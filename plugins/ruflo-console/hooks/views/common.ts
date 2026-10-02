@@ -6,6 +6,7 @@
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
+import type { EvolveActions } from '../evolve'
 import type { Grid } from '../gfx/raster'
 import type { MemoryActions } from '../memory-lab'
 import type { SkillActions } from '../skills'
@@ -55,6 +56,8 @@ export type Actions = {
   memory: MemoryActions
   /** The Vector Lab: its fields, its entries (asked or run through the runner), and rvlite queries handed to the terminal. */
   vector: VectorActions
+  /** The Self-Evolution view: read its files again; ▸ ask types a repo prompt into the AI terminal. */
+  evolve: EvolveActions
 }
 
 export type Ctx = {

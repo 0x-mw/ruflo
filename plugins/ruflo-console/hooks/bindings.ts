@@ -4,6 +4,7 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
+import { evolveActions } from './evolve'
 import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { startSpec } from './starts'
 import { plain } from './data/parse'
@@ -58,6 +59,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       void freshRead().then(() => probe(true))
       // The skills lists come from `npx skills`, not the disk read: r asks for them again on that view.
       if (state.view === 'skills') actions.skills.list()
+      if (state.view === 'evolve') actions.evolve.reread()
     },
     help: () => {
       state.isHelp = !state.isHelp
@@ -261,6 +263,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     memory: memoryActions(state, runner, host.invalidate),
     // An rvlite query is MCP-only: it goes to the AI terminal typed, as ▸ edit does, and runs only when sent.
     vector: vectorActions(state, runner, text => actions.term.load('claude', text)),
+    evolve: evolveActions(state, host, text => actions.term.load('claude', text)),
   }
 
   return actions

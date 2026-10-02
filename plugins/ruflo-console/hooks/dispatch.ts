@@ -8,6 +8,7 @@ import { CATALOG_PATH, commandsText, FALLBACK, parseCatalog, type Catalog } from
 import type { Controller } from './controller'
 import { median, p95 } from './controller'
 import { plain } from './data/parse'
+import { loadEvolve } from './evolve'
 import { labAnswer } from './mh-lab'
 import { skillsAnswer } from './skills-lab'
 import { VIEWS, type State } from './state'
@@ -61,6 +62,8 @@ async function dumpOf(control: Controller, state: State, view: State['view']): P
   try {
     await control.refresh()
     await Promise.race([control.probe(true), new Promise(resolve => setTimeout(resolve, DUMP_WAIT_MS))])
+    // Self-Evolution draws from its own file read, which opening the view starts: a dump waits for it too.
+    if (view === 'evolve') await loadEvolve(state, control.host)
 
     return viewText({ state, nowMs: Date.now(), columns: 100, act: control.actions }, view)
   } finally {

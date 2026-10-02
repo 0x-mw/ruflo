@@ -4,6 +4,7 @@ import { emptyAuto, type AutoState } from './data/automate'
 import type { ProbeResult } from './data/cli'
 import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
+import { emptyEvolve, type EvolveState } from './data/evolve'
 import { emptySkills, type SkillsState } from './data/skills'
 import { emptyMemoryLab, type MemoryLabState } from './memory-lab'
 import { emptyVector, type VectorState } from './data/vector'
@@ -13,7 +14,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -52,6 +53,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'neural', key: '', label: 'Learning Lab', short: 'Lab', icon: '🧪', blurb: 'train neural patterns and watch the loss, ask the router which agent fits a task, and why', rows: 36 },
   // No hotkey either: reached from the tab, the menu prompt (vector) or /ruflo vector.
   { id: 'vector', key: '', label: 'Vector Lab', short: 'Vec', icon: '🧲', blurb: 'ruvector: the shared brain, RVF stores, rvlite queries, decompile, workers, edge, hooks intel and your pi identity', rows: 44 },
+  // No hotkey either: the tab, the menu prompt, the palette and /ruflo evolve reach it by name.
+  { id: 'evolve', key: '', label: 'Self-Evolution', short: 'Evo', icon: '🧬', blurb: 'the governed loop: flywheel receipts, ledger, lineage, the policy gate, the witness; Autogenous and rGi', rows: 44 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -242,6 +245,8 @@ export type State = {
   auto: AutoState
   /** The Vector Lab's fields; its runs land in `lab` under vec- ids. */
   vector: VectorState
+  /** The Self-Evolution view: the flywheel files as last read, and what its checks answered. */
+  evolve: EvolveState
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -291,6 +296,7 @@ export function newState(raw: PluginOptions | undefined): State {
     memoryLab: emptyMemoryLab(),
     auto: emptyAuto(),
     vector: emptyVector(),
+    evolve: emptyEvolve(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

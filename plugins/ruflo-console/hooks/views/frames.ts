@@ -9,6 +9,7 @@ import { agentLabels } from '../data/parse'
 import type { Snapshot } from '../data/snapshot'
 import type { Channels, Peers, Roster } from '../data/cli'
 import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePicture, type Stage } from '../gfx/charts'
+import { loopPicture, loopStagesOf } from '../gfx/evolve'
 import { flowModelOf, flowPicture, flowRows } from '../gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture, type FedNode, type HealthRow, type Lane } from '../gfx/maps'
 import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
@@ -207,6 +208,9 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
       pictures.set('burn', samplesPicture('spend since load', state.history.spend, width))
       break
     }
+    case 'evolve':
+      pictures.set('evolve-loop', loopPicture(loopStagesOf(state.evolve), width, t))
+      break
     case 'timeline': {
       const lanes = lanesOf(state, nowMs)
 

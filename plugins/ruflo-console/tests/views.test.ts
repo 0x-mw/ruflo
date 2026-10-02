@@ -2,6 +2,7 @@ import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
 import { autoAnswer, FAKE_SECRET, WF_ID } from './fixtures/automate'
+import { EVOLVE_FILES, EVOLVE_OUT, R4 } from './fixtures/evolve'
 import { HIVE_FILES, RAFT_ID, WORKERS } from './fixtures/hive'
 import { MEM_OUT } from './fixtures/memory'
 import { MISSION_OBSERVATION } from './fixtures/missions'
