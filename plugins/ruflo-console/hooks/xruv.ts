@@ -169,8 +169,6 @@ export type XEntry = {
   kind: XKind
   /** What its text looks like, for entries that take one (the Input's placeholder, `/ruflo run <id> <text>`). */
   takes?: string
-  /** The probe slot a read fills, so the board's section shows what it fetched. */
-  fills?: string
   spec: (state: State, text: string) => ActionSpec | null
   why: (state: State, text: string) => string
 }
@@ -230,12 +228,12 @@ export const XRUV: readonly XEntry[] = [
     spec: state => spec(state, 'x-bbs-identity', { label: 'show the agentbbs node identity (federation_bbs_identity)', args: exec('federation_bbs_identity', {}), expect: 'the node id and public key', note: 'local, $0: creates .agentbbs/node-identity.json here on the first call; the private key is never returned' }),
     why: () => '',
   },
-  { id: 'x-registry', group: 'live', name: 'REGISTRY', about: 'relay, NIP-42 tag, gateway key, join steps, rooms', label: 'fetch the x.ruv.io registry', kind: 'read', fills: 'registry', spec: read('x-registry', 'fetch the x.ruv.io registry', registryProbe.args, 'registry'), why: () => '' },
-  { id: 'x-roster', group: 'live', name: 'ROSTER', about: 'who is announcing on the relay now', label: 'fetch who is on the x.ruv.io swarm (roster)', kind: 'read', fills: 'roster', spec: read('x-roster', 'fetch the x.ruv.io roster', rosterProbe.args, 'roster'), why: () => '' },
-  { id: 'x-claims', group: 'live', name: 'WORK CLAIMS', about: 'one owner per resource, TTLs and handoffs applied', label: 'fetch the x.ruv.io work-claims board', kind: 'read', fills: 'x-claims', spec: read('x-claims', 'fetch the x.ruv.io work-claims board', workClaimsProbe.args, 'x-claims'), why: () => '' },
-  { id: 'x-sync', group: 'live', name: 'SYNC', about: 'the last hour of signed swarm messages, 20 at most', label: 'fetch recent x.ruv.io swarm messages (sync, 20)', kind: 'read', fills: 'x-sync', spec: read('x-sync', 'fetch recent x.ruv.io swarm messages', swarmProbe.args, 'x-sync'), why: () => '' },
+  { id: 'x-registry', group: 'live', name: 'REGISTRY', about: 'relay, NIP-42 tag, gateway key, join steps, rooms', label: 'fetch the x.ruv.io registry', kind: 'read', spec: read('x-registry', 'fetch the x.ruv.io registry', registryProbe.args, 'registry'), why: () => '' },
+  { id: 'x-roster', group: 'live', name: 'ROSTER', about: 'who is announcing on the relay now', label: 'fetch who is on the x.ruv.io swarm (roster)', kind: 'read', spec: read('x-roster', 'fetch the x.ruv.io roster', rosterProbe.args, 'roster'), why: () => '' },
+  { id: 'x-claims', group: 'live', name: 'WORK CLAIMS', about: 'one owner per resource, TTLs and handoffs applied', label: 'fetch the x.ruv.io work-claims board', kind: 'read', spec: read('x-claims', 'fetch the x.ruv.io work-claims board', workClaimsProbe.args, 'x-claims'), why: () => '' },
+  { id: 'x-sync', group: 'live', name: 'SYNC', about: 'the last hour of signed swarm messages, 20 at most', label: 'fetch recent x.ruv.io swarm messages (sync, 20)', kind: 'read', spec: read('x-sync', 'fetch recent x.ruv.io swarm messages', swarmProbe.args, 'x-sync'), why: () => '' },
   {
-    id: 'x-channels', group: 'channels', name: 'LIST', about: 'the channels whose keys this machine holds (local)', label: 'list the x.ruv.io channels held here', kind: 'read', fills: 'channels',
+    id: 'x-channels', group: 'channels', name: 'LIST', about: 'the channels whose keys this machine holds (local)', label: 'list the x.ruv.io channels held here', kind: 'read',
     spec: state => spec(state, 'x-channels', { label: 'list the x.ruv.io channels held here', args: channelsProbe.args, expect: 'its output on the board', isReadOnly: true }, 'channels'),
     why: () => '',
   },

@@ -66,7 +66,8 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
         panel.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: (spec.lines ?? ((out, err) => labLines(spec.lab ?? '', out, err)))(result.stdout, result.stderr), atMs: Date.now() }
         state.select.item = 0
       }
-      if (ok) spec.onOutput?.(result.stdout)
+      // Keyed on the exit, not on `ok`: relay text in a read may carry an "error" key of its own.
+      if (result.exitCode === 0) spec.onOutput?.(result.stdout)
 
       if (spec.isReadOnly === true) {
         say(spec.label, ok, ok ? 'the ruflo CLI answered:' : plain(error ?? result.stderr, 160) || `exit ${result.exitCode}`, spec.lab === undefined ? outputLines(result.stdout) : undefined)
