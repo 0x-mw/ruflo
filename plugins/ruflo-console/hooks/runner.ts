@@ -56,11 +56,12 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
       const result = await host.run([...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000)
       const answer = /"success"\s*:\s*(true|false)/.exec(result.stdout)?.[1]
       const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1] ?? /\[ERROR\]\s*(.{0,160})/.exec(result.stdout)?.[1]
-      const ok = result.exitCode === 0 && answer !== 'false' && error === undefined
+      // `mcp exec` wraps a tool's failure as `"isError": true` with its message escaped inside: that is a failure too.
+      const ok = result.exitCode === 0 && answer !== 'false' && error === undefined && !/"isError"\s*:\s*true/.test(result.stdout)
 
       // A lab run's output goes to the lab's result panel, scrolled from its top; the footer keeps the one-line outcome.
       if (spec.lab !== undefined) {
-        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
+        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: (spec.lines ?? ((out: string, err: string) => labLines(spec.lab ?? '', out, err)))(result.stdout, result.stderr), atMs: Date.now() }
         state.select.item = 0
       }
 

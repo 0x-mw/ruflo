@@ -21,6 +21,8 @@ export type ActionSpec = {
   lab?: string
   /** What a run costs or writes, in words: the confirm row and the result panel show it. */
   note?: string
+  /** How a lab-panel run reads what the CLI printed; the MetaHarness reader when unset. */
+  lines?: (stdout: string, stderr: string) => string[]
   /** How long the CLI may take; 90 s when unset. */
   timeoutMs?: number
 }

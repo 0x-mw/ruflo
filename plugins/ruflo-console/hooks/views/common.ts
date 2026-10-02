@@ -6,6 +6,7 @@
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
+import type { DevtoolsActions } from '../devtools'
 import type { Grid } from '../gfx/raster'
 import type { SkillActions } from '../skills'
 import type { HarnessId, State, ViewId } from '../state'
@@ -44,6 +45,8 @@ export type Actions = {
   term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }
   /** The skills view: list, search, and the confirm-gated add, remove, update and create; edit loads the terminal. */
   skills: SkillActions
+  /** The Dev Tools view: keep a field's text, and Enter in a field runs its entry. */
+  devtools: DevtoolsActions
 }
 
 export type Ctx = {

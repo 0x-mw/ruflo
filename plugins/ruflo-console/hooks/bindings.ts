@@ -4,6 +4,7 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
+import { devtoolsActions } from './devtools'
 import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { plain } from './data/parse'
 import type { Host } from './host'
@@ -250,6 +251,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     },
     // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
     skills: skillActions(state, host, runner, text => actions.term.load('claude', text)),
+    devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }
 
   return actions
