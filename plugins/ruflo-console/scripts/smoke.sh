@@ -33,10 +33,10 @@ http=$(grep -rnE '\$\.http\.' "$HOOKS" || true)
 outside=$(grep -rnE '\$\.(fs|process|ui|clock|store|env|ruflo|tool|session|settings|command)\.' "$HOOKS" | grep -vE '^[^:]+:[0-9]+:\s*(\*|//|/\*)' | grep -v '/register.ts:' || true)
 [[ -z "$http" && -z "$outside" ]] && ok || bad "http: $http outside: $outside"
 
-step "6. never runs plugins list or verify (network); roster and registry are the two network probes, both opt-in"
+step "6. never runs plugins list or verify (network); roster, registry, claims and sync are the network probes, all behind the federationNetwork option"
 cmds=$(grep -nE "args: \['(plugins|verify)'" "$HOOKS/data/cli.ts" || true)
-net=$(grep -c "isNetwork: true" "$HOOKS/data/cli.ts")
-[[ -z "$cmds" && "$net" == "2" ]] && grep -q "federationNetwork" "$HOOKS/controller.ts" && ok || bad "cmds: $cmds network probes: $net"
+net=$(grep -rc "isNetwork: true" "$HOOKS/data" | awk -F: '{ n += $2 } END { print n }')
+[[ -z "$cmds" && "$net" == "4" ]] && grep -q "federationNetwork" "$HOOKS/controller.ts" && ok || bad "cmds: $cmds network probes: $net"
 
 step "7. private key files are never read paths"
 # The federation folder is listed for its file names (node ids); a key file's path never reaches fs.read.

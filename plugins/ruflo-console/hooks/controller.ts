@@ -6,6 +6,7 @@
 import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
 import { PROBES, type ProbeResult } from './data/cli'
+import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
 import { readSnapshot } from './data/snapshot'
@@ -21,6 +22,8 @@ import { picturesOf } from './views/frames'
 const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
 const MAX_PARALLEL_PROBES = 2
+/** The CLI probes and the x.ruv.io board's two network reads, one cadence and one option gate for all. */
+const ALL_PROBES = [...PROBES, ...X_PROBES]
 const BAR_FRESH_MS = 10_000
 const IDLE_REFRESH_MS = 30_000
 const TOOLS_RECOUNT_MS = 30_000
@@ -177,7 +180,7 @@ export function createController(state: State, host: Host): Controller {
   const probesInFlight = new Map<string, Promise<void>>()
 
   /** One probe run at a time per probe: a second ask while it runs joins it. */
-  function runProbe(probe: (typeof PROBES)[number]): Promise<void> {
+  function runProbe(probe: (typeof ALL_PROBES)[number]): Promise<void> {
     const held = probesInFlight.get(probe.id)
 
     if (held !== undefined) return held
@@ -189,7 +192,7 @@ export function createController(state: State, host: Host): Controller {
     return run
   }
 
-  async function runProbeOnce(probe: (typeof PROBES)[number]): Promise<void> {
+  async function runProbeOnce(probe: (typeof ALL_PROBES)[number]): Promise<void> {
     const held: ProbeResult = state.probes.get(probe.id) ?? { value: null, okAtMs: null, error: null, errorAtMs: null, isRunning: false }
 
     state.probes.set(probe.id, { ...held, isRunning: true })
@@ -220,7 +223,7 @@ export function createController(state: State, host: Host): Controller {
   /** Runs the probes the view in front draws, each no more often than its cadence; `force` ignores the cadence. */
   async function probe(force = false): Promise<void> {
     const now = Date.now()
-    const due = PROBES.filter(
+    const due = ALL_PROBES.filter(
       entry =>
         (isVisible() || force) &&
         entry.views.includes(state.view) &&

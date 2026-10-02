@@ -38,7 +38,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', icon: '✅', blurb: 'decisions waiting for a person: votes, stealable claims, refused mods, budget', rows: 24 },
   { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '📡', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },
   { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '🎯', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
-  { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 34 },
+  { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 50 },
   { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
   // No hotkey: every digit and letter is taken. The tab, the menu prompt and /ruflo skills reach it by name.
   { id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): what is installed here and globally, search, add, update, remove, create', rows: 34 },
@@ -193,6 +193,11 @@ export type State = {
   isActing: boolean
   /** The MetaHarness lab: its last result, and the run in flight (j/k scroll the result through `select.item`). */
   lab: { result: LabResult | null; running: { id: string; label: string; startedAtMs: number } | null }
+  /**
+   * The x.ruv.io board: its own result panel (j/k scroll it too), this node's Nostr pubkey once a result named it
+   * (the key file is never read), and whether RUFLO_X_ADMIN_TOKEN is set (only that boolean is kept; null: not asked).
+   */
+  xruv: { result: LabResult | null; running: { id: string; label: string; startedAtMs: number } | null; pubkey: string | null; hasAdminToken: boolean | null }
   isRefreshing: boolean
   /** When the band above the prompt last drew: the disk is re-read on the fast cadence only while it is seen. */
   barDrawnAtMs: number
@@ -257,6 +262,7 @@ export function newState(raw: PluginOptions | undefined): State {
     outcome: null,
     isActing: false,
     lab: { result: null, running: null },
+    xruv: { result: null, running: null, pubkey: null, hasAdminToken: null },
     isRefreshing: false,
     barDrawnAtMs: 0,
     terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },
