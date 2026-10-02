@@ -47,7 +47,7 @@ const byName = (findings: ReturnType<typeof resolveFindings>) => Object.fromEntr
 describe('ADR-404 plugin resolution: the marketplace clone', () => {
   it('missing, then found via known_marketplaces.json, else the default clone path', () => {
     expect(marketplaceState(CFG, fakeFs({}))).toEqual({ known: false, location: null });
-    expect(marketplaceState(CFG, fakeFs(known, [CLONE]))).toEqual({ known: true, location: CLONE });
+    expect(marketplaceState(CFG, fakeFs(known, [CLONE]))).toEqual({ known: true, location: CLONE, source: { source: 'github', repo: 'ruvnet/ruflo' } });
     expect(marketplaceState(CFG, fakeFs({}, [CLONE]))).toEqual({ known: false, location: CLONE });
   });
 

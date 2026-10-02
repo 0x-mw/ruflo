@@ -54,14 +54,23 @@ const [, , ...argv] = process.argv;
 fs.appendFileSync(${JSON.stringify(join(home, 'calls'))}, argv.join(' ') + '\n');
 const cfg = ${JSON.stringify(cfg)};
 if (${JSON.stringify(mode)} === 'fail') { process.stderr.write('network down\n'); process.exit(1); }
-if (argv[1] === 'marketplace') {
+if (argv[1] === 'marketplace' && argv[3] && argv[3].startsWith('/')) {
+  fs.mkdirSync(cfg, { recursive: true });
+  fs.writeFileSync(path.join(cfg, 'known_marketplaces.json'), JSON.stringify({ ruflo: { source: { source: 'directory', path: argv[3] }, installLocation: argv[3] } }));
+} else if (argv[1] === 'marketplace') {
   const clone = path.join(cfg, 'marketplaces', 'ruflo');
   fs.mkdirSync(path.join(clone, 'plugins'), { recursive: true });
   if (${JSON.stringify(mode)} === 'ok') for (const p of ['ruflo-mods', 'ruflo-swarm']) {
     fs.mkdirSync(path.join(clone, 'plugins', p, '.claude-plugin'), { recursive: true });
     fs.writeFileSync(path.join(clone, 'plugins', p, '.claude-plugin', 'plugin.json'), '{}');
   }
-  fs.writeFileSync(path.join(cfg, 'known_marketplaces.json'), JSON.stringify({ ruflo: { installLocation: clone } }));
+  fs.writeFileSync(path.join(cfg, 'known_marketplaces.json'), JSON.stringify({ ruflo: { source: { source: 'github', repo: 'ruvnet/ruflo' }, installLocation: clone } }));
+}
+if (argv[1] === 'uninstall') {
+  const file = path.join(cfg, 'installed_plugins.json');
+  const rec = JSON.parse(fs.readFileSync(file, 'utf8'));
+  delete rec.plugins[argv[2]];
+  fs.writeFileSync(file, JSON.stringify(rec));
 }
 if (argv[1] === 'install') {
   const file = path.join(cfg, 'installed_plugins.json');
@@ -133,6 +142,66 @@ describe('ADR-404 ruflo mods install (standalone)', () => {
     const r = await sub(modsCommand, 'install').action!(ctx({ strict: true }));
     expect(r).toMatchObject({ success: false, exitCode: 1, data: { resolvable: false } });
     expect(read(join(root, '.claude', 'settings.local.json')).enabledPlugins[MOD_PLUGIN_ID]).toBe(true);
+  });
+});
+
+describe('ADR-404 mods uninstall: claude plugin uninstall exactly what ruflo installed', () => {
+  it('uninstalls the plugins ruflo installed, never one installed before, then removes the settings keys', async () => {
+    fakeClaude('ok');
+    // ruflo-swarm was installed for this project before ruflo touched it.
+    const cfg = join(home, 'cfg', 'plugins');
+    mkdirSync(join(cfg, 'cache', 'pre'), { recursive: true });
+    writeFileSync(join(cfg, 'installed_plugins.json'), JSON.stringify({ version: 2, plugins: { 'ruflo-swarm@ruflo': [{ scope: 'local', installPath: join(cfg, 'cache', 'pre'), projectPath: root }] } }));
+    await sub(modsCommand, 'install').action!(ctx());
+    expect(read(join(root, '.claude-flow', 'mods', 'install.json')).files[join(root, '.claude', 'settings.local.json')].claudeInstalled).toEqual(['ruflo-mods@ruflo']);
+    const r = await sub(modsCommand, 'uninstall').action!(ctx());
+    expect(r.success).toBe(true);
+    expect(calls().filter((c) => c.includes(' uninstall '))).toEqual(['plugin uninstall ruflo-mods@ruflo --scope local']);
+    expect(Object.keys(read(join(cfg, 'installed_plugins.json')).plugins)).toEqual(['ruflo-swarm@ruflo']);
+    expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
+  });
+});
+
+describe('ADR-404 mods install --source local (dogfooding)', () => {
+  const checkout = () => {
+    const dir = join(home, 'ruflo-checkout');
+    for (const p of ['ruflo-mods', 'ruflo-swarm']) {
+      mkdirSync(join(dir, 'plugins', p, '.claude-plugin'), { recursive: true });
+      writeFileSync(join(dir, 'plugins', p, '.claude-plugin', 'plugin.json'), '{}');
+    }
+    mkdirSync(join(dir, '.claude-plugin'), { recursive: true });
+    writeFileSync(join(dir, '.claude-plugin', 'marketplace.json'), JSON.stringify({ name: 'ruflo', plugins: [] }));
+    return dir;
+  };
+
+  it('declares a directory marketplace, adds it, installs nothing (plugins load live), and doctor reports the source', async () => {
+    fakeClaude('ok');
+    const dir = checkout();
+    const r = await sub(modsCommand, 'install').action!(ctx({ source: 'local', marketplacePath: dir }));
+    expect(r).toMatchObject({ success: true, data: { resolvable: true } });
+    expect(read(join(root, '.claude', 'settings.local.json')).extraKnownMarketplaces.ruflo).toEqual({ source: { source: 'directory', path: dir } });
+    expect(calls()).toEqual([`plugin marketplace add ${dir} --scope local`]);
+    const all = await findings();
+    expect(all.find((f) => f.name === 'ruflo marketplace')).toMatchObject({ status: 'pass', message: expect.stringContaining(`directory ${dir}`) });
+    expect(status(all, 'plugin ruflo-mods@ruflo')).toBe('pass');
+  });
+
+  it('refuses a directory that is not the ruflo marketplace', async () => {
+    const r = await sub(modsCommand, 'install').action!(ctx({ source: 'local', marketplacePath: home }));
+    expect(r).toMatchObject({ success: false, exitCode: 1 });
+    expect(existsSync(join(root, '.claude', 'settings.local.json'))).toBe(false);
+  });
+
+  it('warns when this project declares one source but Claude Code knows ruflo by another', async () => {
+    fakeClaude('ok');
+    await sub(modsCommand, 'install').action!(ctx()); // github, known
+    const dir = checkout();
+    const local = join(root, '.claude', 'settings.local.json');
+    const s = read(local);
+    s.extraKnownMarketplaces.ruflo = { source: { source: 'directory', path: dir } };
+    writeFileSync(local, JSON.stringify(s));
+    const all = await findings();
+    expect(all.find((f) => f.name === 'ruflo marketplace')).toMatchObject({ status: 'warn', message: expect.stringContaining('one ruflo marketplace per config dir') });
   });
 });
 

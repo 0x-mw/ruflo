@@ -19,6 +19,13 @@ import { dirname, join, resolve, sep } from 'node:path';
 export const MOD_PLUGIN_ID = 'ruflo-mods@ruflo';
 export const MARKETPLACE_NAME = 'ruflo';
 export const MARKETPLACE_SOURCE = { source: { source: 'github', repo: 'ruvnet/ruflo' } } as const;
+
+/** An `extraKnownMarketplaces` entry: github ruvnet/ruflo, or a local ruflo checkout (dogfooding). */
+export type MarketplaceEntry = { source: { source: 'github'; repo: string } | { source: 'directory'; path: string } };
+
+export function directoryMarketplace(path: string): MarketplaceEntry {
+  return { source: { source: 'directory', path: resolve(path) } };
+}
 export const ENABLE_ENV = 'CLAUDE_CODE_ENABLE_FUNCTION_HOOKS';
 export const INSTALL_RECORD = join('.claude-flow', 'mods', 'install.json');
 
@@ -46,6 +53,12 @@ export interface Added {
   plugins: string[];
   marketplace: boolean;
   env: boolean;
+  /**
+   * Plugins ruflo itself installed with `claude plugin install` (absent
+   * before, enabled by ruflo); uninstall runs `claude plugin uninstall` for
+   * exactly these.
+   */
+  claudeInstalled?: string[];
 }
 
 export interface InstallRecord {
@@ -87,7 +100,7 @@ function writeJson(path: string, value: unknown): void {
 const nothingAdded = (a: Added) => a.plugins.length === 0 && !a.marketplace && !a.env;
 
 /** The settings after install, and what install added (pure). Existing values are kept. */
-export function withModEnabled(settings: Settings, plugins: readonly string[] = MOD_PLUGIN_IDS): { next: Settings; added: Added } {
+export function withModEnabled(settings: Settings, plugins: readonly string[] = MOD_PLUGIN_IDS, marketplace: MarketplaceEntry = MARKETPLACE_SOURCE): { next: Settings; added: Added } {
   const next: Settings = { ...settings };
   const enabled = isRecord(settings.enabledPlugins) ? { ...settings.enabledPlugins } : {};
   const markets = isRecord(settings.extraKnownMarketplaces) ? { ...settings.extraKnownMarketplaces } : {};
@@ -99,7 +112,7 @@ export function withModEnabled(settings: Settings, plugins: readonly string[] = 
     env: !(ENABLE_ENV in env),
   };
   for (const id of added.plugins) enabled[id] = true;
-  if (added.marketplace) markets[MARKETPLACE_NAME] = MARKETPLACE_SOURCE;
+  if (added.marketplace) markets[MARKETPLACE_NAME] = marketplace;
   if (added.env) env[ENABLE_ENV] = '1';
   next.enabledPlugins = enabled;
   next.extraKnownMarketplaces = markets;
@@ -133,10 +146,16 @@ export interface InstallResult {
   next: Settings;
 }
 
-export function installMod(projectRoot: string, scope: Scope, dryRun = false, plugins: readonly string[] = MOD_PLUGIN_IDS): InstallResult {
+export function installMod(
+  projectRoot: string,
+  scope: Scope,
+  dryRun = false,
+  plugins: readonly string[] = MOD_PLUGIN_IDS,
+  marketplace: MarketplaceEntry = MARKETPLACE_SOURCE,
+): InstallResult {
   const settingsFile = settingsFileFor(projectRoot, scope);
   const current = readSettingsFile(settingsFile);
-  const { next, added } = withModEnabled(current, plugins);
+  const { next, added } = withModEnabled(current, plugins, marketplace);
   if (dryRun || nothingAdded(added)) return { settingsFile, added, dryRun, next };
 
   let backup: string | undefined;
@@ -152,6 +171,7 @@ export function installMod(projectRoot: string, scope: Scope, dryRun = false, pl
     plugins: [...new Set([...before.plugins, ...added.plugins])],
     marketplace: before.marketplace || added.marketplace,
     env: before.env || added.env,
+    claudeInstalled: before.claudeInstalled ?? [],
   };
   record.installedAt = new Date().toISOString();
   writeJson(join(resolve(projectRoot), INSTALL_RECORD), record);
@@ -168,7 +188,8 @@ export function readRecord(projectRoot: string): InstallRecord | null {
       const files: Record<string, Added> = {};
       for (const [file, a] of Object.entries(parsed.files)) {
         if (!isRecord(a)) continue;
-        files[file] = { plugins: Array.isArray(a.plugins) ? a.plugins.filter((p): p is string => typeof p === 'string') : [], marketplace: a.marketplace === true, env: a.env === true };
+        const strings = (v: unknown) => (Array.isArray(v) ? v.filter((p): p is string => typeof p === 'string') : []);
+        files[file] = { plugins: strings(a.plugins), marketplace: a.marketplace === true, env: a.env === true, claudeInstalled: strings(a.claudeInstalled) };
       }
       return { version: 2, installedAt: String(parsed.installedAt ?? ''), files };
     }
@@ -180,6 +201,20 @@ export function readRecord(projectRoot: string): InstallRecord | null {
   } catch {
     return null;
   }
+}
+
+/** Note plugins ruflo installed with `claude plugin install` for one settings file. */
+export function recordClaudeInstalled(projectRoot: string, settingsFile: string, ids: readonly string[]): void {
+  const record = readRecord(projectRoot);
+  const entry = record?.files[settingsFile];
+  if (!record || !entry || ids.length === 0) return;
+  entry.claudeInstalled = [...new Set([...(entry.claudeInstalled ?? []), ...ids])];
+  writeJson(join(resolve(projectRoot), INSTALL_RECORD), record);
+}
+
+/** The scope a recorded settings file was written at. */
+export function scopeOfSettingsFile(file: string): Scope {
+  return file.endsWith('settings.local.json') ? 'local' : 'project';
 }
 
 export function uninstallMod(projectRoot: string, dryRun = false): { settingsFiles: string[]; removed: boolean; dryRun: boolean } {

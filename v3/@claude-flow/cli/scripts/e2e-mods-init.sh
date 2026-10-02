@@ -4,12 +4,15 @@
 # CLAUDE_CONFIG_DIR per scenario (never the real ~/.claude). Needs network
 # (it clones github.com/ruvnet/ruflo) and is not part of `npm test`.
 #
-#   bash scripts/e2e-mods-init.sh            # scenarios 1-4 and 6
-#   E2E_LIVE=1 bash scripts/e2e-mods-init.sh # also 5: a live interactive session in tmux
+#   bash scripts/e2e-mods-init.sh                    # every scenario but the live load
+#   RUFLO_E2E_LIVE=1 CLAUDE_CODE_OAUTH_TOKEN=… bash scripts/e2e-mods-init.sh
+#                                                    # also 5: a live `claude -p "/ruflo-mods"`
 #
-# The live scenario copies ONLY ~/.claude/.credentials.json into the isolated
-# config dir for the session and shreds it on exit. Prints one PASS/FAIL line
-# per assertion and exits 1 if any failed.
+# The live load needs a logged-in Claude: CLAUDE_CODE_OAUTH_TOKEN (from
+# `claude setup-token`) or ANTHROPIC_API_KEY in the environment. Nothing is
+# copied from ~/.claude and no credential is ever printed. Without the opt-in
+# the step is reported as SKIP. Prints one PASS/FAIL line per assertion and
+# exits 1 if any failed.
 set -uo pipefail
 
 CLI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -19,13 +22,10 @@ CLAUDE_BIN="${CLAUDE_BIN:-$(command -v claude || true)}"
 [[ -x "$CLAUDE_BIN" ]] || { echo "no claude binary (set CLAUDE_BIN)"; exit 2; }
 NODE_BIN="$(command -v node)"
 STALE_TAG="${STALE_TAG:-v3.38.21}"
-REAL_CREDS="${REAL_CREDS:-$HOME/.claude/.credentials.json}"
+REPO_ROOT="$(cd "$CLI_DIR/../../.." && pwd)"
 
 WORK="$(mktemp -d "${TMPDIR:-/tmp}/ruflo-e2e-mods.XXXXXX")"
-CREDS=()
 cleanup() {
-  for c in "${CREDS[@]}"; do [[ -f "$c" ]] && { shred -u "$c" 2>/dev/null || rm -f "$c"; }; done
-  tmux -L ruflo-e2e-mods kill-server 2>/dev/null || true
   # The initialized projects' classic hooks start npx children (statusline,
   # funnel refresh); stop any still running in the scratch tree before removing it.
   for p in /proc/[0-9]*; do [[ "$(readlink "$p/cwd" 2>/dev/null)" == "$WORK"* ]] && kill "${p#/proc/}" 2>/dev/null; done
@@ -161,42 +161,45 @@ check "settings still enable the plugins" "js \"s.enabledPlugins?.['ruflo-mods@r
 check "init prints the manual commands" "grep -q 'No runnable claude binary on PATH' '$W/init.log' && grep -q 'claude plugin install ruflo-mods@ruflo --scope project' '$W/init.log'"
 
 # ---------------------------------------------------------------------------
-section "5. live load in an interactive session (E2E_LIVE=1)"
-if [[ -z "${E2E_LIVE:-}" ]]; then
-  echo "SKIP  live session not requested (set E2E_LIVE=1; needs ~/.claude/.credentials.json and tmux)"
-fi
-if [[ -n "${E2E_LIVE:-}" ]]; then
-  W="$FRESH_W"
-  export HOME="$W/home" CLAUDE_CONFIG_DIR="$W/cfg" PATH="$WORK/bin-with:$BASE_PATH"
-  install -m 600 "$REAL_CREDS" "$W/cfg/.credentials.json" && CREDS+=("$W/cfg/.credentials.json")
-  "$NODE_BIN" -e "const f='$W/cfg/.claude.json',fs=require('fs');let j={};try{j=JSON.parse(fs.readFileSync(f))}catch{};Object.assign(j,{hasCompletedOnboarding:true,theme:'dark'});fs.writeFileSync(f,JSON.stringify(j))"
-  rm -f "$W/proj/.claude-flow/mods/session.json"
-  tmux -L ruflo-e2e-mods new-session -d -s ruflo-e2e-mods -x 200 -y 50 -c "$W/proj" "HOME='$W/home' CLAUDE_CONFIG_DIR='$W/cfg' PATH='$PATH' claude; echo CLAUDE-EXITED \$?; sleep 600"
-  pane() { tmux -L ruflo-e2e-mods capture-pane -p -t ruflo-e2e-mods; }
-  # Answer the first-start dialogs (folder trust, the project's MCP server,
-  # browser tools); the session starts, and the mod writes its heartbeat, after them.
-  for _ in $(seq 1 240); do
-    sleep 2
-    p="$(pane)"
-    if grep -q 'Yes, I trust this folder' <<<"$p"; then tmux -L ruflo-e2e-mods send-keys -t ruflo-e2e-mods Down; sleep 0.5; tmux -L ruflo-e2e-mods send-keys -t ruflo-e2e-mods Enter
-    elif grep -q 'Select any you wish to enable' <<<"$p"; then tmux -L ruflo-e2e-mods send-keys -t ruflo-e2e-mods Escape
-    elif grep -q 'New MCP server found' <<<"$p"; then tmux -L ruflo-e2e-mods send-keys -t ruflo-e2e-mods Enter   # default: continue without it
-    elif grep -q 'Claude in Chrome' <<<"$p"; then tmux -L ruflo-e2e-mods send-keys -t ruflo-e2e-mods Escape
-    elif grep -q 'Select login method' <<<"$p"; then echo "login prompt: credentials not accepted"; break
-    elif grep -q 'CLAUDE-EXITED' <<<"$p"; then echo "claude exited:"; grep -v '^\s*$' <<<"$p" | tail -8; break
-    elif [[ -f "$W/proj/.claude-flow/mods/session.json" ]] && grep -q '❯' <<<"$p"; then break
-    fi
+section "7. ruflo mods install --source local: this checkout as a directory marketplace (dogfooding)"
+world local
+ruflo mods install --source local --marketplace-path "$REPO_ROOT" > "$W/local.log" 2>&1; rc=$?
+check "install --source local exits 0" "[[ $rc -eq 0 ]]"
+check "settings.local.json declares a directory marketplace at the checkout" "$NODE_BIN -e \"const s=require('$W/proj/.claude/settings.local.json');process.exit(s.extraKnownMarketplaces.ruflo.source.source==='directory'&&s.extraKnownMarketplaces.ruflo.source.path==='$REPO_ROOT'?0:1)\""
+check "ran marketplace add <checkout>, and no plugin install" "grep -q '✓ claude plugin marketplace add $REPO_ROOT --scope local' '$W/local.log' && ! grep -q 'claude plugin install' '$W/local.log'"
+check "nothing was cloned into the config dir" "[[ ! -e '$W/cfg/plugins/marketplaces/ruflo' ]]"
+ruflo mods doctor > "$W/doctor-local.log" 2>&1; rc=$?
+check "mods doctor exits 0 and reports the directory source" "[[ $rc -eq 0 ]] && grep -q 'ruflo marketplace: directory $REPO_ROOT' '$W/doctor-local.log'"
+LOCAL_W="$W"
+
+# ---------------------------------------------------------------------------
+section "5. live load: claude -p \"/ruflo-mods\" in the initialized project (RUFLO_E2E_LIVE=1)"
+if [[ -z "${RUFLO_E2E_LIVE:-}" ]]; then
+  echo "SKIP  live load: needs a logged-in Claude; set RUFLO_E2E_LIVE=1 with CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY"
+elif [[ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}${ANTHROPIC_API_KEY:-}" ]]; then
+  fail "live load: RUFLO_E2E_LIVE=1 but neither CLAUDE_CODE_OAUTH_TOKEN nor ANTHROPIC_API_KEY is set"
+else
+  for target in "$FRESH_W" "$LOCAL_W"; do
+    W="$target"; export HOME="$W/home" CLAUDE_CONFIG_DIR="$W/cfg" PATH="$WORK/bin-with:$BASE_PATH"
+    label="$(basename "$W")"
+    rm -f "$W/proj/.claude-flow/mods/session.json"
+    (cd "$W/proj" && timeout 180 claude -p "/ruflo-mods" < /dev/null > "$W/live.txt" 2>&1)
+    check "live ($label): /ruflo-mods answers in claude -p (owns: …)" "grep -q 'owns:' '$W/live.txt'"
+    check "live ($label): the mod wrote its heartbeat" "[[ -f '$W/proj/.claude-flow/mods/session.json' ]]"
+    sed -n '1,3p' "$W/live.txt" | sed 's/^/      /'
   done
-  check "live: the mod wrote its heartbeat (.claude-flow/mods/session.json)" "[[ -f '$W/proj/.claude-flow/mods/session.json' ]]"
-  tmux -L ruflo-e2e-mods send-keys -t ruflo-e2e-mods '/ruflo-mods' Enter
-  for _ in $(seq 1 15); do sleep 2; pane > "$W/live-pane.txt"; grep -q 'owns:' "$W/live-pane.txt" && break; done
-  check "live: /ruflo-mods answers (owns: …)" "grep -q 'owns:' '$W/live-pane.txt'"
-  check "live: no 'Unknown command: /ruflo-mods'" "! grep -q 'Unknown command: /ruflo-mods' '$W/live-pane.txt'"
-  sed -n '/ruflo-mods/,$p' "$W/live-pane.txt" | grep -v '^\s*$' | head -14
-  ruflo mods doctor > "$W/doctor-live.log" 2>&1
-  check "live: mods doctor reports the last mod start" "grep -q '✓ last mod start' '$W/doctor-live.log'"
-  tmux -L ruflo-e2e-mods kill-server
 fi
+
+# ---------------------------------------------------------------------------
+section "8. mods uninstall on the initialized project: claude plugin uninstall + settings keys"
+W="$FRESH_W"; export HOME="$W/home" CLAUDE_CONFIG_DIR="$W/cfg" PATH="$WORK/bin-with:$BASE_PATH"
+ruflo mods uninstall > "$W/uninstall.log" 2>&1; rc=$?
+check "uninstall exits 0" "[[ $rc -eq 0 ]]"
+check "ran claude plugin uninstall for ruflo-mods and ruflo-swarm at project scope" "grep -q '✓ claude plugin uninstall ruflo-mods@ruflo --scope project' '$W/uninstall.log' && grep -q '✓ claude plugin uninstall ruflo-swarm@ruflo --scope project' '$W/uninstall.log'"
+cc plugin list --json > "$W/plugin-list.json" 2>/dev/null
+check "claude plugin list no longer has ruflo-mods or ruflo-swarm" "js \"!has('ruflo-mods@ruflo') && !has('ruflo-swarm@ruflo')\""
+check "settings.json has none of the mod keys" "js \"!s.enabledPlugins?.['ruflo-mods@ruflo'] && !s.extraKnownMarketplaces?.ruflo && !s.env?.CLAUDE_CODE_ENABLE_FUNCTION_HOOKS\""
+check "classic hooks still there" "js \"JSON.stringify(s.hooks ?? {}).includes('hook-handler.cjs')\""
 
 echo
 echo "$fails failure(s)"

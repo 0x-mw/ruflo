@@ -256,7 +256,14 @@ Status: Proposed. This amends "A separate, opt-in plugin" above. The plugin stay
   - The step is skipped when `VITEST` or `CI` is set, so a test or CI init never clones from GitHub.
 - **Existing projects.** `ruflo init upgrade --mods` applies the same merge and install. `--add-missing` and `--settings` imply it, and `--no-mods` overrides them. Each key added is reported under "Settings Updated".
 - **Standalone.** `ruflo mods install` enables the same plugins in `.claude/settings.local.json` unless `--scope project` is given.
-- **Install record v2.** `.claude-flow/mods/install.json` now records what was added per settings file (`files: { <path>: { plugins, marketplace, env } }`). `ruflo mods uninstall` removes exactly that from each file. A v1 record from 3.50.0 is read as v2.
+- **Install record v2.** `.claude-flow/mods/install.json` now records, per settings file, what was added (`files: { <path>: { plugins, marketplace, env, claudeInstalled } }`). A v1 record from 3.50.0 is read as v2.
+  - `claudeInstalled` lists the plugins ruflo installed with `claude plugin install`: ones absent from Claude Code's install record before, and enabled by ruflo.
+  - `ruflo mods uninstall` runs `claude plugin uninstall <id> --scope <scope>` for exactly those, then removes exactly the recorded keys. A plugin someone installed before is never uninstalled.
+- **Dogfooding: `ruflo mods install --source local`.** Optionally with `--marketplace-path <dir>`, it declares `extraKnownMarketplaces.ruflo` as a `directory` source pointing at a ruflo checkout.
+  - The repair runs `claude plugin marketplace add <dir> --scope <scope>` and no `plugin install`: an install would pin a cached snapshot instead of the live tree.
+  - The directory must hold the `ruflo` `.claude-plugin/marketplace.json`.
+  - Doctor reports the source type, and warns when a project declares one source while Claude Code knows `ruflo` by another.
+  - Claude Code keeps one `ruflo` marketplace per config dir, so the switch applies machine-wide. Install says so and prints how to switch back.
 - **Adding a plugin.** `MOD_PLUGINS` is the one list to edit. `required: false` marks a plugin that is not yet released on main (ruflo-console today). If such a plugin is missing from the marketplace, it is reported as "pending" and never fails a check.
 
 ### Why default-on is safe, and where that argument stops
@@ -266,11 +273,17 @@ Status: Proposed. This amends "A separate, opt-in plugin" above. The plugin stay
 - **The mods admitted are risky by the trust gate's own rule.** A live session printed "ruflo-swarm (ruflo-swarm@ruflo) loaded; process.run (runs host commands); on tool.call (can rewrite or answer tool calls); on * (sees every event)". Under the default `modTrust: observe` it loads and is named in the transcript.
   - `refuse-risky` with `modTrustAllow` would gate it.
   - `pluginConfigs` options are read only from user, `--settings` or managed settings, so init cannot set that per project.
-  - **Open question:** whether default-on should ship with `refuse-risky`. That is left to the maintainers.
+  - **Decision (for now):** keep `observe`. Init writes no user or managed settings. Init output, the plugin README and this ADR name `refuse-risky` + `modTrustAllow` (in user or managed settings) as the opt-in hardening.
+  - **Open question:** whether default-on should eventually ship with `refuse-risky`.
+- **What a teammate sees.** With function hooks on, ruflo-swarm is also a mod that can run host commands (pane actions the user starts). Each teammate's first trusted interactive start clones `github.com/ruvnet/ruflo`. A headless `claude -p` on a fresh config loads nothing. Init prints all of this.
 - **Network and trust surface.** A project-level `extraKnownMarketplaces.ruflo` makes each teammate's Claude Code clone `github.com/ruvnet/ruflo` on its first trusted interactive start.
 
 ### Verified live (Claude Code 2.1.287, isolated `CLAUDE_CONFIG_DIR`)
 
 - **An interactive, trusted session loads plugins from the marketplace clone.** It clones the marketplace a project declares and loads an enabled plugin straight from that clone. No `installed_plugins.json` entry is needed. The mod's heartbeat was written and `/ruflo-mods` reported. A headless `claude -p` run on a fresh config clones and loads nothing.
 - **A stale clone is the failure.** A clone from before `plugins/ruflo-mods` existed (`6cfd88654`) gives "Unknown command: /ruflo-mods". No heartbeat is written, and Claude Code does not refresh the clone on start. This is the 3.50.0 field report, and the reason `ruflo mods doctor` and `ruflo doctor` now fail on it with the exact commands. A missing install record alone is not a failure. `claude plugin install` stays in the repair because its cached copy survives a later stale clone, and because `claude plugin list` shows it.
-- **Claude Code reformats the committed file.** `claude plugin marketplace add --scope project` and `claude plugin install --scope project` re-serialize `.claude/settings.json`: key order and formatting change, content does not.
+- **Claude Code reformats the committed file.** `claude plugin marketplace add --scope project` and `claude plugin install --scope project` re-serialize `.claude/settings.json`: key order and formatting change, content does not. ruflo reports it ("reformatted, content unchanged") and does not rewrite it back.
+- **`claude plugin install` flips a disabled plugin on.** A plugin set to `false` becomes `true`. So the repair installs only plugins that are `true` in the settings file.
+- **`claude plugin uninstall --scope project` edits settings too.** It removes the plugin's `enabledPlugins` entry itself.
+- **Headless runs load once the marketplace is known.** After `ruflo init` has added the marketplace to the config dir, `claude -p "/ruflo-mods"` loads the mod and prints its report. This is the e2e live check. It authenticates with `CLAUDE_CODE_OAUTH_TOKEN`; no credential file is copied.
+- **A directory marketplace works, live.** A `directory` source loaded `ruflo-mods` in `claude -p` with no install record. An edit to the directory showed on the next run with no update or install in between. It was verified with a marker string changed between two runs.

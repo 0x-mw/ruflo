@@ -16,8 +16,8 @@
 import { execFile } from 'node:child_process';
 
 import { findClaudeInstalls } from './claude-installs.js';
-import { MARKETPLACE_NAME, MOD_PLUGINS, type ModPlugin, type Scope } from './install.js';
-import { cloneHas, marketplaceState, nodeReadFs, type ReadFs } from './plugin-resolve.js';
+import { MARKETPLACE_NAME, MARKETPLACE_SOURCE, MOD_PLUGINS, type MarketplaceEntry, type ModPlugin, type Scope } from './install.js';
+import { cloneHas, marketplaceState, nodeReadFs, sameSource, type ReadFs } from './plugin-resolve.js';
 
 export const MARKETPLACE_TIMEOUT_MS = 150_000; // Claude Code's own clone timeout is 120s
 export const INSTALL_TIMEOUT_MS = 60_000;
@@ -63,13 +63,26 @@ export interface RepairOptions {
   configDir: string;
   claude: string;
   plugins?: readonly ModPlugin[];
+  /** The marketplace the settings declare (default github ruvnet/ruflo). */
+  marketplace?: MarketplaceEntry;
   exec?: Exec;
   env?: NodeJS.ProcessEnv;
   fs?: ReadFs;
 }
 
-export function marketplaceArgv(scope: Scope, known: boolean): string[] {
-  return known ? ['plugin', 'marketplace', 'update', MARKETPLACE_NAME] : ['plugin', 'marketplace', 'add', 'ruvnet/ruflo', '--scope', scope];
+/**
+ * `update` when Claude Code already knows ruflo by the wanted source; else
+ * `add` it at the scope, which also switches a ruflo marketplace known by
+ * another source (Claude Code keeps one per config dir).
+ */
+export function marketplaceArgv(scope: Scope, known: boolean, wanted: MarketplaceEntry = MARKETPLACE_SOURCE): string[] {
+  if (known) return ['plugin', 'marketplace', 'update', MARKETPLACE_NAME];
+  const from = wanted.source.source === 'directory' ? wanted.source.path : wanted.source.repo;
+  return ['plugin', 'marketplace', 'add', from, '--scope', scope];
+}
+
+export function uninstallArgv(id: string, scope: Scope): string[] {
+  return ['plugin', 'uninstall', id, '--scope', scope];
 }
 
 export function installArgv(id: string, scope: Scope): string[] {
@@ -99,10 +112,19 @@ export async function repairPluginInstall(opts: RepairOptions): Promise<{ ok: bo
     return result.code === 0;
   };
 
-  if (!(await run(marketplaceArgv(opts.scope, marketplaceState(opts.configDir, fs).known), MARKETPLACE_TIMEOUT_MS))) {
+  const wanted = opts.marketplace ?? MARKETPLACE_SOURCE;
+  const before = marketplaceState(opts.configDir, fs);
+  if (!(await run(marketplaceArgv(opts.scope, before.known && sameSource(before.source, wanted.source), wanted), MARKETPLACE_TIMEOUT_MS))) {
     return { ok: false, steps };
   }
   const market = marketplaceState(opts.configDir, fs);
+  // A directory marketplace loads each plugin live from the working tree;
+  // an install would pin a cached snapshot of it instead.
+  if (wanted.source.source === 'directory') {
+    const missing = plugins.filter((p) => p.required && !cloneHas(market, p.id, fs));
+    for (const p of missing) steps.push({ argv: installArgv(p.id, opts.scope), state: 'failed', output: `${p.id} is not in ${wanted.source.path}` });
+    return { ok: missing.length === 0, steps };
+  }
   let ok = true;
   for (const plugin of plugins) {
     const argv = installArgv(plugin.id, opts.scope);
@@ -114,4 +136,21 @@ export async function repairPluginInstall(opts: RepairOptions): Promise<{ ok: bo
     ok = (await run(argv, INSTALL_TIMEOUT_MS)) && ok;
   }
   return { ok, steps };
+}
+
+/** `claude plugin uninstall` for each id, every failure collected. */
+export async function uninstallPlugins(opts: { projectRoot: string; scope: Scope; ids: readonly string[]; claude: string; exec?: Exec; env?: NodeJS.ProcessEnv }): Promise<{ ok: boolean; steps: RepairStep[] }> {
+  const exec = opts.exec ?? nodeExec;
+  const steps: RepairStep[] = [];
+  for (const id of opts.ids) {
+    const argv = uninstallArgv(id, opts.scope);
+    let result: ExecResult;
+    try {
+      result = await exec(opts.claude, argv, { cwd: opts.projectRoot, timeout: INSTALL_TIMEOUT_MS, env: opts.env ?? process.env });
+    } catch (error) {
+      result = { code: 1, stdout: '', stderr: (error as Error).message };
+    }
+    steps.push({ argv, state: result.code === 0 ? 'ok' : 'failed', output: `${result.stdout}${result.stderr}`.trim() });
+  }
+  return { ok: steps.every((st) => st.state === 'ok'), steps };
 }

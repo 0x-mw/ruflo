@@ -19,7 +19,7 @@
 import { existsSync, readFileSync, realpathSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import { MARKETPLACE_NAME, MOD_PLUGINS, type ModPlugin, type Scope } from './install.js';
+import { MARKETPLACE_NAME, MARKETPLACE_SOURCE, MOD_PLUGINS, type MarketplaceEntry, type ModPlugin, type Scope } from './install.js';
 import type { Finding } from './probe.js';
 
 /** The two filesystem reads detection needs; injectable for tests. */
@@ -62,8 +62,23 @@ const nameOf = (id: string) => id.split('@')[0]!;
 export interface MarketplaceState {
   /** Listed in known_marketplaces.json (so `marketplace update ruflo` works). */
   known: boolean;
-  /** The local clone, when one exists on disk. */
+  /** The local clone (or, for a directory source, the directory), when it exists on disk. */
   location: string | null;
+  /** The source Claude Code knows the marketplace by, when known. */
+  source?: MarketplaceEntry['source'];
+}
+
+/** "github ruvnet/ruflo" or "directory /path" (a working tree: no clone, nothing to go stale). */
+export function describeSource(source: unknown): string {
+  if (!isRecord(source)) return 'unknown source';
+  if (source.source === 'directory') return `directory ${String(source.path)}`;
+  if (source.source === 'github') return `github ${String(source.repo)}`;
+  return String(source.source ?? 'unknown source');
+}
+
+export function sameSource(a: unknown, b: unknown): boolean {
+  if (!isRecord(a) || !isRecord(b) || a.source !== b.source) return false;
+  return a.source === 'directory' ? resolve(String(a.path)) === resolve(String(b.path)) : a.repo === b.repo;
 }
 
 export function marketplaceState(configDir: string, fs: ReadFs = nodeReadFs): MarketplaceState {
@@ -71,7 +86,8 @@ export function marketplaceState(configDir: string, fs: ReadFs = nodeReadFs): Ma
   const entry = isRecord(known) ? known[MARKETPLACE_NAME] : undefined;
   const declared = isRecord(entry) && typeof entry.installLocation === 'string' ? entry.installLocation : undefined;
   const candidates = [declared, join(configDir, 'plugins', 'marketplaces', MARKETPLACE_NAME)].filter((p): p is string => !!p);
-  return { known: isRecord(entry), location: candidates.find((p) => fs.exists(p)) ?? null };
+  const source = isRecord(entry) && isRecord(entry.source) ? (entry.source as MarketplaceEntry['source']) : undefined;
+  return { known: isRecord(entry), location: candidates.find((p) => fs.exists(p)) ?? null, source };
 }
 
 /** The plugin's manifest inside a clone: its marketplace.json `source`, else plugins/<name>. */
@@ -117,12 +133,26 @@ export function installedState(projectRoot: string, configDir: string, id: strin
   return { installed: false };
 }
 
-/** The exact commands that refresh the clone and install the plugins, for a person to run. */
-export function repairCommands(projectRoot: string, scope: Scope | 'user', known: boolean, plugins: readonly ModPlugin[] = MOD_PLUGINS): string[] {
+/**
+ * The exact commands that refresh the marketplace and install the plugins,
+ * for a person to run. `known` is true only when Claude Code already knows
+ * the marketplace by the wanted source (then an update suffices). A
+ * directory source loads live from the working tree: nothing to install.
+ */
+export function repairCommands(
+  projectRoot: string,
+  scope: Scope | 'user',
+  known: boolean,
+  plugins: readonly ModPlugin[] = MOD_PLUGINS,
+  wanted: MarketplaceEntry = MARKETPLACE_SOURCE,
+): string[] {
+  const dir = wanted.source.source === 'directory' ? wanted.source.path : null;
   return [
     `cd ${JSON.stringify(resolve(projectRoot))}`,
-    known ? `claude plugin marketplace update ${MARKETPLACE_NAME}` : `claude plugin marketplace add ruvnet/ruflo --scope ${scope}`,
-    ...plugins.filter((p) => p.required).map((p) => `claude plugin install ${p.id} --scope ${scope}`),
+    known
+      ? `claude plugin marketplace update ${MARKETPLACE_NAME}`
+      : `claude plugin marketplace add ${dir ? JSON.stringify(dir) : 'ruvnet/ruflo'} --scope ${scope}`,
+    ...(dir ? [] : plugins.filter((p) => p.required).map((p) => `claude plugin install ${p.id} --scope ${scope}`)),
   ];
 }
 
@@ -137,13 +167,24 @@ export function resolveFindings(
   configDir: string,
   fs: ReadFs = nodeReadFs,
   enabled: readonly string[] = MOD_PLUGINS.map((p) => p.id),
+  declared?: unknown,
 ): Finding[] {
   const market = marketplaceState(configDir, fs);
-  const fix = repairCommands(projectRoot, scope, market.known).join(' && ');
+  const wanted = (isRecord(declared) && isRecord(declared.source) ? declared : MARKETPLACE_SOURCE) as MarketplaceEntry;
+  const matches = market.known && sameSource(market.source, wanted.source);
+  const fix = repairCommands(projectRoot, scope, matches, MOD_PLUGINS.filter((p) => enabled.includes(p.id)), wanted).join(' && ');
   const findings: Finding[] = [];
+  const kind = market.source?.source === 'directory' ? 'directory (loads live from the working tree)' : `cloned at ${market.location}`;
 
-  findings.push(market.location
-    ? { name: 'ruflo marketplace', status: 'pass', message: `cloned at ${market.location}` }
+  findings.push(market.location && market.known && !sameSource(market.source, wanted.source)
+    ? {
+      name: 'ruflo marketplace',
+      status: 'warn',
+      message: `this project declares ${describeSource(wanted.source)}, but Claude Code knows ruflo as ${describeSource(market.source)} (one ruflo marketplace per config dir)`,
+      fix,
+    }
+    : market.location
+    ? { name: 'ruflo marketplace', status: 'pass', message: `${describeSource(market.source ?? wanted.source)}: ${kind}` }
     : {
       name: 'ruflo marketplace',
       status: 'warn',

@@ -10,9 +10,27 @@
 
 import type { Command, CommandContext, CommandResult } from '../types.js';
 import { output } from '../output.js';
-import { uninstallMod, type Scope } from '../mods/install.js';
+import { existsSync, readFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+
+import { directoryMarketplace, MARKETPLACE_NAME, type MarketplaceEntry, type Scope } from '../mods/install.js';
 import { probeMods, type Finding } from '../mods/probe.js';
-import { applyMods } from '../mods/apply.js';
+import { applyMods, removeMods } from '../mods/apply.js';
+
+/**
+ * `--source local` / `--marketplace-path <dir>`: a ruflo checkout as a
+ * directory marketplace (dogfooding). It must be a ruflo marketplace.
+ */
+function localMarketplace(dir: string): MarketplaceEntry | string {
+  const catalog = join(resolve(dir), '.claude-plugin', 'marketplace.json');
+  if (!existsSync(catalog)) return `${dir} has no .claude-plugin/marketplace.json`;
+  try {
+    if ((JSON.parse(readFileSync(catalog, 'utf8')) as { name?: unknown }).name !== MARKETPLACE_NAME) return `${catalog} is not the ${MARKETPLACE_NAME} marketplace`;
+  } catch {
+    return `${catalog} is not JSON`;
+  }
+  return directoryMarketplace(dir);
+}
 
 function projectRoot(ctx: CommandContext): string {
   return (ctx.flags.projectRoot as string | undefined) ?? (ctx.flags['project-root'] as string | undefined) ?? ctx.cwd ?? process.cwd();
@@ -37,6 +55,8 @@ const installSub: Command = {
     { name: 'dry-run', description: 'Show the settings that would be written and the claude commands that would run', type: 'boolean', default: false },
     { name: 'plugin-install', description: 'Refresh the ruflo marketplace and run `claude plugin install` (--no-plugin-install to only write settings)', type: 'boolean', default: true },
     { name: 'strict', description: 'Exit 1 when a required plugin could not be made loadable', type: 'boolean', default: false },
+    { name: 'source', description: 'github (ruvnet/ruflo, default) | local (a ruflo checkout as a directory marketplace: plugins load live from it)', type: 'string', default: 'github' },
+    { name: 'marketplace-path', description: 'With --source local: the ruflo checkout (default: the project root)', type: 'string' },
   ],
   action: async (ctx: CommandContext): Promise<CommandResult> => {
     const scope = (ctx.flags.scope as string | undefined) ?? 'local';
@@ -44,8 +64,24 @@ const installSub: Command = {
       output.printError(`--scope must be local or project, got ${scope}`);
       return { success: false, exitCode: 1 };
     }
+    const source = (ctx.flags.source as string | undefined) ?? 'github';
+    const path = (ctx.flags.marketplacePath ?? ctx.flags['marketplace-path']) as string | undefined;
+    if (source !== 'github' && source !== 'local') {
+      output.printError(`--source must be github or local, got ${source}`);
+      return { success: false, exitCode: 1 };
+    }
+    let marketplace: MarketplaceEntry | undefined;
+    if (source === 'local' || path) {
+      const local = localMarketplace(path ?? projectRoot(ctx));
+      if (typeof local === 'string') {
+        output.printError(`--source local: ${local}`);
+        return { success: false, exitCode: 1 };
+      }
+      marketplace = local;
+    }
     const result = await applyMods(projectRoot(ctx), {
       scope: scope as Scope,
+      marketplace,
       dryRun: ctx.flags.dryRun === true || ctx.flags['dry-run'] === true,
       pluginInstall: ctx.flags.pluginInstall !== false && ctx.flags['plugin-install'] !== false,
     });
@@ -58,16 +94,17 @@ const installSub: Command = {
 
 const uninstallSub: Command = {
   name: 'uninstall',
-  description: 'Remove what `ruflo mods install` added (classic hooks take every event back)',
+  description: 'Remove what `ruflo mods install` added, and claude plugin uninstall what it installed (classic hooks take every event back)',
   options: [rootOption, { name: 'dry-run', description: 'Show what would be removed', type: 'boolean', default: false }],
   action: async (ctx: CommandContext): Promise<CommandResult> => {
-    const result = uninstallMod(projectRoot(ctx), (ctx.flags.dryRun === true || ctx.flags['dry-run'] === true));
+    const result = await removeMods(projectRoot(ctx), { dryRun: ctx.flags.dryRun === true || ctx.flags['dry-run'] === true });
     if (!result.removed) {
       output.printWarning('No install record (.claude-flow/mods/install.json): nothing ruflo added to remove.');
       return { success: true, data: result };
     }
     output.printSuccess(`${result.dryRun ? 'Would remove' : 'Removed'} what ruflo mods added from ${result.settingsFiles.join(', ')}`);
-    return { success: true, data: result };
+    if (result.uninstalled.length) output.writeln(`claude plugin uninstall: ${result.uninstalled.join(', ')}`);
+    return { success: result.failed.length === 0, exitCode: result.failed.length ? 1 : 0, data: result };
   },
 };
 
@@ -126,6 +163,7 @@ export const modsCommand: Command = {
     { command: 'ruflo mods install', description: 'Enable the mod plugins for this checkout (settings.local.json) and install them with claude' },
     { command: 'ruflo mods install --scope project', description: 'Same, in the committed settings.json (what ruflo init does)' },
     { command: 'ruflo mods install --no-plugin-install', description: 'Only write settings; run no claude command' },
+    { command: 'ruflo mods install --source local', description: 'Dogfood: load the mods live from this ruflo checkout (directory marketplace)' },
     { command: 'ruflo mods doctor', description: 'Marketplace fresh? Plugins loadable? Function hooks on? Refused by policy?' },
     { command: 'ruflo mods uninstall', description: 'Remove only what install added' },
   ],

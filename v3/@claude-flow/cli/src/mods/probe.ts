@@ -89,7 +89,15 @@ export function probeMods(inputs: ProbeInputs): Finding[] {
         return false;
       }
     }));
-    findings.push(...resolveFindings(root, scope, configDir, inputs.fs, enabled));
+    // The marketplace the first settings file declaring one names (local wins, as in Claude Code).
+    const declared = files.map((f) => {
+      try {
+        return get(readSettingsFile(f), 'extraKnownMarketplaces', 'ruflo');
+      } catch {
+        return undefined;
+      }
+    }).find((d) => d !== undefined);
+    findings.push(...resolveFindings(root, scope, configDir, inputs.fs, enabled, declared));
   }
 
   // 2. Function hooks switched on for installed plugins (early access).
