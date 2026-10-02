@@ -88,7 +88,9 @@ if [[ "$LIVE" != 1 ]]; then
   exit $((FAILED > 0))
 fi
 
-make_config "$PROJ" "$OUT/empty"
+# Claude Code keys a worktree's trust by its main checkout: seed both.
+MAIN="$(cd "$PROJ" && git rev-parse --path-format=absolute --git-common-dir 2>/dev/null | sed 's#/\.git$##')"
+make_config "$PROJ" "$OUT/empty" ${MAIN:+"$MAIN"}
 
 # ---------------------------------------------------------------- 2. headless: /ruflo answers from the real state
 claude_p s2-status "$PROJ" "${PLUGINS[@]}" "/ruflo status"
