@@ -1,14 +1,16 @@
 /**
- * `ruflo mods install|uninstall` (ADR-404): enable the ruflo-mods plugin for
- * one project, opt-in, and take back exactly what was added.
+ * `ruflo mods install|uninstall` (ADR-404): enable the ruflo mods for one
+ * project, and take back exactly what was added.
  *
- * Writes three keys of a Claude Code settings file (`.claude/settings.local.json`
- * by default, so the early-access feature is one person's choice, not the
- * repository's): `enabledPlugins["ruflo-mods@ruflo"]`, the `ruflo` entry of
+ * Writes three kinds of key in a Claude Code settings file: one
+ * `enabledPlugins` entry per plugin in MOD_PLUGINS, the `ruflo` entry of
  * `extraKnownMarketplaces` when absent, and `env.CLAUDE_CODE_ENABLE_FUNCTION_HOOKS`.
- * What was added is recorded in `.claude-flow/mods/install.json`, so uninstall
- * removes those and nothing a person set themselves. Classic hooks are never
- * touched: they stay the fallback (the mod takes an event over at runtime only).
+ * `ruflo init` writes them to the committed `.claude/settings.json` (project
+ * scope); a standalone `ruflo mods install` defaults to
+ * `.claude/settings.local.json`. What was added is recorded per settings file
+ * in `.claude-flow/mods/install.json`, so uninstall removes those and nothing
+ * a person set themselves. Classic hooks are never touched: they stay the
+ * fallback (a mod takes an event over at runtime only).
  */
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
@@ -17,16 +19,53 @@ import { dirname, join, resolve, sep } from 'node:path';
 export const MOD_PLUGIN_ID = 'ruflo-mods@ruflo';
 export const MARKETPLACE_NAME = 'ruflo';
 export const MARKETPLACE_SOURCE = { source: { source: 'github', repo: 'ruvnet/ruflo' } } as const;
+
+/** An `extraKnownMarketplaces` entry: github ruvnet/ruflo, or a local ruflo checkout (dogfooding). */
+export type MarketplaceEntry = { source: { source: 'github'; repo: string } | { source: 'directory'; path: string } };
+
+export function directoryMarketplace(path: string): MarketplaceEntry {
+  return { source: { source: 'directory', path: resolve(path) } };
+}
 export const ENABLE_ENV = 'CLAUDE_CODE_ENABLE_FUNCTION_HOOKS';
 export const INSTALL_RECORD = join('.claude-flow', 'mods', 'install.json');
 
+export interface ModPlugin {
+  id: string;
+  /**
+   * Missing from a ruflo marketplace clone means the clone is stale (a
+   * failure). A plugin not yet released on main is `required: false`: missing
+   * is "pending", never a failure. Flip it once the plugin lands.
+   */
+  required: boolean;
+}
+
+/** Every plugin `ruflo mods install` and `ruflo init` enable. The one list to edit. */
+export const MOD_PLUGINS: readonly ModPlugin[] = [
+  { id: MOD_PLUGIN_ID, required: true },
+  { id: 'ruflo-swarm@ruflo', required: true },
+  { id: 'ruflo-console@ruflo', required: false }, // pending: feat/ruflo-console-mod
+];
+export const MOD_PLUGIN_IDS: readonly string[] = MOD_PLUGINS.map((p) => p.id);
+
 export type Scope = 'local' | 'project';
 
+export interface Added {
+  plugins: string[];
+  marketplace: boolean;
+  env: boolean;
+  /**
+   * Plugins ruflo itself installed with `claude plugin install` (absent
+   * before, enabled by ruflo); uninstall runs `claude plugin uninstall` for
+   * exactly these.
+   */
+  claudeInstalled?: string[];
+}
+
 export interface InstallRecord {
-  version: 1;
-  settingsFile: string;
+  version: 2;
   installedAt: string;
-  added: { plugin: boolean; marketplace: boolean; env: boolean };
+  /** What install added, per settings file it wrote. */
+  files: Record<string, Added>;
 }
 
 type Settings = Record<string, unknown> & {
@@ -58,28 +97,31 @@ function writeJson(path: string, value: unknown): void {
   renameSync(tmp, path);
 }
 
-/** The settings after install, and what install added (pure). */
-export function withModEnabled(settings: Settings): { next: Settings; added: InstallRecord['added'] } {
+const nothingAdded = (a: Added) => a.plugins.length === 0 && !a.marketplace && !a.env;
+
+/** The settings after install, and what install added (pure). Existing values are kept. */
+export function withModEnabled(settings: Settings, plugins: readonly string[] = MOD_PLUGIN_IDS, marketplace: MarketplaceEntry = MARKETPLACE_SOURCE): { next: Settings; added: Added } {
   const next: Settings = { ...settings };
-  const plugins = isRecord(settings.enabledPlugins) ? { ...settings.enabledPlugins } : {};
+  const enabled = isRecord(settings.enabledPlugins) ? { ...settings.enabledPlugins } : {};
   const markets = isRecord(settings.extraKnownMarketplaces) ? { ...settings.extraKnownMarketplaces } : {};
   const env = isRecord(settings.env) ? { ...settings.env } : {};
-  const added = {
-    plugin: plugins[MOD_PLUGIN_ID] !== true,
+  // A plugin a person set to false is their decision: never flipped.
+  const added: Added = {
+    plugins: plugins.filter((id) => !(id in enabled)),
     marketplace: !(MARKETPLACE_NAME in markets),
-    env: env[ENABLE_ENV] !== '1',
+    env: !(ENABLE_ENV in env),
   };
-  plugins[MOD_PLUGIN_ID] = true;
-  if (added.marketplace) markets[MARKETPLACE_NAME] = MARKETPLACE_SOURCE;
-  env[ENABLE_ENV] = '1';
-  next.enabledPlugins = plugins;
+  for (const id of added.plugins) enabled[id] = true;
+  if (added.marketplace) markets[MARKETPLACE_NAME] = marketplace;
+  if (added.env) env[ENABLE_ENV] = '1';
+  next.enabledPlugins = enabled;
   next.extraKnownMarketplaces = markets;
   next.env = env;
   return { next, added };
 }
 
 /** The settings after uninstall: only what the record says install added (pure). */
-export function withModRemoved(settings: Settings, added: InstallRecord['added']): Settings {
+export function withModRemoved(settings: Settings, added: Added): Settings {
   const next: Settings = { ...settings };
   const drop = (key: 'enabledPlugins' | 'extraKnownMarketplaces' | 'env', name: string) => {
     const section = next[key];
@@ -89,7 +131,7 @@ export function withModRemoved(settings: Settings, added: InstallRecord['added']
     if (Object.keys(copy).length === 0) delete next[key];
     else next[key] = copy;
   };
-  if (added.plugin) drop('enabledPlugins', MOD_PLUGIN_ID);
+  for (const id of added.plugins) drop('enabledPlugins', id);
   if (added.marketplace) drop('extraKnownMarketplaces', MARKETPLACE_NAME);
   if (added.env) drop('env', ENABLE_ENV);
   return next;
@@ -98,16 +140,23 @@ export function withModRemoved(settings: Settings, added: InstallRecord['added']
 export interface InstallResult {
   settingsFile: string;
   backup?: string;
-  added: InstallRecord['added'];
+  /** What this run added (empty on a re-run). */
+  added: Added;
   dryRun: boolean;
   next: Settings;
 }
 
-export function installMod(projectRoot: string, scope: Scope, dryRun = false): InstallResult {
+export function installMod(
+  projectRoot: string,
+  scope: Scope,
+  dryRun = false,
+  plugins: readonly string[] = MOD_PLUGIN_IDS,
+  marketplace: MarketplaceEntry = MARKETPLACE_SOURCE,
+): InstallResult {
   const settingsFile = settingsFileFor(projectRoot, scope);
   const current = readSettingsFile(settingsFile);
-  const { next, added } = withModEnabled(current);
-  if (dryRun) return { settingsFile, added, dryRun, next };
+  const { next, added } = withModEnabled(current, plugins, marketplace);
+  if (dryRun || nothingAdded(added)) return { settingsFile, added, dryRun, next };
 
   let backup: string | undefined;
   if (existsSync(settingsFile)) {
@@ -115,41 +164,74 @@ export function installMod(projectRoot: string, scope: Scope, dryRun = false): I
     copyFileSync(settingsFile, backup);
   }
   writeJson(settingsFile, next);
-  const recordPath = join(resolve(projectRoot), INSTALL_RECORD);
-  const previous = readRecord(projectRoot);
-  // A second install keeps the first record's claims: what ruflo added once
-  // is still ruflo's to remove.
-  const merged = previous && previous.settingsFile === settingsFile
-    ? { plugin: previous.added.plugin || added.plugin, marketplace: previous.added.marketplace || added.marketplace, env: previous.added.env || added.env }
-    : added;
-  const record: InstallRecord = { version: 1, settingsFile, installedAt: new Date().toISOString(), added: merged };
-  writeJson(recordPath, record);
-  return { settingsFile, backup, added: merged, dryRun, next };
+  // What ruflo added once is still ruflo's to remove: merge into the record.
+  const record = readRecord(projectRoot) ?? { version: 2, installedAt: '', files: {} };
+  const before = record.files[settingsFile] ?? { plugins: [], marketplace: false, env: false };
+  record.files[settingsFile] = {
+    plugins: [...new Set([...before.plugins, ...added.plugins])],
+    marketplace: before.marketplace || added.marketplace,
+    env: before.env || added.env,
+    claudeInstalled: before.claudeInstalled ?? [],
+  };
+  record.installedAt = new Date().toISOString();
+  writeJson(join(resolve(projectRoot), INSTALL_RECORD), record);
+  return { settingsFile, backup, added, dryRun, next };
 }
 
+/** The install record, v1 (3.50.0: one file, ruflo-mods only) read as v2. */
 export function readRecord(projectRoot: string): InstallRecord | null {
   const path = join(resolve(projectRoot), INSTALL_RECORD);
   if (!existsSync(path)) return null;
   try {
-    const parsed = JSON.parse(readFileSync(path, 'utf8')) as InstallRecord;
-    return parsed && parsed.version === 1 && typeof parsed.settingsFile === 'string' && isRecord(parsed.added) ? parsed : null;
+    const parsed = JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>;
+    if (parsed.version === 2 && isRecord(parsed.files)) {
+      const files: Record<string, Added> = {};
+      for (const [file, a] of Object.entries(parsed.files)) {
+        if (!isRecord(a)) continue;
+        const strings = (v: unknown) => (Array.isArray(v) ? v.filter((p): p is string => typeof p === 'string') : []);
+        files[file] = { plugins: strings(a.plugins), marketplace: a.marketplace === true, env: a.env === true, claudeInstalled: strings(a.claudeInstalled) };
+      }
+      return { version: 2, installedAt: String(parsed.installedAt ?? ''), files };
+    }
+    if (parsed.version === 1 && typeof parsed.settingsFile === 'string' && isRecord(parsed.added)) {
+      const a = parsed.added;
+      return { version: 2, installedAt: String(parsed.installedAt ?? ''), files: { [parsed.settingsFile]: { plugins: a.plugin === true ? [MOD_PLUGIN_ID] : [], marketplace: a.marketplace === true, env: a.env === true } } };
+    }
+    return null;
   } catch {
     return null;
   }
 }
 
-export function uninstallMod(projectRoot: string, dryRun = false): { settingsFile?: string; removed: boolean; dryRun: boolean } {
+/** Note plugins ruflo installed with `claude plugin install` for one settings file. */
+export function recordClaudeInstalled(projectRoot: string, settingsFile: string, ids: readonly string[]): void {
   const record = readRecord(projectRoot);
-  if (!record) return { removed: false, dryRun };
-  // The record names the file; never follow it outside this project.
+  const entry = record?.files[settingsFile];
+  if (!record || !entry || ids.length === 0) return;
+  entry.claudeInstalled = [...new Set([...(entry.claudeInstalled ?? []), ...ids])];
+  writeJson(join(resolve(projectRoot), INSTALL_RECORD), record);
+}
+
+/** The scope a recorded settings file was written at. */
+export function scopeOfSettingsFile(file: string): Scope {
+  return file.endsWith('settings.local.json') ? 'local' : 'project';
+}
+
+export function uninstallMod(projectRoot: string, dryRun = false): { settingsFiles: string[]; removed: boolean; dryRun: boolean } {
+  const record = readRecord(projectRoot);
+  if (!record) return { settingsFiles: [], removed: false, dryRun };
+  // The record names the files; never follow one outside this project.
   const root = resolve(projectRoot);
-  if (!resolve(record.settingsFile).startsWith(join(root, '.claude') + sep)) {
-    throw new Error(`install record names a settings file outside ${root}/.claude: ${record.settingsFile}`);
+  const settingsFiles = Object.keys(record.files);
+  for (const file of settingsFiles) {
+    if (!resolve(file).startsWith(join(root, '.claude') + sep)) {
+      throw new Error(`install record names a settings file outside ${root}/.claude: ${file}`);
+    }
   }
-  if (dryRun) return { settingsFile: record.settingsFile, removed: true, dryRun };
-  if (existsSync(record.settingsFile)) {
-    writeJson(record.settingsFile, withModRemoved(readSettingsFile(record.settingsFile), record.added));
+  if (dryRun) return { settingsFiles, removed: true, dryRun };
+  for (const file of settingsFiles) {
+    if (existsSync(file)) writeJson(file, withModRemoved(readSettingsFile(file), record.files[file]!));
   }
   unlinkSync(join(root, INSTALL_RECORD));
-  return { settingsFile: record.settingsFile, removed: true, dryRun };
+  return { settingsFiles, removed: true, dryRun };
 }
