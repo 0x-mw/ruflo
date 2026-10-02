@@ -1180,6 +1180,17 @@ const wizardCommand: Command = {
         }
       }
 
+      // ADR-404 amendment — the wizard enables the mods as `ruflo init` does.
+      if (ctx.flags.mods !== false) {
+        output.writeln();
+        try {
+          const { applyMods } = await import('../mods/apply.js');
+          await applyMods(ctx.cwd, { scope: 'project', pluginInstall: ctx.flags.pluginInstall !== false && ctx.flags['plugin-install'] !== false, skipInTestEnv: true });
+        } catch (err) {
+          output.writeln(output.warning(`  ruflo mods not enabled: ${err instanceof Error ? err.message : String(err)}`));
+        }
+      }
+
       // Initialize embeddings if enabled
       let embeddingsInitialized = false;
       if (enableEmbeddings) {
