@@ -5,8 +5,6 @@
  */
 import type { AuditTrend, HarnessScore, Intelligence } from '../data/cli'
 import { recentByAgent } from '../data/events'
-import { HIVE_PULSE_MS } from '../data/hive'
-import { hivePicture } from '../gfx/hive'
 import { agentLabels } from '../data/parse'
 import type { Snapshot } from '../data/snapshot'
 import type { Channels, Peers, Roster } from '../data/cli'
@@ -19,7 +17,7 @@ import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
 import { isBooting, isCompactPane, VIEWS, type State } from '../state'
 import { live } from './common'
-import { hivePictureModelOf } from './hive'
+import { hivePictures } from './hive'
 import { openTasks } from './select'
 
 export const MAX_NODES = 100
@@ -151,12 +149,9 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
       if (model !== null) pictures.set('topology', topologyPicture(model, width, topologyRows(width, model.nodes.length), t))
       break
     }
-    case 'hive': {
-      const model = hivePictureModelOf(state, nowMs, recentByAgent(state.events, nowMs, HIVE_PULSE_MS + 600))
-
-      if (model !== null) pictures.set('hive', hivePicture(model, width, t))
+    case 'hive':
+      for (const [key, grid] of hivePictures(state, width, nowMs, t)) pictures.set(key, grid)
       break
-    }
     case 'claims': {
       const cards = flowModelOf(snapshot?.claims ?? [], openTasks(state), snapshot?.agents ?? [], snapshot?.tasks ?? [])
 

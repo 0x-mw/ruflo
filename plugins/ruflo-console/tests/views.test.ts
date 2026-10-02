@@ -78,13 +78,17 @@ describe('views', () => {
   })
 
   test('hive: the honeycomb, quorum and fault tolerance, proposals, workers, decisions, broadcasts, no token', { options: { boot: false } }, async ($, on) => {
-    worldOf(on, HIVE_FILES)
+    const world = worldOf(on, HIVE_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
 
     const { text, rasters, tree } = await drawn($, 'hive')
 
-    expect(rasters).toEqual(['header', 'title', 'hive'])
+    // The comb, a chamber per open proposal, and the strip (shield, terms, pheromones); nothing asked, nothing run.
+    expect(rasters).toEqual(['header', 'title', 'hive', 'hive-chambers', 'hive-strip'])
+    expect(text).toContain('3 in the comb · 1 byzantine')
+    expect(text).toMatch(/voting chambers/i)
+    expect(world.runs.filter(argv => argv.includes('hive-mind') || argv.some(arg => arg.startsWith('hive-mind_')))).toEqual([])
     expect(text).toContain('queen-1790903321632 · term 2')
     expect(text).toContain('raft · proposals vote raft')
     expect(text).toContain('tolerates 1 faulty of 3 (raft f < n/2)')
@@ -99,6 +103,25 @@ describe('views', () => {
     expect(text).not.toContain(HIVE_TOKEN)
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['hive-propose', 'hive-broadcast'])
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['hive-vote-yes', 'hive-vote-no', 'hive-spawn-worker']))
+  })
+
+  test('hive: with no hive, an empty comb with its egg holds the start buttons, and nothing runs unasked', { options: { boot: false } }, async ($, on) => {
+    const files = Object.fromEntries(Object.entries(HIVE_FILES).filter(([path]) => !path.startsWith('.claude-flow/hive-mind/')))
+    const world = worldOf(on, files)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters, tree } = await drawn($, 'hive')
+
+    expect(rasters).toEqual(['header', 'title', 'hive-egg', 'hive-egg-base'])
+    expect(text).toContain('the comb is empty · the egg is where the queen will sit')
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['start-hive', 'start-hive-workers']))
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+
+    await pane.press({ key: 'start-hive' })
+    await pane.unmount()
+    expect(world.runs.filter(argv => argv.includes('hive-mind'))).toEqual([])
   })
 
   test('hive: a vote asks before it runs, then runs one fixed argv as the next worker on yes', { options: { boot: false } }, async ($, on) => {
