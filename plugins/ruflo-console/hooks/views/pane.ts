@@ -12,6 +12,7 @@ import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
 import { federationView } from './federation'
+import { hiveView } from './hive'
 import { learningView } from './learning'
 import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
@@ -37,6 +38,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   menu: menuView,
   overview: overviewView,
   swarm: swarmView,
+  hive: hiveView,
   claims: claimsView,
   federation: federationView,
   plugins: pluginsView,
@@ -83,11 +85,13 @@ function tabs(ctx: Ctx): RenderElement {
     return ctx.kit.Button({ key: `tab-${view.id}`, label: words, ...(view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
   const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.map(tab) })
+  // The first row runs to the last digit-keyed view, so a keyless view sits where VIEWS puts it (Hive-Mind after Swarm).
+  const split = VIEWS.reduce((last, view, i) => (/^[0-9]$/.test(view.key) ? i + 1 : last), 0)
 
   return ctx.kit.Box({
     flexDirection: 'column',
     key: 'tabs',
-    children: [line(VIEWS.filter(view => /^[0-9]$/.test(view.key)), 'tabs-views'), line(VIEWS.filter(view => !/^[0-9]$/.test(view.key)), 'tabs-manage')],
+    children: [line(VIEWS.slice(0, split), 'tabs-views'), line(VIEWS.slice(split), 'tabs-manage')],
   })
 }
 
