@@ -10,7 +10,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -42,6 +42,9 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
   // No hotkey: every digit and letter is taken. The tab, the menu prompt and /ruflo skills reach it by name.
   { id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): what is installed here and globally, search, add, update, remove, create', rows: 34 },
+  // No hotkeys either: reached by the tab, the menu prompt (secure, perf) or /ruflo secure.
+  { id: 'secure', key: '', label: 'Security & Doctor', short: 'Sec', icon: '🔒',blurb: 'security scans, a paste field that checks text for injection and PII, policy, and every doctor check', rows: 40 },
+  { id: 'perf', key: '', label: 'Performance', short: 'Prf', icon: '📈', blurb: 'metrics, profile, benchmarks, bottlenecks and a latency sparkline from each run', rows: 30 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }

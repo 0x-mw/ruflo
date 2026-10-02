@@ -19,6 +19,8 @@ export type ActionSpec = {
   shows?: string
   /** A MetaHarness lab entry's id: the runner keeps what it printed for the lab's result panel. */
   lab?: string
+  /** How a lab run's output reads in its result panel; the MetaHarness reader (`labLines`) when unset. */
+  lines?: (stdout: string, stderr: string) => string[]
   /** What a run costs or writes, in words: the confirm row and the result panel show it. */
   note?: string
   /** How long the CLI may take; 90 s when unset. */

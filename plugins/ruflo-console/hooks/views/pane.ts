@@ -21,7 +21,9 @@ import { metaharnessView } from './metaharness'
 import { missionsView } from './missions'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
+import { perfView } from './perf'
 import { pluginsView } from './plugins'
+import { secureView } from './secure'
 import { skillsView } from './skills'
 import { swarmView } from './swarm'
 import { terminalView } from './terminal'
@@ -53,6 +55,8 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   xruv: xruvView,
   terminal: terminalView,
   skills: skillsView,
+  secure: secureView,
+  perf: perfView,
   agent: agentView,
 }
 
