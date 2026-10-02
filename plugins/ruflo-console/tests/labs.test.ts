@@ -181,7 +181,7 @@ describe('labs and starts', () => {
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
     const hive = await pane.drawn()
 
-    expect(textOf(hive)).toContain('No hive-mind here yet')
+    expect(textOf(hive)).toContain('Start a hive with a queen')
     expect(textOf(hive)).not.toContain('npx ruflo')
     expect(elementsOf(hive, 'Button').map(keyOf)).toContain('start-hive')
 

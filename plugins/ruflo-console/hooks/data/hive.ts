@@ -4,6 +4,7 @@
  * v3/@claude-flow/cli/src/mcp-tools/hive-mind-tools.ts), so the bar the view draws is the bar the CLI decides by. A
  * figure the source has no formula for (gossip and crdt fault tolerance) is n/a, never estimated.
  */
+import type { ConsoleEvent } from './events'
 import type { AgentRecord, HiveAgentRecord, HiveInfo, Proposal } from './parse'
 
 /** The roles `hive-mind spawn --role` accepts. */
@@ -88,6 +89,54 @@ export function proposeBlock(hive: HiveInfo): string | null {
   const holder = strategy === 'raft' ? hive.pending.find(entry => entry.strategy === 'raft' && entry.term === term && entry.status === 'pending') : undefined
 
   return holder === undefined ? null : `raft term ${term} already has ${holder.type} (${holder.id}) open: decide it first`
+}
+
+/** What the console last saw a hive member do, and when, while it is fresh: a vote either way, a join or a leave. */
+export type HiveWave = { kind: 'for' | 'against' | 'join' | 'leave'; atMs: number }
+
+/**
+ * The newest fresh event about `id`, read from the words `diffEvents` writes ("<id> voted for …", "<id> joined the
+ * hive"); null when there is none within HIVE_PULSE_MS of `nowMs`. The honeycomb runs a wave from that cell.
+ */
+export function waveOf(events: readonly ConsoleEvent[], id: string, nowMs: number): HiveWave | null {
+  for (let i = events.length - 1; i >= 0; i--) {
+    const event = events[i] as ConsoleEvent
+
+    if (nowMs - event.atMs >= HIVE_PULSE_MS) break
+    if (event.agentId !== id || event.atMs > nowMs) continue
+
+    const words = event.text.startsWith(`${id} `) ? event.text.slice(id.length + 1) : ''
+    const kind = words.startsWith('voted for ') ? 'for' : words.startsWith('voted against ') ? 'against' : words === 'joined the hive' ? 'join' : words === 'left the hive' ? 'leave' : null
+
+    if (kind !== null) return { kind, atMs: event.atMs }
+  }
+
+  return null
+}
+
+/**
+ * When the console first saw each broadcast, so the ticker slides a new one in once. Everything present at the first
+ * read counts as old (arrived at -Infinity), so opening the view never animates what was already there.
+ */
+export class Arrivals {
+  private readonly seen = new Map<string, number>()
+  private hive: string | null = null
+
+  arrivedAt(hiveId: string, ids: readonly string[], nowMs: number): Map<string, number> {
+    const isFirst = this.hive !== hiveId
+
+    if (isFirst) {
+      this.hive = hiveId
+      this.seen.clear()
+    }
+
+    for (const id of ids) if (!this.seen.has(id)) this.seen.set(id, isFirst ? Number.NEGATIVE_INFINITY : nowMs)
+
+    // Forget what the hive no longer keeps (it holds the last 100), so the map stays the hive's size.
+    if (this.seen.size > ids.length * 2 + 16) for (const id of [...this.seen.keys()]) if (!ids.includes(id)) this.seen.delete(id)
+
+    return this.seen
+  }
 }
 
 export type Liveness = 'busy' | 'idle' | 'down' | 'error' | 'unknown'
