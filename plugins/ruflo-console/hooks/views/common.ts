@@ -40,7 +40,7 @@ export type Actions = {
   /** The terminal view: pick a harness, follow the field, ask to run its text, stop the run, clear the scrollback. */
   /** The main menu's prompt: a key or a name takes the person to that area. */
   menu: (text: string) => void
-  term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void }
+  term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }
 }
 
 export type Ctx = {

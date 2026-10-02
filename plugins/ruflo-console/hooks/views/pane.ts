@@ -26,6 +26,9 @@ import { terminalView } from './terminal'
 import { xruvView } from './xruv'
 
 export const NARROW = 44
+
+/** The networks the Wildcat strip names, each with the view a click on it opens. */
+const NETWORKS: readonly (readonly [string, ViewId])[] = [['x.ruv.io', 'xruv'], ['relay.ruv.io', 'xruv'], ['agentbbs', 'federation'], ['mcp', 'plugins'], ['claude code', 'terminal']]
 /** Width from which every tab spells its name beside its emoji (the 1-9 row is about 128 columns with names). */
 const WIDE_TABS = 140
 
@@ -186,9 +189,13 @@ function wildcat(ctx: Ctx): { strip: RenderElement[]; art: RenderElement[] } {
         ctx.kit.Text({ color: THEME.info, children: 'x.ruv.io ' }),
         ctx.kit.Text({ bold: true, color: THEME.ok, children: clip('AGENTS WELCOME.', Math.max(4, ctx.columns - 16)) }),
       ], 'welcome'),
+      // Each network is a link to the view that shows it.
       row(ctx, [
         ctx.kit.Text({ color: THEME.head, children: 'NETWORKS: ' }),
-        ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip('x.ruv.io * relay.ruv.io * agentbbs * mcp * claude code', Math.max(4, ctx.columns - 10)) }),
+        ...NETWORKS.flatMap(([name, view], i) => [
+          ...(i > 0 ? [ctx.kit.Text({ color: THEME.info, dimColor: true, children: ' * ' })] : []),
+          ctx.kit.Button({ key: `net-${view}-${i}`, label: name, plain: true, onPress: () => ctx.act.view(view) }),
+        ]),
       ], 'networks'),
     ],
     art: art !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(art.toRaster('title'))] : [],

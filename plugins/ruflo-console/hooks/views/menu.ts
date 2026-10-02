@@ -122,9 +122,10 @@ export function menuView(ctx: Ctx): RenderElement {
 
   // The status bar under the box: the line, then what is live in this project, then how long the board has been open.
   const online = mmss(nowMs - (state.pane.bootAtMs > 0 ? state.pane.bootAtMs : state.loadedAtMs))
-  const facts = barParts(state, nowMs).map(part => part.text)
-  const status = [state.snapshot?.isRufloProject === true ? 'Registered' : 'Unregistered', 'ANSI-BBS', '115200·N81 FDX', ...facts.slice(0, 3)].join(' │ ')
+  const facts = barParts(state, nowMs).slice(0, 3)
+  const line = ` ${state.snapshot?.isRufloProject === true ? 'Registered' : 'Unregistered'} │ ANSI-BBS │ 115200·N81 FDX`
   const right = ` Online ${online} `
+  let room = Math.max(4, ctx.columns - right.length - line.length)
 
   rows.push(text(ctx, ' '))
   rows.push(
@@ -133,7 +134,23 @@ export function menuView(ctx: Ctx): RenderElement {
       backgroundColor: isBbs() ? '#8b1a1a' : undefined,
       key: 'menu-status',
       children: [
-        ctx.kit.Text({ bold: true, color: '#ffd319', wrap: 'truncate-end', children: clip(` ${status}`, Math.max(4, ctx.columns - right.length)).padEnd(Math.max(0, ctx.columns - right.length)) }),
+        ctx.kit.Text({ bold: true, color: '#ffd319', children: line }),
+        // The live facts are links: a click goes to the view each is about.
+        ...facts.flatMap((part, i) => {
+          if (room <= 6) return []
+
+          const label = clip(part.text, room - 3)
+
+          room -= label.length + 3
+
+          return [
+            ctx.kit.Text({ bold: true, color: '#ffd319', children: ' │ ' }),
+            part.go !== undefined
+              ? ctx.kit.Button({ key: `status-${i}`, label, plain: true, onPress: () => ctx.act.view(part.go as ViewId) })
+              : ctx.kit.Text({ bold: true, color: '#ffd319', children: label }),
+          ]
+        }),
+        ctx.kit.Box({ flexGrow: 1, key: 'status-gap', children: [ctx.kit.Text({ children: ' ' })] }),
         ctx.kit.Text({ bold: true, color: '#ffd319', children: right }),
       ],
     }),

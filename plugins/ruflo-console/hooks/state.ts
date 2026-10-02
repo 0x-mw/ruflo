@@ -115,10 +115,11 @@ export type HarnessId = 'codex' | 'claude' | 'ruflo' | 'swarm'
 export type AgentId = Exclude<HarnessId, 'swarm'>
 
 /**
- * One line of the terminal's scrollback: what was asked (`in`), what came back, a tool the agent used (`tool`), or
+ * One line of the terminal's scrollback: what was asked (`in`), an agent starting its answer (`head`), what came back,
+ * a tool it used (`tool`), how its turn ended (`end`), or
  * the console's own note (`sys`); `from` names the agent when more than one is talking.
  */
-export type TermLine = { kind: 'in' | 'out' | 'err' | 'sys' | 'tool'; text: string; from?: AgentId }
+export type TermLine = { kind: 'in' | 'head' | 'out' | 'err' | 'sys' | 'tool' | 'end'; text: string; from?: AgentId }
 
 /** A conversation kept per project: codex's thread id, claude's session id, so a follow-up resumes it. */
 export type TermSessions = { codex?: string; claude?: string }
@@ -198,6 +199,9 @@ export type State = {
     /** Turns and spend this session, as the agents reported them. */
     turns: { codex: number; claude: number }
     costUsd: number
+    /** Screen rows scrolled up from the newest (0 follows the tail), and how many lines arrived while scrolled up. */
+    scroll: number
+    unseen: number
     /** The text the last Enter asked about: Enter on the same text again confirms it. */
     asked: { key: string; label: string } | null
   }
@@ -242,7 +246,7 @@ export function newState(raw: PluginOptions | undefined): State {
     isActing: false,
     isRefreshing: false,
     barDrawnAtMs: 0,
-    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, asked: null },
+    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, scroll: 0, unseen: 0, asked: null },
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

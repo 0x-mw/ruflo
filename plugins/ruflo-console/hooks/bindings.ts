@@ -148,6 +148,16 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
           return
         }
 
+        // /up /down /end scroll the conversation from the field (it holds the keys, so PgUp would only type).
+        const move = { '/up': 12, '/down': -12, '/end': -state.terminal.scroll }[text.trim()]
+
+        if (move !== undefined) {
+          state.terminal.draft = ''
+          actions.term.scroll(move)
+
+          return
+        }
+
         // /codex /claude /swarm /ruflo switch harness from the field, which holds the keys (its hotkeys would type).
         const pick = HARNESSES.find(entry => text.trim() === `/${entry.id}`)
 
@@ -199,7 +209,20 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       fresh: () => newSession(state, host),
       clear: () => {
         state.terminal.lines = []
+        state.terminal.scroll = 0
+        state.terminal.unseen = 0
         host.invalidate()
+      },
+      scroll: by => {
+        state.terminal.scroll = Math.max(0, state.terminal.scroll + by)
+        if (state.terminal.scroll === 0) state.terminal.unseen = 0
+        host.invalidate()
+      },
+      // A click on an earlier question puts it back in the field, ready to edit or send again.
+      reuse: text => {
+        state.terminal.draft = text
+        host.invalidate()
+        if (state.pane.isFocused) void host.focus(PANE_ID, 'term-input').catch(() => undefined)
       },
       // A menu entry elsewhere (x.ruv.io) opens the terminal with its command typed, not run: Enter twice runs it.
       load: (id, text) => {

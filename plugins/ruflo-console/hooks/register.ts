@@ -178,7 +178,11 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     bound.markFrame(e.requestId, e.props.isWorking && mark !== null)
 
-    return barView(table, state, Math.floor(Number(e.props.bodyColumns) || 80), mark, () => void bound.open(false))
+    // A click on a part opens the console on its view, with the keys, so the person can act there at once.
+    return barView(table, state, Math.floor(Number(e.props.bodyColumns) || 80), mark, () => void bound.open(false), view => {
+      bound.setView(view)
+      void bound.open(true)
+    })
   })
 
   /** The band's mark pulses during a turn: a redraw at its start, and the loop stopped at its end, whatever redraws. */

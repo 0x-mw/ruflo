@@ -65,7 +65,7 @@ describe('band', () => {
   it('a stale marketplace clone shows as an alert, not as a separate word', async () => {
     const state = await capturedState(['ruflo-core', 'ruflo-swarm'])
 
-    expect(barParts(state, 0).find(part => part.text.startsWith('⚠'))).toEqual({ text: '⚠ 1 alert', tone: 'attention' })
+    expect(barParts(state, 0).find(part => part.text.startsWith('⚠'))).toEqual({ text: '⚠ 1 alert', tone: 'attention', go: 'overview' })
     expect(barText(state, 0)).not.toContain('STALE')
   })
 
