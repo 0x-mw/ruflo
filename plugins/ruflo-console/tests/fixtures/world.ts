@@ -96,9 +96,11 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
     return refuse || names.length === 0 ? { deny: 'ENOENT' } : { value: names.map(name => ({ name, kind: 'file' as const, size: 1, mtimeMs: 1, isLink: false })) }
   })
   on('process.run', ($, e) => {
+    if (refuse) return { deny: 'process.run withheld' }
+
     world.runs.push([...e.argv])
 
-    const answer = refuse ? { deny: 'process.run withheld' } : world.respond(e.argv)
+    const answer = world.respond(e.argv)
 
     return 'deny' in answer ? { deny: answer.deny } : { value: { ...answer, isStdoutTruncated: false, isStderrTruncated: false } }
   })
@@ -135,6 +137,8 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
     return { value: {} }
   })
   on('ui.toast', () => ({ value: undefined }))
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('turn.complete', ($, e) => ({ text: e.answer }))
 
   return world
 }

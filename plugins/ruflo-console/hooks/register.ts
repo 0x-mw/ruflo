@@ -171,11 +171,31 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     const table = $.ui.resolve(e) as unknown as Kit
     const bound = control
+
+    state.barDrawnAtMs = Date.now()
+
     const mark = table.Raster !== undefined ? table.Raster(markPicture(e.props.isWorking, Date.now()).toRaster(BAR_KEY)) : null
 
     bound.markFrame(e.requestId, e.props.isWorking && mark !== null)
 
     return barView(table, state, Math.floor(Number(e.props.bodyColumns) || 80), mark, () => void bound.open())
+  })
+
+  /** The band's mark pulses during a turn: a redraw at its start, and the loop stopped at its end, whatever redraws. */
+  on('turn.start', ($, e, next) => {
+    try {
+      $.ui.invalidate('ui.render')
+    } catch {
+      // A refused redraw leaves the mark at rest.
+    }
+
+    return next(e)
+  })
+
+  on('turn.complete', ($, e, next) => {
+    if (e.agentId === undefined) control?.markFrame('', false)
+
+    return next(e)
   })
 
   on('ui.close', async ($, e, next) => {

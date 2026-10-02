@@ -91,7 +91,7 @@ function footer(ctx: Ctx): RenderElement {
 
   if (outcome !== null && nowMs - outcome.atMs < 60_000) {
     parts.push(
-      text(ctx, `${outcome.ok ? '✓' : '✗'} ${outcome.label}: ${outcome.detail}${outcome.verified === 'yes' ? ' · on disk' : outcome.verified === 'no' ? ' · not on disk yet' : ''}`, {
+      text(ctx, `${outcome.ok ? '✓' : '✗'} ${outcome.label}${outcome.verified === 'yes' ? ' · on disk' : outcome.verified === 'no' ? ' · not on disk yet' : ''}: ${outcome.detail}`, {
         color: outcome.ok ? THEME.ok : THEME.bad,
       }),
     )

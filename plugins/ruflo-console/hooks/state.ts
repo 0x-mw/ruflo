@@ -107,6 +107,8 @@ export type State = {
   outcome: Outcome | null
   isActing: boolean
   isRefreshing: boolean
+  /** When the band above the prompt last drew: the disk is re-read on the fast cadence only while it is seen. */
+  barDrawnAtMs: number
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -134,6 +136,7 @@ export function newState(raw: PluginOptions | undefined): State {
     outcome: null,
     isActing: false,
     isRefreshing: false,
+    barDrawnAtMs: 0,
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }

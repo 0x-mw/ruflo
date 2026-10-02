@@ -17,6 +17,8 @@ const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
 const PENDING_TTL_MS = 30_000
 const MAX_PARALLEL_PROBES = 2
+const BAR_FRESH_MS = 10_000
+const IDLE_REFRESH_MS = 30_000
 
 export type Controller = {
   refresh: () => Promise<void>
@@ -53,6 +55,8 @@ export function createController(state: State, host: Host): Controller {
   let pendingSpec: ActionSpec | null = null
   let markRequest: string | null = null
   let lastSegment: string | null | undefined
+  let lastSpend: number | undefined
+  let hasDrawn = false
   const lastAttempt = new Map<string, number>()
 
   const persist = () => void host.storeSet(storeKeyOf(state.cwd), { view: state.view }).catch(() => undefined)
@@ -67,6 +71,12 @@ export function createController(state: State, host: Host): Controller {
     })
 
     return inflight
+  }
+
+  /** A read that starts after this call: what an action checks, since a read already running may predate its write. */
+  async function freshRead(): Promise<void> {
+    await inflight?.catch(() => undefined)
+    await refresh()
   }
 
   async function readAll(): Promise<void> {
@@ -105,7 +115,15 @@ export function createController(state: State, host: Host): Controller {
     } finally {
       state.isRefreshing = false
       push(state.stats.refreshes, Date.now() - started, 200)
-      host.invalidate()
+
+      // Redraw only for something new while the pane is closed: the band need not repaint an unchanged line.
+      const spend = state.usage?.costUsd
+
+      if (state.pane.isOpen || (state.snapshot?.changed ?? 0) > 0 || spend !== lastSpend || !hasDrawn) {
+        hasDrawn = true
+        lastSpend = spend
+        host.invalidate()
+      }
     }
   }
 
@@ -213,8 +231,17 @@ export function createController(state: State, host: Host): Controller {
   }
 
   function start(): void {
+    let lastIdleMs = 0
+
     every('refresh', state.options.refreshSeconds * 1000, () => {
-      void refresh().then(() => probe())
+      const now = Date.now()
+      const isSeen = state.pane.isOpen || now - state.barDrawnAtMs < BAR_FRESH_MS
+
+      // Nothing on screen reads the disk: re-read only on the idle cadence, so a closed console costs nearly nothing.
+      if (isSeen || now - lastIdleMs >= IDLE_REFRESH_MS) {
+        lastIdleMs = now
+        void refresh().then(() => probe())
+      }
     })
     every('activity', ACTIVITY_BUCKET_MS, () => {
       push(state.activity, activityCount)
@@ -304,7 +331,7 @@ export function createController(state: State, host: Host): Controller {
       const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1]
       const ok = result.exitCode === 0 && answer !== 'false'
 
-      await refresh()
+      await freshRead()
 
       const verified = state.snapshot === null ? 'n/a' : spec.verify(state.snapshot) ? 'yes' : 'no'
 
@@ -366,7 +393,7 @@ export function createController(state: State, host: Host): Controller {
     markRequest = requestId
 
     if (isWorking && state.options.fps > 0) {
-      every('mark', 120, () => {
+      every('mark', Math.round(1000 / state.options.fps), () => {
         if (markRequest !== null) host.blit({ requestId: markRequest, key: 'mark', cells: markPicture(true, Date.now()).encode(), columns: 2, rows: 1 })
       })
     } else {

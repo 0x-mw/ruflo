@@ -4,7 +4,7 @@
  * person turns `federationNetwork` on. `plugins list` is never run (it fetches the IPFS registry), nor `verify` (it
  * fetches a manifest from GitHub).
  */
-import { jsonObject, msOf, numberOf, plain, recordOf, stringOf, valuesOf } from './parse'
+import { msOf, numberOf, plain, recordOf, stringOf, valuesOf } from './parse'
 
 export type ViewId = 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory'
 
