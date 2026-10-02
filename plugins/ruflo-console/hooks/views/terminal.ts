@@ -130,7 +130,10 @@ export function terminalView(ctx: Ctx): RenderElement {
   // The window: the newest screen rows, or `scroll` rows up from them.
   const width = Math.max(10, ctx.columns - 6)
   const screen = screenOf(term.lines, width)
-  const height = state.pane.rows > 0 ? Math.max(8, Math.min(48, state.pane.rows - 26)) : TERM_ROWS
+  // The frame around the window (banner, strips, tabs, title, picker, rules, buttons, field, hint, footer, a confirm row)
+  // takes about 34 rows: the window gets the rest, so the field is never pushed below the fold (the pane drops the keys
+  // when the focused field scrolls out of sight).
+  const height = state.pane.rows > 0 ? Math.max(6, Math.min(48, state.pane.rows - 34 - term.runs.size)) : TERM_ROWS
   const maxScroll = Math.max(0, screen.length - height)
   const scroll = Math.min(term.scroll, maxScroll)
   const start = Math.max(0, screen.length - height - scroll)

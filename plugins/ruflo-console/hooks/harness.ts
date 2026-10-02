@@ -10,7 +10,7 @@
  */
 import type { ActionSpec } from './actions'
 import type { Host } from './host'
-import { CLI_PREFIXES, push, termStoreKeyOf, type AgentId, type HarnessId, type State, type TermLine } from './state'
+import { CLI_PREFIXES, PANE_ID, push, termStoreKeyOf, type AgentId, type HarnessId, type State, type TermLine } from './state'
 import { claudeParser, codexEvent, eventOf, type Sink } from './stream'
 
 export const TERM_MAX_LINES = 600
@@ -84,6 +84,17 @@ function note(state: State, kind: TermLine['kind'], text: string, from?: AgentId
 }
 
 const persist = (state: State, host: Host) => void host.storeSet(termStoreKeyOf(state.cwd), state.terminal.sessions).catch(() => undefined)
+
+/**
+ * A run starting or ending adds or drops rows above the field (the spinner, the turn's last line), and the engine
+ * does not keep the focus ring on the field across that: the person's next keys would leave it. Put it back after
+ * the redraw, while the terminal is in front and the pane holds the keys.
+ */
+function keepField(state: State, host: Host): void {
+  host.after(80, () => {
+    if (state.view === 'terminal' && state.pane.isFocused) void host.focus(PANE_ID, 'term-input').catch(() => undefined)
+  })
+}
 
 /** Why the field's text cannot be sent now, or null when it can. */
 export function whyNotRun(state: State, text: string): string | null {
@@ -224,6 +235,7 @@ async function runAgent(state: State, host: Host, agent: AgentId, prompt: string
   const partial = { stdout: '', stderr: '' }
 
   term.runs.set(agent, { label: agent, startedAtMs, stop })
+  keepField(state, host)
   note(state, 'head', agent, tag)
   host.invalidate()
 
@@ -266,6 +278,7 @@ async function runAgent(state: State, host: Host, agent: AgentId, prompt: string
   } finally {
     cap.cancel()
     term.runs.delete(agent)
+    keepField(state, host)
     host.invalidate()
   }
 }
