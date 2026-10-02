@@ -235,7 +235,7 @@ export function restore(state: State, value: unknown): void {
 }
 
 /** The BBS boot screen's span: at least BOOT_MIN_MS, longer while the first read is still out, never past BOOT_MAX_MS. */
-export const BOOT_MIN_MS = 2_600
+export const BOOT_MIN_MS = 3_200
 export const BOOT_MAX_MS = 6_000
 
 export function isBooting(state: State, nowMs: number): boolean {

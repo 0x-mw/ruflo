@@ -160,14 +160,14 @@ describe('BBS boot screen', () => {
     expect(done).toContain('100%  reads 10/10')
   })
 
-  it('plays at least 2.6 s, longer while the first read is out, never past 6 s; only with the bbs look and boot on', () => {
+  it('plays at least 3.2 s, longer while the first read is out, never past 6 s; only with the bbs look and boot on', () => {
     const state = newState({})
 
     state.pane.bootAtMs = 1_000
     expect(isBooting(state, 1_100)).toBe(true)
-    expect(isBooting(state, 4_000)).toBe(true) // no snapshot yet
+    expect(isBooting(state, 5_000)).toBe(true) // past the 3.2 s minimum, but no snapshot yet
     state.snapshot = {} as never
-    expect(isBooting(state, 4_000)).toBe(false)
+    expect(isBooting(state, 5_000)).toBe(false)
     expect(isBooting(state, 2_000)).toBe(true)
     state.snapshot = null
     expect(isBooting(state, 7_500)).toBe(false)

@@ -311,8 +311,9 @@ export function bootPicture(project: string, columns: number, age: number, done:
   type(7, 1900, `> handshake ok · node ${project}`, NEON_CYAN, 14)
 
   // LOADING [▓▓▓▓░░░░] 58%  reads 6/10, with a blinking cursor while it runs.
-  if (age >= 2000) {
-    const pct = Math.min(1, 0.55 * Math.min(1, (age - 2000) / 1400) + 0.45 * (total > 0 ? done / total : 1))
+  if (age >= 1900) {
+    // Full by ~2.9 s once the reads have answered, so 100% shows before the boot ends at BOOT_MIN_MS (3.2 s).
+    const pct = Math.min(1, 0.55 * Math.min(1, (age - 1900) / 1000) + 0.45 * (total > 0 ? done / total : 1))
     const barWidth = Math.max(6, Math.min(24, columns - 30))
     const filled = Math.round(pct * barWidth)
     const line = `LOADING [${'▓'.repeat(filled)}${'░'.repeat(barWidth - filled)}] ${String(Math.round(pct * 100)).padStart(3)}%  reads ${done}/${total}`

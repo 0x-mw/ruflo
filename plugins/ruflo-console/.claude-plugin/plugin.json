@@ -89,7 +89,7 @@
     "boot": {
       "type": "boolean",
       "title": "Boot screen",
-      "description": "With the bbs look, play a short dial-up boot screen (modem connect, the RUFLO logo drawing in, a loading bar for the first ruflo reads) when the cockpit opens. At least 2.6 s, at most 6 s.",
+      "description": "With the bbs look, play a short dial-up boot screen (modem connect, the RUFLO logo drawing in, a loading bar for the first ruflo reads) when the cockpit opens. At least 3.2 s, at most 6 s.",
       "default": true
     }
   }

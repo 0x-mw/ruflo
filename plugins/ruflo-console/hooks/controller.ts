@@ -13,7 +13,7 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
-import { CLI_PREFIXES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
+import { CLI_PREFIXES, isBooting, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
 
@@ -242,8 +242,23 @@ export function createController(state: State, host: Host): Controller {
   }
 
   /** One frame of every picture of the view in front, each blitted only at the size it was mounted. */
+  // Whether the last frame drew the boot screen: when it ends the whole pane redraws once, and an unfocused pane's
+  // loop stops again (the boot screen animates whether or not the pane holds the keys).
+  let wasBooting = false
+
   function frame(): void {
     const started = Date.now()
+    const booting = isBooting(state, started)
+
+    if (wasBooting && !booting) {
+      wasBooting = false
+      host.invalidate()
+      animate()
+
+      return
+    }
+
+    wasBooting = booting
 
     for (const [key, grid] of picturesOf(state, state.pane.columns, Date.now(), Date.now())) {
       const mounted = state.mounted.get(key)
@@ -256,9 +271,9 @@ export function createController(state: State, host: Host): Controller {
     push(state.stats.frames, Date.now() - started, 200)
   }
 
-  /** Runs the frame loop while the pane is shown and holds the keys, at `fps`; stops it otherwise. */
+  /** Runs the frame loop while the pane is shown and holds the keys (or plays the boot screen), at `fps`; stops it otherwise. */
   function animate(): void {
-    if (!(state.options.fps > 0 && isVisible() && state.pane.isFocused && state.mounted.size > 0)) {
+    if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && state.mounted.size > 0)) {
       cancel('frames')
 
       return
