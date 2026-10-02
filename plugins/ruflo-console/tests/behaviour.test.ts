@@ -197,7 +197,8 @@ describe('behaviour', () => {
 
     const swarm = textOf(await $.ui.render(paneAt(110)))
 
-    expect(swarm).toContain('c1 [31m EVIL')
+    expect(swarm).toContain('c1 EVIL')  // the whole colour sequence is gone, not just its ESC byte
+    expect(swarm).not.toContain('[31m')
     expect(swarm).not.toMatch(/[\u0000-\u001f‪-‮](?<!\n)/)
     await $.command.run(command('claims'))
     expect(textOf(await $.ui.render(paneAt(110)))).toContain('No claims on disk')
