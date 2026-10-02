@@ -118,6 +118,9 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       if (best !== undefined) runner.runEntry(best, best.run.kind === 'text' ? state.palette.query.trim().slice(best.run.keyword.length).trim() : '')
     },
     run: (id, text = '') => runner.runById(id, text),
+    costBudgetDraft: text => {
+      state.costBudgetDraft = text.slice(0, 40)
+    },
     filter: () => {
       const order = ['all', ...EVENT_KINDS] as const
       const at = order.indexOf(state.eventFilter)

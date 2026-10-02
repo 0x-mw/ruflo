@@ -7,6 +7,25 @@ import { command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } 
 const runsOf = (runs: readonly string[][], word: string) => runs.filter(argv => argv.includes(word))
 
 describe('palette and /ruflo', () => {
+  test('cost headless: direct custom and preset entries check support, ask, and only configure on yes', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    mock.clock(on)
+    await $.session.start({ ...SESSION, isInteractive: false })
+    const ask = (await $.command.run(command('run cost-budget 12.5'))).text ?? ''
+
+    expect(ask).toContain('Asked: set ruflo-mods@ruflo costBudgetUsd to $12.5')
+    expect(ask).toContain('stdin {"costBudgetUsd":"12.5"}')
+    expect(ask).toContain('restart/reload may be needed')
+    expect(world.runs.some(argv => argv.includes('--values-stdin'))).toBe(false)
+    expect((await $.command.run(command('yes'))).text).toContain('restart/reload may be needed')
+    expect(world.runs.filter(argv => argv.includes('--values-stdin'))).toHaveLength(1)
+    expect((await $.command.run(command('run cost-budget-10'))).text).toContain('Asked: set ruflo-mods@ruflo costBudgetUsd to $10')
+    await $.command.run(command('no'))
+    expect(world.runs.filter(argv => argv.includes('--values-stdin'))).toHaveLength(1)
+    expect((await $.command.run(command('run cost-budget 0'))).text).toContain('budget must be a number from 0.01 to 10000 USD')
+  })
+
   test('p opens the palette; typing filters; a change asks first and runs one fixed argv on yes', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)

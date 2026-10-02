@@ -122,6 +122,7 @@ describe('terminal sessions', () => {
     expect(state.terminal.sessions.codex).toBe('01a0fe1f-b077-7793-9612-f134bd61bc85')
     expect(stored.get('ruflo-console/term:/work')).toEqual({ codex: '01a0fe1f-b077-7793-9612-f134bd61bc85' })
     expect(state.terminal.turns.codex).toBe(1)
+    expect(state.terminal.costReports).toBe(0)
   })
 
   it('claude: the answer types out from deltas (not twice), tool calls show, the cost is counted', async () => {
@@ -136,6 +137,7 @@ describe('terminal sessions', () => {
     expect(shown(state)).toEqual(['claude in:hi', 'claude head:claude', 'claude out:Hello there', 'claude out:second', 'claude tool:⚙ Read src/auth.ts', expect.stringMatching(/^claude end:✓ \d+ s · \$0\.012$/)])
     expect(state.terminal.sessions.claude).toBe('6b1c2d3e-0000-4000-8000-000000000001')
     expect(state.terminal.costUsd).toBeCloseTo(0.0123)
+    expect(state.terminal.costReports).toBe(1)
   })
 
   it('a busy agent refuses a second question; s stops it; /new forgets the session', async () => {

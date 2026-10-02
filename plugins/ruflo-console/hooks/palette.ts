@@ -4,6 +4,7 @@
  * argument from the query after their keyword: `route fix the login bug`.
  */
 import { HIVE_ROLES, pickedProposal } from './data/hive'
+import { BUDGET_PRESETS, budgetWhy, inspectModels, setBudget } from './cost'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
 import { LAB, labSpec, labWhy } from './mh-lab'
@@ -15,7 +16,7 @@ export type PaletteRun =
   | { kind: 'spec'; spec: ActionSpec | null; why: string }
   | { kind: 'view'; view: ViewId }
   | { kind: 'drill'; agentId: string }
-  | { kind: 'text'; keyword: string; make: (text: string) => ActionSpec | null }
+  | { kind: 'text'; keyword: string; make: (text: string) => ActionSpec | null; why?: (text: string) => string }
   | { kind: 'command'; name: 'refresh' | 'help' | 'close' }
 
 export type PaletteEntry = { id: string; label: string; group: string; run: PaletteRun }
@@ -49,13 +50,17 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast'] as const
+const TEXT_KEYWORDS = ['route', 'store', 'search', 'propose', 'broadcast', 'cost-budget'] as const
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   const { claim, agent, task } = selection(state)
   const out: PaletteEntry[] = []
   const add = (id: string, group: string, label: string, run: PaletteRun) => out.push({ id, group, label, run })
+
+  for (const amount of BUDGET_PRESETS) add(`cost-budget-${amount}`, 'cost', `set ruflo-mods budget to $${amount}`, { kind: 'spec', spec: setBudget(state, String(amount)), why: budgetWhy(state, String(amount)) })
+  add('cost-budget', 'cost', 'cost-budget <amount>: set ruflo-mods costBudgetUsd (0.01–10000)', { kind: 'text', keyword: 'cost-budget', make: text => setBudget(state, text), why: text => budgetWhy(state, text) })
+  add('cost-model-stats', 'cost', 'inspect local model routing counts (spend n/a)', { kind: 'spec', spec: inspectModels(state), why: '' })
 
   if (agent !== null) {
     const name = agent.name ?? agent.type

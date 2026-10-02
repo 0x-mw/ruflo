@@ -105,6 +105,8 @@ export async function dispatch(control: Controller, state: State, args: string, 
 
       return open(control, state, 'palette')
     case 'run': {
+      // A headless budget ask checks the installed CLI's help before building a setter spec.
+      if (intent.paletteId === 'cost-budget' || intent.paletteId.startsWith('cost-budget-')) await dumpOf(control, state, 'cost')
       const askedAtMs = Date.now()
       const isRun = control.actions.run(intent.paletteId, intent.text)
 
@@ -114,7 +116,13 @@ export async function dispatch(control: Controller, state: State, args: string, 
       // A lab read answers with what it printed, so `/ruflo run mh-genome` works headless.
       if (state.pending === null) await control.runner.settled()
 
-      return { text: state.pending !== null ? `Asked: ${state.pending.label}. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.` : (labAnswer(state, intent.paletteId, askedAtMs) ?? (state.outcome !== null && !state.outcome.ok ? `${state.outcome.label}: ${state.outcome.detail}` : (state.outcome?.label ?? 'done'))) }
+      if (state.pending !== null) {
+        const pending = state.pending
+
+        return { text: [`Asked: ${pending.label}. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.`, ...(pending.shows === undefined ? [] : [`runs: ${pending.shows}`, pending.note ?? ''])].filter(Boolean).join('\n') }
+      }
+
+      return { text: labAnswer(state, intent.paletteId, askedAtMs) ?? (state.outcome !== null && !state.outcome.ok ? `${state.outcome.label}: ${state.outcome.detail}` : (state.outcome?.label ?? 'done')) }
     }
     case 'confirm':
       if (state.pending === null) return { text: 'Nothing is waiting for a confirm.' }
