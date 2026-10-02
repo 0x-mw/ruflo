@@ -100,7 +100,7 @@ function footer(ctx: Ctx): RenderElement {
   }
 
   const read = state.snapshot === null ? 'reading…' : `read ${ago(state.snapshot.readAtMs, nowMs)}`
-  const keys = state.pane.isFocused ? 'keys on' : 'keys off: click the pane or ctrl+x tab (or /ruflo …)'
+  const keys = state.pane.isFocused ? 'keys on' : 'keys off: click the pane (or /ruflo …)'
 
   parts.push(
     row(ctx, [

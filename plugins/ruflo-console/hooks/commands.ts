@@ -104,8 +104,9 @@ export const HELP = [
   '  /ruflo mods                ruflo-mods: what this session routed, recorded and tightened (was /ruflo-mods)',
   '  /ruflo swarm pane|status|topology|claims|consensus   ruflo-swarm (was /ruflo-swarm-*)',
   '',
-  'Pane keys (while it holds the keyboard: click it, or ctrl+x tab)',
+  'Pane keys (while it holds the keyboard: /ruflo opens it with the keys, or click it; ctrl+x tab reaches the band, not the pane)',
   '  1-9 views · g timeline · q approvals · e events · m missions · p palette · x actions for the selection',
-  '  j/k select · d drill in · b back · r refresh · h help · f event filter · y/n confirm · Esc close',
+  '  j/k select · d drill in · b back · r refresh · h help · f event filter · y/n confirm',
+  '  Esc: a pane /ruflo opened closes; one that opened by itself (panel=auto) only hands the keys back. ✕ or /ruflo close closes either',
   '  (? and Enter cannot be pane hotkeys in this Claude Code build: use h, and d to drill in)',
 ].join('\n')

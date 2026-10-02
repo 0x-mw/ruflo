@@ -1,11 +1,11 @@
 /**
  * Parity for the copied ADR-406 command catalog: the copy's sourceDigest is the sha256 of its entries' canonical JSON
- * (keys sorted at every depth, no whitespace), as the ruflo CLI computes it, and where the CLI's own generated
- * catalog is in this tree the copy equals it. Refresh the copy with:
+ * (keys sorted at every depth, no whitespace), as the ruflo CLI computes it, and the copy equals the CLI's own
+ * generated catalog in this tree. Refresh the copy with:
  *   cp v3/@claude-flow/cli/src/mods/command-registry/catalog.generated.json plugins/ruflo-console/catalog/command-catalog.json
  */
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -36,7 +36,7 @@ describe('command catalog copy', () => {
     expect(`sha256:${createHash('sha256').update(canonical(catalog.entries)).digest('hex')}`).toBe(catalog.sourceDigest)
   })
 
-  it.skipIf(!existsSync(CANONICAL))('equals the CLI-generated catalog in this tree', () => {
+  it('equals the CLI-generated catalog in this tree', () => {
     expect(JSON.parse(readFileSync(CANONICAL, 'utf8')).sourceDigest).toBe(catalog.sourceDigest)
   })
 
