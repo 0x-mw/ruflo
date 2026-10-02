@@ -12,6 +12,7 @@ import { MEM_KEYWORDS, MEM_LAB, memSpecOf, memWhy } from './memory-lab'
 import { LAB, labSpec, labWhy } from './mh-lab'
 import { PERF } from './perf'
 import { SECURE, SECURE_KEYWORDS, SECURE_TEXT, secSpec, secTextSpec } from './secure'
+import { skillPaletteEntries } from './skills-lab'
 import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
 import { XRUV } from './xruv'
@@ -55,7 +56,7 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS: readonly string[] = ['route', 'store', 'search', 'propose', 'broadcast', 'task', 'mission', 'cost-budget', 'x-join', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-hub', 'x-admit', ...MEM_KEYWORDS, ...SECURE_KEYWORDS]
+const TEXT_KEYWORDS: readonly string[] = ['route', 'store', 'search', 'propose', 'broadcast', 'task', 'mission', 'cost-budget', 'x-join', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-hub', 'x-admit', ...MEM_KEYWORDS, ...SECURE_KEYWORDS, 'skills-find']
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
@@ -146,6 +147,8 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   // Security & Doctor and Performance: reads run at once, the rest ask with their cost on the confirm row (secure.ts, perf.ts).
   for (const entry of [...SECURE, ...PERF]) add(entry.id, entry.id.startsWith('perf') ? 'performance' : 'security', entry.label, { kind: 'spec', spec: secSpec(entry, entry.args, state), why: '' })
   for (const entry of SECURE_TEXT) add(entry.id, 'security', entry.label, { kind: 'text', keyword: entry.id, make: text => secTextSpec(entry, text, state) })
+  // The skills view's search, update-all, restore and sync, so /ruflo run skills-update works headless.
+  out.push(...skillPaletteEntries(state))
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 

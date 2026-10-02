@@ -42,7 +42,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 50 },
   { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
   // No hotkey: every digit and letter is taken. The tab, the menu prompt and /ruflo skills reach it by name.
-  { id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): what is installed here and globally, search, add, update, remove, create', rows: 34 },
+{ id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): installed, search, use without installing, preview, add to chosen agents, update, create', rows: 60 },
   // No hotkeys either: reached by the tab, the menu prompt (secure, perf) or /ruflo secure.
   { id: 'secure', key: '', label: 'Security & Doctor', short: 'Sec', icon: '🔒',blurb: 'security scans, a paste field that checks text for injection and PII, policy, and every doctor check', rows: 40 },
   { id: 'perf', key: '', label: 'Performance', short: 'Prf', icon: '📈', blurb: 'metrics, profile, benchmarks, bottlenecks and a latency sparkline from each run', rows: 30 },

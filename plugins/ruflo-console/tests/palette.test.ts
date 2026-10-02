@@ -2,7 +2,8 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 
 import { HIVE_FILES, WORKERS } from './fixtures/hive'
 import { RUFLO_FILES } from './fixtures/ruflo-run'
-import { command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
+import { FIND_OUT } from './fixtures/skills'
+import { cliAnswer, command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const runsOf = (runs: readonly string[][], word: string) => runs.filter(argv => argv.includes(word))
 
@@ -187,6 +188,25 @@ describe('palette and /ruflo', () => {
     expect(answer).toContain('  [low] 12 unpinned dependency range(s)')
     // An entry that cannot run headless says why: the typed ones name the command to type.
     expect((await $.command.run(command('run mh-learn-run'))).text).toBe('nothing to do: type it in the terminal (i): ruflo metaharness learn --run --format json --host claude-code --model haiku --slice <path>')
+  })
+
+  test('skills headless: /ruflo run skills-find answers with what skills.sh found; skills-update asks first', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+
+    world.respond = argv => (argv[2] !== 'skills' ? cliAnswer(argv) : { exitCode: 0, stdout: argv[3] === 'find' ? FIND_OUT : argv[3] === 'ls' ? '[]' : 'done\n', stderr: '' })
+    mock.clock(on)
+    await $.session.start({ ...SESSION, isInteractive: false })
+
+    const found = (await $.command.run(command('run skills-find react'))).text ?? ''
+
+    expect(found).toMatch(/^skills find "react": 4 found\n {2}mattpocock\/skills@tdd · 1M installs/)
+    expect(runsOf(world.runs, 'find')).toEqual([['npx', '-y', 'skills', 'find', 'react']])
+    expect((await $.command.run(command('run skills-update'))).text).toContain('Asked: update every project skill. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.')
+    expect(runsOf(world.runs, 'update')).toEqual([])
+    // A skills change runs its own command and reports into the skills view, so the confirm answers before it ends.
+    expect((await $.command.run(command('yes'))).text).toBe('Ran.')
+    await $.command.run(command('status'))
+    expect(runsOf(world.runs, 'update')).toEqual([['npx', '-y', 'skills', 'update', '-p', '-y']])
   })
 
   test('/ruflo help, an unknown word, and the hints when ruflo-mods or ruflo-swarm are not loaded', { options: { boot: false } }, async ($, on) => {

@@ -9,6 +9,7 @@ import type { Controller } from './controller'
 import { median, p95 } from './controller'
 import { plain } from './data/parse'
 import { labAnswer } from './mh-lab'
+import { skillsAnswer } from './skills-lab'
 import { VIEWS, type State } from './state'
 import { xruvAnswer } from './xruv'
 import { barText } from './views/bar'
@@ -123,7 +124,7 @@ export async function dispatch(control: Controller, state: State, args: string, 
         return { text: [`Asked: ${pending.label}. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.`, ...(pending.shows === undefined ? [] : [`runs: ${pending.shows}`, pending.note ?? ''])].filter(Boolean).join('\n') }
       }
 
-      return { text: (xruvAnswer(state, intent.paletteId, askedAtMs) ?? labAnswer(state, intent.paletteId, askedAtMs)) ?? (state.outcome !== null && !state.outcome.ok ? `${state.outcome.label}: ${state.outcome.detail}` : (state.outcome?.label ?? 'done')) }
+      return { text: (xruvAnswer(state, intent.paletteId, askedAtMs) ?? labAnswer(state, intent.paletteId, askedAtMs) ?? skillsAnswer(state, intent.paletteId, askedAtMs)) ?? (state.outcome !== null && !state.outcome.ok ? `${state.outcome.label}: ${state.outcome.detail}` : (state.outcome?.label ?? 'done')) }
     }
     case 'confirm':
       if (state.pending === null) return { text: 'Nothing is waiting for a confirm.' }

@@ -1,7 +1,8 @@
 import type { RenderElement } from 'claude-code'
 
-import type { FoundSkill, InstalledSkill } from '../data/skills'
+import { sortedFound, type FoundSkill, type InstalledSkill } from '../data/skills'
 import { ago, clip, col, row, rule, text, THEME, type Ctx } from './common'
+import { authorRows, maintainRows, previewRows, projectRows, targetRows } from './skills-more'
 
 const SHOWN = 10
 
@@ -42,6 +43,7 @@ function installedRows(ctx: Ctx): RenderElement[] {
         { key: `sk-update-${i}`, label: 'update', onPress: () => ctx.act.skills.update(skill) },
         { key: `sk-remove-${i}`, label: 'remove', onPress: () => ctx.act.skills.remove(skill) },
         { key: `sk-edit-${i}`, label: 'edit', onPress: () => ctx.act.skills.edit(skill) },
+        { key: `sk-view-${i}`, label: 'view', onPress: () => ctx.act.skills.previewInstalled(skill) },
       ], skill.scope === 'global' ? THEME.ok : THEME.head),
     )
     rows.push(text(ctx, `   ${skill.path}${skill.source !== undefined ? ` · from ${skill.source}` : ''}`, { dimColor: true }))
@@ -54,14 +56,14 @@ function installedRows(ctx: Ctx): RenderElement[] {
 
 function searchRows(ctx: Ctx): RenderElement[] {
   const skills = ctx.state.skills
-  const rows: RenderElement[] = [rule(ctx, 'Search', 'skills.sh · npx skills find')]
+  const rows: RenderElement[] = [rule(ctx, 'Search', `skills.sh · npx skills find · ${skills.sort === 'installs' ? 'most installed first' : 'as found'}`)]
 
   if (ctx.kit.Input !== undefined) {
     rows.push(
       ctx.kit.Input({
         key: 'skills-search',
         label: 'find',
-        placeholder: 'a word or two: react, testing, owner:vercel-labs deploy …',
+        placeholder: 'a word or two: react, testing · owner:vercel-labs deploy narrows to one GitHub owner',
         value: skills.searchDraft,
         submitLabel: 'search',
         onInput: value => ctx.act.skills.searchDraft(value),
@@ -77,16 +79,24 @@ function searchRows(ctx: Ctx): RenderElement[] {
   else if (skills.found !== null && skills.found.length === 0) rows.push(text(ctx, ` no skills found for "${skills.query}"`, { dimColor: true }))
   else if (skills.found === null) rows.push(text(ctx, ' Enter searches skills.sh (it is on the network, so nothing is asked until you do)', { dimColor: true }))
 
-  ;(skills.found ?? []).slice(0, SHOWN).forEach((found: FoundSkill, i) => {
+  sortedFound(skills.found ?? [], skills.sort).slice(0, SHOWN).forEach((found: FoundSkill, i) => {
     rows.push(
       leader(ctx, `sk-found-${i}`, found.id, found.installs !== undefined ? `${found.installs} installs` : 'installs n/a', [
-        { key: `sk-add-${i}`, label: 'add', onPress: () => ctx.act.skills.add(found, 'project') },
-        { key: `sk-addg-${i}`, label: 'add -g', onPress: () => ctx.act.skills.add(found, 'global') },
+        { key: `sk-use-${i}`, label: 'use', onPress: () => ctx.act.skills.use(found) },
+        { key: `sk-preview-${i}`, label: 'preview', onPress: () => ctx.act.skills.previewFound(found) },
+        { key: `sk-add-${i}`, label: 'add', onPress: () => ctx.act.skills.add(found, skills.scope) },
       ]),
     )
   })
 
-  if ((skills.found?.length ?? 0) > 0) rows.push(text(ctx, ' ▸ add installs into this project, ▸ add -g for every project; each asks first (y/n)', { dimColor: true }))
+  if ((skills.found?.length ?? 0) > 0) {
+    rows.push(
+      row(ctx, [
+        ctx.kit.Button({ key: 'sk-sort', label: skills.sort === 'installs' ? ' ▸ sort: as found' : ' ▸ sort: most installed', plain: true, dimColor: true, onPress: () => ctx.act.skills.sortBy() }),
+        text(ctx, ` · ▸ use hands the skill to claude without installing · ▸ preview lists its repo · ▸ add installs to ${skills.scope} (asks first)`, { dimColor: true }),
+      ]),
+    )
+  }
 
   return rows
 }
@@ -110,6 +120,7 @@ function createRows(ctx: Ctx): RenderElement[] {
   }
 
   rows.push(text(ctx, ' Enter shows the command, Enter again (or y) runs it · ▸ edit opens a skill in the AI terminal with claude', { dimColor: true }))
+  rows.push(...authorRows(ctx))
 
   return rows
 }
@@ -129,5 +140,5 @@ export function skillsView(ctx: Ctx): RenderElement {
     status.push(text(ctx, ` ${skills.last.ok ? '✓' : '✗'} ${skills.last.label}${skills.last.verified === 'yes' ? ' · listed' : skills.last.verified === 'no' ? ' · not listed' : ''}: ${skills.last.detail} (${ago(skills.last.atMs, nowMs)})`, { color: skills.last.ok ? THEME.ok : THEME.bad }))
   }
 
-  return col(ctx, [...status, ...installedRows(ctx), ...searchRows(ctx), ...createRows(ctx)], 'skills')
+  return col(ctx, [...status, ...targetRows(ctx), ...installedRows(ctx), ...searchRows(ctx), ...previewRows(ctx), ...projectRows(ctx), ...createRows(ctx), ...maintainRows(ctx)], 'skills')
 }

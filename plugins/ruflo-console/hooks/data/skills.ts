@@ -35,7 +35,31 @@ export type SkillsState = {
   asked: { key: string; label: string } | null
   /** How the last change went, kept for the view after the footer lets it go. */
   last: Outcome | null
+  /** Where ▸ add and ▸ update all go: the scope, and the agents named to `--agent` (none: the CLI's own pick). */
+  scope: Scope
+  agents: string[]
+  /** How results are ordered: as skills.sh answered, or by install count. */
+  sort: 'relevance' | 'installs'
+  /** When the shown results arrived: a headless `skills-find` answers with them. */
+  foundAtMs: number
+  /** The preview panel: a skill's SKILL.md (installed) or its repository's skill list (a result), and what is loading. */
+  preview: Preview | null
+  previewing: string | null
+  /** A ▸ use run in flight (its id). */
+  using: string | null
+  /** The last ▸ scan: the stack the project's manifests show, and the skills its ruflo agents name. */
+  scan: Scan | null
+  isScanning: boolean
+  /** The skill the person last created or named for authoring, and its check. */
+  authored: string | null
+  check: { name: string; ok: boolean; lines: string[]; atMs: number } | null
 }
+
+export type Preview = { title: string; kind: 'installed' | 'repo'; lines: string[]; ok: boolean; atMs: number }
+
+/** One local skill (under .claude/skills or .agents/skills) and the agent files that name it. */
+export type LocalSkill = { name: string; where: string; refs: string[] }
+export type Scan = { stack: string[]; chips: string[]; local: LocalSkill[]; agentFiles: number; atMs: number; notes: string[] }
 
 export const emptySkills = (): SkillsState => ({
   installed: null,
@@ -51,7 +75,36 @@ export const emptySkills = (): SkillsState => ({
   busy: null,
   asked: null,
   last: null,
+  scope: 'project',
+  agents: [],
+  sort: 'relevance',
+  foundAtMs: 0,
+  preview: null,
+  previewing: null,
+  using: null,
+  scan: null,
+  isScanning: false,
+  authored: null,
+  check: null,
 })
+
+/**
+ * The agents ▸ add can name to `--agent`, by the CLI's own ids (skills 1.7.0 `agents` table; it knows ~75, these are
+ * the common ones). A fixed list: nothing typed ever reaches `--agent`.
+ */
+export const AGENT_TARGETS: readonly { id: string; label: string }[] = [
+  { id: 'claude-code', label: 'Claude Code' },
+  { id: 'codex', label: 'Codex' },
+  { id: 'cursor', label: 'Cursor' },
+  { id: 'gemini-cli', label: 'Gemini CLI' },
+  { id: 'github-copilot', label: 'Copilot' },
+  { id: 'opencode', label: 'OpenCode' },
+  { id: 'windsurf', label: 'Windsurf' },
+  { id: 'cline', label: 'Cline' },
+]
+
+/** The agent ids that may become argv: known targets only, in the list's order, each once. */
+export const agentsOf = (picked: readonly string[]): string[] => AGENT_TARGETS.map(agent => agent.id).filter(id => picked.includes(id))
 
 const TYPED = /^[A-Za-z0-9@/._ -]+$/
 const SKILL_ID = /^[A-Za-z0-9][A-Za-z0-9._-]*(\/[A-Za-z0-9._-]+)*@[A-Za-z0-9][A-Za-z0-9._:-]*$/
@@ -96,7 +149,24 @@ export function findArgv(value: string): readonly string[] | null {
 }
 
 export const listArgv = (scope: Scope): readonly string[] => [...SKILLS, 'ls', ...(scope === 'global' ? ['-g'] : []), '--json']
-export const addArgv = (id: string, scope: Scope): readonly string[] => [...SKILLS, 'add', id, ...(scope === 'global' ? ['-g'] : []), '-y']
+/** `--agent` takes every word up to the next one starting with -, so the agents come last, before `-y`. */
+const agentFlag = (agents: readonly string[]): string[] => {
+  const ids = agentsOf(agents)
+
+  return ids.length === 0 ? [] : ['--agent', ...ids]
+}
+
+export const addArgv = (id: string, scope: Scope, agents: readonly string[] = []): readonly string[] => [...SKILLS, 'add', id, ...(scope === 'global' ? ['-g'] : []), ...agentFlag(agents), '-y']
+/** `use <id>` prints a prompt that carries the skill's SKILL.md; it copies the skill to a temp dir, installs nothing. */
+export const useArgv = (id: string): readonly string[] => [...SKILLS, 'use', id]
+/** `add <id> --list` lists the repository's skills and exits before installing (never with --json: the CLI refuses it). */
+export const listRepoArgv = (id: string): readonly string[] => [...SKILLS, 'add', id, '--list']
+/** `update` with no names updates every skill of the scope. */
+export const updateAllArgv = (scope: Scope): readonly string[] => [...SKILLS, 'update', scope === 'global' ? '-g' : '-p', '-y']
+/** Restores the project's skills from skills-lock.json: takes no flags. */
+export const restoreArgv = (): readonly string[] => [...SKILLS, 'experimental_install']
+/** Links skills found in node_modules into the agents' folders. */
+export const syncArgv = (agents: readonly string[] = []): readonly string[] => [...SKILLS, 'experimental_sync', ...agentFlag(agents), '-y']
 export const removeArgv = (name: string, scope: Scope): readonly string[] => [...SKILLS, 'remove', name, ...(scope === 'global' ? ['-g'] : []), '-y']
 /** With the scope named, so `update` never stops at its project-or-global prompt. */
 export const updateArgv = (name: string, scope: Scope): readonly string[] => [...SKILLS, 'update', name, scope === 'global' ? '-g' : '-p', '-y']
@@ -146,3 +216,66 @@ export function parseFind(stdout: string): FoundSkill[] {
 
 /** The skill's own name in an `owner/repo@skill` id: what `ls` lists once it is added. */
 export const nameInId = (id: string): string => id.slice(id.lastIndexOf('@') + 1)
+
+/** An install count as skills.sh prints it (`1M`, `764.8K`, `42`), or -1 when there is none. */
+export function installsOf(text: string | undefined): number {
+  const match = /^([\d.]+)([KM]?)$/.exec(text ?? '')
+  const n = match === null ? NaN : Number(match[1])
+
+  return Number.isFinite(n) && match !== null ? n * (match[2] === 'M' ? 1_000_000 : match[2] === 'K' ? 1000 : 1) : -1
+}
+
+/** The results in the order asked for: as found, or most installed first (results without a count last). */
+export const sortedFound = (found: readonly FoundSkill[], sort: SkillsState['sort']): FoundSkill[] =>
+  sort === 'installs' ? [...found].sort((a, b) => installsOf(b.installs) - installsOf(a.installs)) : [...found]
+
+/** A line with its colour gone but its indent kept (`plain` folds whitespace, and the indent is what tells names from text). */
+const bare = (line: string): string => line.replace(/\u001b\[[0-9;?]*[ -/]*[@-~]/g, '').replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, '').replace(/\s+$/, '')
+
+export type RepoSkill = { name: string; description: string; group?: string }
+
+/**
+ * `skills add <id> --list`: after the `Available Skills` step, each skill is a `│    name` line then a `│      text`
+ * line (deeper); a line with no bar is a group's title. Everything before that step (spinners, the source) is passed over.
+ */
+export function parseRepoList(stdout: string): RepoSkill[] {
+  const lines = stdout.slice(0, 200_000).split('\n').map(bare)
+  const start = lines.findIndex(line => /Available Skills\s*$/.test(line))
+  const out: RepoSkill[] = []
+  let group: string | undefined
+
+  if (start < 0) return out
+
+  for (const line of lines.slice(start + 1)) {
+    if (out.length >= 60) break
+    if (/^[└]/.test(line)) break
+
+    const body = /^│(\s*)(.*)$/.exec(line)
+
+    if (body === null) {
+      if (line.trim() !== '') group = plain(line, 60)
+      continue
+    }
+
+    const [, indent = '', words = ''] = body
+
+    if (words.trim() === '') continue
+
+    const last = out[out.length - 1]
+
+    if (indent.length <= 4) out.push({ name: plain(words, 80), description: '', ...(group !== undefined && { group }) })
+    else if (last !== undefined) last.description = plain(`${last.description} ${words}`, 300)
+  }
+
+  return out
+}
+
+/** The terminal sends at most this much of a prompt; a longer one is cut here, and the outcome says so. */
+export const USE_MAX = 8_000
+
+/** What `use` printed, as the prompt the terminal is loaded with: trimmed, capped, empty when there is none. */
+export function usePromptOf(stdout: string): { prompt: string; isCut: boolean } {
+  const text = stdout.replace(/\u001b\[[0-9;?]*[ -/]*[@-~]/g, '').replace(/\r/g, '').trim()
+
+  return { prompt: text.slice(0, USE_MAX), isCut: text.length > USE_MAX }
+}

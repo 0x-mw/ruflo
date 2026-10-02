@@ -43,7 +43,10 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
   async function execute(spec: ActionSpec): Promise<void> {
     // A harness run reports into the terminal and may take minutes: it does not hold the other buttons.
     if (spec.run !== undefined) {
-      void spec.run()
+      const running = spec.run()
+
+      // A read that runs its own command (a skills search) is waited on, so `/ruflo run` answers with what it found.
+      if (spec.isReadOnly === true) await running
 
       return
     }

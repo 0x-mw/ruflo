@@ -12,6 +12,7 @@ import { memoryActions } from './memory-lab'
 import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
 import { skillActions } from './skills'
+import { moreSkillActions } from './skills-lab'
 import { PANE_ID, viewOf, type State } from './state'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
@@ -255,7 +256,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       },
     },
     // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
-    skills: skillActions(state, host, runner, text => actions.term.load('claude', text)),
+    skills: { ...skillActions(state, host, runner, text => actions.term.load('claude', text)), ...moreSkillActions(state, host, runner, text => actions.term.load('claude', text)) },
     memory: memoryActions(state, runner, host.invalidate),
   }
 
