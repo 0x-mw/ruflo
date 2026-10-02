@@ -49,7 +49,25 @@ export type Ctx = {
   act: Actions
 }
 
-export const THEME = { head: 'claude', ok: 'success', bad: 'error', warn: 'warning', info: 'suggestion' } as const
+export type Look = 'bbs' | 'plain'
+
+/** The terminal theme's own colours: readable on light and dark backgrounds alike. */
+const PLAIN = { head: 'claude', ok: 'success', bad: 'error', warn: 'warning', info: 'suggestion' }
+/** The BBS look: neon magenta headings, cyan values, matrix-green labels; amber stays for attention. */
+const NEON = { head: '#ff2a6d', ok: '#39ff14', bad: '#ff3355', warn: '#ffd319', info: '#05d9e8' }
+const NEON_LABEL = '#2fbf71'
+
+/** The palette every view reads; `setLook` swaps it in place before a render, so callers keep using THEME.x. */
+export const THEME: { head: string; ok: string; bad: string; warn: string; info: string } = { ...PLAIN }
+let look: Look = 'plain'
+
+export function setLook(next: Look): void {
+  if (next === look) return
+  look = next
+  Object.assign(THEME, next === 'bbs' ? NEON : PLAIN)
+}
+
+export const isBbs = (): boolean => look === 'bbs'
 
 export const clip = (text: string, width: number): string => (text.length <= width ? text : `${text.slice(0, Math.max(0, width - 1))}…`)
 
@@ -90,6 +108,14 @@ export function col(ctx: Ctx, parts: readonly RenderChildren[], key?: string): R
 
 /** A section title with a rule to the right edge. */
 export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
+  if (look === 'bbs') {
+    // BBS section header: ▓▒░ SWARM ░▒▓══════════ right
+    const head = `▓▒░ ${title.toUpperCase()} ░▒▓`
+    const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
+
+    return row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: head }), ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: THEME.info, children: right })])
+  }
+
   const fill = Math.max(1, ctx.columns - title.length - right.length - 3)
 
   return row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: title }), ctx.kit.Text({ dimColor: true, children: ` ${'─'.repeat(fill)} ` }), ctx.kit.Text({ dimColor: true, children: right })])
@@ -99,9 +125,12 @@ export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
 export function kv(ctx: Ctx, label: string, value: string, color?: string): RenderElement {
   const isNa = value === 'n/a' || value.startsWith('n/a ') || value === 'missing'
 
+  // BBS: green labels and cyan values, the way a sysop screen lists its stats.
+  const neonValue = look === 'bbs' && color === undefined ? { color: THEME.info } : {}
+
   return row(ctx, [
-    ctx.kit.Text({ dimColor: true, children: `${label.padEnd(16)} ` }),
-    ctx.kit.Text({ wrap: 'truncate-end', ...(isNa ? { dimColor: true } : color !== undefined ? { color } : {}), children: clip(value, Math.max(4, ctx.columns - 18)) }),
+    ctx.kit.Text(look === 'bbs' ? { color: NEON_LABEL, children: `${label.padEnd(16)} ` } : { dimColor: true, children: `${label.padEnd(16)} ` }),
+    ctx.kit.Text({ wrap: 'truncate-end', ...(isNa ? { dimColor: true } : color !== undefined ? { color } : neonValue), children: clip(value, Math.max(4, ctx.columns - 18)) }),
   ])
 }
 

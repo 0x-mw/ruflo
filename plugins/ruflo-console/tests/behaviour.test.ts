@@ -14,9 +14,9 @@ describe('behaviour', () => {
 
     const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
 
-    expect(textOf(await pane.drawn())).toContain('🏠 Overview')
+    expect(textOf(await pane.drawn())).toContain('🏠 OVERVIEW')
     await pane.press({ key: 'tab-claims' })
-    expect(textOf(await pane.drawn())).toContain('📌 Claims')
+    expect(textOf(await pane.drawn())).toContain('📌 CLAIMS')
     expect(world.stored.get('ruflo-console/ui:/work')).toEqual({ view: 'claims', isClosedByPerson: false })
     expect(world.opened.length).toBeGreaterThanOrEqual(2)
     await pane.unmount()
@@ -96,7 +96,7 @@ describe('behaviour', () => {
       const pane = await $.ui.mount({ ...paneAt(100), plugin: PLUGIN })
       const text = textOf(await pane.drawn())
 
-      expect(text).toMatch(/\n\S+ [A-Z][A-Za-z]+\n — \w/)  // the line under the tabs: icon, view name, what it is for
+      expect(text).toMatch(/>> \n\S+ [A-Z]+\n :: \w/)  // the BBS line under the tabs: >> icon NAME :: what it is for
       await pane.unmount()
     }
 

@@ -11,7 +11,7 @@ import type { Channels, Peers, Roster } from '../data/cli'
 import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePicture, type Stage } from '../gfx/charts'
 import { flowModelOf, flowPicture, flowRows } from '../gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture, type FedNode, type HealthRow, type Lane } from '../gfx/maps'
-import { activityPicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
+import { activityPicture, bannerPicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
 import type { Grid } from '../gfx/raster'
 import { severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
@@ -118,7 +118,11 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
   const width = Math.max(20, Math.min(200, columns))
   const snapshot = state.snapshot
 
-  if (!(state.pane.rows > 0 && state.pane.rows < rowsOf(state.view))) pictures.set('header', headerPicture(`◆ ruflo · ${state.cwd.split('/').filter(Boolean).at(-1) ?? ''}`, Math.min(width, 40), t))
+  if (!(state.pane.rows > 0 && state.pane.rows < rowsOf(state.view))) {
+    const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
+
+    pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo · ${project}`, Math.min(width, 40), t))
+  }
 
   switch (state.view) {
     case 'overview':

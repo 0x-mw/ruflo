@@ -231,6 +231,44 @@ export function markPicture(isWorking: boolean, t: number): Grid {
 }
 
 /** The pane's title strip: a highlight sweeps across it every few seconds while the pane is focused. Decoration only. */
+/** RUFLO in a two-row half-block font, the way a BBS splash spelled its name. */
+const LOGO = ['█▀█ █ █ █▀▀ █   █▀█', '█▀▄ █▄█ █▀  █▄▄ █▄█'] as const
+const NEON_MAGENTA = 0xff2a6d
+const NEON_CYAN = 0x05d9e8
+
+/**
+ * The BBS banner: the logo in a magenta-to-cyan gradient with a scanline sweeping across it (decoration), a tag line,
+ * the project, and a blinking block cursor. Two rows.
+ */
+export function bannerPicture(project: string, columns: number, t: number): Grid {
+  const grid = new Grid(columns, 2)
+  const width = LOGO[0].length
+  const sweep = ((t / 28) % (columns + 40)) - 20
+
+  LOGO.forEach((line, y) => {
+    ;[...line].forEach((ch, x) => {
+      if (ch === ' ' || x >= columns) return
+
+      const base = mix(NEON_MAGENTA, NEON_CYAN, x / Math.max(1, width - 1))
+      const glow = Math.max(0, 1 - Math.abs(x - sweep) / 4)
+
+      grid.set(x, y, ch, mix(base, 0xffffff, glow * 0.7))
+    })
+  })
+
+  const x0 = width + 2
+
+  if (columns > x0 + 4) {
+    grid.text(x0, 0, '░▒▓ AGENT SWARM CONSOLE'.slice(0, columns - x0), NEON_MAGENTA)
+    const node = `▸ node ${project}`.slice(0, columns - x0 - 2)
+
+    grid.text(x0, 1, node, NEON_CYAN)
+    if (Math.floor(t / 530) % 2 === 0 && x0 + node.length + 1 < columns) grid.set(x0 + node.length + 1, 1, '█', NEON_CYAN)
+  }
+
+  return grid
+}
+
 export function headerPicture(title: string, columns: number, t: number): Grid {
   const grid = new Grid(columns, 1)
   const at = ((t / 22) % (columns + 60)) - 20

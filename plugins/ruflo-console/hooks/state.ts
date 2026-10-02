@@ -75,6 +75,8 @@ export type Options = {
   panel: 'auto' | 'command' | 'off'
   /** Lets the federation view ask the public relay for the roster. Off by default: no network without consent. */
   federationNetwork: boolean
+  /** `bbs`: the neon ASCII-art look (default); `plain`: the terminal theme's own colours and plain rules. */
+  look: 'bbs' | 'plain'
 }
 
 const num = (value: unknown, fallback: number, lo: number, hi: number): number => {
@@ -94,6 +96,7 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
     bar: value.bar === 'on' || value.bar === 'off' ? value.bar : 'auto',
     panel: value.panel === 'command' || value.panel === 'off' ? value.panel : 'auto',
     federationNetwork: value.federationNetwork === true,
+    look: value.look === 'plain' ? 'plain' : 'bbs',
   }
 }
 
