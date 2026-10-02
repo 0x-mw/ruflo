@@ -263,7 +263,7 @@ export function bannerPicture(project: string, columns: number, t: number): Grid
 
   if (columns > x0 + 4) {
     grid.text(x0, 0, '░▒▓ AGENT SWARM CONSOLE'.slice(0, columns - x0), NEON_MAGENTA)
-    const node = `▸ node ${project}`.slice(0, columns - x0 - 2)
+    const node = `▸ npx ruflo · ${project}`.slice(0, columns - x0 - 2)
 
     grid.text(x0, 1, node, NEON_CYAN)
     if (Math.floor(t / 530) % 2 === 0 && x0 + node.length + 1 < columns) grid.set(x0 + node.length + 1, 1, '█', NEON_CYAN)
