@@ -1,6 +1,6 @@
 import type { RenderElement } from 'claude-code'
 
-import type { FoundSkill, InstalledSkill } from '../data/skills'
+import { sortedFound, type FoundSkill, type InstalledSkill } from '../data/skills'
 import { ago, clip, col, row, rule, text, THEME, type Ctx } from './common'
 import { authorRows, maintainRows, previewRows, projectRows, targetRows } from './skills-more'
 
@@ -79,7 +79,7 @@ function searchRows(ctx: Ctx): RenderElement[] {
   else if (skills.found !== null && skills.found.length === 0) rows.push(text(ctx, ` no skills found for "${skills.query}"`, { dimColor: true }))
   else if (skills.found === null) rows.push(text(ctx, ' Enter searches skills.sh (it is on the network, so nothing is asked until you do)', { dimColor: true }))
 
-  ;(skills.found ?? []).slice(0, SHOWN).forEach((found: FoundSkill, i) => {
+  sortedFound(skills.found ?? [], skills.sort).slice(0, SHOWN).forEach((found: FoundSkill, i) => {
     rows.push(
       leader(ctx, `sk-found-${i}`, found.id, found.installs !== undefined ? `${found.installs} installs` : 'installs n/a', [
         { key: `sk-use-${i}`, label: 'use', onPress: () => ctx.act.skills.use(found) },

@@ -6,7 +6,7 @@
  * installed lists are read again to say whether it took. Every argv is fixed, with no shell; nothing here writes a file.
  */
 import type { ActionSpec } from './actions'
-import { addArgv, agentsOf, findArgv, initArgv, listArgv, nameInId, newNameOf, parseFind, parseInstalled, removeArgv, skillIdOf, skillNameOf, sortedFound, updateArgv, type FoundSkill, type InstalledSkill, type Scope } from './data/skills'
+import { addArgv, agentsOf, findArgv, initArgv, listArgv, nameInId, newNameOf, parseFind, parseInstalled, removeArgv, skillIdOf, skillNameOf, updateArgv, type FoundSkill, type InstalledSkill, type Scope } from './data/skills'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { outputLines } from './ops'
@@ -86,7 +86,7 @@ export function findSkills(state: State, host: Host, text: string): string | nul
   const run = host
     .run(argv, READ_TIMEOUT_MS)
     .then(result => {
-      skills.found = sortedFound(parseFind(result.stdout), skills.sort)
+      skills.found = parseFind(result.stdout)
       skills.foundAtMs = Date.now()
       skills.findError = result.exitCode !== 0 ? `exit ${result.exitCode}: ${firstLine(result.stderr) || firstLine(result.stdout) || 'no message'}` : null
     })

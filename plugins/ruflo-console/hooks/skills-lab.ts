@@ -267,7 +267,6 @@ export function moreSkillActions(state: State, host: Host, runner: Runner, load:
     },
     sortBy: () => {
       skills.sort = skills.sort === 'installs' ? 'relevance' : 'installs'
-      if (skills.found !== null) skills.found = sortedFound(skills.found, skills.sort)
       host.invalidate()
     },
     scan: () => {
@@ -355,7 +354,7 @@ export function skillsAnswer(state: State, id: string, sinceMs: number): string 
   if (id !== 'skills-find' || skills.foundAtMs < sinceMs) return null
   if (skills.findError !== null) return `✗ skills find: ${skills.findError}`
 
-  const found = skills.found ?? []
+  const found = sortedFound(skills.found ?? [], skills.sort)
 
   return [`skills find "${skills.query}": ${found.length} found`, ...found.slice(0, 15).map(skill => `  ${skill.id}${skill.installs !== undefined ? ` · ${skill.installs} installs` : ''}`)].join('\n')
 }

@@ -256,6 +256,12 @@ describe('the new skills actions', () => {
     act.toggleAgent('claude-code')
     expect(state.skills.agents).toEqual(['claude-code', 'codex'])
     act.toggleAgent('codex')
+    // The sort is a view of the results as found: toggling twice gives the CLI's order back.
+    state.skills.found = [{ id: 'a/b@low', installs: '1K' }, { id: 'a/b@high', installs: '2M' }]
+    act.sortBy()
+    expect(sortedFound(state.skills.found, state.skills.sort).map(skill => skill.id)).toEqual(['a/b@high', 'a/b@low'])
+    act.sortBy()
+    expect(sortedFound(state.skills.found, state.skills.sort).map(skill => skill.id)).toEqual(['a/b@low', 'a/b@high'])
     expect(addSpec(state, host, { id: 'o/r@s' }, 'global')?.shows).toBe('npx -y skills add o/r@s -g --agent claude-code -y')
     expect(addSpec(state, host, { id: 'o/r@s' }, 'global')?.label).toBe('add skill o/r@s globally for claude-code')
   })
