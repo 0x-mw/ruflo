@@ -391,6 +391,13 @@ export function createController(state: State, host: Host): Controller {
     }
 
     host.invalidate()
+    // The terminal is for typing: its field takes the keys as it opens, so letters reach it, not the pane's hotkeys.
+    if (view === 'terminal') focusField('term-input')
+  }
+
+  /** Moves the pane's focus ring onto one of its fields; refused (the pane does not hold the keys), nothing happens. */
+  function focusField(key: string): void {
+    if (state.pane.isOpen && state.pane.isFocused) void host.focus(PANE_ID, key).catch(() => undefined)
   }
 
   function drill(agentId: string): void {

@@ -4,12 +4,12 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
-import { harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
+import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
-import { viewOf, type State } from './state'
+import { PANE_ID, viewOf, type State } from './state'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
 
@@ -128,6 +128,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       harness: id => {
         state.terminal.harness = id
         host.invalidate()
+        // Pressing the pick moved the focus ring onto its button: give the field the keys back.
+        if (state.pane.isFocused) void host.focus(PANE_ID, 'term-input').catch(() => undefined)
       },
       draft: text => {
         state.terminal.draft = text
@@ -142,6 +144,20 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         if (text.trim() === '/new') {
           state.terminal.draft = ''
           newSession(state, host)
+
+          return
+        }
+
+        // /codex /claude /swarm /ruflo switch harness from the field, which holds the keys (its hotkeys would type).
+        const pick = HARNESSES.find(entry => text.trim() === `/${entry.id}`)
+
+        if (pick !== undefined) {
+          state.terminal.draft = ''
+          state.terminal.harness = pick.id
+          // An ask the previous harness left on screen goes with it.
+          if (state.terminal.asked !== null && state.pending?.label === state.terminal.asked.label) runner.cancel()
+          state.terminal.asked = null
+          host.invalidate()
 
           return
         }
@@ -161,7 +177,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
           return
         }
 
-        if (asked !== null && asked.key === key && state.pending?.label === asked.label) {
+        // The engine may empty the field on submit, so an empty Enter on a pending ask confirms it too.
+        if (asked !== null && (asked.key === key || text.trim() === '') && state.pending?.label === asked.label) {
           state.terminal.asked = null
           state.terminal.draft = ''
           void runner.confirm()

@@ -37,6 +37,7 @@ function hostOf($: EngineInterface, cwd: string): Host {
     storeGet: async key => $.store.get(key),
     storeSet: async (key, value) => $.store.set(key, value as never),
     invalidate: () => quietly(() => $.ui.invalidate('ui.render')),
+    focus: async (paneId, key) => $.ui.focus({ requestId: paneId, key }),
     blit: args => quietly(() => $.ui.blit(args)),
     openPane: async pane => $.ui.open(pane),
     closePane: async id => $.ui.close({ id }),

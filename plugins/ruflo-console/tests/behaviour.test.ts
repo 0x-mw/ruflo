@@ -269,12 +269,27 @@ describe('behaviour', () => {
     await $.session.start(SESSION)
     await $.command.run(command('claims'))
 
-    const pane = await $.ui.mount({ ...paneAt(98, 12), plugin: PLUGIN })
+    const inline = paneAt(98, 12)
+    const pane = await $.ui.mount({ ...inline, props: { ...inline.props, placement: 'inline' }, plugin: PLUGIN })
     const tree = await pane.drawn()
     const keys = elementsOf(tree, 'Button').map(keyOf)
 
     expect(keys.indexOf('close')).toBeLessThan(keys.indexOf('claim'))
+    // The banner goes; the page's own title stays.
     expect(elementsOf(tree, 'Raster').map(keyOf)).not.toContain('header')
+    expect(elementsOf(tree, 'Raster').map(keyOf)).toContain('title')
+    await pane.unmount()
+  })
+
+  test('a docked pane shorter than the view still draws the banner and the title: it scrolls', { options: { boot: false } }, async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('claims'))
+
+    const pane = await $.ui.mount({ ...paneAt(98, 12), plugin: PLUGIN })
+
+    expect(elementsOf(await pane.drawn(), 'Raster').map(keyOf).slice(0, 2)).toEqual(['header', 'title'])
     await pane.unmount()
   })
 })
