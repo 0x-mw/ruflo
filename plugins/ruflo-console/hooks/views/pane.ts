@@ -25,6 +25,7 @@ import { pluginsView } from './plugins'
 import { skillsView } from './skills'
 import { swarmView } from './swarm'
 import { terminalView } from './terminal'
+import { vectorView } from './vector'
 import { xruvView } from './xruv'
 
 export const NARROW = 44
@@ -53,6 +54,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   xruv: xruvView,
   terminal: terminalView,
   skills: skillsView,
+  vector: vectorView,
   agent: agentView,
 }
 

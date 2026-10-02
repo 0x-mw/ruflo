@@ -9,6 +9,7 @@ import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } fr
 import { LAB, labSpec, labWhy } from './mh-lab'
 import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
+import { VEC, vecSpec, vecWhy } from './vector'
 import { selection } from './views/select'
 
 export type PaletteRun =
@@ -115,6 +116,12 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
 
   // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
   for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
+
+  // The Vector Lab: a typed entry's id is its keyword (`/ruflo run vec-brain-search hnsw`); n/a ones say why.
+  for (const entry of VEC) {
+    if (entry.field !== undefined && entry.na === undefined) add(entry.id, 'vector', `${entry.label} <${entry.rule ?? 'text'}>`, { kind: 'text', keyword: entry.id, make: text => vecSpec(entry, state, text) })
+    else add(entry.id, 'vector', entry.label, { kind: 'spec', spec: vecSpec(entry, state), why: vecWhy(entry, state) })
+  }
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 

@@ -23,6 +23,10 @@ export type ActionSpec = {
   note?: string
   /** How long the CLI may take; 90 s when unset. */
   timeoutMs?: number
+  /** The whole command when it is another CLI than ruflo's (the ruvector CLI): it runs instead of the prefix and `args`. */
+  argv?: readonly string[]
+  /** Reads a lab run's output into its result lines instead of the MetaHarness reader (the Vector Lab redacts keys). */
+  lines?: (stdout: string, stderr: string) => string[]
 }
 
 export const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const

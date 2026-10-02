@@ -11,6 +11,7 @@ import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
 import { skillActions } from './skills'
 import { PANE_ID, viewOf, type State } from './state'
+import { vectorActions } from './vector'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
 
@@ -250,6 +251,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     },
     // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
     skills: skillActions(state, host, runner, text => actions.term.load('claude', text)),
+    // An rvlite query is MCP-only: it goes to the AI terminal typed, as ▸ edit does, and runs only when sent.
+    vector: vectorActions(state, runner, text => actions.term.load('claude', text)),
   }
 
   return actions

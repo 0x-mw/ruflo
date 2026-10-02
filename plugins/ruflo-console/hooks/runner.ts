@@ -53,14 +53,14 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     host.invalidate()
 
     try {
-      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000)
+      const result = await host.run(spec.argv ?? [...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000)
       const answer = /"success"\s*:\s*(true|false)/.exec(result.stdout)?.[1]
       const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1] ?? /\[ERROR\]\s*(.{0,160})/.exec(result.stdout)?.[1]
       const ok = result.exitCode === 0 && answer !== 'false' && error === undefined
 
       // A lab run's output goes to the lab's result panel, scrolled from its top; the footer keeps the one-line outcome.
       if (spec.lab !== undefined) {
-        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
+        state.lab.result = { id: spec.lab, label: spec.label, ok, exitCode: result.exitCode, ...(spec.note !== undefined && { note: spec.note }), lines: spec.lines?.(result.stdout, result.stderr) ?? labLines(spec.lab, result.stdout, result.stderr), atMs: Date.now() }
         state.select.item = 0
       }
 
