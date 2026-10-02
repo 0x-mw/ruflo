@@ -4,6 +4,7 @@
  */
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
+import { evolveActions } from './evolve'
 import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { plain } from './data/parse'
 import type { Host } from './host'
@@ -54,6 +55,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       void freshRead().then(() => probe(true))
       // The skills lists come from `npx skills`, not the disk read: r asks for them again on that view.
       if (state.view === 'skills') actions.skills.list()
+      if (state.view === 'evolve') actions.evolve.reread()
     },
     help: () => {
       state.isHelp = !state.isHelp
@@ -250,6 +252,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     },
     // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
     skills: skillActions(state, host, runner, text => actions.term.load('claude', text)),
+    // ▸ ask on the Self-Evolution view types a repo prompt into the AI terminal, as ▸ edit does: typed, not run.
+    evolve: evolveActions(state, host, text => actions.term.load('claude', text)),
   }
 
   return actions

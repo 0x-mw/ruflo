@@ -6,6 +6,7 @@
 import { HIVE_ROLES, pickedProposal } from './data/hive'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
+import { EVOLVE, evolveSpec, evolveWhy } from './evolve'
 import { LAB, labSpec, labWhy } from './mh-lab'
 import { AGENT_TYPES, agentLogs, dispatchWorker, memorySearch, memoryStore, reroute, setClaimStatus, spawnAgent, stopAgent, swarmInit, swarmStop, vote, WORKERS } from './ops'
 import { VIEWS, type State, type ViewId } from './state'
@@ -115,6 +116,8 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
 
   // The MetaHarness lab: reads run at once, the rest ask first; promotion is never an entry (see mh-lab.ts).
   for (const entry of LAB) add(entry.id, 'metaharness', entry.label, { kind: 'spec', spec: labSpec(entry, state), why: labWhy(entry) })
+  // The Self-Evolution checks: reads at once, the gate check asks; promotion is never an entry (see evolve.ts).
+  for (const entry of EVOLVE) add(entry.id, 'evolve', entry.label, { kind: 'spec', spec: evolveSpec(entry, state), why: evolveWhy(entry) })
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 

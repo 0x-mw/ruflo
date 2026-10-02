@@ -13,6 +13,7 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
+import { loadEvolve } from './evolve'
 import { listSkills } from './skills'
 import { CLI_PREFIXES, isBooting, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
@@ -400,6 +401,8 @@ export function createController(state: State, host: Host): Controller {
       void listSkills(state, host)
       focusField('skills-search')
     }
+    // Opening Self-Evolution reads ruflo's own flywheel files (local, no CLI run); its checks wait for a click.
+    if (view === 'evolve') void loadEvolve(state, host)
   }
 
   /**

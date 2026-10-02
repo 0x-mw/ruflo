@@ -11,6 +11,7 @@ import { agentView } from './agent'
 import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
+import { evolveView } from './evolve'
 import { federationView } from './federation'
 import { hiveView } from './hive'
 import { learningView } from './learning'
@@ -53,6 +54,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   xruv: xruvView,
   terminal: terminalView,
   skills: skillsView,
+  evolve: evolveView,
   agent: agentView,
 }
 
@@ -134,7 +136,8 @@ function confirmRow(ctx: Ctx): RenderElement | null {
     ctx,
     [
       text(ctx, `Confirm: ${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
-      text(ctx, `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}`, { dimColor: true }),
+      // Wrapped, not clipped: the person says yes to the whole argv, so all of it shows (a JSON argument runs long).
+      ctx.kit.Text({ dimColor: true, wrap: 'wrap', children: `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}` }),
       ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
       row(ctx, [button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }), button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' })]),
     ],
