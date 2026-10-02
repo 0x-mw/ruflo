@@ -130,4 +130,19 @@ describe('register', () => {
     expect(text).toContain('owns:        route, post-edit')
     expect(text).toContain('last devops (60%, matched)')
   })
+
+  test('/ruflo mods answers the same report; other /ruflo words pass on to the console', async ($, on) => {
+    world(on)
+    on('prompt.submit', ($, e) => ({ text: e.text }))
+    on('command.run', ($, e) => ({ text: `beneath: ${e.args}` }))
+    await $.session.start(START)
+    await $.prompt.submit(prompt('deploy with docker'))
+
+    const run = (args: string) => $.command.run({ command: 'ruflo', args, origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } })
+    const alias = await $.command.run({ command: 'ruflo-mods', args: '', origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } })
+
+    expect((await run('mods')).text).toBe(alias.text)
+    expect((await run('mods')).text).toContain('owns:        route, post-edit')
+    expect((await run('claims')).text).toBe('beneath: claims')
+  })
 })

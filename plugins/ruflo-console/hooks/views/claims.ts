@@ -25,9 +25,11 @@ export function claimsView(ctx: Ctx): RenderElement {
 
   if (claims.length === 0) {
     rows.push(text(ctx, snap.reads.claims === 'too-large' ? 'claims.json is too large to read here' : 'No claims on disk (.claude-flow/claims/claims.json).', { dimColor: true }))
+    if (snap.tasks.length > 0) rows.push(picture(ctx, 'flow', `${snap.tasks.length} open tasks`))
   } else {
-    rows.push(picture(ctx, 'claims', `${claims.length} claims`))
-    rows.push(text(ctx, 'bars: TTL left where expiresAt is set, else age (24 h scale); no claims tool sets a TTL today', { dimColor: true }))
+    rows.push(picture(ctx, 'flow', `${claims.length} claims`))
+    rows.push(text(ctx, 'lanes: open → claimed → working → done, and stealable · ╰─▶ a pending handoff', { dimColor: true }))
+    rows.push(text(ctx, 'ring: TTL left where expiresAt is set, else age filling over 24 h (no claims tool sets a TTL today)', { dimColor: true }))
 
     claims.slice(0, 10).forEach(claim => {
       const isPicked = pick.claim?.issueId === claim.issueId
@@ -55,8 +57,8 @@ export function claimsView(ctx: Ctx): RenderElement {
   if (ctx.columns >= 44) {
     rows.push(
       row(ctx, [
-        button(ctx, 'claim-prev', 'prev', ctx.act.claimPrev, { hotkey: 'j' }),
-        button(ctx, 'claim-next', 'next', ctx.act.claimNext, { hotkey: 'k' }),
+        button(ctx, 'claim-prev', 'prev', () => ctx.act.select(-1), { hotkey: 'k' }),
+        button(ctx, 'claim-next', 'next', () => ctx.act.select(1), { hotkey: 'j' }),
         button(ctx, 'agent-next', 'agent', ctx.act.agentNext, { hotkey: 'a' }),
         button(ctx, 'task-next', 'task', ctx.act.taskNext, { hotkey: 't' }),
       ]),

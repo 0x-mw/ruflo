@@ -1,5 +1,6 @@
 import type { RenderElement } from 'claude-code'
 
+import { alertsOf } from '../data/alerts'
 import type { MemoryStats } from '../data/cli'
 import { ago, col, count, kv, live, picture, rule, sourceLine, text, THEME, type Ctx } from './common'
 
@@ -67,6 +68,16 @@ export function overviewView(ctx: Ctx): RenderElement {
   )
   rows.push(kv(ctx, 'function hooks', `on (this mod runs) · mods seen since it loaded: ${loaded} loaded, ${refused} refused`, refused > 0 ? THEME.warn : THEME.ok))
   rows.push(kv(ctx, 'swarm', swarm === null ? 'n/a — no swarm on disk' : `${swarm.id} · ${swarm.topology} · ${swarm.status} · ${swarm.agentIds.length || (snap?.agents.length ?? 0)} agents`))
+
+  const alerts = alertsOf(state, nowMs, state.loadedAtMs)
+
+  rows.push(rule(ctx, 'Health', alerts.length === 0 ? 'no alerts' : `${alerts.length} alert${alerts.length === 1 ? '' : 's'}`))
+
+  for (const alert of alerts.slice(0, 5)) {
+    rows.push(text(ctx, `${alert.level === 'bad' ? '✖' : alert.level === 'warn' ? '▲' : '●'} ${alert.text} — ${alert.fix}`, { color: alert.level === 'bad' ? THEME.bad : alert.level === 'warn' ? THEME.warn : THEME.info }))
+  }
+
+  if (alerts.length > 5) rows.push(text(ctx, `+${alerts.length - 5} more · approvals (q) lists what needs a decision`, { dimColor: true }))
 
   rows.push(rule(ctx, 'Activity', 'measured'))
   rows.push(picture(ctx, 'activity', `tool calls/5s: ${state.activity.slice(-12).join(' ') || 'none yet'}`))

@@ -19,7 +19,7 @@ export function metaharnessView(ctx: Ctx): RenderElement {
 
     rows.push(text(ctx, state.probes.get('metaharness')?.error !== null && state.probes.get('metaharness')?.error !== undefined ? `${line.text} — optional (ADR-150), the console works without it` : line.text, { dimColor: true }))
   } else {
-    rows.push(picture(ctx, 'score', score.dims.map(dim => `${dim.name} ${dim.value}`).join(' · ')))
+    rows.push(picture(ctx, 'radar', score.dims.map(dim => `${dim.name} ${dim.value}`).join(' · ')))
     rows.push(
       kv(
         ctx,
@@ -27,7 +27,7 @@ export function metaharnessView(ctx: Ctx): RenderElement {
         `${score.costUsd === undefined ? 'n/a' : `$${score.costUsd.toFixed(3)}`} · hard constraints ${score.constraints ?? 'n/a'} · scaffold ${score.scaffoldReady === undefined ? 'n/a' : score.scaffoldReady ? 'ready' : 'not ready'} · scored ${ago(score.atMs, nowMs)}`,
       ),
     )
-    rows.push(text(ctx, 'static readiness heuristics from `metaharness score`, 0-100 per dimension; the fill is decoration', { dimColor: true }))
+    rows.push(text(ctx, 'static readiness heuristics from `metaharness score`, 0-100 per axis; the radar growing in is decoration', { dimColor: true }))
   }
 
   rows.push(rule(ctx, 'Flywheel', 'receipts ledger'))
@@ -43,7 +43,9 @@ export function metaharnessView(ctx: Ctx): RenderElement {
   }
 
   rows.push(kv(ctx, 'active policy', policy === null ? 'n/a — no .claude-flow/harness-active-policy.json' : `${policy.champion.slice(0, 22)}… · ${policy.tier ?? 'n/a'} · ${policy.layer ?? 'n/a'} · applied ${ago(policy.appliedAtMs, nowMs)}`))
-  rows.push(text(ctx, 'audit trend: not polled (it needs two stored audits) — `npx ruflo metaharness audit-trend`', { dimColor: true }))
+  rows.push(rule(ctx, 'Audit trend', 'worst severity per stored audit'))
+  rows.push(picture(ctx, 'trend', 'audit trend needs a terminal'))
+  rows.push(text(ctx, 'from `metaharness audit-list` (memory namespace metaharness-audit) · p → "run a MetaHarness audit" adds one', { dimColor: true }))
 
   return col(ctx, rows, 'metaharness')
 }

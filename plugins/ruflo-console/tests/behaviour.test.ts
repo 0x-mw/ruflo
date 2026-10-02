@@ -3,7 +3,7 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 import { RUFLO_FILES } from './fixtures/ruflo-run'
 import { BAND, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
-const VIEWS = ['overview', 'swarm', 'claims', 'federation', 'plugins', 'learning', 'metaharness', 'memory'] as const
+const VIEWS = ['overview', 'swarm', 'claims', 'federation', 'plugins', 'learning', 'metaharness', 'memory', 'cost', 'timeline', 'approvals', 'events', 'agent'] as const
 
 describe('behaviour', () => {
   test('a tab hotkey switches the view and the choice is kept for this folder only', async ($, on) => {
@@ -14,10 +14,10 @@ describe('behaviour', () => {
 
     const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
 
-    expect(textOf(await pane.drawn())).toContain('Overview◂')
+    expect(textOf(await pane.drawn())).toContain('Ovr◂')
     await pane.press({ key: 'tab-claims' })
-    expect(textOf(await pane.drawn())).toContain('Claims◂')
-    expect(world.stored.get('ruflo-console/ui:/work')).toEqual({ view: 'claims' })
+    expect(textOf(await pane.drawn())).toContain('Clm◂')
+    expect(world.stored.get('ruflo-console/ui:/work')).toEqual({ view: 'claims', isClosedByPerson: false })
     expect(world.opened.length).toBeGreaterThanOrEqual(2)
     await pane.unmount()
   })
@@ -135,7 +135,7 @@ describe('behaviour', () => {
 
       expect(elementsOf(tree, 'Raster').length === 0).toBe(isNarrow)
       expect(elementsOf(tree, 'Button').map(keyOf).includes('claim')).toBe(!isNarrow)
-      if (isNarrow) expect(textOf(tree)).toContain('3/8 Claims')
+      if (isNarrow) expect(textOf(tree)).toContain('3/12 Claims')
       await pane.unmount()
     }
   })
@@ -177,7 +177,7 @@ describe('behaviour', () => {
     const pane = await $.ui.mount({ ...paneAt(110, 40, false), plugin: PLUGIN })
 
     for (let i = 0; i < 12; i++) await clock.advance(125)
-    expect(textOf(await pane.drawn())).toContain('keys: off')
+    expect(textOf(await pane.drawn())).toContain('keys off')
     expect(world.blits).toHaveLength(0)
     await pane.unmount()
   })

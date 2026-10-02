@@ -1,7 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import type { Channels, Peers, Roster } from '../data/cli'
-import { ago, col, kv, live, rule, sourceLine, text, THEME, type Ctx } from './common'
+import { ago, col, kv, live, picture, rule, sourceLine, text, THEME, type Ctx } from './common'
 
 /**
  * This node's federation standing from local state and local CLI answers only. The roster lives on the public relay,
@@ -14,7 +14,11 @@ export function federationView(ctx: Ctx): RenderElement {
   const channels = live<Channels>(state.probes.get('channels'))
   const roster = live<Roster>(state.probes.get('roster'))
   const nodes = snap?.federationNodes ?? null
-  const rows: RenderElement[] = [rule(ctx, 'This node', 'local only')]
+  const rows: RenderElement[] = [rule(ctx, 'Map', 'this node · peers · keys · channels · roster')]
+
+  rows.push(picture(ctx, 'fedmap', 'map needs a terminal'))
+  rows.push(text(ctx, '● pinned peer (solid) · own key (solid) · channel (dashed) · ○ roster member (sparse, unvetted) · a dot runs an edge for 2 s after a sync', { dimColor: true }))
+  rows.push(rule(ctx, 'This node', 'local only'))
 
   rows.push(
     kv(

@@ -34,7 +34,7 @@ export function barText(state: State): string {
 
 export function barView(kit: Kit, state: State, columns: number, mark: RenderElement | null, onOpen: () => void): RenderElement {
   const words = barText(state)
-  const room = Math.max(8, columns - 14)
+  const room = Math.max(8, columns - (state.pane.isOpen ? 14 : 30))
 
   return kit.Box({
     flexDirection: 'row',
@@ -42,6 +42,7 @@ export function barView(kit: Kit, state: State, columns: number, mark: RenderEle
       ...(mark !== null ? [mark] : [kit.Text({ color: 'claude', children: '◆ ' })]),
       kit.Text({ wrap: 'truncate-end', ...(state.snapshot?.plugins.missingFromClone.length ? { color: 'warning' } : { dimColor: true }), children: clip(words, room) }),
       kit.Text({ children: ' ' }),
+      ...(state.pane.isOpen ? [] : [kit.Text({ dimColor: true, children: '/ruflo to open ' })]),
       kit.Button({ key: 'open-console', label: 'console', plain: true, onPress: onOpen }),
     ],
   })

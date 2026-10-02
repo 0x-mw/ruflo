@@ -43,10 +43,10 @@ step "7. private key files are never read paths"
 keys=$(grep -nE "(key-[^'\"]*\.json|channels\.json|nostr\.key)" "$HOOKS/data/files.ts" | grep -vE "^\s*[0-9]+:\s*(\*|//)|NOSTR_KEY = |test\(entry\.name\)" || true)
 grep -q "fs.stat(under(home, NOSTR_KEY))" "$HOOKS/data/files.ts" && [[ -z "$keys" ]] && ok || bad "$keys"
 
-step "8. mutations only through claims_* with JSON.stringify params, behind a confirm"
+step "8. mutations only through fixed argv (claims_* via JSON.stringify), behind a confirm"
 grep -q "JSON.stringify(params)" "$HOOKS/actions.ts" \
-  && [[ "$(grep -oE "exec\('claims_[a-z-]+'" "$HOOKS/actions.ts" | sort -u | tr '\n' ' ')" == "exec('claims_claim' exec('claims_handoff' exec('claims_release' exec('claims_steal' " ]] \
-  && grep -q "state.pending = " "$HOOKS/controller.ts" && ok || bad "action surface changed"
+  && [[ "$(grep -ohE "exec\('claims_[a-z-]+'" "$HOOKS/actions.ts" "$HOOKS/ops.ts" | sort -u | tr '\n' ' ')" == "exec('claims_claim' exec('claims_handoff' exec('claims_release' exec('claims_status' exec('claims_steal' " ]] \
+  && grep -q "state.pending = " "$HOOKS/runner.ts" && ! grep -qE "'(sh|bash)', '-c'" -r "$HOOKS" && ok || bad "action surface changed"
 
 step "9. plugin.register and tool.call are observed, never answered"
 reg=$(awk '/on\(.plugin.register./,/^  }\)/' "$HOOKS/register.ts" | grep -cE "refuse:|deny:")

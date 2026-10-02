@@ -5,11 +5,11 @@
  */
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
-import type { ProbeResult, ViewId } from '../data/cli'
+import type { ProbeResult } from '../data/cli'
 import type { Grid } from '../gfx/raster'
-import type { State } from '../state'
+import type { State, ViewId } from '../state'
 
-export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster'] }
+export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
 
 /** What a button can ask for: every one a closure over the controller. */
 export type Actions = {
@@ -17,16 +17,26 @@ export type Actions = {
   refresh: () => void
   help: () => void
   close: () => void
+  back: () => void
   confirm: () => void
   cancel: () => void
-  claimPrev: () => void
-  claimNext: () => void
+  /** j/k: moves the selection of the view in front. */
+  select: (by: number) => void
   agentNext: () => void
   taskNext: () => void
+  /** Drills into the selected agent. */
+  drill: () => void
   claim: () => void
   release: () => void
   handoff: () => void
   steal: () => void
+  palette: (context: 'all' | 'selection') => void
+  paletteQuery: (text: string) => void
+  paletteRun: (id: string) => void
+  paletteSubmit: () => void
+  run: (id: string, text?: string) => boolean
+  /** Cycles the events view's filter. */
+  filter: () => void
 }
 
 export type Ctx = {

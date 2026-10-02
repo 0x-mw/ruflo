@@ -1,6 +1,6 @@
 {
   "name": "ruflo-console",
-  "description": "ruflo's real-time cockpit inside Claude Code (function hooks, early access): a pane of eight views — overview, swarm topology graph, claims board with TTL bars and confirm-gated claim/release/handoff/steal, federation, plugins and marketplace freshness, self-learning curve, MetaHarness score and flywheel, memory and cost ladder — plus a one-line band above the prompt. Reads ruflo's files and the ruflo CLI's local JSON; anything not measured reads n/a.",
+  "description": "ruflo's cockpit inside Claude Code and the one /ruflo command for every ruflo mod (function hooks, early access). Views: overview with health alerts, swarm topology graph, claims flow with TTL rings, federation map, plugin health matrix, learning curve and pipeline, MetaHarness radar and audit trend, memory, cost gauge, agent timeline, approvals queue, event stream, agent drill-down; a command palette for confirm-gated actions through the ruflo CLI; a band above the prompt. Reads ruflo's files and the CLI's local JSON; anything not measured reads n/a; no network by default.",
   "version": "0.1.0",
   "author": {
     "name": "ruvnet",
@@ -8,14 +8,33 @@
   },
   "homepage": "https://github.com/ruvnet/ruflo",
   "license": "MIT",
-  "keywords": ["ruflo", "mods", "function-hooks", "pane", "console", "dashboard", "swarm", "claims", "federation", "metaharness"],
+  "keywords": [
+    "approvals",
+    "claims",
+    "console",
+    "dashboard",
+    "federation",
+    "function-hooks",
+    "metaharness",
+    "mods",
+    "palette",
+    "pane",
+    "ruflo",
+    "swarm",
+    "timeline"
+  ],
   "userConfig": {
     "cli": {
       "type": "string",
       "title": "ruflo CLI",
       "description": "How the console reaches ruflo. npx-offline (default) uses the locally cached @claude-flow/cli and never touches the network; npx may download it; ruflo and claude-flow use a global install.",
       "default": "npx-offline",
-      "options": ["npx-offline", "npx", "ruflo", "claude-flow"]
+      "options": [
+        "npx-offline",
+        "npx",
+        "ruflo",
+        "claude-flow"
+      ]
     },
     "refreshSeconds": {
       "type": "number",
@@ -26,7 +45,7 @@
     "fps": {
       "type": "number",
       "title": "Animation frames per second",
-      "description": "Frame cap while the pane is shown and holds the keys (0 to 10; 0 turns motion off). Hidden or unfocused, nothing animates.",
+      "description": "Frame cap while the pane is shown and holds the keys (0 to 12; 0 turns motion off). Hidden, unfocused or closed, nothing animates.",
       "default": 8
     },
     "bar": {
@@ -34,7 +53,22 @@
       "title": "Band above the prompt",
       "description": "auto shows the one-line ruflo band in a ruflo project; on shows it everywhere; off hides it (the console then adds a 'console' segment to ruflo-mods' status line instead).",
       "default": "auto",
-      "options": ["auto", "on", "off"]
+      "options": [
+        "auto",
+        "on",
+        "off"
+      ]
+    },
+    "panel": {
+      "type": "string",
+      "title": "Cockpit pane",
+      "description": "auto opens the cockpit at session start where it docks beside the transcript (a terminal 144 columns or wider), never taking the keys; elsewhere the band says /ruflo to open. command opens it only with /ruflo. off never opens it unasked.",
+      "default": "auto",
+      "options": [
+        "auto",
+        "command",
+        "off"
+      ]
     },
     "federationNetwork": {
       "type": "boolean",

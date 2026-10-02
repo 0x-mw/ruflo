@@ -1,17 +1,19 @@
 /**
- * Every animated picture the console draws, each a pure function of its data, its size and the real clock `t` (ms).
- * The render and every `$.ui.blit` frame call the same function with the same size, so a frame always fits the mounted
- * Raster. What motion means is said in the view beside each picture: data where it is data, decoration where it is not.
+ * The animated pictures of the overview, swarm and learning views, each a pure function of its data, its size and the
+ * real clock `t` (ms). The render and every `$.ui.blit` frame call the same function with the same size, so a frame
+ * always fits the mounted Raster. What motion means is said beside each picture: data where it is data, decoration
+ * where it is not.
  */
 import { Braille, COLOR, Grid, mix, ramp, sparkline } from './raster'
 
-export type TopoNode = { id: string; label: string; status: string; isLeader: boolean }
+export type TopoNode = { id: string; label: string; status: string; isLeader: boolean; /** When the console last saw an event about it. */ pulseAtMs?: number }
 export type TopoModel = { topology: string; nodes: TopoNode[] }
 
+export const PULSE_MS = 1_400
 const isBusy = (status: string) => /busy|active|running|working/i.test(status)
 const isDown = (status: string) => /stop|terminat|offline|dead|error|fail/i.test(status)
 
-function nodeColor(node: TopoNode): number {
+export function nodeColor(node: TopoNode): number {
   if (node.isLeader) return COLOR.accent
   if (isDown(node.status)) return /error|fail/i.test(node.status) ? COLOR.bad : COLOR.dim
   if (isBusy(node.status)) return COLOR.warn
@@ -19,22 +21,34 @@ function nodeColor(node: TopoNode): number {
   return COLOR.info
 }
 
-/** Where each node sits, in braille dots, by topology: a tree for hierarchical and star, a circle for mesh and ring. */
+/**
+ * Where each node sits, in braille dots, by topology: a tree (rows of workers under the leader) for hierarchical and
+ * star, a circle for mesh and ring. Large swarms wrap into more rows rather than overprinting.
+ */
 export function layout(model: TopoModel, width: number, height: number): { x: number; y: number }[] {
   const n = model.nodes.length
-  const isTree = /hier|star|queen/i.test(model.topology) && !/mesh/i.test(model.topology)
-  const isHybrid = /hierarchical-mesh/i.test(model.topology)
+  const topology = model.topology.toLowerCase()
+  const isCircle = (topology.includes('mesh') && !topology.includes('hierarchical')) || topology.includes('ring')
 
-  if (n === 0) {
-    return []
-  }
+  if (n === 0) return []
 
-  if (isTree || isHybrid) {
-    const workers = Math.max(1, n - 1)
+  if (!isCircle) {
+    const workers = n - 1
+    const perRow = Math.max(1, Math.min(workers, Math.floor(width / 10)))
+    const tiers = Math.max(1, Math.ceil(workers / perRow))
+    const top = 3
+    const span = Math.max(4, height - 6 - top)
 
-    return model.nodes.map((node, i) =>
-      i === 0 ? { x: width / 2, y: 3 } : { x: ((i - 0.5) / workers) * (width - 8) + 4, y: Math.max(8, height - 6) },
-    )
+    return model.nodes.map((_, i) => {
+      if (i === 0) return { x: width / 2, y: top }
+
+      const k = i - 1
+      const tier = Math.floor(k / perRow)
+      const inTier = Math.min(perRow, workers - tier * perRow)
+      const slot = k % perRow
+
+      return { x: ((slot + 0.5) / inTier) * (width - 8) + 4, y: top + 6 + (tiers === 1 ? span - 2 : (tier / Math.max(1, tiers - 1)) * (span - 2)) }
+    })
   }
 
   const cx = width / 2
@@ -48,40 +62,37 @@ export function layout(model: TopoModel, width: number, height: number): { x: nu
   })
 }
 
-/** The edges a topology draws between node indexes. */
+/** The edges a topology draws between node indexes (capped: a 100-agent mesh draws its first 300). */
 export function edges(model: TopoModel): [number, number][] {
   const n = model.nodes.length
   const out: [number, number][] = []
   const topology = model.topology.toLowerCase()
 
-  if (n < 2) {
-    return out
-  }
+  if (n < 2) return out
 
   if (topology.includes('mesh') && !topology.includes('hierarchical')) {
-    for (let a = 0; a < n; a++) for (let b = a + 1; b < n; b++) out.push([a, b])
+    for (let a = 0; a < n && out.length < 300; a++) for (let b = a + 1; b < n && out.length < 300; b++) out.push([a, b])
   } else if (topology.includes('ring')) {
     for (let a = 0; a < n; a++) out.push([a, (a + 1) % n])
   } else {
     for (let b = 1; b < n; b++) out.push([0, b])
-
-    if (topology.includes('hierarchical-mesh')) {
-      for (let a = 1; a < n - 1; a++) out.push([a, a + 1])
-    }
+    if (topology.includes('hierarchical-mesh')) for (let a = 1; a < n - 1; a++) out.push([a, a + 1])
   }
 
-  return out.slice(0, 200)
+  return out
 }
 
 /**
- * The swarm graph: nodes coloured by the status ruflo wrote, the leader in the accent colour, and pulses running from
- * the leader along each edge to an agent whose status is busy. With no busy agent, the leader only breathes: decoration.
+ * The swarm graph: nodes coloured by the status ruflo wrote (busy amber, idle blue, stopped grey), the leader starred.
+ * A dot runs from the leader to a node once each time the console sees an event about that agent (data); the leader's
+ * slow heartbeat is decoration.
  */
 export function topologyPicture(model: TopoModel, columns: number, rows: number, t: number): Grid {
   const grid = new Grid(columns, rows)
   const canvas = new Braille(columns, rows)
   const points = layout(model, canvas.width, canvas.height)
   const links = edges(model)
+  const leader = points[0]
 
   for (const [a, b] of links) {
     const p = points[a]
@@ -90,28 +101,23 @@ export function topologyPicture(model: TopoModel, columns: number, rows: number,
     if (p !== undefined && q !== undefined) canvas.line(p.x, p.y, q.x, q.y, COLOR.line)
   }
 
-  links.forEach(([a, b], i) => {
-    const p = points[a]
-    const q = points[b]
-    const target = model.nodes[b]
+  model.nodes.forEach((node, i) => {
+    const q = points[i]
+    const k = node.pulseAtMs === undefined ? -1 : (t - node.pulseAtMs) / PULSE_MS
 
-    if (p === undefined || q === undefined || target === undefined || !isBusy(target.status)) {
-      return
-    }
+    if (i === 0 || leader === undefined || q === undefined || k < 0 || k > 1) return
 
-    for (const lag of [0, 0.5]) {
-      const k = (((t / 1400 + i * 0.13 + lag) % 1) + 1) % 1
+    const x = leader.x + (q.x - leader.x) * k
+    const y = leader.y + (q.y - leader.y) * k
 
-      const x = p.x + (q.x - p.x) * k
-      const y = p.y + (q.y - p.y) * k
-
-      // Two dots wide, so a pulse on a vertical edge stands out of the line rather than sitting on its dots.
-      canvas.dot(x, y, COLOR.warn)
-      canvas.dot(x + 1, y, COLOR.warn)
-    }
+    // Two dots wide, so a pulse on a vertical edge stands out of the line rather than sitting on its dots.
+    canvas.dot(x, y, 0xffffff)
+    canvas.dot(x + 1, y, 0xffffff)
   })
 
   canvas.blitInto(grid, 0, 0)
+
+  const room = Math.floor(columns / Math.max(2, Math.min(model.nodes.length, Math.floor(canvas.width / 10))))
 
   points.forEach((point, i) => {
     const node = model.nodes[i]
@@ -120,12 +126,17 @@ export function topologyPicture(model: TopoModel, columns: number, rows: number,
 
     const cx = Math.floor(point.x / 2)
     const cy = Math.floor(point.y / 4)
-    const breath = node.isLeader ? 0.5 + 0.5 * Math.sin(t / 450) : 1
-    const color = node.isLeader ? mix(COLOR.line, COLOR.accent, breath) : nodeColor(node)
-    const label = node.label.slice(0, Math.max(3, Math.floor(columns / Math.max(2, model.nodes.length)) - 2))
+    const heartbeat = node.isLeader ? Math.max(0, Math.sin(t / 260)) ** 6 : 0
+    const flash = node.pulseAtMs !== undefined && t - node.pulseAtMs >= 0 && t - node.pulseAtMs < PULSE_MS + 600
+    const color = flash ? 0xffffff : node.isLeader ? mix(COLOR.accent, 0xffffff, heartbeat) : nodeColor(node)
 
     grid.set(cx, cy, node.isLeader ? '★' : '●', color)
-    grid.text(Math.max(0, Math.min(columns - label.length, cx - Math.floor(label.length / 2))), Math.min(rows - 1, cy + 1), label, node.isLeader ? COLOR.accent : nodeColor(node))
+
+    if (room >= 5 || node.isLeader) {
+      const label = node.label.slice(0, Math.max(3, room - 1))
+
+      grid.text(Math.max(0, Math.min(columns - label.length, cx - Math.floor(label.length / 2))), Math.min(rows - 1, cy + 1), label, node.isLeader ? COLOR.accent : nodeColor(node))
+    }
   })
 
   return grid
@@ -147,9 +158,7 @@ export function activityPicture(series: readonly { label: string; values: readon
     const glow = 0.5 + 0.5 * Math.sin(t / 300)
     const last = labelWidth + width - 1
 
-    if ((entry.values[entry.values.length - 1] ?? 0) > 0) {
-      grid.set(last, row, grid.glyph(last, row), mix(COLOR.info, 0xffffff, glow * 0.6))
-    }
+    if ((entry.values[entry.values.length - 1] ?? 0) > 0) grid.set(last, row, grid.glyph(last, row), mix(COLOR.info, 0xffffff, glow * 0.6))
   })
 
   return grid
@@ -157,16 +166,14 @@ export function activityPicture(series: readonly { label: string; values: readon
 
 /**
  * The running success rate of routed tasks (routing-outcomes.json), oldest left, as a braille line over a 0-100% frame.
- * A cursor walks the line: decoration, the line is the data.
+ * When new outcomes arrive the newest stretch draws in over 900 ms from `grewAtMs`: that motion is data arriving.
  */
-export function curvePicture(points: readonly boolean[], columns: number, rows: number, t: number): Grid {
+export function curvePicture(points: readonly boolean[], columns: number, rows: number, t: number, grewAtMs = 0): Grid {
   const grid = new Grid(columns, rows)
-  const canvas = new Braille(columns - 5, rows)
+  const canvas = new Braille(Math.max(1, columns - 5), rows)
   const n = points.length
 
-  for (let r = 0; r < rows; r++) {
-    grid.text(0, r, r === 0 ? '100%' : r === rows - 1 ? '  0%' : '    ', COLOR.dim)
-  }
+  for (let r = 0; r < rows; r++) grid.text(0, r, r === 0 ? '100%' : r === rows - 1 ? '  0%' : '    ', COLOR.dim)
 
   if (n === 0) {
     grid.text(6, Math.floor(rows / 2), 'no routed outcomes on disk yet', COLOR.dim)
@@ -182,91 +189,14 @@ export function curvePicture(points: readonly boolean[], columns: number, rows: 
   })
   const xOf = (i: number) => (n === 1 ? canvas.width / 2 : (i / (n - 1)) * (canvas.width - 1))
   const yOf = (rate: number) => (1 - rate) * (canvas.height - 1)
+  const drawIn = grewAtMs > 0 ? Math.max(0, Math.min(1, (t - grewAtMs) / 900)) : 1
+  const shown = Math.max(1, Math.round(n * (0.8 + 0.2 * drawIn)))
 
   for (let x = 0; x < canvas.width; x += 4) canvas.dot(x, yOf(0.5), COLOR.line)
-
-  for (let i = 1; i < n; i++) canvas.line(xOf(i - 1), yOf(rates[i - 1] as number), xOf(i), yOf(rates[i] as number), ramp(rates[i] as number))
-
+  for (let i = 1; i < shown; i++) canvas.line(xOf(i - 1), yOf(rates[i - 1] as number), xOf(i), yOf(rates[i] as number), ramp(rates[i] as number))
   if (n === 1) canvas.dot(xOf(0), yOf(rates[0] as number), ramp(rates[0] as number))
 
-  const cursor = Math.floor(((t / 120) % n) + n) % n
-
-  canvas.dot(xOf(cursor), yOf(rates[cursor] as number), 0xffffff)
   canvas.blitInto(grid, 5, 0)
-
-  return grid
-}
-
-/** A claim's bar: remaining time to `expiresAt` when ruflo set one, else its age on a 24 h scale. */
-export type ClaimBar = { label: string; claimedAtMs?: number; expiresAtMs?: number; progress?: number; isStealable: boolean }
-
-const DAY = 86_400_000
-
-const span = (ms: number): string => {
-  const s = Math.max(0, Math.round(ms / 1000))
-
-  if (s < 60) return `${s}s`
-  if (s < 3600) return `${Math.floor(s / 60)}m${String(s % 60).padStart(2, '0')}s`
-  if (s < 86_400) return `${Math.floor(s / 3600)}h${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}m`
-
-  return `${Math.floor(s / 86_400)}d${Math.floor((s % 86_400) / 3600)}h`
-}
-
-/** One row per claim, counted on the real clock `nowMs`: a TTL counts down, an age counts up. Both are data. */
-export function claimsPicture(bars: readonly ClaimBar[], columns: number, rows: number, nowMs: number): Grid {
-  const grid = new Grid(columns, rows)
-  const labelWidth = Math.min(22, Math.max(10, Math.floor(columns * 0.32)))
-  const textWidth = 12
-  const barWidth = Math.max(4, columns - labelWidth - textWidth - 1)
-
-  bars.slice(0, rows).forEach((bar, row) => {
-    grid.text(0, row, bar.label.slice(0, labelWidth - 1), bar.isStealable ? COLOR.warn : COLOR.info)
-
-    const hasTtl = bar.expiresAtMs !== undefined && bar.claimedAtMs !== undefined && bar.expiresAtMs > bar.claimedAtMs
-    const left = hasTtl ? (bar.expiresAtMs as number) - nowMs : 0
-    const fraction = hasTtl
-      ? Math.max(0, Math.min(1, left / ((bar.expiresAtMs as number) - (bar.claimedAtMs as number))))
-      : bar.claimedAtMs === undefined
-        ? 0
-        : Math.max(0, Math.min(1, (nowMs - bar.claimedAtMs) / DAY))
-    const filled = fraction * barWidth
-    const color = hasTtl ? (fraction < 0.2 ? COLOR.bad : fraction < 0.5 ? COLOR.warn : COLOR.ok) : mix(COLOR.info, COLOR.warn, fraction)
-
-    for (let i = 0; i < barWidth; i++) {
-      const part = Math.max(0, Math.min(1, filled - i))
-
-      grid.set(labelWidth + i, row, part >= 1 ? '█' : part > 0.5 ? '▌' : '·', part > 0 ? color : COLOR.line)
-    }
-
-    const words = hasTtl ? (left > 0 ? `ttl ${span(left)}` : 'ttl expired') : bar.claimedAtMs === undefined ? 'age n/a' : `age ${span(nowMs - bar.claimedAtMs)}`
-
-    grid.text(labelWidth + barWidth + 1, row, words.slice(0, textWidth), hasTtl && left <= 0 ? COLOR.bad : COLOR.dim)
-  })
-
-  return grid
-}
-
-/** Score bars 0-100 that fill to their value over the first 700 ms after `sinceMs`, then hold: the fill is decoration. */
-export function scorePicture(dims: readonly { name: string; value: number }[], columns: number, t: number, sinceMs: number): Grid {
-  const grid = new Grid(columns, Math.max(1, dims.length))
-  const labelWidth = 19
-  const barWidth = Math.max(4, columns - labelWidth - 5)
-  const grow = Math.max(0, Math.min(1, (t - sinceMs) / 700))
-  const eased = 1 - (1 - grow) ** 3
-
-  dims.forEach((dim, row) => {
-    grid.text(0, row, dim.name.slice(0, labelWidth - 1), COLOR.dim)
-
-    const filled = (dim.value / 100) * barWidth * eased
-
-    for (let i = 0; i < barWidth; i++) {
-      const part = Math.max(0, Math.min(1, filled - i))
-
-      grid.set(labelWidth + i, row, part >= 1 ? '█' : part > 0.5 ? '▌' : '·', part > 0 ? ramp(dim.value / 100) : COLOR.line)
-    }
-
-    grid.text(labelWidth + barWidth + 1, row, String(Math.round(dim.value)).padStart(3), ramp(dim.value / 100))
-  })
 
   return grid
 }
@@ -277,6 +207,20 @@ export function markPicture(isWorking: boolean, t: number): Grid {
   const k = isWorking ? 0.5 + 0.5 * Math.sin(t / 220) : 1
 
   grid.set(0, 0, '◆', isWorking ? mix(COLOR.line, COLOR.accent, k) : COLOR.accent)
+
+  return grid
+}
+
+/** The pane's title strip: a highlight sweeps across it every few seconds while the pane is focused. Decoration only. */
+export function headerPicture(title: string, columns: number, t: number): Grid {
+  const grid = new Grid(columns, 1)
+  const at = ((t / 22) % (columns + 60)) - 20
+
+  ;[...title.slice(0, columns)].forEach((ch, x) => {
+    const glow = Math.max(0, 1 - Math.abs(x - at) / 6)
+
+    grid.set(x, 0, ch, mix(x < 2 ? COLOR.accent : COLOR.dim, 0xffffff, glow * 0.8))
+  })
 
   return grid
 }

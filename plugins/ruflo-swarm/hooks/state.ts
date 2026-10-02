@@ -41,7 +41,8 @@ const PANELS = new Set(['auto', 'command', 'off'])
 /** The options as the settings hold them, each one checked: a value the plugin does not know is its default. */
 export function optionsOf(raw: PluginOptions): Options {
   const value = (raw ?? {}) as Record<string, unknown>
-  const panel = typeof value.panel === 'string' && PANELS.has(value.panel) ? (value.panel as Options['panel']) : 'auto'
+  // `command` by default since ruflo-console: its cockpit is the pane that opens by itself, and two would crowd the dock.
+  const panel = typeof value.panel === 'string' && PANELS.has(value.panel) ? (value.panel as Options['panel']) : 'command'
   const cli = typeof value.cli === 'string' && value.cli in CLI_PREFIXES ? (value.cli as CliChoice) : 'npx-offline'
   const threshold = typeof value.routeThreshold === 'number' ? value.routeThreshold : Number(value.routeThreshold)
 

@@ -1,11 +1,13 @@
 import type { EngineInterface, PluginOptions, Register } from 'claude-code'
 
-import { createController, median, p95, type Controller } from './controller'
+import { createController, type Controller } from './controller'
+import { record } from './data/events'
 import { plain } from './data/parse'
+import { dispatch } from './dispatch'
 import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
-import { newState, PANE_ID, restore, storeKeyOf, viewOf, VIEWS, type State } from './state'
-import { BAR_KEY, barText, barView } from './views/bar'
+import { newState, PANE_ID, restore, storeKeyOf } from './state'
+import { BAR_KEY, barView } from './views/bar'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
 import { NARROW, paneView } from './views/pane'
@@ -31,6 +33,7 @@ function hostOf($: EngineInterface, cwd: string): Host {
   return {
     fs: { read: async path => $.fs.read(rooted(path)), stat: async path => $.fs.stat(rooted(path)), list: async path => $.fs.list(rooted(path)) },
         every: (ms, fn) => $.clock.every(ms, fn),
+    after: (ms, fn) => $.clock.after(ms, fn),
     storeGet: async key => $.store.get(key),
     storeSet: async (key, value) => $.store.set(key, value as never),
     invalidate: () => quietly(() => $.ui.invalidate('ui.render')),
@@ -60,17 +63,10 @@ function hostOf($: EngineInterface, cwd: string): Host {
   }
 }
 
-/** The one-line answer of `/ruflo-console status`, and the bench's numbers when asked. */
-function statusLine(state: State): string {
-  const stat = (name: string, values: readonly number[]) => (values.length === 0 ? `${name} n/a` : `${name} median ${median(values)}ms p95 ${p95(values)}ms (n=${values.length})`)
-
-  return [barText(state), stat('render', state.stats.renders), stat('refresh', state.stats.refreshes), stat('frame', state.stats.frames)].join(' · ')
-}
-
 /**
- * ruflo-console: ruflo's cockpit inside Claude Code. A pane of eight views over ruflo's state on disk and the ruflo
- * CLI's local answers, a band above the prompt, and `/ruflo-console`. Read-only but for the claims actions, which go
- * through the ruflo CLI with fixed argv after a confirm.
+ * ruflo-console: ruflo's cockpit inside Claude Code, and the home of `/ruflo`. A pane of views over ruflo's state on
+ * disk and the ruflo CLI's local answers, a band above the prompt, a command palette, and management views (agent
+ * drill-down, timeline, approvals, events). Every change goes through the ruflo CLI with fixed argv after a confirm.
  */
 export const register: Register = (on, raw: PluginOptions) => {
   const state = newState(raw)
@@ -87,12 +83,15 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     state.home = await bound.home().catch(() => undefined) ?? null
     await Promise.all([
-      bound.registerCommand({ name: 'ruflo-console', description: 'ruflo console: swarms, claims, federation, plugins, learning, MetaHarness, memory', argumentHint: '[view|close|status]' }).catch(() => undefined),
+      bound
+        .registerCommand({ name: 'ruflo', description: 'ruflo: the cockpit (views, palette, agents, approvals) and every ruflo mod command — /ruflo help', argumentHint: '[view|palette|agent <id>|mods|swarm <sub>|help]' })
+        .catch(() => undefined),
       bound.storeGet(storeKeyOf(e.cwd)).then(value => restore(state, value), () => undefined),
       bound.rufloTools().then(counted => void (state.rufloTools = counted), () => undefined),
     ])
     control.start()
-    void control.refresh()
+    await control.refresh()
+    control.autoOpen()
 
     return next(e)
   })
@@ -103,36 +102,14 @@ export const register: Register = (on, raw: PluginOptions) => {
     return next(e)
   })
 
-  on('command.run', { command: 'ruflo-console' }, async ($, e, next) => {
-    if (control === null) {
-      return next(e)
-    }
+  /**
+   * `/ruflo`: the console's own subcommands are answered here; `mods` and `swarm <sub>` go to the plugins beneath that
+   * hook the same command (ruflo-mods, ruflo-swarm), and are answered with a hint when neither does.
+   */
+  on('command.run', { command: 'ruflo' }, async ($, e, next) => {
+    if (control === null) return next(e)
 
-    const arg = e.args.trim().toLowerCase()
-
-    if (arg === 'close') {
-      await control.close()
-
-      return { text: 'ruflo console closed' }
-    }
-
-    if (arg === 'status') {
-      await control.refresh()
-
-      return { text: statusLine(state) }
-    }
-
-    const view = arg === '' || arg === 'open' ? null : viewOf(arg)
-
-    if (arg !== '' && arg !== 'open' && view === null) {
-      return { text: `Unknown view "${plain(arg, 30)}". Views: ${VIEWS.map(entry => `${entry.key} ${entry.id}`).join(', ')}; or close, status.` }
-    }
-
-    if (view !== null) control.setView(view)
-
-    const opened = await control.open()
-
-    return { text: opened.isPlaced ? `ruflo console: ${VIEWS.find(entry => entry.id === state.view)?.label}` : `The ruflo console could not be shown: ${opened.reason}` }
+    return dispatch(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE_ID }, ($, e, next) => {
@@ -144,7 +121,7 @@ export const register: Register = (on, raw: PluginOptions) => {
     const table = $.ui.resolve(e) as unknown as Kit
     const columns = Math.max(20, Math.floor(Number(e.props.bodyColumns) || 0) - 1)
     const isNarrow = columns < NARROW
-    const kit: Kit = isNarrow ? { Box: table.Box, Text: table.Text, Button: table.Button } : table
+    const kit: Kit = isNarrow ? { Box: table.Box, Text: table.Text, Button: table.Button, ...(table.Input !== undefined && { Input: table.Input }) } : table
 
     state.pane.isOpen = true
     state.pane.isFocused = e.props.isFocused === true
@@ -182,7 +159,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     bound.markFrame(e.requestId, e.props.isWorking && mark !== null)
 
-    return barView(table, state, Math.floor(Number(e.props.bodyColumns) || 80), mark, () => void bound.open())
+    return barView(table, state, Math.floor(Number(e.props.bodyColumns) || 80), mark, () => void bound.open(false))
   })
 
   /** The band's mark pulses during a turn: a redraw at its start, and the loop stopped at its end, whatever redraws. */
@@ -216,9 +193,22 @@ export const register: Register = (on, raw: PluginOptions) => {
 
   /** Observes only: every call goes on unchanged; the count feeds the activity sparkline. */
   on('tool.call', ($, e, next) => {
-    control?.noteToolCall()
+    control?.noteToolCall(e.agentId, e.tool)
 
     return next(e)
+  })
+
+  /** Observes only: a deny any verdict reached is listed in the approvals queue; the verdict passes on unchanged. */
+  on('tool.check', async ($, e, next) => {
+    const verdict = await next(e)
+
+    if (verdict.decision === 'deny') {
+      state.denied.push({ tool: plain(String(e.tool), 40), reason: plain(verdict.reason ?? 'no reason given', 160), atMs: Date.now() })
+      if (state.denied.length > 20) state.denied.shift()
+      record(state.events, [{ atMs: Date.now(), kind: 'mods', text: `${plain(String(e.tool), 40)} denied: ${plain(verdict.reason ?? '', 80)}` }])
+    }
+
+    return verdict
   })
 
   /** Observes only, never refuses: which mods the engine admitted or refused after the console, for the plugins view. */
@@ -227,6 +217,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     state.mods.push({ name: plain(e.name, 40), provenance: plain(e.provenance, 80), isLoaded: result.refuse === undefined, ...(result.refuse !== undefined && { reason: plain(result.refuse, 120) }), atMs: Date.now() })
     if (state.mods.length > 50) state.mods.shift()
+    record(state.events, [{ atMs: Date.now(), kind: 'mods', text: `${plain(e.name, 40)} ${result.refuse === undefined ? 'loaded' : 'REFUSED'} (${plain(e.provenance, 60)})` }])
 
     return result
   })

@@ -6,7 +6,9 @@
  */
 import { msOf, numberOf, plain, recordOf, stringOf, valuesOf } from './parse'
 
-export type ViewId = 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory'
+import type { ViewId } from '../state'
+
+export type { ViewId }
 
 export type Probe<T> = {
   id: string
@@ -57,7 +59,7 @@ export type MemoryStats = { backend: string; total?: number; vectors?: number; s
 export const memoryProbe: Probe<MemoryStats> = {
   id: 'memory',
   args: ['memory', 'stats', '--format', 'json'],
-  views: ['overview', 'memory'],
+  views: ['overview', 'memory', 'cost'],
   everyMs: 30_000,
   timeoutMs: 30_000,
   parse: stdout => {
@@ -183,6 +185,42 @@ export const flywheelProbe: Probe<Flywheel> = {
     return flywheel
   },
 }
+
+export type AuditTrend = { total: number; points: { atMs: number; worst?: string; findings?: number }[] }
+
+const SEVERITY: Record<string, number> = { clean: 0, low: 1, medium: 2, high: 3, critical: 4 }
+
+/** Stored MetaHarness audits, oldest first: the trend line's points. Reads memory; runs nothing. */
+export const auditProbe: Probe<AuditTrend> = {
+  id: 'audits',
+  args: ['metaharness', 'audit-list', '--format', 'json'],
+  views: ['metaharness'],
+  everyMs: 120_000,
+  timeoutMs: 60_000,
+  parse: stdout => {
+    const value = objectOf(stdout)
+
+    if (value === null || !Array.isArray(value.records)) {
+      return null
+    }
+
+    const points = value.records.slice(0, 50).flatMap(entry => {
+      const record = recordOf(entry)
+      const atMs = msOf(record?.timestamp ?? record?.generatedAt ?? record?.createdAt ?? recordOf(record?.value)?.generatedAt)
+      const worst = stringOf(record?.worst ?? recordOf(record?.value)?.worst, 12)
+      const findings = numberOf(record?.findings ?? recordOf(record?.value)?.findingCount)
+
+      return atMs === undefined ? [] : [{ atMs, ...(worst !== undefined && { worst }), ...(findings !== undefined && { findings }) }]
+    })
+
+    points.sort((a, b) => a.atMs - b.atMs)
+
+    return { total: numberOf(value.totalInNamespace) ?? points.length, points }
+  },
+}
+
+/** A severity word as a 0-4 level, for the trend line; unknown words are null. */
+export const severityOf = (word: string | undefined): number | null => (word === undefined ? null : (SEVERITY[word.toLowerCase()] ?? null))
 
 export type Intelligence = { trajectories?: number; patterns?: number; successRate?: number; moeDecisions?: number; ewcConsolidations?: number; routerDecisions?: number; routerConfidence?: number; neuralRouter?: string }
 
@@ -317,7 +355,7 @@ export const rosterProbe: Probe<Roster> = {
   },
 }
 
-export const PROBES = [versionProbe, memoryProbe, namespacesProbe, scoreProbe, flywheelProbe, intelligenceProbe, peersProbe, channelsProbe, rosterProbe] as const
+export const PROBES = [versionProbe, memoryProbe, namespacesProbe, scoreProbe, flywheelProbe, auditProbe, intelligenceProbe, peersProbe, channelsProbe, rosterProbe] as const
 
 export type ProbeId = (typeof PROBES)[number]['id']
 

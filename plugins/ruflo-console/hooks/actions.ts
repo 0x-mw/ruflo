@@ -10,10 +10,12 @@ export type ActionSpec = {
   label: string
   args: readonly string[]
   expect: string
-  verify: (snapshot: Snapshot) => boolean
+  verify?: (snapshot: Snapshot) => boolean
+  /** Reads only: runs at once, without the confirm step, and shows what the CLI printed. */
+  isReadOnly?: boolean
 }
 
-const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const
+export const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const
 const SAFE_WORD = /^[A-Za-z0-9_.-]{1,40}$/
 
 /** `agent:<id>:<type>` or `human:<id>:<name>`, the forms ruflo's claims tools parse; null when a part would not survive it. */

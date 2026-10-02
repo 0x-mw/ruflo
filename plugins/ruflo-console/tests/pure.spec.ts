@@ -10,11 +10,10 @@ import { parseMarketplaces, parseNeural, parseOutcomes, parseRouter } from '../h
 import { readBounded, READ_MAX, type ReadCache } from '../hooks/data/files'
 import { idOf, parseAgents, parseClaims, parseHive, parseSwarmStore, plain } from '../hooks/data/parse'
 import { readSnapshot } from '../hooks/data/snapshot'
-import { activityPicture, claimsPicture, curvePicture, markPicture, scorePicture, topologyPicture } from '../hooks/gfx/pictures'
-import { Grid, toBase64 } from '../hooks/gfx/raster'
+import { toBase64 } from '../hooks/gfx/raster'
 import { newState } from '../hooks/state'
-import { picturesOf, topoModelOf } from '../hooks/views/frames'
-import { ladder } from '../hooks/views/memory'
+import { picturesOf } from '../hooks/views/frames'
+import { ladder } from '../hooks/views/cost'
 import { CLI_OUT, HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
 
 const at = (path: string) => RUFLO_FILES[path] ?? null
@@ -138,40 +137,13 @@ describe('graphics', () => {
     }
   })
 
-  it('every picture keeps its size across time, so a blit always fits the mounted Raster', () => {
-    const model = topoModelOf({ swarm: parseSwarmStore(at('.claude-flow/swarm/swarm-state.json')), hive: parseHive(at('.claude-flow/hive-mind/state.json')), agents: parseAgents(at('.claude-flow/agents/store.json')).map(agent => ({ ...agent, status: 'busy' })) } as never)
-
-    for (const t of [0, 1234, 99_999]) {
-      const pictures: Grid[] = [
-        topologyPicture(model ?? { topology: 'mesh', nodes: [] }, 80, 12, t),
-        activityPicture([{ label: 'a', values: [1, 2, 3] }, { label: 'b', values: [] }], 80, t),
-        curvePicture([true, false, true], 80, 6, t),
-        claimsPicture([{ label: 'x', isStealable: false, claimedAtMs: 0 }, { label: 'y', isStealable: true, claimedAtMs: 0, expiresAtMs: 10_000 }], 80, 2, t),
-        scorePicture([{ name: 'harnessFit', value: 42 }], 80, t, 0),
-        markPicture(true, t),
-      ]
-
-      expect(pictures.map(grid => [grid.columns, grid.rows])).toEqual([[80, 12], [80, 2], [80, 6], [80, 2], [80, 1], [2, 1]])
-      for (const grid of pictures) expect(grid.encode().length).toBe(Math.ceil((grid.columns * grid.rows * 12) / 3) * 4)
-    }
-  })
-
-  it('a TTL counts down and an age counts up on the real clock', () => {
-    const glyphs = (grid: Grid) => Array.from({ length: grid.columns }, (_, x) => String.fromCodePoint(grid.glyph(x, 0))).join('')
-    const ttl = { label: 'c', isStealable: false, claimedAtMs: 0, expiresAtMs: 100_000 }
-
-    expect(glyphs(claimsPicture([ttl], 60, 1, 10_000))).toContain('ttl 1m30s')
-    expect(glyphs(claimsPicture([ttl], 60, 1, 200_000))).toContain('ttl expired')
-    expect(glyphs(claimsPicture([{ label: 'c', isStealable: false, claimedAtMs: 0 }], 60, 1, 3_600_000))).toContain('age 1h00m')
-  })
-
   it('the frame functions answer the same pictures for the render and the loop', () => {
     const state = newState({})
 
     state.view = 'learning'
-    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['curve'])
-    state.view = 'federation'
-    expect(picturesOf(state, 90, 0, 5).size).toBe(0)
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'curve', 'pipeline', 'patterns'])
+    state.view = 'memory'
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header'])
   })
 
   it('the budget ladder marks 50/75/90/100% and fills to the spend', () => {

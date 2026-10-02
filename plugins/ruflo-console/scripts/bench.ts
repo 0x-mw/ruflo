@@ -86,6 +86,27 @@ async function main() {
 
     console.log(`${view.id.padEnd(12)} render ${stats(renders)} · frame [${pictures}] ${stats(frames)}`)
   }
+
+  // The frame budget is 4 ms at 100 agents: a synthetic 100-agent swarm (counts only, nothing shown as real data).
+  const base = state.snapshot as Snapshot
+  const agents = Array.from({ length: 100 }, (_, i) => ({ id: `agent-bench-${i}`, type: i % 2 === 0 ? 'coder' : 'tester', status: i % 3 === 0 ? 'busy' : 'idle' }))
+
+  for (const [topology, columns] of [['hierarchical', 160], ['mesh', 160]] as const) {
+    state.snapshot = { ...base, agents, swarm: { id: 'swarm-bench', topology, status: 'running', agentIds: agents.map(agent => agent.id) } }
+    state.view = 'swarm'
+    state.events = agents.slice(0, 30).map((agent, i) => ({ atMs: Date.now() - i * 40, kind: 'swarm' as const, text: 'bench', agentId: agent.id }))
+
+    const frames: number[] = []
+
+    for (let i = 0; i < N; i++) {
+      const start = process.hrtime.bigint()
+
+      for (const grid of picturesOf(state, columns, Date.now(), Date.now() + i * 83).values()) grid.encode()
+      frames.push(ms(start))
+    }
+
+    console.log(`100 agents ${topology.padEnd(12)} frame [header,topology] ${stats(frames)} (budget 4 ms)`)
+  }
 }
 
 void main()

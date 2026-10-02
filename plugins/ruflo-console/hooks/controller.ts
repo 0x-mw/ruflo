@@ -1,21 +1,23 @@
 /**
- * Everything the console does over time, as plain functions over a Host: the disk refresh, the CLI probes, the
- * animation loop, and the claims actions with their confirm step. Nothing here reaches `$` but through the Host.
+ * Everything the console does over time, as plain functions over a Host: the disk refresh and the event diff, the CLI
+ * probes, the pane's lifecycle (auto-open without taking the keys), and the animation loop. Actions go through
+ * ./runner. Nothing here reaches `$` but through the Host.
  */
-import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot, type ActionSpec } from './actions'
+import { actionsOf } from './bindings'
 import { PROBES, type ProbeResult } from './data/cli'
+import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
 import { readSnapshot } from './data/snapshot'
 import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
-import { CLI_PREFIXES, PANE_ID, push, storeKeyOf, VIEWS, type State } from './state'
+import { agentLogs } from './ops'
+import { createRunner, type Runner } from './runner'
+import { CLI_PREFIXES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
-import { selection, openTasks } from './views/select'
 
 const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
-const PENDING_TTL_MS = 30_000
 const MAX_PARALLEL_PROBES = 2
 const BAR_FRESH_MS = 10_000
 const IDLE_REFRESH_MS = 30_000
@@ -29,11 +31,15 @@ export type Controller = {
   resume: () => void
   stop: () => void
   open: (focus?: boolean) => Promise<{ isPlaced: boolean; reason: string }>
+  /** At session start, with `panel: auto`: opens where it docks, never taking the keys; else leaves a hint. */
+  autoOpen: () => void
   close: () => Promise<void>
   setView: (view: State['view']) => void
+  drill: (agentId: string) => void
   animate: () => void
-  noteToolCall: () => void
+  noteToolCall: (agentId: string | undefined, tool: string) => void
   actions: Actions
+  runner: Runner
   /** Blits the band's mark while Claude works; the band calls it with its requestId. */
   markFrame: (requestId: string, isWorking: boolean) => void
 }
@@ -53,20 +59,17 @@ export const p95 = (values: readonly number[]) => sorted(values)[Math.min(values
 
 export function createController(state: State, host: Host): Controller {
   let activityCount = 0
-  let pendingSpec: ActionSpec | null = null
   let markRequest: string | null = null
   let lastSegment: string | null | undefined
   let lastSpend: number | undefined
   let hasDrawn = false
   let toolsCountedAt = 0
+  let inflight: Promise<void> | null = null
   const lastAttempt = new Map<string, number>()
 
-  const persist = () => void host.storeSet(storeKeyOf(state.cwd), { view: state.view }).catch(() => undefined)
+  const persist = () => void host.storeSet(storeKeyOf(state.cwd), { view: state.view === 'agent' ? state.back : state.view, isClosedByPerson: state.pane.isClosedByPerson }).catch(() => undefined)
   const isVisible = () => state.pane.isOpen && state.pane.isShown
 
-  let inflight: Promise<void> | null = null
-
-  /** Re-reads the disk and the ruflo noun; a call while one runs joins it rather than starting a second. */
   function refresh(): Promise<void> {
     inflight ??= readAll().finally(() => {
       inflight = null
@@ -99,7 +102,7 @@ export function createController(state: State, host: Host): Controller {
         void host.rufloTools().then(counted => void (state.rufloTools = counted), () => undefined)
       }
 
-      const [settings, usage, snapshot, route] = await Promise.all([
+      const [settings, usage, ruflo, route] = await Promise.all([
         host.settings().catch(() => null),
         host.usage().catch(() => null),
         host.rufloSnapshot().catch((error: unknown) => {
@@ -109,12 +112,35 @@ export function createController(state: State, host: Host): Controller {
         }),
         host.rufloRoute().catch(() => null),
       ])
+      const previous = state.snapshot
+      const now = Date.now()
+      const snapshot = await readSnapshot(host.fs, state.cache, state.cwd, state.home, settings, now)
 
-      state.snapshot = await readSnapshot(host.fs, state.cache, state.cwd, state.home, settings, Date.now())
+      state.snapshot = snapshot
+      record(state.events, diffEvents(previous, snapshot, now))
+
+      if (route !== null && route.agent !== state.ruflo.route?.agent) record(state.events, [{ atMs: now, kind: 'learning', text: `router picked ${route.agent} (${Math.round(route.confidence * 100)}%)` }])
+
       state.usage = usage
-      state.ruflo.snapshot = snapshot
-      state.ruflo.route = route ?? snapshot?.lastRoute ?? null
-      push(state.writes, state.snapshot.changed)
+      state.ruflo.snapshot = ruflo
+      state.ruflo.route = route ?? ruflo?.lastRoute ?? null
+      push(state.writes, snapshot.changed)
+
+      for (const agent of snapshot.agents.slice(0, 200)) {
+        const log = state.statusLog.get(agent.id) ?? []
+
+        if (log.at(-1)?.status !== agent.status) push(log, { atMs: now, status: agent.status }, 100)
+        state.statusLog.set(agent.id, log)
+      }
+
+      const patterns = snapshot.neural?.patterns
+
+      if (patterns !== undefined && state.history.patterns.at(-1)?.value !== patterns) push(state.history.patterns, { atMs: now, value: patterns })
+      if (usage?.costUsd !== undefined && state.history.spend.at(-1)?.value !== usage.costUsd) push(state.history.spend, { atMs: now, value: usage.costUsd })
+      if ((snapshot.outcomes?.total ?? 0) > state.history.outcomes) {
+        if (state.history.outcomes > 0) state.curveGrewAtMs = now
+        state.history.outcomes = snapshot.outcomes?.total ?? 0
+      }
 
       if (state.options.bar === 'off') {
         const text = segmentOf(state)
@@ -187,9 +213,7 @@ export function createController(state: State, host: Host): Controller {
   }
 
   function every(name: string, ms: number, fn: () => void): void {
-    if (!state.timers.has(name)) {
-      state.timers.set(name, host.every(ms, fn))
-    }
+    if (!state.timers.has(name)) state.timers.set(name, host.every(ms, fn))
   }
 
   function cancel(name: string): void {
@@ -200,9 +224,8 @@ export function createController(state: State, host: Host): Controller {
   /** One frame of every picture of the view in front, each blitted only at the size it was mounted. */
   function frame(): void {
     const started = Date.now()
-    const pictures = picturesOf(state, state.pane.columns, Date.now(), Date.now())
 
-    for (const [key, grid] of pictures) {
+    for (const [key, grid] of picturesOf(state, state.pane.columns, Date.now(), Date.now())) {
       const mounted = state.mounted.get(key)
 
       if (mounted !== undefined && mounted.columns === grid.columns && mounted.rows === grid.rows) {
@@ -215,9 +238,7 @@ export function createController(state: State, host: Host): Controller {
 
   /** Runs the frame loop while the pane is shown and holds the keys, at `fps`; stops it otherwise. */
   function animate(): void {
-    const shouldRun = state.options.fps > 0 && isVisible() && state.pane.isFocused && state.mounted.size > 0
-
-    if (!shouldRun) {
+    if (!(state.options.fps > 0 && isVisible() && state.pane.isFocused && state.mounted.size > 0)) {
       cancel('frames')
 
       return
@@ -237,9 +258,7 @@ export function createController(state: State, host: Host): Controller {
       state.pane.isFocused = mine?.isFocused === true
     }
 
-    if (!state.pane.isOpen) {
-      cancel('watch')
-    }
+    if (!state.pane.isOpen) cancel('watch')
 
     animate()
   }
@@ -263,9 +282,7 @@ export function createController(state: State, host: Host): Controller {
     })
   }
 
-  function resume(): void {
-    every('watch', PANE_WATCH_MS, () => void watchPane())
-  }
+  const resume = () => every('watch', PANE_WATCH_MS, () => void watchPane())
 
   function stop(): void {
     for (const timer of state.timers.values()) timer.cancel()
@@ -273,15 +290,15 @@ export function createController(state: State, host: Host): Controller {
   }
 
   async function open(focus = true): Promise<{ isPlaced: boolean; reason: string }> {
-    const rows = VIEWS.find(view => view.id === state.view)?.rows ?? 24
-
     try {
-      const result = await host.openPane({ id: PANE_ID, title: 'ruflo console', rows, ...(focus && { focus: true, closeOnEscape: true, holdToasts: true }) })
+      const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(focus && { focus: true, closeOnEscape: true, holdToasts: true }) })
       const isPlaced = result === undefined || result.isPlaced !== false
 
       state.pane.isOpen = isPlaced
       state.pane.isShown = isPlaced
-      every('watch', PANE_WATCH_MS, () => void watchPane())
+      if (focus) state.pane.isClosedByPerson = false
+      if (isPlaced) persist()
+      resume()
       void refresh().then(() => probe(true))
 
       return { isPlaced, reason: result?.reason ?? '' }
@@ -290,9 +307,29 @@ export function createController(state: State, host: Host): Controller {
     }
   }
 
+  function autoOpen(): void {
+    if (state.options.panel !== 'auto' || state.pane.isOpen || state.pane.isClosedByPerson || state.pane.autoTried) return
+
+    state.pane.autoTried = true
+    // From a timer, never a render hook; without `focus`, so the prompt keeps the keys. The engine seats an unasked pane
+    // only where it docks (144 columns and up) and answers why not otherwise: the band then says "/ruflo to open".
+    state.timers.set(
+      'auto-open',
+      host.after(50, () => {
+        state.timers.delete('auto-open')
+        void open(false).then(result => {
+          state.pane.autoReason = result.isPlaced ? '' : result.reason || 'not placed'
+          host.invalidate()
+        })
+      }),
+    )
+  }
+
   async function close(): Promise<void> {
     state.pane.isOpen = false
     state.pane.isShown = false
+    state.pane.isClosedByPerson = true
+    persist()
     cancel('frames')
     cancel('watch')
     await host.closePane(PANE_ID).catch(() => undefined)
@@ -300,109 +337,48 @@ export function createController(state: State, host: Host): Controller {
 
   function setView(view: State['view']): void {
     state.isHelp = false
+    state.palette.isOpen = false
 
     if (view !== state.view) {
+      if (view === 'agent' || state.view !== 'agent') state.back = state.view === 'agent' ? state.back : state.view
       state.view = view
+      state.select.item = 0
       state.mounted.clear()
       persist()
       // A new view asks for its own height inline; the dock ignores it.
-      if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo console', rows: VIEWS.find(entry => entry.id === view)?.rows ?? 24 }).catch(() => undefined)
+      if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(view) }).catch(() => undefined)
       void probe(true)
     }
 
     host.invalidate()
   }
 
-  function ask(spec: ActionSpec | null, why: string): void {
-    if (spec === null) {
-      state.outcome = { label: 'nothing to do', ok: false, verified: 'n/a', detail: why, atMs: Date.now() }
-    } else {
-      pendingSpec = spec
-      state.pending = { label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now() }
-    }
+  function drill(agentId: string): void {
+    const agent = state.snapshot?.agents.find(entry => entry.id === agentId)
 
-    host.invalidate()
-  }
+    state.drill = { agentId, logs: null, logsAtMs: 0 }
+    setView('agent')
 
-  async function confirm(): Promise<void> {
-    const spec = pendingSpec
-    const isFresh = state.pending !== null && Date.now() - state.pending.askedAtMs < PENDING_TTL_MS
+    const spec = agent === undefined ? null : agentLogs(agent)
 
-    pendingSpec = null
-    state.pending = null
-
-    if (spec === null || !isFresh || state.isActing) {
-      host.invalidate()
-
-      return
-    }
-
-    state.isActing = true
-    host.invalidate()
-
-    try {
-      const result = await host.run([...CLI_PREFIXES[state.options.cli], ...spec.args], 60_000)
-      const answer = /"success"\s*:\s*(true|false)/.exec(result.stdout)?.[1]
-      const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1]
-      const ok = result.exitCode === 0 && answer !== 'false'
-
-      await freshRead()
-
-      const verified = state.snapshot === null ? 'n/a' : spec.verify(state.snapshot) ? 'yes' : 'no'
-
-      state.outcome = { label: spec.label, ok: ok && verified !== 'no', verified, detail: ok ? `ruflo answered ok; expected ${spec.expect}` : plain(error ?? result.stderr, 120) || `exit ${result.exitCode}`, atMs: Date.now() }
-    } catch (error) {
-      state.outcome = { label: spec.label, ok: false, verified: 'n/a', detail: plain(error instanceof Error ? error.message : String(error), 120) || 'refused', atMs: Date.now() }
-    } finally {
-      state.isActing = false
-      host.invalidate()
+    if (spec !== null) {
+      void host
+        .run([...CLI_PREFIXES[state.options.cli], ...spec.args], 30_000)
+        .then(result => {
+          if (state.drill.agentId === agentId) state.drill = { agentId, logs: result.stdout.split('\n').map(line => plain(line, 160)).filter(Boolean).slice(-12), logsAtMs: Date.now() }
+        })
+        .catch(() => undefined)
+        .finally(() => host.invalidate())
     }
   }
 
-  const step = (key: keyof State['select'], by: number) => () => {
-    state.select[key] += by
-    host.invalidate()
-  }
-
-  const actions: Actions = {
-    view: setView,
-    refresh: () => void freshRead().then(() => probe(true)),
-    help: () => {
-      state.isHelp = !state.isHelp
-      host.invalidate()
-    },
-    close: () => void close(),
-    confirm: () => void confirm(),
-    cancel: () => {
-      pendingSpec = null
-      state.pending = null
-      host.invalidate()
-    },
-    claimPrev: step('claim', -1),
-    claimNext: step('claim', 1),
-    agentNext: step('agent', 1),
-    taskNext: step('task', 1),
-    claim: () => {
-      const { agent, task, claim } = selection(state)
-
-      ask(task !== null && agent !== null ? claimTask(task, agent) : null, whyNot('claim', claim, agent, openTasks(state)[0] ?? task))
-    },
-    release: () => {
-      const { claim, agent, task } = selection(state)
-
-      ask(claim !== null ? releaseClaim(claim) : null, whyNot('release', claim, agent, task))
-    },
-    handoff: () => {
-      const { claim, agent, task } = selection(state)
-
-      ask(claim !== null && agent !== null ? handoffClaim(claim, agent) : null, whyNot('handoff', claim, agent, task))
-    },
-    steal: () => {
-      const { claim, agent, task } = selection(state)
-
-      ask(claim !== null && agent !== null ? stealClaim(claim, agent) : null, whyNot('steal', claim, agent, task))
-    },
-  }
+  const runner = createRunner(state, host, {
+    freshRead,
+    setView,
+    drill,
+    command: name => (name === 'refresh' ? actions.refresh() : name === 'help' ? actions.help() : actions.close()),
+  })
+  const actions: Actions = actionsOf(state, host, runner, { freshRead, probe, setView, drill, close })
 
   function markFrame(requestId: string, isWorking: boolean): void {
     markRequest = requestId
@@ -416,5 +392,17 @@ export function createController(state: State, host: Host): Controller {
     }
   }
 
-  return { refresh, probe, start, resume, stop, open, close, setView, animate, noteToolCall: () => void (activityCount += 1), actions, markFrame }
+  function noteToolCall(agentId: string | undefined, tool: string): void {
+    activityCount += 1
+
+    const who = agentId ?? 'main'
+    const list = state.toolsByAgent.get(who) ?? []
+
+    push(list, { atMs: Date.now(), tool: plain(tool, 40) }, 200)
+    state.toolsByAgent.set(who, list)
+    if (state.toolsByAgent.size > 50) state.toolsByAgent.delete(state.toolsByAgent.keys().next().value as string)
+    record(state.events, [{ atMs: Date.now(), kind: 'tools', text: `${who === 'main' ? 'claude' : who}: ${plain(tool, 40)}` }])
+  }
+
+  return { refresh, probe, start, resume, stop, open, autoOpen, close, setView, drill, animate, noteToolCall, actions, runner, markFrame }
 }

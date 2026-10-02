@@ -25,7 +25,7 @@ export const BAND: RenderInput<'AbovePrompt'> = {
   props: { hasSurvey: false, isWorking: false, maxRows: 6, bodyColumns: 120, scroll: { offset: 0, bodyRows: 6 }, view: {} },
 } as RenderInput<'AbovePrompt'>
 
-export const command = (args = '') => ({ command: 'ruflo-console', args, origin: { kind: 'composer' as const }, presentation: { isFullscreen: true, columns: 180 } })
+export const command = (args = '') => ({ command: 'ruflo', args, origin: { kind: 'composer' as const }, presentation: { isFullscreen: true, columns: 180 } })
 
 export type Answer = { exitCode: number; stdout: string; stderr: string } | { deny: string }
 
@@ -34,6 +34,7 @@ export type World = {
   runs: string[][]
   blits: string[]
   opened: string[]
+  openArgs: { id: string; focus?: true; rows?: number }[]
   stored: Map<string, unknown>
   panes: { id: string; isShown: boolean; isFocused: boolean; title: string; isPlaced: boolean }[]
   /** Answers a CLI run by its argv; the default answers each probe from the captured run. */
@@ -71,6 +72,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
     runs: [],
     blits: [],
     opened: [],
+    openArgs: [],
     stored: new Map(),
     panes: [],
     respond: cliAnswer,
@@ -121,6 +123,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
     if (refuse) return { deny: 'panes withheld' } as never
 
     world.opened.push(e.id)
+    world.openArgs.push({ id: e.id, ...(e.focus !== undefined && { focus: e.focus }), ...(e.rows !== undefined && { rows: e.rows }) })
     world.panes = [{ id: e.id, title: e.title ?? e.id, isShown: true, isFocused: e.focus === true, isPlaced: true }]
 
     return { value: { isPlaced: true } } as never

@@ -14,6 +14,7 @@ export type OpenResult = { isPlaced: boolean; reason?: string } | void
 export type Host = {
   fs: ReaderFs
   every: (ms: number, fn: () => void) => Timer
+  after: (ms: number, fn: () => void) => Timer
   storeGet: (key: string) => Promise<unknown>
   storeSet: (key: string, value: unknown) => Promise<void>
   invalidate: () => void

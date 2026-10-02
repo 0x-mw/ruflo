@@ -2,7 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
 import { PLUGIN_NAME } from '../state'
-import { ago, clip, col, kv, rule, text, THEME, type Ctx } from './common'
+import { ago, col, kv, picture, rule, text, THEME, type Ctx } from './common'
 
 const WEEK = 7 * 86_400_000
 
@@ -45,17 +45,12 @@ export function pluginsView(ctx: Ctx): RenderElement {
 
   rows.push(rule(ctx, 'Installed', facts.installed === null ? 'n/a' : `${ruflo.length} ruflo · ${enabled} enabled · ${(facts.installed ?? []).length} total`))
 
-  const width = Math.max(10, Math.floor((ctx.columns - 2) / 2))
-  const cells = ruflo
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(plugin => `${facts.enabled.has(plugin.id) ? '✓' : '·'} ${plugin.name.replace(/^ruflo-/, '')} ${plugin.version}${facts.rufloOffered !== null && !facts.rufloOffered.includes(plugin.name) ? ' (gone from clone)' : ''}`)
+  rows.push(picture(ctx, 'health', `${ruflo.length} ruflo plugins installed`))
+  rows.push(text(ctx, 'columns: I installed · E enabled · I in the marketplace clone · M mod loaded here — ■ yes (green) / no (red), · unknown', { dimColor: true }))
 
-  for (let i = 0; i < Math.min(cells.length, 24); i += 2) {
-    rows.push(text(ctx, `${clip(cells[i] ?? '', width - 1).padEnd(width)}${clip(cells[i + 1] ?? '', width - 1)}`))
-  }
+  const gone = ruflo.filter(plugin => facts.rufloOffered !== null && !facts.rufloOffered.includes(plugin.name))
 
-  if (cells.length > 24) rows.push(text(ctx, `+${cells.length - 24} more`, { dimColor: true }))
-  if (cells.length === 0) rows.push(text(ctx, 'no ruflo plugins installed — /plugin install ruflo-core@ruflo', { dimColor: true }))
+  if (gone.length > 0) rows.push(text(ctx, `installed but gone from the clone: ${gone.map(plugin => plugin.name).join(', ')}`, { color: THEME.warn }))
 
   rows.push(rule(ctx, 'Mods', 'function hooks'))
   rows.push(kv(ctx, PLUGIN_NAME, 'loaded (you are reading it)', THEME.ok))

@@ -2,6 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import type { Intelligence } from '../data/cli'
 import { ago, col, count, kv, live, pct, picture, rule, sourceLine, text, THEME, type Ctx } from './common'
+import { stagesOf } from './frames'
 
 /**
  * What ruflo has learned, from its own stores: the router's last pick and how routed tasks turned out, the model tier
@@ -39,7 +40,7 @@ export function learningView(ctx: Ctx): RenderElement {
     ),
   )
   rows.push(picture(ctx, 'curve', `running success rate over ${outcomes?.total ?? 0} outcomes`))
-  rows.push(text(ctx, 'running success rate of routed tasks, oldest left; the moving dot is decoration', { dimColor: true }))
+  rows.push(text(ctx, 'running success rate of routed tasks, oldest left (router accuracy over N outcomes); new outcomes draw in', { dimColor: true }))
   rows.push(
     kv(
       ctx,
@@ -50,6 +51,10 @@ export function learningView(ctx: Ctx): RenderElement {
     ),
   )
 
+  rows.push(rule(ctx, 'Pipeline', 'RETRIEVE → JUDGE → DISTILL → CONSOLIDATE'))
+  rows.push(picture(ctx, 'pipeline', stagesOf(state).map(stage => `${stage.name} ${stage.count ?? 'n/a'}`).join(' → ')))
+  for (const stage of stagesOf(state)) rows.push(text(ctx, `  ${stage.name.toLowerCase()}: ${stage.source}`, { dimColor: true }))
+  rows.push(picture(ctx, 'patterns', `patterns since load: ${state.history.patterns.map(sample => sample.value).join(' ') || 'n/a'}`))
   rows.push(rule(ctx, 'SONA · ReasoningBank', 'neural/stats.json'))
   rows.push(kv(ctx, 'trajectories', neural === null ? 'n/a — no .claude-flow/neural/stats.json' : count(neural.trajectories)))
   rows.push(kv(ctx, 'patterns learned', neural === null ? 'n/a' : count(neural.patterns)))
