@@ -21,7 +21,7 @@ export type ViewId = 'menu' | 'overview' | 'swarm' | 'claims' | 'federation' | '
  * current tab adds its label, and `blurb` is the one line under the bar that says what the view is for.
  */
 export const VIEWS: readonly { id: ViewId; key: string; label: string; short: string; icon: string; blurb: string; rows: number }[] = [
-  { id: 'menu', key: '0', label: 'Main Menu', short: 'Mnu', icon: '📟', blurb: 'the board: every area by its key, the line status, and a prompt that takes a key or a name', rows: 32 },
+  { id: 'menu', key: '0', label: 'Main Menu', short: 'Mnu', icon: '📟', blurb: 'the board: every area by its key, the line status, and a prompt that takes a key or a name', rows: 40 },
   { id: 'overview', key: '1', label: 'Overview', short: 'Ovr', icon: '🏠', blurb: 'what ruflo is doing here: subsystems, mods, health alerts and live activity', rows: 26 },
   { id: 'swarm', key: '2', label: 'Swarm', short: 'Swm', icon: '🐝', blurb: 'the swarm as ruflo wrote it: topology, agents at work, and the hive-mind votes', rows: 30 },
   { id: 'claims', key: '3', label: 'Claims', short: 'Clm', icon: '📌', blurb: 'who holds which task: claim, release, hand off or steal, each after a y/n confirm', rows: 30 },

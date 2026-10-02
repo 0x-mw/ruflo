@@ -12,6 +12,7 @@ import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePictu
 import { flowModelOf, flowPicture, flowRows } from '../gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture, type FedNode, type HealthRow, type Lane } from '../gfx/maps'
 import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
+import { neonPicture } from '../gfx/neon'
 import type { Grid } from '../gfx/raster'
 import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
@@ -128,12 +129,15 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
   if (!(state.pane.rows > 0 && state.pane.rows < rowsOf(state.view))) {
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
-    pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo · ${project}`, Math.min(width, 40), t))
+    // The main menu's neon sign stands in for the banner there.
+    if (!(state.options.look === 'bbs' && state.view === 'menu')) pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo · ${project}`, Math.min(width, 40), t))
     // BBS: each view's name as ANSI-style block art under the tabs.
     if (state.options.look === 'bbs') {
-      const name = state.isHelp ? 'help' : state.palette.isOpen ? 'palette' : state.view === 'agent' ? 'agent' : state.view === 'menu' ? 'ruflo bbs' : (VIEWS.find(view => view.id === state.view)?.label ?? state.view)
+      const name = state.isHelp ? 'help' : state.palette.isOpen ? 'palette' : state.view === 'agent' ? 'agent' : (VIEWS.find(view => view.id === state.view)?.label ?? state.view)
+      const isMenu = state.view === 'menu' && !state.isHelp && !state.palette.isOpen
 
-      pictures.set('title', titlePicture(name, Math.min(width, 80), t))
+      // The main menu hangs the RuFlo neon sign, lit and still; every other view its name in block art.
+      pictures.set('title', isMenu ? neonPicture(width, 0, false) : titlePicture(name, Math.min(width, 80), t))
     }
   }
 

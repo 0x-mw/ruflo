@@ -240,7 +240,7 @@ describe('views', () => {
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
     const menu = await pane.drawn()
 
-    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'title'])
+    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['title'])
     expect(textOf(menu)).toContain('■Swarm Commands■')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
