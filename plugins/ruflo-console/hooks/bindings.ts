@@ -161,7 +161,8 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
           return
         }
 
-        if (asked !== null && asked.key === key && state.pending?.label === asked.label) {
+        // The engine may empty the field on submit, so an empty Enter on a pending ask confirms it too.
+        if (asked !== null && (asked.key === key || text.trim() === '') && state.pending?.label === asked.label) {
           state.terminal.asked = null
           state.terminal.draft = ''
           void runner.confirm()
