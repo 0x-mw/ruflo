@@ -138,4 +138,13 @@ describe('palette and /ruflo', () => {
     expect(world.runs.some(argv => argv.join(' ').includes('memory stats'))).toBe(true)
     expect(world.opened).toHaveLength(0)
   })
+
+  test('panel auto stays shut outside a ruflo project', { options: { panel: 'auto' } }, async ($, on) => {
+    const world = worldOf(on, { 'README.md': 'not ruflo' })
+    const clock = mock.clock(on)
+    await $.session.start(SESSION)
+    await clock.advance(500)
+
+    expect(world.openArgs).toHaveLength(0)
+  })
 })

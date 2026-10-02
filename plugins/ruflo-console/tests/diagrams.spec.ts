@@ -38,7 +38,7 @@ function all(t: number): [string, Grid, number, number][] {
     ['burn', samplesPicture('spend', [{ value: 0.1 }, { value: 0.4 }], 80), 80, 1],
     ['fedmap', federationPicture('this node', [{ label: 'peer-a', trust: 'pinned', trafficAtMs: 0 }, { label: '#ops', trust: 'channel' }, { label: 'npub1x', trust: 'roster' }], 80, 11, t), 80, 11],
     ['health', heatmapPicture([{ name: 'core', cells: [true, true, true, null] }, { name: 'mods', cells: [false, null, false, true] }], ['installed', 'enabled', 'clone', 'mod'], 80, 5), 80, 5],
-    ['gantt', ganttPicture([{ label: 'coder', spans: [{ fromMs: 0, toMs: 500, busy: true }], ticks: [200] }], 80, 0, 1_000, t), 80, 2],
+    ['gantt', ganttPicture([{ label: 'coder', spans: [{ fromMs: 0, toMs: 500, busy: true }], ticks: [200] }], 80, 0, 1_000), 80, 2],
   ]
 }
 

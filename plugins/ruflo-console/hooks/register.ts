@@ -187,6 +187,7 @@ export const register: Register = (on, raw: PluginOptions) => {
     if (e.id === PANE_ID && result.deny === undefined) {
       state.pane.isOpen = false
       state.pane.isShown = false
+      if (e.origin.kind === 'person') control?.closedByPerson()
       control?.animate()
     }
 

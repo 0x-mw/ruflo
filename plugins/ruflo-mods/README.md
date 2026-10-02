@@ -8,7 +8,7 @@ ruflo mods doctor       # function hooks on? refused by policy? what does it own
 ruflo mods uninstall    # remove only what install added
 ```
 
-In a session, `/ruflo-mods` reports what the mod owns, routed, recorded and tightened.
+In a session, `/ruflo mods` (through ruflo-console's `/ruflo`) reports what the mod owns, routed, recorded and tightened. `/ruflo-mods` still works for one release as a deprecated alias.
 
 ## What it does
 

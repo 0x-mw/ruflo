@@ -46,7 +46,7 @@ export function pluginsView(ctx: Ctx): RenderElement {
   rows.push(rule(ctx, 'Installed', facts.installed === null ? 'n/a' : `${ruflo.length} ruflo · ${enabled} enabled · ${(facts.installed ?? []).length} total`))
 
   rows.push(picture(ctx, 'health', `${ruflo.length} ruflo plugins installed`))
-  rows.push(text(ctx, 'columns: I installed · E enabled · I in the marketplace clone · M mod loaded here — ■ yes (green) / no (red), · unknown', { dimColor: true }))
+  rows.push(text(ctx, 'columns: I installed · E enabled · C listed by the marketplace clone · M mod loaded here — ■ yes (green) / no (red), · unknown', { dimColor: true }))
 
   const gone = ruflo.filter(plugin => facts.rufloOffered !== null && !facts.rufloOffered.includes(plugin.name))
 

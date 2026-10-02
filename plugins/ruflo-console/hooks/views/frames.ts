@@ -19,8 +19,10 @@ import { live } from './common'
 import { openTasks } from './select'
 
 export const MAX_NODES = 100
-export const HEALTH_CHECKS = ['installed', 'enabled', 'in clone', 'mod'] as const
+export const HEALTH_CHECKS = ['installed', 'enabled', 'clone', 'mod'] as const
 const TIMELINE_MS = 15 * 60_000
+/** The radar's axis words: the score's own dimension names, shortened to fit at a spoke's end. */
+const AXIS: Record<string, string> = { harnessFit: 'fit', compileConfidence: 'compile', taskCoverage: 'coverage', toolSafety: 'safety', memoryUsefulness: 'memory' }
 
 /** The swarm as a graph: the hive's queen leads where there is one, else the swarm itself stands at the root. */
 export function topoModelOf(snapshot: Snapshot | null, pulses: Map<string, number> = new Map()): TopoModel | null {
@@ -126,7 +128,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
       break
     }
     case 'claims': {
-      const cards = flowModelOf(snapshot?.claims ?? [], openTasks(state))
+      const cards = flowModelOf(snapshot?.claims ?? [], openTasks(state), snapshot?.agents ?? [])
 
       if (cards.length > 0) pictures.set('flow', flowPicture(cards, width, flowRows(cards), nowMs))
       break
@@ -154,7 +156,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
 
       if (score !== null) {
         if (!scoreShown.has(score)) scoreShown.set(score, t)
-        pictures.set('radar', radarPicture(score.dims, width, 13, t, scoreShown.get(score) ?? t))
+        pictures.set('radar', radarPicture(score.dims.map(dim => ({ ...dim, name: AXIS[dim.name] ?? dim.name })), width, 13, t, scoreShown.get(score) ?? t))
       }
 
       pictures.set(
@@ -183,7 +185,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     case 'timeline': {
       const lanes = lanesOf(state, nowMs)
 
-      if (lanes.length > 0) pictures.set('gantt', ganttPicture(lanes, width, nowMs - TIMELINE_MS, nowMs, nowMs))
+      if (lanes.length > 0) pictures.set('gantt', ganttPicture(lanes, width, nowMs - TIMELINE_MS, nowMs))
       break
     }
     default:

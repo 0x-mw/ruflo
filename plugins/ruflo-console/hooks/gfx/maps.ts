@@ -95,7 +95,7 @@ export type Lane = { label: string; spans: { fromMs: number; toMs: number; busy:
  * Agents × time: a row per agent over [fromMs, toMs], busy stretches amber, idle blue, a white tick per tool call the
  * console saw. Only what was observed since the console loaded is drawn; before that the row is blank.
  */
-export function ganttPicture(lanes: readonly Lane[], columns: number, fromMs: number, toMs: number, nowMs: number): Grid {
+export function ganttPicture(lanes: readonly Lane[], columns: number, fromMs: number, toMs: number): Grid {
   const rows = Math.max(2, Math.min(lanes.length, 30) + 1)
   const grid = new Grid(columns, rows)
   const labelWidth = Math.min(16, Math.max(6, ...lanes.map(lane => lane.label.length + 1)))
@@ -104,8 +104,7 @@ export function ganttPicture(lanes: readonly Lane[], columns: number, fromMs: nu
   const minutes = Math.max(1, Math.round((toMs - fromMs) / 60_000))
 
   grid.text(labelWidth, 0, `${minutes}m ago`, COLOR.dim)
-  grid.text(columns - 3, 0, 'now', COLOR.dim)
-  grid.set(Math.min(columns - 1, xOf(nowMs)), 0, '▾', COLOR.accent)
+  grid.text(columns - 4, 0, 'now▾', COLOR.dim)
 
   lanes.slice(0, rows - 1).forEach((lane, i) => {
     const y = i + 1

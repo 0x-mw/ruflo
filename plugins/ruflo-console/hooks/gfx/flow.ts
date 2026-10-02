@@ -4,7 +4,7 @@
  * for an instant on the real clock. The ring is data: time left to `expiresAt` where ruflo set one, else the claim's
  * age on a 24 h scale; an expired claim's ring blinks.
  */
-import type { ClaimRecord, TaskRecord } from '../data/parse'
+import type { AgentRecord, ClaimRecord, TaskRecord } from '../data/parse'
 import { COLOR, Grid, mix } from './raster'
 
 export const LANES = ['open', 'claimed', 'working', 'done', 'stealable'] as const
@@ -26,7 +26,10 @@ export function laneOf(claim: ClaimRecord): LaneId {
   return 'working'
 }
 
-export function flowModelOf(claims: readonly ClaimRecord[], openTasks: readonly TaskRecord[]): FlowCard[] {
+/** Cards for the lanes; a handoff names its target by the agent's name where the store has one. */
+export function flowModelOf(claims: readonly ClaimRecord[], openTasks: readonly TaskRecord[], agents: readonly AgentRecord[] = []): FlowCard[] {
+  const nameOf = (id: string) => agents.find(agent => agent.id === id)?.name ?? agents.find(agent => agent.id === id)?.type ?? id
+
   return [
     ...openTasks.slice(0, 40).map(task => ({ id: task.id, owner: task.description || task.type, lane: 'open' as const })),
     ...claims.slice(0, 200).map(claim => ({
@@ -35,7 +38,7 @@ export function flowModelOf(claims: readonly ClaimRecord[], openTasks: readonly 
       lane: laneOf(claim),
       ...(claim.claimedAtMs !== undefined && { claimedAtMs: claim.claimedAtMs }),
       ...(claim.expiresAtMs !== undefined && { expiresAtMs: claim.expiresAtMs }),
-      ...(claim.handoffTo !== undefined && { handoffTo: claim.handoffTo }),
+      ...(claim.handoffTo !== undefined && { handoffTo: nameOf(claim.handoffTo) }),
       ...(claim.progress !== undefined && { progress: claim.progress }),
     })),
   ]

@@ -159,6 +159,7 @@ plugins/ruflo-ruos/tests/vendored-types.test.mjs
 plugins/ruflo-ruos/tests/mod.test.ts
 # ruflo-console: Claude Code engine-kit tests (import 'claude-code/testing', run by `claude plugin test plugins/ruflo-console`);
 # root vitest cannot resolve that import. The pure readers and graphics run under root vitest via tests/*.spec.ts
+plugins/ruflo-console/tests/actions.test.ts
 plugins/ruflo-console/tests/behaviour.test.ts
 plugins/ruflo-console/tests/palette.test.ts
 plugins/ruflo-console/tests/views.test.ts

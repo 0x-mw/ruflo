@@ -76,7 +76,7 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
 
   if (task !== null && agent !== null) add('task-claim', 'claims', `claim task ${task.id} for ${agent.name ?? agent.type}`, { kind: 'spec', spec: claimTask(task, agent), why: 'an id cannot be passed to ruflo' })
 
-  for (const type of AGENT_TYPES) add(`spawn-${type}`, 'swarm', `spawn a ${type} agent`, { kind: 'spec', spec: spawnAgent(type, nowMs), why: 'unknown agent type' })
+  for (const type of AGENT_TYPES) add(`spawn-${type}`, 'swarm', `spawn ${/^[aeiou]/.test(type) ? 'an' : 'a'} ${type} agent`, { kind: 'spec', spec: spawnAgent(type, nowMs), why: 'unknown agent type' })
 
   add('swarm-init', 'swarm', 'start a swarm: init hierarchical, max 8, specialized', { kind: 'spec', spec: swarmInit(), why: '' })
   add('swarm-stop', 'swarm', 'stop the swarm', { kind: 'spec', spec: swarmStop(), why: '' })

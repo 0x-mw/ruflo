@@ -33,6 +33,8 @@ export type Controller = {
   open: (focus?: boolean) => Promise<{ isPlaced: boolean; reason: string }>
   /** At session start, with `panel: auto`: opens where it docks, never taking the keys; else leaves a hint. */
   autoOpen: () => void
+  /** The person closed the pane (Esc, its mark): auto-open stands down until /ruflo opens it again. */
+  closedByPerson: () => void
   close: () => Promise<void>
   setView: (view: State['view']) => void
   drill: (agentId: string) => void
@@ -308,7 +310,7 @@ export function createController(state: State, host: Host): Controller {
   }
 
   function autoOpen(): void {
-    if (state.options.panel !== 'auto' || state.pane.isOpen || state.pane.isClosedByPerson || state.pane.autoTried) return
+    if (state.options.panel !== 'auto' || state.snapshot?.isRufloProject !== true || state.pane.isOpen || state.pane.isClosedByPerson || state.pane.autoTried) return
 
     state.pane.autoTried = true
     // From a timer, never a render hook; without `focus`, so the prompt keeps the keys. The engine seats an unasked pane
@@ -404,5 +406,10 @@ export function createController(state: State, host: Host): Controller {
     record(state.events, [{ atMs: Date.now(), kind: 'tools', text: `${who === 'main' ? 'claude' : who}: ${plain(tool, 40)}` }])
   }
 
-  return { refresh, probe, start, resume, stop, open, autoOpen, close, setView, drill, animate, noteToolCall, actions, runner, markFrame }
+  const closedByPerson = () => {
+    state.pane.isClosedByPerson = true
+    persist()
+  }
+
+  return { refresh, probe, start, resume, stop, open, autoOpen, closedByPerson, close, setView, drill, animate, noteToolCall, actions, runner, markFrame }
 }
