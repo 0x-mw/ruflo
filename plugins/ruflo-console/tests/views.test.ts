@@ -3,7 +3,8 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 
 import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
-import { command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
+import { FIND_OUT, LS_GLOBAL } from './fixtures/skills'
+import { cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const HOME_FILES = {
   '.claude/plugins/installed_plugins.json': JSON.stringify({
@@ -230,6 +231,48 @@ describe('views', () => {
     expect(text).toContain('codex: new session')
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
+  })
+
+  test('skills: installed, search and create sections; opening lists, nothing else runs until asked and confirmed', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    const skillRuns = () => world.runs.filter(argv => argv[2] === 'skills').map(argv => argv.slice(3).join(' '))
+
+    world.respond = argv => (argv[2] !== 'skills' ? cliAnswer(argv) : argv[3] === 'ls' ? { exitCode: 0, stdout: argv.includes('-g') ? LS_GLOBAL : '[]', stderr: '' } : argv[3] === 'find' ? { exitCode: 0, stdout: FIND_OUT, stderr: '' } : { exitCode: 0, stdout: 'done\n', stderr: '' })
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'skills')
+
+    expect(text).toContain('INSTALLED')
+    expect(text).toContain('SEARCH')
+    expect(text).toContain('CREATE')
+    expect(text).toContain('0 project · 2 global')
+    expect(text).toMatch(/ faceless-explainer \.+/)
+    expect(text).toContain('Claude Code, Codex')
+    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['skills-search', 'skills-create'])
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['sk-update-0', 'sk-remove-0', 'sk-edit-0']))
+    // The tab has no hotkey, and the current one reads without a key.
+    expect(text).toContain('[🧰 SKILLS]')
+    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json'])
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.input({ key: 'skills-search', text: 'react', kind: 'submit' })
+
+    const found = textOf(await pane.drawn())
+
+    expect(found).toMatch(/ mattpocock\/skills@tdd \.*/)
+    expect(found).toContain('1M installs')
+    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json', 'find react'])
+
+    await pane.press({ key: 'sk-addg-0' })
+    expect(textOf(await pane.drawn())).toContain('runs: npx -y skills add mattpocock/skills@tdd -g -y')
+    expect(skillRuns().some(line => line.startsWith('add'))).toBe(false)
+
+    await pane.press({ key: 'confirm' })
+    await pane.drawn()
+    expect(skillRuns()).toContain('add mattpocock/skills@tdd -g -y')
+    await pane.unmount()
   })
 
   test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {

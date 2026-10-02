@@ -13,6 +13,7 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
+import { listSkills } from './skills'
 import { CLI_PREFIXES, isBooting, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
@@ -393,6 +394,11 @@ export function createController(state: State, host: Host): Controller {
     host.invalidate()
     // The terminal is for typing: its field takes the keys as it opens, so letters reach it, not the pane's hotkeys.
     if (view === 'terminal') focusField('term-input')
+    // Opening the skills view is the person asking for its lists (npx skills reaches the network, so never unasked).
+    if (view === 'skills') {
+      void listSkills(state, host)
+      focusField('skills-search')
+    }
   }
 
   /** Moves the pane's focus ring onto one of its fields; refused (the pane does not hold the keys), nothing happens. */

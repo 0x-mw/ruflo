@@ -149,7 +149,8 @@ describe('behaviour', () => {
 
       expect(elementsOf(tree, 'Raster').length === 0).toBe(isNarrow)
       expect(elementsOf(tree, 'Button').map(keyOf).includes('claim')).toBe(!isNarrow)
-      if (isNarrow) expect(textOf(tree)).toContain('4/16 Claims')
+      // The count is VIEWS.length, which grows with each view: hold the position and the name, not the total.
+      if (isNarrow) expect(textOf(tree)).toMatch(/4\/\d+ Claims/)
       await pane.unmount()
     }
   })
