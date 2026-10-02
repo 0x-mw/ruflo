@@ -7,8 +7,8 @@
     {
       "builtin": false,
       "name": "ruflo",
-      "repoCommand": false,
-      "verdict": "free"
+      "repoCommand": true,
+      "verdict": "taken"
     },
     {
       "builtin": false,
@@ -19,8 +19,8 @@
     {
       "builtin": false,
       "name": "ruflo-console",
-      "repoCommand": false,
-      "verdict": "free"
+      "repoCommand": true,
+      "verdict": "taken"
     }
   ],
   "engine": {
@@ -37,6 +37,40 @@
   "validations": [
     {
       "commandHooks": [
+        "ruflo",
+        "ruflo-console"
+      ],
+      "hostCalls": [
+        "clock.after",
+        "clock.every",
+        "command.register",
+        "env.get",
+        "fs.list",
+        "fs.read",
+        "fs.stat",
+        "process.run",
+        "ruflo.lastRoute",
+        "ruflo.segment",
+        "ruflo.snapshot",
+        "session.usage",
+        "settings.read",
+        "store.get",
+        "store.set",
+        "tool.list",
+        "ui.blit",
+        "ui.close",
+        "ui.invalidate",
+        "ui.open",
+        "ui.panes",
+        "ui.resolve"
+      ],
+      "passed": true,
+      "plugin": "ruflo-console"
+    },
+    {
+      "commandHooks": [
+        "ruflo",
+        "ruflo-console",
         "ruflo-mods"
       ],
       "hostCalls": [
@@ -69,13 +103,11 @@
     },
     {
       "commandHooks": [
-        "ruflo-swarm-claims",
-        "ruflo-swarm-consensus",
-        "ruflo-swarm-pane",
-        "ruflo-swarm-status",
-        "ruflo-swarm-topology",
+        "ruflo",
+        "ruflo-console",
         "ruflo-swarm:watch"
       ],
+      "dynamicCommandHook": true,
       "hostCalls": [
         "agent.list",
         "clock.after",
@@ -101,6 +133,10 @@
     }
   ],
   "vendoredTypes": [
+    {
+      "path": "plugins/ruflo-console/types/index.d.ts",
+      "sha256": "eecfa69c120ee84b99455fa46bf5f75a9ed5345ae33c5404ad6bf8a14aa230f7"
+    },
     {
       "path": "plugins/ruflo-mods/types/index.d.ts",
       "sha256": "91ea45bc0d650c56bd9274299220fd83c47136d47759eeca81ecce33a1c68149"

@@ -264,7 +264,7 @@ Status: Proposed. This amends "A separate, opt-in plugin" above. The plugin stay
   - The directory must hold the `ruflo` `.claude-plugin/marketplace.json`.
   - Doctor reports the source type, and warns when a project declares one source while Claude Code knows `ruflo` by another.
   - Claude Code keeps one `ruflo` marketplace per config dir, so the switch applies machine-wide. Install says so and prints how to switch back.
-- **Adding a plugin.** `MOD_PLUGINS` is the one list to edit. `required: false` marks a plugin that is not yet released on main (ruflo-console today). If such a plugin is missing from the marketplace, it is reported as "pending" and never fails a check.
+- **Adding a plugin.** `MOD_PLUGINS` is the one list to edit. `required: false` marks a plugin that is not yet released on main (none today; ruflo-console was until it shipped in 3.51.0). If such a plugin is missing from the marketplace, it is reported as "pending" and never fails a check.
 
 ### Why default-on is safe, and where that argument stops
 

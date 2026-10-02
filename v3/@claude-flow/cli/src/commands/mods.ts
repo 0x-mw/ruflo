@@ -86,7 +86,7 @@ const installSub: Command = {
       pluginInstall: ctx.flags.pluginInstall !== false && ctx.flags['plugin-install'] !== false,
     });
     if (result.install.dryRun) return { success: true, data: result };
-    if (result.resolvable) output.writeln('Restart Claude Code, then run /ruflo-mods in a session to see what the mod owns. Check with: ruflo mods doctor');
+    if (result.resolvable) output.writeln('Restart Claude Code, then run /ruflo in a session to open the console (/ruflo mods shows what the mod owns). Check with: ruflo mods doctor');
     const data = { ...result.install, resolvable: result.resolvable };
     return result.resolvable || ctx.flags.strict !== true ? { success: true, data } : { success: false, exitCode: 1, data };
   },

@@ -42,7 +42,7 @@ const status = (all: Finding[], name: string) => all.find((f) => f.name === name
 
 /**
  * A stand-in claude. `marketplace add|update` leaves a clone carrying
- * ruflo-mods and ruflo-swarm (not ruflo-console: pending), or, with
+ * ruflo-mods, ruflo-swarm and ruflo-console, or, with
  * mode 'stale', a clone without any of them; `install <id>` records it the
  * way Claude Code does. Every argv is logged.
  */
@@ -60,7 +60,7 @@ if (argv[1] === 'marketplace' && argv[3] && argv[3].startsWith('/')) {
 } else if (argv[1] === 'marketplace') {
   const clone = path.join(cfg, 'marketplaces', 'ruflo');
   fs.mkdirSync(path.join(clone, 'plugins'), { recursive: true });
-  if (${JSON.stringify(mode)} === 'ok') for (const p of ['ruflo-mods', 'ruflo-swarm']) {
+  if (${JSON.stringify(mode)} === 'ok') for (const p of ['ruflo-mods', 'ruflo-swarm', 'ruflo-console']) {
     fs.mkdirSync(path.join(clone, 'plugins', p, '.claude-plugin'), { recursive: true });
     fs.writeFileSync(path.join(clone, 'plugins', p, '.claude-plugin', 'plugin.json'), '{}');
   }
@@ -100,7 +100,7 @@ describe('ADR-404 ruflo mods install (standalone)', () => {
     expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
   });
 
-  it('adds the marketplace at the scope, installs every plugin the clone carries, reports ruflo-console pending', async () => {
+  it('adds the marketplace at the scope, installs every mod plugin the clone carries', async () => {
     fakeClaude('ok');
     const r = await sub(modsCommand, 'install').action!(ctx());
     expect(r).toMatchObject({ success: true, data: { resolvable: true } });
@@ -108,14 +108,15 @@ describe('ADR-404 ruflo mods install (standalone)', () => {
       'plugin marketplace add ruvnet/ruflo --scope local',
       'plugin install ruflo-mods@ruflo --scope local',
       'plugin install ruflo-swarm@ruflo --scope local',
+      'plugin install ruflo-console@ruflo --scope local',
     ]);
     const all = await findings();
     expect(status(all, 'plugin ruflo-mods@ruflo')).toBe('pass');
     expect(status(all, 'plugin ruflo-swarm@ruflo')).toBe('pass');
-    expect(all.find((f) => f.name === 'plugin ruflo-console@ruflo')).toMatchObject({ status: 'warn', message: expect.stringContaining('pending') });
+    expect(status(all, 'plugin ruflo-console@ruflo')).toBe('pass');
     // A re-run: the marketplace is known now, so it is updated, not re-added.
     await sub(modsCommand, 'install').action!(ctx());
-    expect(calls()[3]).toBe('plugin marketplace update ruflo');
+    expect(calls()[4]).toBe('plugin marketplace update ruflo');
   });
 
   it('the reported bug: a stale clone fails doctor; install refreshes it and doctor passes', async () => {
@@ -153,10 +154,10 @@ describe('ADR-404 mods uninstall: claude plugin uninstall exactly what ruflo ins
     mkdirSync(join(cfg, 'cache', 'pre'), { recursive: true });
     writeFileSync(join(cfg, 'installed_plugins.json'), JSON.stringify({ version: 2, plugins: { 'ruflo-swarm@ruflo': [{ scope: 'local', installPath: join(cfg, 'cache', 'pre'), projectPath: root }] } }));
     await sub(modsCommand, 'install').action!(ctx());
-    expect(read(join(root, '.claude-flow', 'mods', 'install.json')).files[join(root, '.claude', 'settings.local.json')].claudeInstalled).toEqual(['ruflo-mods@ruflo']);
+    expect(read(join(root, '.claude-flow', 'mods', 'install.json')).files[join(root, '.claude', 'settings.local.json')].claudeInstalled).toEqual(['ruflo-mods@ruflo', 'ruflo-console@ruflo']);
     const r = await sub(modsCommand, 'uninstall').action!(ctx());
     expect(r.success).toBe(true);
-    expect(calls().filter((c) => c.includes(' uninstall '))).toEqual(['plugin uninstall ruflo-mods@ruflo --scope local']);
+    expect(calls().filter((c) => c.includes(' uninstall '))).toEqual(['plugin uninstall ruflo-mods@ruflo --scope local', 'plugin uninstall ruflo-console@ruflo --scope local']);
     expect(Object.keys(read(join(cfg, 'installed_plugins.json')).plugins)).toEqual(['ruflo-swarm@ruflo']);
     expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
   });
@@ -165,7 +166,7 @@ describe('ADR-404 mods uninstall: claude plugin uninstall exactly what ruflo ins
 describe('ADR-404 mods install --source local (dogfooding)', () => {
   const checkout = () => {
     const dir = join(home, 'ruflo-checkout');
-    for (const p of ['ruflo-mods', 'ruflo-swarm']) {
+    for (const p of ['ruflo-mods', 'ruflo-swarm', 'ruflo-console']) {
       mkdirSync(join(dir, 'plugins', p, '.claude-plugin'), { recursive: true });
       writeFileSync(join(dir, 'plugins', p, '.claude-plugin', 'plugin.json'), '{}');
     }

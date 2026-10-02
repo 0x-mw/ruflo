@@ -187,6 +187,14 @@ describe('engine validate parsing', () => {
     expect(v).toMatchObject({ passed: true, commandHooks: ['ruflo-mods'], hostCalls: ['command.register', 'fs.read', 'prompt.fill'] });
     expect(parseValidateOutput('x', 1, 'error').passed).toBe(false);
   });
+
+  it('splits an alternation matcher into its names and drops a dynamic (?) matcher', () => {
+    const text = '  ❯ ./register.ts hooks: command.run{command=?}, command.run{command=ruflo|ruflo-console}, command.run{command=ruflo-swarm:watch}';
+    const v = parseValidateOutput('ruflo-swarm', 0, text);
+    expect(v.commandHooks).toEqual(['ruflo', 'ruflo-console', 'ruflo-swarm:watch']);
+    expect(v.dynamicCommandHook).toBe(true);
+    expect(parseValidateOutput('x', 0, '  ❯ ./a.ts hooks: command.run{command=x}').dynamicCommandHook).toBeUndefined();
+  });
 });
 
 describe('repository gates', () => {
