@@ -114,7 +114,8 @@ export function topologyPicture(model: TopoModel, columns: number, rows: number,
     const x = leader.x + (q.x - leader.x) * k
     const y = leader.y + (q.y - leader.y) * k
 
-    canvas.dot(x, y, mix(COLOR.warn, COLOR.line, 0.35))
+    canvas.dot(x, y, COLOR.warn)
+    canvas.dot(x + 1, y, COLOR.warn)
   })
 
   model.nodes.forEach((node, i) => {

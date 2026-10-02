@@ -23,6 +23,8 @@ import { pluginsView } from './plugins'
 import { swarmView } from './swarm'
 
 export const NARROW = 44
+/** Width from which the current tab spells its name beside its icon. */
+const WIDE_TABS = 110
 
 const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   overview: overviewView,
@@ -60,7 +62,9 @@ function tabs(ctx: Ctx): RenderElement {
 
       // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
       // (from a drill-down, b goes back).
-      if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: `${view.key}:${view.icon} ${view.label}` })] })
+      // The dock's width is the engine's (it keeps where the divider was left): the name joins the icon only where
+      // the bar has room for it, and the line under the bar always leads with it.
+      if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: ctx.columns >= WIDE_TABS ? `${view.key}:${view.icon} ${view.label}` : `${view.key}:${view.icon}` })] })
 
       return ctx.kit.Button({ key: `tab-${view.id}`, label: view.icon, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
     }),
@@ -75,7 +79,13 @@ function blurb(ctx: Ctx): RenderElement | null {
 
   if (view === undefined) return null
 
-  return text(ctx, clip(ctx.state.view === 'agent' ? `drill-down: one agent's role, task, claims, activity and logs · b goes back to ${view.label}` : view.blurb, ctx.columns), { dimColor: true, italic: true })
+  const name = ctx.state.view === 'agent' ? 'Agent' : view.label
+  const about = ctx.state.view === 'agent' ? `one agent's role, task, claims, activity and logs · b goes back to ${view.label}` : view.blurb
+
+  return row(ctx, [
+    ctx.kit.Text({ bold: true, color: THEME.head, children: `${view.icon} ${name}` }),
+    ctx.kit.Text({ dimColor: true, italic: true, wrap: 'truncate-end', children: clip(` — ${about}`, Math.max(4, ctx.columns - name.length - 2)) }),
+  ], 'about')
 }
 
 function help(ctx: Ctx): RenderElement {

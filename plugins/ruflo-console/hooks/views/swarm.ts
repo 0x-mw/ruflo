@@ -32,6 +32,8 @@ export function swarmView(ctx: Ctx): RenderElement {
   rows.push(text(ctx, '★ leader · ◉ busy (a dot runs to it while it works) · ● idle · grey stopped · a white flash = an event about that agent', { dimColor: true }))
   rows.push(rule(ctx, 'Agents', `${agents.length} · j/k pick · d open · x actions`))
   const labels = agentLabels(agents)
+  // The type column only earns its room when some agent has a name that is not its type.
+  const hasTypes = agents.some(agent => agent.name !== undefined && agent.name !== agent.type)
 
   for (const agent of agents.slice(0, 10)) {
     const isPicked = picked?.id === agent.id
@@ -44,7 +46,7 @@ export function swarmView(ctx: Ctx): RenderElement {
           wrap: 'truncate-end',
           ...(isPicked && { bold: true }),
           // One label (name, else type, with a short id only where two read the same); the type only when it differs.
-          children: clip(`${(labels.get(agent.id) ?? agent.type).padEnd(16)} ${agent.status.padEnd(8)} ${(agent.name !== undefined && agent.name !== agent.type ? agent.type : '').padEnd(12)} tasks ${agent.taskCount ?? 'n/a'} · health ${agent.health === undefined ? 'n/a' : `${Math.round(agent.health * 100)}%`} · #${shortId(agent.id)}`, ctx.columns - 3),
+          children: clip(`${(labels.get(agent.id) ?? agent.type).padEnd(16)} ${agent.status.padEnd(8)} ${hasTypes ? `${(agent.name !== undefined && agent.name !== agent.type ? agent.type : '').padEnd(12)} ` : ''}tasks ${agent.taskCount ?? 'n/a'} · health ${agent.health === undefined ? 'n/a' : `${Math.round(agent.health * 100)}%`} · #${shortId(agent.id)}`, ctx.columns - 3),
         }),
       ]),
     )
