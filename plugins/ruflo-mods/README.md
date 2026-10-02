@@ -1,25 +1,44 @@
 # ruflo-mods
 
-ruflo as a Claude Code mod (function hooks): on by default in Claude Code >= 2.1.287; from 2.1.277 with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`. Design and evidence: [ADR-404](../../v3/docs/adr/ADR-404-claude-code-mods-function-hooks.md).
+ruflo as a Claude Code mod (function hooks): on by default in Claude Code >= 2.1.287; from 2.1.277 with `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`. Design and evidence: [ADR-404](../../v3/docs/adr/ADR-404-claude-code-mods-function-hooks.md), including Amendment 1 (default-on in `ruflo init`).
 
 ```bash
-ruflo mods install      # opt in for this project (.claude/settings.local.json) and install the plugin
-ruflo mods doctor       # plugin installed? function hooks on? refused by policy? what does it own?
-ruflo mods uninstall    # remove only what install added
+ruflo init                      # new projects: mods on by default, in the committed .claude/settings.json
+ruflo init upgrade --mods       # existing projects: merge the same keys (never overwrites yours) and install
+ruflo mods install              # just this checkout (.claude/settings.local.json); --scope project for the team
+ruflo mods doctor               # marketplace fresh? plugins loadable? function hooks on? what does it own?
+ruflo mods uninstall            # remove exactly what ruflo added, from every settings file it wrote
 ```
 
-`ruflo mods install` writes `enabledPlugins["ruflo-mods@ruflo"]` and the `ruflo` marketplace into settings, then installs the plugin the way you would by hand, when a `claude` binary is on PATH:
+These enable `ruflo-mods@ruflo`, `ruflo-swarm@ruflo` and `ruflo-console@ruflo`, the `ruflo` marketplace and `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`. A key you already set is left as it is: a plugin you set to `false` stays off. `ruflo init --no-mods` writes none of it.
+
+What loads:
+
+- **ruflo-mods and ruflo-console** run only where function hooks are on. With them off, or with Claude Code's rollout switch off, they do nothing, and the classic hooks keep every event.
+- **ruflo-swarm's** commands, skills and agents load regardless. Its live pane needs function hooks.
+- **ruflo-console** is reported as "pending" until it is released in the marketplace.
+
+When a `claude` binary is on PATH, init and install also do what you would do by hand, in the project directory:
 
 ```bash
-claude plugin marketplace update ruflo                  # or, first time: claude plugin marketplace add ruvnet/ruflo --scope local
-claude plugin install ruflo-mods@ruflo --scope local    # in the project directory (--scope project after `ruflo mods install --scope project`)
+claude plugin marketplace update ruflo                     # or, first time: claude plugin marketplace add ruvnet/ruflo --scope <scope>
+claude plugin install ruflo-mods@ruflo --scope <scope>
+claude plugin install ruflo-swarm@ruflo --scope <scope>
 ```
 
-Settings alone are not enough. Claude Code installs from its local clone of the `ruflo` marketplace (`~/.claude/plugins/marketplaces/ruflo`, or under `$CLAUDE_CONFIG_DIR`), and a clone from before ruflo-mods shipped has no `plugins/ruflo-mods`. Claude Code then skips the enabled plugin without a word, and `/ruflo-mods` is an unknown command. `ruflo mods status` and `ruflo mods doctor` report this as two findings, `ruflo marketplace` and `ruflo-mods installed`, with the exact commands to run.
+Settings alone are not always enough. Claude Code loads these plugins from its local clone of the `ruflo` marketplace (`~/.claude/plugins/marketplaces/ruflo`, or under `$CLAUDE_CONFIG_DIR`).
+
+- **No clone yet.** An interactive, trusted session clones it on start. A headless `claude -p` run does not.
+- **A stale clone.** A clone from before ruflo-mods shipped has no `plugins/ruflo-mods`, so Claude Code skips the enabled plugin without a word, and `/ruflo-mods` is an unknown command. It does not refresh the clone on start. `ruflo mods doctor` and `ruflo doctor` report this as a failure, with the exact commands above.
+- **Why `claude plugin install` too.** It keeps a cached copy that still loads if the clone goes stale later.
+
+Flags:
 
 - `--no-plugin-install` writes settings only and runs no `claude` command.
-- `--dry-run` prints the settings and the `claude` commands without running either.
-- If `claude` is missing or a step fails, install prints the manual commands and still exits 0. Pass `--strict` to exit 1 instead.
+- `--dry-run` (`mods install`) prints the settings and the `claude` commands without running either.
+- If `claude` is missing or a step fails, the manual commands are printed and the exit code is 0. Pass `--strict` (`mods install`) to exit 1 instead.
+- Under `VITEST` or `CI`, init skips the `claude` step and prints the commands.
+- Claude Code reformats `.claude/settings.json` (key order) when it installs at project scope. The content is unchanged.
 
 In a session, `/ruflo-mods` reports what the mod owns, routed, recorded and tightened.
 

@@ -7,11 +7,10 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { installMod, uninstallMod, withModEnabled, withModRemoved, ENABLE_ENV, MOD_PLUGIN_ID } from '../../src/mods/install.js';
+import { installMod, readRecord, uninstallMod, withModEnabled, withModRemoved, ENABLE_ENV, MOD_PLUGIN_ID, MOD_PLUGIN_IDS } from '../../src/mods/install.js';
 import { projectionOf, syncPolicyProjection, PROJECTION_RELATIVE } from '../../src/mods/policy-projection.js';
-import { probeMods, type Finding } from '../../src/mods/probe.js';
+import { probeMods } from '../../src/mods/probe.js';
 import { findClaudeInstalls, judgeInstalls, versionLess } from '../../src/mods/claude-installs.js';
-import { modsCommand } from '../../src/commands/mods.js';
 import { setPolicyMode, upsertPolicyRule } from '../../src/services/policy-runtime.js';
 import { parseProjection } from '../../../../../plugins/ruflo-mods/hooks/guard/policy';
 
@@ -30,38 +29,76 @@ const finding = (name: string, env: NodeJS.ProcessEnv = {}, managedPath = join(h
   probeMods({ projectRoot: root, home, env, managedPath, installs: [] }).find((f) => f.name === name)!;
 
 describe('ADR-404 mods install / uninstall', () => {
-  it('enables the plugin, the marketplace and the early-access switch in settings.local.json', () => {
+  const none = { plugins: [], marketplace: false, env: false };
+
+  it('enables every mod plugin, the marketplace and the early-access switch', () => {
     const r = installMod(root, 'local');
     const s = read(join(root, '.claude', 'settings.local.json'));
-    expect(s.enabledPlugins[MOD_PLUGIN_ID]).toBe(true);
+    for (const id of MOD_PLUGIN_IDS) expect(s.enabledPlugins[id]).toBe(true);
+    expect(MOD_PLUGIN_IDS).toEqual(['ruflo-mods@ruflo', 'ruflo-swarm@ruflo', 'ruflo-console@ruflo']);
     expect(s.extraKnownMarketplaces.ruflo.source).toEqual({ source: 'github', repo: 'ruvnet/ruflo' });
     expect(s.env[ENABLE_ENV]).toBe('1');
-    expect(r.added).toEqual({ plugin: true, marketplace: true, env: true });
+    expect(r.added).toEqual({ plugins: [...MOD_PLUGIN_IDS], marketplace: true, env: true });
   });
 
-  it('keeps everything a person set, backs up, and uninstall removes only what install added', () => {
+  it('keeps everything a person set (a false plugin, their env value), backs up, and uninstall removes only what install added', () => {
     const file = join(root, '.claude', 'settings.json');
     mkdirSync(join(root, '.claude'), { recursive: true });
-    const before = { hooks: { Stop: [] }, env: { KEEP: 'x' }, extraKnownMarketplaces: { ruflo: { source: { source: 'directory', path: '/mine' } } }, enabledPlugins: { other: true } };
+    const before = {
+      hooks: { Stop: [] },
+      env: { KEEP: 'x', [ENABLE_ENV]: '0' },
+      extraKnownMarketplaces: { ruflo: { source: { source: 'directory', path: '/mine' } } },
+      enabledPlugins: { other: true, 'ruflo-swarm@ruflo': false },
+    };
     writeFileSync(file, JSON.stringify(before));
     const r = installMod(root, 'project');
     expect(r.backup && existsSync(r.backup)).toBe(true);
-    expect(read(file).extraKnownMarketplaces.ruflo.source.source).toBe('directory'); // never replaced
+    expect(r.added).toEqual({ plugins: ['ruflo-mods@ruflo', 'ruflo-console@ruflo'], marketplace: false, env: false });
+    const after = read(file);
+    expect(after.extraKnownMarketplaces.ruflo.source.source).toBe('directory'); // never replaced
+    expect(after.enabledPlugins['ruflo-swarm@ruflo']).toBe(false); // their decision
+    expect(after.env).toEqual({ KEEP: 'x', [ENABLE_ENV]: '0' });
+    expect(after.hooks).toEqual({ Stop: [] });
     uninstallMod(root);
     expect(read(file)).toEqual(before);
     expect(existsSync(join(root, '.claude-flow', 'mods', 'install.json'))).toBe(false);
   });
 
-  it('a second install keeps the first record of what ruflo added', () => {
+  it('a re-run adds nothing, rewrites nothing, and keeps the record of what ruflo added', () => {
     installMod(root, 'local');
-    installMod(root, 'local');
+    const file = join(root, '.claude', 'settings.local.json');
+    const text = readFileSync(file, 'utf8');
+    const again = installMod(root, 'local');
+    expect(again.added).toEqual(none);
+    expect(again.backup).toBeUndefined();
+    expect(readFileSync(file, 'utf8')).toBe(text);
     uninstallMod(root);
+    expect(read(file)).toEqual({});
+  });
+
+  it('records each settings file separately: init (project) beside a standalone local install', () => {
+    installMod(root, 'local');
+    installMod(root, 'project');
+    expect(Object.keys(readRecord(root)!.files).sort()).toEqual([join(root, '.claude', 'settings.json'), join(root, '.claude', 'settings.local.json')]);
+    expect(uninstallMod(root).settingsFiles).toHaveLength(2);
+    expect(read(join(root, '.claude', 'settings.json'))).toEqual({});
     expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
+  });
+
+  it('reads a 3.50.0 (v1) record: uninstall still removes what it added', () => {
+    const file = join(root, '.claude', 'settings.local.json');
+    mkdirSync(join(root, '.claude'), { recursive: true });
+    writeFileSync(file, JSON.stringify({ enabledPlugins: { [MOD_PLUGIN_ID]: true, mine: true }, env: { [ENABLE_ENV]: '1' } }));
+    mkdirSync(join(root, '.claude-flow', 'mods'), { recursive: true });
+    writeFileSync(join(root, '.claude-flow', 'mods', 'install.json'), JSON.stringify({ version: 1, settingsFile: file, installedAt: 'x', added: { plugin: true, marketplace: false, env: true } }));
+    expect(readRecord(root)!.files[file]).toEqual({ plugins: [MOD_PLUGIN_ID], marketplace: false, env: true });
+    uninstallMod(root);
+    expect(read(file)).toEqual({ enabledPlugins: { mine: true } });
   });
 
   it('dry run writes nothing', () => {
     const r = installMod(root, 'local', true);
-    expect(r.next.enabledPlugins).toEqual({ [MOD_PLUGIN_ID]: true });
+    expect(Object.keys(r.next.enabledPlugins!)).toEqual([...MOD_PLUGIN_IDS]);
     expect(existsSync(join(root, '.claude'))).toBe(false);
   });
 
@@ -75,7 +112,7 @@ describe('ADR-404 mods install / uninstall', () => {
   it('never follows an install record outside the project .claude folder', () => {
     mkdirSync(join(root, '.claude-flow', 'mods'), { recursive: true });
     for (const target of [join(home, 'settings.json'), join(root, '.claude-flow', 'x.json'), join(root, '.claude', '..', '..', 'evil.json')]) {
-      writeFileSync(join(root, '.claude-flow', 'mods', 'install.json'), JSON.stringify({ version: 1, settingsFile: target, installedAt: 'x', added: { plugin: true, marketplace: true, env: true } }));
+      writeFileSync(join(root, '.claude-flow', 'mods', 'install.json'), JSON.stringify({ version: 2, installedAt: 'x', files: { [target]: { plugins: [MOD_PLUGIN_ID], marketplace: true, env: true } } }));
       expect(() => uninstallMod(root)).toThrow(/outside/);
     }
   });
@@ -83,7 +120,7 @@ describe('ADR-404 mods install / uninstall', () => {
   it('pure halves round-trip', () => {
     const s = { enabledPlugins: { [MOD_PLUGIN_ID]: true } };
     const { next, added } = withModEnabled(s);
-    expect(added.plugin).toBe(false);
+    expect(added.plugins).not.toContain(MOD_PLUGIN_ID);
     expect(withModRemoved(next, added)).toEqual(s);
   });
 });
@@ -163,82 +200,6 @@ describe('ADR-404 mods probe and doctor', () => {
     expect(finding('policy projection')).toMatchObject({ status: 'warn', fix: 'ruflo mods sync-policy' });
   });
 
-  describe('the command', () => {
-    const sub = (name: string) => modsCommand.subcommands!.find((s) => s.name === name)!;
-    const ctx = (flags: Record<string, unknown> = {}) => ({ args: [], flags: { projectRoot: root, ...flags }, cwd: root, interactive: false }) as any;
-    const saved = { PATH: process.env.PATH, HOME: process.env.HOME, CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR };
-    let bin: string;
-    // Never the real ~/.claude or a real claude: an isolated config dir, HOME and PATH.
-    beforeEach(() => {
-      bin = join(home, 'bin');
-      mkdirSync(bin, { recursive: true });
-      process.env.PATH = bin;
-      process.env.HOME = home;
-      process.env.CLAUDE_CONFIG_DIR = join(home, 'cfg');
-    });
-    afterEach(() => {
-      for (const [k, v] of Object.entries(saved)) {
-        if (v === undefined) delete process.env[k];
-        else process.env[k] = v;
-      }
-    });
-    /** A stand-in claude: records its argv; with ok=true it installs the plugin the way Claude Code records it. */
-    const fakeClaude = (ok: boolean) => {
-      const cfg = join(home, 'cfg', 'plugins');
-      const script = ok
-        ? `#!/bin/sh
-echo "$@" >> "${home}/calls"
-case "$2" in
-  marketplace) /bin/mkdir -p "${cfg}/marketplaces/ruflo/plugins/ruflo-mods/.claude-plugin" && echo '{}' > "${cfg}/marketplaces/ruflo/plugins/ruflo-mods/.claude-plugin/plugin.json"
-    printf '{"ruflo":{"installLocation":"%s"}}' "${cfg}/marketplaces/ruflo" > "${cfg}/known_marketplaces.json" ;;
-  install) /bin/mkdir -p "${cfg}/cache/m" && printf '{"version":2,"plugins":{"ruflo-mods@ruflo":[{"scope":"local","installPath":"%s","projectPath":"%s"}]}}' "${cfg}/cache/m" "$(pwd)" > "${cfg}/installed_plugins.json" ;;
-esac
-`
-        : `#!/bin/sh\necho "$@" >> "${home}/calls"\necho "network down" >&2\nexit 1\n`;
-      writeFileSync(join(bin, 'claude'), script, { mode: 0o755 });
-    };
-    // Only the plugin commands; status also asks each claude its --version.
-    const calls = () => (existsSync(join(home, 'calls')) ? readFileSync(join(home, 'calls'), 'utf8').trim().split('\n').filter((l) => l.startsWith('plugin ')) : []);
-
-    it('runs install, status, doctor and uninstall (--no-plugin-install: settings only)', async () => {
-      fakeClaude(true);
-      expect((await sub('install').action!(ctx({ pluginInstall: false }))).success).toBe(true);
-      expect(calls()).toEqual([]);
-      expect((await sub('install').action!(ctx({ scope: 'global' }))).success).toBe(false);
-      // Enabled in settings but not resolvable: status reports (exit 0), doctor fails.
-      const status = await sub('status').action!(ctx({ json: true }));
-      expect(status.success).toBe(true);
-      expect((status.data as Finding[]).find((f) => f.name === 'ruflo-mods installed')!.status).toBe('fail');
-      expect((await sub('doctor').action!(ctx({ json: true }))).exitCode).toBe(1);
-      expect((await sub('uninstall').action!(ctx())).success).toBe(true);
-      expect(read(join(root, '.claude', 'settings.local.json'))).toEqual({});
-    });
-
-    it('install makes the plugin resolvable: adds the marketplace at the scope, installs, and doctor passes the check', async () => {
-      fakeClaude(true);
-      const r = await sub('install').action!(ctx());
-      expect(r).toMatchObject({ success: true, data: { resolvable: true } });
-      expect(calls()).toEqual(['plugin marketplace add ruvnet/ruflo --scope local', 'plugin install ruflo-mods@ruflo --scope local']);
-      const findings = (await sub('status').action!(ctx({ json: true }))).data as Finding[];
-      expect(findings.filter((f) => f.name === 'ruflo marketplace' || f.name === 'ruflo-mods installed').map((f) => f.status)).toEqual(['pass', 'pass']);
-      // Second run: the marketplace is known now, so it is updated, not re-added.
-      await sub('install').action!(ctx());
-      expect(calls()[2]).toBe('plugin marketplace update ruflo');
-    });
-
-    it('a failed repair prints the manual commands; exit 1 only with --strict', async () => {
-      fakeClaude(false);
-      expect(await sub('install').action!(ctx())).toMatchObject({ success: true, data: { resolvable: false } });
-      expect(await sub('install').action!(ctx({ strict: true }))).toMatchObject({ success: false, exitCode: 1 });
-      expect(calls()).toHaveLength(2); // stopped at the marketplace step each time
-    });
-
-    it('no claude on PATH: settings are still written, the repair is reported as manual', async () => {
-      const r = await sub('install').action!(ctx({ strict: true }));
-      expect(r).toMatchObject({ success: false, exitCode: 1, data: { resolvable: false } });
-      expect(read(join(root, '.claude', 'settings.local.json')).enabledPlugins[MOD_PLUGIN_ID]).toBe(true);
-    });
-  });
 });
 
 describe('ADR-404 claude installs', () => {

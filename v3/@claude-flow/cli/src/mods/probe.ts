@@ -10,7 +10,7 @@ import { homedir, platform } from 'node:os';
 import { join, resolve } from 'node:path';
 
 import { findClaudeInstalls, judgeInstalls, type ClaudeInstall } from './claude-installs.js';
-import { ENABLE_ENV, MOD_PLUGIN_ID, readRecord, readSettingsFile, settingsFileFor } from './install.js';
+import { ENABLE_ENV, MOD_PLUGIN_ID, MOD_PLUGIN_IDS, readRecord, readSettingsFile, settingsFileFor } from './install.js';
 import { claudeConfigDir, resolveFindings, type ReadFs } from './plugin-resolve.js';
 import { PROJECTION_RELATIVE } from './policy-projection.js';
 
@@ -78,11 +78,18 @@ export function probeMods(inputs: ProbeInputs): Finding[] {
     ? { name: 'ruflo-mods plugin', status: 'pass', message: `enabled in settings: ${enabledIn} (whether Claude Code can load it: see below)` }
     : { name: 'ruflo-mods plugin', status: 'warn', message: 'not enabled; classic hooks handle every event', fix: 'ruflo mods install' });
 
-  // 1a. Enabled is a request; Claude Code silently skips a plugin it cannot
-  // resolve (a marketplace clone older than ruflo-mods, nothing installed).
+  // 1a. Enabled is a request; Claude Code silently skips a plugin its
+  // marketplace clone does not carry (a clone older than the plugin).
   if (enabledIn) {
     const scope = enabledIn === files[0] ? 'local' : enabledIn === files[1] ? 'project' : 'user';
-    findings.push(...resolveFindings(root, scope, configDir, inputs.fs));
+    const enabled = MOD_PLUGIN_IDS.filter((id) => files.some((f) => {
+      try {
+        return get(readSettingsFile(f), 'enabledPlugins', id) === true;
+      } catch {
+        return false;
+      }
+    }));
+    findings.push(...resolveFindings(root, scope, configDir, inputs.fs, enabled));
   }
 
   // 2. Function hooks switched on for installed plugins (early access).

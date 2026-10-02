@@ -1,13 +1,16 @@
 /**
- * Whether Claude Code can actually resolve the ruflo-mods plugin (ADR-404).
+ * Whether Claude Code can actually load the ruflo mod plugins (ADR-404).
  *
  * `enabledPlugins["ruflo-mods@ruflo"] = true` in settings is only a request.
- * Claude Code loads the plugin from its own install record
- * (`<config>/plugins/installed_plugins.json`, pointing into `plugins/cache/`),
- * and installs it from its local clone of the `ruflo` marketplace
- * (`known_marketplaces.json` → `installLocation`). A clone from before
- * ruflo-mods shipped has no `plugins/ruflo-mods`, and Claude Code then skips
- * the enabled plugin without a word: `/ruflo-mods` is an unknown command.
+ * Observed live on Claude Code 2.1.287: an interactive, trusted session clones
+ * the `ruflo` marketplace a project declares and loads an enabled plugin
+ * straight from that clone (no install record needed); a headless `-p` run
+ * clones nothing. A clone from before ruflo-mods shipped has no
+ * `plugins/ruflo-mods`, and Claude Code skips the enabled plugin without a
+ * word: `/ruflo-mods` is an unknown command, and the clone is not refreshed
+ * on start. So the clone decides; an install record (`installed_plugins.json`,
+ * pointing into `plugins/cache/`) is a cached copy that still loads when the
+ * clone goes stale.
  *
  * Read-only. The config directory is `CLAUDE_CONFIG_DIR` when set, else
  * `~/.claude`, as Claude Code itself resolves it.
@@ -16,10 +19,8 @@
 import { existsSync, readFileSync, realpathSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import { MARKETPLACE_NAME, MOD_PLUGIN_ID, type Scope } from './install.js';
+import { MARKETPLACE_NAME, MOD_PLUGINS, type ModPlugin, type Scope } from './install.js';
 import type { Finding } from './probe.js';
-
-export const MOD_PLUGIN_MANIFEST = join('plugins', 'ruflo-mods', '.claude-plugin', 'plugin.json');
 
 /** The two filesystem reads detection needs; injectable for tests. */
 export interface ReadFs {
@@ -56,13 +57,13 @@ function isRecord(v: unknown): v is Record<string, unknown> {
   return v !== null && typeof v === 'object' && !Array.isArray(v);
 }
 
+const nameOf = (id: string) => id.split('@')[0]!;
+
 export interface MarketplaceState {
   /** Listed in known_marketplaces.json (so `marketplace update ruflo` works). */
   known: boolean;
   /** The local clone, when one exists on disk. */
   location: string | null;
-  /** The clone carries plugins/ruflo-mods. */
-  hasMod: boolean;
 }
 
 export function marketplaceState(configDir: string, fs: ReadFs = nodeReadFs): MarketplaceState {
@@ -70,8 +71,22 @@ export function marketplaceState(configDir: string, fs: ReadFs = nodeReadFs): Ma
   const entry = isRecord(known) ? known[MARKETPLACE_NAME] : undefined;
   const declared = isRecord(entry) && typeof entry.installLocation === 'string' ? entry.installLocation : undefined;
   const candidates = [declared, join(configDir, 'plugins', 'marketplaces', MARKETPLACE_NAME)].filter((p): p is string => !!p);
-  const location = candidates.find((p) => fs.exists(p)) ?? null;
-  return { known: isRecord(entry), location, hasMod: location !== null && fs.exists(join(location, MOD_PLUGIN_MANIFEST)) };
+  return { known: isRecord(entry), location: candidates.find((p) => fs.exists(p)) ?? null };
+}
+
+/** The plugin's manifest inside a clone: its marketplace.json `source`, else plugins/<name>. */
+export function pluginManifestIn(clone: string, id: string, fs: ReadFs = nodeReadFs): string {
+  const catalog = readJson(fs, join(clone, '.claude-plugin', 'marketplace.json'));
+  const listed = isRecord(catalog) && Array.isArray(catalog.plugins)
+    ? catalog.plugins.find((p) => isRecord(p) && p.name === nameOf(id))
+    : undefined;
+  const source = isRecord(listed) && typeof listed.source === 'string' ? listed.source : `./plugins/${nameOf(id)}`;
+  return join(clone, source, '.claude-plugin', 'plugin.json');
+}
+
+/** The clone carries this plugin. */
+export function cloneHas(market: MarketplaceState, id: string, fs: ReadFs = nodeReadFs): boolean {
+  return market.location !== null && fs.exists(pluginManifestIn(market.location, id, fs));
 }
 
 export interface InstalledState {
@@ -90,10 +105,10 @@ function sameDir(a: string, b: string): boolean {
 }
 
 /** Installed for this project: user scope anywhere, local/project scope for this root; its cache dir present. */
-export function installedState(projectRoot: string, configDir: string, fs: ReadFs = nodeReadFs): InstalledState {
+export function installedState(projectRoot: string, configDir: string, id: string, fs: ReadFs = nodeReadFs): InstalledState {
   const record = readJson(fs, join(configDir, 'plugins', 'installed_plugins.json'));
   const plugins = isRecord(record) && isRecord(record.plugins) ? record.plugins : undefined;
-  const entries = plugins && Array.isArray(plugins[MOD_PLUGIN_ID]) ? (plugins[MOD_PLUGIN_ID] as unknown[]) : [];
+  const entries = plugins && Array.isArray(plugins[id]) ? (plugins[id] as unknown[]) : [];
   for (const e of entries) {
     if (!isRecord(e) || typeof e.installPath !== 'string' || !fs.exists(e.installPath)) continue;
     const forHere = e.scope === 'user' || (typeof e.projectPath === 'string' && sameDir(e.projectPath, projectRoot));
@@ -102,42 +117,62 @@ export function installedState(projectRoot: string, configDir: string, fs: ReadF
   return { installed: false };
 }
 
-/** The exact commands that make the plugin resolvable, for a person to run. */
-export function repairCommands(projectRoot: string, scope: Scope | 'user', known: boolean): string[] {
+/** The exact commands that refresh the clone and install the plugins, for a person to run. */
+export function repairCommands(projectRoot: string, scope: Scope | 'user', known: boolean, plugins: readonly ModPlugin[] = MOD_PLUGINS): string[] {
   return [
     `cd ${JSON.stringify(resolve(projectRoot))}`,
     known ? `claude plugin marketplace update ${MARKETPLACE_NAME}` : `claude plugin marketplace add ruvnet/ruflo --scope ${scope}`,
-    `claude plugin install ${MOD_PLUGIN_ID} --scope ${scope}`,
+    ...plugins.filter((p) => p.required).map((p) => `claude plugin install ${p.id} --scope ${scope}`),
   ];
 }
 
 /**
- * The two resolvability findings. A missing install record is the failure
- * Claude Code hides; a stale clone fails only while nothing is installed
- * (an install already in the plugin cache still loads).
+ * The marketplace finding plus one finding per plugin enabled in settings.
+ * A required plugin missing from the clone with no cached install is the
+ * failure Claude Code hides; a plugin not yet released is "pending".
  */
-export function resolveFindings(projectRoot: string, scope: Scope | 'user', configDir: string, fs: ReadFs = nodeReadFs): Finding[] {
+export function resolveFindings(
+  projectRoot: string,
+  scope: Scope | 'user',
+  configDir: string,
+  fs: ReadFs = nodeReadFs,
+  enabled: readonly string[] = MOD_PLUGINS.map((p) => p.id),
+): Finding[] {
   const market = marketplaceState(configDir, fs);
-  const installed = installedState(projectRoot, configDir, fs);
   const fix = repairCommands(projectRoot, scope, market.known).join(' && ');
   const findings: Finding[] = [];
 
-  if (market.hasMod) {
-    findings.push({ name: 'ruflo marketplace', status: 'pass', message: `${market.location} has ruflo-mods` });
-  } else {
-    const message = market.location
-      ? `${market.location} is stale: it predates ruflo-mods (no ${MOD_PLUGIN_MANIFEST}), so Claude Code cannot install the plugin`
-      : `no local clone of the ${MARKETPLACE_NAME} marketplace under ${join(configDir, 'plugins')}`;
-    findings.push({ name: 'ruflo marketplace', status: installed.installed ? 'warn' : 'fail', message, fix });
-  }
-
-  findings.push(installed.installed
-    ? { name: 'ruflo-mods installed', status: 'pass', message: `${installed.scope} scope, ${installed.installPath}` }
+  findings.push(market.location
+    ? { name: 'ruflo marketplace', status: 'pass', message: `cloned at ${market.location}` }
     : {
-      name: 'ruflo-mods installed',
-      status: 'fail',
-      message: `not installed for this project (${join(configDir, 'plugins', 'installed_plugins.json')}): Claude Code skips an enabled plugin it cannot resolve, and /ruflo-mods is an unknown command`,
+      name: 'ruflo marketplace',
+      status: 'warn',
+      message: `not cloned under ${join(configDir, 'plugins')}: Claude Code clones it at the next interactive start of a trusted session (headless -p runs do not)`,
       fix,
     });
+
+  for (const plugin of MOD_PLUGINS.filter((p) => enabled.includes(p.id))) {
+    const name = `plugin ${plugin.id}`;
+    const installed = installedState(projectRoot, configDir, plugin.id, fs);
+    const also = installed.installed ? `; also installed (${installed.scope} scope)` : '';
+    if (cloneHas(market, plugin.id, fs)) {
+      findings.push({ name, status: 'pass', message: `loads from the marketplace clone${also}` });
+    } else if (!market.location) {
+      findings.push(installed.installed
+        ? { name, status: 'pass', message: `installed (${installed.scope} scope, ${installed.installPath})` }
+        : { name, status: 'warn', message: plugin.required ? 'loads once Claude Code has cloned the marketplace' : 'pending: not released in the ruflo marketplace yet' });
+    } else if (!plugin.required) {
+      findings.push({ name, status: 'warn', message: `pending: not in the ruflo marketplace yet (${market.location})${also}` });
+    } else if (installed.installed) {
+      findings.push({ name, status: 'warn', message: `the clone at ${market.location} is stale (no ${nameOf(plugin.id)}); the cached install still loads`, fix });
+    } else {
+      findings.push({
+        name,
+        status: 'fail',
+        message: `the clone at ${market.location} is stale: it predates ${nameOf(plugin.id)}, so Claude Code skips the enabled plugin without a word${plugin.id.startsWith('ruflo-mods@') ? ' (/ruflo-mods is an unknown command)' : ''}`,
+        fix,
+      });
+    }
+  }
   return findings;
 }

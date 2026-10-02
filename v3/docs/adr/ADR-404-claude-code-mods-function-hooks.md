@@ -60,7 +60,7 @@ The mod is its own plugin rather than a module added to `ruflo-core`, for three 
 - **Removable.** Uninstalling the plugin leaves ruflo exactly as it was. This is the ADR 150 rule.
 - **Separation.** `ruflo-core`'s classic `hooks.json` and the module never share a manifest.
 
-`ruflo mods install` (or `ruflo init --mods`) enables it:
+`ruflo mods install` (or `ruflo init --mods`) enables it. Amendment 1 (below) makes this the `ruflo init` default:
 
 - **Where it writes.** It sets `enabledPlugins["ruflo-mods@ruflo"]`, the `ruflo` marketplace and `env.CLAUDE_CODE_ENABLE_FUNCTION_HOOKS` (for 2.1.277 to 2.1.286) in `.claude/settings.local.json` by default, so the choice is one person's, not the repository's.
 - **What it records.** It notes what it added in `.claude-flow/mods/install.json`, and `ruflo mods uninstall` removes only that.
@@ -237,3 +237,40 @@ The remaining ruflo plugins (skills, agents, MCP-only) gain nothing from functio
   - Reaches users through the marketplace `git pull`, not npm: `plugins/ruflo-mods`, `plugins/ruflo-plugin-creator` (0.3.0) and `plugins/ruflo-core` (`ruflo-hook.cjs`).
   - `hook-handler.cjs` changed in both copies, so the helpers manifest must be re-signed at release.
 - **API churn.** The API is early access. `claude plugin validate` and the kit tests are the gate, and the classic path is unaffected either way.
+
+## Amendment 1 (2026 10 01): mods default-on in `ruflo init`
+
+Status: Proposed. This amends "A separate, opt-in plugin" above. The plugin stays separate and removable; what changes is who turns it on.
+
+### Decision
+
+- **`ruflo init` enables the mods by default.** `--no-mods` opts out. It writes the committed `.claude/settings.json`, so the choice is the project's and teammates inherit it:
+  - `enabledPlugins` for every entry in `MOD_PLUGINS` (`v3/@claude-flow/cli/src/mods/install.ts`): `ruflo-mods@ruflo`, `ruflo-swarm@ruflo` and `ruflo-console@ruflo`;
+  - `extraKnownMarketplaces.ruflo` (github `ruvnet/ruflo`);
+  - `env.CLAUDE_CODE_ENABLE_FUNCTION_HOOKS = "1"`.
+
+  A key that is already present is never changed. A plugin someone set to `false` stays `false`, and an existing env value stays as it is.
+- **The plugins are installed too.** After writing settings, init runs `claude plugin marketplace update ruflo`, or `claude plugin marketplace add ruvnet/ruflo --scope project` when the marketplace is unknown. Then it runs `claude plugin install <id> --scope project` for each plugin the clone carries.
+  - The commands go through execFile with fixed argv: no shell, no `-y`, and bounded timeouts.
+  - `--no-plugin-install` skips this step. On a failure, init prints the exact manual commands.
+  - The step is skipped when `VITEST` or `CI` is set, so a test or CI init never clones from GitHub.
+- **Existing projects.** `ruflo init upgrade --mods` applies the same merge and install. `--add-missing` and `--settings` imply it, and `--no-mods` overrides them. Each key added is reported under "Settings Updated".
+- **Standalone.** `ruflo mods install` enables the same plugins in `.claude/settings.local.json` unless `--scope project` is given.
+- **Install record v2.** `.claude-flow/mods/install.json` now records what was added per settings file (`files: { <path>: { plugins, marketplace, env } }`). `ruflo mods uninstall` removes exactly that from each file. A v1 record from 3.50.0 is read as v2.
+- **Adding a plugin.** `MOD_PLUGINS` is the one list to edit. `required: false` marks a plugin that is not yet released on main (ruflo-console today). If such a plugin is missing from the marketplace, it is reported as "pending" and never fails a check.
+
+### Why default-on is safe, and where that argument stops
+
+- **For ruflo-mods and ruflo-console, nothing runs unless function hooks are on.** If the Claude Code binary predates mods, or is 2.1.277 to 2.1.286 without the variable, they stay off. So does a server-side rollout switch serving off (see "Which Claude Code loads mods, and when" above). In all those cases the plugin loads nothing and the classic `hook-handler.cjs` hooks keep every event, exactly as before. When they do load, the handshake gives the mod only the events the classic helper hands over.
+- **ruflo-swarm is not gated the same way.** Its commands, skills and agents load whether or not function hooks are on (its own `hooks/hooks.json` says so). Only its live pane is a mod. Default-on therefore adds ruflo-swarm's commands, skills and agents to every initialized project.
+- **The mods admitted are risky by the trust gate's own rule.** A live session printed "ruflo-swarm (ruflo-swarm@ruflo) loaded; process.run (runs host commands); on tool.call (can rewrite or answer tool calls); on * (sees every event)". Under the default `modTrust: observe` it loads and is named in the transcript.
+  - `refuse-risky` with `modTrustAllow` would gate it.
+  - `pluginConfigs` options are read only from user, `--settings` or managed settings, so init cannot set that per project.
+  - **Open question:** whether default-on should ship with `refuse-risky`. That is left to the maintainers.
+- **Network and trust surface.** A project-level `extraKnownMarketplaces.ruflo` makes each teammate's Claude Code clone `github.com/ruvnet/ruflo` on its first trusted interactive start.
+
+### Verified live (Claude Code 2.1.287, isolated `CLAUDE_CONFIG_DIR`)
+
+- **An interactive, trusted session loads plugins from the marketplace clone.** It clones the marketplace a project declares and loads an enabled plugin straight from that clone. No `installed_plugins.json` entry is needed. The mod's heartbeat was written and `/ruflo-mods` reported. A headless `claude -p` run on a fresh config clones and loads nothing.
+- **A stale clone is the failure.** A clone from before `plugins/ruflo-mods` existed (`6cfd88654`) gives "Unknown command: /ruflo-mods". No heartbeat is written, and Claude Code does not refresh the clone on start. This is the 3.50.0 field report, and the reason `ruflo mods doctor` and `ruflo doctor` now fail on it with the exact commands. A missing install record alone is not a failure. `claude plugin install` stays in the repair because its cached copy survives a later stale clone, and because `claude plugin list` shows it.
+- **Claude Code reformats the committed file.** `claude plugin marketplace add --scope project` and `claude plugin install --scope project` re-serialize `.claude/settings.json`: key order and formatting change, content does not.
