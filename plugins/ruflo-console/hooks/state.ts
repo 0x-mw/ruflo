@@ -110,6 +110,8 @@ export type State = {
   options: Options
   cwd: string
   home: string | null
+  /** Claude Code's config directory: `$CLAUDE_CONFIG_DIR`, else `~/.claude`. Its plugin records are read from here. */
+  configDir: string | null
   /** When this module loaded: "since the console loaded" series and stall times count from here. */
   loadedAtMs: number
   view: ViewId
@@ -159,6 +161,7 @@ export function newState(raw: PluginOptions | undefined): State {
     options: optionsOf(raw),
     cwd: '',
     home: null,
+    configDir: null,
     loadedAtMs: Date.now(),
     view: 'overview',
     back: 'overview',

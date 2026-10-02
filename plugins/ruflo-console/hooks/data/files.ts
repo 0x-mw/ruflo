@@ -1,6 +1,6 @@
 /**
  * The files the console reads, and one bounded, cached reader for them. Paths in PROJECT are relative to the session's
- * working directory; paths in HOME to the person's home directory. Every read may be refused, a refusal is a missing
+ * working directory; paths in HOME to Claude Code's config directory (`$CLAUDE_CONFIG_DIR`, else `~/.claude`). Every read may be refused, a refusal is a missing
  * fact, and a file over READ_MAX bytes is never read (`.claude-flow/policy/state.json` reaches 40 MB in a busy project).
  *
  * Never listed here, never read: `.claude-flow/federation/key-*.json`, `~/.ruflo/nostr.key` and `~/.ruflo/channels.json`
@@ -39,8 +39,8 @@ export const PROJECT = {
 export type ProjectKey = keyof typeof PROJECT
 
 export const HOME = {
-  installed: '.claude/plugins/installed_plugins.json',
-  marketplaces: '.claude/plugins/known_marketplaces.json',
+  installed: 'plugins/installed_plugins.json',
+  marketplaces: 'plugins/known_marketplaces.json',
 } as const
 
 /** Folders listed by name only: the federation keys' node ids, never their content. */
@@ -108,8 +108,8 @@ export const under = (root: string, path: string): string => `${root.replace(/\/
 /** Every file the console reads, as text or the reason it has none, and how many changed since the last pass. */
 export type DiskRead = { project: Record<ProjectKey, Read>; home: Record<keyof typeof HOME, Read>; changed: number; federationNodes: string[] | null; hasNostrKey: boolean | null }
 
-/** Reads every file in parallel; nothing here rejects. `home` is null when the home directory is unknown. */
-export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home: string | null): Promise<DiskRead> {
+/** Reads every file in parallel; nothing here rejects. `home` and `configDir` are null when unknown. */
+export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home: string | null, configDir: string | null = home === null ? null : `${home}/.claude`): Promise<DiskRead> {
   const mtimeOf = (held: ReadCache extends Map<string, infer V> ? V : never) => ('mtimeMs' in held ? held.mtimeMs : -1)
   const before = new Map([...cache].map(([path, held]) => [path, mtimeOf(held)]))
   const projectKeys = Object.keys(PROJECT) as ProjectKey[]
@@ -117,7 +117,7 @@ export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home
   const missingHome: Read = { text: null, reason: 'missing' }
   const [projectReads, homeReads, federationNodes, hasNostrKey] = await Promise.all([
     Promise.all(projectKeys.map(key => readBounded(fs, cache, under(cwd, PROJECT[key])))),
-    Promise.all(homeKeys.map(key => (home === null ? Promise.resolve(missingHome) : readBounded(fs, cache, under(home, HOME[key]))))),
+    Promise.all(homeKeys.map(key => (configDir === null ? Promise.resolve(missingHome) : readBounded(fs, cache, under(configDir, HOME[key]))))),
     fs
       .list(under(cwd, FEDERATION_DIR))
       .then(entries => entries.flatMap(entry => (/^key-[A-Za-z0-9._-]{1,64}\.json$/.test(entry.name) ? [entry.name.slice(4, -5)] : [])).slice(0, 50))

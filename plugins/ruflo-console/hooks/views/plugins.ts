@@ -22,8 +22,8 @@ export function pluginsView(ctx: Ctx): RenderElement {
 
   const market = facts.markets?.find(entry => entry.name === RUFLO_MARKET) ?? null
 
-  if (state.home === null) {
-    rows.push(text(ctx, 'n/a — HOME is not readable to this mod, so ~/.claude/plugins cannot be found', { dimColor: true }))
+  if (state.configDir === null) {
+    rows.push(text(ctx, 'n/a — neither CLAUDE_CONFIG_DIR nor HOME is readable to this mod, so the plugin records cannot be found', { dimColor: true }))
   } else if (market === null) {
     rows.push(kv(ctx, 'ruflo clone', facts.markets === null ? 'n/a — no known_marketplaces.json' : 'not added — /plugin marketplace add ruvnet/ruflo'))
   } else {

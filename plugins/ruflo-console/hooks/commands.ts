@@ -21,6 +21,7 @@ export type Intent =
   | { kind: 'back' }
   | { kind: 'select'; by: number }
   | { kind: 'filter'; filter: 'all' | EventKind }
+  | { kind: 'dump'; view: ViewId | null }
   | { kind: 'unknown'; word: string }
 
 export function parseRuflo(args: string): Intent {
@@ -65,6 +66,9 @@ export function parseRuflo(args: string): Intent {
     case 'prev':
     case 'k':
       return { kind: 'select', by: -1 }
+    case 'dump':
+    case 'text':
+      return { kind: 'dump', view: second === '' ? null : viewOf(second) }
     case 'filter':
       return { kind: 'filter', filter: (EVENT_KINDS as readonly string[]).includes(second) ? (second as EventKind) : 'all' }
     default: {
@@ -83,6 +87,7 @@ export const HELP = [
   `  /ruflo <view>              ${VIEWS.map(view => `${view.id} (${view.key})`).join(', ')}`,
   '  /ruflo agent <id|name>     drill into one agent: role, task, claims, activity, logs, timeline',
   '  /ruflo back | close | status',
+  '  /ruflo dump <view>         a view as plain text, without the pane (for claude -p and scripts)',
   '',
   'Act (each change asks to confirm; /ruflo yes or /ruflo no answers without focus)',
   '  /ruflo palette [query]     the command palette (key p): spawn, claims, swarm, votes, workers, memory',

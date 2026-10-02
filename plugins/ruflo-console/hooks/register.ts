@@ -55,6 +55,7 @@ function hostOf($: EngineInterface, cwd: string): Host {
     },
     settings: async () => $.settings.read(),
     home: async () => $.env.get('HOME'),
+    configDir: async () => $.env.get('CLAUDE_CONFIG_DIR'),
     // `$.ruflo` exists only where ruflo-mods is seated; validate refuses feature-detecting a noun, so these are
     // async: a missing noun throws inside the promise and every caller's catch sees a rejection.
     rufloSnapshot: async () => $.ruflo.snapshot(),
@@ -81,7 +82,8 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     const bound = host
 
-    state.home = await bound.home().catch(() => undefined) ?? null
+    state.home = (await bound.home().catch(() => undefined)) ?? null
+    state.configDir = (await bound.configDir().catch(() => undefined)) ?? (state.home === null ? null : `${state.home}/.claude`)
     await Promise.all([
       bound
         .registerCommand({ name: 'ruflo', description: 'ruflo: the cockpit (views, palette, agents, approvals) and every ruflo mod command — /ruflo help', argumentHint: '[view|palette|agent <id>|mods|swarm <sub>|help]' })

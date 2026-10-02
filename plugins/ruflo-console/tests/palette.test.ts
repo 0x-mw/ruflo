@@ -123,4 +123,19 @@ describe('palette and /ruflo', () => {
 
     expect(world.opened).toHaveLength(0)
   })
+
+  test('/ruflo dump <view> answers the view as plain text, without the pane, with its probes run', async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const claims = (await $.command.run(command('dump claims'))).text ?? ''
+    const memory = (await $.command.run(command('dump memory'))).text ?? ''
+
+    expect(claims).toContain('1 active · 1 stealable · 0 handoff')
+    expect(claims).toMatch(/console-demo-1\s+coder agent-1790903032181-97m25s/)
+    expect(memory).toContain('1 · 0 with vectors')
+    expect(world.runs.some(argv => argv.join(' ').includes('memory stats'))).toBe(true)
+    expect(world.opened).toHaveLength(0)
+  })
 })

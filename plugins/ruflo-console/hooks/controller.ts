@@ -114,7 +114,7 @@ export function createController(state: State, host: Host): Controller {
       ])
       const previous = state.snapshot
       const now = Date.now()
-      const snapshot = await readSnapshot(host.fs, state.cache, state.cwd, state.home, settings, now)
+      const snapshot = await readSnapshot(host.fs, state.cache, state.cwd, state.home, settings, now, state.configDir)
 
       state.snapshot = snapshot
       record(state.events, diffEvents(previous, snapshot, now))

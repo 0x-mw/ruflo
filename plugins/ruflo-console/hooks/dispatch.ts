@@ -9,6 +9,7 @@ import { median, p95 } from './controller'
 import { plain } from './data/parse'
 import { VIEWS, type State } from './state'
 import { barText } from './views/bar'
+import { viewText } from './views/pane'
 
 export type Delegate = () => Promise<{ text?: string } | undefined>
 
@@ -107,6 +108,18 @@ export async function dispatch(control: Controller, state: State, args: string, 
       control.setView('events')
 
       return open(control, state, `events · ${intent.filter}`)
+    case 'dump': {
+      const view = intent.view ?? state.view
+      const shown = state.view
+
+      // The view's probes run for it now, as they would were it in front; then the pane's view is put back.
+      state.view = view
+      await control.refresh()
+      await control.probe(true)
+      state.view = shown
+
+      return { text: viewText({ state, nowMs: Date.now(), columns: 100, act: control.actions }, view) }
+    }
     case 'unknown':
       return { text: `Unknown: "${plain(intent.word, 30)}". /ruflo help lists the views (${VIEWS.map(view => view.id).join(', ')}) and commands.` }
   }

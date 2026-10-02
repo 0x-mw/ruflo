@@ -127,3 +127,56 @@ export function paneView(ctx: Ctx): RenderElement {
 
   return ctx.kit.Box({ flexDirection: 'column', children: [...title, tabs(ctx), body, ...(confirm !== null ? [confirm] : []), footer(ctx)] })
 }
+
+type Plain = { type: string; props: { children?: unknown; label?: string } }
+
+const plainKit = (): Ctx['kit'] => {
+  const element = (type: string) => (props: Record<string, unknown>) => ({ type, props }) as never
+
+  return { Box: element('Box'), Text: element('Text'), Button: element('Button') }
+}
+
+function linesOf(node: unknown, out: string[]): void {
+  if (node === null || node === undefined || typeof node === 'boolean') return
+  if (typeof node === 'string' || typeof node === 'number') {
+    out.push(String(node))
+
+    return
+  }
+
+  const { type, props } = node as Plain
+
+  if (Array.isArray(node)) {
+    for (const child of node) linesOf(child, out)
+
+    return
+  }
+
+  if (type === 'Button') {
+    out.push(`[${props.label ?? ''}]`)
+
+    return
+  }
+
+  const before = out.length
+  const children = Array.isArray(props.children) ? props.children : [props.children]
+
+  for (const child of children) linesOf(child, out)
+
+  // A row's parts read as one line; a column's as lines.
+  if (type === 'Box' && (props as { flexDirection?: string }).flexDirection === 'row') out.splice(before, out.length - before, out.slice(before).join(''))
+}
+
+/**
+ * One view as plain text, every picture as its fallback words: `/ruflo dump <view>`, for a headless run (claude -p),
+ * a surface without the pane, or a script that wants to read what the console sees.
+ */
+export function viewText(ctx: Omit<Ctx, 'kit' | 'pictures'>, view: ViewId): string {
+  const body = BODIES[view]({ ...ctx, kit: plainKit(), pictures: new Map() })
+  const out: string[] = []
+
+  linesOf(body, out)
+
+  return out.map(line => line.trimEnd()).filter(line => line !== '').join('\n')
+}
+

@@ -30,6 +30,7 @@ export type Host = {
   rufloTools: () => Promise<{ tools: number; servers: string[] }>
   settings: () => Promise<unknown>
   home: () => Promise<string | undefined>
+  configDir: () => Promise<string | undefined>
   rufloSnapshot: () => Promise<RufloSnapshot>
   rufloRoute: () => Promise<RufloRoute | null>
   rufloSegment: (text: string | null) => Promise<void>
