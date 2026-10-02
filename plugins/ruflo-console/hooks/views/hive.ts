@@ -50,6 +50,8 @@ export function hivePictureModelOf(state: State, nowMs: number): HivePictureMode
   if (snap === null || hive === null) return null
 
   const picked = pickedProposal(hive, state.select.item)
+  // Red walls for a voter any open proposal excluded as Byzantine, the same count the heading gives.
+  const flagged = new Set(hive.pending.flatMap(proposal => proposal.byzantine))
   const members = membersOf(hive, snap.hiveAgents, snap.agents).map((member): HiveCell => {
     const ballot = picked?.ballots.find(entry => entry.voter === member.id)
     const wave = waveOf(state.events, member.id, nowMs)
@@ -60,7 +62,7 @@ export function hivePictureModelOf(state: State, nowMs: number): HivePictureMode
       glow: member.liveness,
       tag: shortId(member.id).slice(-4),
       ...(picked !== null && { vote: ballot === undefined ? ('pending' as const) : ballot.isFor ? ('for' as const) : ('against' as const) }),
-      ...(picked?.byzantine.includes(member.id) === true && { isByzantine: true }),
+      ...(flagged.has(member.id) && { isByzantine: true }),
       ...(wave !== null && { wave }),
     }
   })
@@ -114,20 +116,22 @@ export function stripOf(hive: HiveInfo, nowMs: number): StripModel {
     ...hive.pending.flatMap(proposal => (proposal.proposedAtMs === undefined ? [] : [{ atMs: proposal.proposedAtMs, kind: 'opened' as const, label: proposal.type, ...(proposal.term !== undefined && { term: proposal.term }) }])),
   ].sort((a, b) => a.atMs - b.atMs)
   const seen = arrivals.arrivedAt(`${hive.createdAtMs ?? 0}:${hive.queen ?? ''}`, hive.broadcasts.map(entry => entry.id), nowMs)
-  const times = [hive.createdAtMs, hive.queenElectedAtMs, ...marks.map(mark => mark.atMs)].filter((ms): ms is number => ms !== undefined && ms <= nowMs)
+  const times = [hive.createdAtMs, hive.queenElectedAtMs, hive.updatedAtMs, ...marks.map(mark => mark.atMs)].filter((ms): ms is number => ms !== undefined)
+  // The axis runs from the hive's first date to its last write: read from the file, so it holds still between writes.
+  const startMs = times.length === 0 ? 0 : Math.min(...times)
 
   return {
     shield: faultTolerance(hive.strategy, hive.workers.length),
     strategy: hive.strategy ?? 'n/a',
-    startMs: times.length === 0 ? nowMs - 60_000 : Math.min(...times),
-    nowMs,
+    startMs,
+    endMs: times.length === 0 ? 1 : Math.max(startMs + 1, ...times),
     ...(hive.queenTerm !== undefined && { term: hive.queenTerm }),
     ...(hive.queenElectedAtMs !== undefined && { electedAtMs: hive.queenElectedAtMs }),
     marks,
     pheromones: hive.broadcasts
       .slice()
       .reverse()
-      .map(entry => ({ id: entry.id, text: `${entry.priority === 'normal' ? '' : `[${entry.priority}] `}${entry.from}: ${entry.message}`, isLoud: entry.priority === 'high' || entry.priority === 'critical', arrivedAtMs: seen.get(entry.id) ?? 0 })),
+      .map(entry => ({ id: entry.id, text: `${entry.priority === 'normal' ? '' : `[${entry.priority}] `}${entry.from}: ${entry.message}`, isLoud: entry.priority === 'high' || entry.priority === 'critical', arrivedAtMs: seen.get(entry.id) ?? Number.NEGATIVE_INFINITY })),
     keys: hive.memoryKeys.filter(key => key !== 'broadcasts'),
   }
 }

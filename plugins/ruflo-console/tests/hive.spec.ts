@@ -9,7 +9,7 @@ import { diffEvents } from '../hooks/data/events'
 import { Arrivals, faultTolerance, membersOf, nextVoter, pickedProposal, proposalStrategyOf, proposeBlock, requiredVotes, tallyOf, waveOf } from '../hooks/data/hive'
 import { parseAgents, parseHive, parseHiveAgents, type HiveInfo } from '../hooks/data/parse'
 import type { Snapshot } from '../hooks/data/snapshot'
-import { CELL_BG, CELL_H, CELL_W, cellOrigin, drawWalls, fieldOf, HEARTBEAT_MS, heroRows, hexDistance, HIVE_COLOR, hivePicture, INTERIOR, type HiveCell, type HivePictureModel, type Role } from '../hooks/gfx/hive'
+import { CELL_BG, CELL_H, CELL_W, cellOrigin, drawWalls, fieldOf, haloColor, HEARTBEAT_MS, heroRows, hexDistance, HIVE_COLOR, hivePicture, INTERIOR, type HiveCell, type HivePictureModel, type Role } from '../hooks/gfx/hive'
 import { chamberLayout, chamberRows, chambersPicture, type Chamber } from '../hooks/gfx/hive-chamber'
 import { EGG_BOTTOM_ROWS, EGG_TOP_ROWS, eggBottomPicture, eggTopPicture } from '../hooks/gfx/hive-egg'
 import { axisAt, STRIP_ROWS, stripPicture, tickerShift, type StripModel } from '../hooks/gfx/hive-strip'
@@ -17,6 +17,7 @@ import { DEFAULT, Grid } from '../hooks/gfx/raster'
 import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote, proposalText } from '../hooks/hive'
 import { BFT_ID, HIVE_AGENTS, HIVE_STATE, RAFT_ID, WORKERS } from './fixtures/hive'
 import { HIVE_TOKEN } from './fixtures/ruflo-run'
+import { stripOf } from '../hooks/views/hive'
 
 const hive = parseHive(JSON.stringify(HIVE_STATE)) as HiveInfo
 const NOW = Date.parse('2026-10-02T01:10:10.000Z')
@@ -269,6 +270,8 @@ describe('the honeycomb', () => {
     const half = hivePicture(still, 90, 1_000 + HEARTBEAT_MS / 2)
 
     expect(hivePicture(still, 90, 1_000 + HEARTBEAT_MS).encode()).toBe(grid.encode())
+    // At rest the halo is still pink in 256 colours, not a grey wall, and it brightens at the beat.
+    expect(new Set([haloColor(0), haloColor((HEARTBEAT_MS * 3) / 8), HIVE_COLOR.wall, HIVE_COLOR.faint].map(xterm256)).size).toBe(4)
     expect(half.encode()).not.toBe(grid.encode())
 
     for (let y = 0; y < grid.rows; y++) {
@@ -321,10 +324,10 @@ describe('the hive\'s motion comes from events', () => {
   it('says a broadcast arrived only once it is new: what the first read finds is old', () => {
     const log = new Arrivals()
 
-    expect(log.arrivedAt('h1', ['a', 'b'], 5_000).get('a')).toBe(0)
+    expect(log.arrivedAt('h1', ['a', 'b'], 5_000).get('a')).toBe(Number.NEGATIVE_INFINITY)
     expect(log.arrivedAt('h1', ['a', 'b', 'c'], 6_000).get('c')).toBe(6_000)
     expect(log.arrivedAt('h1', ['a', 'b', 'c'], 7_000).get('c')).toBe(6_000)
-    expect(log.arrivedAt('h2', ['c'], 8_000).get('c')).toBe(0)
+    expect(log.arrivedAt('h2', ['c'], 8_000).get('c')).toBe(Number.NEGATIVE_INFINITY)
   })
 })
 
@@ -357,7 +360,7 @@ describe('the strip', () => {
     shield: { faulty: 1, of: 3, rule: 'raft f < n/2' },
     strategy: 'raft',
     startMs: 0,
-    nowMs: 100_000,
+    endMs: 100_000,
     term: 2,
     electedAtMs: 40_000,
     marks: [
@@ -366,7 +369,7 @@ describe('the strip', () => {
     ],
     pheromones: [
       { id: 'b', text: '[high] system: freeze the main branch', isLoud: true, arrivedAtMs: 50_000 },
-      { id: 'a', text: 'console-operator: standup in 5', isLoud: false, arrivedAtMs: 0 },
+      { id: 'a', text: 'console-operator: standup in 5', isLoud: false, arrivedAtMs: Number.NEGATIVE_INFINITY },
     ],
     keys: ['design-notes'],
   }
@@ -384,6 +387,13 @@ describe('the strip', () => {
     expect(still).toContain('T1')
     expect(still).toContain('✔')
     expect(still).toContain('◇')
+  })
+
+  it('holds the timeline still between writes: its axis ends at the hive\'s last write, not the clock', () => {
+    const now = stripPicture(stripOf(hive, NOW), 100, 0)
+
+    expect(stripPicture(stripOf(hive, NOW + 50_000), 100, 0).encode()).toBe(now.encode())
+    expect(stillOf(now)).toContain('last write')
   })
 
   it('slides a new pheromone in for two seconds, then holds still, at one size', () => {
@@ -429,6 +439,7 @@ describe('stills for review', () => {
       'empty comb (egg + start buttons between)': `${stillOf(eggTopPicture(96))}\n   [▸ start a hive-mind (raft)] [▸ spawn 3 hive workers]\n${stillOf(eggBottomPicture(96))}`,
       'a queen and three workers': stillOf(hivePicture(cellModel(3), 96, 0)),
       'a busy hive: ballots, a byzantine voter, scars, a wave mid-flight at 900 ms': stillOf(hivePicture(waving, 110, 900)),
+      'the strip: shield, terms, pheromones': stillOf(stripPicture(stripOf(hive, NOW), 110, 0)),
       'voting chambers': stillOf(chambersPicture([{ label: 'design', note: 'raft T2 · timed out', votesFor: 1, votesAgainst: 0, required: 2, nodes: 3, ballots: [{ tag: 'a1b2', isFor: true }], byzantine: [], isPicked: true }, { label: 'deploy', note: 'bft', votesFor: 0, votesAgainst: 1, required: 3, nodes: 3, ballots: [{ tag: 'c3d4', isFor: false }], byzantine: ['e5f6'], isPicked: false }], 110, 0)),
     }
 

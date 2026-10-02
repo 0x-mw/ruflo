@@ -135,6 +135,9 @@ export function heartbeat(t: number): number {
   return HEART[Math.floor(phase * HEART.length) % HEART.length] as number
 }
 
+/** The halo's wall colour at `t`: half lit at rest (still pink after 256-colour quantisation, not a grey wall), brighter at the beat. */
+export const haloColor = (t: number): number => addLight(HIVE_COLOR.faint, HIVE_COLOR.pink, 0.5 + heartbeat(t))
+
 /** The walls of a cell, the bottom edge carrying the cell's own light under it. */
 export function drawWalls(grid: Grid, x: number, y: number, wall: number, bg?: number): void {
   SHAPE.forEach((line, dy) => {
@@ -182,8 +185,6 @@ function drawQueen(grid: Grid, model: HivePictureModel, x: number, y: number, t:
 /** The halo: the six cells around the queen get pink light on their walls, swelling and fading with her heartbeat; a
  * blinking or Byzantine neighbour keeps its own walls. */
 function drawHalo(grid: Grid, columns: number, rows: number, t: number, lit: Set<string>): void {
-  const k = heartbeat(t)
-
   for (const [q, r] of [[1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]] as const) {
     if (lit.has(`${q},${r}`)) continue
 
@@ -194,7 +195,7 @@ function drawHalo(grid: Grid, columns: number, rows: number, t: number, lit: Set
         const at = grid.glyph(x + dx, y + dy)
 
         // Only the walls the queen does not share: hers stay pink whatever the beat.
-        if (ch !== ' ' && at === ch.codePointAt(0)) grid.set(x + dx, y + dy, ch, addLight(HIVE_COLOR.faint, HIVE_COLOR.pink, 0.3 + k))
+        if (ch !== ' ' && at === ch.codePointAt(0)) grid.set(x + dx, y + dy, ch, haloColor(t))
       })
     })
   }

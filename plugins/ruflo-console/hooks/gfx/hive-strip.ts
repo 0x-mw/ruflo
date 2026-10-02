@@ -20,7 +20,8 @@ export type StripModel = {
   shield: Shield
   strategy: string
   startMs: number
-  nowMs: number
+  /** The axis ends at the hive's last write, not the clock, so the marks hold still between writes. */
+  endMs: number
   term?: number
   electedAtMs?: number
   marks: Mark[]
@@ -60,7 +61,7 @@ function drawShield(grid: Grid, shield: Shield, strategy: string): void {
 
   grid.text(2, 1, `f ${shield.faulty}`.padEnd(4), HIVE_COLOR.gold, bg)
   grid.text(6, 1, `of ${shield.of}`.slice(0, 5), HIVE_COLOR.white, bg)
-  grid.text(2, 2, (shield.rule.split(' ')[1] ?? '').slice(0, 8), addLight(tone, HIVE_COLOR.white, 0.3), bg)
+  grid.text(2, 2, shield.rule.split(' ').slice(1).join('').slice(0, 8), addLight(tone, HIVE_COLOR.white, 0.3), bg)
 
   // One pip per worker, the ones the strategy survives losing in gold.
   const pips = Math.min(MAX_PIPS, shield.of)
@@ -70,15 +71,15 @@ function drawShield(grid: Grid, shield: Shield, strategy: string): void {
   grid.text(3, 4, strategy.slice(0, 6), tone, bg)
 }
 
-/** The column a time falls in on an axis `width` cells wide from `startMs` to `nowMs`. */
-export function axisAt(atMs: number, startMs: number, nowMs: number, width: number): number {
-  const span = Math.max(1, nowMs - startMs)
+/** The column a time falls in on an axis `width` cells wide from `startMs` to `endMs`. */
+export function axisAt(atMs: number, startMs: number, endMs: number, width: number): number {
+  const span = Math.max(1, endMs - startMs)
 
   return Math.max(0, Math.min(width - 1, Math.round(((atMs - startMs) / span) * (width - 1))))
 }
 
 function drawTimeline(grid: Grid, model: StripModel, x0: number, width: number): void {
-  const at = (ms: number) => x0 + axisAt(ms, model.startMs, model.nowMs, width)
+  const at = (ms: number) => x0 + axisAt(ms, model.startMs, model.endMs, width)
   const elected = model.electedAtMs === undefined ? null : at(model.electedAtMs)
 
   grid.text(x0, 0, 'TERMS', HIVE_COLOR.pink)
@@ -102,7 +103,7 @@ function drawTimeline(grid: Grid, model: StripModel, x0: number, width: number):
     if (grid.glyph(x, 3) === 0x20) grid.text(x, 3, mark.label.slice(0, 5), addLight(0x000000, color, 0.7))
   }
 
-  const right = 'now'
+  const right = 'last write'
 
   grid.text(x0 + width - right.length, 1, right, HIVE_COLOR.grey)
 }

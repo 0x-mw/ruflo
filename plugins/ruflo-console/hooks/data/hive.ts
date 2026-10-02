@@ -116,7 +116,7 @@ export function waveOf(events: readonly ConsoleEvent[], id: string, nowMs: numbe
 
 /**
  * When the console first saw each broadcast, so the ticker slides a new one in once. Everything present at the first
- * read counts as old (arrived at 0), so opening the view never animates what was already there.
+ * read counts as old (arrived at -Infinity), so opening the view never animates what was already there.
  */
 export class Arrivals {
   private readonly seen = new Map<string, number>()
@@ -130,7 +130,7 @@ export class Arrivals {
       this.seen.clear()
     }
 
-    for (const id of ids) if (!this.seen.has(id)) this.seen.set(id, isFirst ? 0 : nowMs)
+    for (const id of ids) if (!this.seen.has(id)) this.seen.set(id, isFirst ? Number.NEGATIVE_INFINITY : nowMs)
 
     // Forget what the hive no longer keeps (it holds the last 100), so the map stays the hive's size.
     if (this.seen.size > ids.length * 2 + 16) for (const id of [...this.seen.keys()]) if (!ids.includes(id)) this.seen.delete(id)
