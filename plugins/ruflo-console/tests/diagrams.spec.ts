@@ -64,12 +64,23 @@ describe('diagrams', () => {
   })
 
   it('an event pulse is data: it runs only in the 1.4 s after its event, and the frames differ while it does', () => {
-    const model = swarmOf(3, 'hierarchical', 99)
+    const idle = (model: TopoModel): TopoModel => ({ ...model, nodes: model.nodes.map(node => (node.isLeader ? node : { ...node, status: 'idle' })) })
+    const model = idle(swarmOf(3, 'hierarchical', 99))
     const frame = (t: number) => topologyPicture(model, 60, 12, t).encode()
 
     expect(frame(1_300)).not.toBe(frame(1_900))
-    // Before the event, at two instants where the heartbeat (decoration) rests: nothing else moves.
+    // Before the event, with every agent idle, at two instants where the heartbeat (decoration) rests: nothing else moves.
     expect(frame(0)).toBe(frame(Math.PI * 260))
+  })
+
+  it('work in flight is data too: a busy agent keeps a dot moving with no event, and it stops when the agent goes idle', () => {
+    const busy: TopoModel = { topology: 'hierarchical', nodes: [{ id: 'q', label: 'queen', status: 'leader', isLeader: true }, { id: 'a', label: 'coder', status: 'busy', isLeader: false }] }
+    const idle: TopoModel = { ...busy, nodes: busy.nodes.map(node => (node.isLeader ? node : { ...node, status: 'idle' })) }
+    // Two instants where the leader's heartbeat rests, so only data can differ between them.
+    const [t0, t1] = [0, Math.PI * 260]
+
+    expect(topologyPicture(busy, 60, 12, t0).encode()).not.toBe(topologyPicture(busy, 60, 12, t1).encode())
+    expect(topologyPicture(idle, 60, 12, t0).encode()).toBe(topologyPicture(idle, 60, 12, t1).encode())
   })
 
   it('claims fall in their lanes and a ring counts down a TTL on the real clock, else fills with age', () => {

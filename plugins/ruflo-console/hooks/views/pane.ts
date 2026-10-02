@@ -49,19 +49,33 @@ function tabs(ctx: Ctx): RenderElement {
     return text(ctx, `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label} · /ruflo help`, { bold: true, color: THEME.head })
   }
 
-  const isShort = ctx.columns < 132
-
+  // Every tab is its icon; the current one adds its name in the heading colour, so the bar reads at a glance and
+  // still fits a docked pane. The names are in /ruflo help and in the line under the bar.
   return ctx.kit.Box({
     flexDirection: 'row',
     gap: 1,
     key: 'tabs',
     children: VIEWS.map(view => {
       const isCurrent = view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
-      const label = isShort ? view.short : view.label
 
-      return ctx.kit.Button({ key: `tab-${view.id}`, label: isCurrent ? `${label}◂` : label, hotkey: view.key, plain: true, ...(isCurrent ? {} : { dimColor: true }), onPress: () => ctx.act.view(view.id) })
+      // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
+      // (from a drill-down, b goes back).
+      if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: `${view.key}:${view.icon} ${view.label}` })] })
+
+      return ctx.kit.Button({ key: `tab-${view.id}`, label: view.icon, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
     }),
   })
+}
+
+/** One line under the tabs saying what the current view is for. */
+function blurb(ctx: Ctx): RenderElement | null {
+  if (ctx.columns < NARROW) return null
+
+  const view = VIEWS.find(entry => entry.id === (ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view))
+
+  if (view === undefined) return null
+
+  return text(ctx, clip(ctx.state.view === 'agent' ? `drill-down: one agent's role, task, claims, activity and logs · b goes back to ${view.label}` : view.blurb, ctx.columns), { dimColor: true, italic: true })
 }
 
 function help(ctx: Ctx): RenderElement {
@@ -131,7 +145,8 @@ export function paneView(ctx: Ctx): RenderElement {
   const header = ctx.pictures.get('header')
   const isCompact = ctx.state.pane.rows > 0 && ctx.state.pane.rows < rowsOf(ctx.state.view)
   const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
-  const parts = isCompact ? [tabs(ctx), ...(confirm !== null ? [confirm] : []), footer(ctx), body] : [...title, tabs(ctx), body, ...(confirm !== null ? [confirm] : []), footer(ctx)]
+  const about = blurb(ctx)
+  const parts = isCompact ? [tabs(ctx), ...(confirm !== null ? [confirm] : []), footer(ctx), body] : [...title, tabs(ctx), ...(about !== null ? [about] : []), body, ...(confirm !== null ? [confirm] : []), footer(ctx)]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }

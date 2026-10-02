@@ -1,5 +1,6 @@
 import type { RenderElement } from 'claude-code'
 
+import { agentLabels, shortId } from '../data/parse'
 import { button, clip, col, kv, picture, row, rule, text, THEME, type Ctx } from './common'
 import { selection } from './select'
 
@@ -28,8 +29,9 @@ export function swarmView(ctx: Ctx): RenderElement {
 
   rows.push(kv(ctx, 'topology', swarm === null ? `${hive?.topology ?? 'n/a'} (hive-mind)` : `${swarm.topology}${swarm.strategy !== undefined ? ` · ${swarm.strategy}` : ''} · ${swarm.status}${swarm.maxAgents !== undefined ? ` · max ${swarm.maxAgents}` : ''}`))
   rows.push(picture(ctx, 'topology', `graph needs a terminal: ${agents.length} agents`))
-  rows.push(text(ctx, '★ leader (its heartbeat is decoration) · ● idle / busy / stopped as ruflo wrote them · a white pulse = an event about that agent', { dimColor: true }))
+  rows.push(text(ctx, '★ leader · ◉ busy (a dot runs to it while it works) · ● idle · grey stopped · a white flash = an event about that agent', { dimColor: true }))
   rows.push(rule(ctx, 'Agents', `${agents.length} · j/k pick · d open · x actions`))
+  const labels = agentLabels(agents)
 
   for (const agent of agents.slice(0, 10)) {
     const isPicked = picked?.id === agent.id
@@ -41,7 +43,8 @@ export function swarmView(ctx: Ctx): RenderElement {
         ctx.kit.Text({
           wrap: 'truncate-end',
           ...(isPicked && { bold: true }),
-          children: clip(`${(agent.name ?? agent.type).padEnd(14)} ${agent.type.padEnd(12)} ${agent.status.padEnd(9)} tasks ${agent.taskCount ?? 'n/a'} · health ${agent.health === undefined ? 'n/a' : `${Math.round(agent.health * 100)}%`} · ${agent.id}`, ctx.columns - 3),
+          // One label (name, else type, with a short id only where two read the same); the type only when it differs.
+          children: clip(`${(labels.get(agent.id) ?? agent.type).padEnd(16)} ${agent.status.padEnd(8)} ${(agent.name !== undefined && agent.name !== agent.type ? agent.type : '').padEnd(12)} tasks ${agent.taskCount ?? 'n/a'} · health ${agent.health === undefined ? 'n/a' : `${Math.round(agent.health * 100)}%`} · #${shortId(agent.id)}`, ctx.columns - 3),
         }),
       ]),
     )

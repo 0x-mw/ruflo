@@ -14,9 +14,9 @@ describe('behaviour', () => {
 
     const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
 
-    expect(textOf(await pane.drawn())).toContain('Ovr◂')
+    expect(textOf(await pane.drawn())).toContain('1:⌂ Overview')
     await pane.press({ key: 'tab-claims' })
-    expect(textOf(await pane.drawn())).toContain('Clm◂')
+    expect(textOf(await pane.drawn())).toContain('3:⚑ Claims')
     expect(world.stored.get('ruflo-console/ui:/work')).toEqual({ view: 'claims', isClosedByPerson: false })
     expect(world.opened.length).toBeGreaterThanOrEqual(2)
     await pane.unmount()
@@ -96,7 +96,7 @@ describe('behaviour', () => {
       const pane = await $.ui.mount({ ...paneAt(100), plugin: PLUGIN })
       const text = textOf(await pane.drawn())
 
-      expect(text).toContain('◂')
+      expect(text).toMatch(/[0-9a-z]:\S \w/)  // the current tab: key, icon and name
       await pane.unmount()
     }
 
