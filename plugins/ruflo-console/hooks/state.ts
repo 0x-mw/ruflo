@@ -16,23 +16,24 @@ export type ViewId = 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' 
  * management views take letters no other control uses. `agent` is the drill-down, reached from a selection, not a tab.
  */
 /**
- * `icon` is one terminal cell (no emoji: those are two cells wide and render unevenly), shown in the tab bar; the
+ * `icon` is an emoji with default emoji presentation (no variation selector, so it renders as one 2-cell glyph
+ * everywhere), shown in the tab bar; the
  * current tab adds its label, and `blurb` is the one line under the bar that says what the view is for.
  */
 export const VIEWS: readonly { id: ViewId; key: string; label: string; short: string; icon: string; blurb: string; rows: number }[] = [
-  { id: 'overview', key: '1', label: 'Overview', short: 'Ovr', icon: '⌂', blurb: 'what ruflo is doing here: subsystems, mods, health alerts and live activity', rows: 26 },
-  { id: 'swarm', key: '2', label: 'Swarm', short: 'Swm', icon: '⁂', blurb: 'the swarm as ruflo wrote it: topology, agents at work, and the hive-mind votes', rows: 30 },
-  { id: 'claims', key: '3', label: 'Claims', short: 'Clm', icon: '⚑', blurb: 'who holds which task: claim, release, hand off or steal, each after a y/n confirm', rows: 30 },
-  { id: 'federation', key: '4', label: 'Federation', short: 'Fed', icon: '⇄', blurb: 'this node, its peers, keys and channels, placed by how far each is trusted', rows: 26 },
-  { id: 'plugins', key: '5', label: 'Plugins', short: 'Plg', icon: '◫', blurb: 'ruflo plugins: installed, enabled, in the marketplace clone, and loaded as mods', rows: 30 },
-  { id: 'learning', key: '6', label: 'Learning', short: 'Lrn', icon: '✦', blurb: 'router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline', rows: 30 },
-  { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '⚙', blurb: 'harness readiness by axis, the audit trend, and the flywheel champion', rows: 26 },
-  { id: 'memory', key: '8', label: 'Memory', short: 'Mem', icon: '▤', blurb: 'AgentDB entries by namespace: what the swarm has stored', rows: 22 },
-  { id: 'cost', key: '9', label: 'Cost', short: 'Cst', icon: '$', blurb: 'this session spend against the budget, and how fast it is burning', rows: 20 },
-  { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', icon: '◷', blurb: 'each agent busy or idle over the last minutes, beside Claude Code tool calls', rows: 24 },
-  { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', icon: '✓', blurb: 'decisions waiting for a person: votes, stealable claims, refused mods, budget', rows: 24 },
-  { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '≋', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },
-  { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '⚐', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
+  { id: 'overview', key: '1', label: 'Overview', short: 'Ovr', icon: '🏠', blurb: 'what ruflo is doing here: subsystems, mods, health alerts and live activity', rows: 26 },
+  { id: 'swarm', key: '2', label: 'Swarm', short: 'Swm', icon: '🐝', blurb: 'the swarm as ruflo wrote it: topology, agents at work, and the hive-mind votes', rows: 30 },
+  { id: 'claims', key: '3', label: 'Claims', short: 'Clm', icon: '📌', blurb: 'who holds which task: claim, release, hand off or steal, each after a y/n confirm', rows: 30 },
+  { id: 'federation', key: '4', label: 'Federation', short: 'Fed', icon: '🌐', blurb: 'this node, its peers, keys and channels, placed by how far each is trusted', rows: 26 },
+  { id: 'plugins', key: '5', label: 'Plugins', short: 'Plg', icon: '🧩', blurb: 'ruflo plugins: installed, enabled, in the marketplace clone, and loaded as mods', rows: 30 },
+  { id: 'learning', key: '6', label: 'Learning', short: 'Lrn', icon: '🧠', blurb: 'router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline', rows: 30 },
+  { id: 'metaharness', key: '7', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness by axis, the audit trend, and the flywheel champion', rows: 26 },
+  { id: 'memory', key: '8', label: 'Memory', short: 'Mem', icon: '💾', blurb: 'AgentDB entries by namespace: what the swarm has stored', rows: 22 },
+  { id: 'cost', key: '9', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'this session spend against the budget, and how fast it is burning', rows: 20 },
+  { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', icon: '🕒', blurb: 'each agent busy or idle over the last minutes, beside Claude Code tool calls', rows: 24 },
+  { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', icon: '✅', blurb: 'decisions waiting for a person: votes, stealable claims, refused mods, budget', rows: 24 },
+  { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '📡', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },
+  { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '🎯', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
