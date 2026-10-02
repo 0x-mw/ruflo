@@ -10,6 +10,8 @@ export type TopoNode = { id: string; label: string; status: string; isLeader: bo
 export type TopoModel = { topology: string; nodes: TopoNode[] }
 
 export const PULSE_MS = 1_400
+/** How long a work-in-flight dot takes from the leader to a busy agent. */
+export const FLIGHT_MS = 1400
 const isBusy = (status: string) => /busy|active|running|working/i.test(status)
 const isDown = (status: string) => /stop|terminat|offline|dead|error|fail/i.test(status)
 
@@ -101,6 +103,21 @@ export function topologyPicture(model: TopoModel, columns: number, rows: number,
     if (p !== undefined && q !== undefined) canvas.line(p.x, p.y, q.x, q.y, COLOR.line)
   }
 
+  // Work in flight: while ruflo has an agent busy, a dim amber dot keeps travelling down its edge from the leader.
+  // It runs only for as long as the status says busy, so it is data, not decoration; each agent has its own phase.
+  model.nodes.forEach((node, i) => {
+    const q = points[i]
+
+    if (i === 0 || leader === undefined || q === undefined || !isBusy(node.status)) return
+
+    const k = (((t / FLIGHT_MS + i * 0.37) % 1) + 1) % 1
+    const x = leader.x + (q.x - leader.x) * k
+    const y = leader.y + (q.y - leader.y) * k
+
+    canvas.dot(x, y, COLOR.warn)
+    canvas.dot(x + 1, y, COLOR.warn)
+  })
+
   model.nodes.forEach((node, i) => {
     const q = points[i]
     const k = node.pulseAtMs === undefined ? -1 : (t - node.pulseAtMs) / PULSE_MS
@@ -128,9 +145,11 @@ export function topologyPicture(model: TopoModel, columns: number, rows: number,
     const cy = Math.floor(point.y / 4)
     const heartbeat = node.isLeader ? Math.max(0, Math.sin(t / 260)) ** 6 : 0
     const flash = node.pulseAtMs !== undefined && t - node.pulseAtMs >= 0 && t - node.pulseAtMs < PULSE_MS + 600
-    const color = flash ? 0xffffff : node.isLeader ? mix(COLOR.accent, 0xffffff, heartbeat) : nodeColor(node)
+    // A busy agent breathes (brighter and back, about once every 2 s) so it reads as working, not just coloured.
+    const breath = !node.isLeader && isBusy(node.status) ? 0.45 * Math.sin(t / 330 + i) ** 2 : 0
+    const color = flash ? 0xffffff : node.isLeader ? mix(COLOR.accent, 0xffffff, heartbeat) : mix(nodeColor(node), 0xffffff, breath)
 
-    grid.set(cx, cy, node.isLeader ? '★' : '●', color)
+    grid.set(cx, cy, node.isLeader ? '★' : isBusy(node.status) ? '◉' : '●', color)
 
     if (room >= 5 || node.isLeader) {
       const label = node.label.slice(0, Math.max(3, room - 1))

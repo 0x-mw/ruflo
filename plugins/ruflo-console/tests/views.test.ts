@@ -61,7 +61,9 @@ describe('views', () => {
 
     expect(rasters).toEqual(['header', 'topology'])
     expect(text).toContain('hierarchical · specialized · running · max 6')
-    expect(text).toMatch(/▸● \ncoder\s+coder\s+idle/)
+    // One label per agent (no repeated type), then status; a short id instead of the full one.
+    expect(text).toMatch(/▸● \ncoder\s+idle\s+tasks/)
+    expect(text).toMatch(/· #[a-z0-9]{4,6}/)
     expect(text).toContain('design (raft) pending · for 0 · against 0')
     expect(text).not.toContain(HIVE_TOKEN)
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['agent-next', 'agent-prev', 'drill', 'palette', 'actions']))

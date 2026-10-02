@@ -19,7 +19,8 @@ export function plain(value: unknown, max = 200): string {
     return ''
   }
 
-  const cleaned = value.replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, ' ').replace(/\s+/g, ' ').trim()
+  // Whole ANSI sequences first (the CLI colours its output): stripping only the ESC byte left `[1m` in log lines.
+  const cleaned = value.replace(/\u001b\[[0-9;?]*[ -/]*[@-~]/g, '').replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, ' ').replace(/\s+/g, ' ').trim()
 
   return cleaned.length <= max ? cleaned : `${cleaned.slice(0, Math.max(0, max - 1))}…`
 }
@@ -304,4 +305,21 @@ export function parseHive(text: string | null): HiveInfo | null {
   if (queen !== null) info.queen = queen
 
   return info
+}
+
+/** The tail of an id a person can tell apart at a glance: `agent-1790954653916-od014i` → `od014i`. */
+export function shortId(id: string): string {
+  const tail = id.split(/[-_:]/).pop() ?? id
+
+  return tail.length >= 4 ? tail.slice(-6) : id.slice(-6)
+}
+
+/** One readable label per agent: its name, else its type, with a short id only where two would read the same. */
+export function agentLabels(agents: readonly { id: string; name?: string; type: string }[]): Map<string, string> {
+  const base = (agent: { name?: string; type: string }) => agent.name ?? agent.type
+  const counts = new Map<string, number>()
+
+  for (const agent of agents) counts.set(base(agent), (counts.get(base(agent)) ?? 0) + 1)
+
+  return new Map(agents.map(agent => [agent.id, (counts.get(base(agent)) ?? 0) > 1 ? `${base(agent)}·${shortId(agent.id).slice(-4)}` : base(agent)]))
 }

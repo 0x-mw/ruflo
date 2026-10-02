@@ -14,9 +14,9 @@ describe('behaviour', () => {
 
     const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
 
-    expect(textOf(await pane.drawn())).toContain('Ovr◂')
+    expect(textOf(await pane.drawn())).toContain('⌂ Overview')
     await pane.press({ key: 'tab-claims' })
-    expect(textOf(await pane.drawn())).toContain('Clm◂')
+    expect(textOf(await pane.drawn())).toContain('⚑ Claims')
     expect(world.stored.get('ruflo-console/ui:/work')).toEqual({ view: 'claims', isClosedByPerson: false })
     expect(world.opened.length).toBeGreaterThanOrEqual(2)
     await pane.unmount()
@@ -96,7 +96,7 @@ describe('behaviour', () => {
       const pane = await $.ui.mount({ ...paneAt(100), plugin: PLUGIN })
       const text = textOf(await pane.drawn())
 
-      expect(text).toContain('◂')
+      expect(text).toMatch(/\n\S [A-Z][A-Za-z]+\n — \w/)  // the line under the tabs: icon, view name, what it is for
       await pane.unmount()
     }
 
@@ -197,7 +197,8 @@ describe('behaviour', () => {
 
     const swarm = textOf(await $.ui.render(paneAt(110)))
 
-    expect(swarm).toContain('c1 [31m EVIL')
+    expect(swarm).toContain('c1 EVIL')  // the whole colour sequence is gone, not just its ESC byte
+    expect(swarm).not.toContain('[31m')
     expect(swarm).not.toMatch(/[\u0000-\u001f‪-‮](?<!\n)/)
     await $.command.run(command('claims'))
     expect(textOf(await $.ui.render(paneAt(110)))).toContain('No claims on disk')
@@ -211,7 +212,12 @@ describe('behaviour', () => {
     await $.session.start(SESSION)
     await $.command.run(command('status'))
 
-    expect(textOf(await $.ui.render(BAND))).toContain('ruflo · hierarchical 0/2 busy · 2 claims (1 stealable) · 30.8k patterns · → tester · $0.42')
+    // One Text per part (attention parts are coloured); the row lays them side by side, the harness joins with \n.
+    const band = textOf(await $.ui.render(BAND)).replace(/\n/g, '')
+
+    expect(band).toContain('ruflo · 3 to approve (q) · ⚠ 1 alert · 2 agents idle · $0.42 this session · 2 claims (1 stealable)')
+    expect(band).not.toMatch(/0\/\d+ busy|\d patterns/)
+    expect(band).toContain('open console')
     expect(textOf(await $.ui.render({ ...BAND, props: { ...BAND.props, hasSurvey: true } }))).toBe('engine')
 
     await $.ui.render({ ...BAND, props: { ...BAND.props, isWorking: true } })

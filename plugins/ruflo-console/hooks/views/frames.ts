@@ -5,6 +5,7 @@
  */
 import type { AuditTrend, HarnessScore, Intelligence } from '../data/cli'
 import { recentByAgent } from '../data/events'
+import { agentLabels } from '../data/parse'
 import type { Snapshot } from '../data/snapshot'
 import type { Channels, Peers, Roster } from '../data/cli'
 import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePicture, type Stage } from '../gfx/charts'
@@ -31,6 +32,7 @@ export function topoModelOf(snapshot: Snapshot | null, pulses: Map<string, numbe
   if (snapshot === null || (swarm === null && snapshot.hive === null && snapshot.agents.length === 0)) return null
 
   const members = swarm !== null && swarm.agentIds.length > 0 ? snapshot.agents.filter(agent => swarm.agentIds.includes(agent.id)) : snapshot.agents
+  const labels = agentLabels(snapshot.agents)
   const leaderId = snapshot.hive?.queen ?? swarm?.id ?? 'swarm'
   const leaderPulse = pulses.get(leaderId)
 
@@ -41,7 +43,7 @@ export function topoModelOf(snapshot: Snapshot | null, pulses: Map<string, numbe
       ...members.slice(0, MAX_NODES - 1).map(agent => {
         const pulseAtMs = pulses.get(agent.id)
 
-        return { id: agent.id, label: agent.name ?? agent.type, status: agent.status, isLeader: false, ...(pulseAtMs !== undefined && { pulseAtMs }) }
+        return { id: agent.id, label: labels.get(agent.id) ?? agent.type, status: agent.status, isLeader: false, ...(pulseAtMs !== undefined && { pulseAtMs }) }
       }),
     ],
   }
@@ -93,11 +95,12 @@ export function healthRowsOf(state: State): HealthRow[] {
 /** The timeline's lanes over the last 15 minutes: ruflo agents' observed statuses and Claude Code's tool calls. */
 export function lanesOf(state: State, nowMs: number): Lane[] {
   const from = nowMs - TIMELINE_MS
+  const labels = agentLabels(state.snapshot?.agents ?? [])
   const agents = (state.snapshot?.agents ?? []).slice(0, 24).map(agent => {
     const log = state.statusLog.get(agent.id) ?? []
 
     return {
-      label: agent.name ?? agent.type,
+      label: labels.get(agent.id) ?? agent.type,
       spans: log.map((entry, i) => ({ fromMs: Math.max(from, entry.atMs), toMs: log[i + 1]?.atMs ?? nowMs, busy: /busy|active|working/i.test(entry.status) })).filter(span => span.toMs >= from),
       ticks: [],
     }
@@ -128,7 +131,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
       break
     }
     case 'claims': {
-      const cards = flowModelOf(snapshot?.claims ?? [], openTasks(state), snapshot?.agents ?? [])
+      const cards = flowModelOf(snapshot?.claims ?? [], openTasks(state), snapshot?.agents ?? [], snapshot?.tasks ?? [])
 
       if (cards.length > 0) pictures.set('flow', flowPicture(cards, width, flowRows(cards), nowMs))
       break

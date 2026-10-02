@@ -76,7 +76,7 @@ export function count(value: number | null | undefined): string {
 
 export const pct = (value: number | null | undefined): string => (value === null || value === undefined || !Number.isFinite(value) ? 'n/a' : `${Math.round(value * 100)}%`)
 
-export function text(ctx: Ctx, children: string, props: { color?: string; bold?: boolean; dimColor?: boolean } = {}): RenderElement {
+export function text(ctx: Ctx, children: string, props: { color?: string; bold?: boolean; dimColor?: boolean; italic?: boolean } = {}): RenderElement {
   return ctx.kit.Text({ wrap: 'truncate-end', ...props, children: clip(children, Math.max(4, ctx.columns)) })
 }
 
