@@ -5,6 +5,7 @@
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
 import { evolveActions } from './evolve'
+import { devtoolsActions } from './devtools'
 import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
 import { startSpec } from './starts'
 import { plain } from './data/parse'
@@ -265,6 +266,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     // An rvlite query is MCP-only: it goes to the AI terminal typed, as ▸ edit does, and runs only when sent.
     vector: vectorActions(state, runner, text => actions.term.load('claude', text)),
     evolve: evolveActions(state, host, text => actions.term.load('claude', text)),
+    devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }
 
   return actions

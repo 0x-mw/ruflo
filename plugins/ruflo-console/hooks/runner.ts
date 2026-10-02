@@ -62,7 +62,8 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
       const result = await host.run(spec.argv ?? [...CLI_PREFIXES[state.options.cli], ...spec.args], spec.timeoutMs ?? 90_000, spec.stdin)
       const answer = /"success"\s*:\s*(true|false)/.exec(result.stdout)?.[1]
       const error = /"error"\s*:\s*"([^"]{0,160})"/.exec(result.stdout)?.[1] ?? /\[ERROR\]\s*(.{0,160})/.exec(result.stdout)?.[1]
-      const ok = result.exitCode === 0 && answer !== 'false' && error === undefined
+      // `mcp exec` wraps a tool's failure as `"isError": true` with its message escaped inside: that is a failure too.
+      const ok = result.exitCode === 0 && answer !== 'false' && error === undefined && !/"isError"\s*:\s*true/.test(result.stdout)
 
       // A lab run's output goes to the lab's result panel, scrolled from its top; the footer keeps the one-line outcome.
       if (spec.lab !== undefined) {

@@ -13,6 +13,7 @@ import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
 import { evolveView } from './evolve'
+import { devtoolsView } from './devtools'
 import { federationView } from './federation'
 import { hiveView } from './hive'
 import { learningView } from './learning'
@@ -68,6 +69,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   neural: neuralView,
   vector: vectorView,
   evolve: evolveView,
+  devtools: devtoolsView,
   agent: agentView,
 }
 

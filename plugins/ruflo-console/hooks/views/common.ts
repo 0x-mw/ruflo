@@ -7,6 +7,7 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
 import type { EvolveActions } from '../evolve'
+import type { DevtoolsActions } from '../devtools'
 import type { Grid } from '../gfx/raster'
 import type { MemoryActions } from '../memory-lab'
 import type { SkillActions } from '../skills'
@@ -60,6 +61,8 @@ export type Actions = {
   vector: VectorActions
   /** The Self-Evolution view: read its files again; ▸ ask types a repo prompt into the AI terminal. */
   evolve: EvolveActions
+  /** The Dev Tools view: keep a field's text, and Enter in a field runs its entry. */
+  devtools: DevtoolsActions
 }
 
 export type Ctx = {

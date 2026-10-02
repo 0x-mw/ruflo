@@ -10,6 +10,7 @@ import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
 import { MEM_KEYWORDS, MEM_LAB, memSpecOf, memWhy } from './memory-lab'
 import { EVOLVE, evolveSpec, evolveWhy } from './evolve'
+import { devPalette } from './devtools'
 import { LAB, labSpec, labWhy } from './mh-lab'
 import { PERF } from './perf'
 import { SECURE, SECURE_KEYWORDS, SECURE_TEXT, secSpec, secTextSpec } from './secure'
@@ -167,6 +168,9 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
     if (entry.field !== undefined && entry.na === undefined) add(entry.id, 'vector', `${entry.label} <${entry.rule ?? 'text'}>`, { kind: 'text', keyword: entry.id, make: text => vecSpec(entry, state, text) })
     else add(entry.id, 'vector', entry.label, { kind: 'spec', spec: vecSpec(entry, state), why: vecWhy(entry, state) })
   }
+
+  // Dev Tools: local reads run at once, the rest ask first; an entry with a field takes its text (see devtools.ts).
+  out.push(...devPalette(state))
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })
 

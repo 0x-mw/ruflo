@@ -2,6 +2,7 @@ import type { PluginOptions, Timer } from 'claude-code'
 
 import { emptyAuto, type AutoState } from './data/automate'
 import type { ProbeResult } from './data/cli'
+import { emptyFields, type DevFields } from './data/devtools'
 import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
 import { emptyEvolve, type EvolveState } from './data/evolve'
@@ -14,7 +15,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve' | 'devtools'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -55,6 +56,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'vector', key: '', label: 'Vector Lab', short: 'Vec', icon: '🧲', blurb: 'ruvector: the shared brain, RVF stores, rvlite queries, decompile, workers, edge, hooks intel and your pi identity', rows: 44 },
   // No hotkey either: the tab, the menu prompt, the palette and /ruflo evolve reach it by name.
   { id: 'evolve', key: '', label: 'Self-Evolution', short: 'Evo', icon: '🧬', blurb: 'the governed loop: flywheel receipts, ledger, lineage, the policy gate, the witness; Autogenous and rGi', rows: 44 },
+  // Keyless too. The menu prompt, the tab and /ruflo devtools reach it by name.
+  { id: 'devtools', key: '', label: 'Dev Tools', short: 'Dev', icon: '🔧', blurb: 'the integration surface: GitHub, diff analysis, agenticow, WASM, browser, terminal, providers, maintenance', rows: 40 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -247,6 +250,8 @@ export type State = {
   vector: VectorState
   /** The Self-Evolution view: the flywheel files as last read, and what its checks answered. */
   evolve: EvolveState
+  /** The Dev Tools view: what is typed in its fields (its runs share the lab result panel, ids dt-*). */
+  devtools: { fields: DevFields }
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -297,6 +302,7 @@ export function newState(raw: PluginOptions | undefined): State {
     auto: emptyAuto(),
     vector: emptyVector(),
     evolve: emptyEvolve(),
+    devtools: { fields: emptyFields() },
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }
