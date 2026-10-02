@@ -269,6 +269,61 @@ export function bannerPicture(project: string, columns: number, t: number): Grid
   return grid
 }
 
+/** The boot screen's height. */
+export const BOOT_ROWS = 10
+
+/**
+ * The BBS boot screen, played for the first seconds after the pane opens: a modem dials, connects, the logo draws in
+ * line by line, and a bar fills with the first round of ruflo reads. `age` is ms since the pane opened; the bar mixes
+ * elapsed time with the reads that have answered (`done` of `total`), so it moves even before any read returns.
+ */
+export function bootPicture(project: string, columns: number, age: number, done: number, total: number): Grid {
+  const grid = new Grid(columns, BOOT_ROWS)
+  const GREEN = 0x39ff14
+  const type = (y: number, from: number, text: string, color: number, msPerChar = 22): boolean => {
+    if (age < from) return false
+
+    const shown = text.slice(0, Math.min(text.length, Math.floor((age - from) / msPerChar)))
+
+    grid.text(0, y, shown.slice(0, columns), color)
+
+    return shown.length === text.length
+  }
+
+  type(0, 0, 'ATDT ruflo.local', COLOR.dim)
+  if (age >= 450) grid.text(0, 1, 'RING… RING…'.slice(0, columns), COLOR.dim)
+  type(2, 800, 'CONNECT 115200 / ARQ / V.42bis', GREEN, 12)
+
+  // The logo draws in a row at a time, magenta to cyan, with the banner's sweep.
+  const sweep = ((age / 28) % (LOGO[0].length + 40)) - 20
+
+  LOGO.forEach((line, y) => {
+    if (age < 1200 + y * 220) return
+    ;[...line].forEach((ch, x) => {
+      if (ch === ' ' || x >= columns) return
+
+      const glow = Math.max(0, 1 - Math.abs(x - sweep) / 4)
+
+      grid.set(x, 4 + y, ch, mix(mix(NEON_MAGENTA, NEON_CYAN, x / (LOGO[0].length - 1)), 0xffffff, glow * 0.7))
+    })
+  })
+  if (age >= 1700 && columns > LOGO[0].length + 6) grid.text(LOGO[0].length + 2, 4, '░▒▓ AGENT SWARM CONSOLE'.slice(0, columns - LOGO[0].length - 2), NEON_MAGENTA)
+  type(7, 1900, `> handshake ok · node ${project}`, NEON_CYAN, 14)
+
+  // LOADING [▓▓▓▓░░░░] 58%  reads 6/10, with a blinking cursor while it runs.
+  if (age >= 2000) {
+    const pct = Math.min(1, 0.55 * Math.min(1, (age - 2000) / 1400) + 0.45 * (total > 0 ? done / total : 1))
+    const barWidth = Math.max(6, Math.min(24, columns - 30))
+    const filled = Math.round(pct * barWidth)
+    const line = `LOADING [${'▓'.repeat(filled)}${'░'.repeat(barWidth - filled)}] ${String(Math.round(pct * 100)).padStart(3)}%  reads ${done}/${total}`
+
+    grid.text(0, 9, line.slice(0, columns), pct >= 1 ? GREEN : NEON_CYAN)
+    if (Math.floor(age / 400) % 2 === 0 && line.length + 1 < columns) grid.set(line.length + 1, 9, '█', NEON_CYAN)
+  }
+
+  return grid
+}
+
 export function headerPicture(title: string, columns: number, t: number): Grid {
   const grid = new Grid(columns, 1)
   const at = ((t / 22) % (columns + 60)) - 20

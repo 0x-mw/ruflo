@@ -314,6 +314,7 @@ export function createController(state: State, host: Host): Controller {
       const result = await host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(state.view), ...(focus && { focus: true, closeOnEscape: true, holdToasts: true }) })
       const isPlaced = result === undefined || result.isPlaced !== false
 
+      if (isPlaced && !state.pane.isOpen) state.pane.bootAtMs = Date.now()
       state.pane.isOpen = isPlaced
       state.pane.isShown = isPlaced
       if (focus) state.pane.isClosedByPerson = false

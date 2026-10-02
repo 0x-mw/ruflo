@@ -11,11 +11,11 @@ import type { Channels, Peers, Roster } from '../data/cli'
 import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePicture, type Stage } from '../gfx/charts'
 import { flowModelOf, flowPicture, flowRows } from '../gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture, type FedNode, type HealthRow, type Lane } from '../gfx/maps'
-import { activityPicture, bannerPicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
+import { activityPicture, bannerPicture, bootPicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
 import type { Grid } from '../gfx/raster'
-import { severityOf } from '../data/cli'
+import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
-import { rowsOf, type State } from '../state'
+import { isBooting, rowsOf, type State } from '../state'
 import { live } from './common'
 import { openTasks } from './select'
 
@@ -117,6 +117,13 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
   const pictures = new Map<string, Grid>()
   const width = Math.max(20, Math.min(200, columns))
   const snapshot = state.snapshot
+
+  // The BBS boot screen owns the pane for its first seconds; nothing else is drawn under it.
+  if (isBooting(state, nowMs)) {
+    pictures.set('boot', bootPicture(state.cwd.split('/').filter(Boolean).at(-1) ?? '', Math.min(width, 72), nowMs - state.pane.bootAtMs, state.probes.size, PROBES.length))
+
+    return pictures
+  }
 
   if (!(state.pane.rows > 0 && state.pane.rows < rowsOf(state.view))) {
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''

@@ -6,7 +6,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
-import { rowsOf, VIEWS, type ViewId } from '../state'
+import { isBooting, rowsOf, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
@@ -168,6 +168,15 @@ function footer(ctx: Ctx): RenderElement {
  */
 export function paneView(ctx: Ctx): RenderElement {
   setLook(ctx.state.options.look)
+
+  // The BBS boot screen: the first seconds after the pane opens (or until the first read lands, at most 6 s).
+  if (isBooting(ctx.state, ctx.nowMs)) {
+    const boot = ctx.pictures.get('boot')
+
+    return boot !== undefined && ctx.kit.Raster !== undefined
+      ? col(ctx, [ctx.kit.Raster(boot.toRaster('boot'))], 'boot')
+      : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
+  }
   const body = ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx)
   const confirm = confirmRow(ctx)
   const header = ctx.pictures.get('header')

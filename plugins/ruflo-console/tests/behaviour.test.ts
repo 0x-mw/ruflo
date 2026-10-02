@@ -6,7 +6,21 @@ import { BAND, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, t
 const VIEWS = ['overview', 'swarm', 'claims', 'federation', 'plugins', 'learning', 'metaharness', 'memory', 'cost', 'timeline', 'approvals', 'events', 'agent'] as const
 
 describe('behaviour', () => {
-  test('a tab hotkey switches the view and the choice is kept for this folder only', async ($, on) => {
+  test('with the default bbs look, a freshly opened pane plays the boot screen first, and draws nothing else under it', async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command())
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+    const tree = await pane.drawn()
+
+    expect(elementsOf(tree, 'Raster').map(keyOf)).toEqual(['boot'])
+    expect(textOf(tree)).not.toContain('OVERVIEW')
+    await pane.unmount()
+  })
+
+  test('a tab hotkey switches the view and the choice is kept for this folder only', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -22,7 +36,7 @@ describe('behaviour', () => {
     await pane.unmount()
   })
 
-  test('claim asks first, runs one fixed argv on yes, and reads the disk to say it took', async ($, on) => {
+  test('claim asks first, runs one fixed argv on yes, and reads the disk to say it took', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     const task = JSON.parse(RUFLO_FILES['.claude-flow/tasks/store.json'] ?? '{}') as { tasks: Record<string, unknown> }
     const taskId = Object.keys(task.tasks)[0] as string
@@ -66,7 +80,7 @@ describe('behaviour', () => {
     await pane.unmount()
   })
 
-  test('cancel runs nothing, and a button with nothing to act on says why', async ($, on) => {
+  test('cancel runs nothing, and a button with nothing to act on says why', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -84,7 +98,7 @@ describe('behaviour', () => {
     await pane.unmount()
   })
 
-  test('every affordance refused: each view still draws, nothing throws, nothing runs', async ($, on) => {
+  test('every affordance refused: each view still draws, nothing throws, nothing runs', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES, { refuseAll: true })
     mock.clock(on)
     await $.session.start(SESSION)
@@ -103,7 +117,7 @@ describe('behaviour', () => {
     expect(world.runs).toHaveLength(0)
   })
 
-  test('no ruflo project: views say n/a or how to start, and the band stays out of the way', async ($, on) => {
+  test('no ruflo project: views say n/a or how to start, and the band stays out of the way', { options: { boot: false } }, async ($, on) => {
     worldOf(on, {})
     mock.clock(on)
     on('ui.render', () => ({ type: 'Text', children: ['engine'] }) as never)
@@ -121,7 +135,7 @@ describe('behaviour', () => {
     expect(textOf(await $.ui.render(BAND))).toBe('engine')
   })
 
-  test('narrow terminals get text only: no Raster, one tab line, no claims buttons', async ($, on) => {
+  test('narrow terminals get text only: no Raster, one tab line, no claims buttons', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -140,7 +154,7 @@ describe('behaviour', () => {
     }
   })
 
-  test('the frame loop blits while shown and focused, and stops when hidden or unfocused', async ($, on) => {
+  test('the frame loop blits while shown and focused, and stops when hidden or unfocused', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     const clock = mock.clock(on)
     await $.session.start(SESSION)
@@ -164,7 +178,7 @@ describe('behaviour', () => {
     await pane.unmount()
   })
 
-  test('unfocused, the pane draws but does not animate', async ($, on) => {
+  test('unfocused, the pane draws but does not animate', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     const clock = mock.clock(on)
     await $.session.start(SESSION)
@@ -182,7 +196,7 @@ describe('behaviour', () => {
     await pane.unmount()
   })
 
-  test('hostile text: control and bidi characters never reach the tree, bad ids are dropped', async ($, on) => {
+  test('hostile text: control and bidi characters never reach the tree, bad ids are dropped', { options: { boot: false } }, async ($, on) => {
     const agents = JSON.parse(RUFLO_FILES['.claude-flow/agents/store.json'] ?? '{}') as { agents: Record<string, Record<string, unknown>> }
     const first = Object.values(agents.agents)[0] as Record<string, unknown>
 
@@ -204,7 +218,7 @@ describe('behaviour', () => {
     expect(textOf(await $.ui.render(paneAt(110)))).toContain('No claims on disk')
   })
 
-  test('the band: one line of facts, yields to a survey, and its mark pulses only during a turn', async ($, on) => {
+  test('the band: one line of facts, yields to a survey, and its mark pulses only during a turn', { options: { boot: false } }, async ($, on) => {
     fakeRuflo().register(on, {})
     const world = worldOf(on, RUFLO_FILES)
     const clock = mock.clock(on)
@@ -232,7 +246,7 @@ describe('behaviour', () => {
     expect(world.blits.length).toBe(stopped)
   })
 
-  test('on the desktop surface, which has no Raster, every picture becomes a text line and the tree is accepted', async ($, on) => {
+  test('on the desktop surface, which has no Raster, every picture becomes a text line and the tree is accepted', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -249,7 +263,7 @@ describe('behaviour', () => {
     }
   })
 
-  test('an inline pane given fewer rows than it asked for goes compact: controls first, no title strip', async ($, on) => {
+  test('an inline pane given fewer rows than it asked for goes compact: controls first, no title strip', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)

@@ -33,7 +33,7 @@ async function drawn($: Engine, view: string, columns = 110) {
 }
 
 describe('views', () => {
-  test('overview: every subsystem from disk, the CLI or the engine, health alerts, the activity raster', async ($, on) => {
+  test('overview: every subsystem from disk, the CLI or the engine, health alerts, the activity raster', { options: { boot: false } }, async ($, on) => {
     fakeRuflo().register(on, {})
     worldOf(on, RUFLO_FILES, { home: HOME_FILES })
     mock.clock(on)
@@ -52,7 +52,7 @@ describe('views', () => {
     expect(text).toContain('budget WARNING: $3.90 of $5.00')
   })
 
-  test('swarm: the topology graph, selectable agents, the hive with its proposal, no hive token', async ($, on) => {
+  test('swarm: the topology graph, selectable agents, the hive with its proposal, no hive token', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -69,7 +69,7 @@ describe('views', () => {
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['agent-next', 'agent-prev', 'drill', 'palette', 'actions']))
   })
 
-  test('claims: the flow diagram with lanes and rings, the board, and the act row', async ($, on) => {
+  test('claims: the flow diagram with lanes and rings, the board, and the act row', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -83,7 +83,7 @@ describe('views', () => {
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['claim', 'release', 'handoff', 'steal', 'agent-next', 'task-next']))
   })
 
-  test('federation: the map, local identity and channels; the relay is never asked while the option is off', async ($, on) => {
+  test('federation: the map, local identity and channels; the relay is never asked while the option is off', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -96,7 +96,7 @@ describe('views', () => {
     expect(world.runs.some(argv => argv.join(' ').includes('x_federation_roster'))).toBe(false)
   })
 
-  test('plugins: the health matrix, and a clone without ruflo-mods reads STALE with the fix named', async ($, on) => {
+  test('plugins: the health matrix, and a clone without ruflo-mods reads STALE with the fix named', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES, { home: HOME_FILES })
     mock.clock(on)
     await $.session.start(SESSION)
@@ -108,7 +108,7 @@ describe('views', () => {
     expect(text).toContain('2 ruflo · 1 enabled · 2 total')
   })
 
-  test('learning: last route, outcome rate with its N, the curve, the four-stage pipeline, pattern growth', async ($, on) => {
+  test('learning: last route, outcome rate with its N, the curve, the four-stage pipeline, pattern growth', { options: { boot: false } }, async ($, on) => {
     fakeRuflo().register(on, {})
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
@@ -122,7 +122,7 @@ describe('views', () => {
     expect(text).toContain('consolidate: EWC consolidations')
   })
 
-  test('metaharness: the radar, the audit trend, the flywheel ledger and the active policy', async ($, on) => {
+  test('metaharness: the radar, the audit trend, the flywheel ledger and the active policy', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -134,7 +134,7 @@ describe('views', () => {
     expect(text).toContain('valid · 0 commits · 0 receipts')
   })
 
-  test('memory and cost: entries, a namespace sample; spend, the gauge, the ladder and the burn', async ($, on) => {
+  test('memory and cost: entries, a namespace sample; spend, the gauge, the ladder and the burn', { options: { boot: false } }, async ($, on) => {
     fakeRuflo().register(on, {})
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
@@ -152,7 +152,7 @@ describe('views', () => {
     expect(cost.text).toContain('WARNING · $3.90 of $5.00 (78%)')
   })
 
-  test('timeline, approvals and events draw from what was seen; the drill-down opens an agent', async ($, on) => {
+  test('timeline, approvals and events draw from what was seen; the drill-down opens an agent', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -180,7 +180,7 @@ describe('views', () => {
     expect(world.runs.some(argv => argv.join(' ').includes('agent logs --id agent-1790903032591-x41b0y --tail 20'))).toBe(true)
   })
 
-  test('missions: the ADR-406 observation, task status as recorded, evidence as verified, nothing invented', async ($, on) => {
+  test('missions: the ADR-406 observation, task status as recorded, evidence as verified, nothing invented', { options: { boot: false } }, async ($, on) => {
     worldOf(on, { ...RUFLO_FILES, '.claude-flow/missions/observation.json': MISSION_OBSERVATION })
     mock.clock(on)
     await $.session.start(SESSION)
@@ -194,7 +194,7 @@ describe('views', () => {
     expect(text).not.toMatch(/[\u001b\u202e]/)
   })
 
-  test('missions: no observation file reads n/a with how to start one', async ($, on) => {
+  test('missions: no observation file reads n/a with how to start one', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)

@@ -6,7 +6,7 @@ import { command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } 
 const runsOf = (runs: readonly string[][], word: string) => runs.filter(argv => argv.includes(word))
 
 describe('palette and /ruflo', () => {
-  test('p opens the palette; typing filters; a change asks first and runs one fixed argv on yes', async ($, on) => {
+  test('p opens the palette; typing filters; a change asks first and runs one fixed argv on yes', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -36,7 +36,7 @@ describe('palette and /ruflo', () => {
     await pane.unmount()
   })
 
-  test('a read runs at once and shows its output: route <words> asks the router', async ($, on) => {
+  test('a read runs at once and shows its output: route <words> asks the router', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     world.respond = argv => (argv.includes('route') ? { exitCode: 0, stdout: '{\n "primaryAgent": {"type": "tester", "confidence": 0.8}\n}', stderr: '' } : { exitCode: 0, stdout: '{}', stderr: '' })
@@ -52,7 +52,7 @@ describe('palette and /ruflo', () => {
     expect(text).toContain('"type": "tester"')
   })
 
-  test('/ruflo run and /ruflo yes act without focus; a flag-shaped text is refused', async ($, on) => {
+  test('/ruflo run and /ruflo yes act without focus; a flag-shaped text is refused', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -67,7 +67,7 @@ describe('palette and /ruflo', () => {
     expect((await $.command.run(command('run nope'))).text).toMatch(/^No palette entry "nope"/)
   })
 
-  test('approvals: a hive proposal is voted on in place, as console-operator, after a confirm', async ($, on) => {
+  test('approvals: a hive proposal is voted on in place, as console-operator, after a confirm', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -82,7 +82,7 @@ describe('palette and /ruflo', () => {
     await pane.unmount()
   })
 
-  test('/ruflo help, an unknown word, and the hints when ruflo-mods or ruflo-swarm are not loaded', async ($, on) => {
+  test('/ruflo help, an unknown word, and the hints when ruflo-mods or ruflo-swarm are not loaded', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -93,7 +93,7 @@ describe('palette and /ruflo', () => {
     expect((await $.command.run(command('swarm status'))).text).toMatch(/^ruflo-swarm is not loaded in this session/)
   })
 
-  test('the engine saying no hook answered /ruflo mods is not an answer: the hint shows', async ($, on) => {
+  test('the engine saying no hook answered /ruflo mods is not an answer: the hint shows', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     on('command.run', () => ({ text: 'ruflo-console registered /ruflo but no command.run hook answered it: add on("command.run", ...)' }))
@@ -102,7 +102,7 @@ describe('palette and /ruflo', () => {
     expect((await $.command.run(command('mods'))).text).toMatch(/^ruflo-mods is not loaded in this session/)
   })
 
-  test('/ruflo mods and /ruflo swarm <sub> are answered by the plugin beneath that owns them', async ($, on) => {
+  test('/ruflo mods and /ruflo swarm <sub> are answered by the plugin beneath that owns them', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     on('command.run', ($, e) => ({ text: `beneath answered: ${e.args}` }))
@@ -113,7 +113,7 @@ describe('palette and /ruflo', () => {
     expect((await $.command.run(command('swarm'))).text).toBe('ruflo console: Swarm')
   })
 
-  test('panel auto opens the cockpit at session start without taking the keys; panel command does not', { options: { panel: 'auto' } }, async ($, on) => {
+  test('panel auto opens the cockpit at session start without taking the keys; panel command does not', { options: { panel: 'auto', boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     const clock = mock.clock(on)
     await $.session.start(SESSION)
@@ -124,7 +124,7 @@ describe('palette and /ruflo', () => {
     expect(world.openArgs[0]?.focus).toBeUndefined()
   })
 
-  test('panel command never opens unasked', { options: { panel: 'command' } }, async ($, on) => {
+  test('panel command never opens unasked', { options: { panel: 'command', boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     const clock = mock.clock(on)
     await $.session.start(SESSION)
@@ -133,7 +133,7 @@ describe('palette and /ruflo', () => {
     expect(world.opened).toHaveLength(0)
   })
 
-  test('/ruflo dump <view> answers the view as plain text, without the pane, with its probes run', async ($, on) => {
+  test('/ruflo dump <view> answers the view as plain text, without the pane, with its probes run', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
@@ -148,7 +148,7 @@ describe('palette and /ruflo', () => {
     expect(world.opened).toHaveLength(0)
   })
 
-  test('panel auto stays shut outside a ruflo project', { options: { panel: 'auto' } }, async ($, on) => {
+  test('panel auto stays shut outside a ruflo project', { options: { panel: 'auto', boot: false } }, async ($, on) => {
     const world = worldOf(on, { 'README.md': 'not ruflo' })
     const clock = mock.clock(on)
     await $.session.start(SESSION)
@@ -157,7 +157,7 @@ describe('palette and /ruflo', () => {
     expect(world.openArgs).toHaveLength(0)
   })
 
-  test('/ruflo-console stays registered and is the same command as /ruflo; mods and swarm words still pass beneath', async ($, on) => {
+  test('/ruflo-console stays registered and is the same command as /ruflo; mods and swarm words still pass beneath', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     on('command.run', ($, e) => ({ text: `beneath: ${e.command} ${e.args}` }))
@@ -168,7 +168,7 @@ describe('palette and /ruflo', () => {
     expect((await $.command.run({ ...command('mods'), command: 'ruflo-console' })).text).toBe('beneath: ruflo-console mods')
   })
 
-  test('without a pane (claude -p), /ruflo <view> answers the view as text and opens nothing', async ($, on) => {
+  test('without a pane (claude -p), /ruflo <view> answers the view as text and opens nothing', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start({ ...SESSION, isInteractive: false })
@@ -180,7 +180,7 @@ describe('palette and /ruflo', () => {
     expect(world.openArgs).toHaveLength(0)
   })
 
-  test('/ruflo commands browses the catalog, and falls back to the mod commands when it is not readable', async ($, on) => {
+  test('/ruflo commands browses the catalog, and falls back to the mod commands when it is not readable', { options: { boot: false } }, async ($, on) => {
     worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
