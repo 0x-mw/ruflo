@@ -1,6 +1,7 @@
 import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
+import { autoAnswer, FAKE_SECRET, WF_ID } from './fixtures/automate'
 import { HIVE_FILES, RAFT_ID, WORKERS } from './fixtures/hive'
 import { MEM_OUT } from './fixtures/memory'
 import { MISSION_OBSERVATION } from './fixtures/missions'
@@ -348,6 +349,88 @@ describe('views', () => {
     await pane.press({ key: 'tab-menu' })
     await pane.input({ key: 'menu-prompt', text: 'nope', kind: 'submit' })
     expect(textOf(await pane.drawn())).toContain('no area "nope"')
+    await pane.unmount()
+  })
+
+  test('automate: worker cards and the kanban from disk, nothing run on open; a read runs at once, a spend asks first, secrets masked', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    const mine = () => world.runs.map(argv => argv.slice(4)).filter(argv => /workflow_|session_|config_|task_|neural|autopilot|hooks (route|explain|worker)|daemon/.test(argv.join(' ')))
+
+    world.respond = argv => autoAnswer(argv) ?? cliAnswer(argv)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters } = await drawn($, 'automate')
+
+    expect(rasters).toEqual(['header', 'title'])
+    expect(text).toContain('● MAP')
+    expect(text).toContain('137 runs · 0 failed')
+    expect(text).toContain('◐ OPTIMIZE')
+    expect(text).toContain('○ ULTRALEARN')
+    expect(text).toContain('PENDING (1)')
+    expect(text).toContain('Build the console overview')
+    expect(text).toMatch(/WORKFLOWS[\s\S]*AUTOPILOT[\s\S]*SESSIONS[\s\S]*CONFIG/)
+    expect(mine()).toEqual([])
+
+    const pane = await $.ui.mount({ ...paneAt(110), plugin: PLUGIN })
+
+    await pane.press({ key: 'run-auto-wf-list' })
+    expect(mine()).toEqual([['mcp', 'exec', '-t', 'workflow_list', '-p', '{"limit":20}']])
+    expect(textOf(await pane.drawn())).toContain('ship the console')
+
+    await pane.press({ key: `run-auto-wf-run-${WF_ID}` })
+    const asked = textOf(await pane.drawn())
+
+    expect(asked).toContain(`Confirm: run workflow ${WF_ID} (its task steps call a model)?`)
+    expect(asked).toContain(`runs: ruflo mcp exec -t workflow_execute -p ${JSON.stringify({ workflowId: WF_ID })}`)
+    expect(asked).toContain('COSTS MONEY')
+    expect(mine()).toHaveLength(1)
+    await pane.press({ key: 'confirm' })
+    expect(mine()[1]).toEqual(['mcp', 'exec', '-t', 'workflow_execute', '-p', JSON.stringify({ workflowId: WF_ID })])
+
+    await pane.press({ key: 'run-auto-cfg-list' })
+    const config = textOf(await pane.drawn())
+
+    expect(config).toContain('providers.anthropic.apiKey')
+    expect(config).toContain('•••••• (hidden)')
+    expect(config).not.toContain(FAKE_SECRET)
+    await pane.unmount()
+  })
+
+  test('learning lab: what was learned from disk; training asks first, runs one argv and draws the loss; route runs at once', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    const mine = () => world.runs.map(argv => argv.slice(4).join(' ')).filter(line => /^(neural|hooks (route|explain)|mcp exec -t (neural|hooks_intelligence))/.test(line))
+
+    world.respond = argv => autoAnswer(argv) ?? cliAnswer(argv)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, rasters } = await drawn($, 'neural')
+
+    expect(rasters).toEqual(['header', 'title'])
+    expect(text).toMatch(/trajectories\s+30\.8k/)
+    expect(text).toMatch(/TRAINING[\s\S]*ROUTER/)
+    expect(mine()).toEqual([])
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.press({ key: 'run-nn-train-coordination-20' })
+    const asked = textOf(await pane.drawn())
+
+    expect(asked).toContain('Confirm: train coordination patterns for 20 epochs?')
+    expect(asked).toContain('runs: ruflo neural train --pattern coordination --epochs 20')
+    expect(mine()).toEqual([])
+    await pane.press({ key: 'confirm' })
+    expect(mine()).toEqual(['neural train --pattern coordination --epochs 20'])
+
+    const trained = textOf(await pane.drawn())
+
+    expect(trained).toContain('Final Loss: 4.289e-3')
+    expect(trained).toMatch(/loss ▄ +last 4\.289e-3/)
+
+    await pane.input({ key: 'in-nn-route', text: 'fix the login bug', kind: 'submit' })
+    expect(mine()[1]).toBe('hooks route --task fix the login bug --format json')
+    expect(textOf(await pane.drawn())).toContain('→ tester · 49%')
     await pane.unmount()
   })
 })

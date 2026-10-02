@@ -32,6 +32,8 @@ export type ActionSpec = {
   lines?: (stdout: string, stderr: string) => string[]
   /** Called with what the CLI printed when the run succeeded: a board read fills its section from it. */
   onOutput?: (stdout: string) => void
+  /** A lab entry that reads its own output: it may keep what it parsed, and answers the result panel's lines (masked where it must be). */
+  read?: (stdout: string, stderr: string, ok: boolean) => string[]
 }
 
 export const exec = (tool: string, params: Record<string, string>) => ['mcp', 'exec', '-t', tool, '-p', JSON.stringify(params)] as const

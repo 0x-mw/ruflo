@@ -1,5 +1,6 @@
 import type { PluginOptions, Timer } from 'claude-code'
 
+import { emptyAuto, type AutoState } from './data/automate'
 import type { ProbeResult } from './data/cli'
 import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
@@ -11,7 +12,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -46,6 +47,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   // No hotkeys either: reached by the tab, the menu prompt (secure, perf) or /ruflo secure.
   { id: 'secure', key: '', label: 'Security & Doctor', short: 'Sec', icon: '🔒',blurb: 'security scans, a paste field that checks text for injection and PII, policy, and every doctor check', rows: 40 },
   { id: 'perf', key: '', label: 'Performance', short: 'Prf', icon: '📈', blurb: 'metrics, profile, benchmarks, bottlenecks and a latency sparkline from each run', rows: 30 },
+  { id: 'automate', key: '', label: 'Automation', short: 'Aut', icon: '🤖', blurb: 'workflows, the twelve background workers and their daemon, autopilot, sessions, config and a task kanban', rows: 44 },
+  { id: 'neural', key: '', label: 'Learning Lab', short: 'Lab', icon: '🧪', blurb: 'train neural patterns and watch the loss, ask the router which agent fits a task, and why', rows: 36 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -232,6 +235,8 @@ export type State = {
   skills: SkillsState
   /** The Memory Lab's fields and picks (its last run is `lab.result`, under a mem- id). */
   memoryLab: MemoryLabState
+  /** The Automation and Learning Lab views: the lists a click asked for, and this session's training runs. */
+  auto: AutoState
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -279,6 +284,7 @@ export function newState(raw: PluginOptions | undefined): State {
     terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, costReports: 0, scroll: 0, unseen: 0, asked: null },
     skills: emptySkills(),
     memoryLab: emptyMemoryLab(),
+    auto: emptyAuto(),
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }
