@@ -6,10 +6,10 @@
 import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
-import { rowsOf, VIEWS, type ViewId } from '../state'
+import { isBooting, rowsOf, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { claimsView } from './claims'
-import { ago, button, clip, col, row, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
 import { federationView } from './federation'
 import { learningView } from './learning'
@@ -62,7 +62,10 @@ function tabs(ctx: Ctx): RenderElement {
 
     // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
     // (from a drill-down, b goes back).
-    if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: `${view.key}: ${words}` })] })
+    // BBS: the current tab is framed like a menu pick, [2: 🐝 SWARM]; the name always shows there, in capitals.
+    const current = isBbs() ? `[${view.key}: ${view.icon}${withNames || view.label.length <= 6 ? ` ${view.label.toUpperCase()}` : ''}]` : `${view.key}: ${words}`
+
+    if (isCurrent) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: current })] })
 
     return ctx.kit.Button({ key: `tab-${view.id}`, label: words, hotkey: view.key, plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
@@ -85,6 +88,15 @@ function blurb(ctx: Ctx): RenderElement | null {
 
   const name = ctx.state.view === 'agent' ? 'Agent' : view.label
   const about = ctx.state.view === 'agent' ? `one agent's role, task, claims, activity and logs · b goes back to ${view.label}` : view.blurb
+
+  if (isBbs()) {
+    // A sysop prompt: >> 🐝 SWARM :: what it is for
+    return row(ctx, [
+      ctx.kit.Text({ bold: true, color: THEME.ok, children: '>> ' }),
+      ctx.kit.Text({ bold: true, color: THEME.head, children: `${view.icon} ${name.toUpperCase()}` }),
+      ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip(` :: ${about}`, Math.max(4, ctx.columns - name.length - 6)) }),
+    ], 'about')
+  }
 
   return row(ctx, [
     ctx.kit.Text({ bold: true, color: THEME.head, children: `${view.icon} ${name}` }),
@@ -127,7 +139,8 @@ function footer(ctx: Ctx): RenderElement {
     for (const line of (outcome.lines ?? []).slice(0, 8)) parts.push(text(ctx, `  ${line}`, { dimColor: true }))
   }
 
-  const read = state.snapshot === null ? 'reading…' : `read ${ago(state.snapshot.readAtMs, nowMs)}`
+  // BBS: the link status in modem-speak, [LINK OK] ▸ sync 3s · keys on.
+  const read = state.snapshot === null ? (isBbs() ? '[DIALING…]' : 'reading…') : isBbs() ? `[LINK OK] ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')}` : `read ${ago(state.snapshot.readAtMs, nowMs)}`
   const keys = state.pane.isFocused ? 'keys on' : 'keys off: click the pane (or /ruflo …)'
 
   parts.push(
@@ -154,6 +167,16 @@ function footer(ctx: Ctx): RenderElement {
  * tabs, so every control stays on screen while the view below scrolls.
  */
 export function paneView(ctx: Ctx): RenderElement {
+  setLook(ctx.state.options.look)
+
+  // The BBS boot screen: the first seconds after the pane opens (or until the first read lands, at most 6 s).
+  if (isBooting(ctx.state, ctx.nowMs)) {
+    const boot = ctx.pictures.get('boot')
+
+    return boot !== undefined && ctx.kit.Raster !== undefined
+      ? col(ctx, [ctx.kit.Raster(boot.toRaster('boot'))], 'boot')
+      : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
+  }
   const body = ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx)
   const confirm = confirmRow(ctx)
   const header = ctx.pictures.get('header')

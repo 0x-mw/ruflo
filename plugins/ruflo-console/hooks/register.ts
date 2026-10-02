@@ -136,6 +136,7 @@ export const register: Register = (on, raw: PluginOptions) => {
     const isNarrow = columns < NARROW
     const kit: Kit = isNarrow ? { Box: table.Box, Text: table.Text, Button: table.Button, ...(table.Input !== undefined && { Input: table.Input }) } : table
 
+    if (!state.pane.isOpen) state.pane.bootAtMs = Date.now()
     state.pane.isOpen = true
     state.pane.isFocused = e.props.isFocused === true
     state.pane.columns = columns

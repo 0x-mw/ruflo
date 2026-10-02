@@ -75,6 +75,10 @@ export type Options = {
   panel: 'auto' | 'command' | 'off'
   /** Lets the federation view ask the public relay for the roster. Off by default: no network without consent. */
   federationNetwork: boolean
+  /** `bbs`: the neon ASCII-art look (default); `plain`: the terminal theme's own colours and plain rules. */
+  look: 'bbs' | 'plain'
+  /** With the bbs look, a short dial-up boot screen when the cockpit opens. */
+  boot: boolean
 }
 
 const num = (value: unknown, fallback: number, lo: number, hi: number): number => {
@@ -94,6 +98,8 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
     bar: value.bar === 'on' || value.bar === 'off' ? value.bar : 'auto',
     panel: value.panel === 'command' || value.panel === 'off' ? value.panel : 'auto',
     federationNetwork: value.federationNetwork === true,
+    look: value.look === 'plain' ? 'plain' : 'bbs',
+    boot: value.boot !== false,
   }
 }
 
@@ -147,7 +153,7 @@ export type State = {
   eventFilter: 'all' | ConsoleEvent['kind']
   /** When the newest learning point arrived: the curve draws it in from there. */
   curveGrewAtMs: number
-  pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string }
+  pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string; /** When the pane last opened: the BBS boot screen plays from here. */ bootAtMs: number }
   /** The size of each Raster as last mounted, by key: a blit of any other size is refused, so none is sent. */
   mounted: Map<string, { columns: number; rows: number }>
   select: { claim: number; agent: number; task: number; item: number }
@@ -191,7 +197,7 @@ export function newState(raw: PluginOptions | undefined): State {
     statusLog: new Map(),
     eventFilter: 'all',
     curveGrewAtMs: 0,
-    pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '' },
+    pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '', bootAtMs: 0 },
     mounted: new Map(),
     select: { claim: 0, agent: 0, task: 0, item: 0 },
     drill: { agentId: null, logs: null, logsAtMs: 0 },
@@ -226,4 +232,16 @@ export function restore(state: State, value: unknown): void {
   }
 
   state.pane.isClosedByPerson = held.isClosedByPerson === true
+}
+
+/** The BBS boot screen's span: at least BOOT_MIN_MS, longer while the first read is still out, never past BOOT_MAX_MS. */
+export const BOOT_MIN_MS = 3_200
+export const BOOT_MAX_MS = 6_000
+
+export function isBooting(state: State, nowMs: number): boolean {
+  if (state.options.look !== 'bbs' || !state.options.boot || state.pane.bootAtMs === 0) return false
+
+  const age = nowMs - state.pane.bootAtMs
+
+  return age >= 0 && age < BOOT_MAX_MS && (age < BOOT_MIN_MS || state.snapshot === null)
 }

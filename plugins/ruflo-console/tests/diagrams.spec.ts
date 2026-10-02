@@ -7,7 +7,8 @@ import { describe, expect, it } from 'vitest'
 import { gaugePicture, pipelinePicture, radarPicture, samplesPicture, trendPicture } from '../hooks/gfx/charts'
 import { flowModelOf, flowPicture, flowRows, ringOf } from '../hooks/gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture } from '../hooks/gfx/maps'
-import { activityPicture, curvePicture, edges, headerPicture, layout, markPicture, topologyPicture, type TopoModel } from '../hooks/gfx/pictures'
+import { activityPicture, bannerPicture, bootPicture, curvePicture, edges, headerPicture, layout, markPicture, topologyPicture, type TopoModel } from '../hooks/gfx/pictures'
+import { isBooting, newState, optionsOf } from '../hooks/state'
 import type { Grid } from '../hooks/gfx/raster'
 import { parseClaims, type ClaimRecord } from '../hooks/data/parse'
 import { RUFLO_FILES } from './fixtures/ruflo-run'
@@ -120,5 +121,57 @@ describe('diagrams', () => {
 
     times.sort((a, b) => a - b)
     expect(times[25]).toBeLessThan(4)
+  })
+})
+
+describe('BBS look', () => {
+  const row = (grid: ReturnType<typeof bannerPicture>, y: number, width: number) => String.fromCodePoint(...Array.from({ length: width }, (_, x) => grid.glyph(x, y) || 32))
+
+  it('the banner spells RUFLO in two half-block rows, names the node, and its cursor blinks', () => {
+    const on = bannerPicture('ruflo-demo', 60, 0)
+    const off = bannerPicture('ruflo-demo', 60, 530)
+
+    expect(row(on, 0, 19)).toBe('█▀█ █ █ █▀▀ █   █▀█')
+    expect(row(on, 1, 19)).toBe('█▀▄ █▄█ █▀  █▄▄ █▄█')
+    expect(row(on, 1, 60)).toContain('▸ node ruflo-demo █')
+    expect(row(off, 1, 60).slice(21)).not.toContain('█')
+    expect(on.encode()).not.toBe(off.encode())
+  })
+
+  it('bbs is the default look; plain is the only other value', () => {
+    expect(optionsOf(undefined).look).toBe('bbs')
+    expect(optionsOf({ look: 'plain' } as never).look).toBe('plain')
+    expect(optionsOf({ look: 'neon' } as never).look).toBe('bbs')
+  })
+})
+
+describe('BBS boot screen', () => {
+  const text = (grid: ReturnType<typeof bootPicture>, width: number) => Array.from({ length: grid.rows }, (_, y) => String.fromCodePoint(...Array.from({ length: width }, (_, x) => grid.glyph(x, y) || 32))).join('\n')
+
+  it('dials, connects, draws the logo and fills a bar from elapsed time and answered reads', () => {
+    expect(text(bootPicture('demo', 60, 100, 0, 10), 60)).toContain('ATDT')
+    expect(text(bootPicture('demo', 60, 100, 0, 10), 60)).not.toContain('CONNECT')
+
+    const done = text(bootPicture('demo', 60, 3_800, 10, 10), 60)
+
+    expect(done).toContain('CONNECT 115200 / ARQ / V.42bis')
+    expect(done).toContain('█▀█ █ █ █▀▀ █   █▀█')
+    expect(done).toContain('> handshake ok · node demo')
+    expect(done).toContain('100%  reads 10/10')
+  })
+
+  it('plays at least 3.2 s, longer while the first read is out, never past 6 s; only with the bbs look and boot on', () => {
+    const state = newState({})
+
+    state.pane.bootAtMs = 1_000
+    expect(isBooting(state, 1_100)).toBe(true)
+    expect(isBooting(state, 5_000)).toBe(true) // past the 3.2 s minimum, but no snapshot yet
+    state.snapshot = {} as never
+    expect(isBooting(state, 5_000)).toBe(false)
+    expect(isBooting(state, 2_000)).toBe(true)
+    state.snapshot = null
+    expect(isBooting(state, 7_500)).toBe(false)
+    expect(isBooting({ ...state, options: { ...state.options, boot: false } }, 1_100)).toBe(false)
+    expect(isBooting({ ...state, options: { ...state.options, look: 'plain' } }, 1_100)).toBe(false)
   })
 })
