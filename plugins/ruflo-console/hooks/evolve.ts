@@ -12,6 +12,7 @@
 import type { ActionSpec } from './actions'
 import { MANIFEST_PATHS, OSES, parseGate, parseLedger, parsePolicyLedger, parseWitness, readEvolve, shortRef, type EvolveFiles, type Os } from './data/evolve'
 import { jsonAfter } from './data/cli'
+import type { ReadCache } from './data/files'
 import { plain, recordOf } from './data/parse'
 import type { Host } from './host'
 import { labLines, LAB_MAX_LINES, PROMOTE_COMMAND } from './mh-lab'
@@ -192,6 +193,8 @@ export function evolveSpec(entry: EvolveEntry, state: State): ActionSpec | null 
 export const evolveWhy = (entry: EvolveEntry): string => entry.why ?? 'it cannot run now'
 
 const reading = new WeakMap<State, Promise<void>>()
+/** The view's own read cache: shared with the disk pass, its files would count as state writes there. */
+const caches = new WeakMap<State, ReadCache>()
 
 /** Reads the evolution files again (opening the view, r, ▸ reread); a read already running is joined. */
 export function loadEvolve(state: State, host: Host): Promise<void> {
@@ -202,7 +205,11 @@ export function loadEvolve(state: State, host: Host): Promise<void> {
   state.evolve.isReading = true
   host.invalidate()
 
-  const run = readEvolve(host.fs, state.cache, state.cwd, Date.now())
+  const cache = caches.get(state) ?? new Map()
+
+  caches.set(state, cache)
+
+  const run = readEvolve(host.fs, cache, state.cwd, Date.now())
     .then(files => {
       state.evolve.files = files
     })

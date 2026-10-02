@@ -386,6 +386,9 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
+    // Headless, before the view was ever opened, the dump waits for the same file read.
+    expect((await $.command.run(command('dump evolve'))).text).toContain('dddddddd champion')
+
     const { text, tree, rasters } = await drawn($, 'evolve')
     const buttons = elementsOf(tree, 'Button').map(keyOf)
 
