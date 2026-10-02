@@ -49,6 +49,10 @@ if [[ "$TARGET" == repo ]]; then
   for dir in $RUNTIME_DIRS; do
     [[ -d "$REPO/.claude-flow/$dir" ]] && mkdir -p "$OUT/runtime-before" && cp -a "$REPO/.claude-flow/$dir" "$OUT/runtime-before/"
   done
+  # The repo's classic hooks start ruflo's worker daemon, which keeps rewriting the tracked agentdb.rvf.lock long after
+  # the run. Note whether one was already running, so the run stops only a daemon it started.
+  DAEMON_BEFORE=0
+  kill -0 "$(cat "$REPO/.claude-flow/daemon.pid" 2>/dev/null || echo 0)" 2>/dev/null && DAEMON_BEFORE=1
 else
   mkdir -p "$PROJ" && git -C "$PROJ" init -q
   check S1 "ruflo init (branch CLI) makes a ruflo project, classic hooks included" cli.log cli init --force
@@ -235,6 +239,9 @@ check S5 "empty project: overview says n/a, not 0" s5-empty-overview.txt has "$O
 
 # ---------------------------------------------------------------- 6. the repo is untouched
 if [[ "$TARGET" == repo ]]; then
+  if ((DAEMON_BEFORE == 0)) && kill -0 "$(cat "$REPO/.claude-flow/daemon.pid" 2>/dev/null || echo 0)" 2>/dev/null; then
+    (cd "$REPO" && timeout 60 node "$REPO/v3/@claude-flow/cli/bin/cli.js" daemon stop >>"$OUT/cli.log" 2>&1) && echo "stopped the ruflo daemon the run started" >>"$OUT/git-restored.txt"
+  fi
   git -C "$REPO" status --porcelain >"$OUT/git-after.txt"
   git -C "$REPO" diff --stat -- .claude/helpers v3/@claude-flow/cli/.claude/helpers >"$OUT/helpers-after.txt"
   check S6 "git status unchanged (settings.local.json is gitignored and removed)" git-after.txt diff -q "$OUT/git-before.txt" "$OUT/git-after.txt"
