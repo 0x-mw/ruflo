@@ -4,7 +4,7 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 import { HIVE_FILES, RAFT_ID, WORKERS } from './fixtures/hive'
 import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
-import { FIND_OUT, LS_GLOBAL } from './fixtures/skills'
+import { FIND_OUT, LIST_OUT, LS_GLOBAL, USE_OUT } from './fixtures/skills'
 import { cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const HOME_FILES = {
@@ -335,13 +335,85 @@ describe('views', () => {
     expect(found).toContain('1M installs')
     expect(skillRuns()).toEqual(['ls --json', 'ls -g --json', 'find react'])
 
-    await pane.press({ key: 'sk-addg-0' })
+    // The scope is chosen once, above the lists; ▸ add then installs there.
+    await pane.press({ key: 'sk-scope-global' })
+    await pane.press({ key: 'sk-add-0' })
     expect(textOf(await pane.drawn())).toContain('runs: npx -y skills add mattpocock/skills@tdd -g -y')
     expect(skillRuns().some(line => line.startsWith('add'))).toBe(false)
 
     await pane.press({ key: 'confirm' })
     await pane.drawn()
     expect(skillRuns()).toContain('add mattpocock/skills@tdd -g -y')
+    await pane.unmount()
+  })
+
+  test('skills: use, preview, targets, maintain and scan; reads run on a click, every change asks with its argv and cost', { options: { boot: false } }, async ($, on) => {
+    const files = { ...RUFLO_FILES, 'package.json': JSON.stringify({ dependencies: { react: '19' } }), '.claude/agents/coder.md': 'Use the tdd skill.' }
+    const world = worldOf(on, files)
+    const skillRuns = () => world.runs.filter(argv => argv[2] === 'skills').map(argv => argv.slice(3).join(' '))
+    const answer = (argv: readonly string[]) => (argv[3] === 'ls' ? (argv.includes('-g') ? LS_GLOBAL : '[]') : argv[3] === 'find' ? FIND_OUT : argv[3] === 'use' ? USE_OUT : argv.includes('--list') ? LIST_OUT : 'done\n')
+
+    world.respond = argv => (argv[2] !== 'skills' ? cliAnswer(argv) : { exitCode: 0, stdout: answer(argv), stderr: '' })
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text, tree } = await drawn($, 'skills')
+    const keys = elementsOf(tree, 'Button').map(keyOf)
+
+    for (const section of ['INSTALL TO', 'INSTALLED', 'SEARCH', 'FOR THIS PROJECT', 'CREATE', 'MAINTAIN']) expect(text).toContain(section)
+    expect(keys).toEqual(expect.arrayContaining(['sk-scope-project', 'sk-scope-global', 'sk-agent-claude-code', 'sk-agent-codex', 'sk-update-all', 'sk-restore', 'sk-sync', 'sk-scan', 'sk-author', 'sk-validate', 'sk-view-0']))
+    expect(text).toContain('(●) project')
+    // Opening lists what is installed; nothing else (no search, no scan, no use) runs unasked.
+    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json'])
+
+    const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
+
+    // ▸ update all asks first, its argv and its network note on the confirm row; it runs one fixed argv on yes.
+    await pane.press({ key: 'sk-update-all' })
+    const asked = textOf(await pane.drawn())
+
+    expect(asked).toContain('runs: npx -y skills update -p -y')
+    expect(asked).toMatch(/network: fetches each skill/)
+    expect(skillRuns()).toEqual(['ls --json', 'ls -g --json'])
+    await pane.press({ key: 'confirm' })
+    await pane.drawn()
+    expect(skillRuns()).toContain('update -p -y')
+
+    // ▸ restore asks, and is not run when cancelled.
+    await pane.press({ key: 'sk-restore' })
+    expect(textOf(await pane.drawn())).toContain('runs: npx -y skills experimental_install')
+    await pane.press({ key: 'cancel' })
+    expect(skillRuns()).not.toContain('experimental_install')
+
+    // ▸ scan reads the project's own files: a react chip, and the agent file that names a skill; it runs nothing.
+    const before = world.runs.length
+
+    await pane.press({ key: 'sk-scan' })
+    const scanned = textOf(await pane.drawn())
+
+    expect(scanned).toContain('stack JavaScript')
+    expect(elementsOf(await pane.drawn(), 'Button').map(keyOf)).toContain('sk-chip-0')
+    expect(world.runs.length).toBe(before)
+
+    // A chip is a search; a result's ▸ preview runs add --list at once and shows its repository.
+    await pane.press({ key: 'sk-chip-0' })
+    await pane.drawn()
+    expect(skillRuns()).toContain('find react')
+    await pane.press({ key: 'sk-preview-0' })
+    const preview = textOf(await pane.drawn())
+
+    expect(skillRuns()).toContain('add mattpocock/skills@tdd --list')
+    expect(preview).toContain('PREVIEW')
+    expect(preview).toContain('vercel-react-best-practices')
+
+    // ▸ use runs `use <id>` at once and opens the AI terminal with the prompt typed, not sent.
+    await pane.press({ key: 'sk-use-0' })
+    const term = await pane.drawn()
+    const field = elementsOf(term, 'Input').find(input => keyOf(input) === 'term-input') as { props?: { value?: string } } | undefined
+
+    expect(skillRuns()).toContain('use mattpocock/skills@tdd')
+    expect(field?.props?.value).toContain('<SKILL.md>')
+    expect(world.runs.some(argv => argv[0] === 'claude')).toBe(false)
     await pane.unmount()
   })
 

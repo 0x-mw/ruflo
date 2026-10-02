@@ -6,7 +6,7 @@
  * installed lists are read again to say whether it took. Every argv is fixed, with no shell; nothing here writes a file.
  */
 import type { ActionSpec } from './actions'
-import { addArgv, findArgv, initArgv, listArgv, nameInId, newNameOf, parseFind, parseInstalled, removeArgv, skillIdOf, skillNameOf, updateArgv, type FoundSkill, type InstalledSkill, type Scope } from './data/skills'
+import { addArgv, agentsOf, findArgv, initArgv, listArgv, nameInId, newNameOf, parseFind, parseInstalled, removeArgv, skillIdOf, skillNameOf, sortedFound, updateArgv, type FoundSkill, type InstalledSkill, type Scope } from './data/skills'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { outputLines } from './ops'
@@ -20,6 +20,7 @@ const CHANGE_TIMEOUT_MS = 180_000
 const firstLine = (text: string): string => plain(text.split('\n').find(line => line.trim() !== '') ?? '', 120)
 
 const listing = new WeakMap<State, Promise<void>>()
+const finding = new WeakMap<State, Promise<void>>()
 
 async function listOnce(state: State, host: Host): Promise<void> {
   const skills = state.skills
@@ -82,10 +83,11 @@ export function findSkills(state: State, host: Host, text: string): string | nul
   skills.findError = null
   host.invalidate()
 
-  void host
+  const run = host
     .run(argv, READ_TIMEOUT_MS)
     .then(result => {
-      skills.found = parseFind(result.stdout)
+      skills.found = sortedFound(parseFind(result.stdout), skills.sort)
+      skills.foundAtMs = Date.now()
       skills.findError = result.exitCode !== 0 ? `exit ${result.exitCode}: ${firstLine(result.stderr) || firstLine(result.stdout) || 'no message'}` : null
     })
     .catch((error: unknown) => {
@@ -97,14 +99,19 @@ export function findSkills(state: State, host: Host, text: string): string | nul
       host.invalidate()
     })
 
+  finding.set(state, run)
+
   return null
 }
+
+/** Resolves when the search started last has answered (a headless `skills-find` waits on it). */
+export const findSettled = (state: State): Promise<void> => finding.get(state) ?? Promise.resolve()
 
 /**
  * One confirm-gated change: `shows` puts its argv on the confirm row; once confirmed, `run` runs it, reads the lists
  * again, and says how it went (on disk: the lists show the change).
  */
-function change(state: State, host: Host, label: string, argv: readonly string[], expect: string, verify?: (installed: InstalledSkill[]) => boolean): ActionSpec {
+export function change(state: State, host: Host, label: string, argv: readonly string[], expect: string, verify?: (installed: InstalledSkill[]) => boolean): ActionSpec {
   return {
     label,
     args: argv,
@@ -156,7 +163,10 @@ const isIn = (name: string, scope: Scope) => (installed: InstalledSkill[]) => in
 export function addSpec(state: State, host: Host, found: FoundSkill, scope: Scope): ActionSpec | null {
   const id = skillIdOf(found.id)
 
-  return id === null ? null : change(state, host, `add skill ${id}${scope === 'global' ? ' globally' : ' to this project'}`, addArgv(id, scope), `${nameInId(id)} listed as ${scope}`, isIn(nameInId(id), scope))
+  const agents = agentsOf(state.skills.agents)
+  const where = `${scope === 'global' ? ' globally' : ' to this project'}${agents.length > 0 ? ` for ${agents.join(', ')}` : ''}`
+
+  return id === null ? null : change(state, host, `add skill ${id}${where}`, addArgv(id, scope, agents), `${nameInId(id)} listed as ${scope}`, isIn(nameInId(id), scope))
 }
 
 export function removeSpec(state: State, host: Host, skill: InstalledSkill): ActionSpec | null {
@@ -229,6 +239,7 @@ export function skillActions(state: State, host: Host, runner: Runner, load: (te
       const spec = name === null ? null : initSpec(state, host, name)
 
       skills.createDraft = text
+      if (name !== null) skills.authored = name
       runner.ask(spec, NAME_RULE)
       skills.asked = spec !== null && name !== null ? { key: name, label: spec.label } : null
     },
