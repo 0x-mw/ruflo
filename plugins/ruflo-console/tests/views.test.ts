@@ -401,6 +401,7 @@ describe('views', () => {
     const asked = textOf(await pane.drawn())
 
     expect(asked).toContain(`Confirm: run workflow ${WF_ID} (its task steps call a model)?`)
+    expect(asked).toContain(`runs: ruflo mcp exec -t workflow_execute -p ${JSON.stringify({ workflowId: WF_ID })}`)
     expect(asked).toContain('COSTS MONEY')
     expect(mine()).toHaveLength(1)
     await pane.press({ key: 'confirm' })
@@ -433,7 +434,10 @@ describe('views', () => {
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
 
     await pane.press({ key: 'run-nn-train-coordination-20' })
-    expect(textOf(await pane.drawn())).toContain('Confirm: train coordination patterns for 20 epochs?')
+    const asked = textOf(await pane.drawn())
+
+    expect(asked).toContain('Confirm: train coordination patterns for 20 epochs?')
+    expect(asked).toContain('runs: ruflo neural train --pattern coordination --epochs 20')
     expect(mine()).toEqual([])
     await pane.press({ key: 'confirm' })
     expect(mine()).toEqual(['neural train --pattern coordination --epochs 20'])

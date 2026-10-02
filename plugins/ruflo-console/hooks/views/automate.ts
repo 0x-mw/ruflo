@@ -211,7 +211,7 @@ function workflowRows(ctx: Ctx): RenderElement[] {
     rows.push(row(ctx, [text(ctx, ` template ${clip(template.name, 40)} · ${template.steps} steps `, { dimColor: true }), ctx.kit.Button({ key: `run-auto-tpl-new-${template.id}`, label: ' ▸ new', plain: true, onPress: () => void ctx.act.run(`auto-tpl-new-${template.id}`) })], `tpl-${template.id}`))
   }
 
-  rows.push(field(ctx, 'auto-wf-new', 'new workflow', 'the prompt for its one task step, for the first agent on disk'))
+  rows.push(field(ctx, 'auto-wf-new', 'new workflow', 'the prompt for its one task step, for the agent picked on the board'))
   rows.push(field(ctx, 'auto-wf-validate', 'validate', 'a workflow file in the project, e.g. workflows/build.json', 'check'))
 
   return rows

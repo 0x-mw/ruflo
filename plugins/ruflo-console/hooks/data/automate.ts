@@ -56,8 +56,8 @@ export const WORKER_ABOUT: Record<WorkerName, string> = {
   testgaps: 'test coverage analysis',
 }
 
-/** Typed text: printable, no control characters, never read as a flag. */
-const TYPED = /^[\p{L}\p{N} .,:;!?'"()[\]{}/@#%&*+=_~<>|$^-]+$/u
+/** Typed text: letters, digits, spaces, punctuation and symbols (an em dash or curly quotes too); `plain` drops controls. */
+const TYPED = /^[\p{L}\p{N}\p{M}\p{P}\p{S} ]+$/u
 
 /** Free text from a field as one argv element or JSON string: cleaned, 1..max characters, not starting with -. */
 export function freeText(value: string, max = 200): string | null {

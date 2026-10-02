@@ -77,6 +77,7 @@ describe('typed values', () => {
     expect(freeText('')).toBeNull()
     expect(freeText('x'.repeat(201))).toBeNull()
     expect(freeText('a\u0000b')).toBe('a b')
+    expect(freeText('fix the login — it loops “again”…')).toBe('fix the login — it loops “again”…')
   })
 
   it('config keys, values, pairs and paths', () => {

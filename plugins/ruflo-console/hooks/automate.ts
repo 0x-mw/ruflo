@@ -200,10 +200,10 @@ export function taskCreate(text: string): ActionSpec | null {
       })
 }
 
-/** One task step for the first agent on disk (a run needs one); the prompt is the person's, the name its first words. */
+/** One task step for the agent picked on the board (a run needs one); the prompt is the person's, the name its first words. */
 export function workflowCreate(state: State, text: string): ActionSpec | null {
   const prompt = freeText(text, 300)
-  const agentId = idOf(state.snapshot?.agents[0]?.id)
+  const agentId = idOf(selection(state).agent?.id)
 
   if (prompt === null) return null
 
