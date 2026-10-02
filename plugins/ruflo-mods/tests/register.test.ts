@@ -144,5 +144,6 @@ describe('register', () => {
     expect((await run('mods')).text).toBe(alias.text)
     expect((await run('mods')).text).toContain('owns:        route, post-edit')
     expect((await run('claims')).text).toBe('beneath: claims')
+    expect((await $.command.run({ command: 'ruflo-console', args: 'mods', origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } })).text).toBe(alias.text)
   })
 })

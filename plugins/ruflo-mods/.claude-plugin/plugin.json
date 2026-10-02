@@ -62,7 +62,7 @@
     "modTrustAllow": {
       "type": "string",
       "title": "Trusted mods (plugin ids)",
-      "description": "Comma-separated plugin ids as Claude Code keys them, name@marketplace (e.g. ruflo-swarm@ruflo), that the trust gate never refuses. Matched on where the plugin was installed from, not on the name it gives itself.",
+      "description": "Comma-separated plugin ids as Claude Code keys them, name@marketplace (e.g. ruflo-swarm@ruflo,ruflo-console@ruflo), that the trust gate never refuses. Matched on where the plugin was installed from, not on the name it gives itself.",
       "required": false,
       "default": ""
     }

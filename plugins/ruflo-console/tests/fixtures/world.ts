@@ -34,6 +34,7 @@ export type World = {
   runs: string[][]
   blits: string[]
   opened: string[]
+  commands: string[]
   openArgs: { id: string; focus?: true; rows?: number }[]
   stored: Map<string, unknown>
   panes: { id: string; isShown: boolean; isFocused: boolean; title: string; isPlaced: boolean }[]
@@ -72,6 +73,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
     runs: [],
     blits: [],
     opened: [],
+    commands: [],
     openArgs: [],
     stored: new Map(),
     panes: [],
@@ -118,7 +120,13 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
 
     return { value: undefined }
   })
-  on('command.register', ($, e) => (refuse ? { deny: 'commands withheld' } : { value: { command: e.name } }))
+  on('command.register', ($, e) => {
+    if (refuse) return { deny: 'commands withheld' }
+
+    world.commands.push(e.name)
+
+    return { value: { command: e.name } }
+  })
   on('ui.open', ($, e) => {
     if (refuse) return { deny: 'panes withheld' } as never
 

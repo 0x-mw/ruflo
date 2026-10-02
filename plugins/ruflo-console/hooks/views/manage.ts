@@ -45,7 +45,7 @@ export function approvalsView(ctx: Ctx): RenderElement {
   return col(ctx, rows, 'approvals')
 }
 
-const KIND_COLOR: Record<string, string> = { swarm: THEME.info, claims: THEME.warn, federation: THEME.ok, learning: THEME.head, tools: THEME.info, mods: THEME.bad }
+const KIND_COLOR: Record<string, string> = { swarm: THEME.info, claims: THEME.warn, federation: THEME.ok, learning: THEME.head, tools: THEME.info, mods: THEME.bad, missions: THEME.head }
 
 export function eventsView(ctx: Ctx): RenderElement {
   const { state, nowMs } = ctx

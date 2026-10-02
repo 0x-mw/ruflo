@@ -5,7 +5,7 @@
  */
 import type { Snapshot } from './snapshot'
 
-export type EventKind = 'swarm' | 'claims' | 'federation' | 'learning' | 'tools' | 'mods'
+export type EventKind = 'swarm' | 'claims' | 'federation' | 'learning' | 'tools' | 'mods' | 'missions'
 
 export type ConsoleEvent = {
   atMs: number
@@ -15,7 +15,7 @@ export type ConsoleEvent = {
   agentId?: string
 }
 
-export const EVENT_KINDS: readonly EventKind[] = ['swarm', 'claims', 'federation', 'learning', 'tools', 'mods']
+export const EVENT_KINDS: readonly EventKind[] = ['swarm', 'claims', 'federation', 'learning', 'tools', 'mods', 'missions']
 export const MAX_EVENTS = 300
 
 const ev = (atMs: number, kind: EventKind, text: string, agentId?: string): ConsoleEvent => ({ atMs, kind, text, ...(agentId !== undefined && { agentId }) })
@@ -88,6 +88,16 @@ export function diffEvents(prev: Snapshot | null, next: Snapshot, atMs: number):
 
   if (prev.outcomes !== null && outcomes > 0) out.push(ev(atMs, 'learning', `+${outcomes} routed outcome${outcomes === 1 ? '' : 's'} judged`))
   if ((prev.federationNodes?.length ?? 0) !== (next.federationNodes?.length ?? 0)) out.push(ev(atMs, 'federation', `federation keys: ${next.federationNodes?.length ?? 0} node ids on disk`))
+  const missionsBefore = new Map((prev.missions?.missions ?? []).map(mission => [mission.id, mission]))
+
+  for (const mission of next.missions?.missions ?? []) {
+    const old = missionsBefore.get(mission.id)
+
+    if (old === undefined) out.push(ev(atMs, 'missions', `mission ${mission.id} (${mission.state}): ${mission.objective.slice(0, 60)}`))
+    else if (old.state !== mission.state) out.push(ev(atMs, 'missions', `mission ${mission.id}: ${old.state} → ${mission.state}`))
+    else if (old.evidence.verified !== mission.evidence.verified) out.push(ev(atMs, 'missions', `mission ${mission.id}: ${mission.evidence.verified}/${mission.evidence.count} evidence verified`))
+  }
+
   if (prev.hasNostrKey !== next.hasNostrKey && next.hasNostrKey === true) out.push(ev(atMs, 'federation', 'a nostr identity appeared (~/.ruflo/nostr.key)'))
 
   return out

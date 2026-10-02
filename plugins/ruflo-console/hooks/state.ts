@@ -9,7 +9,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'agent'
+export type ViewId = 'overview' | 'swarm' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'agent'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -28,6 +28,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', rows: 24 },
   { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', rows: 24 },
   { id: 'events', key: 'e', label: 'Events', short: 'Evt', rows: 26 },
+  { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', rows: 26 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -112,6 +113,8 @@ export type State = {
   home: string | null
   /** Claude Code's config directory: `$CLAUDE_CONFIG_DIR`, else `~/.claude`. Its plugin records are read from here. */
   configDir: string | null
+  /** False in a session with no pane to show (claude -p, an SDK host): views are then answered as text. */
+  isInteractive: boolean
   /** When this module loaded: "since the console loaded" series and stall times count from here. */
   loadedAtMs: number
   view: ViewId
@@ -162,6 +165,7 @@ export function newState(raw: PluginOptions | undefined): State {
     cwd: '',
     home: null,
     configDir: null,
+    isInteractive: true,
     loadedAtMs: Date.now(),
     view: 'overview',
     back: 'overview',

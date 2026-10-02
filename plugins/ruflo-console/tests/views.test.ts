@@ -1,6 +1,7 @@
 import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
+import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
 import { command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
@@ -175,5 +176,27 @@ describe('views', () => {
     expect(agent.text).toContain('tester · tester')
     expect(agent.text).toContain('console-demo-2 stealable')
     expect(world.runs.some(argv => argv.join(' ').includes('agent logs --id agent-1790903032591-x41b0y --tail 20'))).toBe(true)
+  })
+
+  test('missions: the ADR-406 observation, task status as recorded, evidence as verified, nothing invented', async ($, on) => {
+    worldOf(on, { ...RUFLO_FILES, '.claude-flow/missions/observation.json': MISSION_OBSERVATION })
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const { text } = await drawn($, 'missions')
+
+    expect(text).toContain('Ship a verified artifact')
+    expect(text).toContain('planned · rev 2 · session-bound')
+    expect(text).toContain('○ produce → ○ evaluate → ○ verify')
+    expect(text).toContain('evidence 0/0 verified · budget $0.00 settled, $0.00 reserved of $10.00 (estimate $1.00)')
+    expect(text).not.toMatch(/[\u001b\u202e]/)
+  })
+
+  test('missions: no observation file reads n/a with how to start one', async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    expect((await drawn($, 'missions')).text).toContain('n/a — no .claude-flow/missions/observation.json')
   })
 })

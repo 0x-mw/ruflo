@@ -14,7 +14,7 @@ import { activityPicture, curvePicture, headerPicture, PULSE_MS, topologyPicture
 import type { Grid } from '../gfx/raster'
 import { severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
-import type { State } from '../state'
+import { rowsOf, type State } from '../state'
 import { live } from './common'
 import { openTasks } from './select'
 
@@ -115,7 +115,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
   const width = Math.max(20, Math.min(200, columns))
   const snapshot = state.snapshot
 
-  pictures.set('header', headerPicture(`◆ ruflo · ${state.cwd.split('/').filter(Boolean).at(-1) ?? ''}`, Math.min(width, 40), t))
+  if (!(state.pane.rows > 0 && state.pane.rows < rowsOf(state.view))) pictures.set('header', headerPicture(`◆ ruflo · ${state.cwd.split('/').filter(Boolean).at(-1) ?? ''}`, Math.min(width, 40), t))
 
   switch (state.view) {
     case 'overview':

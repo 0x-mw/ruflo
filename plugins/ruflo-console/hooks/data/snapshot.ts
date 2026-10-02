@@ -23,6 +23,7 @@ import {
   type Outcomes,
   type RouterState,
 } from './facts'
+import { parseMissions, type MissionObservation } from './missions'
 import { readBounded, readDisk, textOf, type ProjectKey, type Read, type ReadCache, type ReaderFs } from './files'
 import {
   parseAgents,
@@ -72,6 +73,7 @@ export type Snapshot = {
   federationNodes: string[] | null
   hasNostrKey: boolean | null
   plugins: PluginsFacts
+  missions: MissionObservation | null
   changed: number
   readAtMs: number
 }
@@ -119,6 +121,7 @@ export async function readSnapshot(fs: ReaderFs, cache: ReadCache, cwd: string, 
       rufloOffered: offered,
       missingFromClone: offered === null ? [] : EXPECTED_IN_MARKET.filter(name => !offered.includes(name)),
     },
+    missions: parseMissions(text('missions')),
     changed: disk.changed,
     readAtMs: nowMs,
   }

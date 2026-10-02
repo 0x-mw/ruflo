@@ -4,6 +4,7 @@
  * answers, the row says which plugin to load rather than pretending.
  */
 import { HELP, parseRuflo, type Intent } from './commands'
+import { CATALOG_PATH, commandsText, FALLBACK, parseCatalog, type Catalog } from './data/catalog'
 import type { Controller } from './controller'
 import { median, p95 } from './controller'
 import { plain } from './data/parse'
@@ -34,11 +35,43 @@ async function open(control: Controller, state: State, label: string): Promise<{
   return { text: opened.isPlaced ? `ruflo console: ${label}` : `The ruflo console could not be shown: ${opened.reason}` }
 }
 
+const DUMP_WAIT_MS = 20_000
+
+/** The catalog this plugin ships (read once per session), or the built-in mod list when it is missing or another contract. */
+async function loadCatalog(control: Controller): Promise<Catalog> {
+  control.catalog ??= control.host.fs
+    .read(`${control.host.pluginRoot}/${CATALOG_PATH}`)
+    .then(text => parseCatalog(text) ?? FALLBACK, () => FALLBACK)
+
+  return control.catalog
+}
+
+/**
+ * A view as text, with its CLI probes run first and waited for (at most DUMP_WAIT_MS: a probe still running then reads
+ * "asking the ruflo CLI…", as it would on screen). The pane's own view is put back afterwards.
+ */
+async function dumpOf(control: Controller, state: State, view: State['view']): Promise<string> {
+  const shown = state.view
+
+  state.view = view
+
+  try {
+    await control.refresh()
+    await Promise.race([control.probe(true), new Promise(resolve => setTimeout(resolve, DUMP_WAIT_MS))])
+
+    return viewText({ state, nowMs: Date.now(), columns: 100, act: control.actions }, view)
+  } finally {
+    state.view = shown
+  }
+}
+
 export async function dispatch(control: Controller, state: State, args: string, delegate: Delegate): Promise<{ text: string }> {
   const intent: Intent = parseRuflo(args)
 
   switch (intent.kind) {
     case 'open':
+      // Without a pane to show (claude -p, an SDK host), the view is answered as text in the command's row instead.
+      if (!state.isInteractive) return { text: await dumpOf(control, state, intent.view ?? state.view) }
       if (intent.view !== null) control.setView(intent.view)
 
       return open(control, state, VIEWS.find(view => view.id === state.view)?.label ?? 'Agent')
@@ -116,14 +149,10 @@ export async function dispatch(control: Controller, state: State, args: string, 
       const view = intent.view ?? state.view
       const shown = state.view
 
-      // The view's probes run for it now, as they would were it in front; then the pane's view is put back.
-      state.view = view
-      await control.refresh()
-      await control.probe(true)
-      state.view = shown
-
-      return { text: viewText({ state, nowMs: Date.now(), columns: 100, act: control.actions }, view) }
+      return { text: await dumpOf(control, state, view) }
     }
+    case 'commands':
+      return { text: commandsText(await loadCatalog(control), intent.query) }
     case 'unknown':
       return { text: `Unknown: "${plain(intent.word, 30)}". /ruflo help lists the views (${VIEWS.map(view => view.id).join(', ')}) and commands.` }
   }

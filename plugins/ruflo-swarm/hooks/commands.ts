@@ -8,15 +8,15 @@ import type { State } from './state'
 import { paneModelOf } from './views/model'
 
 /**
- * The commands this module registers: since ruflo-console's `/ruflo`, each is a deprecated alias of `/ruflo swarm
- * <sub>`, kept for one release. Each name is prefixed with the plugin's so it never stands in for a built-in.
+ * The commands this module registers: since ruflo-console's `/ruflo`, each is also reachable as `/ruflo swarm <sub>`,
+ * and each stays registered (ADR-406: no command is removed or renamed). Each name is prefixed with the plugin's so it never stands in for a built-in.
  */
 export const COMMANDS: readonly CommandSpec[] = [
-  { name: 'ruflo-swarm-pane', description: 'Deprecated, use /ruflo swarm pane: show or hide the live swarm pane', argumentHint: '[open|close]', immediate: true },
-  { name: 'ruflo-swarm-status', description: 'Deprecated, use /ruflo swarm status: the swarm as ruflo has it on disk', argumentHint: '[json]', immediate: true },
-  { name: 'ruflo-swarm-topology', description: 'Deprecated, use /ruflo swarm topology: the topology, its leader and members', immediate: true },
-  { name: 'ruflo-swarm-claims', description: 'Deprecated, use /ruflo swarm claims: who has claimed which task', immediate: true },
-  { name: 'ruflo-swarm-consensus', description: 'Deprecated, use /ruflo swarm consensus: hive-mind proposals and votes', immediate: true },
+  { name: 'ruflo-swarm-pane', description: 'Same as /ruflo swarm pane: show or hide the live swarm pane', argumentHint: '[open|close]', immediate: true },
+  { name: 'ruflo-swarm-status', description: 'Same as /ruflo swarm status: the swarm as ruflo has it on disk', argumentHint: '[json]', immediate: true },
+  { name: 'ruflo-swarm-topology', description: 'Same as /ruflo swarm topology: the topology, its leader and members', immediate: true },
+  { name: 'ruflo-swarm-claims', description: 'Same as /ruflo swarm claims: who has claimed which task', immediate: true },
+  { name: 'ruflo-swarm-consensus', description: 'Same as /ruflo swarm consensus: hive-mind proposals and votes', immediate: true },
 ]
 
 /** The subcommands of `/ruflo swarm` this module answers; the old `/ruflo-swarm-<sub>` names are their aliases. */

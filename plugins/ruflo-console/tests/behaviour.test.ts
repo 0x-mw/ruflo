@@ -135,7 +135,7 @@ describe('behaviour', () => {
 
       expect(elementsOf(tree, 'Raster').length === 0).toBe(isNarrow)
       expect(elementsOf(tree, 'Button').map(keyOf).includes('claim')).toBe(!isNarrow)
-      if (isNarrow) expect(textOf(tree)).toContain('3/12 Claims')
+      if (isNarrow) expect(textOf(tree)).toContain('3/13 Claims')
       await pane.unmount()
     }
   })
@@ -241,5 +241,20 @@ describe('behaviour', () => {
       expect(elementsOf(tree, 'Raster')).toHaveLength(0)
       await pane.unmount()
     }
+  })
+
+  test('an inline pane given fewer rows than it asked for goes compact: controls first, no title strip', async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('claims'))
+
+    const pane = await $.ui.mount({ ...paneAt(98, 12), plugin: PLUGIN })
+    const tree = await pane.drawn()
+    const keys = elementsOf(tree, 'Button').map(keyOf)
+
+    expect(keys.indexOf('close')).toBeLessThan(keys.indexOf('claim'))
+    expect(elementsOf(tree, 'Raster').map(keyOf)).not.toContain('header')
+    await pane.unmount()
   })
 })

@@ -89,7 +89,7 @@ commands, skills and agents above behave as they always have.
   reported as unverified.
 - **Commands**: `/ruflo swarm pane|status [json]|topology|claims|consensus`, through ruflo-console's `/ruflo`. The old
   `/ruflo-swarm-pane`, `/ruflo-swarm-status`, `/ruflo-swarm-topology`, `/ruflo-swarm-claims` and
-  `/ruflo-swarm-consensus` still work for one release, as deprecated aliases. `/ruflo-swarm:watch` also opens the pane.
+  `/ruflo-swarm-consensus` stay registered as aliases (ADR-406: no command is removed or renamed). `/ruflo-swarm:watch` also opens the pane.
 - **Options** (`/config`): `panel` (command, the default since ruflo-console's cockpit is the pane that opens by
   itself | auto | off), `cli` (`npx-offline`, the default, never touches the
   network), `routeThreshold`, `injectSpawnContext` (off by default: appends a one-line swarm note to spawned subagents'

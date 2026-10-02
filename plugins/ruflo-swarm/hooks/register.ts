@@ -349,17 +349,20 @@ export function register(on: On, raw: PluginOptions) {
    * `/ruflo swarm <pane|status|topology|claims|consensus>`: ruflo-console registers `/ruflo` for every ruflo mod, and
    * this hook answers its swarm subcommands wherever it sits in the chain, passing every other word on.
    */
-  on('command.run', { command: 'ruflo' }, async ($, e, next) => {
-    const [head = '', sub = '', ...rest] = e.args.trim().split(/\s+/)
+  // `/ruflo-console` is the same command as `/ruflo` (kept by ADR-406), so its swarm subcommands are answered too.
+  for (const command of ['ruflo', 'ruflo-console'] as const) {
+    on('command.run', { command }, async ($, e, next) => {
+      const [head = '', sub = '', ...rest] = e.args.trim().split(/\s+/)
 
-    if (host === null || head.toLowerCase() !== 'swarm' || !isSwarmSub(sub.toLowerCase())) {
-      return next(e)
-    }
+      if (host === null || head.toLowerCase() !== 'swarm' || !isSwarmSub(sub.toLowerCase())) {
+        return next(e)
+      }
 
-    return answer(sub.toLowerCase() as SwarmSub, rest.join(' '))
-  })
+      return answer(sub.toLowerCase() as SwarmSub, rest.join(' '))
+    })
+  }
 
-  // The old names stay registered for one release as deprecated aliases of `/ruflo swarm <sub>`.
+  // The old names stay registered as aliases of `/ruflo swarm <sub>`: ADR-406 removes, renames or reassigns no command.
   for (const sub of SWARM_SUBS) {
     on('command.run', { command: `ruflo-swarm-${sub}` }, async ($, e, next) => (host === null ? next(e) : answer(sub, e.args)))
   }

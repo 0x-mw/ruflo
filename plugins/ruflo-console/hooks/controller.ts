@@ -4,6 +4,7 @@
  * ./runner. Nothing here reaches `$` but through the Host.
  */
 import { actionsOf } from './bindings'
+import type { Catalog } from './data/catalog'
 import { PROBES, type ProbeResult } from './data/cli'
 import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
@@ -42,6 +43,9 @@ export type Controller = {
   noteToolCall: (agentId: string | undefined, tool: string) => void
   actions: Actions
   runner: Runner
+  host: Host
+  /** The command catalog, once `/ruflo commands` has read it. */
+  catalog?: Promise<Catalog>
   /** Blits the band's mark while Claude works; the band calls it with its requestId. */
   markFrame: (requestId: string, isWorking: boolean) => void
 }
@@ -169,7 +173,22 @@ export function createController(state: State, host: Host): Controller {
     }
   }
 
-  async function runProbe(probe: (typeof PROBES)[number]): Promise<void> {
+  const probesInFlight = new Map<string, Promise<void>>()
+
+  /** One probe run at a time per probe: a second ask while it runs joins it. */
+  function runProbe(probe: (typeof PROBES)[number]): Promise<void> {
+    const held = probesInFlight.get(probe.id)
+
+    if (held !== undefined) return held
+
+    const run = runProbeOnce(probe).finally(() => probesInFlight.delete(probe.id))
+
+    probesInFlight.set(probe.id, run)
+
+    return run
+  }
+
+  async function runProbeOnce(probe: (typeof PROBES)[number]): Promise<void> {
     const held: ProbeResult = state.probes.get(probe.id) ?? { value: null, okAtMs: null, error: null, errorAtMs: null, isRunning: false }
 
     state.probes.set(probe.id, { ...held, isRunning: true })
@@ -205,8 +224,7 @@ export function createController(state: State, host: Host): Controller {
         (isVisible() || force) &&
         entry.views.includes(state.view) &&
         (!entry.isNetwork || state.options.federationNetwork) &&
-        state.probes.get(entry.id)?.isRunning !== true &&
-        (force || now - (lastAttempt.get(entry.id) ?? 0) >= entry.everyMs),
+        (force || (state.probes.get(entry.id)?.isRunning !== true && now - (lastAttempt.get(entry.id) ?? 0) >= entry.everyMs)),
     )
 
     for (let i = 0; i < due.length; i += MAX_PARALLEL_PROBES) {
@@ -411,5 +429,5 @@ export function createController(state: State, host: Host): Controller {
     persist()
   }
 
-  return { refresh, probe, start, resume, stop, open, autoOpen, closedByPerson, close, setView, drill, animate, noteToolCall, actions, runner, markFrame }
+  return { refresh, probe, start, resume, stop, open, autoOpen, closedByPerson, close, setView, drill, animate, noteToolCall, actions, runner, markFrame, host }
 }

@@ -6,7 +6,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
-import { VIEWS, type ViewId } from '../state'
+import { rowsOf, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { claimsView } from './claims'
 import { ago, button, clip, col, row, text, THEME, type Ctx } from './common'
@@ -16,6 +16,7 @@ import { learningView } from './learning'
 import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
 import { metaharnessView } from './metaharness'
+import { missionsView } from './missions'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
 import { pluginsView } from './plugins'
@@ -36,6 +37,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   timeline: timelineView,
   approvals: approvalsView,
   events: eventsView,
+  missions: missionsView,
   agent: agentView,
 }
 
@@ -118,14 +120,20 @@ function footer(ctx: Ctx): RenderElement {
   return col(ctx, parts, 'footer')
 }
 
-/** The whole pane for this frame. */
+/**
+ * The whole pane for this frame. Given fewer body rows than the view asked for (an inline pane the layout could not
+ * make that tall), it goes compact: no title strip, and the confirm row and the footer's buttons move up under the
+ * tabs, so every control stays on screen while the view below scrolls.
+ */
 export function paneView(ctx: Ctx): RenderElement {
   const body = ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx)
   const confirm = confirmRow(ctx)
   const header = ctx.pictures.get('header')
-  const title = header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
+  const isCompact = ctx.state.pane.rows > 0 && ctx.state.pane.rows < rowsOf(ctx.state.view)
+  const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
+  const parts = isCompact ? [tabs(ctx), ...(confirm !== null ? [confirm] : []), footer(ctx), body] : [...title, tabs(ctx), body, ...(confirm !== null ? [confirm] : []), footer(ctx)]
 
-  return ctx.kit.Box({ flexDirection: 'column', children: [...title, tabs(ctx), body, ...(confirm !== null ? [confirm] : []), footer(ctx)] })
+  return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }
 
 type Plain = { type: string; props: { children?: unknown; label?: string } }

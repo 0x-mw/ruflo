@@ -26,7 +26,7 @@
     "panel": {
       "type": "string",
       "title": "Swarm pane",
-      "description": "command (default) opens the pane only with /ruflo swarm pane (or the deprecated /ruflo-swarm-pane, or /ruflo-swarm:watch); auto also opens it when a ruflo swarm is on disk and the layout docks panes (ruflo-console's cockpit is the pane that opens by itself now); off never opens it.",
+      "description": "command (default) opens the pane only with /ruflo swarm pane (or its alias /ruflo-swarm-pane, or /ruflo-swarm:watch); auto also opens it when a ruflo swarm is on disk and the layout docks panes (ruflo-console's cockpit is the pane that opens by itself now); off never opens it.",
       "default": "command",
       "options": [
         "auto",

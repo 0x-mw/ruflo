@@ -88,7 +88,7 @@ tmux_start() { # tmux_start DIR LOG ARGS...
   local dir="$1" log="$2"
   shift 2
   tmux kill-session -t "$TMUX_SESSION" 2>/dev/null
-  tmux new-session -d -s "$TMUX_SESSION" -x 200 -y 55 \
+  tmux new-session -d -s "$TMUX_SESSION" -x "${TMUX_COLUMNS:-200}" -y 55 \
     "cd '$dir' && CLAUDE_CONFIG_DIR='$CFG' '$CLAUDE' --debug-file '$log' $* ; sleep 30"
 }
 # Answers the start-up dialogs as a cautious person would: rejects every project MCP server (Esc), so no

@@ -43,7 +43,7 @@ describe('register', () => {
     expect(world.opened).toEqual([])
   })
 
-  test('/ruflo swarm <sub> answers as the deprecated names do; other /ruflo words pass on', async ($, on) => {
+  test('/ruflo swarm <sub> answers as the kept alias names do; other /ruflo words pass on', async ($, on) => {
     worldOf(on, RUFLO_RUN)
     mock.clock(on)
     on('command.run', ($, e) => ({ text: `beneath: ${e.args}` }))
@@ -55,6 +55,7 @@ describe('register', () => {
       expect((await ruflo(`swarm ${sub}`)).text).toBe((await $.command.run(command(`ruflo-swarm-${sub}`))).text)
     }
 
+    expect((await $.command.run({ ...command('ruflo-console'), args: 'swarm topology' })).text).toBe((await $.command.run(command('ruflo-swarm-topology'))).text)
     expect((await ruflo('swarm pane')).text).toBe('Swarm pane shown')
     expect((await ruflo('swarm')).text).toBe('beneath: swarm')
     expect((await ruflo('mods')).text).toBe('beneath: mods')

@@ -22,6 +22,7 @@ export type Intent =
   | { kind: 'select'; by: number }
   | { kind: 'filter'; filter: 'all' | EventKind }
   | { kind: 'dump'; view: ViewId | null }
+  | { kind: 'commands'; query: string }
   | { kind: 'unknown'; word: string }
 
 export function parseRuflo(args: string): Intent {
@@ -66,6 +67,9 @@ export function parseRuflo(args: string): Intent {
     case 'prev':
     case 'k':
       return { kind: 'select', by: -1 }
+    case 'commands':
+    case 'catalog':
+      return { kind: 'commands', query: rest }
     case 'dump':
     case 'text':
       return { kind: 'dump', view: second === '' ? null : viewOf(second) }
@@ -88,19 +92,20 @@ export const HELP = [
   '  /ruflo agent <id|name>     drill into one agent: role, task, claims, activity, logs, timeline',
   '  /ruflo back | close | status',
   '  /ruflo dump <view>         a view as plain text, without the pane (for claude -p and scripts)',
+  '  /ruflo commands [word]     browse the ruflo command catalog (ADR-406): every command, who owns it, how it runs',
   '',
   'Act (each change asks to confirm; /ruflo yes or /ruflo no answers without focus)',
   '  /ruflo palette [query]     the command palette (key p): spawn, claims, swarm, votes, workers, memory',
   '  /ruflo run <entry> [text]  run a palette entry by id, e.g. run spawn-coder, run route fix the login bug',
   '  /ruflo next | prev         move the selection (keys j / k)',
-  '  /ruflo filter <kind>       events view filter: all, swarm, claims, federation, learning, tools, mods',
+  '  /ruflo filter <kind>       events view filter: all, swarm, claims, federation, learning, tools, mods, missions',
   '',
   'Other mods (answered by their own plugin)',
   '  /ruflo mods                ruflo-mods: what this session routed, recorded and tightened (was /ruflo-mods)',
   '  /ruflo swarm pane|status|topology|claims|consensus   ruflo-swarm (was /ruflo-swarm-*)',
   '',
   'Pane keys (while it holds the keyboard: click it, or ctrl+x tab)',
-  '  1-9 views · g timeline · q approvals · e events · p palette · x actions for the selection',
+  '  1-9 views · g timeline · q approvals · e events · m missions · p palette · x actions for the selection',
   '  j/k select · d drill in · b back · r refresh · h help · f event filter · y/n confirm · Esc close',
   '  (? and Enter cannot be pane hotkeys in this Claude Code build: use h, and d to drill in)',
 ].join('\n')

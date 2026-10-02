@@ -156,4 +156,39 @@ describe('palette and /ruflo', () => {
 
     expect(world.openArgs).toHaveLength(0)
   })
+
+  test('/ruflo-console stays registered and is the same command as /ruflo; mods and swarm words still pass beneath', async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    on('command.run', ($, e) => ({ text: `beneath: ${e.command} ${e.args}` }))
+    await $.session.start(SESSION)
+
+    expect(world.commands).toEqual(expect.arrayContaining(['ruflo', 'ruflo-console']))
+    expect((await $.command.run({ ...command('help'), command: 'ruflo-console' })).text).toBe((await $.command.run(command('help'))).text)
+    expect((await $.command.run({ ...command('mods'), command: 'ruflo-console' })).text).toBe('beneath: ruflo-console mods')
+  })
+
+  test('without a pane (claude -p), /ruflo <view> answers the view as text and opens nothing', async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start({ ...SESSION, isInteractive: false })
+
+    const text = (await $.command.run(command('claims'))).text ?? ''
+
+    expect(text).toContain('1 active · 1 stealable · 0 handoff')
+    expect((await $.command.run(command('overview'))).text).toContain('v3.50.0 (npx-offline)')
+    expect(world.openArgs).toHaveLength(0)
+  })
+
+  test('/ruflo commands browses the catalog, and falls back to the mod commands when it is not readable', async ($, on) => {
+    worldOf(on, RUFLO_FILES)
+    mock.clock(on)
+    await $.session.start(SESSION)
+
+    const text = (await $.command.run(command('commands swarm'))).text ?? ''
+
+    expect(text).toContain('the command catalog is not readable here, so this is the built-in list')
+    expect(text).toContain('/ruflo-swarm-pane')
+    expect(text).not.toContain('/ruflo-mods ')
+  })
 })

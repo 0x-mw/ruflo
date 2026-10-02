@@ -102,6 +102,12 @@ claude_p s2-mods "$PROJ" "${PLUGINS[@]}" "/ruflo mods"
 check S2 "/ruflo mods answered by ruflo-mods" s2-mods.txt has "$OUT/s2-mods.txt" "owns:"
 claude_p s2-swarm "$PROJ" "${PLUGINS[@]}" "/ruflo swarm status"
 check S2 "/ruflo swarm status answered by ruflo-swarm" s2-swarm.txt has "$OUT/s2-swarm.txt" "agents:"
+claude_p s2-alias "$PROJ" "${PLUGINS[@]}" "/ruflo-console help"
+check S2 "/ruflo-console is kept (ADR-406) and answers as /ruflo" s2-alias.txt has "$OUT/s2-alias.txt" "/ruflo swarm pane|status|topology|claims|consensus"
+claude_p s2-view "$PROJ" "${PLUGINS[@]}" "/ruflo claims"
+check S2 "headless /ruflo <view> answers the view as text" s2-view.txt has "$OUT/s2-view.txt" "$TASK"
+claude_p s2-dump-overview "$PROJ" "${PLUGINS[@]}" "/ruflo dump overview"
+check S2 "dump waits for its CLI probes (memory DB is measured, not 'asking')" s2-dump-overview.txt grep -qE "^memory DB +${MEM_N} entries" "$OUT/s2-dump-overview.txt"
 claude_p s2-dump-swarm "$PROJ" "${PLUGINS[@]}" "/ruflo dump swarm"
 check S2 "swarm view shows the real agents (ids from the store)" s2-dump-swarm.txt has "$OUT/s2-dump-swarm.txt" "$CODER"
 claude_p s2-dump-claims "$PROJ" "${PLUGINS[@]}" "/ruflo dump claims"
@@ -109,7 +115,7 @@ check S2 "claims view shows the claim held by e2e-coder" s2-dump-claims.txt has 
 check S2 "claims view shows the handoff to the tester" s2-dump-claims.txt has "$OUT/s2-dump-claims.txt" "→ tester"
 claude_p s2-dump-memory "$PROJ" "${PLUGINS[@]}" "/ruflo dump memory"
 check S2 "memory view shows the CLI's entry count ($MEM_N)" s2-dump-memory.txt grep -qE "^entries +${MEM_N} " "$OUT/s2-dump-memory.txt"
-for name in s2-status s2-help s2-mods s2-swarm s2-dump-swarm s2-dump-claims s2-dump-memory; do check S2 "no refused tree or failed hook ($name)" "$name.log" clean_log "$OUT/$name.log"; done
+for name in s2-status s2-help s2-mods s2-swarm s2-alias s2-view s2-dump-overview s2-dump-swarm s2-dump-claims s2-dump-memory; do check S2 "no refused tree or failed hook ($name)" "$name.log" clean_log "$OUT/$name.log"; done
 
 # ---------------------------------------------------------------- 3. interactive pane under tmux
 tmux_start "$PROJ" "$OUT/s3.log" "${PLUGINS[@]}"
@@ -156,6 +162,16 @@ sleep 1
 tmux_shot s3-closed-b
 if diff -q <(stable s3-closed-a) <(stable s3-closed-b) >/dev/null; then pass S3 "closed: two captures identical (animation stopped)" s3-closed-a.ansi; else fail S3 "closed: the screen still changes" s3-closed-a.ansi; fi
 check S3 "no refused tree or failed hook" s3.log clean_log "$OUT/s3.log"
+tmux_stop
+
+# ---------------------------------------------------------------- 3b. inline placement at 100 columns
+TMUX_COLUMNS=100 tmux_start "$PROJ" "$OUT/s3b.log" "${PLUGINS[@]}"
+check S3b "100 columns: the session starts" s3b-start.txt settle_dialogs
+tmux_cmd "/ruflo claims"
+check S3b "100 columns: the pane seats inline (no dock) and opens on Claims" s3b-inline.txt wait_for s3b-inline "Claims ─" 20
+check S3b "100 columns: the whole view fits the rows it asked for (its footer buttons are on screen)" s3b-inline.txt has "$OUT/s3b-inline.txt" "[ Close ]"
+check S3b "100 columns: the prompt is still on screen below the pane" s3b-inline.txt grep -q "^❯" "$OUT/s3b-inline.txt"
+check S3b "no refused tree or failed hook" s3b.log clean_log "$OUT/s3b.log"
 tmux_stop
 
 # ---------------------------------------------------------------- 4. auto-start from project settings, no --plugin-dir

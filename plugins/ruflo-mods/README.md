@@ -19,7 +19,7 @@ These enable `ruflo-mods@ruflo`, `ruflo-swarm@ruflo` and `ruflo-console@ruflo`, 
 - **ruflo-swarm** loads its commands, skills and agents even without function hooks. With them on, it is also a mod that can run host commands (pane actions you start).
 - **ruflo-console** is reported as "pending" until it is released in the marketplace.
 - **The ruflo marketplace is cloned on first use.** Each teammate's first trusted, interactive Claude Code start clones `github.com/ruvnet/ruflo`. A headless `claude -p` on a fresh config loads nothing. Once the marketplace is cloned, which `ruflo init` does, `claude -p` loads the mods too.
-- **Optional hardening:** set `pluginConfigs["ruflo-mods@ruflo"].options.modTrust = "refuse-risky"` with `modTrustAllow` in user or managed settings. Project settings cannot set it. The default is `observe`, which names what each later mod can do and blocks nothing.
+- **Optional hardening:** set `pluginConfigs["ruflo-mods@ruflo"].options.modTrust = "refuse-risky"` with `modTrustAllow` in user or managed settings (e.g. `"ruflo-swarm@ruflo,ruflo-console@ruflo"`: both run host commands, so `refuse-risky` refuses them otherwise). Project settings cannot set it. The default is `observe`, which names what each later mod can do and blocks nothing.
 
 ## Install and repair
 
@@ -56,7 +56,7 @@ Settings alone are not always enough. Claude Code loads these plugins from its l
 - Under `VITEST` or `CI`, init skips the `claude` step and prints the commands.
 - Claude Code reformats `.claude/settings.json` (key order) when it installs at project scope. ruflo says so and leaves it: the content is unchanged.
 
-In a session, `/ruflo mods` (through ruflo-console's `/ruflo`) reports what the mod owns, routed, recorded and tightened. `/ruflo-mods` still works for one release as a deprecated alias.
+In a session, `/ruflo mods` (through ruflo-console's `/ruflo`) reports what the mod owns, routed, recorded and tightened. `/ruflo-mods` stays as an alias of it (ADR-406: no command is removed or renamed).
 
 ## What it does
 
@@ -80,7 +80,7 @@ Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].opt
 | `costBudgetUsd` | `0` (off) | Session budget for the ladder |
 | `costHardStop` | `false` | Refuse new subagents at 100% of budget |
 | `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate |
-| `modTrustAllow` | `` | Comma-separated plugin names the gate never refuses |
+| `modTrustAllow` | `` | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses |
 
 ## Tests
 

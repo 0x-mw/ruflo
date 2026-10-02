@@ -31,6 +31,8 @@ export type Host = {
   settings: () => Promise<unknown>
   home: () => Promise<string | undefined>
   configDir: () => Promise<string | undefined>
+  /** This plugin's folder: where its own files (the command catalog) are. */
+  pluginRoot: string
   rufloSnapshot: () => Promise<RufloSnapshot>
   rufloRoute: () => Promise<RufloRoute | null>
   rufloSegment: (text: string | null) => Promise<void>

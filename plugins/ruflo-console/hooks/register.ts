@@ -56,6 +56,7 @@ function hostOf($: EngineInterface, cwd: string): Host {
     settings: async () => $.settings.read(),
     home: async () => $.env.get('HOME'),
     configDir: async () => $.env.get('CLAUDE_CONFIG_DIR'),
+    pluginRoot: $.plugin.root,
     // `$.ruflo` exists only where ruflo-mods is seated; validate refuses feature-detecting a noun, so these are
     // async: a missing noun throws inside the promise and every caller's catch sees a rejection.
     rufloSnapshot: async () => $.ruflo.snapshot(),
@@ -78,6 +79,7 @@ export const register: Register = (on, raw: PluginOptions) => {
     control?.stop()
     host = hostOf($, e.cwd)
     state.cwd = e.cwd
+    state.isInteractive = e.isInteractive !== false
     control = createController(state, host)
 
     const bound = host
@@ -88,6 +90,8 @@ export const register: Register = (on, raw: PluginOptions) => {
       bound
         .registerCommand({ name: 'ruflo', description: 'ruflo: the cockpit (views, palette, agents, approvals) and every ruflo mod command — /ruflo help', argumentHint: '[view|palette|agent <id>|mods|swarm <sub>|help]' })
         .catch(() => undefined),
+      // Kept for good (ADR-406: no command is removed or renamed): `/ruflo-console` is the same command as `/ruflo`.
+      bound.registerCommand({ name: 'ruflo-console', description: 'Same as /ruflo: the ruflo console', argumentHint: '[view|palette|help]' }).catch(() => undefined),
       bound.storeGet(storeKeyOf(e.cwd)).then(value => restore(state, value), () => undefined),
       bound.rufloTools().then(counted => void (state.rufloTools = counted), () => undefined),
     ])
@@ -109,6 +113,13 @@ export const register: Register = (on, raw: PluginOptions) => {
    * hook the same command (ruflo-mods, ruflo-swarm), and are answered with a hint when neither does.
    */
   on('command.run', { command: 'ruflo' }, async ($, e, next) => {
+    if (control === null) return next(e)
+
+    return dispatch(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
+  })
+
+  /** `/ruflo-console` is the same command: ruflo-mods and ruflo-swarm hook it as they hook `/ruflo`. */
+  on('command.run', { command: 'ruflo-console' }, async ($, e, next) => {
     if (control === null) return next(e)
 
     return dispatch(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
@@ -136,6 +147,8 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     state.mounted = new Map([...pictures].map(([key, grid]) => [key, { columns: grid.columns, rows: grid.rows }]))
     control.animate()
+
+    state.pane.rows = Math.max(0, Math.floor(Number(e.props.scroll?.bodyRows) || 0))
 
     const tree = paneView({ kit, state, nowMs: Date.now(), columns, pictures, act: control.actions })
 
