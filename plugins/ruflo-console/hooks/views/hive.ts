@@ -345,7 +345,7 @@ export function hiveView(ctx: Ctx): RenderElement {
       rule(ctx, 'Hive-Mind', `${hive.topology} · ${hive.strategy ?? 'consensus n/a'} · ${members.length} in the comb${byzantine > 0 ? ` · ${byzantine} byzantine` : ''}`),
       picture(ctx, 'hive', `honeycomb needs a terminal: the queen and ${members.length} workers`),
       text(ctx, '♛ queen · ● worker ◆ specialist ▲ scout ○ in no store · brighter = busier · ballot dot: green for, pink against, · not yet · red walls ✖ byzantine · ✔ ✘ scars: decided · a wave runs to the queen for 2 s when a vote lands', { dimColor: true }),
-      ...(hive.pending.length > 0 ? [rule(ctx, 'Voting chambers', `${hive.pending.length} open · for fills from the left, against from the right, ┃ the quorum lines`), picture(ctx, 'hive-chambers', `${hive.pending.length} open proposals`)] : []),
+      ...(hive.pending.length > 0 ? [rule(ctx, 'Voting chambers', `${hive.pending.length} open · for fills from the left, against from the right, ┃ the quorum lines`), picture(ctx, 'hive-chambers', `${hive.pending.length} open proposal${hive.pending.length === 1 ? '' : 's'}`)] : []),
       ...proposalsSection(ctx, hive),
       rule(ctx, 'Terms · pheromones', 'the shield: faulty workers survived, f of n'),
       picture(ctx, 'hive-strip', 'the term timeline and the broadcast ticker need a terminal'),
