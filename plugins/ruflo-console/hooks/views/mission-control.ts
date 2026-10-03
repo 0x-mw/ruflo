@@ -55,9 +55,20 @@ function skillRows(ctx: Ctx): RenderElement[] {
 
 function planRows(ctx: Ctx): RenderElement[] {
   const mc = mcOf(ctx.state)
+  // The kind and rigor choices fold away: the header names what is chosen, and the plan's own line stays in view below.
+  const options = section(
+    ctx,
+    'options',
+    'Plan options',
+    `${PROFILES.find(profile => profile.id === mc.profile)?.label ?? mc.profile} · ${mc.rigor}`,
+    [
+      row(ctx, [text(ctx, ' kind '), ...PROFILES.map(profile => chip(ctx, `mc-profile-${profile.id}`, profile.label, mc.profile === profile.id, () => ctx.act.mission.profile(profile.id)))], 'mc-profiles'),
+      row(ctx, [text(ctx, ' rigor '), ...RIGORS.map(rigor => chip(ctx, `mc-rigor-${rigor}`, rigor, mc.rigor === rigor, () => ctx.act.mission.rigor(rigor)))], 'mc-rigors'),
+    ],
+    false,
+  )
   const rows: RenderElement[] = [
-    row(ctx, [text(ctx, ' kind '), ...PROFILES.map(profile => chip(ctx, `mc-profile-${profile.id}`, profile.label, mc.profile === profile.id, () => ctx.act.mission.profile(profile.id)))], 'mc-profiles'),
-    row(ctx, [text(ctx, ' rigor '), ...RIGORS.map(rigor => chip(ctx, `mc-rigor-${rigor}`, rigor, mc.rigor === rigor, () => ctx.act.mission.rigor(rigor)))], 'mc-rigors'),
+    ...options,
     text(ctx, ` ${PROFILES.find(profile => profile.id === mc.profile)?.about ?? ''}`, { dimColor: true }),
   ]
   const planned = mc.planned
