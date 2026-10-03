@@ -52,7 +52,7 @@ User --> Ruflo (CLI/MCP) --> Router --> Swarm --> Agents --> Memory --> LLM Prov
 
 <p align="center"><img src="docs/assets/ruflo-console-tour-9x11.gif" alt="The ruflo console inside Claude Code: Missions, Overview and the Optimizer, swarm, Hive-Mind, claims, Learning, MetaHarness, Memory Lab, Timeline, Events, x.ruv.io and AgentBBS, Cost, Automation, Settings, the Plugin Catalog and Dev Tools" width="480"></p>
 
-<sub>The <code>/ruflo</code> console running in Claude Code (a 9:11 portrait terminal: Claude above, the cockpit docked below; in a wide terminal the dock can be dragged to give the cockpit two thirds): every section is a key or a click, and each one can launch its plugin commands in Claude or ask Claude about what you see. A <a href="docs/assets/ruflo-console-tour.gif">wide-terminal tour</a> is also kept. <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
+<sub>The <code>/ruflo</code> console running in Claude Code, full screen in a 9:11 frame (the cockpit docked beside Claude, cropped to the cockpit): the dial-up boot, then every section by its key or a click, a mission goal typed and planned, and each section able to launch its plugin commands in Claude or ask Claude about what you see. A <a href="docs/assets/ruflo-console-tour.gif">wide-terminal tour</a> with Claude beside it is also kept. <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
 
 **Install the mods from the ruflo marketplace** (Claude Code 2.1.287 or later; mods run with your account's permissions and are not sandboxed, so read the code first):
 
