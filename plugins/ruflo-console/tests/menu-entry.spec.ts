@@ -125,3 +125,24 @@ describe('a page title when the page is switched to', () => {
     expect(cells(300)).toBe(cells(300))
   })
 })
+
+describe('the title glitch', () => {
+  it('puts ASCII glitch characters in the strike-in, in pink or cyan, and none once it is over', async () => {
+    const { titlePicture, TITLE_ENTRY_MS } = await import('../hooks/gfx/pictures')
+    const ascii = (age: number): number => {
+      const grid = titlePicture('ruflo | Swarm', 80, 0, age)
+      let n = 0
+
+      for (let i = 0; i < grid.cells.length; i += 3) if ('#%&@/\\|<>=+*'.includes(String.fromCodePoint(grid.cells[i] as number))) n++
+
+      return n
+    }
+    let early = 0
+
+    for (let age = 50; age < 700; age += 50) early += ascii(age)
+
+    expect(early).toBeGreaterThan(0)
+    expect(ascii(TITLE_ENTRY_MS)).toBe(ascii(Infinity))
+    expect(ascii(Infinity)).toBe(0)
+  })
+})

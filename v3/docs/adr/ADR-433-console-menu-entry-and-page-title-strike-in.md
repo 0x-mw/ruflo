@@ -18,3 +18,7 @@ Extends: ADR 430 (the menu), ADR 432 (the boot uplink).
 ## 2. Not proven
 
 Seen only as text and element trees, not on a terminal. A press on an entry while it is still scrambling does nothing (it is not a button yet); the hotkeys are handled elsewhere and work.
+
+## 3. Amendment: ASCII glitch in the strike-in
+
+Behind the leading edge, a share of the settled letters (14%, fading to none by the end) flip for a frame to an ASCII character (`#%&@/\|<>=+*`) in pink or cyan, and a title row now and then slips sideways one or two cells and snaps back. Hash-driven, so reproducible; none once the 1.2 s are over (spec: glitch characters appear during the entry and the finished title has none).
