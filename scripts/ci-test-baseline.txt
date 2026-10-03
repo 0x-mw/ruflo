@@ -165,6 +165,7 @@ plugins/ruflo-console/tests/palette.test.ts
 plugins/ruflo-console/tests/views.test.ts
 plugins/ruflo-console/tests/labs.test.ts
 plugins/ruflo-console/tests/attention.test.ts
+plugins/ruflo-console/tests/loops.test.ts
 plugins/ruflo-console/tests/matrix.test.ts
 plugins/ruflo-console/tests/missions.test.ts
 plugins/ruflo-console/tests/settings.test.ts

@@ -5,6 +5,7 @@
  */
 import type { AskActions } from '../ask-claude'
 import type { Attention } from './attention'
+import type { LoopActions } from '../loops'
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
@@ -68,6 +69,8 @@ export type Actions = {
   evolve: EvolveActions
   /** The Dev Tools view: keep a field's text, and Enter in a field runs its entry. */
   devtools: DevtoolsActions
+  /** The Loop Manager (Automation): presets, the configurator, and the launcher into the Claude UI. */
+  loops: LoopActions
   /** Ask Claude about this section (a visible prompt or a /btw aside) or run the plugin command that fits it: each asks first. */
   ask: AskActions
   /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */
