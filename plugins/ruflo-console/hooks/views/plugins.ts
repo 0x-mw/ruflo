@@ -2,7 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
 import { PLUGIN_NAME } from '../state'
-import { ago, button, col, kv, picture, rule, starts, text, THEME, type Ctx } from './common'
+import { ago, button, col, kv, picture, row, rule, section, starts, text, THEME, type Ctx } from './common'
 
 const WEEK = 7 * 86_400_000
 
@@ -41,6 +41,12 @@ export function pluginsView(ctx: Ctx): RenderElement {
     }
   }
 
+  if (market !== null) {
+    const isStale = facts.missingFromClone.length > 0
+
+    rows.push(row(ctx, [text(ctx, ' '), button(ctx, 'plg-refresh', isStale ? '▸ update the marketplace (the clone is stale)' : '▸ update the marketplace', () => ctx.act.plugin('refresh'), isStale ? { primary: true } : undefined)]))
+  }
+
   const ruflo = (facts.installed ?? []).filter(plugin => plugin.marketplace === RUFLO_MARKET)
   const enabled = ruflo.filter(plugin => facts.enabled.has(plugin.id)).length
 
@@ -52,6 +58,40 @@ export function pluginsView(ctx: Ctx): RenderElement {
   const gone = ruflo.filter(plugin => facts.rufloOffered !== null && !facts.rufloOffered.includes(plugin.name))
 
   if (gone.length > 0) rows.push(text(ctx, `installed but gone from the clone: ${gone.map(plugin => plugin.name).join(', ')}`, { color: THEME.warn }))
+
+  // Each installed ruflo plugin: its state and the two things worth doing to it. The marketplace's other plugins can be installed from here.
+  if (ruflo.length > 0) {
+    rows.push(
+      ...section(
+        ctx,
+        'plg-installed',
+        'Installed plugins',
+        `${ruflo.length} · update, enable, disable`,
+        ruflo.map(plugin => {
+          const isOn = facts.enabled.has(plugin.id)
+
+          return row(ctx, [
+            text(ctx, ` ${isOn ? '●' : '○'} ${plugin.name.padEnd(26)} ${plugin.version.padEnd(10)}`, { color: isOn ? THEME.ok : undefined, dimColor: !isOn }),
+            button(ctx, `plg-update-${plugin.name}`, 'update', () => ctx.act.plugin('update', plugin.name)),
+            button(ctx, `plg-toggle-${plugin.name}`, isOn ? 'disable' : 'enable', () => ctx.act.plugin(isOn ? 'disable' : 'enable', plugin.name)),
+          ])
+        }),
+        false,
+      ),
+    )
+  }
+
+  const installedNames = new Set(ruflo.map(plugin => plugin.name))
+  const available = (facts.rufloOffered ?? []).filter(name => !installedNames.has(name))
+
+  if (market !== null && available.length > 0) {
+    rows.push(
+      ...section(ctx, 'plg-available', 'Available to install', `${available.length} in the marketplace`, [
+        ...available.slice(0, 12).map(name => row(ctx, [text(ctx, ` ○ ${name.padEnd(30)}`, { dimColor: true }), button(ctx, `plg-install-${name}`, 'install', () => ctx.act.plugin('install', name))])),
+        ...(available.length > 12 ? [text(ctx, ` +${available.length - 12} more: the Plugin Catalog lists every one`, { dimColor: true })] : []),
+      ], ruflo.length === 0),
+    )
+  }
 
   rows.push(rule(ctx, 'Mods', 'function hooks'))
   rows.push(kv(ctx, PLUGIN_NAME, 'loaded (you are reading it)', THEME.ok))

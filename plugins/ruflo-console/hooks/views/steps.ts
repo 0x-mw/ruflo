@@ -88,8 +88,8 @@ export const STEPS: Partial<Record<ViewId, { title: string; steps: readonly Step
   plugins: {
     title: 'Get the ruflo plugins',
     steps: [
-      { label: 'Add the ruflo marketplace', why: 'so Claude Code can install its plugins', go: { start: 'marketplace' } },
-      { label: 'Open the Plugin Catalog', why: 'every plugin, mod and skill', go: { view: 'market' } },
+      { label: 'Add the ruflo marketplace', why: 'so Claude Code can install its plugins', go: { start: 'marketplace' }, done: s => s.plugins.markets?.some(market => market.name === 'ruflo') === true },
+      { label: 'Install a ruflo plugin', why: 'pick one below, or in the Plugin Catalog', go: { view: 'market' }, done: s => (s.plugins.installed ?? []).some(plugin => plugin.marketplace === 'ruflo') },
     ],
   },
 }

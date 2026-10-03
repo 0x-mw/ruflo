@@ -17,6 +17,7 @@ import { pluginNames, settingsActions } from './settings'
 import { catalogOf } from './plugin-catalog'
 import { devtoolsActions } from './devtools'
 import { HARNESSES, harnessSpec, isAutoAccept, isLive, newSession, send, whyNotRun } from './harness'
+import { pluginSpec } from './plugin-ops'
 import { startSpec } from './starts'
 import { plain } from './data/parse'
 import type { Host } from './host'
@@ -202,6 +203,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       host.invalidate()
     },
     focus: key => void host.focus(PANE_ID, key).catch(() => undefined),
+    plugin: (op, name = '') => runner.ask(pluginSpec(op, name), 'that plugin name cannot be passed'),
     start: (id, text = '') => runner.ask(startSpec(id, Date.now(), text), id === 'mission' || id === 'task' ? 'type it first (it may not start with -)' : 'that start cannot run here'),
     // The main menu's prompt, as a board's: a key (2, w, i), a name (swarm, x.ruv.io), ? for help, O to log off.
     menu: text => {
