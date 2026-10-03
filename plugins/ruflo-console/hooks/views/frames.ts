@@ -21,7 +21,8 @@ import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture
 import type { Grid } from '../gfx/raster'
 import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
-import { isBooting, isCompactPane, VIEWS, type State } from '../state'
+import { entryAge } from '../menu-entry'
+import { BOOT_MIN_MS, isBooting, isCompactPane, VIEWS, type State } from '../state'
 import { CARD_COLUMNS, hasCards } from './card'
 import { live } from './common'
 import { hivePictures } from './hive'
@@ -134,10 +135,14 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     return pictures
   }
 
+  // The headers strike in when a page is switched to and when the menu enters (never with fps 0, which draws the still header).
+  const sinceSwitch = state.pane.viewAtMs > 0 ? nowMs - state.pane.viewAtMs : Infinity
+  const headerAge = state.options.fps > 0 ? Math.min(sinceSwitch, entryAge({ look: state.options.look, boot: state.options.boot, ...state.pane }, nowMs, BOOT_MIN_MS) ?? Infinity) : Infinity
+
   if (!isCompactPane(state) && state.view === 'menu') {
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
-    pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`} · ${project}`, Math.min(width, 64), t))
+    pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t, headerAge) : headerPicture(`◆ ruflo v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`} · ${project}`, Math.min(width, 64), t))
     // The palette strip above the menu's groups moves while the frame loop runs; with fps 0 it is the still strip (the light is off it).
     if (state.options.look === 'bbs') pictures.set('palette', palettePicture(Math.max(8, width - 2), state.options.fps > 0 ? t : 0, PALETTE.map(rgb)))
   }
@@ -148,7 +153,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     // The menu is the RUFLO board itself; every other page reads `RUFLO | PAGE`, the logo's style left of the page's name.
     const name = state.view === 'menu' && !state.isHelp && !state.palette.isOpen ? 'ruflo bbs' : `ruflo | ${page}`
 
-    pictures.set('title', titlePicture(name, Math.min(width, 120), t, state.pane.viewAtMs > 0 && state.options.fps > 0 ? nowMs - state.pane.viewAtMs : Infinity))
+    pictures.set('title', titlePicture(name, Math.min(width, 120), t, headerAge))
   }
 
   switch (state.view) {

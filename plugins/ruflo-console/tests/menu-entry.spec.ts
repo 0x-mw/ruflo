@@ -146,3 +146,16 @@ describe('the title glitch', () => {
     expect(ascii(Infinity)).toBe(0)
   })
 })
+
+describe('the menu banner', () => {
+  it('strikes in like the titles, and is the still banner once over or with no age', async () => {
+    const { bannerPicture, TITLE_ENTRY_MS } = await import('../hooks/gfx/pictures')
+    const cells = (age?: number): string => [...bannerPicture('p', 72, 0, age).cells].join(',')
+    const done = cells()
+
+    expect(cells(TITLE_ENTRY_MS)).toBe(done)
+    expect(cells(Infinity)).toBe(done)
+    expect(cells(300)).not.toBe(done)
+    expect(cells(300)).toBe(cells(300))
+  })
+})

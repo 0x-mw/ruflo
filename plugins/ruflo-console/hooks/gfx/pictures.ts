@@ -242,11 +242,50 @@ const LOGO = ['█▀█ █ █ █▀▀ █   █▀█', '█▀▄ █▄�
 const NEON_MAGENTA = 0xff2a6d
 const NEON_CYAN = 0x05d9e8
 
+/** A header strikes in over this long when its page is switched to, and when the menu enters. */
+export const TITLE_ENTRY_MS = 1_200
+const GLITCH = '#%&@/\\|<>=+*'
+
+/**
+ * The strike-in shared by the page titles and the menu banner: from `from`, the letters appear left to right, a bright edge leading
+ * and block noise ahead of it; behind the edge a few settled cells flip for a frame to an ASCII character (pink or cyan, fading to none),
+ * and now and then a row slips one cell sideways. Hash-driven, so a frame is reproducible; nothing once `age` reaches TITLE_ENTRY_MS.
+ */
+function strikeIn(grid: Grid, from: number, age: number): void {
+  if (age >= TITLE_ENTRY_MS) return
+
+  let last = from
+
+  for (let i = 0; i < grid.columns * grid.rows; i++) if (grid.cells[i * 3] !== 0x20) last = Math.max(last, i % grid.columns)
+
+  const span = last - from + 1
+  const lead = from + (age / TITLE_ENTRY_MS) * (span + 1)
+
+  for (let y = 0; y < grid.rows; y++) {
+    for (let x = from; x <= last; x++) {
+      if (grid.glyph(x, y) === 0x20) continue
+
+      if (x > lead + 1) grid.set(x, y, '░▒▓█'[hash(x * 7 + y + Math.floor(age / 60)) % 4] as string, mix(0x3a0f2e, NEON_CYAN, 0.35))
+      else if (x > lead - 1.5) grid.set(x, y, grid.glyph(x, y), 0xffffff)
+      else if (hash(x * 13 + y * 7 + Math.floor(age / 50)) % 100 < 4 * (1 - age / TITLE_ENTRY_MS)) grid.set(x, y, GLITCH[hash(x + y + Math.floor(age / 50)) % GLITCH.length] as string, hash(x + Math.floor(age / 50)) % 2 === 0 ? 0xff2a6d : 0x05d9e8)
+    }
+
+    const slip = hash(y * 5 + Math.floor(age / 80))
+
+    if (slip % 16 === 0 && age < TITLE_ENTRY_MS - 150) {
+      const by = (slip >>> 4) % 2 === 0 ? 1 : -1
+      const row = grid.cells.slice(y * grid.columns * 3, (y + 1) * grid.columns * 3)
+
+      for (let x = from; x <= last; x++) grid.cells.set(row.slice(Math.max(0, x - by) * 3, Math.max(0, x - by) * 3 + 3), (y * grid.columns + x) * 3)
+    }
+  }
+}
+
 /**
  * The BBS banner: the logo in a magenta-to-cyan gradient with a scanline sweeping across it (decoration), a tag line,
  * the project, and a blinking block cursor. Two rows.
  */
-export function bannerPicture(project: string, columns: number, t: number): Grid {
+export function bannerPicture(project: string, columns: number, t: number, age = Infinity): Grid {
   const grid = new Grid(columns, 2)
   const width = LOGO[0].length
   const sweep = ((t / 28) % (columns + 40)) - 20
@@ -273,6 +312,8 @@ export function bannerPicture(project: string, columns: number, t: number): Grid
     if (Math.floor(t / 530) % 2 === 0 && x0 + node.length + 1 < columns) grid.set(x0 + node.length + 1, 1, '█', NEON_CYAN)
   }
 
+  strikeIn(grid, 0, age)
+
   return grid
 }
 
@@ -282,10 +323,6 @@ const NEON_CORAL = 0xff7a59
  * A view's BBS title: its name in the two-row half-block font, magenta to coral like the ANSI art boards, framed by
  * dithered ░▒▓ ramps, with a slow shimmer down the letters (decoration). Two rows.
  */
-/** A page title strikes in over this long when the page is switched to. */
-export const TITLE_ENTRY_MS = 1_200
-const GLITCH = '#%&@/\\|<>=+*'
-
 export function titlePicture(name: string, columns: number, t: number, age = Infinity): Grid {
   const grid = new Grid(columns, 2)
   const [top, bottom] = bigText(name)
@@ -322,31 +359,7 @@ export function titlePicture(name: string, columns: number, t: number, age = Inf
     })
   }
 
-  // Just switched to: the letters strike in from the left, a bright edge leading and noise ahead of it, the same entry as the boot's log.
-  if (age < TITLE_ENTRY_MS) {
-    const lead = x0 + (age / TITLE_ENTRY_MS) * (width + 1)
-
-    for (let y = 0; y < 2; y++) {
-      for (let x = x0; x < Math.min(columns, x0 + width); x++) {
-        if (grid.glyph(x, y) === 0x20) continue
-
-        if (x > lead + 1) grid.set(x, y, '░▒▓█'[hash(x * 7 + y + Math.floor(age / 60)) % 4] as string, mix(0x3a0f2e, NEON_CYAN, 0.35))
-        else if (x > lead - 1.5) grid.set(x, y, grid.glyph(x, y), 0xffffff)
-        // Behind the edge the letters are settled but still glitching: some flip to an ASCII character for a frame, pink or cyan, less as the entry ends.
-        else if (hash(x * 13 + y * 7 + Math.floor(age / 50)) % 100 < 4 * (1 - age / TITLE_ENTRY_MS)) grid.set(x, y, GLITCH[hash(x + y + Math.floor(age / 50)) % GLITCH.length] as string, hash(x + Math.floor(age / 50)) % 2 === 0 ? 0xff2a6d : 0x05d9e8)
-      }
-
-      // And now and then a whole row slips sideways a cell or two, and snaps back.
-      const slip = hash(y * 5 + Math.floor(age / 80))
-
-      if (slip % 16 === 0 && age < TITLE_ENTRY_MS - 150) {
-        const by = (slip >>> 4) % 2 === 0 ? 1 : -1
-        const row = grid.cells.slice(y * columns * 3, (y + 1) * columns * 3)
-
-        for (let x = x0; x < Math.min(columns, x0 + width); x++) grid.cells.set(row.slice(Math.max(0, x - by) * 3, Math.max(0, x - by) * 3 + 3), (y * columns + x) * 3)
-      }
-    }
-  }
+  strikeIn(grid, x0, age)
 
   return grid
 }
