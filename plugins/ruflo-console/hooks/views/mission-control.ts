@@ -5,6 +5,7 @@ import { activeMission, derive, mcOf, nextTask, progressOf, rufloTaskOf, type De
 import { ago, button, clip, col, confirmHere, row, rule, section, text, THEME, type Ctx } from './common'
 import { GOALS_PLUGIN, isAvailable, MISSION_SKILLS, slashOf } from '../mission-skills'
 import { observationRows } from './missions'
+import { capabilityRows, launchRows } from './mission-launch'
 
 const GLYPH: Record<Derived, string> = { done: '●', running: '◐', ready: '○', waiting: '·', failed: '✖', cancelled: '⊘' }
 const COLOR = (status: Derived): string => (status === 'done' ? THEME.ok : status === 'running' ? THEME.warn : status === 'failed' ? THEME.bad : status === 'ready' ? THEME.head : THEME.info)
@@ -82,8 +83,8 @@ function planRows(ctx: Ctx): RenderElement[] {
   }
 
   rows.push(...skillRows(ctx))
+  rows.push(...capabilityRows(ctx))
   rows.push(...section(ctx, 'acceptance', 'Acceptance', `${planned.goal.length} criteria`, planned.goal.map(fact => text(ctx, `   ◇ ${fact}`, { dimColor: true })), false))
-  rows.push(row(ctx, [ctx.kit.Button({ key: 'mc-create', label: ' ✚ Create mission and its tasks ', variant: 'primary', onPress: () => ctx.act.mission.create() }), text(ctx, '  asks first; writes the mission record and the tasks, runs no agent', { dimColor: true })], 'mc-create-row'))
 
   return rows
 }
@@ -93,7 +94,7 @@ function guidanceRows(ctx: Ctx): RenderElement[] {
   const guidance = mcOf(ctx.state).guidance
   const m = ctx.act.mission
 
-  if (guidance === null) return [row(ctx, [button(ctx, 'mc-guidance-ask', '✦ Ask Claude for guidance', () => m.askGuidance()), text(ctx, '  claude -p reads the goal and the plan and suggests which ruflo capabilities to bring in', { dimColor: true })], 'mc-guidance-ask-row')]
+  if (guidance === null) return []
 
   const control = guidance.stop === null ? button(ctx, 'mc-guidance-again', '↻ ask again', () => m.askGuidance()) : button(ctx, 'mc-guidance-stop', '■ stop', () => guidance.stop?.())
   const body = guidance.lines.length === 0 ? [text(ctx, '  waiting for the first words…', { dimColor: true })] : guidance.lines.map(line => text(ctx, `  ${line}`))
@@ -181,7 +182,6 @@ function controlRows(ctx: Ctx, mission: MissionRecord): RenderElement[] {
       ],
       'mc-controls',
     ),
-    ...confirmHere(ctx, 'controls'),
     ...box(ctx, 'mc-aside', '? ask aside', 'a question about the current work: /btw answers beside the task, outside the conversation (Enter)', 'ask', value => m.aside(value)),
     ...box(ctx, 'mc-guide', '✎ guide Claude', 'a visible instruction to the Claude session: it asks first (Enter)', 'send', value => m.guide(value)),
     ...(mcOf(ctx.state).lastGuide === '' ? [] : [row(ctx, [text(ctx, ` last: ${clip(mcOf(ctx.state).lastGuide, Math.max(20, ctx.columns - 24))} `, { dimColor: true }), button(ctx, 'mc-edit-guide', '✎ edit', () => ctx.act.editField('mc-guide', mcOf(ctx.state).lastGuide))], 'mc-guide-line')]),
@@ -205,7 +205,7 @@ export function missionControlView(ctx: Ctx): RenderElement {
   rows.push(...box(ctx, 'mc-goal', '✎ goal', mc.goal === '' ? 'what should get done? e.g. add a dark mode toggle to settings (Enter plans it)' : `planned: ${clip(mc.goal, 60)} — type another goal to re-plan`, 'plan', value => ctx.act.mission.goal(value)))
 
   if (mc.goal !== '') rows.push(row(ctx, [text(ctx, ` goal: ${clip(mc.goal, Math.max(20, ctx.columns - 24))} `, { bold: true }), button(ctx, 'mc-edit-goal', '✎ edit', () => ctx.act.editField('mc-goal', mc.goal))], 'mc-goal-line'))
-  rows.push(...confirmHere(ctx, 'goal', true))
+  rows.push(...launchRows(ctx))
 
   if (mc.missions.size > 1) rows.push(row(ctx, [...mc.missions.values()].slice(-6).map(candidate => chip(ctx, `mc-pick-${candidate.id}`, candidate.id.slice(4, 10), candidate.id === mc.active, () => ctx.act.mission.select(candidate.id))), 'mc-picker'))
 

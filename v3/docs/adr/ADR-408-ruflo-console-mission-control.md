@@ -57,3 +57,9 @@ Writes are confirm-gated with the exact argv. Remembered actions are not offered
 - The planner is testable without a model (`tests/goap.spec.ts`, `tests/mission-control.spec.ts`, `tests/mission-guidance.spec.ts`, `tests/nav.spec.ts`, `tests/missions.test.ts`).
 - Pause and resume do not stop a running Claude turn; they only stop the console handing out the next task.
 - Hotkeys collide with a view's own keys inside that view by design; the tab bar shows the ten digit views and a core set of letter views, and the menu lists every area with its key.
+
+## 9. Launch to-do, AIDefence and capabilities (0.12.0)
+
+- **NEXT STEP to-do** sits directly under the goal and holds everything the person does next, in order: goal planned, AIDefence screen, Claude guidance, create the mission, hand tasks to Claude. The first open step is marked and carries a primary button; the confirm each step raises is drawn inside the box. The bottom create row is gone.
+- **AIDefence screen** (`aidefence_is_safe`, `aidefence_has_pii` through `ruflo mcp exec`, local, $0) checks the goal and the guide text. Unsafe blocks guidance and creation; PII blocks guidance (a model would see it); an unavailable detector warns and does not block. A toggle turns it off.
+- **Capabilities** lists every other ruflo plugin the session offers (ruOS, AIDefence, SPARC, swarm, ADRs, ...) as slash commands run on the goal in the main Claude UI, mission-relevant plugins first. Nothing a plugin provides is interpreted.

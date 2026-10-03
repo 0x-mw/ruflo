@@ -1,5 +1,6 @@
 /** The shapes Mission Control keeps: the ledger (missions, tasks, events), the view state, and the actions the views call. */
 import type { Guidance } from './mission-guidance'
+import type { Screen } from './mission-options'
 import type { Plan, Profile, Rigor } from './goap'
 
 export type LedgerTask = { id: string; title: string; phase: string; stage?: string; agent: string; requirement: string; dependsOn: string[]; rufloTaskId?: string; dispatchedAtMs?: number }
@@ -35,6 +36,9 @@ export type McState = {
   lastGuide: string
   /** Claude's guidance on the goal, as it arrives (mission-guidance.ts). */
   guidance: Guidance | null
+  /** AIDefence's verdict on the goal (null: not screened yet or the screen is off), and whether the screen is on. */
+  screen: Screen | null
+  isScreenOn: boolean
   last: { label: string; ok: boolean; detail: string } | null
 }
 
@@ -60,4 +64,8 @@ export type MissionActions = {
   guide: (text: string) => void
   /** Asks claude -p for guidance on the current goal again (asks first unless always accept). */
   askGuidance: () => void
+  /** Runs another ruflo plugin's slash command (ruOS, AIDefence, SPARC, ...) on the goal in the main Claude UI. */
+  capability: (slash: string) => void
+  /** Turns the AIDefence screen of mission text on or off. */
+  screen: (on: boolean) => void
 }

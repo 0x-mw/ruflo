@@ -29,6 +29,7 @@ function hostOf(calls: Calls, answer: (tool: string, params: Record<string, unkn
     storeGet: async (key: string) => calls.stored.get(key),
     storeSet: async (key: string, value: unknown) => void calls.stored.set(key, value),
     invalidate: () => undefined,
+    after: () => ({ cancel: () => undefined }),
     submitPrompt: async (text: string) => void calls.prompts.push(text),
     fillPrompt: async (text: string) => (calls.fills.push(text), true),
     runSlash: async (command: string, args: string) => void calls.slashes.push(`${command} ${args}`),
@@ -266,13 +267,18 @@ describe('mission control: handing work to the primary session', () => {
     actions.guide('   ')
     expect(asked[0]?.spec).toBeNull()
     actions.guide('prefer the existing settings store')
+    await new Promise(resolve => setTimeout(resolve, 5))
     expect(calls.prompts).toEqual([])
     await asked[1]?.spec?.run?.()
     expect(calls.prompts).toEqual(['prefer the existing settings store'])
   })
 
   it('the ruflo-goals skills run in the main UI only when the session offers them: idle runs the slash command, mid-turn prepares it, and an absent one says how to get it', async () => {
-    const { state, calls, actions } = setup([])
+    const { state, calls, actions, asked } = setup([])
+    const confirm = async () => {
+      await asked.at(-1)?.spec?.run?.()
+      await new Promise(resolve => setTimeout(resolve, 0))
+    }
 
     setGoal(state, 'add a dark mode toggle')
     actions.skill('goal-plan')
@@ -280,11 +286,13 @@ describe('mission control: handing work to the primary session', () => {
     expect(mcOf(state).last?.label).toContain('ruflo-goals:goal-plan is not available')
     state.commandNames = ['ruflo-goals:goal-plan']
     actions.skill('goal-plan')
-    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(calls.slashes).toEqual([])
+    expect(asked.at(-1)?.spec?.label).toContain('run /ruflo-goals:goal-plan on the goal')
+    await confirm()
     expect(calls.slashes).toEqual(['ruflo-goals:goal-plan add a dark mode toggle'])
     state.turnActive = true
     actions.skill('goal-plan')
-    await new Promise(resolve => setTimeout(resolve, 0))
+    await confirm()
     expect(calls.fills).toEqual(['/ruflo-goals:goal-plan add a dark mode toggle'])
     expect(MISSION_SKILLS.map(skill => skill.id)).toEqual(['goal-plan', 'horizon-track', 'deep-research', 'research-synthesize', 'dossier-collect'])
   })
