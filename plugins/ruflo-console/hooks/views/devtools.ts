@@ -2,6 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import type { DevField } from '../data/devtools'
 import { DEV, DEV_GROUPS, devSpec, type DevCost, type DevEntry, type DevGroup } from '../devtools'
+import { slot } from './attention'
 import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
@@ -111,7 +112,7 @@ function resultRows(ctx: Ctx): RenderElement[] {
     )
   }
 
-  return rows
+  return slot(ctx, rows)
 }
 
 /**
@@ -136,3 +137,6 @@ export function devtoolsView(ctx: Ctx): RenderElement {
 
   return col(ctx, rows, 'devtools')
 }
+
+/** This lab's result block alone: the pane asks for it to place under the row that was clicked. */
+export const devtoolsResult = (ctx: Ctx): RenderElement[] => resultRows(ctx)

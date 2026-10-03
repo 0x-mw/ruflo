@@ -44,3 +44,6 @@ export function perfView(ctx: Ctx): RenderElement {
 
   return col(ctx, rows, 'perf')
 }
+
+/** This view's result block alone: the pane asks for it to place under the row that was clicked. */
+export const perfResult = (ctx: Ctx): RenderElement[] => resultRows(ctx, isPerfResult)

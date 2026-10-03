@@ -1,6 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { DOCTOR_COMPONENTS, isSecureResult, SECURE, SECURE_TEXT, secMemo, SEVERITIES, type SecCost, type Severity } from '../secure'
+import { slot } from './attention'
 import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
@@ -73,7 +74,7 @@ export function resultRows(ctx: Ctx, isMine: (id: string) => boolean): RenderEle
     )
   }
 
-  return rows
+  return slot(ctx, rows)
 }
 
 const SEVERITY_COLOR: Record<Severity, () => string> = { critical: () => THEME.bad, high: () => THEME.bad, medium: () => THEME.warn, low: () => THEME.info }
@@ -196,3 +197,6 @@ export function secureView(ctx: Ctx): RenderElement {
 
   return col(ctx, rows, 'secure')
 }
+
+/** This view's result block alone: the pane asks for it to place under the row that was clicked. */
+export const secureResult = (ctx: Ctx): RenderElement[] => resultRows(ctx, isSecureResult)

@@ -224,6 +224,9 @@ export type State = {
   drill: { agentId: string | null; logs: string[] | null; logsAtMs: number }
   palette: { isOpen: boolean; query: string; index: number; context: 'all' | 'selection' }
   pending: Pending | null
+  /** The key of the element last pressed, and the one the last ask or answer came from: the page draws them right there (views/attention.ts). */
+  lastPressed: string | null
+  origin: string | null
   outcome: Outcome | null
   isActing: boolean
   /** The MetaHarness lab: its last result, and the run in flight (j/k scroll the result through `select.item`). */
@@ -314,6 +317,8 @@ export function newState(raw: PluginOptions | undefined): State {
     drill: { agentId: null, logs: null, logsAtMs: 0 },
     palette: { isOpen: false, query: '', index: 0, context: 'all' },
     pending: null,
+    lastPressed: null,
+    origin: null,
     outcome: null,
     isActing: false,
     lab: { result: null, running: null },
