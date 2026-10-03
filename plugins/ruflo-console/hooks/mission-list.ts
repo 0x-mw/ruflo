@@ -4,6 +4,9 @@
  * in tests/mission-list.spec.ts, so the list's behaviour is checked without the Claude Code test kit.
  */
 import { money, type Mission } from './data/missions'
+import { spinAt } from './spinner'
+
+export { SPIN, spinAt } from './spinner'
 
 /** The observation is older than this and the view says so: the daemon writes it after each change, so a long gap means it has stopped. */
 export const STALE_AFTER_MS = 10 * 60_000
@@ -60,11 +63,6 @@ export function budgetShort(mission: Mission): string {
 
   return `${money(budget.settledMinor ?? 0, budget.currency)} of ${money(budget.ceilingMinor, budget.currency)}`
 }
-
-/** The spinner's frames, one per tenth of a second, so a running thing visibly turns. */
-export const SPIN = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-
-export const spinAt = (nowMs: number): string => SPIN[Math.floor(nowMs / 100) % SPIN.length]
 
 /** A mission or task the runtime is working on now. */
 export const isLive = (state: string): boolean => state === 'running' || state === 'verifying'

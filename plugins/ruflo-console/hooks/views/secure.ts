@@ -2,6 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { DOCTOR_COMPONENTS, isSecureResult, SECURE, SECURE_TEXT, secMemo, SEVERITIES, type SecCost, type Severity } from '../secure'
 import { slot } from './attention'
+import { spinAt } from '../spinner'
 import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
@@ -44,7 +45,7 @@ export function resultRows(ctx: Ctx, isMine: (id: string) => boolean): RenderEle
   const right = running !== null ? `running ${Math.round((nowMs - running.startedAtMs) / 1000)}s` : result === null ? 'nothing run yet' : `${result.ok ? '✓' : '✗'} exit ${result.exitCode ?? 'n/a'} · ${ago(result.atMs, nowMs)}`
   const rows: RenderElement[] = [rule(ctx, 'Result', right)]
 
-  if (running !== null) rows.push(text(ctx, ` ▸ ${running.label} … ${Math.floor(nowMs / 500) % 2 === 0 ? '█' : ' '}`, { color: THEME.warn }))
+  if (running !== null) rows.push(text(ctx, ` ${spinAt(nowMs)} ${running.label} · ${Math.round((nowMs - running.startedAtMs) / 1000)}s`, { color: THEME.warn }))
 
   if (result === null) {
     if (running === null) rows.push(text(ctx, ' ▸ run an entry: a $0 read shows here at once; the rest show here after you confirm (y)', { dimColor: true }))

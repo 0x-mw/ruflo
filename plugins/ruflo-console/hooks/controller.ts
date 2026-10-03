@@ -285,8 +285,9 @@ export function createController(state: State, host: Host): Controller {
 
   /** Runs the frame loop while the pane is shown and holds the keys (or plays the boot screen), at `fps`; stops it otherwise. */
   function animate(): void {
-    // The Missions page moves while a mission, a task or a guidance run is live, pictured or not: its spinners need the frames.
-    const moving = state.view === 'missions' && hasLiveWork(state.snapshot?.missions?.missions ?? [], mcOf(state).guidance?.status === 'running')
+    // Something in progress moves its spinner, pictured or not: a lab action in flight (on any page), or, on the Missions page, a
+    // mission, a task or a guidance run that is live.
+    const moving = state.lab.running !== null || (state.view === 'missions' && hasLiveWork(state.snapshot?.missions?.missions ?? [], mcOf(state).guidance?.status === 'running'))
 
     if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && (state.mounted.size > 0 || moving))) {
       cancel('frames')
