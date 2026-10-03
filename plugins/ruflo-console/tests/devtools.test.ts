@@ -9,7 +9,7 @@ import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
 import { FIND_OUT, LIST_OUT, LS_GLOBAL, USE_OUT } from './fixtures/skills'
 import { VEC_OUT } from './fixtures/vector'
-import { cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
+import { inputKeys, cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const HOME_FILES = {
   '.claude/plugins/installed_plugins.json': JSON.stringify({
@@ -37,7 +37,7 @@ describe('dev tools', () => {
     expect(text).toMatch(/ net \n PULL REQUESTS \.+/)
     expect(text).toContain(' n/a ')
     expect(text).toContain('nothing run yet')
-    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(expect.arrayContaining(['dt-field-brain-task', 'dt-field-analyze-ref', 'dt-field-browser-url', 'dt-field-terminal-cmd']))
+    expect(inputKeys(tree)).toEqual(expect.arrayContaining(['dt-field-brain-task', 'dt-field-analyze-ref', 'dt-field-browser-url', 'dt-field-terminal-cmd']))
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['dt-diff-stats', 'dt-gh-prs', 'dt-term-exec', 'dt-cleanup-force']))
     expect(world.runs.some(argv => /analyze_|github_|browser_|terminal_|guidance_|agenticow_|wasm_|managed_|daa_|ruvllm_|transfer_|providers|cleanup|update|migrate|appliance/.test(argv.join(' ')))).toBe(false)
   })

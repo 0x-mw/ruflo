@@ -10,7 +10,7 @@ import { BOOT_MODULES } from '../hooks/gfx/boot'
 import { VIEWS } from '../hooks/state'
 import { CARD_COLUMNS, hasCards, withCards } from '../hooks/views/card'
 import { HEADS, mark, SPACERS } from '../hooks/views/marks'
-import { NAV_GROUPS } from '../hooks/views/nav'
+import { NAV_GROUPS } from '../hooks/nav-state'
 
 type Made = { type: string; props: { key?: string; flexDirection?: string; borderStyle?: string; children?: unknown[] } }
 

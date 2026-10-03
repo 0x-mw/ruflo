@@ -9,7 +9,7 @@ import { MISSION_OBSERVATION } from './fixtures/missions'
 import { HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
 import { FIND_OUT, LIST_OUT, LS_GLOBAL, USE_OUT } from './fixtures/skills'
 import { VEC_OUT } from './fixtures/vector'
-import { cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
+import { inputKeys, cliAnswer, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const HOME_FILES = {
   '.claude/plugins/installed_plugins.json': JSON.stringify({
@@ -93,7 +93,7 @@ describe('views', () => {
     expect(text).toContain('[high] system: freeze the main branch')
     expect(text).toContain('propose: n/a — raft term 2 already has design')
     expect(text).not.toContain(HIVE_TOKEN)
-    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['hive-propose', 'hive-broadcast'])
+    expect(inputKeys(tree)).toEqual(['hive-propose', 'hive-broadcast'])
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['hive-vote-yes', 'hive-vote-no', 'hive-spawn-worker']))
   })
 
@@ -243,7 +243,7 @@ describe('views', () => {
     expect(cost.text).toContain('$1.100 · ruflo-mods budget')
     expect(cost.text).toContain('50% · $2.50')
     expect(elementsOf(cost.tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['cost-budget-1', 'cost-budget-5', 'cost-budget-10', 'cost-budget-25', 'cost-budget-apply', 'cost-model-stats']))
-    expect(elementsOf(cost.tree, 'Input').map(keyOf)).toEqual(['cost-budget'])
+    expect(inputKeys(cost.tree)).toEqual(['cost-budget'])
   })
 
   test('timeline, approvals and events draw from what was seen; the drill-down opens an agent', { options: { boot: false } }, async ($, on) => {
@@ -300,7 +300,7 @@ describe('views', () => {
     expect(text).toContain('[l: CLAUDE]')
     expect(text).toContain('claude -p in plan mode, a per-turn budget cap (Settings), one session per project')
     expect(text).toContain('claude: new session')
-    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
+    expect(inputKeys(tree)).toEqual(['term-input'])
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
   })
 
@@ -318,7 +318,7 @@ describe('views', () => {
     expect(textOf(menu)).toContain('── live')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
-    expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-goal', 'menu-prompt'])
+    expect(inputKeys(menu)).toEqual(['menu-goal', 'menu-prompt'])
 
     await pane.input({ key: 'menu-prompt', text: 'w', kind: 'submit' })
     expect(textOf(await pane.drawn())).toContain('MAIN MENU')

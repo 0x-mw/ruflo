@@ -3,7 +3,7 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 import { HIVE_FILES, WORKERS } from './fixtures/hive'
 import { RUFLO_FILES } from './fixtures/ruflo-run'
 import { FIND_OUT } from './fixtures/skills'
-import { cliAnswer, command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
+import { cliAnswer, command, elementsOf, inputKeys, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const runsOf = (runs: readonly string[][], word: string) => runs.filter(argv => argv.includes(word))
 
@@ -36,7 +36,7 @@ describe('palette and /ruflo', () => {
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
 
     await pane.press({ key: 'palette' })
-    expect(elementsOf(await pane.drawn(), 'Input').map(keyOf)).toEqual(['palette-input'])
+    expect(inputKeys(await pane.drawn())).toEqual(['palette-input'])
 
     await pane.input({ key: 'palette-input', text: 'spawn cod', kind: 'change' })
 
