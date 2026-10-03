@@ -7,6 +7,7 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
 import type { EvolveActions } from '../evolve'
+import type { CatalogActions } from '../plugin-catalog'
 import type { DevtoolsActions } from '../devtools'
 import type { Grid } from '../gfx/raster'
 import type { MemoryActions } from '../memory-lab'
@@ -63,6 +64,8 @@ export type Actions = {
   evolve: EvolveActions
   /** The Dev Tools view: keep a field's text, and Enter in a field runs its entry. */
   devtools: DevtoolsActions
+  /** The Plugin Catalog: read the clone, filter, select a plugin, view or use an item, change a plugin (each asks first). */
+  catalog: CatalogActions
 }
 
 export type Ctx = {

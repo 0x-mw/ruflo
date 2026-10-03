@@ -14,6 +14,7 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
+import { loadCatalog } from './plugin-catalog'
 import { loadEvolve } from './evolve'
 import { listSkills } from './skills'
 import { CLI_PREFIXES, isBooting, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
@@ -406,6 +407,8 @@ export function createController(state: State, host: Host): Controller {
     }
     // Opening Self-Evolution reads ruflo's own flywheel files (local, no CLI run); its checks wait for a click.
     if (view === 'evolve') void loadEvolve(state, host)
+    // The catalog is read from the marketplace clone on disk: local, so opening it is enough.
+    if (view === 'market') loadCatalog(state, host)
   }
 
   /**

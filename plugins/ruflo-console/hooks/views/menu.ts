@@ -39,7 +39,7 @@ const GROUPS: readonly { title: string; sections: readonly { name: string; items
     title: 'NETWORK & EXTEND',
     sections: [
       { name: 'federate', items: [{ key: '4', label: 'Federation', go: 'federation' }, { key: 'w', label: 'x.ruv.io Board', go: 'xruv' }] },
-      { name: 'extend', items: [{ key: '5', label: 'Plugins & Mods', go: 'plugins' }, { key: '·', label: 'Skills', go: 'skills' }] },
+      { name: 'extend', items: [{ key: '5', label: 'Plugins & Mods', go: 'plugins' }, { key: '·', label: 'Skills', go: 'skills' }, { key: '·', label: 'Plugin Catalog', go: 'market' }] },
     ],
   },
   {

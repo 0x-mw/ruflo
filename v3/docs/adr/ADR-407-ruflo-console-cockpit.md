@@ -203,6 +203,12 @@ Two layout rules came from live clicks that seemed dead: the Result panel sits a
 
 `tests/conformance.spec.ts` (`RUFLO_CONFORMANCE=1`) runs every action's argv against the real CLI's help and source, every `mcp exec` tool name against the registered tools, and the Vector Lab's argv against the ruvector CLI.
 
+## 11b. Plugin Catalog (0.9.0)
+
+`/ruflo market` (the Plugins view's ▸ button, the main menu, the tab) lists every plugin the ruflo marketplace offers, read from the marketplace clone on disk: nothing is run to draw it. Each row shows its state (■ enabled, □ installed, · not installed) and what it ships (S skills, A agents, C commands, MCP, MOD for function hooks, from a `hooks/register.ts`). Pressing a row opens its skills (with the description from each SKILL.md), agents and commands above the list; ▸ view reads the file from disk (bounded, read-only) and ▸ use types `/<plugin>:<skill>` into the AI terminal draft without sending it. Modes (all, installed, not installed, mods, has skills, has agents) and a text filter narrow the list.
+
+A change is one fixed `claude plugin <install|uninstall|enable|disable|update> <name>@ruflo --scope user` argv on the confirm row, with its cost in words (install and update reach GitHub). Only a name found in the catalog is ever put in an argv; `/ruflo run catalog-install <name>` (and the other four verbs) works headless and refuses anything else. Conformance checks that each verb exists and takes `--scope`. A button sweep (`tests/sweep.test.ts`) presses every button of every view and fails on one that changes nothing, except a short allowlist of cursor-only and self-link buttons.
+
 ## 12. Release gates
 
 A console change ships only when all of these hold:

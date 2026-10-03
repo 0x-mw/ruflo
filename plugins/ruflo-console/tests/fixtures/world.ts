@@ -110,9 +110,13 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
   })
   on('fs.list', ($, e) => {
     const prefix = `${e.path ?? CWD}/`
-    const names = [...all.keys()].filter(path => path.startsWith(prefix) && !path.slice(prefix.length).includes('/')).map(path => path.slice(prefix.length))
+    const below = [...all.keys()].filter(path => path.startsWith(prefix)).map(path => path.slice(prefix.length))
+    const files = below.filter(name => !name.includes('/'))
+    // A folder holding a file shows as a directory entry of its own, as a real listing does.
+    const dirs = [...new Set(below.filter(name => name.includes('/')).map(name => name.split('/')[0] as string))]
+    const entries = [...files.map(name => ({ name, kind: 'file' as const })), ...dirs.map(name => ({ name, kind: 'dir' as const }))]
 
-    return refuse || names.length === 0 ? { deny: 'ENOENT' } : { value: names.map(name => ({ name, kind: 'file' as const, size: 1, mtimeMs: 1, isLink: false })) }
+    return refuse || entries.length === 0 ? { deny: 'ENOENT' } : { value: entries.map(entry => ({ ...entry, size: 1, mtimeMs: 1, isLink: false })) }
   })
   on('process.run', ($, e) => {
     if (refuse) return { deny: 'process.run withheld' }
