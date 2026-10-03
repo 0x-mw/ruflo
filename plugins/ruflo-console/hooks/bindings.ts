@@ -6,8 +6,11 @@ import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './act
 import { EVENT_KINDS } from './data/events'
 import { evolveActions } from './evolve'
 import { catalogActions } from './plugin-catalog'
+import { saveAllowed } from './remember'
+import { pluginNames, settingsActions } from './settings'
+import { catalogOf } from './plugin-catalog'
 import { devtoolsActions } from './devtools'
-import { HARNESSES, harnessSpec, isLive, newSession, send, whyNotRun } from './harness'
+import { HARNESSES, harnessSpec, isAutoAccept, isLive, newSession, send, whyNotRun } from './harness'
 import { startSpec } from './starts'
 import { plain } from './data/parse'
 import type { Host } from './host'
@@ -16,7 +19,7 @@ import { filterPalette, paletteEntries } from './palette'
 import type { Runner } from './runner'
 import { skillActions } from './skills'
 import { moreSkillActions } from './skills-lab'
-import { PANE_ID, viewOf, type State } from './state'
+import { CLI_PREFIXES, NAV_KEY, PANE_ID, viewOf, type State } from './state'
 import { vectorActions } from './vector'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
@@ -57,6 +60,36 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
 
   const actions: Actions = {
     view: setView,
+    remember: () => {
+      const key = state.pending?.rememberKey
+
+      if (key !== undefined && state.pending !== null) {
+        state.allowed.set(key, state.pending.label)
+        saveAllowed(state, host)
+      }
+
+      void runner.confirm()
+    },
+    forget: key => {
+      if (key === '') state.allowed.clear()
+      else state.allowed.delete(key)
+      saveAllowed(state, host)
+      host.invalidate()
+    },
+    nav: style => {
+      state.nav = style
+      void host.storeSet(NAV_KEY, style).catch(() => undefined)
+      host.invalidate()
+    },
+    clearField: key => {
+      state.fieldText.set(key, '')
+      host.invalidate()
+    },
+    toggle: key => {
+      if (state.sections.has(key)) state.sections.delete(key)
+      else state.sections.add(key)
+      host.invalidate()
+    },
     refresh: () => {
       void freshRead().then(() => probe(true))
       // The skills lists come from `npx skills`, not the disk read: r asks for them again on that view.
@@ -202,7 +235,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
           return
         }
 
-        if (isLive(state)) {
+        if (isLive(state) || isAutoAccept(state)) {
           const why = whyNotRun(state, text)
 
           if (why !== null) {
@@ -226,10 +259,10 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
           return
         }
 
-        state.terminal.draft = text
-
         const spec = harnessSpec(state, host, text)
 
+        // The text is in the pending ask (an empty Enter or Yes runs it): the field clears, unless it cannot be sent and stays to be fixed.
+        state.terminal.draft = spec !== null ? '' : text
         runner.ask(spec, whyNotRun(state, text) ?? 'nothing to run')
         state.terminal.asked = spec !== null ? { key, label: spec.label } : null
       },
@@ -260,13 +293,30 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         state.terminal.draft = text
         setView('terminal')
       },
+      // An ask link is the person's ask: it goes to the agent now, no Enter to confirm it. Busy or empty, it waits in the field instead.
+      ask: (id, text) => {
+        state.terminal.harness = id
+        setView('terminal')
+
+        if (whyNotRun(state, text) !== null) {
+          state.terminal.draft = text
+          host.invalidate()
+
+          return
+        }
+
+        state.terminal.draft = ''
+        send(state, host, text)
+        host.invalidate()
+      },
     },
     // ▸ edit hands the skill to the AI terminal, as x.ruv.io's ▸ open does: typed, not run.
     skills: { ...skillActions(state, host, runner, text => actions.term.load('claude', text)), ...moreSkillActions(state, host, runner, text => actions.term.load('claude', text)) },
     memory: memoryActions(state, runner, host.invalidate),
     // An rvlite query is MCP-only: it goes to the AI terminal typed, as ▸ edit does, and runs only when sent.
     vector: vectorActions(state, runner, text => actions.term.load('claude', text)),
-    evolve: evolveActions(state, host, text => actions.term.load('claude', text)),
+    evolve: evolveActions(state, host, text => actions.term.ask('claude', text)),
+    settings: settingsActions(state, host, runner, (agent, text) => actions.term.ask(agent, text), () => CLI_PREFIXES[state.options.cli], () => pluginNames(state, (catalogOf(state).plugins ?? []).filter(plugin => plugin.options.length > 0).map(plugin => plugin.name))),
     catalog: catalogActions(state, host, runner, text => actions.term.load('claude', text)),
     devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }

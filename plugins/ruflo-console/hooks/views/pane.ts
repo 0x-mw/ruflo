@@ -6,7 +6,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
-import { isBooting, isCompactPane, VIEWS, type ViewId } from '../state'
+import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { automateView } from './automate'
 import { claimsView } from './claims'
@@ -14,6 +14,7 @@ import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } fr
 import { costView } from './cost'
 import { evolveView } from './evolve'
 import { catalogView } from './plugin-catalog'
+import { settingsView } from './settings'
 import { devtoolsView } from './devtools'
 import { federationView } from './federation'
 import { hiveView } from './hive'
@@ -72,6 +73,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   evolve: evolveView,
   devtools: devtoolsView,
   market: catalogView,
+  settings: settingsView,
   agent: agentView,
 }
 
@@ -87,10 +89,11 @@ function tabs(ctx: Ctx): RenderElement {
   // current one is highlighted, and from WIDE_TABS columns every tab also spells its name. The line under the bar
   // always names the current view and says what it is for. The dock width is the engine's (it keeps where the
   // divider was left), so the narrow form must fit about 60 columns.
-  const withNames = ctx.columns >= WIDE_TABS
+  const style = ctx.state.nav
+  const withNames = style === 'auto' && ctx.columns >= WIDE_TABS
   const tab = (view: (typeof VIEWS)[number]): RenderElement => {
     const isCurrent = view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
-    const words = withNames ? `${view.icon} ${view.label}` : view.icon
+    const words = style === 'icons' ? view.icon : style === 'brief' ? `${view.icon} ${view.short}` : style === 'full' || withNames ? `${view.icon} ${view.label}` : view.icon
 
     // A Button cannot be styled, so the current tab is Text: its key is not needed, the view is already open
     // (from a drill-down, b goes back).
@@ -111,10 +114,23 @@ function tabs(ctx: Ctx): RenderElement {
   // The first row runs to the last digit-keyed view, so a keyless view sits where VIEWS puts it (Hive-Mind after Swarm).
   const split = VIEWS.reduce((last, view, i) => (/^[0-9]$/.test(view.key) ? i + 1 : last), 0)
 
+  // A title row names the bar and offers its styles: auto, icons only, icon and brief title, icon and full title.
+  const titleRow = row(
+    ctx,
+    [
+      ctx.kit.Text({ bold: true, color: THEME.head, children: isBbs() ? '░▒▓ NAV ░▒▓ ' : 'NAV ' }),
+      ctx.kit.Text({ dimColor: true, children: ' style ' }),
+      ...NAV_STYLES.map(option =>
+        ctx.kit.Button({ key: `nav-style-${option}`, label: ` ${option === style ? '●' : '○'} ${option} `, plain: true, ...(option === style ? { variant: 'primary' as const } : { dimColor: true }), onPress: () => ctx.act.nav(option) }),
+      ),
+    ],
+    'tabs-title',
+  )
+
   return ctx.kit.Box({
     flexDirection: 'column',
     key: 'tabs',
-    children: [line(VIEWS.slice(0, split), 'tabs-views'), line(VIEWS.slice(split), 'tabs-manage')],
+    children: [titleRow, line(VIEWS.slice(0, split), 'tabs-views'), line(VIEWS.slice(split), 'tabs-manage')],
   })
 }
 
@@ -160,7 +176,14 @@ function confirmRow(ctx: Ctx): RenderElement | null {
       // Wrapped, not clipped: the person says yes to the whole argv, so all of it shows (a JSON argument runs long).
       ctx.kit.Text({ dimColor: true, wrap: 'wrap', children: `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}` }),
       ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
-      row(ctx, [button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }), button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' })]),
+      row(ctx, [
+        button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }),
+        button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' }),
+        // A low-risk ruflo action may be remembered: it is not asked again (Settings lists and forgets it).
+        ...(pending.rememberKey !== undefined ? [button(ctx, 'remember', `Always allow “${pending.rememberKey}”`, () => ctx.act.remember())] : []),
+        // An AI terminal turn (claude -p in plan mode, codex read-only, the budget cap) may be always accepted: Settings resets it.
+        ...(ctx.state.terminal.asked !== null && pending.label === ctx.state.terminal.asked.label && ctx.state.terminal.harness !== 'ruflo' ? [button(ctx, 'always', 'Always accept AI turns', () => ctx.act.settings.alwaysAccept())] : []),
+      ]),
     ],
     'confirm',
   )

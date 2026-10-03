@@ -10,6 +10,7 @@ import { newState, PANE_ID, restore, restoreSessions, storeKeyOf, termStoreKeyOf
 import { BAR_KEY, barView } from './views/bar'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
+import { withClearing } from './views/clearing'
 import { NARROW, paneView } from './views/pane'
 
 const RUFLO_TOOL = /^mcp__(claude-flow|ruflo|plugin_ruflo[\w-]*)__/
@@ -167,12 +168,25 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     state.pane.rows = Math.max(0, Math.floor(Number(e.props.scroll?.bodyRows) || 0))
 
-    const tree = paneView({ kit, state, nowMs: Date.now(), columns, pictures, act: control.actions })
+    const tree = paneView({ kit: withClearing(kit, state, control.actions.clearField), state, nowMs: Date.now(), columns, pictures, act: control.actions })
 
     state.stats.renders.push(Date.now() - started)
     if (state.stats.renders.length > 200) state.stats.renders.shift()
 
     return tree
+  })
+
+  // The AI terminal's conversation is its own window: the wheel and the page keys over the pane move it, so the header,
+  // tabs and the field below stay where they are (the engine would scroll the whole pane).
+  on('ui.scroll', { component: 'Pane', requestId: PANE_ID }, ($, e, next) => {
+    if (control === null || state.view !== 'terminal' || e.by === 0) return next(e)
+
+    const lines = Math.abs(e.by) >= e.bodyRows ? Math.max(1, Math.round(e.bodyRows / 2)) : Math.abs(e.by) * 3
+
+    control.actions.term.scroll(e.by < 0 ? lines : -lines)
+
+    // The pane itself stays put: ask the engine for the offset it already has.
+    return next({ ...e, offset: e.offset - e.by })
   })
 
   on('ui.render', { component: 'AbovePrompt' }, ($, e, next) => {

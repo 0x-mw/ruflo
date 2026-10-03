@@ -322,9 +322,9 @@ describe('views', () => {
 
     const { text, tree } = await drawn($, 'terminal')
 
-    expect(text).toContain('[c: CODEX]')
-    expect(text).toContain('codex exec, read-only sandbox, one thread per project')
-    expect(text).toContain('codex: new session')
+    expect(text).toContain('[l: CLAUDE]')
+    expect(text).toContain('claude -p in plan mode, a per-turn budget cap (Settings), one session per project')
+    expect(text).toContain('claude: new session')
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
   })

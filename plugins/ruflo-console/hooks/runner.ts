@@ -4,6 +4,7 @@
  * took; a read runs at once and shows what it printed. Nothing reaches `$` but through the Host.
  */
 import type { ActionSpec } from './actions'
+import { rememberKey } from './remember'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { labLines } from './mh-lab'
@@ -119,8 +120,17 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
       return
     }
 
+    // A kind of action the person said never to ask about again runs now, its label saying so.
+    const kind = rememberKey(spec)
+
+    if (kind !== null && state.allowed.has(kind)) {
+      inflight = execute({ ...spec, label: `${spec.label} (remembered: not asked)` })
+
+      return
+    }
+
     pendingSpec = spec
-    state.pending = { label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now(), ...(spec.shows !== undefined && { shows: spec.shows }), ...(spec.note !== undefined && { note: spec.note }) }
+    state.pending = { ...(kind !== null && { rememberKey: kind }), label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now(), ...(spec.shows !== undefined && { shows: spec.shows }), ...(spec.note !== undefined && { note: spec.note }) }
     host.invalidate()
   }
 

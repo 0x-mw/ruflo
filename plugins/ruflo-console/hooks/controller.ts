@@ -14,10 +14,11 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
-import { loadCatalog } from './plugin-catalog'
-import { loadEvolve } from './evolve'
+import { loadAllowed } from './remember'
+import { loadAiPrefs } from './settings'
+import { openLoaders } from './view-open'
 import { listSkills } from './skills'
-import { CLI_PREFIXES, isBooting, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
+import { CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
 
@@ -307,6 +308,15 @@ export function createController(state: State, host: Host): Controller {
   function start(): void {
     let lastIdleMs = 0
 
+    // The AI terminal's saved model and budget apply from the first turn, not only once Settings was opened.
+    void loadAiPrefs(state, host)
+    void loadAllowed(state, host)
+    void host.storeGet(NAV_KEY).then(saved => {
+      const style = NAV_STYLES.find(candidate => candidate === saved)
+
+      if (style !== undefined) state.nav = style
+    }, () => undefined)
+
     every('refresh', state.options.refreshSeconds * 1000, () => {
       const now = Date.now()
       const isSeen = state.pane.isOpen || now - state.barDrawnAtMs < BAR_FRESH_MS
@@ -405,10 +415,7 @@ export function createController(state: State, host: Host): Controller {
       void listSkills(state, host)
       focusField('skills-search')
     }
-    // Opening Self-Evolution reads ruflo's own flywheel files (local, no CLI run); its checks wait for a click.
-    if (view === 'evolve') void loadEvolve(state, host)
-    // The catalog is read from the marketplace clone on disk: local, so opening it is enough.
-    if (view === 'market') loadCatalog(state, host)
+    openLoaders(state, host, view)
   }
 
   /**

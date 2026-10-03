@@ -8,13 +8,14 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 import type { ProbeResult } from '../data/cli'
 import type { EvolveActions } from '../evolve'
 import type { CatalogActions } from '../plugin-catalog'
+import type { SettingsActions } from '../settings'
 import type { DevtoolsActions } from '../devtools'
 import type { Grid } from '../gfx/raster'
 import type { MemoryActions } from '../memory-lab'
 import type { SkillActions } from '../skills'
 import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
-import type { HarnessId, State, ViewId } from '../state'
+import type { HarnessId, NavStyle, State, ViewId } from '../state'
 import type { VectorActions } from '../vector'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
@@ -53,7 +54,7 @@ export type Actions = {
   start: (id: StartId, text?: string) => void
   /** The main menu's prompt: a key or a name takes the person to that area. */
   menu: (text: string) => void
-  term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }
+  term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** A click on an ask link: opens the terminal, picks the agent and sends the text at once (read-only, plan mode, the saved per-turn budget): the reply streams in with no second click. */ ask: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }
   /** The skills view: list, search, and the confirm-gated add, remove, update and create; edit loads the terminal. */
   skills: SkillActions & MoreSkillActions
   /** The Memory Lab: its fields, search, browse filter, and an entry's open or delete (each through the runner). */
@@ -66,6 +67,18 @@ export type Actions = {
   devtools: DevtoolsActions
   /** The Plugin Catalog: read the clone, filter, select a plugin, view or use an item, change a plugin (each asks first). */
   catalog: CatalogActions
+  /** Empties an entry field after its Enter. */
+  clearField: (key: string) => void
+  /** The confirm row's "always allow this kind of action": remembers the kind (Settings forgets it) and runs the pending ask. */
+  remember: () => void
+  /** Forgets one remembered kind of action, or all of them (an empty key). */
+  forget: (key: string) => void
+  /** Sets how the main nav spells its tabs (saved). */
+  nav: (style: NavStyle) => void
+  /** Opens or closes a collapsible section (`<view>/<id>`). */
+  toggle: (key: string) => void
+  /** Settings: the level, a plugin, an option or ruflo config change (each asks first), AI preferences, and ▸ ask claude/codex. */
+  settings: SettingsActions
 }
 
 export type Ctx = {
@@ -133,6 +146,32 @@ export function row(ctx: Ctx, parts: readonly RenderChildren[], key?: string): R
 
 export function col(ctx: Ctx, parts: readonly RenderChildren[], key?: string): RenderElement {
   return ctx.kit.Box({ flexDirection: 'column', ...(key !== undefined && { key }), children: [...parts] })
+}
+
+/**
+ * A collapsible section: its header is a button (▾ open, ▸ closed) and the rows follow only while it is open. `open` is the
+ * section's default; pressing the header flips it for this session. The header reads as `rule` does.
+ */
+export function section(ctx: Ctx, id: string, title: string, right: string, children: readonly RenderElement[], isOpenByDefault = true): RenderElement[] {
+  const key = `${ctx.state.view}/${id}`
+  const isOpen = isOpenByDefault !== ctx.state.sections.has(key)
+  const mark = isOpen ? '▾' : '▸'
+  const head = look === 'bbs' ? `▓▒░ ${mark} ${title.toUpperCase()} ░▒▓` : `${mark} ${title}`
+  const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
+
+  return [
+    ...(look === 'bbs' ? [ctx.kit.Text({ children: ' ' })] : []),
+    row(
+      ctx,
+      [
+        ctx.kit.Button({ key: `sec-${id}`, label: head, plain: true, onPress: () => ctx.act.toggle(key) }),
+        ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
+        ctx.kit.Text({ color: THEME.info, children: right }),
+      ],
+      `sec-row-${id}`,
+    ),
+    ...(isOpen ? children : []),
+  ]
 }
 
 /** A section title with a rule to the right edge. */

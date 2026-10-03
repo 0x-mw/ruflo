@@ -16,6 +16,8 @@ export type CatalogPlugin = {
   agents: string[]
   commands: string[]
   hasMcp: boolean
+  /** The plugin.json userConfig keys: the options Settings can edit. */
+  options: string[]
   /** A `hooks/register.ts` makes it a mod: function hooks run in the engine. */
   isMod: boolean
 }
@@ -62,7 +64,9 @@ async function pluginOf(fs: ReaderFs, location: string, entry: Record<string, un
   const [skills, agents, commands, hasMcp, isMod] = await Promise.all([namesIn(fs, `${dir}/skills`, 'dir'), namesIn(fs, `${dir}/agents`, 'md'), namesIn(fs, `${dir}/commands`, 'md'), exists(fs, `${dir}/.mcp.json`), exists(fs, `${dir}/hooks/register.ts`)])
   const version = typeof manifest?.version === 'string' ? plain(manifest.version, 30) : typeof entry.version === 'string' ? plain(entry.version, 30) : null
 
-  return { name, description: plain(typeof entry.description === 'string' ? entry.description : typeof manifest?.description === 'string' ? manifest.description : '', 400), version, dir, skills, agents, commands, hasMcp, isMod }
+  const options = Object.keys(recordOf(manifest?.userConfig) ?? {}).filter(key => NAME.test(key)).slice(0, 60)
+
+  return { name, options, description: plain(typeof entry.description === 'string' ? entry.description : typeof manifest?.description === 'string' ? manifest.description : '', 400), version, dir, skills, agents, commands, hasMcp, isMod }
 }
 
 /** Every plugin the marketplace clone at `location` lists, or null when its manifest cannot be read. */

@@ -15,7 +15,12 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve' | 'devtools' | 'market'
+/** How the main nav spells its tabs: auto (names when the pane is wide), icons only, icon and a brief title, icon and the full title. */
+export type NavStyle = 'auto' | 'icons' | 'brief' | 'full'
+export const NAV_STYLES: readonly NavStyle[] = ['auto', 'icons', 'brief', 'full']
+export const NAV_KEY = 'nav-style'
+
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve' | 'devtools' | 'market' | 'settings'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -44,7 +49,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '📡', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },
   { id: 'missions', key: 'm', label: 'Missions', short: 'Msn', icon: '🎯', blurb: 'ADR-406 missions: the plan, task dependencies, acceptance and budget (observe only)', rows: 26 },
   { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 50 },
-  { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: codex, claude or both, each a session that remembers the conversation, streamed live', rows: 32 },
+  { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: claude -p, codex or both, each a session that remembers the conversation, streamed live', rows: 120 },
   // No hotkey: every digit and letter is taken. The tab, the menu prompt and /ruflo skills reach it by name.
 { id: 'skills', key: '', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): installed, search, use without installing, preview, add to chosen agents, update, create', rows: 60 },
   // No hotkeys either: reached by the tab, the menu prompt (secure, perf) or /ruflo secure.
@@ -60,6 +65,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'devtools', key: '', label: 'Dev Tools', short: 'Dev', icon: '🔧', blurb: 'the integration surface: GitHub, diff analysis, agenticow, WASM, browser, terminal, providers, maintenance', rows: 40 },
   // Keyless too: the menu prompt, the tab, the Plugins view's ▸ catalog and /ruflo market reach it by name.
   { id: 'market', key: '', label: 'Plugin Catalog', short: 'Cat', icon: '📦', blurb: 'every ruflo plugin, mod and skill: what it ships, install, enable, disable, update, view and use', rows: 50 },
+  // Keyless too: the main menu, the tab and /ruflo settings reach it by name.
+  { id: 'settings', key: '', label: 'Settings', short: 'Set', icon: '⚙️', blurb: 'simple to advanced settings: plugin options, ruflo config, and the AI terminal’s model and budget, each edited in place', rows: 50 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -130,7 +137,7 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
 }
 
 /** A mutating action waiting for the person's second press; `shows` is the command line when it is not a ruflo one. */
-export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string; note?: string }
+export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string; note?: string; /** The kind of action, when it may be remembered (see remember.ts). */ rememberKey?: string }
 
 /** The MetaHarness lab's last run: what it was, how it exited, its cost note, and its output as lines to scroll. */
 export type LabResult = { id: string; label: string; ok: boolean; exitCode: number | null; note?: string; lines: string[]; atMs: number }
@@ -201,6 +208,14 @@ export type State = {
   eventFilter: 'all' | ConsoleEvent['kind']
   /** When the newest learning point arrived: the curve draws it in from there. */
   curveGrewAtMs: number
+  /** Kinds of action the person said never to ask about again, with a sample label (saved; Settings forgets them). */
+  allowed: Map<string, string>
+  /** The main nav's style, saved across sessions. */
+  nav: NavStyle
+  /** Collapsible sections the person flipped from their default (`<view>/<id>`): open ones closed, closed ones open. */
+  sections: Set<string>
+  /** What one-shot entry fields hold while typed (cleared on Enter), by field key. */
+  fieldText: Map<string, string>
   /** The dock width asked for (RUFLO_CONSOLE_COLUMNS, 40 to 400); 0 leaves the engine's share. A request: a dragged width wins. */
   dockColumns: number
   pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string; /** When the pane last opened: the BBS boot screen plays from here. */ bootAtMs: number }
@@ -289,6 +304,10 @@ export function newState(raw: PluginOptions | undefined): State {
     eventFilter: 'all',
     curveGrewAtMs: 0,
     dockColumns: 0,
+    nav: 'auto',
+    allowed: new Map(),
+    sections: new Set(),
+    fieldText: new Map(),
     pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '', bootAtMs: 0 },
     mounted: new Map(),
     select: { claim: 0, agent: 0, task: 0, item: 0 },
@@ -301,7 +320,7 @@ export function newState(raw: PluginOptions | undefined): State {
     xruv: { result: null, running: null, pubkey: null, hasAdminToken: null },
     isRefreshing: false,
     barDrawnAtMs: 0,
-    terminal: { harness: 'codex', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, costReports: 0, scroll: 0, unseen: 0, asked: null },
+    terminal: { harness: 'claude', draft: '', lines: [], runs: new Map(), sessions: {}, isLive: { codex: false, claude: false }, turns: { codex: 0, claude: 0 }, costUsd: 0, costReports: 0, scroll: 0, unseen: 0, asked: null },
     skills: emptySkills(),
     memoryLab: emptyMemoryLab(),
     auto: emptyAuto(),

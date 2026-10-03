@@ -45,7 +45,7 @@ const GROUPS: readonly { title: string; sections: readonly { name: string; items
   {
     title: 'TOOLS',
     sections: [
-      { name: 'run', items: [{ key: 'i', label: 'AI Terminal', go: 'terminal' }, { key: 'p', label: 'Command Palette', go: 'palette' }] },
+      { name: 'run', items: [{ key: 'i', label: 'AI Terminal', go: 'terminal' }, { key: '·', label: 'Settings', go: 'settings' }, { key: 'p', label: 'Command Palette', go: 'palette' }] },
       { name: 'session', items: [{ key: 'h', label: 'Help', go: 'help' }, { key: 'O', label: 'Log Off', go: 'close' }] },
     ],
   },

@@ -209,6 +209,16 @@ Two layout rules came from live clicks that seemed dead: the Result panel sits a
 
 A change is one fixed `claude plugin <install|uninstall|enable|disable|update> <name>@ruflo --scope user` argv on the confirm row, with its cost in words (install and update reach GitHub). Only a name found in the catalog is ever put in an argv; `/ruflo run catalog-install <name>` (and the other four verbs) works headless and refuses anything else. Conformance checks that each verb exists and takes `--scope`. A button sweep (`tests/sweep.test.ts`) presses every button of every view and fails on one that changes nothing, except a short allowlist of cursor-only and self-link buttons.
 
+## 11c. Settings, the AI terminal and the page chrome (0.10.0)
+
+- **Page titles.** Every page but the main menu leads with `RUFLO ░▒▓▒░ PAGE ░▒▓` (the RUFLO letters sweep like the menu banner) and its purpose line, then the welcome and network lines with a blank row either side, then a titled **NAV** bar. The menu keeps the RUFLO banner. The nav spells its tabs as auto, icons only, icon and brief title, or icon and full title (saved; Settings > Interface).
+- **Settings** (`/ruflo settings`) is driven by `claude plugin configure <plugin> --json`, so the console, ruflo-mods and every ruflo plugin with options share one editor; `ruflo config get|set` covers a curated list of ruflo keys; the AI terminal's model and per-turn budget are saved preferences. Simple shows the few that matter, advanced shows all; a search box finds any setting in either level; a ● marks a value that differs from its default. A change is `claude plugin configure <plugin>@ruflo --values-stdin` with one key (values are single-line strings) behind a confirm; an option that looks like a secret is never shown or edited.
+- **AI terminal.** `claude -p` is the default. An **ask** link (Settings, Self-Evolution) sends its explaining prompt at once, so the reply streams in with no second click. **Always accept AI turns** (confirm row, reset in Settings) skips the confirm for claude, codex and swarm turns, which stay read-only, in plan mode and under the saved budget; ruflo commands still ask. The conversation is a window with a clickable scrollbar; the wheel and PgUp/PgDn move it (the `ui.scroll` hook) so the header and the field stay put.
+- **Remembered actions.** A low-risk ruflo command (spawn a hive scout) offers **Always allow “<kind>”**; that kind then runs without asking. A kind is the command (for `mcp exec`, the tool). Never offered for anything that reaches the network, spends, deletes, publishes, registers, grants, restarts, changes configuration, runs another program or takes stdin (`hooks/remember.ts`). Settings lists each kind and forgets it.
+- **Entry fields** clear after Enter (the field is drawn from `state.fieldText`, emptied on submit); a field that passes its own `value` is a form field its caller owns.
+- **Collapsible sections** (`section()`): the header is a button (▾/▸); the AI terminal's harness picker is the last section of its page.
+- Hive-Mind's ACT menu leads the page, in its own frame.
+
 ## 12. Release gates
 
 A console change ships only when all of these hold:
