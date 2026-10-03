@@ -30,3 +30,7 @@ Seen only through `Grid` text in specs, not on a terminal. The constellation's e
 ## 4. Amendment: motion that stays true to the data
 
 Lines draw outward over 350 ms once both their stars are up; a lit star flashes on with `✺` as it locks; a dark star flickers as if trying to light, then settles as `☆` (it is never drawn lit); an area's name is cyan while it is scanned and white once read; after the scan a wave of light runs across the lit stars only. Specs: lock-on only for a lit star, no lit glyph with no evidence, lines drawn progressively.
+
+## 5. Amendment: no modem dial-up
+
+The first two boot rows (`ATDT ruflo.local   RING… RING…` and `CONNECT 115200 / ARQ / V.42bis`) are gone, along with the "CONNECT" in the no-picture fallback. The sign starts to strike at 400 ms instead of 900, since there is no line to wait for, and the boot log gains the two rows. A spec checks that no frame of the boot shows them.

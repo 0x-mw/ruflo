@@ -1,9 +1,9 @@
 /**
- * The BBS boot screen, played for the first seconds after the pane opens: a modem dials and connects, then the RuFlo
- * neon sign strikes up tube by tube on its brick wall (gfx/neon.ts), then a handshake line and a bar that fills with
+ * The BBS boot screen, played for the first seconds after the pane opens: the RuFlo neon sign strikes up tube by tube on its
+ * brick wall (gfx/neon.ts), then a handshake line and a bar that fills with
  * the first ruflo reads, and under them a boot log that brings every area of the console online, one line at a time,
- * for as many rows as the pane has (it scrolls when the pane is short). The sign and the modem are decoration and end by
- * themselves; the log is not, when the self-check's results are passed: an area shows [ OK ] only if its check passed, and
+ * for as many rows as the pane has (it scrolls when the pane is short). The sign is decoration and ends by
+ * itself; the log is not, when the self-check's results are passed: an area shows [ OK ] only if its check passed, and
  * [FAIL] with the first problem if not, so what the screen claims is what was verified.
  */
 import type { BootCheck } from '../boot-checks'
@@ -12,15 +12,15 @@ import { drawCyber } from './boot-cyber'
 import { neonPicture, NEON_ROWS } from './neon'
 import { Grid } from './raster'
 
-const SIGN_TOP = 2
+const SIGN_TOP = 0
 export const BOOT_ROWS = SIGN_TOP + NEON_ROWS + 3
 
 const GREEN = 0x39ff14
 const CYAN = 0x05d9e8
 const PINK = 0xff2a6d
 const DIM = 0x6b7280
-/** The sign is switched on once the line connects. */
-const SIGN_ON_MS = 900
+/** The sign begins to strike almost at once: there is nothing to dial first. */
+const SIGN_ON_MS = 400
 /** The boot log starts once the handshake is typed, and brings one area online every LOG_MS_PER. */
 const LOG_FROM_MS = 1500
 const LOG_MS_PER = 120
@@ -69,9 +69,6 @@ export function bootPicture(project: string, columns: number, age: number, done:
 
     grid.text(0, y, text.slice(0, Math.min(text.length, Math.floor((age - from) / msPerChar), columns)), color)
   }
-
-  type(0, 0, `ATDT ruflo.local${age >= 450 ? '   RING… RING…' : ''}`, DIM, 18)
-  type(1, 600, 'CONNECT 115200 / ARQ / V.42bis', GREEN, 12)
 
   // The sign's wall shows from the start, unlit; the tubes strike from SIGN_ON_MS.
   const sign = neonPicture(columns, age - SIGN_ON_MS, true)

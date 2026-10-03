@@ -304,7 +304,7 @@ export function paneView(base: Ctx): RenderElement {
 
     return boot !== undefined && ctx.kit.Raster !== undefined
       ? col(ctx, [ctx.kit.Raster(boot.toRaster('boot'))], 'boot')
-      : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
+      : col(ctx, [text(ctx, 'RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
   }
   // A section of a page is a bordered card (views/card.ts): the body is drawn narrower by the border and padding, through a kit that groups its rows.
   const cardsOn = hasCards(base.columns, isCompactPane(base.state))

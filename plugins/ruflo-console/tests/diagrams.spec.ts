@@ -149,18 +149,20 @@ describe('BBS look', () => {
 describe('BBS boot screen', () => {
   const text = (grid: ReturnType<typeof bootPicture>, width: number) => Array.from({ length: grid.rows }, (_, y) => String.fromCodePoint(...Array.from({ length: width }, (_, x) => grid.glyph(x, y) || 32))).join('\n')
 
-  it('dials, connects, draws the logo and fills a bar from elapsed time and answered reads', () => {
-    expect(text(bootPicture('demo', 60, 100, 0, 10), 60)).toContain('ATDT')
-    expect(text(bootPicture('demo', 60, 100, 0, 10), 60)).not.toContain('CONNECT')
+  it('draws the logo and fills a bar from elapsed time and answered reads, with no modem dial-up', () => {
+    for (const age of [100, 700, 2_000, 5_400]) {
+      const shown = text(bootPicture('demo', 60, age, 5, 10), 60)
+
+      expect(shown, `${age} ms`).not.toMatch(/ATDT|RING|CONNECT 115200/)
+    }
 
     const done = text(bootPicture('demo', 60, 5_400, 10, 10), 60)
 
-    expect(done).toContain('CONNECT 115200 / ARQ / V.42bis')
     expect(done).toContain('│ ~~~~~ │')
     expect(done).toContain('▐▌')
-    // The tubes are dark before the line connects, lit once it has: the same cell, two colours.
+    // The tubes are dark before the sign switches on, lit once it has: the same cell, two colours.
     const fgAt = (age: number) => { const g = bootPicture('demo', 60, age, 3, 10); for (let i = 0; i < g.columns * g.rows; i++) if (g.cells[i * 3] === 0x256d) return g.cells[i * 3 + 1]; return -1 }
-    expect(fgAt(500)).not.toBe(fgAt(3_800))
+    expect(fgAt(300)).not.toBe(fgAt(3_800))
     expect(done).toContain('> handshake ok · node demo')
     expect(done).toContain('100%  reads 10/10')
   })
