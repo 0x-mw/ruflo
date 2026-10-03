@@ -421,6 +421,7 @@ export function createController(state: State, host: Host): Controller {
       // A new view asks for its own height inline; the dock ignores it.
       if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(view), ...(state.dockColumns > 0 && { columns: state.dockColumns }) }).catch(() => undefined)
       void probe(true)
+      host.scrollTop()
     }
 
     host.invalidate()

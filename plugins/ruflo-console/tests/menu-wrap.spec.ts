@@ -218,3 +218,40 @@ describe('the menu folds, and narrow panes keep their styling', () => {
     expect(chip?.props.color).toMatch(/^#/)
   })
 })
+
+describe('the menu\'s sub-sections', () => {
+  const pages = GROUPS.flatMap(group => group.sections.flatMap(section => section.items.map(item => item.go)))
+
+  const flat = (el: unknown): El[] => {
+    const node = el as El
+
+    if (typeof node !== 'object' || node === null) return []
+
+    const kids = node.props.children
+
+    return [node, ...(Array.isArray(kids) ? kids.flatMap(flat) : typeof kids === 'object' ? flat(kids) : [])]
+  }
+
+  it('list every page once: nothing repeats across the cards', () => {
+    expect(new Set(pages).size).toBe(pages.length)
+    for (const key of ['overview', 'missions', 'swarm', 'settings']) expect(pages, key).toContain(key)
+  })
+
+  it('earn their rule: a card with one section has no rule of its own, and a card with several has at least two entries in each', () => {
+    for (const group of GROUPS) {
+      if (group.sections.length > 1) for (const section of group.sections) expect(section.items.length, `${group.title}/${section.name}`).toBeGreaterThanOrEqual(2)
+    }
+
+    const state = newState({})
+
+    state.options.look = 'bbs'
+    state.view = 'menu'
+    setLook('bbs')
+
+    const tree = menuView({ kit, state, nowMs: 5_000, columns: 100, pictures: new Map(), act, cards: false } as unknown as Ctx) as unknown as El
+    const rules = flat(tree).filter(node => typeof node.props.children === 'string' && node.props.children.startsWith('── '))
+    const wanted = GROUPS.filter(group => group.sections.length > 1).reduce((sum, group) => sum + group.sections.length, 0)
+
+    expect(rules.length).toBe(wanted)
+  })
+})

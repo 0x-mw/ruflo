@@ -135,6 +135,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       state.isHelp = !state.isHelp
       // Help opens on the guide for the page you were on (the index from the menu), with a clean question.
       if (state.isHelp) {
+        host.scrollTop()
         state.help.query = ''
         state.help.topic = VIEW_TOPIC[state.view === 'agent' ? state.back : state.view] ?? null
       }
@@ -181,6 +182,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     palette: context => {
       state.palette = { isOpen: !state.palette.isOpen || state.palette.context !== context, query: '', index: 0, context }
       state.isHelp = false
+      if (state.palette.isOpen) host.scrollTop()
       host.invalidate()
     },
     paletteQuery: text => {

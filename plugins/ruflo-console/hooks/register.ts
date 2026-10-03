@@ -26,6 +26,9 @@ const RUFLO_TOOL = /^mcp__(claude-flow|ruflo|plugin_ruflo[\w-]*)__/
  * Binds a Host from `$`, every member spelled `$.noun.method(...)` here and nowhere else, so the engine reads what
  * the module calls off this one place. Calls that answer nothing are wrapped: a refused draw is not a crashed hook.
  */
+/** True while the console itself scrolls the pane to its top, so the terminal's own wheel handling does not take that for the person's wheel. */
+let isResettingScroll = false
+
 function hostOf($: EngineInterface, cwd: string): Host {
   const rooted = (path: string) => (path.startsWith('/') ? path : `${cwd.replace(/\/+$/, '')}/${path}`)
   const quietly = (fn: () => unknown) => {
@@ -52,6 +55,20 @@ function hostOf($: EngineInterface, cwd: string): Host {
     askChoice: async (question, options) => $.ui.ask(question, options),
     toast: (text, timeoutMs) => quietly(() => $.ui.toast(text, timeoutMs === undefined ? undefined : { timeoutMs })),
     invalidate: () => quietly(() => $.ui.invalidate('ui.render')),
+    // Once now and once after the new page has drawn: a page taller than the one before keeps the old offset until it is moved.
+    scrollTop: () => {
+      const go = () =>
+        quietly(() => {
+          isResettingScroll = true
+
+          return Promise.resolve($.ui.scroll({ to: 'start', in: PANE_ID })).finally(() => {
+            isResettingScroll = false
+          })
+        })
+
+      go()
+      $.clock.after(80, go)
+    },
     focus: async (paneId, key) => $.ui.focus({ requestId: paneId, key }),
     blit: args => quietly(() => $.ui.blit(args)),
     openPane: async pane => $.ui.open(pane),
@@ -255,7 +272,7 @@ export const register: Register = (on, raw: PluginOptions) => {
   // The AI terminal's conversation is its own window: the wheel and the page keys over the pane move it, so the header,
   // tabs and the field below stay where they are (the engine would scroll the whole pane).
   on('ui.scroll', { component: 'Pane', requestId: PANE_ID }, ($, e, next) => {
-    if (control === null || state.view !== 'terminal' || e.by === 0) return next(e)
+    if (control === null || state.view !== 'terminal' || e.by === 0 || isResettingScroll) return next(e)
 
     const lines = Math.abs(e.by) >= e.bodyRows ? Math.max(1, Math.round(e.bodyRows / 2)) : Math.abs(e.by) * 3
 

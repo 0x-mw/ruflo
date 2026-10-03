@@ -16,48 +16,40 @@ const COMMAND_KEYS: Record<string, string> = { palette: 'p', help: 'h', close: '
 const keyOf = (item: Item): string => COMMAND_KEYS[item.go] ?? VIEWS.find(view => view.id === item.go)?.key ?? '·'
 
 /**
- * The board's menus: four groups, each split into short sub-sections, the way the old BBS main menus grouped their
- * commands. Keys are the pane's own hotkeys; an area without one (`·`) is reached by its name at the prompt. An
+ * The board's menus: five groups, each split into a few sub-sections where the split says something (SWARM: start here, coordinate,
+ * observe), the way the old BBS main menus grouped their commands. A group with one section draws no rule: its name would only repeat the group's. Keys are the pane's own hotkeys; an area without one (`·`) is reached by its name at the prompt. An
  * entry for a view this build does not have is left out.
  */
 export const GROUPS: readonly { title: string; sections: readonly { name: string; items: readonly Item[] }[] }[] = [
   {
     title: 'SWARM',
     sections: [
-      { name: 'mission', items: [{ label: 'Missions', go: 'missions' }] },
-      { name: 'live', items: [{ label: 'Overview', go: 'overview' }, { label: 'Swarm Topology', go: 'swarm' }, { label: 'Hive-Mind', go: 'hive' }] },
-      { name: 'work', items: [{ label: 'Claims Board', go: 'claims' }, { label: 'Approvals', go: 'approvals' }, { label: 'Automation', go: 'automate' }] },
-      { name: 'watch', items: [{ label: 'Agent Timeline', go: 'timeline' }, { label: 'Event Stream', go: 'events' }] },
+      { name: 'start here', items: [{ label: 'Missions', go: 'missions' }, { label: 'Overview', go: 'overview' }, { label: 'Swarm Topology', go: 'swarm' }] },
+      { name: 'coordinate', items: [{ label: 'Hive-Mind', go: 'hive' }, { label: 'Claims Board', go: 'claims' }, { label: 'Approvals', go: 'approvals' }, { label: 'Automation', go: 'automate' }] },
+      { name: 'observe', items: [{ label: 'Agent Timeline', go: 'timeline' }, { label: 'Event Stream', go: 'events' }] },
     ],
   },
   {
     title: 'INTELLIGENCE',
     sections: [
       { name: 'learn', items: [{ label: 'Learning', go: 'learning' }, { label: 'Neural', go: 'neural' }, { label: 'MetaHarness', go: 'metaharness' }, { label: 'Self-Evolution', go: 'evolve' }] },
-      { name: 'remember', items: [{ label: 'Memory Lab', go: 'memory' }, { label: 'Vector Lab', go: 'vector' }] },
-      { name: 'spend', items: [{ label: 'Cost & Budget', go: 'cost' }, { label: 'Performance', go: 'perf' }] },
+      { name: 'data & spend', items: [{ label: 'Memory Lab', go: 'memory' }, { label: 'Vector Lab', go: 'vector' }, { label: 'Cost & Budget', go: 'cost' }, { label: 'Performance', go: 'perf' }] },
     ],
   },
   {
     title: 'SAFETY & OPS',
-    sections: [
-      { name: 'protect', items: [{ label: 'Security & Doctor', go: 'secure' }] },
-      { name: 'build', items: [{ label: 'Dev Tools', go: 'devtools' }] },
-    ],
+    sections: [{ name: 'safety & ops', items: [{ label: 'Security & Doctor', go: 'secure' }, { label: 'Dev Tools', go: 'devtools' }] }],
   },
   {
     title: 'NETWORK & EXTEND',
     sections: [
-      { name: 'federate', items: [{ label: 'Federation', go: 'federation' }, { label: 'x.ruv.io Board', go: 'xruv' }] },
-      { name: 'extend', items: [{ label: 'Plugins & Mods', go: 'plugins' }, { label: 'Skills', go: 'skills' }, { label: 'Plugin Catalog', go: 'market' }] },
+      { name: 'network', items: [{ label: 'Federation', go: 'federation' }, { label: 'x.ruv.io Board', go: 'xruv' }] },
+      { name: 'plugins', items: [{ label: 'Plugins & Mods', go: 'plugins' }, { label: 'Skills', go: 'skills' }, { label: 'Plugin Catalog', go: 'market' }] },
     ],
   },
   {
     title: 'TOOLS',
-    sections: [
-      { name: 'run', items: [{ label: 'AI Terminal', go: 'terminal' }, { label: 'Settings', go: 'settings' }, { label: 'Command Palette', go: 'palette' }] },
-      { name: 'session', items: [{ label: 'Help', go: 'help' }, { label: 'Log Off', go: 'close' }] },
-    ],
+    sections: [{ name: 'tools', items: [{ label: 'AI Terminal', go: 'terminal' }, { label: 'Settings', go: 'settings' }, { label: 'Command Palette', go: 'palette' }, { label: 'Help', go: 'help' }, { label: 'Log Off', go: 'close' }] }],
   },
 ]
 
@@ -133,12 +125,12 @@ export function menuView(ctx: Ctx): RenderElement {
           : group.sections.flatMap(section => {
           const items = section.items.filter(isShown)
 
-          if (entry !== null && !started) return items.length === 0 ? [] : [ctx.kit.Text({ children: ' ' }), ...items.map(item => ctx.kit.Box({ key: `mi-${item.go}`, children: [ctx.kit.Text({ children: ' ' })] }))]
+          if (entry !== null && !started) return items.length === 0 ? [] : [...(group.sections.length === 1 ? [] : [ctx.kit.Text({ children: ' ' })]), ...items.map(item => ctx.kit.Box({ key: `mi-${item.go}`, children: [ctx.kit.Text({ children: ' ' })] }))]
 
           return items.length === 0
             ? []
             : [
-                ctx.kit.Text({ color: THEME.info, dimColor: true, wrap: 'truncate-end', children: clip(`── ${section.name} ${'─'.repeat(Math.max(0, width - section.name.length - 8))}`, width - 4) }),
+                ...(group.sections.length === 1 ? [] : [ctx.kit.Text({ color: THEME.info, dimColor: true, wrap: 'truncate-end', children: clip(`── ${section.name} ${'─'.repeat(Math.max(0, width - section.name.length - 8))}`, width - 4) })]),
                 ...items.map(item => {
                   const badge = badges[item.go as ViewId]
                   const key = keyOf(item)

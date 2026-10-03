@@ -24,6 +24,8 @@ export type Host = {
   /** A short note over the transcript's corner; it leaves the transcript and the model untouched. */
   toast: (text: string, timeoutMs?: number) => void
   invalidate: () => void
+  /** Scrolls the pane back to its first row: a page that was switched to (or opened over this one) starts at its top, not where the last one was left. */
+  scrollTop: () => void
   /** Moves a pane's focus ring onto an element it drew (a field), while the pane holds the keys. */
   focus: (paneId: string, key: string) => Promise<unknown>
   /** Fire and forget: a blit resolves only once painted, and blits between frames fold anyway. */
