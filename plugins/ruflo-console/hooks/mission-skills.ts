@@ -25,6 +25,8 @@ export const MISSION_SKILLS: readonly MissionSkill[] = [
 /** The slash commands present now (loaded when Mission Control opens); a skill is offered when its command is among them. */
 export async function loadCommandNames(state: State, host: Host): Promise<void> {
   state.commandNames = await host.listCommands().catch(() => [])
+  // The Launch rows and the ask buttons depend on it: redraw now that it is known.
+  host.invalidate()
 }
 
 export const slashOf = (skill: MissionSkill): string => `${GOALS_PLUGIN}:${skill.id}`

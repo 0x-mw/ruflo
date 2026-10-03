@@ -7,6 +7,7 @@ import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
 import { slashFor } from '../ask-claude'
+import { launchRows } from './launch'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { automateView } from './automate'
@@ -248,7 +249,10 @@ export function paneView(ctx: Ctx): RenderElement {
       ? col(ctx, [ctx.kit.Raster(boot.toRaster('boot'))], 'boot')
       : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
   }
-  const body = ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx)
+  const shownBody = ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx)
+  // Every section ends with its Launch section: the commands of the plugins it owns, run in the Claude UI.
+  const launch = ctx.state.palette.isOpen || ctx.state.isHelp ? [] : launchRows(ctx)
+  const body = launch.length === 0 ? shownBody : col(ctx, [shownBody, ...launch], 'body')
   const confirm = confirmRow(ctx)
   const header = ctx.pictures.get('header')
   const isCompact = isCompactPane(ctx.state)

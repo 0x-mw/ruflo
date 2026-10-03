@@ -6,7 +6,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { ActionSpec } from '../hooks/actions'
-import { askActions, askPrompt, scrub, slashFor, VIEW_ASK } from '../hooks/ask-claude'
+import { askActions, askPrompt, launchOf, scrub, slashFor, VIEW_ASK } from '../hooks/ask-claude'
 import type { Host } from '../hooks/host'
 import type { Runner } from '../hooks/runner'
 import { newState, VIEWS, type State } from '../hooks/state'
@@ -144,5 +144,32 @@ describe('ask Claude about this', () => {
     expect(calls.slashes).toEqual([])
     await calls.asked[0]?.run?.()
     expect(calls.slashes).toEqual(['ruflo-cost-tracker:ruflo-cost'])
+  })
+
+  it('a section launches the commands of the plugins it owns, grouped, and nothing else', () => {
+    const { state } = setup()
+
+    state.commandNames = ['ruflo-aidefence:aidefence', 'ruflo-security-audit:audit', 'ruflo-cost-tracker:ruflo-cost', 'other:thing', 'ruflo-aidefence:aidefence', 'not a command']
+    expect(launchOf(state, 'secure')).toEqual([
+      { plugin: 'ruflo-aidefence', slashes: ['ruflo-aidefence:aidefence'] },
+      { plugin: 'ruflo-security-audit', slashes: ['ruflo-security-audit:audit'] },
+    ])
+    expect(launchOf(state, 'cost')).toEqual([{ plugin: 'ruflo-cost-tracker', slashes: ['ruflo-cost-tracker:ruflo-cost'] }])
+    expect(launchOf(state, 'timeline')).toEqual([])
+  })
+
+  it('a launch asks first, then runs the command; an unlisted or malformed one is refused and never asked', async () => {
+    const { state, calls, actions } = setup()
+
+    state.commandNames = ['ruflo-ruos:deploy']
+    actions.launch('ruflo-ruos:deploy')
+    expect(calls.slashes).toEqual([])
+    expect(calls.asked[0]?.label).toBe('run /ruflo-ruos:deploy in the main Claude UI')
+    expect(calls.asked[0]?.note).toContain('billed')
+    await calls.asked[0]?.run?.()
+    expect(calls.slashes).toEqual(['ruflo-ruos:deploy'])
+    actions.launch('ruflo-ruos:run')
+    actions.launch('rm -rf /')
+    expect(calls.asked).toHaveLength(1)
   })
 })

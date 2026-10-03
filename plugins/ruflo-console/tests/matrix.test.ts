@@ -66,4 +66,35 @@ describe('matrix: every section', () => {
       }
     })
   }
+
+  test('launch: a section with plugin commands ends with a Launch section that asks first; one without has none', { options: { boot: false } }, async ($, on) => {
+    const world = worldOf(on, RUFLO_FILES, { commands: ['ruflo-cost-tracker:ruflo-cost', 'ruflo-adr:adr'] })
+
+    world.respond = missionCli
+    mock.clock(on)
+    await $.session.start(SESSION)
+    await $.command.run(command('cost'))
+
+    const pane = await $.ui.mount({ ...paneAt(150), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await pane.drawn()
+    expect(textOf(await pane.drawn())).toContain('LAUNCH')
+    expect(elementsOf(await pane.drawn(), 'Button').map(keyOf)).toContain('sec-launch')
+    await pane.press({ key: 'sec-launch' })
+    expect(elementsOf(await pane.drawn(), 'Button').map(keyOf)).toContain('launch-ruflo-cost-tracker:ruflo-cost')
+    expect(elementsOf(await pane.drawn(), 'Button').map(keyOf)).not.toContain('launch-ruflo-adr:adr')
+    await pane.press({ key: 'launch-ruflo-cost-tracker:ruflo-cost' })
+    expect(textOf(await pane.drawn())).toContain('Confirm: run /ruflo-cost-tracker:ruflo-cost in the main Claude UI')
+    expect(world.prompts).toEqual([])
+    await pane.unmount()
+
+    // Timeline owns ruflo-observability, which this session does not list: no Launch section.
+    await $.command.run(command('timeline'))
+
+    const other = await $.ui.mount({ ...paneAt(150), surface: 'terminal' as const, plugin: PLUGIN })
+
+    await other.drawn()
+    expect(elementsOf(await other.drawn(), 'Button').map(keyOf)).not.toContain('sec-launch')
+    await other.unmount()
+  })
 })

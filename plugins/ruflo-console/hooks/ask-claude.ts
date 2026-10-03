@@ -9,6 +9,7 @@
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { mcOf } from './mission-control'
+import { pluginsOfView } from './plugin-map'
 import { blocksGuidance, screenText } from './mission-options'
 import type { Runner } from './runner'
 import { VIEWS, type State, type ViewId } from './state'
@@ -95,12 +96,31 @@ export type AskActions = {
   aside: (question?: string, view?: ViewId) => void
   /** Runs the slash command that fits the view, when the session lists it. */
   slash: (view?: ViewId) => void
+  /** Runs any slash command the session lists (the Launch row), asking first. */
+  launch: (slash: string) => void
 }
 
 const wired = new WeakMap<State, AskActions>()
 
 /** The ask actions the console was wired with, for the palette and the headless commands. */
 export const askWired = (state: State): AskActions | undefined => wired.get(state)
+
+/** True for a plain `plugin:command` name the session lists. */
+export const launchable = (state: State, slash: string): boolean => /^[a-z0-9-]+:[A-Za-z0-9._-]+$/.test(slash) && state.commandNames.includes(slash)
+
+/** The commands a section can launch: those of the plugins it owns (hooks/plugin-map.ts) that the session lists, by plugin. */
+export function launchOf(state: State, view: ViewId): { plugin: string; slashes: string[] }[] {
+  const owned = new Set(pluginsOfView(view))
+  const groups = new Map<string, string[]>()
+
+  for (const slash of new Set(state.commandNames)) {
+    const plugin = slash.slice(0, Math.max(0, slash.indexOf(':')))
+
+    if (owned.has(plugin) && launchable(state, slash)) (groups.get(plugin) ?? groups.set(plugin, []).get(plugin))?.push(slash)
+  }
+
+  return [...groups.entries()].map(([plugin, slashes]) => ({ plugin, slashes: slashes.sort() })).sort((x, y) => x.plugin.localeCompare(y.plugin))
+}
 
 export const slashFor = (state: State, view: ViewId): string | null => {
   const slash = VIEW_ASK[view].slash
@@ -152,26 +172,32 @@ export function askActions(state: State, host: Host, runner: Runner, act: () => 
 
       if (slash === null) return say('no such command here', false, 'the plugin for this section is not loaded in this session')
 
-      runner.ask(
-        {
-          label: `run /${slash} in the main Claude UI`,
-          scope: 'ask',
-          args: [],
-          shows: `/${slash}`,
-          expect: 'the command in the main conversation',
-          note: 'Starts a Claude Code turn (billed as any turn is); mid-turn it is only prepared in the prompt box.',
-          run: async () => {
-            try {
-              if (state.turnActive) await host.fillPrompt(`/${slash}`)
-              else await host.runSlash(slash, '')
-            } catch (error) {
-              say(`/${slash} did not run`, false, plain(error instanceof Error ? error.message : String(error), 140))
-            }
-          },
-        },
-        'nothing to run',
-      )
+      launch(slash)
     },
+    launch: slash => (launchable(state, slash) ? launch(slash) : say(`/${slash} is not available`, false, 'the plugin is not loaded in this session')),
+  }
+
+  /** Runs a slash command in the main Claude UI: asks first (it starts a turn); mid-turn it only fills the prompt box. */
+  function launch(slash: string): void {
+    runner.ask(
+      {
+        label: `run /${slash} in the main Claude UI`,
+        scope: 'ask',
+        args: [],
+        shows: `/${slash}`,
+        expect: 'the command in the main conversation',
+        note: 'Starts a Claude Code turn (billed as any turn is); mid-turn it is only prepared in the prompt box.',
+        run: async () => {
+          try {
+            if (state.turnActive) await host.fillPrompt(`/${slash}`)
+            else await host.runSlash(slash, '')
+          } catch (error) {
+            say(`/${slash} did not run`, false, plain(error instanceof Error ? error.message : String(error), 140))
+          }
+        },
+      },
+      'nothing to run',
+    )
   }
 
   wired.set(state, actions)
