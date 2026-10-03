@@ -54,6 +54,22 @@ export function sendResultRow(ctx: Ctx, key: string): RenderElement {
   )
 }
 
+/** The triage question: the page text carries only the counts (and is capped), so it sends Claude to the report the scan wrote. */
+export const FINDINGS_QUESTION =
+  'Triage these security findings. Read the newest report in .claude/security-scans/ yourself (the counts here are only a summary), group the findings by root cause, separate real defects from false positives, and propose a fix for each real one with the exact change. Do not edit any file until I approve.'
+
+/** Under the findings meter: hands the findings to the main Claude session to triage (the ADR 411 bridge: quoted data, secrets removed, asks first). */
+export function sendFindingsRow(ctx: Ctx): RenderElement {
+  return row(
+    ctx,
+    [
+      button(ctx, 'findings-send', '✦ send findings to Claude', () => ctx.act.ask.ask(FINDINGS_QUESTION), { primary: true }),
+      text(ctx, ' the counts go as quoted data; Claude reads the report itself and edits nothing until you approve', { dimColor: true }),
+    ],
+    'findings-send-row',
+  )
+}
+
 /** A verb the CLI does not have, said as such rather than invented. */
 export const naRow = (ctx: Ctx, name: string, why: string): RenderElement => text(ctx, `  n/a  ${name.padEnd(14, '.')} ${why}`, { dimColor: true })
 
@@ -234,9 +250,10 @@ export function secureView(ctx: Ctx): RenderElement {
       'sec-findings',
       'Findings',
       findings === null ? 'none measured yet' : `${SEVERITIES.map(level => `${findings.counts[level]} ${level}`).join(' · ')} · ${ago(findings.atMs, nowMs)}`,
-      meterRows(ctx),
+      findings === null ? meterRows(ctx) : [...meterRows(ctx), sendFindingsRow(ctx)],
       true,
     ),
+    ...sentryRows(ctx),
     // Open: the text field lives here, and the checks below it read what is typed; folded, the field would be out of reach.
     ...section(ctx, 'sec-check', 'Check text', memo.draft === '' ? 'type or paste text, then run a check' : `${memo.draft.length} characters ready`, pasteRows(ctx), true),
     ...section(ctx, 'sec-scan', 'Scan & inspect', scanBusy ? `${spinAt(nowMs)} ${running?.label ?? 'scanning'}` : 'scans are local; npm audit is the network', scanRows, scanBusy),
