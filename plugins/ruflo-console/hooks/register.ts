@@ -207,16 +207,6 @@ export const register: Register = (on, raw: PluginOptions) => {
   // The AI terminal's conversation is its own window: the wheel and the page keys over the pane move it, so the header,
   // tabs and the field below stay where they are (the engine would scroll the whole pane).
   on('ui.scroll', { component: 'Pane', requestId: PANE_ID }, ($, e, next) => {
-    // The Missions list is a window that follows its cursor: the wheel moves the cursor (as j and k do), and the pane stays put,
-    // so the header and tabs stay where they are while the list scrolls under them.
-    if (control !== null && state.view === 'missions' && e.by !== 0) {
-      const steps = Math.min(3, Math.max(1, Math.round(Math.abs(e.by))))
-
-      control.actions.select(e.by < 0 ? -steps : steps)
-
-      return next({ ...e, offset: e.offset - e.by })
-    }
-
     if (control === null || state.view !== 'terminal' || e.by === 0) return next(e)
 
     const lines = Math.abs(e.by) >= e.bodyRows ? Math.max(1, Math.round(e.bodyRows / 2)) : Math.abs(e.by) * 3
