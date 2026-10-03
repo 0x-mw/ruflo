@@ -61,14 +61,31 @@ export function budgetShort(mission: Mission): string {
   return `${money(budget.settledMinor ?? 0, budget.currency)} of ${money(budget.ceilingMinor, budget.currency)}`
 }
 
-const GLYPH: Record<string, string> = { running: '◐', verifying: '◐', completed: '●', failed: '✖', blocked: '✖', cancelled: '–' }
+/** The spinner's frames, one per tenth of a second, so a running thing visibly turns. */
+export const SPIN = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
 
-/** The one-line row: a state glyph, the objective cut to fit, then the state, tasks, evidence and budget. */
-export function missionRow(mission: Mission, maxObjective = 36): string {
+export const spinAt = (nowMs: number): string => SPIN[Math.floor(nowMs / 100) % SPIN.length]
+
+/** A mission or task the runtime is working on now. */
+export const isLive = (state: string): boolean => state === 'running' || state === 'verifying'
+
+const GLYPH: Record<string, string> = { completed: '●', failed: '✖', blocked: '✖', cancelled: '–' }
+
+/** The one-line row: a state glyph (a spinner while it runs), the objective cut to fit, then the state, tasks, evidence and budget. */
+export function missionRow(mission: Mission, nowMs = 0, maxObjective = 36): string {
   const objective = mission.objective === '' ? '(no objective)' : mission.objective
   const cut = objective.length > maxObjective ? `${objective.slice(0, maxObjective - 1)}…` : objective
+  const glyph = isLive(mission.state) ? spinAt(nowMs) : (GLYPH[mission.state] ?? '○')
 
-  return `${GLYPH[mission.state] ?? '○'} ${cut} · ${mission.state} · tasks ${taskProgress(mission)} · verified ${mission.evidence.verified}/${mission.evidence.count} · ${budgetShort(mission)}`
+  return `${glyph} ${cut} · ${mission.state} · tasks ${taskProgress(mission)} · verified ${mission.evidence.verified}/${mission.evidence.count} · ${budgetShort(mission)}`
+}
+
+/**
+ * Whether anything on the list is moving now (a mission running or verifying, a task running, or a guidance run in flight), so the
+ * pane keeps redrawing while it is and stops when it is not.
+ */
+export function hasLiveWork(missions: readonly Mission[], guidanceRunning: boolean): boolean {
+  return guidanceRunning || missions.some(mission => isLive(mission.state) || mission.plan.tasks.some(task => task.status === 'running'))
 }
 
 /** The cursor kept on the list: 0 for an empty list, else between the first and last mission. */
@@ -82,7 +99,7 @@ export function clampCursor(cursor: number, total: number): number {
  * The part of the list the view draws: a window of `size` missions that keeps the cursor on screen, the one-line row of each,
  * and the cursor's mission to expand below them. `hidden` counts the missions outside the window.
  */
-export function listLayout(missions: readonly Mission[], cursor: number, size = LIST_WINDOW): { rows: { index: number; line: string }[]; expanded: Mission | null; hidden: number } {
+export function listLayout(missions: readonly Mission[], cursor: number, nowMs = 0, size = LIST_WINDOW): { rows: { index: number; line: string }[]; expanded: Mission | null; hidden: number } {
   const sorted = sortMissions(missions)
 
   if (sorted.length === 0) return { rows: [], expanded: null, hidden: 0 }
@@ -90,7 +107,7 @@ export function listLayout(missions: readonly Mission[], cursor: number, size = 
   const at = clampCursor(cursor, sorted.length)
   const start = Math.min(Math.max(0, at - Math.floor(size / 2)), Math.max(0, sorted.length - size))
   const end = Math.min(sorted.length, start + size)
-  const rows = sorted.slice(start, end).map((mission, i) => ({ index: start + i, line: missionRow(mission) }))
+  const rows = sorted.slice(start, end).map((mission, i) => ({ index: start + i, line: missionRow(mission, nowMs) }))
 
   return { rows, expanded: sorted[at], hidden: sorted.length - rows.length }
 }

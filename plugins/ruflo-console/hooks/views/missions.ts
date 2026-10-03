@@ -1,7 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { money, type Mission } from '../data/missions'
-import { attentionCount, clampCursor, freshnessOf, listLayout } from '../mission-list'
+import { attentionCount, clampCursor, freshnessOf, isLive, listLayout, spinAt } from '../mission-list'
 import { ago, kv, rule, text, THEME, type Ctx } from './common'
 
 const STATE_COLOR: Record<string, string> = { running: THEME.warn, verifying: THEME.warn, completed: THEME.ok, failed: THEME.bad, blocked: THEME.bad, paused: THEME.info, queued: THEME.info }
@@ -15,12 +15,12 @@ function missionRows(ctx: Ctx, mission: Mission, isFirst: boolean): RenderElemen
     text(ctx, `${isFirst ? '▸' : ' '} ${mission.objective || '(no objective)'}`, { bold: true, ...(STATE_COLOR[mission.state] !== undefined && { color: STATE_COLOR[mission.state] }) }),
     text(
       ctx,
-      `    ${mission.state} · rev ${mission.revision} · ${mission.executionMode === 'session-bound' ? 'session-bound (runs only while a session drives it)' : mission.executionMode} · ${mission.id}`,
+      `    ${isLive(mission.state) ? `${spinAt(ctx.nowMs)} ` : ''}${mission.state} · rev ${mission.revision} · ${mission.executionMode === 'session-bound' ? 'session-bound (runs only while a session drives it)' : mission.executionMode} · ${mission.id}`,
       { dimColor: true },
     ),
     text(
       ctx,
-      `    plan rev ${mission.plan.revision}: ${mission.plan.taskCount === 0 ? 'no tasks yet' : mission.plan.tasks.map(task => `${TASK_GLYPH[task.status] ?? '?'} ${task.id}`).join(' → ')}${mission.plan.taskCount > mission.plan.tasks.length ? ` (+${mission.plan.taskCount - mission.plan.tasks.length})` : ''}`,
+      `    plan rev ${mission.plan.revision}: ${mission.plan.taskCount === 0 ? 'no tasks yet' : mission.plan.tasks.map(task => `${task.status === 'running' ? spinAt(ctx.nowMs) : (TASK_GLYPH[task.status] ?? '?')} ${task.id}`).join(' → ')}${mission.plan.taskCount > mission.plan.tasks.length ? ` (+${mission.plan.taskCount - mission.plan.tasks.length})` : ''}`,
     ),
     text(
       ctx,
@@ -59,7 +59,7 @@ export function observationRows(ctx: Ctx): RenderElement[] {
 
   // One line a mission; the cursor's mission (j and k move it) is expanded below the list.
   const cursor = clampCursor(ctx.state.select.item, observation.missions.length)
-  const layout = listLayout(observation.missions, cursor)
+  const layout = listLayout(observation.missions, cursor, ctx.nowMs)
 
   for (const { index, line } of layout.rows) rows.push(text(ctx, `${index === cursor ? '▸' : ' '} ${line}`, index === cursor ? { bold: true } : { dimColor: true }))
   if (layout.hidden > 0) rows.push(text(ctx, `  ${layout.hidden} more not shown · j and k scroll`, { dimColor: true }))

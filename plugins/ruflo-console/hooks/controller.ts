@@ -14,7 +14,8 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
-import { advance, loadLedger } from './mission-control'
+import { advance, loadLedger, mcOf } from './mission-control'
+import { hasLiveWork } from './mission-list'
 import { loadAllowed } from './remember'
 import { loadAiPrefs } from './settings'
 import { openLoaders } from './view-open'
@@ -284,7 +285,10 @@ export function createController(state: State, host: Host): Controller {
 
   /** Runs the frame loop while the pane is shown and holds the keys (or plays the boot screen), at `fps`; stops it otherwise. */
   function animate(): void {
-    if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && state.mounted.size > 0)) {
+    // The Missions page moves while a mission, a task or a guidance run is live, pictured or not: its spinners need the frames.
+    const moving = state.view === 'missions' && hasLiveWork(state.snapshot?.missions?.missions ?? [], mcOf(state).guidance?.status === 'running')
+
+    if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && (state.mounted.size > 0 || moving))) {
       cancel('frames')
 
       return

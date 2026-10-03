@@ -6,7 +6,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { money, type Mission } from '../hooks/data/missions'
-import { attentionCount, budgetShort, clampCursor, freshnessOf, listLayout, LIST_WINDOW, missionRank, missionRow, sortMissions, STALE_AFTER_MS, taskProgress } from '../hooks/mission-list'
+import { attentionCount, budgetShort, clampCursor, freshnessOf, hasLiveWork, listLayout, LIST_WINDOW, missionRank, missionRow, SPIN, sortMissions, spinAt, STALE_AFTER_MS, taskProgress } from '../hooks/mission-list'
 
 const mission = (over: Partial<Mission> = {}): Mission => ({
   id: 'm',
@@ -46,6 +46,28 @@ describe('mission order', () => {
 
   it('counts the missions that need attention', () => {
     expect(attentionCount([mission({ state: 'blocked' }), mission({ state: 'failed' }), mission({ state: 'running' })])).toBe(2)
+  })
+})
+
+describe('live indicators', () => {
+  it('turns a spinner one frame every tenth of a second, so a running thing visibly moves', () => {
+    expect(spinAt(0)).toBe(SPIN[0])
+    expect(spinAt(100)).toBe(SPIN[1])
+    expect(spinAt(1_000)).toBe(SPIN[0])
+  })
+
+  it('a running mission carries the spinner on its row; a finished one keeps its fixed glyph', () => {
+    expect(missionRow(mission({ state: 'running' }), 200).startsWith(`${SPIN[2]} `)).toBe(true)
+    expect(missionRow(mission({ state: 'completed' }), 200).startsWith('● ')).toBe(true)
+  })
+
+  it('there is live work while a mission, a task or a guidance run is moving, and none once all have stopped', () => {
+    const task = (status: string) => ({ id: 't', title: 't', dependsOn: [], status })
+
+    expect(hasLiveWork([mission({ state: 'running' })], false)).toBe(true)
+    expect(hasLiveWork([mission({ plan: { revision: 1, taskCount: 1, tasks: [task('running')] } })], false)).toBe(true)
+    expect(hasLiveWork([], true)).toBe(true)
+    expect(hasLiveWork([mission({ state: 'completed' }), mission({ state: 'blocked' })], false)).toBe(false)
   })
 })
 
@@ -97,9 +119,9 @@ describe('one-line row', () => {
   })
 
   it('cuts a long objective to fit and names a missing one', () => {
-    const long = missionRow(mission({ objective: 'x'.repeat(80) }), 20)
+    const long = missionRow(mission({ objective: 'x'.repeat(80) }), 0, 20)
 
-    expect(long.startsWith('◐ xxxxxxxxxxxxxxxxxxx… ·')).toBe(true)
+    expect(long.startsWith(`${spinAt(0)} xxxxxxxxxxxxxxxxxxx… ·`)).toBe(true)
     expect(missionRow(mission({ objective: '' }))).toContain('(no objective)')
   })
 })
