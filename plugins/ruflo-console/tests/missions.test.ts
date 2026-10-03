@@ -143,6 +143,8 @@ describe('mission control', () => {
   })
 
   test('a tool row drawn with no task running is the engine row, untouched', { options: { boot: false } }, async ($, on) => {
+    on('ui.render', () => ({ type: 'Text', children: ['engine'] }) as never)
+
     const { pane, clock } = await opened($, on)
     const row = (id: string) => ({ component: 'ToolUse', surface: 'terminal', requestId: id, viewport: { columns: 120, rows: 40, isFullscreen: true }, props: { tool_use_id: id, tool: 'Bash', input: {}, isRunning: true, isErrored: false, isInterrupted: false } }) as never
 
