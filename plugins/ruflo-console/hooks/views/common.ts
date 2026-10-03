@@ -302,6 +302,9 @@ export function confirmRow(ctx: Ctx): RenderElement | null {
 /** Views that draw the confirm themselves, under the field it came from (the pane then does not draw it above the body). */
 export const INLINE_CONFIRM: ReadonlySet<string> = new Set(['missions', 'hive'])
 
+/** True when the view draws this ask itself (under what raised it), so the pane does not also draw it at the top. */
+export const confirmInline = (view: string, scope: string | undefined): boolean => (scope === 'ask' ? false : view === 'memory' ? scope?.startsWith('mem:') === true : INLINE_CONFIRM.has(view))
+
 /** The confirm row when the pending ask came from this scope (or has none, and this is the view's default place for it). */
 export function confirmHere(ctx: Ctx, scope: string, isDefault = false): RenderElement[] {
   const pending = ctx.state.pending

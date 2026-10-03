@@ -1,7 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { MEM_GROUPS, MEM_LAB, memSpecOf, textOfFields, type MemCost, type MemEntry, type MemField } from '../memory-lab'
-import { ago, button, clip, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, confirmHere, row, rule, section, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const MEM_ROWS = 16
@@ -80,6 +80,24 @@ function entryRow(ctx: Ctx, entry: MemEntry, lead: number): RenderElement {
   )
 }
 
+/**
+ * What the last action in this area asked and answered, drawn right under the area that raised it: its confirm, then the running
+ * line or the result. Nothing is drawn for an area the last action did not come from.
+ */
+export function areaPanel(ctx: Ctx, area: string): RenderElement[] {
+  if (ctx.state.memoryLab.origin !== area) return []
+
+  const confirm = confirmHere(ctx, `mem:${area}`)
+  const hasOutput = ctx.state.lab.result?.id.startsWith('mem-') === true || ctx.state.lab.running?.id.startsWith('mem-') === true
+
+  // Nothing asked and nothing answered: no empty box.
+  if (confirm.length === 0 && !hasOutput) return []
+
+  const result = hasOutput ? resultRows(ctx) : []
+
+  return [ctx.kit.Box({ key: `mem-panel-${area}`, flexDirection: 'column', borderStyle: 'round', borderColor: THEME.ok, paddingX: 1, children: [...confirm, ...result] })]
+}
+
 /** The last Memory Lab run: what it was, how it exited, its note, and a window of its lines. */
 function resultRows(ctx: Ctx): RenderElement[] {
   const { state, nowMs } = ctx
@@ -123,15 +141,16 @@ function resultRows(ctx: Ctx): RenderElement[] {
  */
 export function memoryLabRows(ctx: Ctx): RenderElement[] {
   const lead = Math.max(15, Math.min(18, ctx.columns - 40))
-  const rows: RenderElement[] = [...searchRows(ctx), ...entryRows(ctx), ...resultRows(ctx)]
+  const rows: RenderElement[] = [...searchRows(ctx), ...areaPanel(ctx, 'search'), ...entryRows(ctx), ...areaPanel(ctx, 'entry')]
 
   rows.push(rule(ctx, 'Lab text', 'the input for the rows below that take text'))
   rows.push(field(ctx, 'text', 'text', 'a query or pattern · a node id · a | b to compare · source relation target', 'keep', value => ctx.act.memory.draft('text', value)))
 
+  // Each group is a section that folds away; the one the last action came from is open, with its answer under its rows.
   for (const group of MEM_GROUPS) {
-    rows.push(rule(ctx, group.title, group.right))
+    const body = [...MEM_LAB.filter(candidate => candidate.group === group.id).map(entry => entryRow(ctx, entry, lead)), ...areaPanel(ctx, group.id)]
 
-    for (const entry of MEM_LAB.filter(candidate => candidate.group === group.id)) rows.push(entryRow(ctx, entry, lead))
+    rows.push(...section(ctx, `mem-g-${group.id}`, group.title, group.right, body, true))
   }
 
   rows.push(text(ctx, ' $0 read, runs at once · wr writes · del deletes for good · net may fetch the model: each of these asks, its cost on the confirm row', { dimColor: true }))
