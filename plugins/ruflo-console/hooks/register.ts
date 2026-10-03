@@ -91,6 +91,10 @@ export const register: Register = (on, raw: PluginOptions) => {
     // A recording or a wide screen can ask for a wider dock: RUFLO_CONSOLE_COLUMNS, whole columns, 40 to 400.
     const asked = Number(await (async () => $.env.get('RUFLO_CONSOLE_COLUMNS'))().catch(() => ''))
 
+    // RUFLO_CONSOLE_PANEL=command|off overrides the panel option for this session (a recording that shows /ruflo opening it).
+    const panel = await (async () => $.env.get('RUFLO_CONSOLE_PANEL'))().catch(() => undefined)
+
+    if (panel === 'command' || panel === 'off') state.options.panel = panel
     state.dockColumns = Number.isInteger(asked) && asked >= 40 && asked <= 400 ? asked : 0
     // The x.ruv.io board's admin rows: only whether the token is set is kept, never its value.
     state.xruv.hasAdminToken = await (async () => $.env.get('RUFLO_X_ADMIN_TOKEN'))().then(

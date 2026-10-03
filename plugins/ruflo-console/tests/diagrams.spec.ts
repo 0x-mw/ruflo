@@ -133,7 +133,7 @@ describe('BBS look', () => {
 
     expect(row(on, 0, 19)).toBe('█▀█ █ █ █▀▀ █   █▀█')
     expect(row(on, 1, 19)).toBe('█▀▄ █▄█ █▀  █▄▄ █▄█')
-    expect(row(on, 1, 60)).toContain('▸ node ruflo-demo █')
+    expect(row(on, 1, 60)).toContain('▸ npx ruflo · ruflo-demo █')
     expect(row(off, 1, 60).slice(21)).not.toContain('█')
     expect(on.encode()).not.toBe(off.encode())
   })
