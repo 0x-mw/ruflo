@@ -17,6 +17,8 @@ import { pluginNames, settingsActions } from './settings'
 import { catalogOf } from './plugin-catalog'
 import { devtoolsActions } from './devtools'
 import { HARNESSES, harnessSpec, isAutoAccept, isLive, newSession, send, whyNotRun } from './harness'
+import { helpActions } from './help-actions'
+import { VIEW_TOPIC } from './help-docs'
 import { pluginSpec } from './plugin-ops'
 import { startSpec } from './starts'
 import { plain } from './data/parse'
@@ -131,6 +133,11 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     },
     help: () => {
       state.isHelp = !state.isHelp
+      // Help opens on the guide for the page you were on (the index from the menu), with a clean question.
+      if (state.isHelp) {
+        state.help.query = ''
+        state.help.topic = VIEW_TOPIC[state.view === 'agent' ? state.back : state.view] ?? null
+      }
       host.invalidate()
     },
     close: () => void close(),
@@ -353,6 +360,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     settings: settingsActions(state, host, runner, (agent, text) => actions.term.ask(agent, text), () => CLI_PREFIXES[state.options.cli], () => pluginNames(state, (catalogOf(state).plugins ?? []).filter(plugin => plugin.options.length > 0).map(plugin => plugin.name))),
     mission: missionActions(state, host, runner),
     ask: askActions(state, host, runner, () => actions),
+    ruhelp: helpActions(state, host, runner, () => actions),
     loops: loopActions(state, host, runner),
     optimizer: optimizerActions(state, () => host.invalidate(), id => void runner.runById(id, ''), question => actions.ask.ask(question, 'overview')),
     watch: watchActions(state, () => host.invalidate(), (question, view) => actions.ask.ask(question, view)),

@@ -180,6 +180,8 @@ export type State = {
   /** The view to go back to from the drill-down. */
   back: ViewId
   isHelp: boolean
+  /** ruHelp: the question typed, and the guide open (null: the index). */
+  help: { query: string; topic: string | null }
   snapshot: Snapshot | null
   cache: ReadCache
   probes: Map<string, ProbeResult>
@@ -298,6 +300,7 @@ export function newState(raw: PluginOptions | undefined): State {
     view: 'overview',
     back: 'overview',
     isHelp: false,
+    help: { query: '', topic: null },
     snapshot: null,
     cache: new Map(),
     probes: new Map(),

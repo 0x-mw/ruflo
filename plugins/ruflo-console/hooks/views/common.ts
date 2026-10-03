@@ -21,6 +21,7 @@ import type { Grid } from '../gfx/raster'
 import type { MemoryActions } from '../memory-lab'
 import type { NavActions } from '../nav-state'
 import type { SkillActions } from '../skills'
+import type { HelpActions } from '../help-actions'
 import type { PluginOp } from '../plugin-ops'
 import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
@@ -89,6 +90,8 @@ export type Actions = {
   watch: WatchActions
   /** Ask Claude about this section (a visible prompt or a /btw aside) or run the plugin command that fits it: each asks first. */
   ask: AskActions
+  /** ruHelp, the built-in help: a question, a guide, a step's button, and asking Claude with the docs. */
+  ruhelp: HelpActions
   /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */
   mission: MissionActions
   /** The Plugin Catalog: read the clone, filter, select a plugin, view or use an item, change a plugin (each asks first). */

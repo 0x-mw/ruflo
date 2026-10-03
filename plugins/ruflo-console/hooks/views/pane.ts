@@ -36,6 +36,7 @@ import { labResult } from './mh-lab'
 import { neuralResult, neuralView } from './neural'
 import { missionControlView } from './mission-control'
 import { overviewView } from './overview'
+import { helpView } from './help'
 import { paletteView } from './palette'
 import { perfResult, perfView } from './perf'
 import { pluginsView } from './plugins'
@@ -173,11 +174,6 @@ function blurb(ctx: Ctx): RenderElement | null {
   ], 'about')
 }
 
-function help(ctx: Ctx): RenderElement {
-  return col(ctx, [...HELP.split('\n').map((line, i) => text(ctx, line || ' ', i === 0 ? { bold: true, color: THEME.head } : /^[A-Z]/.test(line) ? { bold: true } : { dimColor: i > 20 })), row(ctx, [button(ctx, 'help-close', 'Back', ctx.act.help, { hotkey: 'h' })])], 'help')
-}
-
-
 function footer(ctx: Ctx, isPlaced = false): RenderElement {
   const { state, nowMs } = ctx
   const outcome = isPlaced ? null : state.outcome
@@ -305,9 +301,9 @@ export function paneView(base: Ctx): RenderElement {
       : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
   }
   // A section of a page is a bordered card (views/card.ts): the body is drawn narrower by the border and padding, through a kit that groups its rows.
-  const cardsOn = hasCards(base.columns, isCompactPane(base.state)) && !ctx.state.isHelp
+  const cardsOn = hasCards(base.columns, isCompactPane(base.state))
   const bodyCtx: Ctx = cardsOn ? { ...ctx, columns: ctx.columns - CARD_COLUMNS, cards: true, kit: withCards(ctx.kit, isBbs() ? (accentOfView(ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view) ?? undefined) : undefined) } : ctx
-  const drawBody = () => (ctx.state.palette.isOpen ? paletteView(bodyCtx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](bodyCtx))
+  const drawBody = () => (ctx.state.palette.isOpen ? paletteView(bodyCtx) : ctx.state.isHelp ? helpView(bodyCtx) : BODIES[ctx.state.view](bodyCtx))
   // A lab's result block is drawn first into the panel (pass one), then the page is drawn with the panel placed under the clicked row.
   if (ctx.state.origin !== null && (ctx.state.lab.result !== null || ctx.state.lab.running !== null)) {
     attention.donated = donated(ctx, () => {
