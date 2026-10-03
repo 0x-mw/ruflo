@@ -105,6 +105,9 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
 
   function ask(spec: ActionSpec | null, why: string): void {
     state.palette.isOpen = false
+    // Where this came from: the page puts the confirm and the answer right after that element. A headless run has no press, so it falls back to the top.
+    state.origin = state.lastPressed
+    state.lastPressed = null
 
     if (spec === null) {
       pendingSpec = null

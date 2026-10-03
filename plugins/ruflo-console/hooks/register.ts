@@ -1,4 +1,5 @@
 import type { EngineInterface, PluginOptions, Register } from 'claude-code'
+import { ANSWER_KEYS } from './views/attention'
 
 import { createController, type Controller } from './controller'
 import { record } from './data/events'
@@ -152,6 +153,20 @@ export const register: Register = (on, raw: PluginOptions) => {
     if (control === null) return next(e)
 
     return dispatch(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
+  })
+
+  // Which element was pressed or submitted, before its own closure runs: the runner reads it as the origin of the ask that follows, so
+  // the page puts the confirm and the answer right under it (views/attention.ts). Answering a confirm never moves the origin.
+  on('ui.press', { component: 'Pane' }, ($, e, next) => {
+    if (!ANSWER_KEYS.has(e.element)) state.lastPressed = e.element
+
+    return next(e)
+  })
+
+  on('ui.input', { component: 'Pane' }, ($, e, next) => {
+    if (e.kind === 'submit') state.lastPressed = e.element
+
+    return next(e)
   })
 
   on('ui.render', { component: 'Pane', requestId: PANE_ID }, ($, e, next) => {

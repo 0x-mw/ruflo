@@ -2,6 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { targetOf, type VectorField } from '../data/vector'
 import { VEC, VEC_SECTIONS, vecSpec, type VecCost, type VecEntry, type VecSection } from '../vector'
+import { slot } from './attention'
 import { ago, button, clip, row, rule, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
@@ -125,7 +126,7 @@ function resultRows(ctx: Ctx): RenderElement[] {
     )
   }
 
-  return rows
+  return slot(ctx, rows)
 }
 
 /**
@@ -148,3 +149,6 @@ export function vectorView(ctx: Ctx): RenderElement {
 
   return ctx.kit.Box({ flexDirection: 'column', key: 'vector', children: rows })
 }
+
+/** This lab's result block alone: the pane asks for it to place under the row that was clicked. */
+export const vectorResult = (ctx: Ctx): RenderElement[] => resultRows(ctx)

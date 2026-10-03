@@ -97,3 +97,6 @@ export function neuralView(ctx: Ctx): RenderElement {
     'neural',
   )
 }
+
+/** This view's result block alone: the pane asks for it to place under the row that was clicked. */
+export const neuralResult = (ctx: Ctx): RenderElement[] => resultRows(ctx, ['nn-'])

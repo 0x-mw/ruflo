@@ -1,6 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { LAB, LAB_GROUPS, labSpec, PROMOTE_COMMAND, type LabCost, type LabEntry } from '../mh-lab'
+import { slot } from './attention'
 import { ago, button, clip, row, rule, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
@@ -71,7 +72,7 @@ function resultRows(ctx: Ctx): RenderElement[] {
     )
   }
 
-  return rows
+  return slot(ctx, rows)
 }
 
 /**
@@ -97,3 +98,6 @@ export function labRows(ctx: Ctx): RenderElement[] {
 
   return rows
 }
+
+/** This lab's result block alone: the pane asks for it to place under the row that was clicked. */
+export const labResult = (ctx: Ctx): RenderElement[] => resultRows(ctx)

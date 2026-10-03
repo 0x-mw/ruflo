@@ -4,6 +4,7 @@
  * Text colours are theme names only, so nothing fades on a light background.
  */
 import type { AskActions } from '../ask-claude'
+import type { Attention } from './attention'
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
@@ -97,6 +98,8 @@ export type Ctx = {
   /** Every picture of this view, by Raster key, already drawn for this frame. */
   pictures: Map<string, Grid>
   act: Actions
+  /** The page's attention panel (views/attention.ts): lab views hand their result rows to it with `slot`. */
+  attention?: Attention
 }
 
 export type Look = 'bbs' | 'plain'
@@ -282,6 +285,7 @@ export function confirmRow(ctx: Ctx): RenderElement | null {
   return col(
     ctx,
     [
+      text(ctx, '▶ CONFIRM NEEDED — click Yes or press y', { bold: true, color: THEME.warn }),
       text(ctx, `Confirm: ${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
       // Wrapped, not clipped: the person says yes to the whole argv, so all of it shows (a JSON argument runs long).
       ctx.kit.Text({ dimColor: true, wrap: 'wrap', children: `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}` }),

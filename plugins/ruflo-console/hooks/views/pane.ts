@@ -8,16 +8,17 @@ import type { RenderElement } from 'claude-code'
 import { HELP } from '../commands'
 import { slashFor } from '../ask-claude'
 import { launchRows } from './launch'
+import { donated, newAttention, panelOf, wrapKit } from './attention'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
-import { automateView } from './automate'
+import { automateResult, automateView } from './automate'
 import { claimsView } from './claims'
 import { ago, button, clip, col, confirmInline, confirmRow, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
-import { evolveView } from './evolve'
+import { evolveResult, evolveView } from './evolve'
 import { catalogView } from './plugin-catalog'
 import { settingsView } from './settings'
-import { devtoolsView } from './devtools'
+import { devtoolsResult, devtoolsView } from './devtools'
 import { federationView } from './federation'
 import { hiveView } from './hive'
 import { learningView } from './learning'
@@ -25,17 +26,18 @@ import { approvalsView, eventsView, timelineView } from './manage'
 import { memoryView } from './memory'
 import { menuView } from './menu'
 import { metaharnessView } from './metaharness'
-import { neuralView } from './neural'
+import { labResult } from './mh-lab'
+import { neuralResult, neuralView } from './neural'
 import { missionControlView } from './mission-control'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
-import { perfView } from './perf'
+import { perfResult, perfView } from './perf'
 import { pluginsView } from './plugins'
-import { secureView } from './secure'
+import { secureResult, secureView } from './secure'
 import { skillsView } from './skills'
 import { swarmView } from './swarm'
 import { terminalView } from './terminal'
-import { vectorView } from './vector'
+import { vectorResult, vectorView } from './vector'
 import { xruvView } from './xruv'
 
 export const NARROW = 44
@@ -167,10 +169,13 @@ function help(ctx: Ctx): RenderElement {
 }
 
 
-function footer(ctx: Ctx): RenderElement {
+function footer(ctx: Ctx, isPlaced = false): RenderElement {
   const { state, nowMs } = ctx
-  const outcome = state.outcome
+  const outcome = isPlaced ? null : state.outcome
   const parts: RenderElement[] = []
+
+  // Something is waiting for a yes or no: said here, where the keys are, wherever the confirm itself sits.
+  if (state.pending !== null) parts.push(text(ctx, `⚠ confirm needed: ${clip(state.pending.label, Math.max(20, ctx.columns - 40))} — y yes · n cancel${isPlaced ? ' (under what you clicked)' : ''}`, { bold: true, color: THEME.warn }))
 
   if (outcome !== null && nowMs - outcome.atMs < 90_000) {
     parts.push(
@@ -238,8 +243,24 @@ function wildcat(ctx: Ctx): { strip: RenderElement[]; art: RenderElement[] } {
   }
 }
 
-export function paneView(ctx: Ctx): RenderElement {
-  setLook(ctx.state.options.look)
+/** The views whose lab result block can be drawn alone (so finding it costs one block, not a second page). */
+const RESULT_OF: Partial<Record<ViewId, (ctx: Ctx) => RenderElement[]>> = {
+  metaharness: labResult,
+  devtools: devtoolsResult,
+  vector: vectorResult,
+  evolve: evolveResult,
+  secure: secureResult,
+  perf: perfResult,
+  automate: automateResult,
+  neural: neuralResult,
+}
+
+export function paneView(base: Ctx): RenderElement {
+  setLook(base.state.options.look)
+
+  // Every Button and Input remembers its key, and a column that holds the origin of the current ask places the confirm and the answer after it.
+  const attention = newAttention(base.state.origin, [])
+  const ctx: Ctx = { ...base, kit: wrapKit(base.kit, base.state, attention), attention }
 
   // The BBS boot screen: the first seconds after the pane opens (or until the first read lands, at most 6 s).
   if (isBooting(ctx.state, ctx.nowMs)) {
@@ -249,11 +270,39 @@ export function paneView(ctx: Ctx): RenderElement {
       ? col(ctx, [ctx.kit.Raster(boot.toRaster('boot'))], 'boot')
       : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
   }
-  const shownBody = ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx)
-  // Every section ends with its Launch section: the commands of the plugins it owns, run in the Claude UI.
+  const drawBody = () => (ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx))
+  // A lab's result block is drawn first into the panel (pass one), then the page is drawn with the panel placed under the clicked row.
+  if (ctx.state.origin !== null && (ctx.state.lab.result !== null || ctx.state.lab.running !== null)) {
+    attention.donated = donated(ctx, () => {
+      attention.mode = 'collect'
+      RESULT_OF[ctx.state.view]?.(ctx)
+
+      return [...attention.donated]
+    })
+  }
+
+  if (ctx.state.origin !== null) attention.panel = panelOf(base, attention.donated)
+  attention.mode = attention.donated.length > 0 ? 'hide' : 'draw'
+
+  let body = drawBody()
+
+  // The clicked element is not on screen (a hotkey, the palette, a folded section): the lab keeps its own result block at its foot, and the confirm goes to the top.
+  if (!attention.placed && attention.donated.length > 0) {
+    attention.panel = []
+    attention.key = null
+    attention.donated = []
+    attention.mode = 'draw'
+    body = drawBody()
+  }
+
+  // Every section ends with its Launch section: the commands of the plugins it owns, run in the Claude UI. Drawn through the same kit, so
+  // a launch ask is placed under its own row when nothing above held the origin.
   const launch = ctx.state.palette.isOpen || ctx.state.isHelp ? [] : launchRows(ctx)
-  const body = launch.length === 0 ? shownBody : col(ctx, [shownBody, ...launch], 'body')
-  const confirm = confirmRow(ctx)
+
+  if (launch.length > 0) body = col(ctx, [body, ...launch], 'body')
+
+  // Placed under what was clicked: not drawn again at the top.
+  const confirm = attention.placed ? null : confirmRow(ctx)
   const header = ctx.pictures.get('header')
   const isCompact = isCompactPane(ctx.state)
   const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
@@ -267,11 +316,11 @@ export function paneView(ctx: Ctx): RenderElement {
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
-    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx), body]
+    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
-        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
-      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
+        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
+      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx, attention.placed)]), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx, attention.placed)] : [])]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }
