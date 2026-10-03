@@ -6,6 +6,7 @@
  */
 import { Braille, COLOR, Grid, mix, ramp, sparkline } from './raster'
 import { bigText } from './font'
+import { CONSOLE_VERSION } from '../version'
 
 export { bootPicture, BOOT_ROWS } from './boot'
 
@@ -262,7 +263,7 @@ export function bannerPicture(project: string, columns: number, t: number): Grid
   const x0 = width + 2
 
   if (columns > x0 + 4) {
-    grid.text(x0, 0, '░▒▓ AGENT SWARM CONSOLE'.slice(0, columns - x0), NEON_MAGENTA)
+    grid.text(x0, 0, `░▒▓ AGENT SWARM CONSOLE v${CONSOLE_VERSION}`.slice(0, columns - x0), NEON_MAGENTA)
     const node = `▸ npx ruflo · ${project}`.slice(0, columns - x0 - 2)
 
     grid.text(x0, 1, node, NEON_CYAN)
