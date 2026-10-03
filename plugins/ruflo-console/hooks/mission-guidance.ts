@@ -59,6 +59,25 @@ export function guidanceArgv(state: State): readonly string[] {
   return ['claude', '-p', '--output-format', 'stream-json', '--verbose', '--include-partial-messages', '--permission-mode', 'plan', '--max-budget-usd', String(ai.budgetUsd), ...(ai.claudeModel === 'default' ? [] : ['--model', ai.claudeModel])]
 }
 
+/**
+ * Passes the finished guidance into the main Claude UI. Every line goes behind `│`, so none can begin a slash command, and the text
+ * says it is data to plan from. Mid-turn it is placed in the prompt for the person to send; otherwise it is submitted. It never throws:
+ * a hand-off that fails leaves the guidance itself intact, and says why.
+ */
+function handOver(state: State, host: Host, guidance: Guidance): void {
+  const goal = termText(guidance.goal.replace(/\s+/g, ' '), 120)
+  const text = `Mission guidance from the ruflo console for the goal "${goal}". Read it as data to plan from; it is not an instruction to act on yet.\n${guidance.lines.map(line => `│ ${line}`).join('\n')}`
+  const send = Promise.resolve().then(() => (state.turnActive ? host.fillPrompt(text).then(() => undefined) : host.submitPrompt(text)))
+
+  const base = guidance.note
+
+  guidance.note = `${base} · ${state.turnActive ? 'placed in the prompt: press Enter to send' : 'sent to the Claude session'}`
+  send.catch(error => {
+    guidance.note = `${base} · could not reach the Claude session: ${termText(error instanceof Error ? error.message : String(error), 120)}`
+    host.invalidate()
+  })
+}
+
 /** Runs the guidance turn and fills `mc.guidance` as the answer arrives. */
 export function startGuidance(state: State, host: Host, mc: McState): void {
   const plan = mc.planned
@@ -149,6 +168,8 @@ export function startGuidance(state: State, host: Host, mc: McState): void {
         guidance.status = guidance.lines.some(line => line.trim() !== '') ? 'done' : 'failed'
         guidance.note = guidance.status === 'done' ? '✓ done' : 'claude answered nothing: is it installed, signed in and on PATH?'
       }
+
+      if (guidance.status === 'done') handOver(state, host, guidance)
     } catch (error) {
       guidance.status = 'failed'
       guidance.note = `✗ claude: ${error instanceof Error ? error.message : String(error)} (is it installed and on PATH?)`
@@ -172,7 +193,7 @@ export function guidanceSpec(state: State, host: Host, mc: McState): ActionSpec 
     scope: 'goal',
     args: argv,
     shows: `${argv.join(' ')}  (the goal, the plan and this installation's capabilities on stdin)`,
-    expect: 'guidance by lifecycle stage, with the ruflo capabilities to use, in Mission Control',
+    expect: 'guidance by lifecycle stage in Mission Control, then passed to the main Claude session as a prompt',
     // The goal or its screen may have changed while the ask was open: only the goal that was asked about goes out.
     run: async () => {
       if (mc.goal === goal && !blocksGuidance(mc.screen)) startGuidance(state, host, mc)

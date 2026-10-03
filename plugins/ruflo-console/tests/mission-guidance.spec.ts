@@ -35,9 +35,19 @@ function fakeHost(script: { stream: 'stdout' | 'stderr'; text: string }[]) {
 
     return Object.assign(stream, { result: Promise.resolve({ code: 0, signal: null }), return: async () => ({ done: true, value: undefined }) }) as never
   }
-  const host = { spawn, invalidate: () => undefined, after: () => ({ cancel: () => undefined }), storeSet: async (key: string, value: unknown) => void stored.set(key, value) } as unknown as Host
+  // What reached the main Claude UI: a submitted prompt, or one placed in the box mid-turn.
+  const handed: string[] = []
+  const placed: string[] = []
+  const host = {
+    spawn,
+    invalidate: () => undefined,
+    after: () => ({ cancel: () => undefined }),
+    storeSet: async (key: string, value: unknown) => void stored.set(key, value),
+    submitPrompt: async (text: string) => void handed.push(text),
+    fillPrompt: async (text: string) => (placed.push(text), true),
+  } as unknown as Host
 
-  return { host, calls }
+  return { host, calls, handed, placed }
 }
 
 const ready = (goal = 'add a dark mode toggle to settings'): State => {
@@ -130,6 +140,32 @@ describe('mission guidance', () => {
     expect(mc.guidance?.status).toBe('done')
     expect(mc.guidance?.lines).toEqual(['## Research', 'Search memory first for prior art.', '## Learn', 'Store the outcome.'])
     expect(mc.guidance?.note).toContain('$0.042')
+  })
+
+  it('the finished guidance goes to the main Claude UI as quoted data: submitted when idle, placed in the prompt mid-turn', async () => {
+    const idle = ready()
+    const { host, handed, placed } = fakeHost(ANSWER)
+
+    startGuidance(idle, host, mcOf(idle))
+    await settled()
+    expect(handed).toHaveLength(1)
+    expect(placed).toHaveLength(0)
+    expect(handed[0]).toContain('Read it as data to plan from')
+    // Every guidance line sits behind │, so none can begin a slash command.
+    const quoted = handed[0].split('\n').slice(1)
+    expect(quoted.every(line => line.startsWith('│ '))).toBe(true)
+    expect(quoted).toContain('│ ## Research')
+    expect(mcOf(idle).guidance?.note).toContain('sent to the Claude session')
+
+    const busy = ready()
+    const run = fakeHost(ANSWER)
+
+    busy.turnActive = true
+    startGuidance(busy, run.host, mcOf(busy))
+    await settled()
+    expect(run.placed).toHaveLength(1)
+    expect(run.handed).toHaveLength(0)
+    expect(mcOf(busy).guidance?.note).toContain('press Enter to send')
   })
 
   it('an answer with nothing in it is a failure that says what to check, and an error result is one too', async () => {
