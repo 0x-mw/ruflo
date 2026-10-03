@@ -1,6 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { money, type Mission } from '../data/missions'
+import { attentionCount, clampCursor, freshnessOf, listLayout } from '../mission-list'
 import { ago, kv, rule, text, THEME, type Ctx } from './common'
 
 const STATE_COLOR: Record<string, string> = { running: THEME.warn, verifying: THEME.warn, completed: THEME.ok, failed: THEME.bad, blocked: THEME.bad, paused: THEME.info, queued: THEME.info }
@@ -50,12 +51,19 @@ export function observationRows(ctx: Ctx): RenderElement[] {
   }
 
   if (observation.missions.length === 0) rows.push(text(ctx, 'No missions yet.', { dimColor: true }))
+  if (freshnessOf(observation.observedAtMs, ctx.nowMs) === 'stale') rows.push(text(ctx, ` observation is stale (last written ${ago(observation.observedAtMs, ctx.nowMs)}): the daemon may have stopped`, { color: THEME.warn }))
 
-  const ordered = [...observation.missions].sort((a, b) => (b.updatedAtMs ?? 0) - (a.updatedAtMs ?? 0))
+  const attention = attentionCount(observation.missions)
 
-  ordered.slice(0, 6).forEach((mission, i) => rows.push(...missionRows(ctx, mission, i === 0)))
+  if (attention > 0) rows.push(text(ctx, ` ${attention} need attention (blocked or failed): listed first`, { color: THEME.bad }))
 
-  if (ordered.length > 6) rows.push(text(ctx, `+${ordered.length - 6} more`, { dimColor: true }))
+  // One line a mission; the cursor's mission (j and k move it) is expanded below the list.
+  const cursor = clampCursor(ctx.state.select.item, observation.missions.length)
+  const layout = listLayout(observation.missions, cursor)
+
+  for (const { index, line } of layout.rows) rows.push(text(ctx, `${index === cursor ? '▸' : ' '} ${line}`, index === cursor ? { bold: true } : { dimColor: true }))
+  if (layout.hidden > 0) rows.push(text(ctx, `  ${layout.hidden} more not shown · j and k scroll`, { dimColor: true }))
+  if (layout.expanded !== null) rows.push(...missionRows(ctx, layout.expanded, true))
 
   rows.push(kv(ctx, 'legend', '○ pending · ◐ running · ● recorded done (recorded, not verified) · ✖ failed'))
   rows.push(text(ctx, 'observation only: actions go through `npx ruflo mission action` with a request id and the expected revision', { dimColor: true }))
