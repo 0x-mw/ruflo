@@ -3,7 +3,8 @@ import type { RenderElement } from 'claude-code'
 import type { DevField } from '../data/devtools'
 import { DEV, DEV_GROUPS, devSpec, type DevCost, type DevEntry, type DevGroup } from '../devtools'
 import { slot } from './attention'
-import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, row, section, text, THEME, type Ctx } from './common'
+import { spinAt } from '../spinner'
 
 /** Result lines in view at once; j/k scroll the rest. */
 const RESULT_ROWS = 14
@@ -79,15 +80,23 @@ function fieldRows(ctx: Ctx, group: DevGroup): RenderElement[] {
   )
 }
 
+/** The Result section's header: a running run with its seconds and spinner, the last exit, or that nothing ran yet. */
+function resultRight(ctx: Ctx): string {
+  const { state, nowMs } = ctx
+  const running = state.lab.running?.id.startsWith('dt-') === true ? state.lab.running : null
+  const result = state.lab.result?.id.startsWith('dt-') === true ? state.lab.result : null
+
+  return running !== null ? `${spinAt(nowMs)} running ${Math.round((nowMs - running.startedAtMs) / 1000)}s` : result === null ? 'nothing run yet' : `${result.ok ? '✓' : '✗'} exit ${result.exitCode ?? 'n/a'} · ${ago(result.atMs, nowMs)}`
+}
+
 /** The last Dev Tools run: what it was, how it exited, its note, and a window of its lines. */
 function resultRows(ctx: Ctx): RenderElement[] {
   const { state, nowMs } = ctx
   const running = state.lab.running?.id.startsWith('dt-') === true ? state.lab.running : null
   const result = state.lab.result?.id.startsWith('dt-') === true ? state.lab.result : null
-  const right = running !== null ? `running ${Math.round((nowMs - running.startedAtMs) / 1000)}s` : result === null ? 'nothing run yet' : `${result.ok ? '✓' : '✗'} exit ${result.exitCode ?? 'n/a'} · ${ago(result.atMs, nowMs)}`
-  const rows: RenderElement[] = [rule(ctx, 'Result', right)]
+  const rows: RenderElement[] = []
 
-  if (running !== null) rows.push(text(ctx, ` ▸ ${running.label} … ${Math.floor(nowMs / 500) % 2 === 0 ? '█' : ' '}`, { color: THEME.warn }))
+  if (running !== null) rows.push(text(ctx, ` ${spinAt(nowMs)} ${running.label} · ${Math.round((nowMs - running.startedAtMs) / 1000)}s`, { color: THEME.warn }))
 
   if (result === null) {
     if (running === null) rows.push(text(ctx, ' ▸ press a row: a $0 read shows here at once; the rest ask first (y), their cost on the confirm row', { dimColor: true }))
@@ -116,23 +125,23 @@ function resultRows(ctx: Ctx): RenderElement[] {
 }
 
 /**
- * ruflo's integration surface by purpose: each section its fields and its rows, the last run's output under the first
- * section so it stays in view, and a key to the cost tags. Drawing it runs nothing; every row is a press.
+ * ruflo's integration surface by purpose: each group a section with its fields and rows, the first open and the rest folded
+ * (each header names its count and cost), and the last run's output in a section of its own, open while a run is in flight or has
+ * finished. Drawing it runs nothing; every row is a press.
  */
 export function devtoolsView(ctx: Ctx): RenderElement {
+  const { state } = ctx
   const lead = Math.max(16, Math.min(24, ctx.columns - 44))
+  const hasRun = state.lab.running?.id.startsWith('dt-') === true || state.lab.result?.id.startsWith('dt-') === true
   const rows: RenderElement[] = [text(ctx, ' $0 local read, runs at once · cpu/wr local work or a write · net the network · $$ may spend · del deletes: each of these asks first', { dimColor: true })]
 
   DEV_GROUPS.forEach((group, i) => {
-    rows.push(rule(ctx, group.title, group.right))
-    rows.push(...fieldRows(ctx, group.id))
+    const entries = DEV.filter(candidate => candidate.group === group.id)
 
-    for (const entry of DEV.filter(candidate => candidate.group === group.id)) rows.push(entryRow(ctx, entry, lead))
-
-    // The result sits under the brain and the diff tools, so a read's answer appears beside what asked for it.
-    if (i === 1) rows.push(...resultRows(ctx))
+    rows.push(...section(ctx, `dt-${group.id}`, group.title, `${entries.length} · ${group.right}`, [...fieldRows(ctx, group.id), ...entries.map(entry => entryRow(ctx, entry, lead))], i === 0))
   })
 
+  rows.push(...section(ctx, 'dt-result', 'Result', resultRight(ctx), resultRows(ctx), hasRun))
   rows.push(text(ctx, ' every row is a palette id too: /ruflo run dt-diff HEAD~3, /ruflo run dt-brain review my PR', { dimColor: true }))
 
   return col(ctx, rows, 'devtools')

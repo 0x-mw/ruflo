@@ -3,7 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { DOCTOR_COMPONENTS, isSecureResult, SECURE, SECURE_TEXT, secMemo, SEVERITIES, type SecCost, type Severity } from '../secure'
 import { slot } from './attention'
 import { spinAt } from '../spinner'
-import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, row, rule, section, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const RESULT_ROWS = 14
@@ -83,7 +83,7 @@ const SEVERITY_COLOR: Record<Severity, () => string> = { critical: () => THEME.b
 /** The last findings by severity as bars, each scaled to the largest count. */
 export function meterRows(ctx: Ctx): RenderElement[] {
   const findings = secMemo(ctx.state).findings
-  const rows: RenderElement[] = [rule(ctx, 'Findings', findings === null ? 'none measured yet' : `${findings.source} · ${ago(findings.atMs, ctx.nowMs)}`)]
+  const rows: RenderElement[] = []
 
   if (findings === null) {
     rows.push(text(ctx, ' ▸ a scan, a channel/plan check or a paste check fills this meter with its findings by severity', { dimColor: true }))
@@ -113,7 +113,7 @@ export function meterRows(ctx: Ctx): RenderElement[] {
 /** The paste field: Enter runs the local check at once; the buttons run the other checks on the same text. */
 function pasteRows(ctx: Ctx): RenderElement[] {
   const memo = secMemo(ctx.state)
-  const rows: RenderElement[] = [rule(ctx, 'Check text', 'AIDefence · injection, jailbreak, PII · policy')]
+  const rows: RenderElement[] = []
 
   if (ctx.kit.Input !== undefined) {
     rows.push(
@@ -145,7 +145,7 @@ function pasteRows(ctx: Ctx): RenderElement[] {
 /** The doctor: the full run and --fix, one button per local component, then the last run's checks as ✓/⚠/✗ rows. */
 function doctorRows(ctx: Ctx): RenderElement[] {
   const doctor = secMemo(ctx.state).doctor
-  const rows: RenderElement[] = [rule(ctx, 'Doctor', doctor === null ? 'not run yet' : `${doctor.label} · ${ago(doctor.atMs, ctx.nowMs)}`)]
+  const rows: RenderElement[] = []
 
   for (const entry of SECURE.filter(candidate => candidate.id === 'doc-all' || candidate.id === 'doc-fix')) rows.push(entryRow(ctx, entry))
 
@@ -188,13 +188,45 @@ function doctorRows(ctx: Ctx): RenderElement[] {
  * checks, and the last run's output. Nothing runs on open; a $0 read runs on its button, the rest ask first.
  */
 export function secureView(ctx: Ctx): RenderElement {
-  const rows: RenderElement[] = [...meterRows(ctx), ...pasteRows(ctx), rule(ctx, 'Scan & inspect', 'scans are local; npm audit is the network')]
+  const { state, nowMs } = ctx
+  const memo = secMemo(state)
+  const findings = memo.findings
+  const doctor = memo.doctor
+  const running = state.lab.running !== null && isSecureResult(state.lab.running.id) ? state.lab.running : null
+  const doctorBusy = running !== null && running.id.startsWith('doc-')
+  const scanBusy = running !== null && !doctorBusy
+  const fails = doctor === null ? 0 : doctor.checks.filter(check => check.status === 'fail').length
+  const warns = doctor === null ? 0 : doctor.checks.filter(check => check.status === 'warn').length
+  const scanRows: RenderElement[] = [
+    ...SECURE.filter(candidate => candidate.group === 'scan').map(entry => entryRow(ctx, entry)),
+    naRow(ctx, 'VALIDATE', 'no `security validate` in the CLI: the check text field above is the input check'),
+    naRow(ctx, 'REPORT', 'no `security report` in the CLI: a scan writes .claude/security-scans/<scan>.json'),
+    text(ctx, COST_KEY, { dimColor: true }),
+  ]
 
-  for (const entry of SECURE.filter(candidate => candidate.group === 'scan')) rows.push(entryRow(ctx, entry))
-  rows.push(naRow(ctx, 'VALIDATE', 'no `security validate` in the CLI: the check text field above is the input check'))
-  rows.push(naRow(ctx, 'REPORT', 'no `security report` in the CLI: a scan writes .claude/security-scans/<scan>.json'))
-  rows.push(text(ctx, COST_KEY, { dimColor: true }))
-  rows.push(...doctorRows(ctx), ...resultRows(ctx, isSecureResult))
+  // Each part is a section. The findings are open; the check field and the scans fold; the doctor opens when a check failed or
+  // warned, or while it runs. Each header names its state, so the page reads without opening anything.
+  const rows: RenderElement[] = [
+    ...section(
+      ctx,
+      'sec-findings',
+      'Findings',
+      findings === null ? 'none measured yet' : `${SEVERITIES.map(level => `${findings.counts[level]} ${level}`).join(' · ')} · ${ago(findings.atMs, nowMs)}`,
+      meterRows(ctx),
+      true,
+    ),
+    ...section(ctx, 'sec-check', 'Check text', 'AIDefence · injection, jailbreak, PII · policy', pasteRows(ctx), false),
+    ...section(ctx, 'sec-scan', 'Scan & inspect', scanBusy ? `${spinAt(nowMs)} ${running?.label ?? 'scanning'}` : 'scans are local; npm audit is the network', scanRows, scanBusy),
+    ...section(
+      ctx,
+      'sec-doctor',
+      'Doctor',
+      doctor === null ? 'not run yet' : `${doctor.label} · ${fails} failed · ${warns} warnings · ${ago(doctor.atMs, nowMs)}`,
+      doctorRows(ctx),
+      doctorBusy || fails > 0 || warns > 0,
+    ),
+    ...resultRows(ctx, isSecureResult),
+  ]
 
   return col(ctx, rows, 'secure')
 }
