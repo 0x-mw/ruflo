@@ -49,6 +49,9 @@ export function parseRuflo(args: string): Intent {
     case 'p':
       return { kind: 'palette', query: rest }
     // `/ruflo plan <goal>` prints the SPARC plan; `/ruflo mission [status|next|pause|resume|cancel|create|guide <text>|aside <text>|auto on|off]`.
+    // `/ruflo ask <question>`: ask the main Claude about the open section (asks first).
+    case 'ask':
+      return { kind: 'run', paletteId: 'ask', text: rest }
     case 'plan':
       return { kind: 'run', paletteId: 'mission-goal', text: rest }
     case 'mission':

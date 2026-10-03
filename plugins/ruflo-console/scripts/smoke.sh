@@ -11,9 +11,9 @@ step() { printf "→ %s ... " "$1"; }
 ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 
-step "1. plugin.json declares ruflo-console 0.12.0"
+step "1. plugin.json declares ruflo-console 0.13.0"
 grep -q '"name": "ruflo-console"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.12.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.13.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -71,8 +71,14 @@ done
 step "13. marketplace lists ruflo-console"
 grep -q '"name": "ruflo-console"' "$REPO/.claude-plugin/marketplace.json" && ok || bad "missing marketplace entry"
 
-step "14. pure specs pass under vitest"
-if (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/pure.spec.ts plugins/ruflo-console/tests/vendored-types.spec.ts plugins/ruflo-console/tests/mh-lab.spec.ts plugins/ruflo-console/tests/automate.spec.ts>/dev/null 2>&1); then ok; else bad "vitest specs failed"; fi
+step "14. every pure spec passes under vitest"
+if (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/ --exclude '**/*.test.ts' >/dev/null 2>&1); then ok; else bad "vitest specs failed"; fi
+
+step "15. the live no-spend e2e smoke exists, is executable and skips cleanly without RUFLO_E2E_LIVE"
+if [[ -x "$ROOT/scripts/e2e-smoke.sh" ]] && bash "$ROOT/scripts/e2e-smoke.sh" 2>&1 | grep -q '^SKIP'; then ok; else bad "e2e-smoke.sh"; fi
+
+step "16. every view has a matrix entry and an ask entry"
+if [[ "$(grep -c "{ id: '[a-z]*', key: '[0-9a-z]'" "$ROOT/hooks/state.ts")" -eq "$(grep -cE "^  [a-z]+: \{ default:" "$ROOT/hooks/ask-claude.ts" | awk '{print $1 - 1}')" ]]; then ok; else bad "VIEW_ASK does not cover VIEWS"; fi
 
 printf "\n%d passed, %d failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]

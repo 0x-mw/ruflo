@@ -3,6 +3,7 @@
  * and the pictures computed for this frame. They call nothing on the engine; buttons call the closures in `ctx.act`.
  * Text colours are theme names only, so nothing fades on a light background.
  */
+import type { AskActions } from '../ask-claude'
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
@@ -66,6 +67,8 @@ export type Actions = {
   evolve: EvolveActions
   /** The Dev Tools view: keep a field's text, and Enter in a field runs its entry. */
   devtools: DevtoolsActions
+  /** Ask Claude about this section (a visible prompt or a /btw aside) or run the plugin command that fits it: each asks first. */
+  ask: AskActions
   /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */
   mission: MissionActions
   /** The Plugin Catalog: read the clone, filter, select a plugin, view or use an item, change a plugin (each asks first). */

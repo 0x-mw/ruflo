@@ -12,7 +12,8 @@ import { loadCommandNames } from './mission-skills'
 
 export function openLoaders(state: State, host: Host, view: State['view']): void {
   // Mission Control asks the session which slash commands it offers (the ruflo-goals skills among them).
-  if (view === 'missions') void loadCommandNames(state, host)
+  // Every section can offer the slash command of the plugin that fits it, so the session's commands are read once.
+  if (view === 'missions' || state.commandNames.length === 0) void loadCommandNames(state, host)
 
   // Self-Evolution reads ruflo's own flywheel files (local, no CLI run); its checks wait for a click.
   if (view === 'evolve') void loadEvolve(state, host)
