@@ -20,7 +20,8 @@ import { loadAllowed } from './remember'
 import { loadAiPrefs } from './settings'
 import { openLoaders } from './view-open'
 import { listSkills } from './skills'
-import { CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
+import { entryAge } from './menu-entry'
+import { BOOT_MIN_MS, CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
 import { pulseDue } from './pulse'
@@ -262,6 +263,7 @@ export function createController(state: State, host: Host): Controller {
 
     if (wasBooting && !booting) {
       wasBooting = false
+      state.pane.menuAtMs = Date.now()
       host.invalidate()
       animate()
 
@@ -270,7 +272,7 @@ export function createController(state: State, host: Host): Controller {
 
     wasBooting = booting
 
-    if (pulseDue(state.view, started)) host.invalidate()
+    if (pulseDue(state.view, started) || (state.view === 'menu' && entryAge({ look: state.options.look, boot: state.options.boot, ...state.pane }, started, BOOT_MIN_MS) !== null)) host.invalidate()
 
     for (const [key, grid] of picturesOf(state, state.pane.columns, Date.now(), Date.now())) {
       const mounted = state.mounted.get(key)
@@ -412,6 +414,7 @@ export function createController(state: State, host: Host): Controller {
     if (view !== state.view) {
       if (view === 'agent' || state.view !== 'agent') state.back = state.view === 'agent' ? state.back : state.view
       state.view = view
+      state.pane.viewAtMs = Date.now()
       state.select.item = 0
       state.mounted.clear()
       persist()

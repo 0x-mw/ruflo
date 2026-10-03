@@ -123,6 +123,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     restart: () => {
       // The intro plays again from now (BBS look and the boot option on); the pane redraws at once, and the read starts over beneath it.
       state.pane.bootAtMs = Date.now()
+      state.pane.menuAtMs = 0
       host.invalidate()
       animate()
       actions.refresh()

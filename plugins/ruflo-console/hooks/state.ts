@@ -227,7 +227,7 @@ export type State = {
   fieldText: Map<string, string>
   /** The dock width asked for (RUFLO_CONSOLE_COLUMNS, 40 to 400); 0 leaves the engine's share. A request: a dragged width wins. */
   dockColumns: number
-  pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string; /** When the pane last opened: the BBS boot screen plays from here. */ bootAtMs: number }
+  pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string; /** When the pane last opened: the BBS boot screen plays from here. */ bootAtMs: number; /** When the boot ended: the menu's entry plays from here (0: not yet). */ menuAtMs: number; /** When the page was last switched: its title strikes in from here (0: not since the pane opened). */ viewAtMs: number }
   /** The size of each Raster as last mounted, by key: a blit of any other size is refused, so none is sent. */
   mounted: Map<string, { columns: number; rows: number }>
   select: { claim: number; agent: number; task: number; item: number }
@@ -327,7 +327,7 @@ export function newState(raw: PluginOptions | undefined): State {
     allowed: new Map(),
     sections: new Set(),
     fieldText: new Map(),
-    pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '', bootAtMs: 0 },
+    pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '', bootAtMs: 0, menuAtMs: 0, viewAtMs: 0 },
     mounted: new Map(),
     select: { claim: 0, agent: 0, task: 0, item: 0 },
     drill: { agentId: null, logs: null, logsAtMs: 0 },

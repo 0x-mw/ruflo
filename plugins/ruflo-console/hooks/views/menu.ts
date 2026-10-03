@@ -1,3 +1,6 @@
+import { BOOT_MIN_MS } from '../state'
+import { ENTRY, entryAge, groupStart, itemStart } from '../menu-entry'
+import { scramble } from '../gfx/boot-cyber'
 import type { RenderElement } from 'claude-code'
 
 import { ACCENT, badgesOf, chip, LOUD, MUTED, PALETTE } from '../menu-style'
@@ -73,6 +76,8 @@ const mmss = (ms: number): string => {
  */
 export function menuView(ctx: Ctx): RenderElement {
   const { state, nowMs } = ctx
+  // While the entry plays (menu-entry.ts) the cards light up in turn; null once it is over, or when there is none.
+  const entry = entryAge({ look: state.options.look, boot: state.options.boot, ...state.pane }, nowMs, BOOT_MIN_MS)
   const project = state.cwd.split('/').filter(Boolean).at(-1) ?? 'ruflo'
   const go = (item: Item) => () => (item.go === 'palette' ? ctx.act.palette('all') : item.go === 'help' ? ctx.act.help() : item.go === 'close' ? ctx.act.close() : ctx.act.view(item.go as ViewId))
   const isShown = (item: Item) => COMMANDS.has(item.go) || VIEWS.some(view => view.id === item.go)
@@ -90,7 +95,9 @@ export function menuView(ctx: Ctx): RenderElement {
   const badges = badgesOf(state, nowMs)
 
   // Each group a bordered box: ▓▒░ TITLE ░▒▓ on top, then its sub-sections, each a dim ── name ── rule and its items.
-  const box = (group: (typeof GROUPS)[number]) => {
+  const box = (group: (typeof GROUPS)[number], gi: number) => {
+    const started = entry === null || entry >= groupStart(gi)
+    let seen = 0
     const accent = ACCENT[group.title] ?? '#d0d0d0'
     const title = clip(`▓▒░ ${group.title} ░▒▓`, width - 4)
 
@@ -98,15 +105,17 @@ export function menuView(ctx: Ctx): RenderElement {
       flexDirection: 'column',
       width,
       borderStyle: 'single',
-      borderColor: bbs ? accent : 'inactive',
+      borderColor: bbs && started ? accent : 'inactive',
       paddingX: 1,
       key: `menu-${group.title}`,
       children: [
         bbs
-          ? ctx.kit.Box({ key: `menu-bar-${group.title}`, children: [ctx.kit.Text({ ...chip(accent), wrap: 'truncate-end', children: ` ${title}`.padEnd(width - 2).slice(0, width - 2) })] })
+          ? ctx.kit.Box({ key: `menu-bar-${group.title}`, children: [ctx.kit.Text({ ...chip(accent), wrap: 'truncate-end', children: (entry === null ? ` ${title}` : scramble(` ${title}`, entry, groupStart(gi), ENTRY.titleMs).padEnd(width - 2)).padEnd(width - 2).slice(0, width - 2) })] })
           : ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: title }),
         ...group.sections.flatMap(section => {
           const items = section.items.filter(isShown)
+
+          if (entry !== null && !started) return items.length === 0 ? [] : [ctx.kit.Text({ children: ' ' }), ...items.map(item => ctx.kit.Box({ key: `mi-${item.go}`, children: [ctx.kit.Text({ children: ' ' })] }))]
 
           return items.length === 0
             ? []
@@ -115,6 +124,11 @@ export function menuView(ctx: Ctx): RenderElement {
                 ...items.map(item => {
                   const badge = badges[item.go as ViewId]
                   const key = keyOf(item)
+                  const since = entry === null ? Infinity : entry - itemStart(gi, seen++)
+
+                  // Not yet: a blank row, so nothing below moves. Locking in: the key chip and the label scrambling into place, not yet a button.
+                  if (since < 0) return ctx.kit.Box({ key: `mi-${item.go}`, children: [ctx.kit.Text({ children: ' ' })] })
+                  if (since < ENTRY.settleMs) return ctx.kit.Box({ flexDirection: 'row', key: `mi-${item.go}`, children: [bbs ? ctx.kit.Text({ ...chip(accent), children: ` ${key} ` }) : ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${key})` }), ctx.kit.Text({ color: THEME.head, children: ` ${scramble(clip(item.label, width - 11), since, 0, ENTRY.settleMs)}` })] })
 
                   return ctx.kit.Box({
                     flexDirection: 'row',
@@ -139,12 +153,12 @@ export function menuView(ctx: Ctx): RenderElement {
     rows.push(
       ctx.pictures.has('palette') && ctx.kit.Raster !== undefined
         ? picture(ctx, 'palette', '')
-        : ctx.kit.Box({ flexDirection: 'row', key: 'menu-palette', children: PALETTE.map((color, i) => ctx.kit.Text({ color, children: '▀'.repeat(Math.max(1, Math.floor((ctx.columns - 2) / PALETTE.length))), key: `menu-palette-${i}` })) }),
+        : ctx.kit.Box({ flexDirection: 'row', key: 'menu-palette', children: PALETTE.map((color, i) => ctx.kit.Box({ key: `menu-palette-${i}`, children: [ctx.kit.Text({ color, children: '▀'.repeat(Math.max(1, Math.floor((ctx.columns - 2) / PALETTE.length))) })] })) }),
     )
   }
 
   for (let i = 0; i < GROUPS.length; i += perRow) {
-    rows.push(ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `menu-row-${i}`, children: GROUPS.slice(i, i + perRow).map(box) }))
+    rows.push(ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `menu-row-${i}`, children: GROUPS.slice(i, i + perRow).map((group, j) => box(group, i + j)) }))
   }
 
   // The status bar under the box: the line, then what is live in this project, then how long the board has been open.
@@ -161,10 +175,10 @@ export function menuView(ctx: Ctx): RenderElement {
       backgroundColor: isBbs() ? '#870000' : undefined,
       key: 'menu-status',
       children: [
-        ctx.kit.Text({ bold: true, color: '#ffd700', children: line }),
+        ctx.kit.Text({ bold: true, color: '#ffd700', children: entry === null ? line : scramble(line, entry, ENTRY.statusFrom, 700).padEnd(line.length) }),
         // The live facts are links: a click goes to the view each is about.
         ...facts.flatMap((part, i) => {
-          if (room <= 6) return []
+          if (room <= 6 || (entry !== null && entry < ENTRY.factsFrom)) return []
 
           const label = clip(part.text, room - 3)
 
@@ -193,7 +207,7 @@ export function menuView(ctx: Ctx): RenderElement {
       onSubmit: value => ctx.act.menu(value),
     })
 
-    rows.push(bbs ? ctx.kit.Box({ key: 'menu-prompt-box', borderStyle: 'round', borderColor: ACCENT.TOOLS as string, paddingX: 1, children: [prompt] }) : prompt)
+    rows.push(bbs ? ctx.kit.Box({ key: 'menu-prompt-box', borderStyle: 'round', borderColor: entry !== null && entry < ENTRY.promptFrom ? 'inactive' : (ACCENT.TOOLS as string), paddingX: 1, children: [prompt] }) : prompt)
   } else {
     rows.push(row(ctx, [text(ctx, `(1:1) (ruflo: ${clip(project, 24)}) : press a key from the menu`, { color: THEME.warn })]))
   }

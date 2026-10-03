@@ -148,7 +148,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     // The menu is the RUFLO board itself; every other page reads `RUFLO | PAGE`, the logo's style left of the page's name.
     const name = state.view === 'menu' && !state.isHelp && !state.palette.isOpen ? 'ruflo bbs' : `ruflo | ${page}`
 
-    pictures.set('title', titlePicture(name, Math.min(width, 120), t))
+    pictures.set('title', titlePicture(name, Math.min(width, 120), t, state.pane.viewAtMs > 0 && state.options.fps > 0 ? nowMs - state.pane.viewAtMs : Infinity))
   }
 
   switch (state.view) {

@@ -6,6 +6,7 @@
  */
 import { Braille, COLOR, Grid, mix, ramp, sparkline } from './raster'
 import { bigText } from './font'
+import { hash } from './boot-cyber'
 import { getBuild } from '../build'
 import { CONSOLE_VERSION } from '../version'
 
@@ -281,7 +282,10 @@ const NEON_CORAL = 0xff7a59
  * A view's BBS title: its name in the two-row half-block font, magenta to coral like the ANSI art boards, framed by
  * dithered ░▒▓ ramps, with a slow shimmer down the letters (decoration). Two rows.
  */
-export function titlePicture(name: string, columns: number, t: number): Grid {
+/** A page title strikes in over this long when the page is switched to. */
+export const TITLE_ENTRY_MS = 1_200
+
+export function titlePicture(name: string, columns: number, t: number, age = Infinity): Grid {
   const grid = new Grid(columns, 2)
   const [top, bottom] = bigText(name)
   const edge = '░▒▓'
@@ -315,6 +319,20 @@ export function titlePicture(name: string, columns: number, t: number): Grid {
 
       if (x < columns) grid.set(x, y, ch, mix(0x3a0f2e, NEON_MAGENTA, (i + 1) / edge.length))
     })
+  }
+
+  // Just switched to: the letters strike in from the left, a bright edge leading and noise ahead of it, the same entry as the boot's log.
+  if (age < TITLE_ENTRY_MS) {
+    const lead = x0 + (age / TITLE_ENTRY_MS) * (width + 1)
+
+    for (let y = 0; y < 2; y++) {
+      for (let x = x0; x < Math.min(columns, x0 + width); x++) {
+        if (grid.glyph(x, y) === 0x20) continue
+
+        if (x > lead + 1) grid.set(x, y, '░▒▓█'[hash(x * 7 + y + Math.floor(age / 60)) % 4] as string, mix(0x3a0f2e, NEON_CYAN, 0.35))
+        else if (x > lead - 1.5) grid.set(x, y, grid.glyph(x, y), 0xffffff)
+      }
+    }
   }
 
   return grid
