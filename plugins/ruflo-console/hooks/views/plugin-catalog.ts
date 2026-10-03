@@ -2,7 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { catalogOf, installedOf, listOf, MODES, PAGE, type Verb } from '../plugin-catalog'
 import type { CatalogPlugin } from '../data/plugin-catalog'
-import { button, clip, col, kv, row, rule, text, THEME, type Ctx } from './common'
+import { button, clip, col, kv, row, rule, section, text, THEME, type Ctx } from './common'
 
 /** The ▸ verb a row ends with: install when absent, else enable or disable. */
 function verbOf(ctx: Ctx, plugin: CatalogPlugin): { verb: Verb; label: string } {
@@ -64,16 +64,15 @@ function detailRows(ctx: Ctx, plugin: CatalogPlugin): RenderElement[] {
   if (plugin.isMod) rows.push(text(ctx, ' MOD: function hooks run in the engine once this plugin is loaded (trust it like code you run)', { color: THEME.warn }))
   if (plugin.hasMcp) rows.push(text(ctx, ' MCP: ships an .mcp.json: its servers start with the plugin', { dimColor: true }))
 
-  const section = (title: string, kind: 'skill' | 'agent' | 'command', items: string[]) => {
+  const group = (title: string, kind: 'skill' | 'agent' | 'command', items: string[]) => {
     if (items.length === 0) return
 
-    rows.push(rule(ctx, title, `${items.length}${items.length > 12 ? ' · first 12 shown' : ''}`))
-    for (const item of items.slice(0, 12)) rows.push(itemRow(ctx, kind, plugin, item))
+    rows.push(...section(ctx, `${kind}s`, title, `${items.length}${items.length > 12 ? ' · first 12 shown' : ''}`, items.slice(0, 12).map(item => itemRow(ctx, kind, plugin, item))))
   }
 
-  section('Skills', 'skill', plugin.skills)
-  section('Agents', 'agent', plugin.agents)
-  section('Commands', 'command', plugin.commands)
+  group('Skills', 'skill', plugin.skills)
+  group('Agents', 'agent', plugin.agents)
+  group('Commands', 'command', plugin.commands)
 
   return rows
 }

@@ -10,6 +10,7 @@ import { newState, PANE_ID, restore, restoreSessions, storeKeyOf, termStoreKeyOf
 import { BAR_KEY, barView } from './views/bar'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
+import { withClearing } from './views/clearing'
 import { NARROW, paneView } from './views/pane'
 
 const RUFLO_TOOL = /^mcp__(claude-flow|ruflo|plugin_ruflo[\w-]*)__/
@@ -64,6 +65,18 @@ function hostOf($: EngineInterface, cwd: string): Host {
     rufloSnapshot: async () => $.ruflo.snapshot(),
     rufloRoute: async () => $.ruflo.lastRoute(),
     rufloSegment: async text => $.ruflo.segment({ id: 'console', text }),
+    // Both wait on the turn, so neither may be called from inside a command.run hook (`/ruflo yes` is one): they run from a clock
+    // tick, a later event of their own.
+    submitPrompt: text =>
+      new Promise<void>((resolve, reject) => {
+        $.clock.after(1, () => void $.prompt.submit({ text }).then(() => resolve(), reject))
+      }),
+    fillPrompt: async text => (await $.prompt.fill({ text, mode: 'replace' })).isFilled,
+    runSlash: (command, args) =>
+      new Promise((resolve, reject) => {
+        $.clock.after(1, () => void $.command.run({ command, args }).then(resolve, reject))
+      }),
+    listCommands: async () => (await $.command.list()).map(command => command.name),
   }
 }
 
@@ -167,12 +180,25 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     state.pane.rows = Math.max(0, Math.floor(Number(e.props.scroll?.bodyRows) || 0))
 
-    const tree = paneView({ kit, state, nowMs: Date.now(), columns, pictures, act: control.actions })
+    const tree = paneView({ kit: withClearing(kit, state, control.actions.clearField), state, nowMs: Date.now(), columns, pictures, act: control.actions })
 
     state.stats.renders.push(Date.now() - started)
     if (state.stats.renders.length > 200) state.stats.renders.shift()
 
     return tree
+  })
+
+  // The AI terminal's conversation is its own window: the wheel and the page keys over the pane move it, so the header,
+  // tabs and the field below stay where they are (the engine would scroll the whole pane).
+  on('ui.scroll', { component: 'Pane', requestId: PANE_ID }, ($, e, next) => {
+    if (control === null || state.view !== 'terminal' || e.by === 0) return next(e)
+
+    const lines = Math.abs(e.by) >= e.bodyRows ? Math.max(1, Math.round(e.bodyRows / 2)) : Math.abs(e.by) * 3
+
+    control.actions.term.scroll(e.by < 0 ? lines : -lines)
+
+    // The pane itself stays put: ask the engine for the offset it already has.
+    return next({ ...e, offset: e.offset - e.by })
   })
 
   on('ui.render', { component: 'AbovePrompt' }, ($, e, next) => {
@@ -189,6 +215,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     const mark = table.Raster !== undefined ? table.Raster(markPicture(e.props.isWorking, Date.now()).toRaster(BAR_KEY)) : null
 
+    state.turnActive = e.props.isWorking === true
     bound.markFrame(e.requestId, e.props.isWorking && mark !== null)
 
     // A click on a part opens the console on its view, with the keys, so the person can act there at once.

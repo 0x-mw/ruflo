@@ -1,0 +1,59 @@
+# ADR 408: Mission Control in the ruflo-console cockpit
+
+Status: Accepted
+
+Date: 2026 10 02
+
+Decision owner: Ruflo maintainers
+
+Scope: the Missions view and the main menu's mission strip in `plugins/ruflo-console` (0.11.0): the planner, the mission and task writes, how work reaches the primary Claude Code session, Claude's guidance, the band, and the nav hotkeys.
+
+Extends: ADR 406 (mission records and the `session-bound` executor) and ADR 407 (the cockpit and its safety contract).
+
+## 1. Decision
+
+A goal typed into the cockpit becomes a **SPARC plan** (a goal-oriented action planner, no model, no writes), then, on confirmation, a governed **mission** (`mission_create`, `mission_plan`) with one ruflo **task** per plan node (`task_create`, tagged `mission:<id>`, `task:<tN>`, `phase:<S|P|A|R|C|X>`). The **primary Claude Code session** does the work, one task at a time, as a visible prompt. The ruflo task store is the one authority for execution state: the console reads it and never infers it.
+
+## 2. One lifecycle for every mission
+
+Whatever the kind of work, a plan runs the same lifecycle, in order: **Research → Create (specification, design, ADRs and the SOP) → Build → Test → Validate → Secure → Benchmark → Learn**.
+
+- *Lean* is the core only (specify or reproduce, design, tests first, build, test, validate).
+- *Standard* runs the whole lifecycle: it adds research of prior art and existing ADRs, recording the decisions as ADRs with an SOP, review, a security review, a benchmark against the baseline, and Learn.
+- *Thorough* adds documentation, a threat model and the full benchmark and ADR set for every kind.
+- Bug fixes skip the ADR and benchmark stages. Research missions end in Learn (the findings stored as patterns).
+- **Learn** stores the validated outcome (memory and trajectory) and trains routing on it, so the next mission starts better (self-optimization). It needs the work to be validated first, so it is the last step.
+
+The planner (`hooks/goap.ts`) is A* over fact sets: actions have preconditions, effects and costs; the task graph is read off the preconditions, so independent branches (research beside specification, pseudocode beside architecture) share a wave. It is pure and deterministic. The plan is accepted by the real `mission_plan` (checked against the CLI).
+
+## 3. How work reaches Claude
+
+- **Next task** asks first (it starts a model turn), marks the task `in_progress`, and submits one visible prompt naming the ruflo task id, the role, what done means, and how to record it (`task_complete` with evidence in its result, or `task_update` failed). Auto-run hands over the next ready task when Claude is idle.
+- **Ask aside** uses `/btw` (run when idle; prepared in the prompt box while a turn runs). **Guide Claude** is a visible instruction, asked first. **Control**: pause, resume and cancel are the console's own ledger (a session-bound mission has no durable executor to pause).
+- `submit` and `slash` calls run from a clock tick, never inside a `command.run` hook (`/ruflo yes` is one): the host refuses that, because it would wait on the turn the hook holds.
+- The **ruflo-goals skills** (goal-plan, horizon-track, deep-research, research-synthesize, dossier-collect) are mission options, run as `/ruflo-goals:<skill>` in the main UI; a skill is offered only when the session lists its command.
+
+## 4. Claude's guidance (`claude -p`)
+
+After a goal is entered and planned, `claude -p` (plan mode, read-only, the per-turn budget and model from Settings, a fresh session) is given the goal, the plan, the lifecycle and what this installation can do (the ruflo plugins and skills the session offers, the AI settings) and asked for guidance by lifecycle stage, with the exact ruflo agents, plugins, skills, MCP tools and commands to bring in, then suggestions the plan does not use and risks. It costs a model turn, so it **asks first**, under the goal; **Always accept** runs it at once; **Mission guidance** in Settings turns it off. The answer streams into a collapsible section, stripped of escape and control characters, capped at 400 lines and five minutes.
+
+## 5. Where the confirm sits
+
+An ask is drawn **under the field or controls that raised it** (scope `goal`, `controls`, `guide`; Hive-Mind's ACT menu likewise), not at the top of the page, so the person never hunts for it. Each field keeps what was last entered: **✎ edit** puts it back in the box to change and send again.
+
+## 6. Surfaces
+
+- **Main menu**: Mission Control leads the page (progress and next task with run-next and pause, or the goal field); Missions is the first option, key **1**.
+- **Band**: `🎯 done/total · tN title (1)` for the active mission, paused when paused, gone when done or cancelled.
+- **Missions view** tabs: Plan, Tasks, Agents, Evidence, Record (the ADR 406 observation).
+- **Hotkeys**: every view has one (a button takes one digit or lowercase letter): 0 Main Menu, 1 Missions, 2 Overview, 3 Swarm, 4 Claims, 5 Federation, 6 Plugins, 7 Learning, 8 MetaHarness, 9 Memory, then letters (c Cost, g Timeline, q Approvals, e Events, w x.ruv.io, i Terminal, b Hive-Mind, z Skills, u Security, f Performance, a Automation, l Learning Lab, v Vector Lab, t Self-Evolution, d Dev Tools, m Plugin Catalog, s Settings). No view takes `p x r h j k y n o` (footer, confirm, scrolling, the menu prompt). A view's own keys win while it is open; its tab and the menu still reach the others.
+
+## 7. Safety
+
+Writes are confirm-gated with the exact argv. Remembered actions are not offered for mission writes or AI turns. AI turns are read-only, in plan mode, under the budget. No secrets are shown. Mission and task text is data: drawn as text, never as markup or commands.
+
+## 8. Consequences
+
+- The planner is testable without a model (`tests/goap.spec.ts`, `tests/mission-control.spec.ts`, `tests/mission-guidance.spec.ts`, `tests/nav.spec.ts`, `tests/missions.test.ts`).
+- Pause and resume do not stop a running Claude turn; they only stop the console handing out the next task.
+- Hotkeys collide with a view's own keys inside that view by design; the tab bar shows the ten digit views and a core set of letter views, and the menu lists every area with its key.

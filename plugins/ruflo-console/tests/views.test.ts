@@ -35,7 +35,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'overview')
 
-    expect(rasters).toEqual(['header', 'title', 'activity'])
+    expect(rasters).toEqual(['title', 'activity'])
     expect(text).toContain('v3.50.0 (npx-offline)')
     expect(text).toContain('running per daemon-state.json')
     expect(text).toContain('1 ruflo server connected (plugin_ruflo-core_ruflo) · 2 tools callable now')
@@ -53,7 +53,7 @@ describe('views', () => {
 
     const { text, rasters, tree } = await drawn($, 'swarm')
 
-    expect(rasters).toEqual(['header', 'title', 'topology'])
+    expect(rasters).toEqual(['title', 'topology'])
     expect(text).toContain('hierarchical · specialized · running · max 6')
     // One label per agent (no repeated type), then status; a short id instead of the full one.
     expect(text).toMatch(/▸● \ncoder\s+idle\s+tasks/)
@@ -61,12 +61,12 @@ describe('views', () => {
     expect(text).toContain('design (raft) pending · for 0 · against 0')
     expect(text).not.toContain(HIVE_TOKEN)
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['agent-next', 'agent-prev', 'drill', 'palette', 'actions', 'open-hive']))
-    // The Hive-Mind tab has no hotkey: every digit and letter is taken.
+    // Every view has a hotkey, the Hive-Mind tab included (b).
     const tabProps = (key: string) => (elementsOf(tree, 'Button').find(button => keyOf(button) === key) as { props?: Record<string, unknown> } | undefined)?.props
 
-    expect(tabProps('tab-claims')?.hotkey).toBe('3')
+    expect(tabProps('tab-claims')?.hotkey).toBe('4')
     expect(tabProps('tab-hive')).toBeDefined()
-    expect(tabProps('tab-hive')?.hotkey).toBeUndefined()
+    expect(tabProps('tab-hive')?.hotkey).toBe('b')
   })
 
   test('hive: the honeycomb, quorum and fault tolerance, proposals, workers, decisions, broadcasts, no token', { options: { boot: false } }, async ($, on) => {
@@ -77,7 +77,7 @@ describe('views', () => {
     const { text, rasters, tree } = await drawn($, 'hive')
 
     // The comb, a chamber per open proposal, and the strip (shield, terms, pheromones); nothing asked, nothing run.
-    expect(rasters).toEqual(['header', 'title', 'hive', 'hive-chambers', 'hive-strip'])
+    expect(rasters).toEqual(['title', 'hive', 'hive-chambers', 'hive-strip'])
     expect(text).toContain('3 in the comb · 1 byzantine')
     expect(text).toMatch(/voting chambers/i)
     expect(world.runs.filter(argv => argv.includes('hive-mind') || argv.some(arg => arg.startsWith('hive-mind_')))).toEqual([])
@@ -105,7 +105,7 @@ describe('views', () => {
 
     const { text, rasters, tree } = await drawn($, 'hive')
 
-    expect(rasters).toEqual(['header', 'title', 'hive-egg', 'hive-egg-base'])
+    expect(rasters).toEqual(['title', 'hive-egg', 'hive-egg-base'])
     expect(text).toContain('the comb is empty · the egg is where the queen will sit')
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['start-hive', 'start-hive-workers']))
 
@@ -142,7 +142,7 @@ describe('views', () => {
 
     const { text, rasters, tree } = await drawn($, 'claims')
 
-    expect(rasters).toEqual(['header', 'title', 'flow'])
+    expect(rasters).toEqual(['title', 'flow'])
     expect(text).toContain('1 active · 1 stealable · 0 handoff')
     expect(text).toContain('no claims tool sets a TTL today')
     expect(text).toMatch(/console-demo-2.*stealable/)
@@ -156,7 +156,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'federation')
 
-    expect(rasters).toEqual(['header', 'title', 'fedmap'])
+    expect(rasters).toEqual(['title', 'fedmap'])
     expect(text).toContain('agentbbs agentbbs-not-found')
     expect(text).toContain('Off: the roster is on the public relay')
     expect(world.runs.some(argv => argv.join(' ').includes('x_federation_roster'))).toBe(false)
@@ -169,7 +169,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'plugins')
 
-    expect(rasters).toEqual(['header', 'title', 'health'])
+    expect(rasters).toEqual(['title', 'health'])
     expect(text).toContain('STALE: the clone does not list ruflo-mods')
     expect(text).toContain('2 ruflo · 1 enabled · 2 total')
   })
@@ -182,7 +182,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'learning')
 
-    expect(rasters).toEqual(['header', 'title', 'curve', 'pipeline', 'patterns'])
+    expect(rasters).toEqual(['title', 'curve', 'pipeline', 'patterns'])
     expect(text).toContain('tester 60% · keyword match')
     expect(text).toMatch(/\d+\/9 succeeded \(\d+% success rate, N=9\)/)
     expect(text).toContain('consolidate: EWC consolidations')
@@ -195,7 +195,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'metaharness')
 
-    expect(rasters).toEqual(['header', 'title', 'radar', 'trend'])
+    expect(rasters).toEqual(['title', 'radar', 'trend'])
     expect(text).toContain('$0.024')
     expect(text).toContain('valid · 0 commits · 0 receipts')
   })
@@ -233,7 +233,7 @@ describe('views', () => {
 
     const cost = await drawn($, 'cost')
 
-    expect(cost.rasters).toEqual(['header', 'title', 'gauge', 'burn'])
+    expect(cost.rasters).toEqual(['title', 'gauge', 'burn'])
     expect(cost.text).toContain('$0.421')
     expect(cost.text).toContain('WARNING · $3.90 of $5.00 (78%)')
     expect(cost.text).toContain('WHERE IT GOES')
@@ -251,7 +251,7 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    expect((await drawn($, 'timeline')).rasters).toEqual(['header', 'title', 'gantt'])
+    expect((await drawn($, 'timeline')).rasters).toEqual(['title', 'gantt'])
 
     const approvals = await drawn($, 'approvals')
 
@@ -274,31 +274,6 @@ describe('views', () => {
     expect(world.runs.some(argv => argv.join(' ').includes('agent logs --id agent-1790903032591-x41b0y --tail 20'))).toBe(true)
   })
 
-  test('missions: the ADR-406 observation, task status as recorded, evidence as verified, nothing invented', { options: { boot: false } }, async ($, on) => {
-    worldOf(on, { ...RUFLO_FILES, '.claude-flow/missions/observation.json': MISSION_OBSERVATION })
-    mock.clock(on)
-    await $.session.start(SESSION)
-
-    const { text } = await drawn($, 'missions')
-
-    expect(text).toContain('Ship a verified artifact')
-    expect(text).toContain('planned · rev 2 · session-bound')
-    expect(text).toContain('○ produce → ○ evaluate → ○ verify')
-    expect(text).toContain('evidence 0/0 verified · budget $0.00 settled, $0.00 reserved of $10.00 (estimate $1.00)')
-    expect(text).not.toMatch(/[\u001b\u202e]/)
-  })
-
-  test('missions: no observation file reads n/a with how to start one', { options: { boot: false } }, async ($, on) => {
-    worldOf(on, RUFLO_FILES)
-    mock.clock(on)
-    await $.session.start(SESSION)
-
-    const missions = await drawn($, 'missions')
-
-    expect(missions.text).toContain('No mission yet (ADR-406)')
-    expect(elementsOf(missions.tree, 'Input').map(keyOf)).toEqual(['start-field-mission'])
-  })
-
   test('x.ruv.io: the federation menu with its commands, and no registry or roster asked with the network off', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
 
@@ -307,7 +282,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'xruv')
 
-    expect(rasters).toEqual(['header', 'title'])
+    expect(rasters).toEqual(['title'])
     expect(text).toContain(' JOIN ....')
     expect(text).toContain('WORK CLAIMS')
     expect(text).toContain('Turn on federationNetwork in /config')
@@ -322,9 +297,9 @@ describe('views', () => {
 
     const { text, tree } = await drawn($, 'terminal')
 
-    expect(text).toContain('[c: CODEX]')
-    expect(text).toContain('codex exec, read-only sandbox, one thread per project')
-    expect(text).toContain('codex: new session')
+    expect(text).toContain('[l: CLAUDE]')
+    expect(text).toContain('claude -p in plan mode, a per-turn budget cap (Settings), one session per project')
+    expect(text).toContain('claude: new session')
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['term-input'])
     expect(world.runs.some(argv => argv[0] === 'codex' || argv[0] === 'claude')).toBe(false)
   })
@@ -338,12 +313,12 @@ describe('views', () => {
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
     const menu = await pane.drawn()
 
-    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'title'])
+    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header'])
     expect(textOf(menu)).toContain('▓▒░ SWARM ░▒▓')
     expect(textOf(menu)).toContain('── live')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
-    expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-prompt'])
+    expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-goal', 'menu-prompt'])
 
     await pane.input({ key: 'menu-prompt', text: 'w', kind: 'submit' })
     expect(textOf(await pane.drawn())).toContain('MAIN MENU')
@@ -364,7 +339,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'automate')
 
-    expect(rasters).toEqual(['header', 'title'])
+    expect(rasters).toEqual(['title'])
     expect(text).toContain('● MAP')
     expect(text).toContain('137 runs · 0 failed')
     expect(text).toContain('◐ OPTIMIZE')
@@ -409,7 +384,7 @@ describe('views', () => {
 
     const { text, rasters } = await drawn($, 'neural')
 
-    expect(rasters).toEqual(['header', 'title'])
+    expect(rasters).toEqual(['title'])
     expect(text).toMatch(/trajectories\s+30\.8k/)
     expect(text).toMatch(/TRAINING[\s\S]*ROUTER/)
     expect(mine()).toEqual([])

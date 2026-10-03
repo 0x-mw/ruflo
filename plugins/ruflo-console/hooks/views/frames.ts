@@ -127,7 +127,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     return pictures
   }
 
-  if (!isCompactPane(state)) {
+  if (!isCompactPane(state) && state.view === 'menu') {
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
     pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo · ${project}`, Math.min(width, 40), t))
@@ -135,9 +135,11 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
 
   // BBS: every view's name as ANSI-style block art under the tabs, compact or not (the neon sign is the boot's alone).
   if (state.options.look === 'bbs') {
-    const name = state.isHelp ? 'help' : state.palette.isOpen ? 'palette' : state.view === 'agent' ? 'agent' : state.view === 'menu' ? 'ruflo bbs' : (VIEWS.find(view => view.id === state.view)?.label ?? state.view)
+    const page = state.isHelp ? 'help' : state.palette.isOpen ? 'palette' : state.view === 'agent' ? 'agent' : (VIEWS.find(view => view.id === state.view)?.label ?? state.view)
+    // The menu is the RUFLO board itself; every other page reads `RUFLO | PAGE`, the logo's style left of the page's name.
+    const name = state.view === 'menu' && !state.isHelp && !state.palette.isOpen ? 'ruflo bbs' : `ruflo | ${page}`
 
-    pictures.set('title', titlePicture(name, Math.min(width, 80), t))
+    pictures.set('title', titlePicture(name, Math.min(width, 120), t))
   }
 
   switch (state.view) {

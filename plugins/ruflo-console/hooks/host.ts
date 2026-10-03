@@ -40,4 +40,12 @@ export type Host = {
   rufloSnapshot: () => Promise<RufloSnapshot>
   rufloRoute: () => Promise<RufloRoute | null>
   rufloSegment: (text: string | null) => Promise<void>
+  /** Submits a prompt to the primary Claude session as a visible turn of its own (once idle). */
+  submitPrompt: (text: string) => Promise<void>
+  /** Puts text in the prompt box as the draft (the person presses Enter); false where there is no box. */
+  fillPrompt: (text: string) => Promise<boolean>
+  /** The names of the slash commands the session offers now (built-in, plugin and MCP alike). */
+  listCommands: () => Promise<string[]>
+  /** Runs a slash command as if typed (built-in, plugin or MCP); queued until the session is idle. */
+  runSlash: (command: string, args: string) => Promise<{ text?: string } | void>
 }

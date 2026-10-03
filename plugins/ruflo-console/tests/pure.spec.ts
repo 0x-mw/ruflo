@@ -146,8 +146,11 @@ describe('graphics', () => {
     const state = newState({})
 
     state.view = 'learning'
-    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'title', 'curve', 'pipeline', 'patterns'])
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['title', 'curve', 'pipeline', 'patterns'])
     state.view = 'memory'
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['title'])
+    // The RUFLO banner is the main menu's alone; every other page leads with `RUFLO | PAGE`.
+    state.view = 'menu'
     expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'title'])
   })
 

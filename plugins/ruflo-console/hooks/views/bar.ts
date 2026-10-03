@@ -5,6 +5,7 @@
  * standing context (claims, this session's spend). With nothing happening it says so, and when it last did.
  * Each part is a fact on disk or n/a; a part with nothing to say is left out rather than shown as zero.
  */
+import { activeMission, derive, progressOf } from '../mission-control'
 import type { RenderElement } from 'claude-code'
 
 import { alertsOf, approvalsOf } from '../data/alerts'
@@ -48,6 +49,22 @@ export function money(usd: number): string {
   return usd < 100 ? `$${usd.toFixed(2)}` : `$${Math.round(usd).toLocaleString('en-US')}`
 }
 
+/** The active mission as a band part: progress and the running task, or paused; none when there is no mission, or it is done or cancelled. */
+export function missionPart(state: State): BarPart | null {
+  const mission = activeMission(state)
+
+  if (mission === null || mission.cancelled) return null
+
+  const tasks = state.snapshot?.tasks ?? []
+  const { done, total } = progressOf(mission, tasks)
+  const status = derive(mission, tasks)
+  const running = mission.tasks.find(task => status.get(task.id) === 'running')
+
+  if (total === 0 || done >= total) return null
+
+  return { text: `🎯 ${done}/${total}${mission.paused ? ' paused' : running !== undefined ? ` · ${running.id} ${clip(running.title, 28)}` : ''} (1)`, tone: running !== undefined ? 'live' : 'plain', go: 'missions' }
+}
+
 export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
   const snap = state.snapshot
   const parts: BarPart[] = []
@@ -58,6 +75,11 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
 
   if (approvals > 0) parts.push({ text: `${approvals} to approve (q)`, tone: 'attention', go: 'approvals' })
   if (alerts > 0) parts.push({ text: `⚠ ${alerts} alert${alerts === 1 ? '' : 's'}`, tone: 'attention', go: 'overview' })
+
+  // The active mission: how far along, and the task Claude is on (or that it is paused); a click opens Mission Control.
+  const missing = missionPart(state)
+
+  if (missing !== null) parts.push(missing)
 
   // What is happening now: agents at work, the AI terminal's runs, and the newest event while it is fresh.
   parts.push(...workingParts(state, nowMs))
