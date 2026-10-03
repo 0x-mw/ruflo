@@ -12,8 +12,11 @@ import { drawCyber } from './boot-cyber'
 import { neonPicture, NEON_ROWS } from './neon'
 import { Grid } from './raster'
 
-const SIGN_TOP = 0
-export const BOOT_ROWS = SIGN_TOP + NEON_ROWS + 3
+/** The sign sits one row down, inside a border of its own: a row above it and a row below. */
+const SIGN_TOP = 1
+export const BOOT_ROWS = SIGN_TOP + NEON_ROWS + 4
+/** The border strikes up over this long once the sign switches on. */
+const FRAME_MS = 900
 
 const GREEN = 0x39ff14
 const CYAN = 0x05d9e8
@@ -56,6 +59,41 @@ export const BOOT_MODULES: readonly { name: string; note: string }[] = [
 ]
 const NAME_WIDTH = 15
 
+/** The blue behind the white leading cell, and how many cells of it, while the border strikes: white, then blue, then pink. */
+const BLUE = 0x3a7bff
+const FRAME_BLUE = 10
+
+/**
+ * A neon border round the whole animation area, the brick wall included: a double line along the edge of the picture, a row above the sign and
+ * a row below it. Dim before the sign switches on; then a run of light goes round it clockwise from the top left, a white leading cell, a
+ * stretch of blue behind it, then pink; when the run has gone all the way round the whole border is that one pink. Left out only when the pane
+ * is too narrow to draw a box at all.
+ */
+export function drawFrame(grid: Grid, columns: number, age: number): void {
+  const x0 = 0
+  const x1 = columns - 1
+  const y0 = 0
+  const y1 = SIGN_TOP + NEON_ROWS
+
+  if (columns < 8) return
+
+  const cells: { x: number; y: number; ch: string }[] = []
+
+  for (let x = x0; x <= x1; x++) cells.push({ x, y: y0, ch: x === x0 ? '╔' : x === x1 ? '╗' : '═' })
+  for (let y = y0 + 1; y < y1; y++) cells.push({ x: x1, y, ch: '║' })
+  for (let x = x1; x >= x0; x--) cells.push({ x, y: y1, ch: x === x0 ? '╚' : x === x1 ? '╝' : '═' })
+  for (let y = y1 - 1; y > y0; y--) cells.push({ x: x0, y, ch: '║' })
+
+  const progress = Math.max(0, Math.min(1, (age - SIGN_ON_MS) / FRAME_MS))
+  const lit = Math.floor(progress * cells.length)
+
+  cells.forEach((cell, i) => {
+    const color = progress >= 1 ? PINK : i >= lit ? DIM : i === lit - 1 ? 0xffffff : lit - i <= FRAME_BLUE ? BLUE : PINK
+
+    grid.set(cell.x, cell.y, cell.ch, color)
+  })
+}
+
 /**
  * `age` is ms since the pane opened; the bar mixes elapsed time with the reads that have answered (`done` of
  * `total`), so it moves before any read returns and reads 100% before the boot ends at BOOT_MIN_MS. `rows` is the
@@ -74,6 +112,7 @@ export function bootPicture(project: string, columns: number, age: number, done:
   const sign = neonPicture(columns, age - SIGN_ON_MS, true)
 
   grid.cells.set(sign.cells, SIGN_TOP * columns * 3)
+  drawFrame(grid, columns, age)
 
   type(BOOT_ROWS - 2, 1300, `> handshake ok · node ${project}`, CYAN, 14)
 

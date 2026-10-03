@@ -291,6 +291,59 @@ const RESULT_OF: Partial<Record<ViewId, (ctx: Ctx) => RenderElement[]>> = {
   learning: neuralResult,
 }
 
+/** How many cells of space follow the last icon, so the row does not touch the host's ✕ at the edge. */
+const ICON_MARGIN = 2
+
+/**
+ * The icons' glyphs: one cell each, and none an emoji or with an emoji form. A glyph that is also an emoji (⚙, ℹ) can be drawn two cells wide when a terminal
+ * switches to its emoji font for it, as it can when the glyph is bold, which is how the page you are on is drawn: the row then jumps when that page is
+ * selected. A plain ? is also visibly larger than the small symbols beside it. So: ⌂ the main menu, ⌘ the palette, ʔ help (a small question-mark shape: a plain ? is too large, ⓘ was not obvious), ⛭ settings (a gear with no emoji form),
+ * ⟳ refresh last (it draws a little larger than ↻, as asked). A bare glyph is not always obvious (help most of all), so from WORDS_FROM columns each icon also says its word.
+ */
+const ICON_GLYPHS = { menu: '⌂', palette: '⌘', refresh: '⟳', help: 'ʔ', settings: '⛭' } as const
+
+/** The pane width from which each icon spells its word beside its glyph. */
+export const ICON_WORDS_FROM = 110
+
+/** The icons on one line, at the right of the first row, beside the host's ✕: the main menu, the palette, refresh, help and settings. The one for the page you are on is lit: coloured text, the same width as a button. */
+export function iconRow(ctx: Ctx): RenderElement {
+  const { state } = ctx
+  const withWords = ctx.columns >= ICON_WORDS_FROM
+  // A plain Button draws exactly its label, so the page you are on is coloured text of exactly the same width: nothing moves when it changes.
+  const icon = (key: string, glyph: string, word: string, isCurrent: boolean, press: () => void): RenderElement => {
+    const label = withWords ? `${glyph} ${word} ` : `${glyph} `
+
+    return isCurrent
+      ? ctx.kit.Box({ key, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: label })] })
+      : ctx.kit.Button({ key, label, plain: true, dimColor: true, onPress: press })
+  }
+
+  return ctx.kit.Box({
+    flexDirection: 'row',
+    key: 'pane-icons',
+    children: [
+      icon('pane-icon-menu', ICON_GLYPHS.menu, 'menu', state.view === 'menu' && !state.isHelp && !state.palette.isOpen, () => ctx.act.view('menu')),
+      icon('pane-icon-palette', ICON_GLYPHS.palette, 'palette', state.palette.isOpen, () => ctx.act.palette('all')),
+      icon('pane-icon-help', ICON_GLYPHS.help, 'help', state.isHelp, ctx.act.help),
+      icon('pane-icon-settings', ICON_GLYPHS.settings, 'settings', state.view === 'settings' && !state.isHelp && !state.palette.isOpen, () => ctx.act.view('settings')),
+      // Last, beside the close mark: refresh re-reads everything and replays the intro, as the footer's Refresh and the r key do; it is an action, never the page you are on.
+      icon('pane-icon-refresh', ICON_GLYPHS.refresh, 'refresh', false, ctx.act.restart),
+      ctx.kit.Text({ children: ' '.repeat(ICON_MARGIN) }),
+    ],
+  })
+}
+
+/** Puts the icon row at the right of the first line of the pane, beside the header art and its purpose line; with no header, on a row of its own. */
+function withIcons(ctx: Ctx, parts: RenderElement[], lead: number): RenderElement[] {
+  if (ctx.columns < 40) return parts
+
+  if (lead === 0) {
+    return [ctx.kit.Box({ flexDirection: 'row', key: 'pane-top', children: [ctx.kit.Box({ flexGrow: 1, key: 'pane-top-gap', children: [ctx.kit.Text({ children: ' ' })] }), iconRow(ctx)] }), ...parts]
+  }
+
+  return [ctx.kit.Box({ flexDirection: 'row', key: 'pane-top', children: [ctx.kit.Box({ flexDirection: 'column', flexGrow: 1, key: 'pane-lead', children: parts.slice(0, lead) }), iconRow(ctx)] }), ...parts.slice(lead)]
+}
+
 export function paneView(base: Ctx): RenderElement {
   setLook(base.state.options.look)
 
@@ -365,7 +418,14 @@ export function paneView(base: Ctx): RenderElement {
         [...bbs.art, ...(about !== null ? [about] : []), ...(cardsOn ? [] : [...gap, ...bbs.strip, ...gap]), tabs(ctx), ...(cardsOn ? [] : gap), footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
       : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx, attention.placed)]), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx, attention.placed)] : [])]
 
-  return ctx.kit.Box({ flexDirection: 'column', children: parts })
+  // The leading rows that sit beside the icons: the header art (one picture) and the line that says what the page is for; on the menu, the banner and the blank row under it.
+  const lead = isCompact
+    ? (ctx.state.view === 'menu' && title.length > 0 ? title.length : bbs.art.length) + (about !== null ? 1 : 0)
+    : !isMenu && isBbs()
+      ? bbs.art.length + (about !== null ? 1 : 0)
+      : title.length + (isMenu && isBbs() ? 1 : 0)
+
+  return ctx.kit.Box({ flexDirection: 'column', children: withIcons(ctx, parts, lead) })
 }
 
 type Plain = { type: string; props: { children?: unknown; label?: string } }

@@ -72,3 +72,46 @@ describe('scroll to the top', () => {
     expect(scrolls.count).toBe(1)
   })
 })
+
+describe('a group picked on the menu', () => {
+  it('does not stay picked after you leave the menu: it is idle again when you come back', () => {
+    const state = newState({})
+    const { host } = fakeHost()
+    const control = createController(state, host)
+
+    state.view = 'menu'
+    control.actions.navigator.group('SWARM')
+    expect(state.navPick).toEqual({ group: 'SWARM', view: 'menu' })
+
+    control.setView('swarm')
+    expect(state.navPick).toBeNull()
+
+    control.setView('menu')
+    expect(state.navPick).toBeNull()
+  })
+
+  it('picking the picked group again closes its row, and another group opens its own', () => {
+    const state = newState({})
+    const { host } = fakeHost()
+    const control = createController(state, host)
+
+    state.view = 'menu'
+    control.actions.navigator.group('SWARM')
+    control.actions.navigator.group('MIND')
+    expect(state.navPick?.group).toBe('MIND')
+
+    control.actions.navigator.group('MIND')
+    expect(state.navPick).toBeNull()
+  })
+
+  it('does not toggle off on another page, where the shown group is the page\'s own', () => {
+    const state = newState({})
+    const { host } = fakeHost()
+    const control = createController(state, host)
+
+    state.view = 'swarm'
+    control.actions.navigator.group('MIND')
+    control.actions.navigator.group('MIND')
+    expect(state.navPick?.group).toBe('MIND')
+  })
+})

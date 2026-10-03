@@ -34,3 +34,7 @@ Lines draw outward over 350 ms once both their stars are up; a lit star flashes 
 ## 5. Amendment: no modem dial-up
 
 The first two boot rows (`ATDT ruflo.local   RING… RING…` and `CONNECT 115200 / ARQ / V.42bis`) are gone, along with the "CONNECT" in the no-picture fallback. The sign starts to strike at 400 ms instead of 900, since there is no line to wait for, and the boot log gains the two rows. A spec checks that no frame of the boot shows them.
+
+## 6. Amendment: a border round the whole animation area
+
+The boot's neon sign sits inside a double-line border (`╔═╗ ║ ╚═╝`) that encloses the whole animation area, the brick wall included: it runs along the edge of the picture, with a row above the sign and a row below it (the sign moves down one row; the boot's fixed rows are two more than before). It is dim until the sign switches on, then a run of light goes round it clockwise from the top left: a white leading cell, ten cells of blue behind it, then pink. Once the run has gone all the way round, the whole border is one pink and stays so. Specs: the four corners at the picture's edges at 90, 60 and 44 columns; dim before the sign; white, blue and pink mid-strike; exactly one colour (pink) when complete and later; removing the call or the single-colour rule fails them.

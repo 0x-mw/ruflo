@@ -170,6 +170,14 @@ describe('the nav card on the main menu', () => {
     expect(flat(picked[0]).some(node => node.props.key === 'tab-learning')).toBe(true)
   })
 
+  it('offers a ✕ beside the chips once a group is picked, which closes its pages again, and none while idle', () => {
+    expect(flat(draw(false)).some(node => node.props.key === 'nav-pick-close')).toBe(false)
+
+    const close = flat(draw(true)).find(node => node.props.key === 'nav-pick-close')
+
+    expect(close).toBeDefined()
+  })
+
   it('keeps every page reachable by its key from the menu: they are hidden buttons, not gone', () => {
     const keys = flat(draw(false)).filter(node => String(node.props.key).startsWith('tab-') && node.props.hotkey !== undefined).map(node => String(node.props.key))
 

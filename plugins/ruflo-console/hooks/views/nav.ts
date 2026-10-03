@@ -80,6 +80,8 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
       ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ ...(isBbs() ? chip(NAV_ACCENT[group.title] ?? THEME.head) : { bold: true, color: THEME.head }), children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
       : ctx.kit.Button({ key: `nav-group-${group.title}`, label: ` ${icons ? `${group.icon} ` : ''}${group.title} `, plain: true, dimColor: true, onPress: () => ctx.act.navigator.group(group.title) }),
   )
+  // On the main menu a picked group's pages are open: a ✕ beside the chips closes them again.
+  const closePick = open === 'menu' && !isMenuIdle ? [ctx.kit.Button({ key: 'nav-pick-close', label: ' ✕ ', plain: true, dimColor: true, onPress: () => ctx.act.navigator.group(shown) })] : []
   const Input = ctx.kit.Input
   const search = Input === undefined ? [] : [Input({ key: 'nav-find', label: '🔎', placeholder: 'find a page', submitLabel: 'go', onSubmit: (value: string) => ctx.act.navigator.find(value) })]
   const clear = query === '' ? [] : [ctx.kit.Button({ key: 'nav-find-clear', label: ' ✕ ', plain: true, dimColor: true, onPress: () => ctx.act.navigator.clear() })]
@@ -87,7 +89,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
     flexDirection: 'row',
     gap: 1,
     key: 'tabs-groups',
-    children: [menu === undefined ? ctx.kit.Text({ children: '' }) : open === 'menu' ? tab(menu) : ctx.kit.Button({ key: 'tab-menu', label: ' 📟 MAIN ', plain: true, hotkey: '0', onPress: () => ctx.act.view('menu') }), ...chips, ...(isSearchInline ? [...search, ...clear] : [])],
+    children: [menu === undefined ? ctx.kit.Text({ children: '' }) : open === 'menu' ? tab(menu) : ctx.kit.Button({ key: 'tab-menu', label: ' 📟 MAIN ', plain: true, hotkey: '0', onPress: () => ctx.act.view('menu') }), ...chips, ...closePick, ...(isSearchInline ? [...search, ...clear] : [])],
   })
   const findRow = isSearchInline ? [] : [ctx.kit.Box({ flexDirection: 'row', gap: 1, key: 'tabs-find', children: [...search, ...clear] })]
   const lines =

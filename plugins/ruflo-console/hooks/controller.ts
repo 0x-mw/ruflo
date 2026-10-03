@@ -414,6 +414,8 @@ export function createController(state: State, host: Host): Controller {
     if (view !== state.view) {
       if (view === 'agent' || state.view !== 'agent') state.back = state.view === 'agent' ? state.back : state.view
       state.view = view
+      // A group picked on one page (the menu's pages row) does not follow you to the next, or back to this one.
+      state.navPick = null
       state.pane.viewAtMs = Date.now()
       state.select.item = 0
       state.mounted.clear()

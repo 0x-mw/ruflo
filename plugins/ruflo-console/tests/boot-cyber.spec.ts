@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest'
 
 import { bootFacts } from '../hooks/boot-facts'
 import { bootPicture, BOOT_MODULES, BOOT_ROWS } from '../hooks/gfx/boot'
+import { NEON_ROWS } from '../hooks/gfx/neon'
 import { eggText, scramble, EGG_FROM_MS } from '../hooks/gfx/boot-cyber'
 import { newState, type State } from '../hooks/state'
 
@@ -144,5 +145,67 @@ describe('the constellation animation', () => {
 
   it('draws its lines out over time rather than all at once', () => {
     expect(dots(1500 + 1000 + 100)).toBeLessThan(dots(1500 + 1000 + 1000))
+  })
+})
+
+describe('the border round the boot animation', () => {
+  const at = (grid: ReturnType<typeof bootPicture>, x: number, y: number): string => String.fromCodePoint(grid.glyph(x, y))
+  const frame = (age: number, columns = 90) => bootPicture('p', columns, age, 10, 10, BOOT_ROWS + 20, allOk, undefined)
+  const row = (grid: ReturnType<typeof bootPicture>, y: number): string => Array.from({ length: grid.columns }, (_, x) => at(grid, x, y)).join('')
+
+  it('encloses the whole area, wall included: corners at the edges of the picture, a row above and a row below the sign', () => {
+    for (const columns of [90, 60, 44]) {
+      const grid = frame(4_000, columns)
+
+      expect(at(grid, 0, 0), `${columns} columns`).toBe('╔')
+      expect(at(grid, columns - 1, 0)).toBe('╗')
+      expect(at(grid, 0, NEON_ROWS + 1)).toBe('╚')
+      expect(at(grid, columns - 1, NEON_ROWS + 1)).toBe('╝')
+      expect(row(grid, 0)).toMatch(/^╔═+╗$/)
+      expect(row(grid, 3)[0]).toBe('║')
+      expect(row(grid, 3).at(-1)).toBe('║')
+    }
+  })
+
+  const colours = (age: number): Set<number> => {
+    const grid = frame(age)
+    const found = new Set<number>()
+
+    for (let i = 0; i < grid.columns * (NEON_ROWS + 2); i++) if ('╔═╗║╚╝'.includes(String.fromCodePoint(grid.cells[i * 3] as number))) found.add(grid.cells[i * 3 + 1] as number)
+
+    return found
+  }
+
+  it('is dim before the sign switches on', () => {
+    expect([...colours(100)]).toEqual([0x6b7280])
+  })
+
+  it('is one single colour (pink) once the animation is complete, and stays so', () => {
+    expect([...colours(4_000)]).toEqual([0xff2a6d])
+    expect([...colours(9_000)]).toEqual([0xff2a6d])
+  })
+
+  it('goes white, then blue, then pink while it strikes, with the dim yet to come', () => {
+    const mid = colours(400 + 450)
+
+    expect(mid.has(0xffffff)).toBe(true)
+    expect(mid.has(0x3a7bff)).toBe(true)
+    expect(mid.has(0xff2a6d)).toBe(true)
+    expect(mid.has(0x6b7280)).toBe(true)
+  })
+
+  it('strikes round the edge over time: more of it is lit later', () => {
+    const lit = (age: number): number => {
+      const grid = frame(age)
+      let n = 0
+
+      for (let i = 0; i < grid.columns * (NEON_ROWS + 2); i++) if ([0xff2a6d, 0x05d9e8, 0xffffff].includes(grid.cells[i * 3 + 1] as number) && '╔═╗║╚╝'.includes(String.fromCodePoint(grid.cells[i * 3] as number))) n++
+
+      return n
+    }
+
+    expect(lit(300)).toBe(0)
+    expect(lit(400 + 450)).toBeGreaterThan(0)
+    expect(lit(400 + 450)).toBeLessThan(lit(4_000))
   })
 })

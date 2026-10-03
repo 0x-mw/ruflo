@@ -60,7 +60,10 @@ export type NavActions = {
 export function navActions(state: State, invalidate: () => void, open: (view: ViewId) => void): NavActions {
   return {
     group: title => {
-      state.navPick = { group: title, view: state.view }
+      // On the main menu, picking the group that is already picked closes its row of pages again.
+      const isPicked = state.view === 'menu' && state.navPick !== null && state.navPick.view === 'menu' && state.navPick.group === title
+
+      state.navPick = isPicked ? null : { group: title, view: state.view }
       state.navQuery = ''
       invalidate()
     },
