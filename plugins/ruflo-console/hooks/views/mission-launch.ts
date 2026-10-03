@@ -40,7 +40,7 @@ export function launchSteps(ctx: Ctx): Step[] {
     label: 'Claude guidance',
     state: guidanceOff ? 'skip' : blocksGuidance(screen) ? 'blocked' : guidance?.status === 'done' ? 'done' : guidance?.status === 'running' ? 'running' : 'todo',
     detail: guidanceOff ? 'off in Settings' : guidance === null ? 'claude -p advises by stage and suggests ruflo capabilities (asks first)' : guidance.status === 'running' ? 'writing…' : guidance.note,
-    ...(planned && !guidanceOff && !blocksGuidance(screen) && guidance?.status !== 'running' ? { action: { key: 'mc-todo-guidance', label: guidance === null ? ' ✦ ask Claude ' : ' ↻ again ', run: () => m.askGuidance() } } : {}),
+    ...(planned && !guidanceOff && !blocksGuidance(screen) && (screen !== null || !mc.isScreenOn) && guidance?.status !== 'running' ? { action: { key: 'mc-todo-guidance', label: guidance === null ? ' ✦ ask Claude ' : ' ↻ again ', run: () => m.askGuidance() } } : {}),
   })
 
   steps.push({

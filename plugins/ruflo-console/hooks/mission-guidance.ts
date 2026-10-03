@@ -10,6 +10,7 @@ import { termText } from './harness'
 import type { Host } from './host'
 import { type Plan, lifecycleOf } from './goap'
 import type { McState } from './mission-control'
+import { blocksGuidance } from './mission-options'
 import { planText } from './mission-text'
 import type { Runner } from './runner'
 import { settingsOf } from './settings'
@@ -164,6 +165,7 @@ export function guidanceSpec(state: State, host: Host, mc: McState): ActionSpec 
   if (mc.planned === null) return null
 
   const argv = guidanceArgv(state)
+  const goal = mc.goal
 
   return {
     label: `ask claude -p for detailed guidance on this mission: ${termText(mc.goal.replace(/\s+/g, ' '), 44)}`,
@@ -171,12 +173,17 @@ export function guidanceSpec(state: State, host: Host, mc: McState): ActionSpec 
     args: argv,
     shows: `${argv.join(' ')}  (the goal, the plan and this installation's capabilities on stdin)`,
     expect: 'guidance by lifecycle stage, with the ruflo capabilities to use, in Mission Control',
-    run: async () => startGuidance(state, host, mc),
+    // The goal or its screen may have changed while the ask was open: only the goal that was asked about goes out.
+    run: async () => {
+      if (mc.goal === goal && !blocksGuidance(mc.screen)) startGuidance(state, host, mc)
+    },
   }
 }
 
 /** After a goal is entered: asks for the guidance turn (or runs it at once under "always accept"); off when Settings turned it off. */
 export function offerGuidance(state: State, host: Host, runner: Runner, mc: McState): void {
+  // A turn for the previous goal is stopped, not left to run on (and be paid for) with no way to stop it.
+  mc.guidance?.stop?.()
   mc.guidance = null
 
   const ai = settingsOf(state).ai

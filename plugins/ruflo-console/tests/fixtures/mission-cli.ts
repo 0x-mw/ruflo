@@ -15,7 +15,7 @@ export function missionCli(argv: readonly string[]): Answer {
   const tool = argv[at + 1]
 
   if (tool === 'aidefence_is_safe') return out({ safe: !/ignore (all )?previous instructions/i.test(String(argv[argv.indexOf('-p') + 1])), threats: [] })
-  if (tool === 'aidefence_has_pii') return out({ piiFound: false })
+  if (tool === 'aidefence_has_pii') return out({ hasPII: false })
   if (tool === 'mission_create') return out({ ok: true, data: { missionId: MISSION_ID, revision: 1, state: 'draft', deduplicated: false } })
   if (tool === 'mission_plan') return out({ ok: true, data: { missionId: MISSION_ID, revision: 2, state: 'planned', deduplicated: false, sequence: 2, planDigest: 'sha256:abc123' } })
   if (tool === 'task_create') return out({ taskId: `task-${++counter}`, success: true })

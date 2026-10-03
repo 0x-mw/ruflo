@@ -10,6 +10,7 @@ import { plain } from './data/parse'
 import type { Host } from './host'
 import { CLI_PREFIXES, type State } from './state'
 import { GOALS_PLUGIN } from './mission-skills'
+import { jsonAfter } from './data/cli'
 import { mcpReader } from './secure'
 
 export type Screen = { status: 'safe' | 'unsafe' | 'pii' | 'unavailable'; detail: string }
@@ -43,7 +44,7 @@ const title = (slash: string): string => {
 export function capabilitiesOf(state: State): CapabilityGroup[] {
   const groups = new Map<string, Capability[]>()
 
-  for (const slash of state.commandNames) {
+  for (const slash of new Set(state.commandNames)) {
     const at = slash.indexOf(':')
 
     if (at < 0 || !/^ruflo[a-z0-9-]*:[A-Za-z0-9._-]+$/.test(slash)) continue
@@ -76,6 +77,23 @@ async function verdict(state: State, host: Host, tool: string, text: string): Pr
   }
 }
 
+/** `aidefence_has_pii` answers `{hasPII}` (or piiFound / piiDetected): read as PII FOUND or SAFE, whatever else it says. */
+async function piiVerdict(state: State, host: Host, text: string): Promise<string | null> {
+  try {
+    const out = await host.run(argv(state, 'aidefence_has_pii', text), 60_000)
+    const result = jsonAfter(out.stdout)
+    const record = typeof result === 'object' && result !== null && !Array.isArray(result) ? (result as Record<string, unknown>) : null
+    const content = Array.isArray(record?.content) ? (record.content[0] as { text?: unknown } | undefined) : undefined
+    const inner = typeof content?.text === 'string' ? jsonAfter(content.text) : record
+    const row = typeof inner === 'object' && inner !== null && !Array.isArray(inner) ? (inner as Record<string, unknown>) : null
+    const found = row?.hasPII ?? row?.piiFound ?? row?.piiDetected
+
+    return typeof found === 'boolean' ? (found ? 'PII FOUND' : 'SAFE') : null
+  } catch {
+    return null
+  }
+}
+
 /**
  * Screens text the person typed for a mission with AIDefence. Empty text is safe. A tool that answers nothing readable is
  * `unavailable` (the screen warns; it never blocks on a missing detector), and the text is never shown in the result.
@@ -85,11 +103,12 @@ export async function screenText(state: State, host: Host, raw: string): Promise
 
   if (text === '') return { status: 'safe', detail: 'nothing to screen' }
 
-  const [safe, pii] = await Promise.all([verdict(state, host, 'aidefence_is_safe', text), verdict(state, host, 'aidefence_has_pii', text)])
+  const [safe, pii] = await Promise.all([verdict(state, host, 'aidefence_is_safe', text), piiVerdict(state, host, text)])
 
-  if (safe === null && pii === null) return { status: 'unavailable', detail: 'AIDefence did not answer (is @claude-flow/aidefence installed?): the text was not screened' }
   if (safe?.startsWith('UNSAFE') === true) return { status: 'unsafe', detail: plain(safe, 160) }
   if (pii?.startsWith('PII FOUND') === true || safe?.startsWith('PII FOUND') === true) return { status: 'pii', detail: 'personal or secret data detected' }
+  // Both detectors must answer: half an answer is not a screen.
+  if (safe === null || pii === null) return { status: 'unavailable', detail: 'AIDefence did not fully answer (is @claude-flow/aidefence installed?): the text was not fully screened' }
 
   return { status: 'safe', detail: 'no threats or PII found' }
 }

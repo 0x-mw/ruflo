@@ -1,5 +1,6 @@
 /** Palette entries for Mission Control, so `/ruflo run mission-next` and `/ruflo plan <goal>` work headless; a write or a turn still asks. */
 import type { ActionSpec } from './actions'
+import { blocksCreate } from './mission-options'
 import { activeMission, cancelSpec, createSpec, dispatchSpec, mcOf, missionWired, nextTask, setGoal } from './mission-control'
 import type { PaletteEntry } from './palette'
 import type { State } from './state'
@@ -15,7 +16,7 @@ export function missionPalette(state: State): PaletteEntry[] {
   return [
     { id: 'mission-goal', group: 'missions', label: 'mission-goal <goal>: plan a goal as a SPARC goal-oriented plan (nothing is written)', run: text('mission-goal', value => local('plan the goal', () => setGoal(state, value))) },
     { id: 'mission-status', group: 'missions', label: 'mission status: progress, each task’s status, what is next', run: spec(() => local('mission status', () => undefined)) },
-    { id: 'mission-create', group: 'missions', label: 'create the mission and its tasks from the planned goal (asks first)', run: spec(() => (wired === undefined ? null : createSpec(state, wired.host, () => undefined))) },
+    { id: 'mission-create', group: 'missions', label: 'create the mission and its tasks from the planned goal (asks first)', run: spec(() => (wired === undefined || blocksCreate(mcOf(state).screen) ? null : createSpec(state, wired.host, () => undefined))) },
     {
       id: 'mission-next',
       group: 'missions',
@@ -31,7 +32,7 @@ export function missionPalette(state: State): PaletteEntry[] {
     { id: 'mission-resume', group: 'missions', label: 'resume handing out tasks', run: spec(() => local('resume the mission', () => wired?.actions.resume())) },
     { id: 'mission-cancel', group: 'missions', label: 'cancel the mission and its open tasks (asks first)', run: spec(() => { const mission = activeMission(state); return wired === undefined || mission === null ? null : cancelSpec(state, wired.host, mission, tasks()) }) },
     { id: 'mission-aside', group: 'missions', label: 'mission-aside <question>: /btw beside the running task', run: text('mission-aside', value => local('ask aside', () => wired?.actions.aside(value))) },
-    { id: 'mission-guide', group: 'missions', label: 'mission-guide <instruction>: a visible instruction to Claude (asks first)', run: text('mission-guide', value => (value.trim() === '' ? null : { label: `send Claude: ${value.slice(0, 70)}`, args: [], shows: `to the Claude Code session: “${value}”`, expect: 'the instruction in the transcript', note: 'Starts a Claude Code turn (billed as any turn is).', run: async () => wired?.host.submitPrompt(value.slice(0, 500)) })) },
+    { id: 'mission-guide', group: 'missions', label: 'mission-guide <instruction>: a visible instruction to Claude (screened, asks first)', run: text('mission-guide', value => local('guide Claude', () => wired?.actions.guide(value))) },
     { id: 'mission-auto', group: 'missions', label: 'mission-auto on|off: hand over each next ready task without asking', run: text('mission-auto', value => local('auto-run', () => wired?.actions.auto(value.trim() === 'on'))) },
     { id: 'mission-open', group: 'missions', label: 'open Mission Control', run: { kind: 'view', view: 'missions' } },
   ].map(entry => ({ ...entry, label: mcOf(state) === undefined ? entry.label : entry.label })) as PaletteEntry[]
