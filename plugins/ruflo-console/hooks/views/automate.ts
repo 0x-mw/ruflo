@@ -6,6 +6,7 @@ import type { TaskRecord } from '../data/parse'
 import type { LabCost } from '../mh-lab'
 import { neuralEntries } from '../neural'
 import { slot } from './attention'
+import { loopRows } from './loops'
 import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
 import { selection } from './select'
 
@@ -285,6 +286,7 @@ export function automateView(ctx: Ctx): RenderElement {
     ctx,
     [
       ...resultRows(ctx, ['auto-']),
+      ...loopRows(ctx),
       ...workerRows(ctx),
       ...kanbanRows(ctx),
       ...workflowRows(ctx),

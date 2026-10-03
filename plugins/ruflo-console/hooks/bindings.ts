@@ -6,6 +6,7 @@ import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './act
 import { EVENT_KINDS } from './data/events'
 import { evolveActions } from './evolve'
 import { askActions } from './ask-claude'
+import { loopActions } from './loops'
 import { missionActions } from './mission-control'
 import { catalogActions } from './plugin-catalog'
 import { saveAllowed } from './remember'
@@ -326,6 +327,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     settings: settingsActions(state, host, runner, (agent, text) => actions.term.ask(agent, text), () => CLI_PREFIXES[state.options.cli], () => pluginNames(state, (catalogOf(state).plugins ?? []).filter(plugin => plugin.options.length > 0).map(plugin => plugin.name))),
     mission: missionActions(state, host, runner),
     ask: askActions(state, host, runner, () => actions),
+    loops: loopActions(state, host, runner),
     catalog: catalogActions(state, host, runner, text => actions.term.load('claude', text)),
     devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }

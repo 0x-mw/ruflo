@@ -84,3 +84,13 @@ Memory Lab's rule is now the console's, with no per-view code (`views/attention.
 ## 11. Answers open where they were asked (0.13.1)
 
 Memory Lab no longer keeps one Result block far from what was clicked. Each action records where it was raised (`memoryLab.origin`: Browse, Search, Entry, or a lab group) and its confirm (scope `mem:<area>`) and its result are drawn in a bordered panel directly under that area; the pane no longer draws that confirm at the top (`confirmInline`). An area with nothing asked or answered draws no panel. The lab groups are collapsible sections; the group of the last action stays open.
+
+## 12. The Loop Manager (0.15.0)
+
+A folded section at the top of the Automation page (`hooks/loops.ts`, `views/loops.ts`; Automation already owns `ruflo-loop-workers` and `ruflo-autopilot`, and every hotkey is taken, so it is a section rather than a view).
+
+- **Presets, practical to exotic** (16, in three tiers): CI watch, keep the tests green, babysit PRs, the audit and test-gap workers (practical); optimize and consolidation workers, autopilot, nightly schedule, docs sync (steady); MetaHarness drift watch, the dream-cycle flywheel (never promotes), a hive-consensus loop, the long-horizon tracker, ultralearn, swarm self-heal (exotic). Each says what a tick costs.
+- **Configurator:** interval (self-paced, 1m to 1d), task (a preset's, or typed), and a stop condition (`until 09:00`, `after 12 runs`, `when done`, or none). The exact `/loop` that will be sent is shown before anything runs, or why it cannot be sent.
+- **Launcher:** asks first, with the exact text and a note that every tick is a billed Claude Code turn and that a loop auto-expires after 7 days; yes sends one visible `/loop ...` prompt to the main Claude UI (mid-turn it only fills the prompt box), where the engine runs it as a typed command. **List / stop my loops** asks Claude to list `CronList` and pending wake-ups and to ask before stopping any.
+- **Safety:** a task that starts with `/` must be one plugin command the session lists, followed by a few plain words (a worker needs its plugin); control and bidirectional characters are stripped; a hand-typed task is screened by AIDefence (a preset is the console's own text); the stop-condition grammar is closed; the input is at most 600 characters.
+- Tests: `tests/loops.spec.ts` (grammar, builder, every preset builds, launch asks first and screens), `tests/loops.test.ts` (the section in the Automation page; a worker preset without its plugin asks nothing).
