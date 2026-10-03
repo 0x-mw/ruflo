@@ -253,6 +253,7 @@ const RESULT_OF: Partial<Record<ViewId, (ctx: Ctx) => RenderElement[]>> = {
   perf: perfResult,
   automate: automateResult,
   neural: neuralResult,
+  learning: neuralResult,
 }
 
 export function paneView(base: Ctx): RenderElement {

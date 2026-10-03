@@ -22,6 +22,7 @@ import { listSkills } from './skills'
 import { CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
+import { pulseDue } from './pulse'
 
 const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
@@ -267,6 +268,8 @@ export function createController(state: State, host: Host): Controller {
     }
 
     wasBooting = booting
+
+    if (pulseDue(state.view, started)) host.invalidate()
 
     for (const [key, grid] of picturesOf(state, state.pane.columns, Date.now(), Date.now())) {
       const mounted = state.mounted.get(key)
