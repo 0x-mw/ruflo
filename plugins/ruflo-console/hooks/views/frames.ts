@@ -122,7 +122,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
 
   // The BBS boot screen owns the pane for its first seconds; nothing else is drawn under it.
   if (isBooting(state, nowMs)) {
-    pictures.set('boot', bootPicture(state.cwd.split('/').filter(Boolean).at(-1) ?? '', Math.min(width, 72), nowMs - state.pane.bootAtMs, state.probes.size, PROBES.length))
+    pictures.set('boot', bootPicture(state.cwd.split('/').filter(Boolean).at(-1) ?? '', Math.min(width, 90), nowMs - state.pane.bootAtMs, state.probes.size, PROBES.length, state.pane.rows))
 
     return pictures
   }
