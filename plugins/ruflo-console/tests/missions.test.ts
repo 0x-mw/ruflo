@@ -142,6 +142,21 @@ describe('mission control', () => {
     await pane.unmount()
   })
 
+  test('a tool row drawn with no task running is the engine row, untouched', { options: { boot: false } }, async ($, on) => {
+    const { pane, clock } = await opened($, on)
+    const row = (id: string) => ({ component: 'ToolUse', surface: 'terminal', requestId: id, viewport: { columns: 120, rows: 40, isFullscreen: true }, props: { tool_use_id: id, tool: 'Bash', input: {}, isRunning: true, isErrored: false, isInterrupted: false } }) as never
+
+    // Attribution itself is the pure spec's (tool-owner.spec.ts): here, a row with no task running is the engine's own,
+    // before a mission exists and after one is created but nothing has been handed to Claude.
+    expect(textOf(await $.ui.render(row('before')))).toBe('engine')
+    await pane.input({ key: 'mc-goal', text: 'add a dark mode toggle to settings', kind: 'submit' })
+    await pane.press({ key: 'mc-create' })
+    await $.command.run(command('yes'))
+    await settle(pane, clock)
+    expect(textOf(await $.ui.render(row('created')))).toBe('engine')
+    await pane.unmount()
+  })
+
   test('guide Claude asks under its own field, keeps what was sent so ✎ edit can reload it, and ruflo-goals skills show as mission options with the unavailable ones marked', { options: { boot: false } }, async ($, on) => {
     const { world, pane, clock } = await opened($, on, RUFLO_FILES, { commands: ['ruflo-goals:goal-plan'] })
 
