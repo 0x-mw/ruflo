@@ -7,6 +7,7 @@ import { plain } from './data/parse'
 import { dispatch } from './dispatch'
 import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
+import { ownerLine, ownerOf } from './tool-owner'
 import { newState, PANE_ID, restore, restoreSessions, storeKeyOf, termStoreKeyOf } from './state'
 import { BAR_KEY, barView } from './views/bar'
 import type { Kit } from './views/common'
@@ -238,6 +239,18 @@ export const register: Register = (on, raw: PluginOptions) => {
       bound.setView(view)
       void bound.open(true)
     })
+  })
+
+  // A tool row that ran while one mission task was running says which: one dim line under the engine's own row.
+  on('ui.render', { component: 'ToolUse' }, async ($, e, next) => {
+    const owner = ownerOf(state, e.props.tool_use_id, e.props.isRunning === true)
+
+    if (owner === null) return next(e)
+
+    const table = $.ui.resolve(e) as unknown as Kit
+    const own = await next(e)
+
+    return table.Box({ key: `owner-${e.props.tool_use_id}`, flexDirection: 'column', children: [own, table.Text({ dimColor: true, children: `  ${ownerLine(owner)}` })] })
   })
 
   /** The band's mark pulses during a turn: a redraw at its start, and the loop stopped at its end, whatever redraws. */

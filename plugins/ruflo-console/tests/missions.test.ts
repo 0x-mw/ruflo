@@ -142,6 +142,29 @@ describe('mission control', () => {
     await pane.unmount()
   })
 
+  test('a tool row drawn while a task runs carries one line naming that task; with no task running the engine row is untouched', { options: { boot: false } }, async ($, on) => {
+    const { pane, clock } = await opened($, on)
+    const row = (id: string) => ({ component: 'ToolUse', surface: 'terminal', requestId: id, viewport: { columns: 120, rows: 40, isFullscreen: true }, props: { tool_use_id: id, tool: 'Bash', input: {}, isRunning: true, isErrored: false, isInterrupted: false } }) as never
+
+    expect(textOf(await $.ui.render(row('before')))).toBe('engine')
+    await pane.input({ key: 'mc-goal', text: 'add a dark mode toggle to settings', kind: 'submit' })
+    await pane.press({ key: 'mc-create' })
+    await $.command.run(command('yes'))
+    await settle(pane, clock)
+    await pane.press({ key: 'mc-next' })
+    await $.command.run(command('yes'))
+    await settle(pane, clock)
+    await pane.press({ key: 'mc-refresh' }).catch(() => undefined)
+    await settle(pane, clock)
+
+    const during = textOf(await $.ui.render(row('during')))
+
+    expect(during).toContain('engine')
+    expect(during).toContain('↳ mission task:')
+    expect(textOf(await $.ui.render(row('before')))).toBe('engine')
+    await pane.unmount()
+  })
+
   test('guide Claude asks under its own field, keeps what was sent so ✎ edit can reload it, and ruflo-goals skills show as mission options with the unavailable ones marked', { options: { boot: false } }, async ($, on) => {
     const { world, pane, clock } = await opened($, on, RUFLO_FILES, { commands: ['ruflo-goals:goal-plan'] })
 
