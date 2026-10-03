@@ -9,6 +9,8 @@ import { HELP } from '../commands'
 import { slashFor } from '../ask-claude'
 import { launchRows } from './launch'
 import { donated, newAttention, panelOf, wrapKit } from './attention'
+import { CARD_COLUMNS, hasCards, withCards } from './card'
+import { groupedTabs } from './nav'
 import { optimizerResult } from './optimizer'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
@@ -115,6 +117,9 @@ function tabs(ctx: Ctx): RenderElement {
   // The tab bar keeps the keyed views and the core keyless ones; the many other views (labs, tools) are tabs only while
   // open, and are reached from the main menu (0), where each is listed with its group.
   const isTab = (view: (typeof VIEWS)[number]) => /^[0-9]$/.test(view.key) || CORE_TABS.has(view.id) || view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
+  // A page in cards leads with the grouped nav card (views/nav.ts) instead of the flat tab rows.
+  if (hasCards(ctx.columns, isCompactPane(ctx.state))) return groupedTabs(ctx, isTab)
+
   const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.filter(isTab).map(tab) })
   // The first row runs to the last digit-keyed view, so a keyless view sits where VIEWS puts it (Hive-Mind after Swarm).
   const split = VIEWS.reduce((last, view, i) => (/^[0-9]$/.test(view.key) ? i + 1 : last), 0)
@@ -176,7 +181,7 @@ function footer(ctx: Ctx, isPlaced = false): RenderElement {
   const parts: RenderElement[] = []
 
   // Something is waiting for a yes or no: said here, where the keys are, wherever the confirm itself sits.
-  if (state.pending !== null) parts.push(text(ctx, `⚠ confirm needed: ${clip(state.pending.label, Math.max(20, ctx.columns - 40))} — y yes · n cancel${isPlaced ? ' (under what you clicked)' : ''}`, { bold: true, color: THEME.warn }))
+  if (state.pending !== null && (state.pending.view === undefined || state.pending.view === state.view)) parts.push(text(ctx, `⚠ confirm needed: ${clip(state.pending.label, Math.max(20, ctx.columns - 40))} — y yes · n cancel${isPlaced ? ' (under what you clicked)' : ''}`, { bold: true, color: THEME.warn }))
 
   if (outcome !== null && nowMs - outcome.atMs < 90_000) {
     parts.push(
@@ -273,18 +278,21 @@ export function paneView(base: Ctx): RenderElement {
       ? col(ctx, [ctx.kit.Raster(boot.toRaster('boot'))], 'boot')
       : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
   }
-  const drawBody = () => (ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](ctx))
+  // A section of a page is a bordered card (views/card.ts): the body is drawn narrower by the border and padding, through a kit that groups its rows.
+  const cardsOn = hasCards(base.columns, isCompactPane(base.state)) && !ctx.state.palette.isOpen && !ctx.state.isHelp
+  const bodyCtx: Ctx = cardsOn ? { ...ctx, columns: ctx.columns - CARD_COLUMNS, cards: true, kit: withCards(ctx.kit) } : ctx
+  const drawBody = () => (ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](bodyCtx))
   // A lab's result block is drawn first into the panel (pass one), then the page is drawn with the panel placed under the clicked row.
   if (ctx.state.origin !== null && (ctx.state.lab.result !== null || ctx.state.lab.running !== null)) {
     attention.donated = donated(ctx, () => {
       attention.mode = 'collect'
-      RESULT_OF[ctx.state.view]?.(ctx)
+      RESULT_OF[ctx.state.view]?.(bodyCtx)
 
       return [...attention.donated]
     })
   }
 
-  if (ctx.state.origin !== null) attention.panel = panelOf(base, attention.donated)
+  if (ctx.state.origin !== null) attention.panel = panelOf(cardsOn ? { ...base, columns: base.columns - CARD_COLUMNS } : base, attention.donated)
   attention.mode = attention.donated.length > 0 ? 'hide' : 'draw'
 
   let body = drawBody()
@@ -300,7 +308,7 @@ export function paneView(base: Ctx): RenderElement {
 
   // Every section ends with its Launch section: the commands of the plugins it owns, run in the Claude UI. Drawn through the same kit, so
   // a launch ask is placed under its own row when nothing above held the origin.
-  const launch = ctx.state.palette.isOpen || ctx.state.isHelp ? [] : launchRows(ctx)
+  const launch = ctx.state.palette.isOpen || ctx.state.isHelp ? [] : launchRows(bodyCtx)
 
   if (launch.length > 0) body = col(ctx, [body, ...launch], 'body')
 
@@ -322,7 +330,7 @@ export function paneView(base: Ctx): RenderElement {
     ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
-        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
+        [...bbs.art, ...(about !== null ? [about] : []), ...(cardsOn ? [] : [...gap, ...bbs.strip, ...gap]), tabs(ctx), ...(cardsOn ? [] : gap), footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
       : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx, attention.placed)]), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx, attention.placed)] : [])]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })

@@ -159,6 +159,30 @@ describe('mission control', () => {
     await pane.unmount()
   })
 
+  test('an ask stays on the page that raised it: elsewhere it is one line with a way back, and the full confirm returns with the page', { options: { boot: false } }, async ($, on) => {
+    const { pane } = await opened($, on)
+
+    await pane.input({ key: 'mc-goal', text: 'add a dark mode toggle to settings', kind: 'submit' })
+    await pane.press({ key: 'mc-create' })
+    expect(textOf(await pane.drawn())).toContain('CONFIRM NEEDED')
+
+    // On another page: one line naming the page, a way there, and cancel; no Yes button to press by mistake.
+    await pane.press({ key: 'tab-swarm' })
+
+    const away = await pane.drawn()
+
+    expect(textOf(away)).toContain('An ask is waiting on Missions')
+    expect(textOf(away)).not.toContain('CONFIRM NEEDED')
+    expect(elementsOf(away, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['confirm-go', 'cancel']))
+    expect(elementsOf(away, 'Button').map(keyOf)).not.toContain('confirm')
+
+    // The nav is grouped, one row per group of the main menu, and every page is a click away.
+    expect(textOf(away)).toMatch(/SWARM[\s\S]*MIND[\s\S]*SAFETY[\s\S]*NETWORK[\s\S]*TOOLS/)
+    await pane.press({ key: 'confirm-go' })
+    expect(textOf(await pane.drawn())).toContain('CONFIRM NEEDED')
+    await pane.unmount()
+  })
+
   test('guide Claude asks under its own field, keeps what was sent so ✎ edit can reload it, and ruflo-goals skills show as mission options with the unavailable ones marked', { options: { boot: false } }, async ($, on) => {
     const { world, pane, clock } = await opened($, on, RUFLO_FILES, { commands: ['ruflo-goals:goal-plan'] })
 

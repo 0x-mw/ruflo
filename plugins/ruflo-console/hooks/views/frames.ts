@@ -17,6 +17,7 @@ import type { Grid } from '../gfx/raster'
 import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
 import { isBooting, isCompactPane, VIEWS, type State } from '../state'
+import { CARD_COLUMNS, hasCards } from './card'
 import { live } from './common'
 import { hivePictures } from './hive'
 import { openTasks } from './select'
@@ -117,7 +118,8 @@ const scoreShown = new WeakMap<object, number>()
 
 export function picturesOf(state: State, columns: number, nowMs: number, t: number): Map<string, Grid> {
   const pictures = new Map<string, Grid>()
-  const width = Math.max(20, Math.min(200, columns))
+  // A page in cards (views/card.ts) is narrower by the border and padding: its pictures are drawn to that width, by the render and by the frame loop alike.
+  const width = Math.max(20, Math.min(200, hasCards(columns, isCompactPane(state)) ? columns - CARD_COLUMNS : columns))
   const snapshot = state.snapshot
 
   // The BBS boot screen owns the pane for its first seconds; nothing else is drawn under it.

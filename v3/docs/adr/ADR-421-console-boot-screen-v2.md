@@ -18,7 +18,7 @@ The boot screen was a modem dial-up (`ATDT`, `CONNECT`), the neon sign striking 
 
 Keep the dial-up and the sign, and add a **boot log** under them that brings every area of the console online:
 
-- 25 areas, in menu order (Missions, Overview, Swarm, Hive-Mind, Claims, Approvals, Automation, Learning, Neural, Vector Lab, Memory Lab, MetaHarness, Self-Evolution, Security, Federation, x.ruv.io, Plugins & Mods, Skills, Dev Tools, Cost & Budget, Timeline, Events, Performance, AI Terminal, Settings), each with a few words on what it is, then a `READY` line.
+- 26 areas, one per view but the menu, in menu order (Missions, Overview, Swarm, Hive-Mind, Claims, Approvals, Automation, Learning, Neural, Vector Lab, Memory Lab, MetaHarness, Self-Evolution, Security, Federation, x.ruv.io, Plugins & Mods, Skills, Plugin Catalog, Dev Tools, Cost & Budget, Timeline, Events, Performance, AI Terminal, Settings), each with a few words on what it is, then a `READY` line.
 - One area starts every 120 ms: `[ .. ]` while it starts, `[ OK ]` once the next has begun. The log starts at 1.5 s, after the handshake line is typed.
 - The log fills the pane: `bootPicture` takes the pane's body rows (`state.pane.rows`) and the log uses every row under the sign. In a short pane it scrolls, the newest lines in view and the oldest gone; with no rows known it is the sign alone, as before.
 - The loading bar now also follows the log, so it moves steadily and reads 100% as `READY` appears, not only when the first reads land.
@@ -28,7 +28,7 @@ Keep the dial-up and the sign, and add a **boot log** under them that brings eve
 
 - **A longer sign animation.** Rejected: more time on the same picture; the log says what the console is.
 - **Drawing the log as text rows beside the Raster.** Rejected: the boot owns the pane, and one Raster keeps the dial-up, sign and log on one clock.
-- **Reading the area list from the view table.** Deferred: the list carries a few words per area that the view table does not hold, so it is its own short table (`BOOT_MODULES`); a test checks every entry appears in order.
+- **Reading the area list from the view table.** Deferred: the list carries a few words per area that the view table does not hold, so it is its own short table (`BOOT_MODULES`); a test checks every entry appears in order, and another that there is one line for every view but the menu.
 
 ## 4. Consequences
 

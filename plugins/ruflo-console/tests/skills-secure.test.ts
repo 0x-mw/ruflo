@@ -31,7 +31,7 @@ describe('skills, security and performance', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    const { text, tree } = await drawn($, 'skills')
+    const { text, tree } = await drawn($, 'skills', 120)
 
     expect(text).toContain('INSTALLED')
     expect(text).toContain('SEARCH')

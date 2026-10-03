@@ -131,7 +131,7 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
 }
 
 /** A mutating action waiting for the person's second press; `shows` is the command line when it is not a ruflo one. */
-export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string; note?: string; /** The kind of action, when it may be remembered (see remember.ts). */ rememberKey?: string; /** Where in its view the ask came from. */ scope?: string }
+export type Pending = { label: string; args: readonly string[]; expect: string; askedAtMs: number; shows?: string; note?: string; /** The kind of action, when it may be remembered (see remember.ts). */ rememberKey?: string; /** Where in its view the ask came from. */ scope?: string; /** The page that raised it: the ask shows in full there, and as a pointer on every other page. */ view?: string }
 
 /** The MetaHarness lab's last run: what it was, how it exited, its cost note, and its output as lines to scroll. */
 export type LabResult = { id: string; label: string; ok: boolean; exitCode: number | null; note?: string; lines: string[]; atMs: number }
