@@ -13,6 +13,7 @@ import { claimsView } from './claims'
 import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
 import { evolveView } from './evolve'
+import { catalogView } from './plugin-catalog'
 import { devtoolsView } from './devtools'
 import { federationView } from './federation'
 import { hiveView } from './hive'
@@ -70,6 +71,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   vector: vectorView,
   evolve: evolveView,
   devtools: devtoolsView,
+  market: catalogView,
   agent: agentView,
 }
 
@@ -255,7 +257,7 @@ export function paneView(ctx: Ctx): RenderElement {
   const isMenu = ctx.state.view === 'menu'
   // The terminal's own Enter-again confirm stays under its field, where the field is.
   const isTerminal = ctx.state.view === 'terminal'
-  const gap = isBbs() && !isCompact ? [text(ctx, ' ')] : []
+  const gap = isBbs() && !isCompact && !isMenu ? [text(ctx, ' ')] : []
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact

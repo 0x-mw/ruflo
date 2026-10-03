@@ -15,7 +15,7 @@ import type { RufloRoute, RufloSnapshot } from '../types'
 export const PLUGIN_NAME = 'ruflo-console'
 export const PANE_ID = 'ruflo-console'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve' | 'devtools'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve' | 'devtools' | 'market'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -58,6 +58,8 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'evolve', key: '', label: 'Self-Evolution', short: 'Evo', icon: '🧬', blurb: 'the governed loop: flywheel receipts, ledger, lineage, the policy gate, the witness; Autogenous and rGi', rows: 44 },
   // Keyless too. The menu prompt, the tab and /ruflo devtools reach it by name.
   { id: 'devtools', key: '', label: 'Dev Tools', short: 'Dev', icon: '🔧', blurb: 'the integration surface: GitHub, diff analysis, agenticow, WASM, browser, terminal, providers, maintenance', rows: 40 },
+  // Keyless too: the menu prompt, the tab, the Plugins view's ▸ catalog and /ruflo market reach it by name.
+  { id: 'market', key: '', label: 'Plugin Catalog', short: 'Cat', icon: '📦', blurb: 'every ruflo plugin, mod and skill: what it ships, install, enable, disable, update, view and use', rows: 50 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }

@@ -63,7 +63,7 @@ User --> Ruflo (CLI/MCP) --> Router --> Swarm --> Agents --> Memory --> LLM Prov
 /reload-plugins
 ```
 
-`ruflo-console` is the cockpit above, `ruflo-mods` routes prompts and enforces policy in-process, `ruflo-swarm` shows the swarm in a pane, and `ruflo-ruos` adds the ruOS status segment. Open `/plugin` to confirm they appear in the active mods line.
+`ruflo-console` is the cockpit above, `ruflo-mods` routes prompts and enforces policy in-process, `ruflo-swarm` shows the swarm in a pane, and `ruflo-ruos` adds the ruOS status segment. Open `/plugin` to confirm they appear in the active mods line. Inside the console, `/ruflo market` is the Plugin Catalog: every ruflo plugin, mod and skill with what it ships, and buttons to install, enable, disable and update (each asks first).
 
 ## Quick Start
 
