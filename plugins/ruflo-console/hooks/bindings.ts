@@ -203,7 +203,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       host.invalidate()
     },
     focus: key => void host.focus(PANE_ID, key).catch(() => undefined),
-    plugin: (op, name = '') => runner.ask(pluginSpec(op, name), 'that plugin name cannot be passed'),
+    plugin: op => runner.ask(pluginSpec(op), 'that cannot run here'),
     start: (id, text = '') => runner.ask(startSpec(id, Date.now(), text), id === 'mission' || id === 'task' ? 'type it first (it may not start with -)' : 'that start cannot run here'),
     // The main menu's prompt, as a board's: a key (2, w, i), a name (swarm, x.ruv.io), ? for help, O to log off.
     menu: text => {

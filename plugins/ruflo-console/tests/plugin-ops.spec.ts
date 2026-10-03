@@ -17,24 +17,13 @@ const act = (() => {
 })() as never
 
 describe('pluginSpec', () => {
-  it('is one fixed claude plugin argv, qualified with the ruflo marketplace', () => {
-    expect(pluginSpec('install', 'ruflo-core')?.argv).toEqual(['claude', 'plugin', 'install', 'ruflo-core@ruflo'])
-    expect(pluginSpec('disable', 'ruflo-swarm')?.argv).toEqual(['claude', 'plugin', 'disable', 'ruflo-swarm@ruflo'])
-    expect(pluginSpec('update', 'ruflo-mods')?.shows).toBe('claude plugin update ruflo-mods@ruflo')
-    expect(pluginSpec('refresh')?.argv).toEqual(['claude', 'plugin', 'marketplace', 'update', 'ruflo'])
-  })
+  it('is one fixed claude plugin marketplace update argv, asks first, and says it uses the network', () => {
+    const spec = pluginSpec('refresh')
 
-  it('refuses a name that is not one plugin-shaped word, so nothing can be smuggled into the argv', () => {
-    for (const bad of ['', 'a b', 'x;whoami', '--scope', '-y', 'a@evil', '../x', '$(id)', 'A'.repeat(61)]) expect(pluginSpec('install', bad), bad).toBeNull()
-  })
-
-  it('verifies an install against the installed records, and notes that the network is touched', () => {
-    const spec = pluginSpec('install', 'ruflo-core')
-    const snapshot = (ids: string[]) => ({ plugins: { installed: ids.map(id => ({ id })) } }) as never
-
-    expect(spec?.verify?.(snapshot(['ruflo-core@ruflo']))).toBe(true)
-    expect(spec?.verify?.(snapshot(['ruflo-core@other']))).toBe(false)
-    expect(spec?.note).toContain('NETWORK')
+    expect(spec.argv).toEqual(['claude', 'plugin', 'marketplace', 'update', 'ruflo'])
+    expect(spec.shows).toBe('claude plugin marketplace update ruflo')
+    expect(spec.isReadOnly).toBeUndefined()
+    expect(spec.note).toContain('NETWORK')
   })
 })
 

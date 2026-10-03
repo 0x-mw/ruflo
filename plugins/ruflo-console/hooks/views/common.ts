@@ -66,8 +66,8 @@ export type Actions = {
   /** Puts the keys in one of the pane's fields by its key (a row that takes text focuses its field). */
   focus: (key: string) => void
   start: (id: StartId, text?: string) => void
-  /** A plugin or marketplace operation on the Plugins page: asks first, then runs one `claude plugin` command. */
-  plugin: (op: PluginOp, name?: string) => void
+  /** The marketplace update on the Plugins and Plugin Catalog pages: asks first, then runs one `claude plugin` command. */
+  plugin: (op: PluginOp) => void
   /** The main menu's prompt: a key or a name takes the person to that area. */
   menu: (text: string) => void
   term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** A click on an ask link: opens the terminal, picks the agent and sends the text at once (read-only, plan mode, the saved per-turn budget): the reply streams in with no second click. */ ask: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }

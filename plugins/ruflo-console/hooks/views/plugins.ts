@@ -3,6 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
 import { PLUGIN_NAME } from '../state'
 import { ago, button, col, kv, picture, row, rule, section, starts, text, THEME, type Ctx } from './common'
+import { homeLink, openInCatalog } from './links'
 
 const WEEK = 7 * 86_400_000
 
@@ -59,22 +60,29 @@ export function pluginsView(ctx: Ctx): RenderElement {
 
   if (gone.length > 0) rows.push(text(ctx, `installed but gone from the clone: ${gone.map(plugin => plugin.name).join(', ')}`, { color: THEME.warn }))
 
-  // Each installed ruflo plugin: its state and the two things worth doing to it. The marketplace's other plugins can be installed from here.
+  // Each installed ruflo plugin: its state, the console section that launches its commands, and a link to its entry in the Plugin Catalog,
+  // where it is installed, updated, enabled, disabled or removed (this page is for the health of the setup, the catalog for the plugins).
   if (ruflo.length > 0) {
     rows.push(
       ...section(
         ctx,
         'plg-installed',
         'Installed plugins',
-        `${ruflo.length} · update, enable, disable`,
+        `${ruflo.length} · open one in the catalog`,
         ruflo.map(plugin => {
           const isOn = facts.enabled.has(plugin.id)
+          const home = homeLink(plugin.name)
 
-          return row(ctx, [
-            text(ctx, ` ${isOn ? '●' : '○'} ${plugin.name.padEnd(26)} ${plugin.version.padEnd(10)}`, { color: isOn ? THEME.ok : undefined, dimColor: !isOn }),
-            button(ctx, `plg-update-${plugin.name}`, 'update', () => ctx.act.plugin('update', plugin.name)),
-            button(ctx, `plg-toggle-${plugin.name}`, isOn ? 'disable' : 'enable', () => ctx.act.plugin(isOn ? 'disable' : 'enable', plugin.name)),
-          ])
+          return row(
+            ctx,
+            [
+              text(ctx, ` ${isOn ? '●' : '○'} `, { color: isOn ? THEME.ok : undefined, dimColor: !isOn }),
+              ctx.kit.Button({ key: `plg-open-${plugin.name}`, label: `${plugin.name} `.padEnd(28, '.'), plain: true, onPress: () => openInCatalog(ctx, plugin.name) }),
+              text(ctx, ` ${plugin.version.padEnd(10)}`, { dimColor: true }),
+              ...(home === null ? [] : [ctx.kit.Button({ key: `plg-home-${plugin.name}`, label: ` → ${home.label} `, plain: true, dimColor: true, onPress: () => ctx.act.view(home.view) })]),
+            ],
+            `plg-row-${plugin.name}`,
+          )
         }),
         false,
       ),
@@ -87,8 +95,8 @@ export function pluginsView(ctx: Ctx): RenderElement {
   if (market !== null && available.length > 0) {
     rows.push(
       ...section(ctx, 'plg-available', 'Available to install', `${available.length} in the marketplace`, [
-        ...available.slice(0, 12).map(name => row(ctx, [text(ctx, ` ○ ${name.padEnd(30)}`, { dimColor: true }), button(ctx, `plg-install-${name}`, 'install', () => ctx.act.plugin('install', name))])),
-        ...(available.length > 12 ? [text(ctx, ` +${available.length - 12} more: the Plugin Catalog lists every one`, { dimColor: true })] : []),
+        ...available.slice(0, 12).map(name => row(ctx, [text(ctx, ' ○ ', { dimColor: true }), ctx.kit.Button({ key: `plg-avail-${name}`, label: `${name} `.padEnd(30, '.'), plain: true, onPress: () => openInCatalog(ctx, name) }), text(ctx, ' ▸ install it there', { dimColor: true })], `plg-avail-row-${name}`)),
+        ...(available.length > 12 ? [text(ctx, ` +${available.length - 12} more in the Plugin Catalog`, { dimColor: true })] : []),
       ], ruflo.length === 0),
     )
   }
