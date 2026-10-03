@@ -84,3 +84,14 @@ Memory Lab's rule is now the console's, with no per-view code (`views/attention.
 ## 11. Answers open where they were asked (0.13.1)
 
 Memory Lab no longer keeps one Result block far from what was clicked. Each action records where it was raised (`memoryLab.origin`: Browse, Search, Entry, or a lab group) and its confirm (scope `mem:<area>`) and its result are drawn in a bordered panel directly under that area; the pane no longer draws that confirm at the top (`confirmInline`). An area with nothing asked or answered draws no panel. The lab groups are collapsible sections; the group of the last action stays open.
+
+## 14. The ruflo Optimizer (0.17.0)
+
+A section at the top of the Overview (`hooks/optimizer.ts`, `views/optimizer.ts`): what is wrong or thin in this project, and a fix for each that is one confirm-gated button.
+
+- **Findings** come only from what the console already measured, worst first: ruflo has learned nothing here yet (no patterns), the router missing too often (under 60% of 10 or more routed outcomes), no model-router state; memory not checked this session, many memories with no vector (under 60% of the newest listed), a second memory store outside the counts, a store large enough to compact; where the time goes not measured; every alert the console already raises (stalled agent, expired claim, stale marketplace, daemon stopped, mods not seated, budget); and the full health check. An unread store is a finding to check, never a verdict.
+- **Fixes are existing palette entries**, so the Optimizer adds no new way to write: pretrain at shallow or medium depth, train, quantize, consolidate, compress, plan a cleanup, initialise embeddings, rebuild the RaBitQ index, optimise, doctor with and without `--fix`. Each asks first (a read runs at once) and says what it does. A test fails if a fix names an entry the palette does not have.
+- **Scope** limits which fixes are offered: *safe* (reads and light upkeep), *balanced* (local compute that writes ruflo's own stores), *deep* (heavier rebuilds, and anything that may fetch a model).
+- **Before and after:** pressing a fix remembers the finding's metric (`vectors 1/5`, `patterns n/a`); the line under the finding reads before → now and says when the finding is gone. **✦ ask Claude** words the finding and sends it to the main Claude UI (it asks first).
+- **Answers** open under the fix button pressed (the attention panel, section 11a): the confirm, then the result lines of the command that ran, with the Overview's own result block as the fallback.
+- Tests: `tests/optimizer.spec.ts` (what is found, scopes, every fix a real palette entry, before/after), `tests/optimizer.test.ts` (the section in the Overview; a fix's confirm sits under its finding; nothing runs before yes).
