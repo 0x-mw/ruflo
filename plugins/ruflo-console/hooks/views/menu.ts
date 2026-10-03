@@ -74,20 +74,6 @@ export function menuView(ctx: Ctx): RenderElement {
   const width = Math.max(24, Math.floor((ctx.columns - 1) / perRow) - 1)
   const rows: RenderElement[] = []
 
-  rows.push(
-    ctx.kit.Box({
-      flexDirection: 'row',
-      justifyContent: 'center',
-      key: 'menu-host',
-      children: [
-        ctx.kit.Text({ color: THEME.info, children: 'x.ruv.io' }),
-        ctx.kit.Text({ color: THEME.head, children: '  ■  ' }),
-        ctx.kit.Text({ bold: true, children: 'Main Menu' }),
-        ctx.kit.Text({ color: THEME.head, children: '  ■  ' }),
-        ctx.kit.Text({ color: THEME.info, children: clip('github.com/ruvnet/ruflo', Math.max(4, ctx.columns - 32)) }),
-      ],
-    }),
-  )
   rows.push(text(ctx, ' '))
 
   // Each group a bordered box: ▓▒░ TITLE ░▒▓ on top, then its sub-sections, each a dim ── name ── rule and its items.

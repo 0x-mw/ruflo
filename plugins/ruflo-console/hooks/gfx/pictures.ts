@@ -285,20 +285,32 @@ export function titlePicture(name: string, columns: number, t: number): Grid {
   const x0 = edge.length + 1
   const width = Math.max(top.length, bottom.length)
   const shimmer = ((t / 40) % (width + 30)) - 15
+  // `RUFLO | PAGE`: the RUFLO letters move like the banner on the menu (a white glow sweeping a magenta to cyan ramp); the page's name keeps its slower coral shimmer.
+  const logo = name.toLowerCase().startsWith('ruflo |') ? bigText('ruflo')[0].length : 0
+  const sweep = ((t / 28) % (logo + 40)) - 20
 
   for (let y = 0; y < 2; y++) {
     ;[...edge].forEach((ch, i) => grid.set(i, y, ch, mix(0x3a0f2e, NEON_MAGENTA, (i + 1) / edge.length)))
     ;[...(y === 0 ? top : bottom)].forEach((ch, i) => {
       if (ch === ' ' || x0 + i >= columns) return
 
+      if (i < logo) {
+        const lit = Math.max(0, 1 - Math.abs(i - sweep) / 4)
+
+        grid.set(x0 + i, y, ch, mix(mix(NEON_MAGENTA, NEON_CYAN, i / Math.max(1, logo - 1)), 0xffffff, lit * 0.7))
+
+        return
+      }
+
       const glow = Math.max(0, 1 - Math.abs(i - shimmer) / 3)
 
       grid.set(x0 + i, y, ch, mix(mix(NEON_MAGENTA, NEON_CORAL, i / Math.max(1, width - 1)), 0xffffff, glow * 0.6))
     })
-    ;[...'▓▒░'].forEach((ch, i) => {
+    // The line closes on the ramp the other way round, ░▒▓, mirroring how the dark ▓▒░ edge opened it.
+    ;[...'░▒▓'].forEach((ch, i) => {
       const x = x0 + width + 1 + i
 
-      if (x < columns) grid.set(x, y, ch, mix(NEON_MAGENTA, 0x3a0f2e, (i + 1) / edge.length))
+      if (x < columns) grid.set(x, y, ch, mix(0x3a0f2e, NEON_MAGENTA, (i + 1) / edge.length))
     })
   }
 

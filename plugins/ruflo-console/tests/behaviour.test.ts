@@ -324,7 +324,7 @@ describe('behaviour', () => {
 
     const pane = await $.ui.mount({ ...paneAt(98, 12), plugin: PLUGIN })
 
-    expect(elementsOf(await pane.drawn(), 'Raster').map(keyOf).slice(0, 2)).toEqual(['header', 'title'])
+    expect(elementsOf(await pane.drawn(), 'Raster').map(keyOf).slice(0, 1)).toEqual(['title'])
     await pane.unmount()
   })
 })

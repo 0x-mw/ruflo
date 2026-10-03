@@ -262,7 +262,10 @@ export function paneView(ctx: Ctx): RenderElement {
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
     ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
-    : [...title, ...bbs.strip, ...gap, tabs(ctx), ...gap, ...bbs.art, ...(about !== null ? [about] : []), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
+    : !isMenu && isBbs()
+      ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
+        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx), ...(confirm !== null && !isTerminal ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
+      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }
