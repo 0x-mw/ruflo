@@ -67,3 +67,40 @@ describe('the pane\'s order', () => {
     expect(title).toBeLessThan(tabs)
   })
 })
+
+describe('the main menu\'s header when the pane is small', () => {
+  it('is the logo banner in the compact layout too, not the big-letter page title', () => {
+    const state = newState({})
+
+    state.options.look = 'bbs'
+    state.options.boot = false
+    state.view = 'menu'
+    state.pane.placement = 'inline'
+    state.pane.rows = 8
+    state.pane.columns = 60
+    state.snapshot = null
+
+    const pictures = new Map([['title', new Grid(40, 2)], ['header', new Grid(60, 2)]])
+    const tree = paneView({ kit, state, nowMs: Date.now(), columns: 60, pictures, act, cards: false } as unknown as Ctx) as unknown as El
+    const rasters = flat(tree).filter(node => node.kind === 'Raster').map(node => String((node.props as { key?: unknown }).key ?? ''))
+
+    expect(rasters[0]).toBe('header')
+    expect(rasters).not.toContain('title')
+  })
+
+  it('shows the title whole, with the version only when it fits beside the logo', async () => {
+    const { bannerPicture } = await import('../hooks/gfx/pictures')
+    const text = (columns: number): string => {
+      const grid = bannerPicture('ruflo', columns, 0)
+      let row = ''
+
+      for (let x = 0; x < columns; x++) row += String.fromCodePoint(grid.glyph(x, 0))
+
+      return row
+    }
+
+    expect(text(44)).toContain('AGENT SWARM CONSOLE')
+    expect(text(44)).not.toMatch(/ v\d/)
+    expect(text(90)).toMatch(/AGENT SWARM CONSOLE v\d/)
+  })
+})

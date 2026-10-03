@@ -27,17 +27,36 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const query = state.navQuery
   const find = (id: ViewId) => VIEWS.find(entry => entry.id === id)
   const found = query === '' ? null : findPages(query)
-  const pages: ViewId[][] = found !== null ? Array.from({ length: Math.ceil(found.length / PER_ROW) }, (_, i) => found.slice(i * PER_ROW, (i + 1) * PER_ROW)) : (NAV_GROUPS.find(group => group.title === shown)?.rows ?? []).map(ids => [...ids])
+  // On the main menu the cards below already list every page, so the card up here is just the groups and the search: no row of pages repeating
+  // them (and wrapping across the border in a narrow pane) until a group is picked.
+  const isMenuIdle = open === 'menu' && !(state.navPick !== null && state.navPick.view === 'menu')
+  const pages: ViewId[][] = isMenuIdle && found === null ? [] : found !== null ? Array.from({ length: Math.ceil(found.length / PER_ROW) }, (_, i) => found.slice(i * PER_ROW, (i + 1) * PER_ROW)) : (NAV_GROUPS.find(group => group.title === shown)?.rows ?? []).map(ids => [...ids])
 
   // What a page spells: its icon, and from `brief` a short name, from `full` the whole name. The engine puts a hotkey in front ("3: ").
   const spell = (view: View, form: string) => (form === 'icons' ? view.icon : form === 'brief' ? `${view.icon} ${view.short}` : `${view.icon} ${view.label}`)
   // The same badges the menu carries (approvals waiting, findings, an update ...), so the nav says what is going on behind a page too.
   const badges = badgesOf(state, ctx.nowMs)
   const badgeText = (view: View): string => (badges[view.id] === undefined ? '' : ` ${badges[view.id]?.text}`)
-  const cells = (view: View, form: string) => (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + badgeText(view).length + 3
+  // The open page always spells out its whole name, whatever the form (see `tab`), so that is how wide it is.
+  const openName = (view: View) => (isBbs() ? `[${view.key === '' ? '' : `${view.key}: `}${view.icon} ${view.label.toUpperCase()}]` : `${view.key === '' ? '' : `${view.key}: `}${view.icon} ${view.label}`)
+  const cells = (view: View, form: string) => (view.id === open ? openName(view).length + 1 : (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + badgeText(view).length + 3)
   const widest = (form: string) => Math.max(0, ...pages.map(ids => ids.reduce((sum, id) => sum + (find(id) === undefined ? 0 : cells(find(id) as View, form)), 0)))
   // auto: the richest form whose widest row fits the page; the others are the person's choice (Settings).
   const form = state.nav === 'auto' ? (['full', 'brief'].find(candidate => widest(candidate) <= inner) ?? 'icons') : state.nav
+
+  // A row of pages too wide even in the narrowest form wraps onto further rows, greedily, rather than running off the edge.
+  const laid: ViewId[][] =
+    widest(form) <= inner
+      ? pages
+      : pages.flat().reduce<ViewId[][]>((rows, id) => {
+          const last = rows.at(-1)
+          const width = (ids: readonly ViewId[]) => ids.reduce((sum, each) => sum + (find(each) === undefined ? 0 : cells(find(each) as View, form)), 0)
+
+          if (last !== undefined && width([...last, id]) <= inner) last.push(id)
+          else rows.push([id])
+
+          return rows
+        }, [])
 
   const tab = (view: View): RenderElement => {
     const words = spell(view, form)
@@ -57,7 +76,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const chipCells = NAV_GROUPS.reduce((sum, group) => sum + group.title.length + (icons ? 5 : 3), 12)
   const isSearchInline = inner - chipCells >= 28
   const chips = NAV_GROUPS.map(group =>
-    group.title === shown && found === null
+    group.title === shown && found === null && !isMenuIdle
       ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ ...(isBbs() ? chip(NAV_ACCENT[group.title] ?? THEME.head) : { bold: true, color: THEME.head }), children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
       : ctx.kit.Button({ key: `nav-group-${group.title}`, label: ` ${icons ? `${group.icon} ` : ''}${group.title} `, plain: true, dimColor: true, onPress: () => ctx.act.navigator.group(group.title) }),
   )
@@ -74,7 +93,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const lines =
     found !== null && found.length === 0
       ? [ctx.kit.Text({ dimColor: true, children: ` no page matches “${query}” — try a name, a group or what it does` })]
-      : pages.map((ids, i) =>
+      : laid.map((ids, i) =>
           ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `tabs-row-${i}`, children: ids.flatMap(id => (find(id) === undefined ? [] : [tab(find(id) as View)])) }),
         )
   const note = found === null ? [] : [ctx.kit.Text({ dimColor: true, children: ` ${found.length} found for “${query}”${found.length === 1 ? '' : ' — Enter again on one name opens it'}` })]

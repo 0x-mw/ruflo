@@ -8,11 +8,11 @@ import { VIEWS, type State, type ViewId } from './state'
 
 /** The nav's groups, the main menu's own, each in rows short enough to spell their names: every view but the menu is in exactly one. */
 export const NAV_GROUPS: readonly { title: string; icon: string; rows: readonly (readonly ViewId[])[] }[] = [
-  { title: 'SWARM', icon: '🐝', rows: [['missions', 'overview', 'swarm', 'hive', 'claims', 'approvals'], ['automate', 'timeline', 'events']] },
-  { title: 'MIND', icon: '🧠', rows: [['learning', 'neural', 'metaharness', 'evolve'], ['memory', 'vector', 'cost', 'perf']] },
-  { title: 'SAFETY', icon: '🛡️', rows: [['secure', 'devtools']] },
+  { title: 'SWARM', icon: '🐝', rows: [['missions', 'overview', 'swarm', 'hive', 'claims', 'approvals']] },
+  { title: 'MIND', icon: '🧠', rows: [['learning', 'neural', 'metaharness', 'evolve', 'memory', 'vector']] },
+  { title: 'SAFETY', icon: '🛡️', rows: [['secure', 'cost', 'perf', 'timeline', 'events']] },
   { title: 'NETWORK', icon: '🌐', rows: [['federation', 'xruv', 'plugins', 'skills', 'market']] },
-  { title: 'TOOLS', icon: '🛠️', rows: [['terminal', 'settings']] },
+  { title: 'TOOLS', icon: '🛠️', rows: [['terminal', 'automate', 'devtools', 'settings']] },
 ]
 
 export const groupOf = (view: ViewId): string | null => NAV_GROUPS.find(group => group.rows.some(row => row.includes(view)))?.title ?? null

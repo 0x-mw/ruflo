@@ -338,7 +338,11 @@ export function bannerPicture(project: string, columns: number, t: number, age =
 
   if (columns > x0 + 4) {
     // The version, and the git revision when the session knows it: the revision changes with every commit, so it shows which build is loaded.
-    grid.text(x0, 0, `░▒▓ AGENT SWARM CONSOLE v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`}`.slice(0, columns - x0), NEON_MAGENTA)
+    // The title, with the version and build when they fit beside the logo; when they do not, the title whole rather than cut mid-word.
+    const title = '░▒▓ AGENT SWARM CONSOLE'
+    const full = `${title} v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`}`
+
+    grid.text(x0, 0, (full.length <= columns - x0 ? full : title).slice(0, columns - x0), NEON_MAGENTA)
     const node = `▸ npx ruflo · ${project}`.slice(0, columns - x0 - 2)
 
     grid.text(x0, 1, node, NEON_CYAN)

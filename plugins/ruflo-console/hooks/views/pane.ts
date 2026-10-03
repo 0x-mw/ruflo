@@ -347,7 +347,8 @@ export function paneView(base: Ctx): RenderElement {
   const confirm = attention.placed ? null : confirmRow(ctx)
   const header = ctx.pictures.get('header')
   const isCompact = isCompactPane(ctx.state)
-  const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
+  // The logo banner leads the main menu in every layout, compact too (the other pages lead with their own title art there).
+  const title = (!isCompact || ctx.state.view === 'menu') && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
   const about = blurb(ctx)
   const bbs = isBbs() ? wildcat(ctx) : { strip: [], art: [] }
   // The status row (keys, sync, Palette, Actions) sits above the body, so a tall view cannot push it off the screen; only the main menu keeps it below its prompt, as a BBS does.
@@ -358,7 +359,7 @@ export function paneView(base: Ctx): RenderElement {
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go. The title leads, then the tabs, as in the wide layout.
   const parts = isCompact
-    ? [...bbs.art, ...(about !== null ? [about] : []), tabs(ctx), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
+    ? [...(ctx.state.view === 'menu' && title.length > 0 ? title : bbs.art), ...(about !== null ? [about] : []), tabs(ctx), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
         [...bbs.art, ...(about !== null ? [about] : []), ...(cardsOn ? [] : [...gap, ...bbs.strip, ...gap]), tabs(ctx), ...(cardsOn ? [] : gap), footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]

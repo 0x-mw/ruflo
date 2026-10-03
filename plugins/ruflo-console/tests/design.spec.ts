@@ -96,7 +96,7 @@ describe('the nav card', () => {
   })
 
   it('puts the menu\'s badges on the page buttons: spend on Cost, an update on Settings', () => {
-    const cost = open('learning', 140, state => {
+    const cost = open('secure', 140, state => {
       state.usage = { costUsd: 19.81 }
     })
     const settings = open('terminal', 140, state => {
@@ -106,14 +106,14 @@ describe('the nav card', () => {
     expect(String(tab(cost.card, 'cost')?.props.label)).toContain('$19.81')
     expect(String(tab(settings.card, 'settings')?.props.label)).toContain('⬆ 0.27.0')
     // And none where there is nothing to say.
-    expect(String(tab(open('learning', 140).card, 'cost')?.props.label)).not.toMatch(/\$\d/)
+    expect(String(tab(open('secure', 140).card, 'cost')?.props.label)).not.toMatch(/\$\d/)
   })
 
   it('never lets a badge push a row of pages past the width, at any width the nav draws', () => {
     // Every width, not a few: the auto form is chosen by whether the widest row fits, so an uncounted badge only overruns in the narrow
     // window of widths where that choice is on the edge.
-    for (let columns = 44; columns <= 200; columns++) {
-      const { card } = open('learning', columns, state => {
+    for (const view of ['learning', 'secure', 'swarm', 'settings', 'federation'] as const) for (let columns = 44; columns <= 200; columns++) {
+      const { card } = open(view, columns, state => {
         state.usage = { costUsd: 1234.5 }
         state.updateAvailable = '10.20.30'
       })
@@ -145,5 +145,34 @@ describe('a chip cannot vanish', () => {
 
     // And there are chips to be checked: the menu's group bars and key chips, the nav's open page and group, the cost tags.
     expect(trees.flatMap(texts).filter(node => node.props.inverse === true).length).toBeGreaterThan(10)
+  })
+})
+
+describe('the nav card on the main menu', () => {
+  const draw = (pick: boolean): El => {
+    const state = newState({})
+
+    state.view = 'menu'
+    if (pick) state.navPick = { group: 'MIND', view: 'menu' }
+    setLook('bbs')
+
+    return groupedTabs(ctxOf(state, 100), () => true) as unknown as El
+  }
+  const rows = (card: El): El[] => flat(card).filter(node => String(node.props.key).startsWith('tabs-row-'))
+
+  it('has no row of pages while idle (the cards below list them), and shows a group\'s pages once it is picked', () => {
+    expect(rows(draw(false))).toEqual([])
+    expect(flat(draw(false)).some(node => node.props.key === 'nav-group-SWARM')).toBe(true)
+
+    const picked = rows(draw(true))
+
+    expect(picked.length).toBeGreaterThan(0)
+    expect(flat(picked[0]).some(node => node.props.key === 'tab-learning')).toBe(true)
+  })
+
+  it('keeps every page reachable by its key from the menu: they are hidden buttons, not gone', () => {
+    const keys = flat(draw(false)).filter(node => String(node.props.key).startsWith('tab-') && node.props.hotkey !== undefined).map(node => String(node.props.key))
+
+    for (const page of ['missions', 'overview', 'swarm', 'hive', 'claims', 'approvals']) expect(keys, page).toContain(`tab-${page}`)
   })
 })

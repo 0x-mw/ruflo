@@ -25,20 +25,22 @@ export const GROUPS: readonly { title: string; sections: readonly { name: string
     title: 'SWARM',
     sections: [
       { name: 'start here', items: [{ label: 'Missions', go: 'missions' }, { label: 'Overview', go: 'overview' }, { label: 'Swarm Topology', go: 'swarm' }] },
-      { name: 'coordinate', items: [{ label: 'Hive-Mind', go: 'hive' }, { label: 'Claims Board', go: 'claims' }, { label: 'Approvals', go: 'approvals' }, { label: 'Automation', go: 'automate' }] },
-      { name: 'observe', items: [{ label: 'Agent Timeline', go: 'timeline' }, { label: 'Event Stream', go: 'events' }] },
+      { name: 'coordinate', items: [{ label: 'Hive-Mind', go: 'hive' }, { label: 'Claims Board', go: 'claims' }, { label: 'Approvals', go: 'approvals' }] },
     ],
   },
   {
     title: 'INTELLIGENCE',
     sections: [
       { name: 'learn', items: [{ label: 'Learning', go: 'learning' }, { label: 'Neural', go: 'neural' }, { label: 'MetaHarness', go: 'metaharness' }, { label: 'Self-Evolution', go: 'evolve' }] },
-      { name: 'data & spend', items: [{ label: 'Memory Lab', go: 'memory' }, { label: 'Vector Lab', go: 'vector' }, { label: 'Cost & Budget', go: 'cost' }, { label: 'Performance', go: 'perf' }] },
+      { name: 'remember', items: [{ label: 'Memory Lab', go: 'memory' }, { label: 'Vector Lab', go: 'vector' }] },
     ],
   },
   {
     title: 'SAFETY & OPS',
-    sections: [{ name: 'safety & ops', items: [{ label: 'Security & Doctor', go: 'secure' }, { label: 'Dev Tools', go: 'devtools' }] }],
+    sections: [
+      { name: 'protect', items: [{ label: 'Security & Doctor', go: 'secure' }, { label: 'Cost & Budget', go: 'cost' }] },
+      { name: 'observe', items: [{ label: 'Performance', go: 'perf' }, { label: 'Agent Timeline', go: 'timeline' }, { label: 'Event Stream', go: 'events' }] },
+    ],
   },
   {
     title: 'NETWORK & EXTEND',
@@ -49,7 +51,7 @@ export const GROUPS: readonly { title: string; sections: readonly { name: string
   },
   {
     title: 'TOOLS',
-    sections: [{ name: 'tools', items: [{ label: 'AI Terminal', go: 'terminal' }, { label: 'Settings', go: 'settings' }, { label: 'Command Palette', go: 'palette' }, { label: 'Help', go: 'help' }, { label: 'Log Off', go: 'close' }] }],
+    sections: [{ name: 'tools', items: [{ label: 'AI Terminal', go: 'terminal' }, { label: 'Automation', go: 'automate' }, { label: 'Dev Tools', go: 'devtools' }, { label: 'Settings', go: 'settings' }, { label: 'Command Palette', go: 'palette' }, { label: 'Help', go: 'help' }, { label: 'Log Off', go: 'close' }] }],
   },
 ]
 
