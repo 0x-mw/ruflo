@@ -2,7 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { LAB, LAB_GROUPS, labSpec, PROMOTE_COMMAND, type LabCost, type LabEntry } from '../mh-lab'
 import { slot } from './attention'
-import { ago, button, clip, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, row, rule, section, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const LAB_ROWS = 14
@@ -83,18 +83,29 @@ export function labRows(ctx: Ctx): RenderElement[] {
   const lead = Math.max(14, Math.min(19, ctx.columns - 40))
   const rows: RenderElement[] = []
 
+  // Each group folds: the read-only inspect verbs open, the groups that write or spend fold away, each header naming its cost.
   for (const group of LAB_GROUPS) {
-    rows.push(rule(ctx, group.title, group.right))
+    const entries = LAB.filter(candidate => candidate.group === group.id)
 
-    for (const entry of LAB.filter(candidate => candidate.group === group.id)) rows.push(entryRow(ctx, entry, lead))
+    rows.push(...section(ctx, `mh-${group.id}`, group.title, `${entries.length} · ${group.right}`, entries.map(entry => entryRow(ctx, entry, lead)), group.id === 'inspect'))
   }
 
   rows.push(text(ctx, ' $0 read, runs at once · wr writes · cpu minutes of local work · $$ may spend: each of these asks, its cost on the confirm row', { dimColor: true }))
   rows.push(...resultRows(ctx))
-  rows.push(rule(ctx, 'Promote', 'a policy act · never from this pane'))
-  rows.push(text(ctx, ' Promotion needs a receipt id, an approved Ed25519 public key and --confirm, and passes the policy gate:', { color: THEME.info }))
-  rows.push(text(ctx, `   ${PROMOTE_COMMAND}`, { bold: true, color: THEME.warn }))
-  rows.push(text(ctx, ' Review the receipt (▸ RECEIPTS), then run it yourself in a terminal. The console proposes and evaluates; it never promotes.', { dimColor: true }))
+  rows.push(
+    ...section(
+      ctx,
+      'mh-promote',
+      'Promote',
+      'a policy act · never from this pane',
+      [
+        text(ctx, ' Promotion needs a receipt id, an approved Ed25519 public key and --confirm, and passes the policy gate:', { color: THEME.info }),
+        text(ctx, `   ${PROMOTE_COMMAND}`, { bold: true, color: THEME.warn }),
+        text(ctx, ' Review the receipt (▸ RECEIPTS), then run it yourself in a terminal. The console proposes and evaluates; it never promotes.', { dimColor: true }),
+      ],
+      false,
+    ),
+  )
 
   return rows
 }
