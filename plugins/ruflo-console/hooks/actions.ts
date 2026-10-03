@@ -18,6 +18,8 @@ export type ActionSpec = {
   isReadOnly?: boolean
   /** Not a ruflo CLI call: what runs instead once confirmed (a terminal harness), reporting for itself. */
   run?: () => Promise<void>
+  /** Where the ask came from in its view (`goal`, `controls`, `guide`): a view that draws its own confirm puts it under that field. */
+  scope?: string
   /** The command line the confirm row shows when it is not `ruflo <args>`. */
   shows?: string
   /** A MetaHarness lab entry's id: the runner keeps what it printed for the lab's result panel. */

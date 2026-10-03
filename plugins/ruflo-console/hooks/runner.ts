@@ -130,7 +130,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     }
 
     pendingSpec = spec
-    state.pending = { ...(kind !== null && { rememberKey: kind }), label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now(), ...(spec.shows !== undefined && { shows: spec.shows }), ...(spec.note !== undefined && { note: spec.note }) }
+    state.pending = { ...(kind !== null && { rememberKey: kind }), ...(spec.scope !== undefined && { scope: spec.scope }), label: spec.label, args: spec.args, expect: spec.expect, askedAtMs: Date.now(), ...(spec.shows !== undefined && { shows: spec.shows }), ...(spec.note !== undefined && { note: spec.note }) }
     host.invalidate()
   }
 

@@ -10,7 +10,7 @@ import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../sta
 import { agentView } from './agent'
 import { automateView } from './automate'
 import { claimsView } from './claims'
-import { ago, button, clip, col, isBbs, row, setLook, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, confirmRow, INLINE_CONFIRM, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
 import { evolveView } from './evolve'
 import { catalogView } from './plugin-catalog'
@@ -24,7 +24,7 @@ import { memoryView } from './memory'
 import { menuView } from './menu'
 import { metaharnessView } from './metaharness'
 import { neuralView } from './neural'
-import { missionsView } from './missions'
+import { missionControlView } from './mission-control'
 import { overviewView } from './overview'
 import { paletteView } from './palette'
 import { perfView } from './perf'
@@ -39,7 +39,7 @@ import { xruvView } from './xruv'
 export const NARROW = 44
 
 /** The keyless views that keep a tab of their own (the rest are reached from the main menu). */
-const CORE_TABS = new Set<ViewId>(['hive', 'skills'])
+const CORE_TABS = new Set<ViewId>(['hive', 'skills', 'cost', 'timeline', 'approvals', 'events', 'xruv', 'terminal'])
 
 /** The networks the Wildcat strip names, each with the view a click on it opens. */
 const NETWORKS: readonly (readonly [string, ViewId])[] = [['x.ruv.io', 'xruv'], ['relay.ruv.io', 'xruv'], ['agentbbs', 'federation'], ['mcp', 'plugins'], ['claude code', 'terminal']]
@@ -61,7 +61,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   timeline: timelineView,
   approvals: approvalsView,
   events: eventsView,
-  missions: missionsView,
+  missions: missionControlView,
   xruv: xruvView,
   terminal: terminalView,
   skills: skillsView,
@@ -99,7 +99,7 @@ function tabs(ctx: Ctx): RenderElement {
     // (from a drill-down, b goes back).
     // The current tab always names itself, whatever the width: [3: 📌 CLAIMS], [📟 MAIN MENU]. The others are their emoji (or
     // emoji and name from WIDE_TABS columns), since a name on every tab does not fit a dock.
-    // A view with no hotkey (key '') has no key to show: [🧰 SKILLS], and its tab is pressed, not typed.
+    // Every view has a hotkey, so the prefix is always shown: [8: 🔬 METAHARNESS], [z: 🧰 SKILLS].
     const prefix = view.key === '' ? '' : `${view.key}: `
     const current = isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}`
 
@@ -109,7 +109,7 @@ function tabs(ctx: Ctx): RenderElement {
   }
   // The tab bar keeps the keyed views and the core keyless ones; the many other views (labs, tools) are tabs only while
   // open, and are reached from the main menu (0), where each is listed with its group.
-  const isTab = (view: (typeof VIEWS)[number]) => view.key !== '' || CORE_TABS.has(view.id) || view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
+  const isTab = (view: (typeof VIEWS)[number]) => /^[0-9]$/.test(view.key) || CORE_TABS.has(view.id) || view.id === ctx.state.view || (ctx.state.view === 'agent' && view.id === ctx.state.back)
   const line = (views: readonly (typeof VIEWS)[number][], key: string) => ctx.kit.Box({ flexDirection: 'row', gap: 1, key, children: views.filter(isTab).map(tab) })
   // The first row runs to the last digit-keyed view, so a keyless view sits where VIEWS puts it (Hive-Mind after Swarm).
   const split = VIEWS.reduce((last, view, i) => (/^[0-9]$/.test(view.key) ? i + 1 : last), 0)
@@ -164,30 +164,6 @@ function help(ctx: Ctx): RenderElement {
   return col(ctx, [...HELP.split('\n').map((line, i) => text(ctx, line || ' ', i === 0 ? { bold: true, color: THEME.head } : /^[A-Z]/.test(line) ? { bold: true } : { dimColor: i > 20 })), row(ctx, [button(ctx, 'help-close', 'Back', ctx.act.help, { hotkey: 'h' })])], 'help')
 }
 
-function confirmRow(ctx: Ctx): RenderElement | null {
-  const pending = ctx.state.pending
-
-  if (pending === null) return null
-
-  return col(
-    ctx,
-    [
-      text(ctx, `Confirm: ${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
-      // Wrapped, not clipped: the person says yes to the whole argv, so all of it shows (a JSON argument runs long).
-      ctx.kit.Text({ dimColor: true, wrap: 'wrap', children: `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}` }),
-      ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
-      row(ctx, [
-        button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }),
-        button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' }),
-        // A low-risk ruflo action may be remembered: it is not asked again (Settings lists and forgets it).
-        ...(pending.rememberKey !== undefined ? [button(ctx, 'remember', `Always allow “${pending.rememberKey}”`, () => ctx.act.remember())] : []),
-        // An AI terminal turn (claude -p in plan mode, codex read-only, the budget cap) may be always accepted: Settings resets it.
-        ...(ctx.state.terminal.asked !== null && pending.label === ctx.state.terminal.asked.label && ctx.state.terminal.harness !== 'ruflo' ? [button(ctx, 'always', 'Always accept AI turns', () => ctx.act.settings.alwaysAccept())] : []),
-      ]),
-    ],
-    'confirm',
-  )
-}
 
 function footer(ctx: Ctx): RenderElement {
   const { state, nowMs } = ctx
@@ -284,11 +260,11 @@ export function paneView(ctx: Ctx): RenderElement {
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
-    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null ? [confirm] : []), footer(ctx), body]
+    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && !INLINE_CONFIRM.has(ctx.state.view) ? [confirm] : []), footer(ctx), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
-        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx), ...(confirm !== null && !isTerminal ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
-      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
+        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx), ...(confirm !== null && !isTerminal && !INLINE_CONFIRM.has(ctx.state.view) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
+      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal && !INLINE_CONFIRM.has(ctx.state.view) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }

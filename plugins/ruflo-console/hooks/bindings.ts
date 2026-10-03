@@ -5,6 +5,7 @@
 import { claimTask, handoffClaim, releaseClaim, stealClaim, whyNot } from './actions'
 import { EVENT_KINDS } from './data/events'
 import { evolveActions } from './evolve'
+import { missionActions } from './mission-control'
 import { catalogActions } from './plugin-catalog'
 import { saveAllowed } from './remember'
 import { pluginNames, settingsActions } from './settings'
@@ -80,6 +81,11 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       state.nav = style
       void host.storeSet(NAV_KEY, style).catch(() => undefined)
       host.invalidate()
+    },
+    editField: (key, text) => {
+      state.fieldText.set(key, text)
+      host.invalidate()
+      host.after(60, () => void host.focus(PANE_ID, key).catch(() => undefined))
     },
     clearField: key => {
       state.fieldText.set(key, '')
@@ -317,6 +323,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     vector: vectorActions(state, runner, text => actions.term.load('claude', text)),
     evolve: evolveActions(state, host, text => actions.term.ask('claude', text)),
     settings: settingsActions(state, host, runner, (agent, text) => actions.term.ask(agent, text), () => CLI_PREFIXES[state.options.cli], () => pluginNames(state, (catalogOf(state).plugins ?? []).filter(plugin => plugin.options.length > 0).map(plugin => plugin.name))),
+    mission: missionActions(state, host, runner),
     catalog: catalogActions(state, host, runner, text => actions.term.load('claude', text)),
     devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }

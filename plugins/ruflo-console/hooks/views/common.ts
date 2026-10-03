@@ -7,6 +7,7 @@ import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
 import type { ProbeResult } from '../data/cli'
 import type { EvolveActions } from '../evolve'
+import type { MissionActions } from '../mission-control'
 import type { CatalogActions } from '../plugin-catalog'
 import type { SettingsActions } from '../settings'
 import type { DevtoolsActions } from '../devtools'
@@ -65,8 +66,12 @@ export type Actions = {
   evolve: EvolveActions
   /** The Dev Tools view: keep a field's text, and Enter in a field runs its entry. */
   devtools: DevtoolsActions
+  /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */
+  mission: MissionActions
   /** The Plugin Catalog: read the clone, filter, select a plugin, view or use an item, change a plugin (each asks first). */
   catalog: CatalogActions
+  /** Puts text back in an entry field and gives it the keys, so what was entered can be edited and sent again. */
+  editField: (key: string, text: string) => void
   /** Empties an entry field after its Enter. */
   clearField: (key: string) => void
   /** The confirm row's "always allow this kind of action": remembers the kind (Settings forgets it) and runs the pending ask. */
@@ -259,4 +264,48 @@ export function live<T>(result: ProbeResult | undefined): T | null {
   if (result.error !== null && (result.errorAtMs ?? 0) >= (result.okAtMs ?? 0)) return null
 
   return result.value as T
+}
+
+/**
+ * The ask a click or an Enter raised, with the exact command, its note, and Yes / Cancel (and the remember choices). A view
+ * in INLINE_CONFIRM draws it itself, right under the field the person typed in; every other view gets it above its body.
+ * `scope` is where the ask came from: a view draws only the asks that belong under its own fields.
+ */
+export function confirmRow(ctx: Ctx): RenderElement | null {
+  const pending = ctx.state.pending
+
+  if (pending === null) return null
+
+  return col(
+    ctx,
+    [
+      text(ctx, `Confirm: ${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
+      // Wrapped, not clipped: the person says yes to the whole argv, so all of it shows (a JSON argument runs long).
+      ctx.kit.Text({ dimColor: true, wrap: 'wrap', children: `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}` }),
+      ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
+      row(ctx, [
+        button(ctx, 'confirm', 'Yes, run it (y)', ctx.act.confirm, { hotkey: 'y', primary: true }),
+        button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' }),
+        // A low-risk ruflo action may be remembered: it is not asked again (Settings lists and forgets it).
+        ...(pending.rememberKey !== undefined ? [button(ctx, 'remember', `Always allow “${pending.rememberKey}”`, () => ctx.act.remember())] : []),
+        // An AI terminal turn (claude -p in plan mode, codex read-only, the budget cap) may be always accepted: Settings resets it.
+        ...(ctx.state.terminal.asked !== null && pending.label === ctx.state.terminal.asked.label && ctx.state.terminal.harness !== 'ruflo' ? [button(ctx, 'always', 'Always accept AI turns', () => ctx.act.settings.alwaysAccept())] : []),
+      ]),
+    ],
+    'confirm',
+  )
+}
+
+/** Views that draw the confirm themselves, under the field it came from (the pane then does not draw it above the body). */
+export const INLINE_CONFIRM: ReadonlySet<string> = new Set(['missions', 'hive'])
+
+/** The confirm row when the pending ask came from this scope (or has none, and this is the view's default place for it). */
+export function confirmHere(ctx: Ctx, scope: string, isDefault = false): RenderElement[] {
+  const pending = ctx.state.pending
+
+  if (pending === null || (pending.scope ?? (isDefault ? scope : '')) !== scope) return []
+
+  const row = confirmRow(ctx)
+
+  return row === null ? [] : [row]
 }

@@ -67,7 +67,20 @@ export const msOf = (value: unknown): number | undefined => {
 
 export type SwarmInfo = { id: string; topology: string; status: string; maxAgents?: number; strategy?: string; agentIds: string[]; updatedAt?: string }
 export type AgentRecord = { id: string; type: string; name?: string; status: string; health?: number; taskCount?: number; createdAtMs?: number }
-export type TaskRecord = { id: string; type: string; description: string; status: string; assignedTo: string[]; createdAtMs?: number }
+export type TaskRecord = {
+  id: string
+  type: string
+  description: string
+  status: string
+  assignedTo: string[]
+  createdAtMs?: number
+  /** `mission:<id>` / `task:<id>` style labels (plain words only), as `task_create` stored them. */
+  tags?: string[]
+  startedAtMs?: number
+  completedAtMs?: number
+  /** What `task_complete` / `task_update` recorded as the result, flattened to `key: value` text (bounded). */
+  resultText?: string
+}
 export type Claimant = { kind: 'agent' | 'human'; id: string; agentType?: string; name?: string }
 export type ClaimRecord = {
   issueId: string
@@ -208,6 +221,20 @@ export function parseAgents(text: string | null): AgentRecord[] {
 }
 
 /** `.claude-flow/tasks/store.json`. */
+/** A task's result object as one bounded line of `key: value` pairs (strings and numbers only), or undefined. */
+function resultTextOf(value: unknown): string | undefined {
+  const result = recordOf(value)
+
+  if (result === null) return typeof value === 'string' ? plain(value, 400) || undefined : undefined
+
+  const text = Object.entries(result)
+    .slice(0, 8)
+    .flatMap(([key, v]) => (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean' ? [`${plain(key, 24)}: ${plain(String(v), 160)}`] : []))
+    .join(' · ')
+
+  return text === '' ? undefined : text.slice(0, 500)
+}
+
 export function parseTasks(text: string | null): TaskRecord[] {
   return valuesOf(jsonObject(text)?.tasks).flatMap(entry => {
     const task = recordOf(entry)
@@ -223,6 +250,10 @@ export function parseTasks(text: string | null): TaskRecord[] {
             status: stringOf(task.status, 20) ?? 'unknown',
             assignedTo: (Array.isArray(task.assignedTo) ? task.assignedTo : []).slice(0, 50).flatMap(agent => (idOf(agent) !== null ? [agent as string] : [])),
             ...(msOf(task.createdAt) !== undefined && { createdAtMs: msOf(task.createdAt) }),
+            tags: (Array.isArray(task.tags) ? task.tags : []).slice(0, 12).flatMap(tag => (typeof tag === 'string' && /^[A-Za-z0-9_.:-]{1,90}$/.test(tag) ? [tag] : [])),
+            ...(msOf(task.startedAt) !== undefined && { startedAtMs: msOf(task.startedAt) }),
+            ...(msOf(task.completedAt) !== undefined && { completedAtMs: msOf(task.completedAt) }),
+            ...(resultTextOf(task.result) !== undefined && { resultText: resultTextOf(task.result) }),
           },
         ]
   })

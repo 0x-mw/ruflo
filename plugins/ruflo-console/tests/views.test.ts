@@ -61,12 +61,12 @@ describe('views', () => {
     expect(text).toContain('design (raft) pending · for 0 · against 0')
     expect(text).not.toContain(HIVE_TOKEN)
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['agent-next', 'agent-prev', 'drill', 'palette', 'actions', 'open-hive']))
-    // The Hive-Mind tab has no hotkey: every digit and letter is taken.
+    // Every view has a hotkey, the Hive-Mind tab included (b).
     const tabProps = (key: string) => (elementsOf(tree, 'Button').find(button => keyOf(button) === key) as { props?: Record<string, unknown> } | undefined)?.props
 
-    expect(tabProps('tab-claims')?.hotkey).toBe('3')
+    expect(tabProps('tab-claims')?.hotkey).toBe('4')
     expect(tabProps('tab-hive')).toBeDefined()
-    expect(tabProps('tab-hive')?.hotkey).toBeUndefined()
+    expect(tabProps('tab-hive')?.hotkey).toBe('b')
   })
 
   test('hive: the honeycomb, quorum and fault tolerance, proposals, workers, decisions, broadcasts, no token', { options: { boot: false } }, async ($, on) => {
@@ -274,31 +274,6 @@ describe('views', () => {
     expect(world.runs.some(argv => argv.join(' ').includes('agent logs --id agent-1790903032591-x41b0y --tail 20'))).toBe(true)
   })
 
-  test('missions: the ADR-406 observation, task status as recorded, evidence as verified, nothing invented', { options: { boot: false } }, async ($, on) => {
-    worldOf(on, { ...RUFLO_FILES, '.claude-flow/missions/observation.json': MISSION_OBSERVATION })
-    mock.clock(on)
-    await $.session.start(SESSION)
-
-    const { text } = await drawn($, 'missions')
-
-    expect(text).toContain('Ship a verified artifact')
-    expect(text).toContain('planned · rev 2 · session-bound')
-    expect(text).toContain('○ produce → ○ evaluate → ○ verify')
-    expect(text).toContain('evidence 0/0 verified · budget $0.00 settled, $0.00 reserved of $10.00 (estimate $1.00)')
-    expect(text).not.toMatch(/[\u001b\u202e]/)
-  })
-
-  test('missions: no observation file reads n/a with how to start one', { options: { boot: false } }, async ($, on) => {
-    worldOf(on, RUFLO_FILES)
-    mock.clock(on)
-    await $.session.start(SESSION)
-
-    const missions = await drawn($, 'missions')
-
-    expect(missions.text).toContain('No mission yet (ADR-406)')
-    expect(elementsOf(missions.tree, 'Input').map(keyOf)).toEqual(['start-field-mission'])
-  })
-
   test('x.ruv.io: the federation menu with its commands, and no registry or roster asked with the network off', { options: { boot: false } }, async ($, on) => {
     const world = worldOf(on, RUFLO_FILES)
 
@@ -343,7 +318,7 @@ describe('views', () => {
     expect(textOf(menu)).toContain('── live')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
-    expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-prompt'])
+    expect(elementsOf(menu, 'Input').map(keyOf)).toEqual(['menu-goal', 'menu-prompt'])
 
     await pane.input({ key: 'menu-prompt', text: 'w', kind: 'submit' })
     expect(textOf(await pane.drawn())).toContain('MAIN MENU')

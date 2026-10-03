@@ -19,7 +19,7 @@ The console is the person's cockpit for a ruflo project inside Claude Code: one 
 Every page draws, top to bottom:
 1. **Banner**: the animated RUFLO logo with the project name.
 2. **Wildcat strip**: `RUFLO x.ruv.io AGENTS WELCOME.` and `NETWORKS: …`.
-3. **Tabs**: emoji tabs with hotkeys. A view without a hotkey (`key: ''`) is a tab without one, reached by name.
+3. **Tabs**: emoji tabs with hotkeys; every view has one (ADR 408 §6).
 4. **Block title**: the view's name in two-row half-block art.
 5. **Blurb**: `>> icon NAME :: what it is for`.
 6. **Body**.

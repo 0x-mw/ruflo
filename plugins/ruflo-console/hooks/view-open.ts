@@ -8,7 +8,12 @@ import { loadCatalog } from './plugin-catalog'
 import { loadAiPrefs, loadCore, loadPlugin, settingsOf } from './settings'
 import { CLI_PREFIXES, type State } from './state'
 
+import { loadCommandNames } from './mission-skills'
+
 export function openLoaders(state: State, host: Host, view: State['view']): void {
+  // Mission Control asks the session which slash commands it offers (the ruflo-goals skills among them).
+  if (view === 'missions') void loadCommandNames(state, host)
+
   // Self-Evolution reads ruflo's own flywheel files (local, no CLI run); its checks wait for a click.
   if (view === 'evolve') void loadEvolve(state, host)
 

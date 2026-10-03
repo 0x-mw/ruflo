@@ -10,6 +10,7 @@ import { hiveBroadcast, hivePropose, hiveSpawn, hiveVote } from './hive'
 import { claimTask, handoffClaim, releaseClaim, stealClaim, type ActionSpec } from './actions'
 import { MEM_KEYWORDS, MEM_LAB, memSpecOf, memWhy } from './memory-lab'
 import { EVOLVE, evolveSpec, evolveWhy } from './evolve'
+import { missionPalette } from './mission-palette'
 import { catalogPalette } from './plugin-catalog'
 import { settingsPalette } from './settings-palette'
 import { devPalette } from './devtools'
@@ -63,7 +64,7 @@ export function fuzzy(query: string, label: string): number | null {
   return whole < 0 ? score : score + 5 + (whole === 0 || text[whole - 1] === ' ' ? 3 : 0)
 }
 
-const TEXT_KEYWORDS: readonly string[] = ['route', 'store', 'search', 'propose', 'broadcast', 'task', 'mission', 'cost-budget', 'x-join', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-hub', 'x-admit', 'catalog-install', 'catalog-uninstall', 'catalog-enable', 'catalog-disable', 'catalog-update', 'settings-set', 'settings-core', ...MEM_KEYWORDS, ...SECURE_KEYWORDS, 'skills-find', 'auto-wf-new', 'auto-wf-validate', 'auto-ap-history', 'auto-ses-save', 'auto-cfg-get', 'auto-cfg-set', 'auto-task-new', 'nn-train', 'nn-route', 'nn-explain', 'nn-predict']
+const TEXT_KEYWORDS: readonly string[] = ['route', 'store', 'search', 'propose', 'broadcast', 'task', 'mission', 'cost-budget', 'x-join', 'x-read', 'x-publish', 'x-create', 'x-grant', 'x-hub', 'x-admit', 'catalog-install', 'catalog-uninstall', 'catalog-enable', 'catalog-disable', 'catalog-update', 'settings-set', 'settings-core', 'mission-goal', 'mission-aside', 'mission-guide', 'mission-auto', ...MEM_KEYWORDS, ...SECURE_KEYWORDS, 'skills-find', 'auto-wf-new', 'auto-wf-validate', 'auto-ap-history', 'auto-ses-save', 'auto-cfg-get', 'auto-cfg-set', 'auto-task-new', 'nn-train', 'nn-route', 'nn-explain', 'nn-predict']
 
 /** Every entry for the state as it is, before filtering. */
 export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
@@ -174,6 +175,7 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   // Dev Tools: local reads run at once, the rest ask first; an entry with a field takes its text (see devtools.ts).
   out.push(...devPalette(state))
   out.push(...catalogPalette(state))
+  out.push(...missionPalette(state))
   out.push(...settingsPalette(state))
 
   for (const worker of WORKERS) add(`worker-${worker}`, 'workers', `dispatch the ${worker} background worker`, { kind: 'spec', spec: dispatchWorker(worker), why: 'unknown worker' })

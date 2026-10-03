@@ -48,6 +48,11 @@ export function parseRuflo(args: string): Intent {
     case 'palette':
     case 'p':
       return { kind: 'palette', query: rest }
+    // `/ruflo plan <goal>` prints the SPARC plan; `/ruflo mission [status|next|pause|resume|cancel|create|guide <text>|aside <text>|auto on|off]`.
+    case 'plan':
+      return { kind: 'run', paletteId: 'mission-goal', text: rest }
+    case 'mission':
+      return { kind: 'run', paletteId: `mission-${second === '' ? 'status' : second.replace(/[^a-z-]/g, '')}`, text: rest.slice(second.length).trim() }
     case 'run':
     case 'act':
       return second === '' ? { kind: 'palette', query: '' } : { kind: 'run', paletteId: second, text: rest.slice(second.length).trim() }

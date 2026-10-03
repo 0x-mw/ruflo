@@ -3,8 +3,13 @@ import type { RenderElement } from 'claude-code'
 import { VIEWS, type ViewId } from '../state'
 import { barParts } from './bar'
 import { clip, col, isBbs, row, text, THEME, type Ctx } from './common'
+import { missionStrip } from './mission-control'
 
-type Item = { key: string; label: string; go: string }
+type Item = { label: string; go: string }
+
+/** The keys of the entries that are not views. */
+const COMMAND_KEYS: Record<string, string> = { palette: 'p', help: 'h', close: 'O' }
+const keyOf = (item: Item): string => COMMAND_KEYS[item.go] ?? VIEWS.find(view => view.id === item.go)?.key ?? '·'
 
 /**
  * The board's menus: four groups, each split into short sub-sections, the way the old BBS main menus grouped their
@@ -15,38 +20,39 @@ const GROUPS: readonly { title: string; sections: readonly { name: string; items
   {
     title: 'SWARM',
     sections: [
-      { name: 'live', items: [{ key: '1', label: 'Overview', go: 'overview' }, { key: '2', label: 'Swarm Topology', go: 'swarm' }, { key: '·', label: 'Hive-Mind', go: 'hive' }] },
-      { name: 'work', items: [{ key: '3', label: 'Claims Board', go: 'claims' }, { key: 'm', label: 'Missions', go: 'missions' }, { key: 'q', label: 'Approvals', go: 'approvals' }, { key: '·', label: 'Automation', go: 'automate' }] },
-      { name: 'watch', items: [{ key: 'g', label: 'Agent Timeline', go: 'timeline' }, { key: 'e', label: 'Event Stream', go: 'events' }] },
+      { name: 'mission', items: [{ label: 'Missions', go: 'missions' }] },
+      { name: 'live', items: [{ label: 'Overview', go: 'overview' }, { label: 'Swarm Topology', go: 'swarm' }, { label: 'Hive-Mind', go: 'hive' }] },
+      { name: 'work', items: [{ label: 'Claims Board', go: 'claims' }, { label: 'Approvals', go: 'approvals' }, { label: 'Automation', go: 'automate' }] },
+      { name: 'watch', items: [{ label: 'Agent Timeline', go: 'timeline' }, { label: 'Event Stream', go: 'events' }] },
     ],
   },
   {
     title: 'INTELLIGENCE',
     sections: [
-      { name: 'learn', items: [{ key: '6', label: 'Learning', go: 'learning' }, { key: '·', label: 'Neural', go: 'neural' }, { key: '7', label: 'MetaHarness', go: 'metaharness' }, { key: '·', label: 'Self-Evolution', go: 'evolve' }] },
-      { name: 'remember', items: [{ key: '8', label: 'Memory Lab', go: 'memory' }, { key: '·', label: 'Vector Lab', go: 'vector' }] },
-      { name: 'spend', items: [{ key: '9', label: 'Cost & Budget', go: 'cost' }, { key: '·', label: 'Performance', go: 'perf' }] },
+      { name: 'learn', items: [{ label: 'Learning', go: 'learning' }, { label: 'Neural', go: 'neural' }, { label: 'MetaHarness', go: 'metaharness' }, { label: 'Self-Evolution', go: 'evolve' }] },
+      { name: 'remember', items: [{ label: 'Memory Lab', go: 'memory' }, { label: 'Vector Lab', go: 'vector' }] },
+      { name: 'spend', items: [{ label: 'Cost & Budget', go: 'cost' }, { label: 'Performance', go: 'perf' }] },
     ],
   },
   {
     title: 'SAFETY & OPS',
     sections: [
-      { name: 'protect', items: [{ key: '·', label: 'Security & Doctor', go: 'secure' }] },
-      { name: 'build', items: [{ key: '·', label: 'Dev Tools', go: 'devtools' }] },
+      { name: 'protect', items: [{ label: 'Security & Doctor', go: 'secure' }] },
+      { name: 'build', items: [{ label: 'Dev Tools', go: 'devtools' }] },
     ],
   },
   {
     title: 'NETWORK & EXTEND',
     sections: [
-      { name: 'federate', items: [{ key: '4', label: 'Federation', go: 'federation' }, { key: 'w', label: 'x.ruv.io Board', go: 'xruv' }] },
-      { name: 'extend', items: [{ key: '5', label: 'Plugins & Mods', go: 'plugins' }, { key: '·', label: 'Skills', go: 'skills' }, { key: '·', label: 'Plugin Catalog', go: 'market' }] },
+      { name: 'federate', items: [{ label: 'Federation', go: 'federation' }, { label: 'x.ruv.io Board', go: 'xruv' }] },
+      { name: 'extend', items: [{ label: 'Plugins & Mods', go: 'plugins' }, { label: 'Skills', go: 'skills' }, { label: 'Plugin Catalog', go: 'market' }] },
     ],
   },
   {
     title: 'TOOLS',
     sections: [
-      { name: 'run', items: [{ key: 'i', label: 'AI Terminal', go: 'terminal' }, { key: '·', label: 'Settings', go: 'settings' }, { key: 'p', label: 'Command Palette', go: 'palette' }] },
-      { name: 'session', items: [{ key: 'h', label: 'Help', go: 'help' }, { key: 'O', label: 'Log Off', go: 'close' }] },
+      { name: 'run', items: [{ label: 'AI Terminal', go: 'terminal' }, { label: 'Settings', go: 'settings' }, { label: 'Command Palette', go: 'palette' }] },
+      { name: 'session', items: [{ label: 'Help', go: 'help' }, { label: 'Log Off', go: 'close' }] },
     ],
   },
 ]
@@ -75,6 +81,7 @@ export function menuView(ctx: Ctx): RenderElement {
   const rows: RenderElement[] = []
 
   rows.push(text(ctx, ' '))
+  rows.push(...missionStrip(ctx))
 
   // Each group a bordered box: ▓▒░ TITLE ░▒▓ on top, then its sub-sections, each a dim ── name ── rule and its items.
   const box = (group: (typeof GROUPS)[number]) =>
@@ -99,7 +106,7 @@ export function menuView(ctx: Ctx): RenderElement {
                     flexDirection: 'row',
                     key: `mi-${item.go}`,
                     children: [
-                      ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${item.key})` }),
+                      ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${keyOf(item)})` }),
                       ctx.kit.Button({ key: `menu-go-${item.go}`, label: clip(item.label, width - 9), plain: true, onPress: go(item) }),
                     ],
                   }),

@@ -7,7 +7,7 @@ import { cliAnswer, command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf,
 const VIEWS = ['overview', 'swarm', 'hive', 'claims', 'federation', 'plugins', 'learning', 'metaharness', 'memory', 'cost', 'timeline', 'approvals', 'events', 'missions', 'xruv', 'skills', 'secure', 'perf', 'automate', 'neural', 'vector', 'evolve', 'devtools', 'market', 'settings']
 
 /** Buttons that only move the cursor inside a list that has nothing to move over in the fixture world. */
-const SCROLL = /^(prev|next|up|down|older|newer|page|older-|newer-|refresh|close|task-next|approve-1|net-|sk-scope-project|evolve-reread|xr-(name|about)-|cat-load|cat-reload|st-name-|st-reload|st-level-|nav-style-|sec-)/i
+const SCROLL = /^(prev|next|up|down|older|newer|page|older-|newer-|refresh|close|task-next|approve-1|net-|sk-scope-project|evolve-reread|xr-(name|about)-|cat-load|cat-reload|st-name-|st-reload|st-level-|nav-style-|mc-tab-|mc-profile-|mc-rigor-|sec-)/i
 
 describe('every button does something', () => {
   for (const view of VIEWS) {

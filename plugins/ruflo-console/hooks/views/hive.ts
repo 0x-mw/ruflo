@@ -16,7 +16,7 @@ import { eggBottomPicture, eggTopPicture } from '../gfx/hive-egg'
 import { stripPicture, type Mark, type StripModel } from '../gfx/hive-strip'
 import type { Grid } from '../gfx/raster'
 import type { State } from '../state'
-import { ago, button, clip, col, kv, picture, row, rule, starts, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, confirmHere, kv, picture, row, rule, starts, text, THEME, type Ctx } from './common'
 
 const ROLE_GLYPH: Record<string, string> = { worker: '●', specialist: '◆', scout: '▲' }
 const LIVE_THEME = (liveness: Liveness): { color?: string; dimColor?: boolean } =>
@@ -326,7 +326,8 @@ function actSection(ctx: Ctx, hive: HiveInfo): RenderElement[] {
 
   if (block !== null) inner.push(text(ctx, ` propose: n/a — ${block}`, { color: THEME.warn }))
 
-  return [ctx.kit.Box({ key: 'hive-act', flexDirection: 'column', borderStyle: 'round', borderColor: THEME.ok, paddingX: 1, children: inner })]
+  // The ask the ACT menu raised is drawn inside it, right under the buttons and fields that raised it.
+  return [ctx.kit.Box({ key: 'hive-act', flexDirection: 'column', borderStyle: 'round', borderColor: THEME.ok, paddingX: 1, children: [...inner, ...confirmHere(ctx, 'hive', true)] })]
 }
 
 /**
@@ -348,7 +349,7 @@ export function hiveView(ctx: Ctx): RenderElement {
 
   if (snap === null) return text(ctx, 'reading ruflo state…', { dimColor: true })
 
-  if (hive === null) return col(ctx, [rule(ctx, 'Hive-Mind', 'not initialised'), ...emptyComb(ctx)], 'hive')
+  if (hive === null) return col(ctx, [rule(ctx, 'Hive-Mind', 'not initialised'), ...emptyComb(ctx), ...confirmHere(ctx, 'hive', true)], 'hive')
 
   const members = membersOf(hive, snap.hiveAgents, snap.agents)
   const byzantine = new Set(hive.pending.flatMap(proposal => proposal.byzantine)).size

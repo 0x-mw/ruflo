@@ -14,6 +14,7 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
+import { advance, loadLedger } from './mission-control'
 import { loadAllowed } from './remember'
 import { loadAiPrefs } from './settings'
 import { openLoaders } from './view-open'
@@ -311,6 +312,7 @@ export function createController(state: State, host: Host): Controller {
     // The AI terminal's saved model and budget apply from the first turn, not only once Settings was opened.
     void loadAiPrefs(state, host)
     void loadAllowed(state, host)
+    void loadLedger(state, host)
     void host.storeGet(NAV_KEY).then(saved => {
       const style = NAV_STYLES.find(candidate => candidate === saved)
 
@@ -324,7 +326,10 @@ export function createController(state: State, host: Host): Controller {
       // Nothing on screen reads the disk: re-read only on the idle cadence, so a closed console costs nearly nothing.
       if (isSeen || now - lastIdleMs >= IDLE_REFRESH_MS) {
         lastIdleMs = now
-        void refresh().then(() => probe())
+        void refresh().then(() => {
+          void probe()
+          advance(state, host)
+        })
       }
     })
     every('activity', ACTIVITY_BUCKET_MS, () => {

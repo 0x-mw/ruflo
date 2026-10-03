@@ -65,6 +65,18 @@ function hostOf($: EngineInterface, cwd: string): Host {
     rufloSnapshot: async () => $.ruflo.snapshot(),
     rufloRoute: async () => $.ruflo.lastRoute(),
     rufloSegment: async text => $.ruflo.segment({ id: 'console', text }),
+    // Both wait on the turn, so neither may be called from inside a command.run hook (`/ruflo yes` is one): they run from a clock
+    // tick, a later event of their own.
+    submitPrompt: text =>
+      new Promise<void>((resolve, reject) => {
+        $.clock.after(1, () => void $.prompt.submit({ text }).then(() => resolve(), reject))
+      }),
+    fillPrompt: async text => (await $.prompt.fill({ text, mode: 'replace' })).isFilled,
+    runSlash: (command, args) =>
+      new Promise((resolve, reject) => {
+        $.clock.after(1, () => void $.command.run({ command, args }).then(resolve, reject))
+      }),
+    listCommands: async () => (await $.command.list()).map(command => command.name),
   }
 }
 
@@ -203,6 +215,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     const mark = table.Raster !== undefined ? table.Raster(markPicture(e.props.isWorking, Date.now()).toRaster(BAR_KEY)) : null
 
+    state.turnActive = e.props.isWorking === true
     bound.markFrame(e.requestId, e.props.isWorking && mark !== null)
 
     // A click on a part opens the console on its view, with the keys, so the person can act there at once.

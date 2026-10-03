@@ -44,8 +44,8 @@ export const CORE: readonly CoreKey[] = [
 export const CLAUDE_MODELS = ['default', 'haiku', 'sonnet', 'opus'] as const
 export const AI_BUDGETS = [0.25, 0.5, 1, 2] as const
 /** `autoAccept`: claude, codex and swarm turns go straight out with no confirm (they stay read-only, in plan mode, under the budget); ruflo commands still ask. */
-export type AiPrefs = { claudeModel: (typeof CLAUDE_MODELS)[number]; budgetUsd: (typeof AI_BUDGETS)[number]; autoAccept: boolean }
-export const DEFAULT_AI: AiPrefs = { claudeModel: 'default', budgetUsd: 1, autoAccept: false }
+export type AiPrefs = { claudeModel: (typeof CLAUDE_MODELS)[number]; budgetUsd: (typeof AI_BUDGETS)[number]; autoAccept: boolean; /** Claude writes guidance after a mission goal is entered. */ guidance: boolean }
+export const DEFAULT_AI: AiPrefs = { claudeModel: 'default', budgetUsd: 1, autoAccept: false, guidance: true }
 export const AI_KEY = 'ai-prefs'
 
 export type SettingsState = {
@@ -258,7 +258,7 @@ export async function loadAiPrefs(state: State, host: Host): Promise<void> {
   const model = CLAUDE_MODELS.find(candidate => candidate === stored?.claudeModel)
   const budget = AI_BUDGETS.find(candidate => candidate === stored?.budgetUsd)
 
-  settingsOf(state).ai = { claudeModel: model ?? DEFAULT_AI.claudeModel, budgetUsd: budget ?? DEFAULT_AI.budgetUsd, autoAccept: stored?.autoAccept === true }
+  settingsOf(state).ai = { claudeModel: model ?? DEFAULT_AI.claudeModel, budgetUsd: budget ?? DEFAULT_AI.budgetUsd, autoAccept: stored?.autoAccept === true, guidance: stored?.guidance !== false }
 }
 
 export function saveAiPrefs(state: State, host: Host, patch: Partial<AiPrefs>): void {

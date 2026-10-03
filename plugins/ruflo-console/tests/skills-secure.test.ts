@@ -42,7 +42,7 @@ describe('skills, security and performance', () => {
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(['skills-search', 'skills-create'])
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['sk-update-0', 'sk-remove-0', 'sk-edit-0']))
     // The tab has no hotkey, and the current one reads without a key.
-    expect(text).toContain('[🧰 SKILLS]')
+    expect(text).toContain('[z: 🧰 SKILLS]')
     expect(skillRuns()).toEqual(['ls --json', 'ls -g --json'])
 
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
