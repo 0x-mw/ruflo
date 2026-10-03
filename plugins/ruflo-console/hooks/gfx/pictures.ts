@@ -251,8 +251,8 @@ const GLITCH = '#%&@/\\|<>=+*'
  * and block noise ahead of it; behind the edge a few settled cells flip for a frame to an ASCII character (pink or cyan, fading to none),
  * and now and then a row slips one cell sideways. Hash-driven, so a frame is reproducible; nothing once `age` reaches TITLE_ENTRY_MS.
  */
-function strikeIn(grid: Grid, from: number, age: number): void {
-  if (age >= TITLE_ENTRY_MS) return
+function strikeIn(grid: Grid, from: number, age: number, t = 0): void {
+  if (age >= TITLE_ENTRY_MS) return occasionalGlitch(grid, from, t)
 
   let last = from
 
@@ -277,6 +277,39 @@ function strikeIn(grid: Grid, from: number, age: number): void {
       const row = grid.cells.slice(y * grid.columns * 3, (y + 1) * grid.columns * 3)
 
       for (let x = from; x <= last; x++) grid.cells.set(row.slice(Math.max(0, x - by) * 3, Math.max(0, x - by) * 3 + 3), (y * grid.columns + x) * 3)
+    }
+  }
+}
+
+/** One burst every BURST_EVERY_MS at a hash-chosen moment in its slot, lasting BURST_MS. */
+const BURST_EVERY_MS = 8_000
+const BURST_MS = 260
+
+/**
+ * After the entry, a header glitches now and then: for a quarter second, every eight seconds or so, a few of its cells flip to an ASCII
+ * character and a row may slip a cell. Quieter than the entry, and a function of the animation clock `t` alone, so a still frame (t = 0,
+ * fps 0) is never glitched.
+ */
+function occasionalGlitch(grid: Grid, from: number, t: number): void {
+  if (t <= 0) return
+
+  const slot = Math.floor(t / BURST_EVERY_MS)
+  const at = t - (slot * BURST_EVERY_MS + (hash(slot + 977) % (BURST_EVERY_MS - 1_000)))
+
+  if (at < 0 || at >= BURST_MS) return
+
+  const frame = Math.floor(at / 45)
+
+  for (let y = 0; y < grid.rows; y++) {
+    for (let x = from; x < grid.columns; x++) {
+      if (grid.glyph(x, y) === 0x20) continue
+      if (hash(x * 11 + y * 5 + frame * 31 + slot) % 100 < 3) grid.set(x, y, GLITCH[hash(x + y + frame) % GLITCH.length] as string, hash(x + frame) % 2 === 0 ? 0xff2a6d : 0x05d9e8)
+    }
+
+    if (hash(y * 3 + frame + slot) % 5 === 0) {
+      const row = grid.cells.slice(y * grid.columns * 3, (y + 1) * grid.columns * 3)
+
+      for (let x = from; x < grid.columns; x++) grid.cells.set(row.slice(Math.max(0, x - 1) * 3, Math.max(0, x - 1) * 3 + 3), (y * grid.columns + x) * 3)
     }
   }
 }
@@ -312,7 +345,7 @@ export function bannerPicture(project: string, columns: number, t: number, age =
     if (Math.floor(t / 530) % 2 === 0 && x0 + node.length + 1 < columns) grid.set(x0 + node.length + 1, 1, '█', NEON_CYAN)
   }
 
-  strikeIn(grid, 0, age)
+  strikeIn(grid, 0, age, t)
 
   return grid
 }
@@ -359,7 +392,7 @@ export function titlePicture(name: string, columns: number, t: number, age = Inf
     })
   }
 
-  strikeIn(grid, x0, age)
+  strikeIn(grid, x0, age, t)
 
   return grid
 }

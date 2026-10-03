@@ -26,3 +26,7 @@ Behind the leading edge, a share of the settled letters (4%, fading to none by t
 ## 4. Amendment: the menu banner, and one shared strike-in
 
 The strike-in and its glitch are one function (`strikeIn` in `gfx/pictures.ts`) used by the page titles and by the menu's RUFLO banner. Headers take one age: the time since the page was switched to, or since the menu's entry began (so the banner and the title strike in at launch too), whichever is more recent. With fps 0 they are the still headers.
+
+## 5. Amendment: an occasional glitch after the entry
+
+Once the 1.2 s entry is over, the headers (page titles and the menu banner) glitch now and then: a quarter-second burst about every eight seconds, at a hash-chosen moment in each 8 s slot, in which about 3% of cells flip to an ASCII character and a row may slip a cell. A function of the animation clock alone, so the still header (fps 0, t = 0) is never glitched. Spec: bursts occur, are short (fewer than one frame in eight glitch), and never in the still frame.

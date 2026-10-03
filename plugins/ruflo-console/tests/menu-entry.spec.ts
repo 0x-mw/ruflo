@@ -159,3 +159,29 @@ describe('the menu banner', () => {
     expect(cells(300)).toBe(cells(300))
   })
 })
+
+describe('the occasional glitch after the entry', () => {
+  it('fires a short burst now and then, never in a still frame, and is reproducible', async () => {
+    const { titlePicture, bannerPicture } = await import('../hooks/gfx/pictures')
+    const still = [...titlePicture('ruflo | Swarm', 80, 0).cells].join(',')
+    const changed: number[] = []
+
+    for (let t = 1; t < 40_000; t += 40) if ([...titlePicture('ruflo | Swarm', 80, t).cells].join(',') !== [...titlePicture('ruflo | Swarm', 80, t).cells].join(',')) changed.push(t)
+
+    // The animation itself moves (shimmer), so compare the glyphs only: a burst adds ASCII characters the plain title never has.
+    const hasGlitch = (t: number): boolean => [...titlePicture('ruflo | Swarm', 80, t).cells].some((v, i) => i % 3 === 0 && '#%&@/\\|<>=+*'.includes(String.fromCodePoint(v)))
+    const hits: number[] = []
+
+    for (let t = 1; t < 40_000; t += 40) if (hasGlitch(t)) hits.push(t)
+
+    expect(changed).toEqual([])
+    expect([...titlePicture('ruflo | Swarm', 80, 0).cells].join(',')).toBe(still)
+    expect(hasGlitch(0)).toBe(false)
+    // About one burst of 260 ms per 8 s: some frames glitch, most do not.
+    expect(hits.length).toBeGreaterThan(0)
+    expect(hits.length).toBeLessThan(40_000 / 40 / 8)
+    const bannerHit = Array.from({ length: 1000 }, (_v, i) => 1 + i * 40).some(t => [...bannerPicture('p', 72, t).cells].some((v, i) => i % 3 === 0 && '#%&@/\\|<>=+*'.includes(String.fromCodePoint(v))))
+
+    expect(bannerHit).toBe(true)
+  })
+})
