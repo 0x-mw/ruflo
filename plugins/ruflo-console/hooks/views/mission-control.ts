@@ -234,13 +234,16 @@ export function missionStrip(ctx: Ctx): RenderElement[] {
   const title = ctx.kit.Text({ bold: true, color: THEME.head, children: '▓▒░ MISSION CONTROL ░▒▓' })
   const open = ctx.kit.Button({ key: 'menu-go-missions-top', label: ' (1) open Missions ', plain: true, onPress: () => ctx.act.view('missions') })
 
+  // The goal field is always here, with or without an active mission: Enter plans the goal and opens Missions.
+  const field = box(ctx, 'menu-goal', '✎ goal', mission === null ? 'what do you want done? e.g. add a dark mode toggle to settings' : 'a new goal, planned in place of this one', 'plan', value => {
+    ctx.act.view('missions')
+    m.goal(value)
+  })
+
   if (mission === null) {
     return [
       row(ctx, [title, open], 'menu-mission-title'),
-      ...box(ctx, 'menu-goal', '✎ goal', 'what do you want done? e.g. add a dark mode toggle to settings', 'plan', value => {
-        ctx.act.view('missions')
-        m.goal(value)
-      }),
+      ...field,
       text(ctx, ' research → create (ADRs, SOP) → build → test → validate → secure → benchmark → learn', { dimColor: true }),
       text(ctx, ' '),
     ]
@@ -252,6 +255,7 @@ export function missionStrip(ctx: Ctx): RenderElement[] {
 
   return [
     row(ctx, [title, open], 'menu-mission-title'),
+    ...field,
     text(ctx, ` ${clip(mission.objective, Math.max(20, ctx.columns - 22))}  ${bar(done, total)} ${done}/${total}${mission.paused ? '  · paused' : ''}`, { bold: true }),
     row(
       ctx,
