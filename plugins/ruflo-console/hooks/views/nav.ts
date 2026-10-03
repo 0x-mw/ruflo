@@ -1,76 +1,81 @@
 /**
- * The grouped nav, drawn when the page is in cards: one bordered NAV card, a row per group of the main menu (Swarm, Mind, Safety,
- * Network, Tools), each view a button with its hotkey, the open one marked. Every view is a click away from every page; a hotkey is
- * given only to the views that had one in the flat tab bar, so no new key can collide with a page's own.
+ * The nav, drawn when the page is in cards: a short, bordered card of two or three rows instead of every page at once.
+ *   row 1   [0: MAIN]  the five groups (the open one marked)  a search field
+ *   row 2+  the pages of the open group (or what the search found), each `[k: icon NAME]`
+ * Picking another group shows its pages while the page stays open; searching lists the pages whose name, group or description holds
+ * the words (one match opens it). A page's hotkey is the one it had in the flat tab bar, and it keeps working wherever it is
+ * drawn: the pages that are not showing are in the card as hidden buttons, so a number or letter reaches any page from any page.
  */
 import type { RenderElement } from 'claude-code'
 
-import { NAV_STYLES, VIEWS, type ViewId } from '../state'
+import { findPages, NAV_GROUPS, shownGroup } from '../nav-state'
+import { VIEWS, type ViewId } from '../state'
 import { CARD_COLUMNS } from './card'
-import { isBbs, row, THEME, type Ctx } from './common'
+import { isBbs, THEME, type Ctx } from './common'
 
-/** The nav's groups, the main menu's own, each in rows short enough to spell their names: every view but the menu is in exactly one. */
-export const NAV_GROUPS: readonly { title: string; rows: readonly (readonly ViewId[])[] }[] = [
-  { title: 'SWARM', rows: [['missions', 'overview', 'swarm', 'hive', 'claims', 'approvals'], ['automate', 'timeline', 'events']] },
-  { title: 'MIND', rows: [['learning', 'neural', 'metaharness', 'evolve'], ['memory', 'vector', 'cost', 'perf']] },
-  { title: 'SAFETY', rows: [['secure', 'devtools']] },
-  { title: 'NETWORK', rows: [['federation', 'xruv', 'plugins', 'skills', 'market']] },
-  { title: 'TOOLS', rows: [['terminal', 'settings']] },
-]
+type View = (typeof VIEWS)[number]
 
-const LABEL_WIDTH = 9
+const PER_ROW = 6
 
-export function groupedTabs(ctx: Ctx, hasHotkey: (view: (typeof VIEWS)[number]) => boolean): RenderElement {
+export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): RenderElement {
+  const { state } = ctx
   const inner = ctx.columns - CARD_COLUMNS
-  const style = ctx.state.nav
-  const open = ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view
+  const open = state.view === 'agent' ? state.back : state.view
+  const shown = shownGroup(state)
+  const query = state.navQuery
   const find = (id: ViewId) => VIEWS.find(entry => entry.id === id)
-  // What a tab spells: its icon, and from `brief` a short name, from `full` the whole name. The engine puts a button's hotkey in front ("3: ").
-  const spell = (view: (typeof VIEWS)[number], form: string) => (form === 'icons' ? view.icon : form === 'brief' ? `${view.icon} ${view.short}` : `${view.icon} ${view.label}`)
-  const cells = (view: (typeof VIEWS)[number], form: string) => (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + 3
-  const widest = (form: string) => Math.max(...NAV_GROUPS.flatMap(group => group.rows.map(ids => LABEL_WIDTH + ids.reduce((sum, id) => sum + (find(id) === undefined ? 0 : cells(find(id) as (typeof VIEWS)[number], form)), 0))))
-  // auto: the richest form whose widest group row fits the page; the others are the person's choice.
-  const form = style === 'auto' ? (['full', 'brief'].find(candidate => widest(candidate) <= inner) ?? 'icons') : style
-  const tab = (view: (typeof VIEWS)[number]): RenderElement => {
-    const words = spell(view, form)
+  const found = query === '' ? null : findPages(query)
+  const pages: ViewId[][] = found !== null ? Array.from({ length: Math.ceil(found.length / PER_ROW) }, (_, i) => found.slice(i * PER_ROW, (i + 1) * PER_ROW)) : (NAV_GROUPS.find(group => group.title === shown)?.rows ?? []).map(ids => [...ids])
 
-    // The open view names itself whatever the style, as the flat tab bar did: [3: 📌 CLAIMS], [0: 📟 MAIN MENU].
+  // What a page spells: its icon, and from `brief` a short name, from `full` the whole name. The engine puts a hotkey in front ("3: ").
+  const spell = (view: View, form: string) => (form === 'icons' ? view.icon : form === 'brief' ? `${view.icon} ${view.short}` : `${view.icon} ${view.label}`)
+  const cells = (view: View, form: string) => (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + 3
+  const widest = (form: string) => Math.max(0, ...pages.map(ids => ids.reduce((sum, id) => sum + (find(id) === undefined ? 0 : cells(find(id) as View, form)), 0)))
+  // auto: the richest form whose widest row fits the page; the others are the person's choice (Settings).
+  const form = state.nav === 'auto' ? (['full', 'brief'].find(candidate => widest(candidate) <= inner) ?? 'icons') : state.nav
+
+  const tab = (view: View): RenderElement => {
+    const words = spell(view, form)
     const prefix = view.key === '' ? '' : `${view.key}: `
 
+    // The open page names itself whatever the style, as the flat tab bar did: [3: 📌 CLAIMS], [0: 📟 MAIN MENU].
     if (view.id === open) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}` })] })
 
     return ctx.kit.Button({ key: `tab-${view.id}`, label: ` ${words} `, ...(hasHotkey(view) && view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
-  const menu = VIEWS.find(view => view.id === 'menu')
-  const titleRow = row(
-    ctx,
-    [
-      ctx.kit.Text({ bold: true, color: THEME.head, children: isBbs() ? '░▒▓ NAV ░▒▓ ' : 'NAV ' }),
-      ...(menu === undefined ? [] : [open === 'menu' ? tab(menu) : ctx.kit.Button({ key: 'tab-menu', label: ' 📟 Menu ', plain: true, hotkey: '0', onPress: () => ctx.act.view('menu') })]),
-      ctx.kit.Text({ dimColor: true, children: '  style ' }),
-      ...NAV_STYLES.map(option =>
-        ctx.kit.Button({ key: `nav-style-${option}`, label: ` ${option === style ? '●' : '○'} ${option} `, plain: true, ...(option === style ? { variant: 'primary' as const } : { dimColor: true }), onPress: () => ctx.act.nav(option) }),
-      ),
-    ],
-    'tabs-title',
-  )
-  const groups = NAV_GROUPS.flatMap(group =>
-    group.rows.map((ids, i) =>
-      ctx.kit.Box({
-        flexDirection: 'row',
-        gap: 1,
-        key: `tabs-${group.title.toLowerCase()}-${i}`,
-        children: [
-          ctx.kit.Text({ bold: true, color: THEME.info, children: (i === 0 ? group.title : '').padEnd(LABEL_WIDTH) }),
-          ...ids.flatMap(id => {
-            const view = find(id)
 
-            return view === undefined ? [] : [tab(view)]
-          }),
-        ],
-      }),
-    ),
+  const menu = find('menu')
+  // The group chips spell their icon only where the row has room; the search field shares their row only where it fits, else it has its own.
+  const icons = inner >= 130
+  const chipCells = NAV_GROUPS.reduce((sum, group) => sum + group.title.length + (icons ? 5 : 3), 12)
+  const isSearchInline = inner - chipCells >= 28
+  const chips = NAV_GROUPS.map(group =>
+    group.title === shown && found === null
+      ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
+      : ctx.kit.Button({ key: `nav-group-${group.title}`, label: ` ${icons ? `${group.icon} ` : ''}${group.title} `, plain: true, dimColor: true, onPress: () => ctx.act.navigator.group(group.title) }),
   )
+  const Input = ctx.kit.Input
+  const search = Input === undefined ? [] : [Input({ key: 'nav-find', label: '🔎', placeholder: 'find a page', submitLabel: 'go', onSubmit: (value: string) => ctx.act.navigator.find(value) })]
+  const clear = query === '' ? [] : [ctx.kit.Button({ key: 'nav-find-clear', label: ' ✕ ', plain: true, dimColor: true, onPress: () => ctx.act.navigator.clear() })]
+  const head = ctx.kit.Box({
+    flexDirection: 'row',
+    gap: 1,
+    key: 'tabs-groups',
+    children: [menu === undefined ? ctx.kit.Text({ children: '' }) : open === 'menu' ? tab(menu) : ctx.kit.Button({ key: 'tab-menu', label: ' 📟 MAIN ', plain: true, hotkey: '0', onPress: () => ctx.act.view('menu') }), ...chips, ...(isSearchInline ? [...search, ...clear] : [])],
+  })
+  const findRow = isSearchInline ? [] : [ctx.kit.Box({ flexDirection: 'row', gap: 1, key: 'tabs-find', children: [...search, ...clear] })]
+  const lines =
+    found !== null && found.length === 0
+      ? [ctx.kit.Text({ dimColor: true, children: ` no page matches “${query}” — try a name, a group or what it does` })]
+      : pages.map((ids, i) =>
+          ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `tabs-row-${i}`, children: ids.flatMap(id => (find(id) === undefined ? [] : [tab(find(id) as View)])) }),
+        )
+  const note = found === null ? [] : [ctx.kit.Text({ dimColor: true, children: ` ${found.length} found for “${query}”${found.length === 1 ? '' : ' — Enter again on one name opens it'}` })]
 
-  return ctx.kit.Box({ key: 'tabs', flexDirection: 'column', borderStyle: 'round', borderColor: THEME.info, paddingX: 1, children: [titleRow, ...groups] })
+  // Every other page with a hotkey stays in the card, hidden: its number or letter works from this page too.
+  const visible = new Set<ViewId>(pages.flat())
+  const hidden = VIEWS.filter(view => view.id !== 'menu' && view.id !== open && !visible.has(view.id) && hasHotkey(view) && view.key !== '')
+  const keys = hidden.length === 0 ? [] : [ctx.kit.Box({ key: 'tabs-keys', display: 'none', children: hidden.map(view => ctx.kit.Button({ key: `tab-${view.id}`, label: view.short, hotkey: view.key, plain: true, onPress: () => ctx.act.view(view.id) })) } as never)]
+
+  return ctx.kit.Box({ key: 'tabs', flexDirection: 'column', borderStyle: 'round', borderColor: THEME.info, paddingX: 1, children: [head, ...findRow, ...lines, ...note, ...keys] })
 }

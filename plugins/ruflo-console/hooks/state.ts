@@ -206,6 +206,10 @@ export type State = {
   allowed: Map<string, string>
   /** The main nav's style, saved across sessions. */
   nav: NavStyle
+  /** The nav group whose pages are showing, picked on this page (it follows the open page again once the page changes). */
+  navPick: { group: string; view: ViewId } | null
+  /** The nav search words (empty: no search). */
+  navQuery: string
   /** The slash command names the session offered when last asked (for the mission skills). */
   commandNames: string[]
   /** True while the primary Claude session is running a turn (the band reports it each draw). */
@@ -306,6 +310,8 @@ export function newState(raw: PluginOptions | undefined): State {
     curveGrewAtMs: 0,
     dockColumns: 0,
     nav: 'auto',
+    navPick: null,
+    navQuery: '',
     turnActive: false,
     commandNames: [],
     allowed: new Map(),

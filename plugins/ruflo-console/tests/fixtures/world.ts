@@ -228,4 +228,7 @@ export function elementsOf(node: RenderNode | RenderElement | null | undefined, 
   return [...(node.type === type ? [node as RenderElement] : []), ...children.flatMap(child => elementsOf(child, type))]
 }
 
+/** The keys of a page's own text fields: the nav's search field is on every page, so it is left out. */
+export const inputKeys = (tree: Parameters<typeof elementsOf>[0]): string[] => elementsOf(tree, 'Input').map(keyOf).filter(key => key !== 'nav-find')
+
 export const keyOf = (element: RenderElement): string => String((element as { key?: unknown }).key ?? (element as { props?: { key?: unknown } }).props?.key ?? '')

@@ -6,7 +6,7 @@ import type { TestBody } from 'claude-code/testing'
 import { describe, expect, mock, test } from 'claude-code/testing'
 
 import { RUFLO_FILES } from './fixtures/ruflo-run'
-import { command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
+import { inputKeys, command, elementsOf, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
 const keys = (tree: Parameters<typeof elementsOf>[0]) => elementsOf(tree, 'Button').map(keyOf)
 
@@ -80,7 +80,7 @@ describe('learning page', () => {
     const order = keys(open)
 
     expect(order).toEqual(expect.arrayContaining(['run-nn-pretrain-shallow', 'run-nn-pretrain-medium', 'run-nn-pretrain-deep', 'run-nn-consolidate']))
-    expect(elementsOf(open, 'Input').map(keyOf)).toEqual(expect.arrayContaining(['in-nn-pattern-search', 'in-nn-pattern-store']))
+    expect(inputKeys(open)).toEqual(expect.arrayContaining(['in-nn-pattern-search', 'in-nn-pattern-store']))
     await pane.press({ key: 'run-nn-pretrain-medium' })
 
     const asked = await pane.drawn()

@@ -19,6 +19,7 @@ import type { SettingsActions } from '../settings'
 import type { DevtoolsActions } from '../devtools'
 import type { Grid } from '../gfx/raster'
 import type { MemoryActions } from '../memory-lab'
+import type { NavActions } from '../nav-state'
 import type { SkillActions } from '../skills'
 import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
@@ -92,6 +93,8 @@ export type Actions = {
   remember: () => void
   /** Forgets one remembered kind of action, or all of them (an empty key). */
   forget: (key: string) => void
+  /** The nav card: show a group's pages, search the pages, clear the search. */
+  navigator: NavActions
   /** Sets how the main nav spells its tabs (saved). */
   nav: (style: NavStyle) => void
   /** Opens or closes a collapsible section (`<view>/<id>`). */
