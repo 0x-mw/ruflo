@@ -25,6 +25,7 @@ import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
 import { VIEWS, type HarnessId, type NavStyle, type State, type ViewId } from '../state'
 import type { UpdatesMode } from '../updates'
+import { COST_CHIP, INK } from '../menu-colors'
 import { accentOfView } from '../nav-state'
 import type { VectorActions } from '../vector'
 
@@ -142,6 +143,19 @@ export function setLook(next: Look): void {
 }
 
 export const isBbs = (): boolean => look === 'bbs'
+
+/**
+ * A cost tag (`$0`, `wr`, `net`, `$$`) on a run row. In the BBS look it is a solid chip, the way the menu draws a key: the ink on a ground
+ * by how much the run asks (a read green, local work or a write cyan, the network amber, spending or deleting red). In the plain look it
+ * is coloured text, as it always was. `color` is the tag's theme colour; a colour that is none of the four stays text.
+ */
+export function tagChip(ctx: Ctx, text: string, color: string): RenderElement {
+  const ground = look !== 'bbs' ? undefined : color === THEME.ok ? COST_CHIP.ok : color === THEME.info ? COST_CHIP.info : color === THEME.warn ? COST_CHIP.warn : color === THEME.bad ? COST_CHIP.bad : undefined
+
+  if (ground === undefined) return ctx.kit.Text({ bold: true, color, children: ` ${text}` })
+
+  return ctx.kit.Box({ flexDirection: 'row', children: [ctx.kit.Text({ children: ' ' }), ctx.kit.Text({ bold: true, color: INK, backgroundColor: ground, children: text })] })
+}
 
 export const clip = (text: string, width: number): string => (text.length <= width ? text : `${text.slice(0, Math.max(0, width - 1))}…`)
 

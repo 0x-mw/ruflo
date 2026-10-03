@@ -3,7 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { targetOf, type VectorField } from '../data/vector'
 import { VEC, VEC_SECTIONS, vecSpec, type VecCost, type VecEntry, type VecSection } from '../vector'
 import { slot } from './attention'
-import { ago, button, clip, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, type Ctx, row, rule, tagChip, text, THEME } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const VEC_ROWS = 12
@@ -62,7 +62,7 @@ function entryRow(ctx: Ctx, entry: VecEntry, lead: number): RenderElement {
   return row(
     ctx,
     [
-      ctx.kit.Text({ bold: true, color: isNa ? THEME.info : tag.color(), dimColor: isNa, children: ` ${isNa ? ' -- ' : tag.text}` }),
+      isNa ? ctx.kit.Text({ bold: true, color: THEME.info, dimColor: true, children: ` ${' -- '}` }) : tagChip(ctx, tag.text, tag.color()),
       ctx.kit.Text({ bold: true, color: entry.cost === 'deletes' || entry.cost === 'publish' || entry.cost === 'spends' ? THEME.warn : THEME.head, dimColor: isNa, children: ` ${entry.name} `.padEnd(lead, '.') }),
       ctx.kit.Text({ color: THEME.info, dimColor: isNa || isBlocked, wrap: 'truncate-end', children: clip(` ${isNa ? (entry.na ?? '') : entry.about}`, Math.max(4, ctx.columns - lead - 16)) }),
       isNa

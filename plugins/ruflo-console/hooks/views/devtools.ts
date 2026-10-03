@@ -3,7 +3,7 @@ import type { RenderElement } from 'claude-code'
 import type { DevField } from '../data/devtools'
 import { DEV, DEV_GROUPS, devSpec, type DevCost, type DevEntry, type DevGroup } from '../devtools'
 import { slot } from './attention'
-import { ago, button, clip, col, row, section, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, type Ctx, row, section, tagChip, text, THEME } from './common'
 import { spinAt } from '../spinner'
 import { sendResultRow } from './secure'
 
@@ -50,7 +50,7 @@ function entryRow(ctx: Ctx, entry: DevEntry, lead: number): RenderElement {
   return row(
     ctx,
     [
-      ctx.kit.Text({ bold: true, color: isNa ? THEME.info : tag.color(), dimColor: isNa, children: ` ${isNa ? 'n/a ' : tag.text}` }),
+      isNa ? ctx.kit.Text({ bold: true, color: THEME.info, dimColor: true, children: ` ${'n/a '}` }) : tagChip(ctx, tag.text, tag.color()),
       ctx.kit.Text({ bold: true, color: entry.cost === 'spends' || entry.cost === 'deletes' ? THEME.warn : THEME.head, dimColor: isNa, children: clip(` ${entry.name} `, lead).padEnd(lead, '.') }),
       ctx.kit.Text({ color: THEME.info, dimColor: isNa || isBlocked, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 16)) }),
       // A blocked row keeps its button: pressing it says which field to fill. The button is primary, the one action on the row.

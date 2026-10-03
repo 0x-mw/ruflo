@@ -38,3 +38,6 @@ export const NAV_ACCENT: Readonly<Record<string, string>> = {
 
 /** The colour of a mission's status line, by tone: running and done green, ready amber, paused cyan, waiting dim. */
 export const TONE = { live: '#5fd75f', ready: '#ffaf00', wait: '#8a8a8a', done: '#5fd75f', paused: '#5fd7ff' } as const
+
+/** The ground of a cost chip in a run row, by how much it asks of the person: a read green, local work or a write cyan, the network amber, spending or deleting red. */
+export const COST_CHIP = { ok: '#5fd75f', info: '#5fd7ff', warn: '#ffaf00', bad: '#ff5f5f' } as const

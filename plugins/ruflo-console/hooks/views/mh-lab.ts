@@ -3,7 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { LAB, LAB_GROUPS, labSpec, PROMOTE_COMMAND, type LabCost, type LabEntry } from '../mh-lab'
 import { slot } from './attention'
 import { sendResultRow } from './secure'
-import { ago, button, clip, row, rule, section, text, THEME, type Ctx } from './common'
+import { ago, button, clip, type Ctx, row, rule, section, tagChip, text, THEME } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const LAB_ROWS = 14
@@ -26,7 +26,7 @@ function entryRow(ctx: Ctx, entry: LabEntry, lead: number): RenderElement {
   return row(
     ctx,
     [
-      ctx.kit.Text({ bold: true, color: tag.color(), children: ` ${tag.text}` }),
+      tagChip(ctx, tag.text, tag.color()),
       ctx.kit.Text({ bold: true, color: entry.cost === 'spends' ? THEME.warn : THEME.head, children: ` ${entry.name} `.padEnd(lead, '.') }),
       ctx.kit.Text({ color: THEME.info, dimColor: isBlocked, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 18)) }),
       // A verb that needs a path types its command into the terminal, which asks before it runs.

@@ -3,7 +3,8 @@ import type { RenderElement } from 'claude-code'
 import { DOCTOR_COMPONENTS, isSecureResult, SECURE, SECURE_TEXT, secMemo, SEVERITIES, type SecCost, type Severity } from '../secure'
 import { slot } from './attention'
 import { spinAt } from '../spinner'
-import { ago, button, clip, col, row, rule, section, text, THEME, type Ctx } from './common'
+import { sentryRows } from './sentries'
+import { ago, button, clip, col, type Ctx, row, rule, section, tagChip, text, THEME } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const RESULT_ROWS = 14
@@ -27,7 +28,7 @@ export function entryRow(ctx: Ctx, entry: { id: string; name: string; about: str
   return row(
     ctx,
     [
-      ctx.kit.Text({ bold: true, color: tag.color(), children: ` ${tag.text}` }),
+      tagChip(ctx, tag.text, tag.color()),
       ctx.kit.Text({ bold: true, color: THEME.head, children: ` ${entry.name} `.padEnd(lead, '.') }),
       ctx.kit.Text({ color: THEME.info, dimColor: waiting, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 34)) }),
       // The run is the row's one action, so it is a primary button: it is the first thing the eye finds. Waiting on text, it is plain.

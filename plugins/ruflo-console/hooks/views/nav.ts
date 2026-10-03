@@ -8,7 +8,9 @@
  */
 import type { RenderElement } from 'claude-code'
 
-import { findPages, NAV_GROUPS, shownGroup } from '../nav-state'
+import { INK, NAV_ACCENT } from '../menu-colors'
+import { badgesOf } from '../menu-style'
+import { accentOfView, findPages, NAV_GROUPS, shownGroup } from '../nav-state'
 import { VIEWS, type ViewId } from '../state'
 import { CARD_COLUMNS } from './card'
 import { isBbs, THEME, type Ctx } from './common'
@@ -29,7 +31,10 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
 
   // What a page spells: its icon, and from `brief` a short name, from `full` the whole name. The engine puts a hotkey in front ("3: ").
   const spell = (view: View, form: string) => (form === 'icons' ? view.icon : form === 'brief' ? `${view.icon} ${view.short}` : `${view.icon} ${view.label}`)
-  const cells = (view: View, form: string) => (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + 3
+  // The same badges the menu carries (approvals waiting, findings, an update ...), so the nav says what is going on behind a page too.
+  const badges = badgesOf(state, ctx.nowMs)
+  const badgeText = (view: View): string => (badges[view.id] === undefined ? '' : ` ${badges[view.id]?.text}`)
+  const cells = (view: View, form: string) => (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + badgeText(view).length + 3
   const widest = (form: string) => Math.max(0, ...pages.map(ids => ids.reduce((sum, id) => sum + (find(id) === undefined ? 0 : cells(find(id) as View, form)), 0)))
   // auto: the richest form whose widest row fits the page; the others are the person's choice (Settings).
   const form = state.nav === 'auto' ? (['full', 'brief'].find(candidate => widest(candidate) <= inner) ?? 'icons') : state.nav
@@ -39,9 +44,11 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
     const prefix = view.key === '' ? '' : `${view.key}: `
 
     // The open page names itself whatever the style, as the flat tab bar did: [3: 📌 CLAIMS], [0: 📟 MAIN MENU].
-    if (view.id === open) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}` })] })
+    const accent = isBbs() ? accentOfView(view.id) : null
 
-    return ctx.kit.Button({ key: `tab-${view.id}`, label: ` ${words} `, ...(hasHotkey(view) && view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
+    if (view.id === open) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: accent === null ? THEME.head : INK, ...(accent !== null && { backgroundColor: accent }), wrap: 'truncate-end', children: isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}` })] })
+
+    return ctx.kit.Button({ key: `tab-${view.id}`, label: ` ${words}${badgeText(view)} `, ...(hasHotkey(view) && view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
 
   const menu = find('menu')
@@ -51,7 +58,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const isSearchInline = inner - chipCells >= 28
   const chips = NAV_GROUPS.map(group =>
     group.title === shown && found === null
-      ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
+      ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ bold: true, color: isBbs() ? INK : THEME.head, ...(isBbs() && { backgroundColor: NAV_ACCENT[group.title] ?? THEME.head }), children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
       : ctx.kit.Button({ key: `nav-group-${group.title}`, label: ` ${icons ? `${group.icon} ` : ''}${group.title} `, plain: true, dimColor: true, onPress: () => ctx.act.navigator.group(group.title) }),
   )
   const Input = ctx.kit.Input
