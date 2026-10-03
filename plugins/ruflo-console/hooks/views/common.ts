@@ -4,6 +4,7 @@
  * Text colours are theme names only, so nothing fades on a light background.
  */
 import type { AskActions } from '../ask-claude'
+import type { WatchActions } from '../watch'
 import type { Attention } from './attention'
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
@@ -68,6 +69,8 @@ export type Actions = {
   evolve: EvolveActions
   /** The Dev Tools view: keep a field's text, and Enter in a field runs its entry. */
   devtools: DevtoolsActions
+  /** The Timeline and Events pages: look-back range, kind filter, search, pause, paging, an event's detail, and asking about one. */
+  watch: WatchActions
   /** Ask Claude about this section (a visible prompt or a /btw aside) or run the plugin command that fits it: each asks first. */
   ask: AskActions
   /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */
