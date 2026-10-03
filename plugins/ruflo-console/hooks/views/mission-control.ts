@@ -1,6 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { lifecycleOf, PHASE_NAME, PROFILES, RIGORS, stageOf } from '../goap'
+import { guidanceStatus } from '../mission-guidance'
 import { activeMission, derive, mcOf, nextTask, progressOf, rufloTaskOf, type Derived, type LedgerTask, type McTab, type MissionRecord } from '../mission-control'
 import { ago, button, clip, col, confirmHere, row, rule, section, text, THEME, type Ctx } from './common'
 import { GOALS_PLUGIN, isAvailable, MISSION_SKILLS, slashOf } from '../mission-skills'
@@ -99,7 +100,8 @@ function guidanceRows(ctx: Ctx): RenderElement[] {
   const control = guidance.stop === null ? button(ctx, 'mc-guidance-again', '↻ ask again', () => m.askGuidance()) : button(ctx, 'mc-guidance-stop', '■ stop', () => guidance.stop?.())
   const body = guidance.lines.length === 0 ? [text(ctx, '  waiting for the first words…', { dimColor: true })] : guidance.lines.map(line => text(ctx, `  ${line}`))
 
-  return section(ctx, 'guidance', '✦ Claude guidance', guidance.status === 'running' ? 'writing…' : guidance.note, [...body, row(ctx, [control], 'mc-guidance-ctl')], true)
+  // The header says what the run is doing: its spinner, the seconds it has run, and thinking or writing with a word count.
+  return section(ctx, 'guidance', '✦ Claude guidance', guidanceStatus(guidance, ctx.nowMs), [...body, row(ctx, [control], 'mc-guidance-ctl')], true)
 }
 
 function taskRow(ctx: Ctx, mission: MissionRecord, task: LedgerTask, status: Derived, isNext: boolean): RenderElement {

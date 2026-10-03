@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { ActionSpec } from '../hooks/actions'
 import type { Host } from '../hooks/host'
-import { guidanceArgv, guidancePrompt, guidanceSpec, offerGuidance, pluginsOf, startGuidance } from '../hooks/mission-guidance'
+import { guidanceArgv, guidancePrompt, guidanceSpec, guidanceStatus, offerGuidance, pluginsOf, startGuidance, type Guidance } from '../hooks/mission-guidance'
 import { mcOf, setGoal } from '../hooks/mission-control'
 import type { Runner } from '../hooks/runner'
 import { saveAiPrefs, settingsOf } from '../hooks/settings'
@@ -166,6 +166,19 @@ describe('mission guidance', () => {
     expect(run.placed).toHaveLength(1)
     expect(run.handed).toHaveLength(0)
     expect(mcOf(busy).guidance?.note).toContain('press Enter to send')
+  })
+
+  it('the section says what the run is doing: thinking until the first words, then writing with a word count, then its note', () => {
+    const run: Guidance = { goal: 'g', status: 'running', lines: [], note: 'asking claude…', stop: null, startedAtMs: 1_000 }
+
+    expect(guidanceStatus(run, 4_000)).toMatch(/^\S thinking · 3s · the answer starts when the first words arrive$/)
+
+    run.lines.push('## Research', 'Search memory first for prior art.')
+    expect(guidanceStatus(run, 9_000)).toMatch(/^\S writing · 8s · 8 words so far$/)
+
+    run.status = 'done'
+    run.note = '✓ 8 s · $0.042'
+    expect(guidanceStatus(run, 9_000)).toBe('✓ 8 s · $0.042')
   })
 
   it('an answer with nothing in it is a failure that says what to check, and an error result is one too', async () => {

@@ -17,7 +17,26 @@ import { settingsOf } from './settings'
 import type { State } from './state'
 import { claudeParser, eventOf, type Sink } from './stream'
 
-export type Guidance = { goal: string; status: 'running' | 'done' | 'failed'; lines: string[]; note: string; stop: (() => void) | null }
+export type Guidance = { goal: string; status: 'running' | 'done' | 'failed'; lines: string[]; note: string; stop: (() => void) | null; startedAtMs: number }
+
+const SPIN = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+
+/**
+ * What the run is doing now, for its section: a spinner that turns while it runs, how long it has run, and whether the answer has
+ * started (thinking until the first words arrive, then writing with a word count). Once it has finished, its note.
+ */
+export function guidanceStatus(guidance: Guidance, nowMs: number): string {
+  if (guidance.status !== 'running') return guidance.note
+
+  const spin = SPIN[Math.floor(nowMs / 100) % SPIN.length]
+  const secs = Math.max(0, Math.floor((nowMs - guidance.startedAtMs) / 1000))
+
+  if (guidance.lines.length === 0) return `${spin} thinking · ${secs}s · the answer starts when the first words arrive`
+
+  const words = guidance.lines.reduce((sum, line) => sum + (line.trim() === '' ? 0 : line.trim().split(/\s+/).length), 0)
+
+  return `${spin} writing · ${secs}s · ${words} words so far`
+}
 
 /** The most guidance text kept, and the longest wait: a runaway turn ends at five minutes. */
 const MAX_LINES = 400
@@ -84,7 +103,7 @@ export function startGuidance(state: State, host: Host, mc: McState): void {
 
   if (plan === null || mc.guidance?.status === 'running') return
 
-  const guidance: Guidance = { goal: mc.goal, status: 'running', lines: [], note: 'asking claude…', stop: null }
+  const guidance: Guidance = { goal: mc.goal, status: 'running', lines: [], note: 'asking claude…', stop: null, startedAtMs: Date.now() }
   const startedAtMs = Date.now()
   let open = false
   const parse = claudeParser()
@@ -119,6 +138,16 @@ export function startGuidance(state: State, host: Host, mc: McState): void {
   }
 
   mc.guidance = guidance
+
+  // The section redraws while the run is going, so its spinner and clock move even before the first words arrive.
+  const tick = (): void => {
+    if (guidance.status !== 'running') return
+
+    host.invalidate()
+    host.after(250, tick)
+  }
+
+  host.after(250, tick)
 
   let stream: ReturnType<Host['spawn']>
 
