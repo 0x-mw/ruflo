@@ -3,7 +3,9 @@ import type { RenderElement } from 'claude-code'
 import { lifecycleOf, PHASE_NAME, PROFILES, RIGORS, stageOf } from '../goap'
 import { guidanceStatus } from '../mission-guidance'
 import { activeMission, derive, mcOf, nextTask, progressOf, rufloTaskOf, type Derived, type LedgerTask, type McTab, type MissionRecord } from '../mission-control'
-import { ago, button, clip, col, confirmHere, row, rule, section, text, THEME, type Ctx } from './common'
+import { ACCENT, INK, TONE } from '../menu-colors'
+import { barCells, percentOf, stripStatus } from '../mission-strip'
+import { ago, button, clip, col, confirmHere, isBbs, row, rule, section, text, THEME, type Ctx } from './common'
 import { GOALS_PLUGIN, isAvailable, MISSION_SKILLS, slashOf } from '../mission-skills'
 import { observationRows } from './missions'
 import { capabilityRows, launchRows } from './mission-launch'
@@ -236,6 +238,57 @@ export function missionControlView(ctx: Ctx): RenderElement {
 }
 
 /**
+ * The strip as a card in the BBS look: a solid title bar, the goal with a coloured bar and the percentage, a line that says what the
+ * mission is doing (it said "nothing ready" for four different things), and the buttons under it. Every key is the one the plain
+ * strip had, so a hotkey, a test and a click land where they did.
+ */
+function stripCard(ctx: Ctx, mission: ReturnType<typeof activeMission>, field: RenderElement[], open: RenderElement): RenderElement {
+  const m = ctx.act.mission
+  const accent = ACCENT.SWARM as string
+  const inner = Math.max(24, ctx.columns - 4)
+  const rows: RenderElement[] = [ctx.kit.Box({ backgroundColor: accent, key: 'menu-mc-bar', children: [ctx.kit.Text({ bold: true, color: INK, wrap: 'truncate-end', children: ' ▓▒░ MISSION CONTROL ░▒▓'.padEnd(inner).slice(0, inner) })] })]
+
+  if (mission === null) {
+    rows.push(...field, text(ctx, ' research → create (ADRs, SOP) → build → test → validate → secure → benchmark → learn', { dimColor: true }), row(ctx, [open], 'menu-mission-links'))
+  } else {
+    const tasks = ctx.state.snapshot?.tasks ?? []
+    const { done, total } = progressOf(mission, tasks)
+    const states = derive(mission, tasks)
+    const running = mission.tasks.find(task => states.get(task.id) === 'running')
+    const next = nextTask(mission, tasks)
+    const status = stripStatus({ done, total, paused: mission.paused, running: running === undefined ? null : { id: running.id, title: running.title }, next: next === null ? null : { id: next.id, stage: next.stage ?? next.phase, title: next.title } }, Math.max(24, inner - 4))
+    const cells = barCells(done, total, Math.min(20, Math.max(8, Math.floor(inner / 4))))
+
+    rows.push(
+      ...field,
+      row(
+        ctx,
+        [
+          ctx.kit.Text({ bold: true, children: ` ${clip(mission.objective, Math.max(12, inner - cells.filled - cells.empty - 14))}  ` }),
+          ctx.kit.Text({ color: TONE.live, children: '▮'.repeat(cells.filled) }),
+          ctx.kit.Text({ color: TONE.wait, children: '▯'.repeat(cells.empty) }),
+          ctx.kit.Text({ bold: true, children: ` ${done}/${total} ${percentOf(done, total)}%` }),
+        ],
+        'menu-mission-goal',
+      ),
+      ctx.kit.Text({ color: TONE[status.tone], bold: status.tone === 'live' || status.tone === 'ready', children: ` ${status.text}` }),
+      row(
+        ctx,
+        [
+          ...(next === null ? [] : [ctx.kit.Button({ key: 'menu-mc-next', label: ' ▶ run next ', variant: 'primary' as const, onPress: () => m.next() })]),
+          ctx.kit.Button({ key: 'menu-mc-pause', label: mission.paused ? ' ▶ resume ' : ' ⏸ pause ', plain: true, onPress: () => (mission.paused ? m.resume() : m.pause()) }),
+          open,
+        ],
+        'menu-mission-ctl',
+      ),
+      ...confirmHere(ctx, 'controls'),
+    )
+  }
+
+  return ctx.kit.Box({ key: 'menu-mission-card', flexDirection: 'column', borderStyle: 'round', borderColor: accent, paddingX: 1, children: rows })
+}
+
+/**
  * Mission Control at the top of the main menu: the active mission's progress and what is next, with the buttons to hand the next
  * task to Claude, pause and open it; or, with none, the goal field (Enter plans it, asks Claude for guidance, and opens Missions).
  */
@@ -250,6 +303,9 @@ export function missionStrip(ctx: Ctx): RenderElement[] {
     ctx.act.view('missions')
     m.goal(value)
   })
+
+  // The BBS look draws the strip as a card; the plain look keeps its lines.
+  if (isBbs()) return [stripCard(ctx, mission, field, open)]
 
   if (mission === null) {
     return [

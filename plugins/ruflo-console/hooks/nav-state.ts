@@ -3,6 +3,7 @@
  * find. Pure and view-free (the nav card that draws it is views/nav.ts), so the page list, the grouping and the matching are tested
  * without a screen.
  */
+import { NAV_ACCENT } from './menu-colors'
 import { VIEWS, type State, type ViewId } from './state'
 
 /** The nav's groups, the main menu's own, each in rows short enough to spell their names: every view but the menu is in exactly one. */
@@ -15,6 +16,9 @@ export const NAV_GROUPS: readonly { title: string; icon: string; rows: readonly 
 ]
 
 export const groupOf = (view: ViewId): string | null => NAV_GROUPS.find(group => group.rows.some(row => row.includes(view)))?.title ?? null
+
+/** The accent of a page's group, or null for a page in none (the menu): the colour its cards and section rules wear in the BBS look. */
+export const accentOfView = (view: ViewId): string | null => NAV_ACCENT[groupOf(view) ?? ''] ?? null
 
 /** The group whose pages the nav shows: the one the person picked while on this page, else the open page's own. */
 export function shownGroup(state: State): string {

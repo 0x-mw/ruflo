@@ -13,6 +13,8 @@ import { CARD_COLUMNS, hasCards, withCards } from './card'
 import { groupedTabs } from './nav'
 import { stepsRows } from './steps'
 import { optimizerResult } from './optimizer'
+import { fitFooter, type FooterItem } from '../footer-layout'
+import { accentOfView } from '../nav-state'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { automateResult, automateView } from './automate'
@@ -197,23 +199,46 @@ function footer(ctx: Ctx, isPlaced = false): RenderElement {
   // BBS: the link status in modem-speak, [LINK OK] ▸ sync 3s · keys on.
   const read = state.snapshot === null ? (isBbs() ? '[DIALING…]' : 'reading…') : isBbs() ? `[LINK OK] ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')}` : `read ${ago(state.snapshot.readAtMs, nowMs)}`
   const keys = state.pane.isFocused ? 'keys on' : 'keys off: click the pane (or /ruflo …)'
+  const slash = slashFor(state, state.view)
+  // The buttons, most important first. Each has a short form and a priority: a narrow pane shortens the least important, then drops them
+  // (a dropped one stays, hidden, so its hotkey still works) instead of running off the edge and cutting the last in half.
+  const items: FooterItem[] = ctx.columns < NARROW
+    ? []
+    : [
+        { id: 'palette', full: 'Palette', short: 'p', priority: 1 },
+        ...(state.view === 'agent' || state.palette.isOpen ? [] : [{ id: 'actions', full: 'Actions', short: 'x', priority: 5 }]),
+        ...(state.palette.isOpen ? [] : [{ id: 'ask-claude', full: '✦ Ask Claude', short: '✦', priority: 2 }]),
+        ...(state.palette.isOpen || slash === null ? [] : [{ id: 'ask-slash', full: `▸ /${slash}`, short: '▸', priority: 7 }]),
+        { id: 'refresh', full: 'Refresh', short: 'r', priority: 6 },
+        { id: 'help', full: 'Help', short: 'h', priority: 3 },
+        { id: 'close', full: 'Close', short: '×', priority: 4 },
+      ]
+  const fit = fitFooter(items, ctx.columns - 2)
+  const press: Record<string, () => void> = { palette: () => ctx.act.palette('all'), actions: () => ctx.act.palette('selection'), 'ask-claude': () => ctx.act.ask.ask(), 'ask-slash': () => ctx.act.ask.slash(), refresh: ctx.act.refresh, help: ctx.act.help, close: ctx.act.close }
+  const hotkey: Record<string, string> = { palette: 'p', actions: 'x', refresh: 'r', help: 'h' }
+  const full = new Map(items.map(item => [item.id, item.full]))
+  const statusRoom = Math.max(10, ctx.columns - fit.used - 3)
+  // BBS: the link in colour ([LINK OK] green, how fresh the read is, whether the keys are on); plain: one dim line, as before.
+  const status =
+    isBbs() && state.snapshot !== null
+      ? [
+          ctx.kit.Text({ bold: true, color: THEME.ok, children: '[LINK OK]' }),
+          ctx.kit.Text({ dimColor: true, children: clip(` ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')} · `, Math.max(4, statusRoom - 9)) }),
+          ctx.kit.Text({ bold: state.pane.isFocused, color: state.pane.isFocused ? THEME.ok : THEME.warn, children: clip(`${keys} `, Math.max(4, statusRoom - 28)) }),
+        ]
+      : [text(ctx, `${clip(`${read} · ${keys}`, statusRoom)} `, { dimColor: true })]
 
   parts.push(
     row(ctx, [
-      text(ctx, `${clip(`${read} · ${keys}`, Math.max(10, ctx.columns - 46))} `, { dimColor: true }),
-      ...(ctx.columns >= NARROW
-        ? [
-            button(ctx, 'palette', 'Palette', () => ctx.act.palette('all'), { hotkey: 'p' }),
-            ...(state.view === 'agent' || state.palette.isOpen ? [] : [button(ctx, 'actions', 'Actions', () => ctx.act.palette('selection'), { hotkey: 'x' })]),
-            ...(state.palette.isOpen ? [] : [button(ctx, 'ask-claude', '✦ Ask Claude', () => ctx.act.ask.ask())]),
-            ...(state.palette.isOpen || slashFor(state, state.view) === null ? [] : [button(ctx, 'ask-slash', `▸ /${slashFor(state, state.view)}`, () => ctx.act.ask.slash())]),
-            button(ctx, 'refresh', 'Refresh', ctx.act.refresh, { hotkey: 'r' }),
-            button(ctx, 'help', 'Help', ctx.act.help, { hotkey: 'h' }),
-            button(ctx, 'close', 'Close', ctx.act.close),
-          ]
-        : []),
+      ...status,
+      ...fit.shown.map(entry => button(ctx, entry.id, entry.label, press[entry.id] as () => void, hotkey[entry.id] === undefined ? {} : { hotkey: hotkey[entry.id] })),
     ]),
   )
+
+  // A dropped button's hotkey must still work from here: drawn hidden, the engine still arms it.
+  const hiddenKeys = fit.hidden.filter(id => hotkey[id] !== undefined)
+
+  if (hiddenKeys.length > 0) parts.push(ctx.kit.Box({ key: 'footer-keys', display: 'none', children: hiddenKeys.map(id => button(ctx, id, full.get(id) ?? id, press[id] as () => void, { hotkey: hotkey[id] as string })) } as never))
 
   return col(ctx, parts, 'footer')
 }
@@ -281,7 +306,7 @@ export function paneView(base: Ctx): RenderElement {
   }
   // A section of a page is a bordered card (views/card.ts): the body is drawn narrower by the border and padding, through a kit that groups its rows.
   const cardsOn = hasCards(base.columns, isCompactPane(base.state)) && !ctx.state.palette.isOpen && !ctx.state.isHelp
-  const bodyCtx: Ctx = cardsOn ? { ...ctx, columns: ctx.columns - CARD_COLUMNS, cards: true, kit: withCards(ctx.kit) } : ctx
+  const bodyCtx: Ctx = cardsOn ? { ...ctx, columns: ctx.columns - CARD_COLUMNS, cards: true, kit: withCards(ctx.kit, isBbs() ? (accentOfView(ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view) ?? undefined) : undefined) } : ctx
   const drawBody = () => (ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](bodyCtx))
   // A lab's result block is drawn first into the panel (pass one), then the page is drawn with the panel placed under the clicked row.
   if (ctx.state.origin !== null && (ctx.state.lab.result !== null || ctx.state.lab.running !== null)) {

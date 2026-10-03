@@ -25,6 +25,7 @@ import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
 import { VIEWS, type HarnessId, type NavStyle, type State, type ViewId } from '../state'
 import type { UpdatesMode } from '../updates'
+import { accentOfView } from '../nav-state'
 import type { VectorActions } from '../vector'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
@@ -179,6 +180,11 @@ export function col(ctx: Ctx, parts: readonly RenderChildren[], key?: string): R
   return ctx.kit.Box({ flexDirection: 'column', ...(key !== undefined && { key }), children: [...parts] })
 }
 
+/** The colour a BBS page's section headers wear: the accent of its nav group (the menu's colours), else the theme's. Plain look: the theme's. */
+function accentOf(ctx: Ctx): string {
+  return look === 'bbs' ? (accentOfView(ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view) ?? THEME.info) : THEME.info
+}
+
 /**
  * A collapsible section: its header is a button (▾ open, ▸ closed) and the rows follow only while it is open. `open` is the
  * section's default; pressing the header flips it for this session. The header reads as `rule` does.
@@ -198,8 +204,8 @@ export function section(ctx: Ctx, id: string, title: string, right: string, chil
         ctx,
         [
           ctx.kit.Button({ key: `sec-${id}`, label: head, plain: true, onPress: () => ctx.act.toggle(key) }),
-          ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
-          ctx.kit.Text({ color: THEME.info, children: right }),
+          ctx.kit.Text({ color: accentOf(ctx), dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
+          ctx.kit.Text({ color: accentOf(ctx), children: right }),
         ],
         `sec-row-${id}`,
       ),
@@ -215,7 +221,7 @@ export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
     const head = `▓▒░ ${title.toUpperCase()} ░▒▓`
     const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
 
-    const line = row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: head }), ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: THEME.info, children: right })])
+    const line = row(ctx, [ctx.kit.Text({ bold: true, color: accentOf(ctx), children: head }), ctx.kit.Text({ color: accentOf(ctx), dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: accentOf(ctx), children: right })])
 
     // In a card the header is the card's first row; otherwise a blank line above each section, so the board breathes instead of packing every block together.
     return ctx.cards === true ? marked(HEADS, line) : marked(HEADS, col(ctx, [ctx.kit.Text({ children: ' ' }), line]))

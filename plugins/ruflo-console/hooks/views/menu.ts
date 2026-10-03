@@ -183,18 +183,17 @@ export function menuView(ctx: Ctx): RenderElement {
     }),
   )
   rows.push(text(ctx, ' '))
-  rows.push(text(ctx, `T - ${online}`, { bold: true }))
-
+  // The prompt, in a box like the cards in the BBS look. (The `T - 01:00` line that sat above it said what the status bar's Online already does.)
   if (ctx.kit.Input !== undefined) {
-    rows.push(
-      ctx.kit.Input({
-        key: 'menu-prompt',
-        label: `(1:1) (ruflo: ${clip(project, 24)})`,
-        placeholder: 'a key or a name, then Enter (? for help)',
-        submitLabel: 'go',
-        onSubmit: value => ctx.act.menu(value),
-      }),
-    )
+    const prompt = ctx.kit.Input({
+      key: 'menu-prompt',
+      label: bbs ? `${clip(project, 20)} ❯` : `(1:1) (ruflo: ${clip(project, 24)})`,
+      placeholder: 'a key or a name, then Enter · ? for help',
+      submitLabel: 'go',
+      onSubmit: value => ctx.act.menu(value),
+    })
+
+    rows.push(bbs ? ctx.kit.Box({ key: 'menu-prompt-box', borderStyle: 'round', borderColor: ACCENT.TOOLS as string, paddingX: 1, children: [prompt] }) : prompt)
   } else {
     rows.push(row(ctx, [text(ctx, `(1:1) (ruflo: ${clip(project, 24)}) : press a key from the menu`, { color: THEME.warn })]))
   }

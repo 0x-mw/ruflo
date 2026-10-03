@@ -9,6 +9,8 @@ import { describe, expect, it } from 'vitest'
 import type { ReadCache } from '../hooks/data/files'
 import { readSnapshot } from '../hooks/data/snapshot'
 import { ACCENT, badgesOf, INK, LOUD, MUTED, PALETTE } from '../hooks/menu-style'
+import { NAV_ACCENT, TONE } from '../hooks/menu-colors'
+import { accentOfView, NAV_GROUPS } from '../hooks/nav-state'
 import { secMemo } from '../hooks/secure'
 import { newState, VIEWS } from '../hooks/state'
 import { GROUPS } from '../hooks/views/menu'
@@ -48,7 +50,7 @@ describe('the menu accents', () => {
   })
 
   it('uses only colours the 256-colour palette has, so they render the same without truecolor and in tmux', () => {
-    for (const color of [...Object.values(ACCENT), ...PALETTE, INK, MUTED, LOUD]) expect(isXterm256(color), color).toBe(true)
+    for (const color of [...Object.values(ACCENT), ...PALETTE, INK, MUTED, LOUD, ...Object.values(TONE), ...Object.values(NAV_ACCENT)]) expect(isXterm256(color), color).toBe(true)
   })
 
   it('has ink on every accent that can be read (contrast 4.5 or more), and no two groups share a colour', () => {
@@ -126,5 +128,24 @@ describe('the menu badges', () => {
     state.updateAvailable = '0.27.0'
     state.terminal.runs.set('codex', { label: 'codex', startedAtMs: 0, stop: () => undefined })
     for (const view of Object.keys(badgesOf(state, 0))) expect(VIEWS.some(entry => entry.id === view), view).toBe(true)
+  })
+})
+
+describe('the accent a page wears', () => {
+  it('gives every nav group one of the menu\'s five accents, so a page\'s cards match the group the menu lists it under', () => {
+    expect(NAV_GROUPS.map(group => group.title).sort()).toEqual(Object.keys(NAV_ACCENT).sort())
+    for (const color of Object.values(NAV_ACCENT)) expect(PALETTE).toContain(color)
+    expect(new Set(Object.values(NAV_ACCENT)).size).toBe(Object.keys(NAV_ACCENT).length)
+  })
+
+  it('gives every page in a group the accent of that group, and the menu none', () => {
+    for (const group of NAV_GROUPS) for (const view of group.rows.flat()) expect(accentOfView(view), view).toBe(NAV_ACCENT[group.title])
+    expect(accentOfView('menu')).toBeNull()
+  })
+
+  it('matches the menu: a page is coloured as the menu group that lists it', () => {
+    const menuAccent = (view: string) => GROUPS.find(group => group.sections.some(section => section.items.some(item => item.go === view)))?.title
+
+    for (const group of NAV_GROUPS) for (const view of group.rows.flat()) expect(ACCENT[menuAccent(view) ?? ''], view).toBe(NAV_ACCENT[group.title])
   })
 })

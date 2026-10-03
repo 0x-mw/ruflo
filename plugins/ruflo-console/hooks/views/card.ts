@@ -25,7 +25,8 @@ function holdsHead(children: unknown): boolean {
 /** Whether a page of this width and pane is drawn in cards: not in the narrow layout, and not in a compact inline pane (its rows are few). */
 export const hasCards = (columns: number, isCompact: boolean): boolean => columns >= 60 && !isCompact
 
-export function withCards(kit: Ctx['kit']): Ctx['kit'] {
+/** `accent` is the border's colour in the BBS look (the page's group colour); without it, the theme's. */
+export function withCards(kit: Ctx['kit'], accent?: string): Ctx['kit'] {
   let made = 0
 
   const Box: Ctx['kit']['Box'] = props => {
@@ -38,7 +39,7 @@ export function withCards(kit: Ctx['kit']): Ctx['kit'] {
     const out: unknown[] = []
     let card: unknown[] | null = null
     const close = () => {
-      if (card !== null) out.push(kit.Box({ key: `card-${made++}`, flexDirection: 'column', borderStyle: 'round', borderColor: THEME.info, paddingX: 1, children: card as never }))
+      if (card !== null) out.push(kit.Box({ key: `card-${made++}`, flexDirection: 'column', borderStyle: 'round', borderColor: accent ?? THEME.info, paddingX: 1, children: card as never }))
       card = null
     }
 
