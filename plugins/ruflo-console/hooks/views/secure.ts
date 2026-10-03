@@ -28,7 +28,8 @@ export function entryRow(ctx: Ctx, entry: { id: string; name: string; about: str
       ctx.kit.Text({ bold: true, color: tag.color(), children: ` ${tag.text}` }),
       ctx.kit.Text({ bold: true, color: THEME.head, children: ` ${entry.name} `.padEnd(lead, '.') }),
       ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 18)) }),
-      ctx.kit.Button({ key: `run-${entry.id}`, label: ' ▸ run', plain: true, dimColor: true, onPress: () => void ctx.act.run(entry.id, textOf?.() ?? '') }),
+      // The run is the row's one action, so it is a primary button: it is the first thing the eye finds.
+      ctx.kit.Button({ key: `run-${entry.id}`, label: ' ▶ run ', variant: 'primary' as const, onPress: () => void ctx.act.run(entry.id, textOf?.() ?? '') }),
     ],
     `row-${entry.id}`,
   )
@@ -215,7 +216,8 @@ export function secureView(ctx: Ctx): RenderElement {
       meterRows(ctx),
       true,
     ),
-    ...section(ctx, 'sec-check', 'Check text', 'AIDefence · injection, jailbreak, PII · policy', pasteRows(ctx), false),
+    // Open: the text field lives here, and the checks below it read what is typed; folded, the field would be out of reach.
+    ...section(ctx, 'sec-check', 'Check text', memo.draft === '' ? 'type or paste text, then run a check' : `${memo.draft.length} characters ready`, pasteRows(ctx), true),
     ...section(ctx, 'sec-scan', 'Scan & inspect', scanBusy ? `${spinAt(nowMs)} ${running?.label ?? 'scanning'}` : 'scans are local; npm audit is the network', scanRows, scanBusy),
     ...section(
       ctx,

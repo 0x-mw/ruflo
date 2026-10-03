@@ -52,8 +52,9 @@ function entryRow(ctx: Ctx, entry: DevEntry, lead: number): RenderElement {
       ctx.kit.Text({ bold: true, color: isNa ? THEME.info : tag.color(), dimColor: isNa, children: ` ${isNa ? 'n/a ' : tag.text}` }),
       ctx.kit.Text({ bold: true, color: entry.cost === 'spends' || entry.cost === 'deletes' ? THEME.warn : THEME.head, dimColor: isNa, children: clip(` ${entry.name} `, lead).padEnd(lead, '.') }),
       ctx.kit.Text({ color: THEME.info, dimColor: isNa || isBlocked, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 16)) }),
-      // A blocked row keeps its button: pressing it says which field to fill.
-      ...(isNa ? [] : [ctx.kit.Button({ key: `dt-${entry.id.slice(3)}`, label: ' ▸ run', plain: true, dimColor: true, onPress: () => void ctx.act.run(entry.id) })]),
+      // A blocked row keeps its button: pressing it says which field to fill. The button is primary, the one action on the row.
+      ...(isNa ? [] : [ctx.kit.Button({ key: `dt-${entry.id.slice(3)}`, label: ' ▶ run ', variant: 'primary' as const, onPress: () => void ctx.act.run(entry.id) })]),
+      ...(isBlocked ? [ctx.kit.Text({ bold: true, color: THEME.warn, children: ' needs input above ↑' })] : []),
     ],
     `dt-row-${entry.id}`,
   )
@@ -132,13 +133,15 @@ function resultRows(ctx: Ctx): RenderElement[] {
 export function devtoolsView(ctx: Ctx): RenderElement {
   const { state } = ctx
   const lead = Math.max(16, Math.min(24, ctx.columns - 44))
-  const hasRun = state.lab.running?.id.startsWith('dt-') === true || state.lab.result?.id.startsWith('dt-') === true
+  // The result opens while a run is in flight, has finished, or is waiting for a confirm, so what a press did is always in view.
+  const hasRun = state.lab.running?.id.startsWith('dt-') === true || state.lab.result?.id.startsWith('dt-') === true || state.pending !== null
   const rows: RenderElement[] = [text(ctx, ' $0 local read, runs at once · cpu/wr local work or a write · net the network · $$ may spend · del deletes: each of these asks first', { dimColor: true })]
 
   DEV_GROUPS.forEach((group, i) => {
     const entries = DEV.filter(candidate => candidate.group === group.id)
 
-    rows.push(...section(ctx, `dt-${group.id}`, group.title, `${entries.length} · ${group.right}`, [...fieldRows(ctx, group.id), ...entries.map(entry => entryRow(ctx, entry, lead))], i === 0))
+    // The first group, and every group with a text field, opens: a field folded away could not be typed into, so its runs would refuse.
+    rows.push(...section(ctx, `dt-${group.id}`, group.title, `${entries.length} · ${group.right}`, [...fieldRows(ctx, group.id), ...entries.map(entry => entryRow(ctx, entry, lead))], i === 0 || (FIELDS[group.id] ?? []).length > 0))
   })
 
   rows.push(...section(ctx, 'dt-result', 'Result', resultRight(ctx), resultRows(ctx), hasRun))
