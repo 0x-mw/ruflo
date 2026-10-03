@@ -10,6 +10,8 @@ import type { Host } from './host'
 import { ownerLine, ownerOf } from './tool-owner'
 import { newState, PANE_ID, restore, restoreSessions, storeKeyOf, termStoreKeyOf } from './state'
 import { BAR_KEY, barView } from './views/bar'
+import { setBootChecks } from './boot-checks'
+import { selfCheckResults } from './self-check'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
 import { withClearing } from './views/clearing'
@@ -88,6 +90,14 @@ function hostOf($: EngineInterface, cwd: string): Host {
  * drill-down, timeline, approvals, events). Every change goes through the ruflo CLI with fixed argv after a confirm.
  */
 export const register: Register = (on, raw: PluginOptions) => {
+  // The boot log reports this check, so an [ OK ] on screen means the area's commands resolved. It spawns nothing and takes a
+  // moment; a failure of the check itself leaves the log drawing as it did, never stops the console.
+  try {
+    setBootChecks(selfCheckResults())
+  } catch {
+    setBootChecks(undefined)
+  }
+
   const state = newState(raw)
   let host: Host | null = null
   let control: Controller | null = null

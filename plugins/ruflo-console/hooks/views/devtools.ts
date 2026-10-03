@@ -5,6 +5,7 @@ import { DEV, DEV_GROUPS, devSpec, type DevCost, type DevEntry, type DevGroup } 
 import { slot } from './attention'
 import { ago, button, clip, col, row, section, text, THEME, type Ctx } from './common'
 import { spinAt } from '../spinner'
+import { sendResultRow } from './secure'
 
 /** Result lines in view at once; j/k scroll the rest. */
 const RESULT_ROWS = 14
@@ -121,6 +122,8 @@ function resultRows(ctx: Ctx): RenderElement[] {
       ]),
     )
   }
+
+  rows.push(sendResultRow(ctx, 'dt-send'))
 
   return slot(ctx, rows)
 }

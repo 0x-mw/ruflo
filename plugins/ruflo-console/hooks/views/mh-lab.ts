@@ -2,6 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { LAB, LAB_GROUPS, labSpec, PROMOTE_COMMAND, type LabCost, type LabEntry } from '../mh-lab'
 import { slot } from './attention'
+import { sendResultRow } from './secure'
 import { ago, button, clip, row, rule, section, text, THEME, type Ctx } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
@@ -71,6 +72,8 @@ function resultRows(ctx: Ctx): RenderElement[] {
       ]),
     )
   }
+
+  rows.push(sendResultRow(ctx, 'lab-send'))
 
   return slot(ctx, rows)
 }

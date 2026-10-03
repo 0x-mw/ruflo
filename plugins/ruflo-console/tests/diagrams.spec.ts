@@ -191,6 +191,30 @@ describe('BBS boot screen', () => {
     expect(bootPicture('demo', 80, 5_400, 10, 10).rows).toBe(BOOT_ROWS)
   })
 
+  it('reports the self-check: [ OK ] only for an area whose check passed, [FAIL] and its problem for one that did not, READY counting what was verified', () => {
+    const rows = BOOT_ROWS + 1 + BOOT_MODULES.length + 1
+    const passing = BOOT_MODULES.map(entry => ({ area: entry.name, ok: true, problems: [] as string[] }))
+    const withFailure = passing.map(result => (result.area === 'Security' ? { ...result, ok: false, problems: ['aid-check: an empty field must be refused'] } : result))
+    const good = text(bootPicture('demo', 80, 5_400, 10, 10, rows, passing), 80)
+    const bad = text(bootPicture('demo', 80, 5_400, 10, 10, rows, withFailure), 80)
+
+    expect(good).toContain('[ OK ] Security')
+    expect(good).toContain(`${BOOT_MODULES.length} of ${BOOT_MODULES.length} areas verified`)
+    expect(good).toContain('[ OK ] READY')
+    expect(good).not.toContain('[FAIL]')
+
+    expect(bad).toContain('[FAIL] Security')
+    expect(bad).toContain('aid-check: an empty field must be refused')
+    expect(bad).toContain('[ OK ] Missions')
+    expect(bad).toContain(`${BOOT_MODULES.length - 1} of ${BOOT_MODULES.length} areas verified · 1 failed`)
+    expect(bad).toContain('[FAIL] READY')
+
+    // An area still starting shows [ .. ] whatever its verdict: the result appears when the next area begins.
+    const securityAt = 1_500 + 120 * BOOT_MODULES.findIndex(entry => entry.name === 'Security')
+
+    expect(text(bootPicture('demo', 80, securityAt + 10, 10, 10, rows, withFailure), 80)).toContain('[ .. ] Security')
+  })
+
   it('plays at least 5.4 s, longer while the first read is out, never past 8 s; only with the bbs look and boot on', () => {
     const state = newState({})
 

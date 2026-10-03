@@ -18,20 +18,39 @@ const TAG: Record<SecCost, { text: string; color: () => string }> = {
 export const COST_KEY = ' $0 local read, runs at once · wr writes a file · net reaches the network: each of these asks, its cost on the confirm row'
 
 /** One dotted-leader row: the cost tag, the name, what it does, and its ▸ run button (with the field's text, if it takes one). */
-export function entryRow(ctx: Ctx, entry: { id: string; name: string; about: string; cost: SecCost }, textOf?: () => string): RenderElement {
+export function entryRow(ctx: Ctx, entry: { id: string; name: string; about: string; cost: SecCost }, textOf?: () => string, isReady?: () => boolean): RenderElement {
   const lead = Math.max(14, Math.min(19, ctx.columns - 40))
   const tag = TAG[entry.cost]
+  // A row that takes the field's text cannot run on an empty or refused field: its button dims and the row says what to do first.
+  const waiting = isReady !== undefined && !isReady()
 
   return row(
     ctx,
     [
       ctx.kit.Text({ bold: true, color: tag.color(), children: ` ${tag.text}` }),
       ctx.kit.Text({ bold: true, color: THEME.head, children: ` ${entry.name} `.padEnd(lead, '.') }),
-      ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 18)) }),
-      // The run is the row's one action, so it is a primary button: it is the first thing the eye finds.
-      ctx.kit.Button({ key: `run-${entry.id}`, label: ' ▶ run ', variant: 'primary' as const, onPress: () => void ctx.act.run(entry.id, textOf?.() ?? '') }),
+      ctx.kit.Text({ color: THEME.info, dimColor: waiting, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 34)) }),
+      // The run is the row's one action, so it is a primary button: it is the first thing the eye finds. Waiting on text, it is plain.
+      ctx.kit.Button({ key: `run-${entry.id}`, label: ' ▶ run ', ...(waiting ? { plain: true, dimColor: true } : { variant: 'primary' as const }), onPress: () => void ctx.act.run(entry.id, textOf?.() ?? '') }),
+      ...(waiting ? [ctx.kit.Text({ bold: true, color: THEME.warn, children: ' ← type text above first' })] : []),
     ],
     `row-${entry.id}`,
+  )
+}
+
+/**
+ * Under a result: hands it to the main Claude session. The page's text, this result included, goes as quoted data with secrets
+ * removed (the ADR 411 bridge: it asks first and says it starts a billed turn), and the question asks what to do about it, so a run
+ * leads somewhere: a fix, a follow-up command, a setting to change.
+ */
+export function sendResultRow(ctx: Ctx, key: string): RenderElement {
+  return row(
+    ctx,
+    [
+      button(ctx, key, '✦ send result to Claude', () => ctx.act.ask.ask('Explain this result, then tell me what to fix, run or change next, with the exact ruflo command or setting.'), { primary: true }),
+      text(ctx, ' quoted as data, secrets removed; asks first', { dimColor: true }),
+    ],
+    `${key}-row`,
   )
 }
 
@@ -75,6 +94,8 @@ export function resultRows(ctx: Ctx, isMine: (id: string) => boolean): RenderEle
       ]),
     )
   }
+
+  rows.push(sendResultRow(ctx, 'result-send'))
 
   return slot(ctx, rows)
 }
@@ -137,7 +158,7 @@ function pasteRows(ctx: Ctx): RenderElement[] {
     rows.push(text(ctx, ' this surface has no text field: /ruflo run aid-check <text> checks text headless', { dimColor: true }))
   }
 
-  for (const entry of SECURE_TEXT) rows.push(entryRow(ctx, entry, () => memo.draft))
+  for (const entry of SECURE_TEXT) rows.push(entryRow(ctx, entry, () => memo.draft, () => entry.argv(memo.draft) !== null))
   rows.push(text(ctx, ' ▸ run takes the text in the field; policy-eval takes an action type (deploy, tool:Bash) and asks first', { dimColor: true }))
 
   return rows

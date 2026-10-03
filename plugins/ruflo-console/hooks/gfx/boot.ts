@@ -2,9 +2,11 @@
  * The BBS boot screen, played for the first seconds after the pane opens: a modem dials and connects, then the RuFlo
  * neon sign strikes up tube by tube on its brick wall (gfx/neon.ts), then a handshake line and a bar that fills with
  * the first ruflo reads, and under them a boot log that brings every area of the console online, one line at a time,
- * for as many rows as the pane has (it scrolls when the pane is short). The boot is the one animation in the console
- * that is decoration; it ends by itself.
+ * for as many rows as the pane has (it scrolls when the pane is short). The sign and the modem are decoration and end by
+ * themselves; the log is not, when the self-check's results are passed: an area shows [ OK ] only if its check passed, and
+ * [FAIL] with the first problem if not, so what the screen claims is what was verified.
  */
+import type { BootCheck } from '../boot-checks'
 import { neonPicture, NEON_ROWS } from './neon'
 import { Grid } from './raster'
 
@@ -57,7 +59,7 @@ const NAME_WIDTH = 15
  * `total`), so it moves before any read returns and reads 100% before the boot ends at BOOT_MIN_MS. `rows` is the
  * pane's body height when it is known: the boot log fills what is left under the sign (0: the sign alone).
  */
-export function bootPicture(project: string, columns: number, age: number, done: number, total: number, rows = 0): Grid {
+export function bootPicture(project: string, columns: number, age: number, done: number, total: number, rows = 0, checks?: readonly BootCheck[]): Grid {
   const height = Math.max(BOOT_ROWS, rows)
   const grid = new Grid(columns, height)
   const type = (y: number, from: number, text: string, color: number, msPerChar = 22) => {
@@ -78,7 +80,11 @@ export function bootPicture(project: string, columns: number, age: number, done:
 
   // The boot log: one area comes online every LOG_MS_PER, [ .. ] while it starts and [ OK ] once the next one has begun; the
   // newest lines stay in view when the pane is shorter than the list, and READY closes it.
-  const entries = [...BOOT_MODULES.map(entry => ({ ...entry, ready: false })), { name: 'READY', note: `${BOOT_MODULES.length} areas online · press a key or click`, ready: true }]
+  // With the self-check's results the log is a report: READY counts what was verified, and an area that failed says why. Without
+  // them (nothing has run the check) it draws as it always did.
+  const failedAreas = checks === undefined ? 0 : BOOT_MODULES.filter(entry => checks.find(result => result.area === entry.name)?.ok === false).length
+  const readyNote = checks === undefined ? `${BOOT_MODULES.length} areas online · press a key or click` : `${BOOT_MODULES.length - failedAreas} of ${BOOT_MODULES.length} areas verified${failedAreas > 0 ? ` · ${failedAreas} failed` : ''} · press a key or click`
+  const entries = [...BOOT_MODULES.map(entry => ({ ...entry, ready: false })), { name: 'READY', note: readyNote, ready: true }]
   const room = height - BOOT_ROWS - 1
   const started = age < LOG_FROM_MS ? 0 : Math.min(entries.length, Math.floor((age - LOG_FROM_MS) / LOG_MS_PER) + 1)
   const logProgress = started / entries.length
@@ -92,12 +98,15 @@ export function bootPicture(project: string, columns: number, age: number, done:
       const isOn = i < started - 1 || started === entries.length
 
       if (entry.ready) {
-        grid.text(0, y, `[ OK ] ${entry.name}`, GREEN)
+        grid.text(0, y, failedAreas > 0 ? `[FAIL] ${entry.name}` : `[ OK ] ${entry.name}`, failedAreas > 0 ? PINK : GREEN)
         grid.text(7 + 'READY '.length, y, entry.note.slice(0, Math.max(0, columns - 13)), PINK)
       } else {
-        grid.text(0, y, isOn ? '[ OK ]' : '[ .. ]', isOn ? GREEN : CYAN)
+        // An area that is on has its verdict: [ OK ] only if its check passed; [FAIL] and the first problem, if it did not.
+        const problem = isOn ? checks?.find(result => result.area === entry.name && !result.ok)?.problems[0] : undefined
+
+        grid.text(0, y, problem !== undefined ? '[FAIL]' : isOn ? '[ OK ]' : '[ .. ]', problem !== undefined ? PINK : isOn ? GREEN : CYAN)
         grid.text(7, y, entry.name.padEnd(NAME_WIDTH).slice(0, NAME_WIDTH), 0xe6e6e6)
-        grid.text(7 + NAME_WIDTH + 1, y, entry.note.slice(0, Math.max(0, columns - 7 - NAME_WIDTH - 1)), DIM)
+        grid.text(7 + NAME_WIDTH + 1, y, (problem ?? entry.note).slice(0, Math.max(0, columns - 7 - NAME_WIDTH - 1)), problem !== undefined ? PINK : DIM)
       }
     }
   }
