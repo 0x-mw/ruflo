@@ -41,4 +41,4 @@ No tool input or output is read or copied; the line carries only the task's own 
 ## 6. Tests
 
 - `tests/tool-owner.spec.ts`: the single running task owns a call and keeps it after finishing; finished-first-seen and no-running-task calls have no owner; two running tasks, a paused mission, a cancelled one and no mission attribute nothing; the line text.
-- `tests/missions.test.ts`: a row drawn before any mission is the engine's own; after a task is handed to Claude it carries the line.
+- `tests/missions.test.ts` (kit): a row drawn with no task running, before a mission and after one is created, is the engine's own. The positive case (a row carrying the line, drawn through the host) is not covered by a kit test: the kit runner was switched off server-side while this shipped, so a test that could not be run was not added.
