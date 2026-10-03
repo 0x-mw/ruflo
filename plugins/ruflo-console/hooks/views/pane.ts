@@ -14,6 +14,7 @@ import { groupedTabs } from './nav'
 import { stepsRows } from './steps'
 import { optimizerResult } from './optimizer'
 import { fitFooter, type FooterItem } from '../footer-layout'
+import { chip } from '../menu-colors'
 import { accentOfView } from '../nav-state'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
@@ -93,7 +94,12 @@ function tabs(ctx: Ctx): RenderElement {
     const index = VIEWS.findIndex(view => view.id === ctx.state.view)
     const label = index < 0 ? 'Agent' : (VIEWS[index]?.label ?? '')
 
-    return text(ctx, `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label} · /ruflo help`, { bold: true, color: THEME.head })
+    const where = `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label}`
+
+    // Even this narrow, the BBS look keeps its colours: the page is a solid chip in its group's accent, with the way to help beside it.
+    return isBbs()
+      ? row(ctx, [ctx.kit.Text({ ...chip(accentOfView(ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view) ?? '#05d9e8'), bold: true, children: ` ${where} ` }), ctx.kit.Text({ dimColor: true, children: ' /ruflo help' })])
+      : text(ctx, `${where} · /ruflo help`, { bold: true, color: THEME.head })
   }
 
   // Two rows: the nine data views (1-9), then the management views and the two boards (g q e m, w x.ruv.io, i terminal). Each tab is its emoji; the

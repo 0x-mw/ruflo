@@ -112,7 +112,7 @@ describe('the nav card', () => {
   it('never lets a badge push a row of pages past the width, at any width the nav draws', () => {
     // Every width, not a few: the auto form is chosen by whether the widest row fits, so an uncounted badge only overruns in the narrow
     // window of widths where that choice is on the edge.
-    for (let columns = 50; columns <= 200; columns++) {
+    for (let columns = 44; columns <= 200; columns++) {
       const { card } = open('learning', columns, state => {
         state.usage = { costUsd: 1234.5 }
         state.updateAvailable = '10.20.30'

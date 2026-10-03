@@ -1,0 +1,6 @@
+
+## Amendment (2026 10 03): narrow panes keep their styling, and the groups fold
+
+- **Cards and the nav card down to 44 columns, in a short pane too.** They were drawn only from 60 columns and never in a compact (short inline) pane, so a smaller pane fell back to the flat tab rows with the style buttons and lost the accents. They now draw from 44 columns (`MIN_CARD_COLUMNS`), compact or not. Under 44 the one-line nav is a solid chip in the page's group accent. The palette strip stays in a short pane.
+- **Compact lays out like wide.** The title leads and the tabs follow (they were first). The menu wraps its mission-stage line into lines instead of cutting it at `SOP…`, and its status bar drops the modem text, then clips, before it would pass the edge.
+- **The menu's groups fold.** Each group's bar has a ▾ / ▸ that hides or shows its entries (a folded group is its bar and an "N entries · ▸ opens" line); a row above the groups opens or closes them all. On a wide pane every group starts open; on a narrow one (a single tall column) only the first does. Specs: no text or row wider than the pane at any width from 30 to 120; every stage readable at every width; the fold defaults and toggles; the nav fits at every width from 44.

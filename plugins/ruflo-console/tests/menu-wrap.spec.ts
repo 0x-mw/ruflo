@@ -7,7 +7,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 
 import { newState } from '../hooks/state'
 import { setLook, type Ctx } from '../hooks/views/common'
-import { menuView } from '../hooks/views/menu'
+import { GROUPS, menuView } from '../hooks/views/menu'
 import { wrap } from '../hooks/views/common'
 
 type El = { props: Record<string, unknown>; kind: string }
@@ -116,5 +116,105 @@ describe('the main menu at small widths', () => {
   it('wraps the stage line into several lines when the pane is narrow, and keeps every stage', () => {
     expect(wrap('research → create (ADRs, SOP) → build → test → validate → secure → benchmark → learn', 30).length).toBeGreaterThan(2)
     expect(wrap('research → create (ADRs, SOP) → build → test → validate → secure → benchmark → learn', 30).join(' ')).toContain('benchmark → learn')
+  })
+})
+
+const GROUP_COUNT = GROUPS.length
+
+describe('the menu folds, and narrow panes keep their styling', () => {
+  const calls: string[] = []
+  const recorder = (path: string): unknown =>
+    new Proxy(() => undefined, {
+      get: (_t, key) => (key === 'then' ? undefined : recorder(`${path}.${String(key)}`)),
+      apply: (_t, _this, args) => void calls.push(`${path.slice(1)}(${args.join(',')})`),
+    })
+  const draw = (columns: number, folded: string[] = []): { tree: El; text: string } => {
+    const state = newState({})
+
+    state.options.look = 'bbs'
+    state.view = 'menu'
+    for (const key of folded) state.sections.add(key)
+    setLook('bbs')
+
+    const tree = menuView({ kit, state, nowMs: 5_000, columns, pictures: new Map(), act: recorder('') as never, cards: false } as unknown as Ctx) as unknown as El
+    const strings: string[] = []
+    const walk = (el: unknown): void => {
+      const node = el as El
+
+      if (typeof node !== 'object' || node === null) return
+
+      const kids = node.props.children
+
+      if (typeof kids === 'string') strings.push(kids)
+      else if (Array.isArray(kids)) kids.forEach(walk)
+      else if (typeof kids === 'object') walk(kids)
+    }
+
+    walk(tree)
+
+    return { tree, text: strings.join('\n') }
+  }
+  const flat = (el: unknown): El[] => {
+    const node = el as El
+
+    if (typeof node !== 'object' || node === null) return []
+
+    const kids = node.props.children
+
+    return [node, ...(Array.isArray(kids) ? kids.flatMap(flat) : typeof kids === 'object' ? flat(kids) : [])]
+  }
+  const entries = (tree: El): number => flat(tree).filter(node => String(node.props.key).startsWith('menu-go-')).length
+
+  it('opens every group on a wide pane, and only the first on a narrow one', () => {
+    const wide = draw(100)
+    const narrow = draw(50)
+
+    expect(entries(narrow.tree)).toBeGreaterThan(0)
+    expect(entries(wide.tree)).toBeGreaterThan(entries(narrow.tree))
+    expect(narrow.text).toContain('entries · ▸ opens')
+    expect(wide.text).not.toContain('entries · ▸ opens')
+  })
+
+  it('folds an open group and opens a closed one when its ▾ / ▸ is pressed (the section state is the toggle)', () => {
+    calls.length = 0
+
+    const { tree } = draw(100)
+    const fold = flat(tree).find(node => String(node.props.key).startsWith('menu-fold-') && !String(node.props.key).includes('all'))
+
+    ;(fold?.props.onPress as () => void)()
+    expect(calls[0]).toMatch(/^toggle\(menu\//)
+
+    // The toggled group is folded on a wide pane, and opened on a narrow one.
+    const title = String(fold?.props.key).replace('menu-fold-', '')
+
+    expect(entries(draw(100, [`menu/${title}`]).tree)).toBeLessThan(entries(draw(100).tree))
+    expect(entries(draw(50, GROUPS.map(group => `menu/${group.title}`)).tree)).toBeGreaterThan(entries(draw(50).tree))
+  })
+
+  it('expand all and collapse all toggle only the groups that need it', () => {
+    calls.length = 0
+
+    const wide = draw(100)
+
+    ;(flat(wide.tree).find(node => node.props.key === 'menu-expand-all')?.props.onPress as () => void)()
+    expect(calls).toEqual([])
+    ;(flat(wide.tree).find(node => node.props.key === 'menu-collapse-all')?.props.onPress as () => void)()
+    expect(calls.length).toBe(GROUP_COUNT)
+  })
+
+  it('keeps its colours when very narrow: the page is a solid chip in its group accent', async () => {
+    const { paneView } = await import('../hooks/views/pane')
+    const state = newState({})
+
+    state.options.look = 'bbs'
+    state.options.boot = false
+    state.view = 'swarm'
+    state.snapshot = null
+
+    const tree = paneView({ kit, state, nowMs: 5_000, columns: 40, pictures: new Map(), act: recorder('') as never, cards: false } as unknown as Ctx) as unknown as El
+    const chip = flat(tree).find(node => node.props.inverse === true && String(node.props.children).includes('Swarm'))
+
+    expect(chip).toBeDefined()
+    expect(chip?.props.color).toMatch(/^#/)
   })
 })

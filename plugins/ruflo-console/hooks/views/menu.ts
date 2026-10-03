@@ -6,7 +6,7 @@ import type { RenderElement } from 'claude-code'
 import { ACCENT, badgesOf, chip, LOUD, MUTED, PALETTE } from '../menu-style'
 import { VIEWS, type ViewId } from '../state'
 import { barParts } from './bar'
-import { clip, col, isBbs, picture, row, text, THEME, type Ctx } from './common'
+import { button, clip, col, isBbs, picture, row, text, THEME, type Ctx } from './common'
 import { missionStrip } from './mission-control'
 
 type Item = { label: string; go: string }
@@ -94,12 +94,21 @@ export function menuView(ctx: Ctx): RenderElement {
   const bbs = isBbs()
   const badges = badgesOf(state, nowMs)
 
+  // Each group folds: its bar has a ▾ / ▸ that hides or shows its entries (like every other section). In a narrow pane (one column of four tall
+  // boxes) only the first group starts open; the rest are one bar each until opened, and the row above the boxes opens or closes them all.
+  const startsOpen = (gi: number): boolean => ctx.columns >= 60 || gi === 0
+  const foldKey = (group: (typeof GROUPS)[number]): string => `menu/${group.title}`
+  const isGroupOpen = (group: (typeof GROUPS)[number], gi: number): boolean => startsOpen(gi) !== state.sections.has(foldKey(group))
+  const setAll = (open: boolean): void => GROUPS.forEach((group, gi) => isGroupOpen(group, gi) !== open && ctx.act.toggle(foldKey(group)))
+
   // Each group a bordered box: ▓▒░ TITLE ░▒▓ on top, then its sub-sections, each a dim ── name ── rule and its items.
   const box = (group: (typeof GROUPS)[number], gi: number) => {
     const started = entry === null || entry >= groupStart(gi)
     let seen = 0
     const accent = ACCENT[group.title] ?? '#d0d0d0'
-    const title = clip(`▓▒░ ${group.title} ░▒▓`, width - 4)
+    const title = clip(`▓▒░ ${group.title} ░▒▓`, width - 8)
+    const isOpen = isGroupOpen(group, gi)
+    const count = group.sections.reduce((n, section) => n + section.items.filter(isShown).length, 0)
 
     return ctx.kit.Box({
       flexDirection: 'column',
@@ -109,10 +118,19 @@ export function menuView(ctx: Ctx): RenderElement {
       paddingX: 1,
       key: `menu-${group.title}`,
       children: [
-        bbs
-          ? ctx.kit.Box({ key: `menu-bar-${group.title}`, children: [ctx.kit.Text({ ...chip(accent), wrap: 'truncate-end', children: (entry === null ? ` ${title}` : scramble(` ${title}`, entry, groupStart(gi), ENTRY.titleMs).padEnd(width - 2)).padEnd(width - 2).slice(0, width - 2) })] })
-          : ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: title }),
-        ...group.sections.flatMap(section => {
+        ctx.kit.Box({
+          flexDirection: 'row',
+          key: `menu-head-${group.title}`,
+          children: [
+            ctx.kit.Button({ key: `menu-fold-${group.title}`, label: isOpen ? '▾' : '▸', plain: true, onPress: () => ctx.act.toggle(foldKey(group)) }),
+            bbs
+              ? ctx.kit.Box({ key: `menu-bar-${group.title}`, children: [ctx.kit.Text({ ...chip(accent), wrap: 'truncate-end', children: (entry === null ? ` ${title}` : scramble(` ${title}`, entry, groupStart(gi), ENTRY.titleMs).padEnd(width - 7)).padEnd(width - 2).slice(0, width - 7) })] })
+              : ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: title }),
+          ],
+        }),
+        ...(!isOpen
+          ? [ctx.kit.Text({ color: THEME.info, dimColor: true, wrap: 'truncate-end', children: clip(` ${count} entr${count === 1 ? 'y' : 'ies'} · ▸ opens ${group.title.toLowerCase()}`, width - 4) })]
+          : group.sections.flatMap(section => {
           const items = section.items.filter(isShown)
 
           if (entry !== null && !started) return items.length === 0 ? [] : [ctx.kit.Text({ children: ' ' }), ...items.map(item => ctx.kit.Box({ key: `mi-${item.go}`, children: [ctx.kit.Text({ children: ' ' })] }))]
@@ -142,7 +160,7 @@ export function menuView(ctx: Ctx): RenderElement {
                   })
                 }),
               ]
-        }),
+        })),
       ],
     })
   }
@@ -156,6 +174,11 @@ export function menuView(ctx: Ctx): RenderElement {
         : ctx.kit.Box({ flexDirection: 'row', key: 'menu-palette', children: PALETTE.map((color, i) => ctx.kit.Box({ key: `menu-palette-${i}`, children: [ctx.kit.Text({ color, children: '▀'.repeat(Math.max(1, Math.floor((ctx.columns - 2) / PALETTE.length))) })] })) }),
     )
   }
+
+  // The labels shorten as the pane narrows, so the row never runs past the edge.
+  const tight = ctx.columns < 34
+
+  rows.push(row(ctx, [...(ctx.columns >= 46 ? [text(ctx, ' groups ', { dimColor: true })] : []), button(ctx, 'menu-expand-all', tight ? '▾ all' : '▾ expand all', () => setAll(true)), button(ctx, 'menu-collapse-all', tight ? '▸ none' : '▸ collapse all', () => setAll(false))], 'menu-fold-all'))
 
   for (let i = 0; i < GROUPS.length; i += perRow) {
     rows.push(ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `menu-row-${i}`, children: GROUPS.slice(i, i + perRow).map((group, j) => box(group, i + j)) }))

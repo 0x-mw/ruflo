@@ -139,7 +139,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
   const sinceSwitch = state.pane.viewAtMs > 0 ? nowMs - state.pane.viewAtMs : Infinity
   const headerAge = state.options.fps > 0 ? Math.min(sinceSwitch, entryAge({ look: state.options.look, boot: state.options.boot, ...state.pane }, nowMs, BOOT_MIN_MS) ?? Infinity) : Infinity
 
-  if (!isCompactPane(state) && state.view === 'menu') {
+  if (state.view === 'menu') {
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
     pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t, headerAge) : headerPicture(`◆ ruflo v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`} · ${project}`, Math.min(width, 64), t))
