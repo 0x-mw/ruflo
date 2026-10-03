@@ -164,8 +164,11 @@ export function menuView(ctx: Ctx): RenderElement {
   // The status bar under the box: the line, then what is live in this project, then how long the board has been open.
   const online = mmss(nowMs - (state.pane.bootAtMs > 0 ? state.pane.bootAtMs : state.loadedAtMs))
   const facts = barParts(state, nowMs).slice(0, 3)
-  const line = ` ${state.snapshot?.isRufloProject === true ? 'Registered' : 'Unregistered'} │ ANSI-BBS │ 115200·N81 FDX`
+  const base = ` ${state.snapshot?.isRufloProject === true ? 'Registered' : 'Unregistered'}`
+  const modem = ' │ ANSI-BBS │ 115200·N81 FDX'
   const right = ` Online ${online} `
+  // The modem text goes first when the pane is narrow, then the label is cut: the bar never runs past the edge.
+  const line = ctx.columns >= base.length + modem.length + right.length + 4 ? `${base}${modem}` : clip(base, Math.max(4, ctx.columns - right.length - 1))
   let room = Math.max(4, ctx.columns - right.length - line.length)
 
   rows.push(text(ctx, ' '))

@@ -4,22 +4,7 @@ import { GROUP_BLURB, HELP_GROUPS, searchDocs, type Go, type HelpStep, type Help
 import { TOPICS, topicById } from '../help-topics'
 import { START_LABEL } from '../starts'
 import { VIEWS } from '../state'
-import { button, clip, col, row, rule, section, text, THEME, type Ctx } from './common'
-
-/** Words wrapped to `width`, so a long step reads as lines instead of running off the edge. */
-export function wrap(line: string, width: number): string[] {
-  const out: string[] = []
-  let current = ''
-
-  for (const word of line.split(' ')) {
-    if (current !== '' && current.length + word.length + 1 > width) {
-      out.push(current)
-      current = word
-    } else current = current === '' ? word : `${current} ${word}`
-  }
-
-  return current === '' ? out : [...out, current]
-}
+import { button, clip, col, row, rule, section, text, THEME, wrap, type Ctx } from './common'
 
 /** The words on a step's button: its own label, else what its target is. */
 export function goLabel(step: HelpStep): string {
@@ -157,3 +142,5 @@ export function helpView(ctx: Ctx): RenderElement {
 
   return col(ctx, rows, 'help')
 }
+
+export { wrap }

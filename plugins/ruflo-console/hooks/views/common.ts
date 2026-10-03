@@ -165,6 +165,21 @@ export function tagChip(ctx: Ctx, text: string, color: string): RenderElement {
   return ctx.kit.Box({ flexDirection: 'row', children: [ctx.kit.Text({ children: ' ' }), ctx.kit.Text({ ...chip(ground), children: text })] })
 }
 
+/** Words wrapped to `width`, so a long line reads as several instead of running off the edge. */
+export function wrap(line: string, width: number): string[] {
+  const out: string[] = []
+  let current = ''
+
+  for (const word of line.split(' ')) {
+    if (current !== '' && current.length + word.length + 1 > width) {
+      out.push(current)
+      current = word
+    } else current = current === '' ? word : `${current} ${word}`
+  }
+
+  return current === '' ? out : [...out, current]
+}
+
 export const clip = (text: string, width: number): string => (text.length <= width ? text : `${text.slice(0, Math.max(0, width - 1))}…`)
 
 export function ago(atMs: number | null | undefined, nowMs: number): string {

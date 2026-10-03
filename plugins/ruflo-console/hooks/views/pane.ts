@@ -350,9 +350,9 @@ export function paneView(base: Ctx): RenderElement {
   const isTerminal = ctx.state.view === 'terminal'
   const gap = isBbs() && !isCompact && !isMenu ? [text(ctx, ' ')] : []
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
-  // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
+  // Compact keeps every page's title and its line of purpose; only the banner and the spacing go. The title leads, then the tabs, as in the wide layout.
   const parts = isCompact
-    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
+    ? [...bbs.art, ...(about !== null ? [about] : []), tabs(ctx), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
         [...bbs.art, ...(about !== null ? [about] : []), ...(cardsOn ? [] : [...gap, ...bbs.strip, ...gap]), tabs(ctx), ...(cardsOn ? [] : gap), footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
