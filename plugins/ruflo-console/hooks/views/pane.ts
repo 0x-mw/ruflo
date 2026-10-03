@@ -11,6 +11,7 @@ import { launchRows } from './launch'
 import { donated, newAttention, panelOf, wrapKit } from './attention'
 import { CARD_COLUMNS, hasCards, withCards } from './card'
 import { groupedTabs } from './nav'
+import { stepsRows } from './steps'
 import { optimizerResult } from './optimizer'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
@@ -310,7 +311,10 @@ export function paneView(base: Ctx): RenderElement {
   // a launch ask is placed under its own row when nothing above held the origin.
   const launch = ctx.state.palette.isOpen || ctx.state.isHelp ? [] : launchRows(bodyCtx)
 
-  if (launch.length > 0) body = col(ctx, [body, ...launch], 'body')
+  // A page with an order leads with its Start here card (views/steps.ts), in cards only.
+  const steps = cardsOn ? stepsRows(bodyCtx) : []
+
+  if (launch.length > 0 || steps.length > 0) body = col(ctx, [...steps, body, ...launch], 'body')
 
   // Placed under what was clicked: not drawn again at the top.
   const confirm = attention.placed ? null : confirmRow(ctx)
