@@ -19,6 +19,8 @@ const WHITE = 0xe6e6e6
 /** The log starts here (the sign has struck and the handshake is typed), and one area is scanned every SCAN_MS. */
 export const CYBER_FROM_MS = 1500
 const SCAN_MS = 100
+/** How long a constellation line takes to draw out. */
+const EDGE_MS = 350
 /** The easter egg's window: a ghost signal in the signal row. */
 export const EGG_FROM_MS = 2400
 export const EGG_TO_MS = 3800
@@ -76,7 +78,7 @@ function line(a: { x: number; y: number }, b: { x: number; y: number }): { x: nu
   return out
 }
 
-function constellation(grid: Grid, facts: BootFacts, age: number, top: number): void {
+function constellation(grid: Grid, facts: BootFacts, age: number, top: number, waveFrom: number): void {
   const width = Math.min(grid.columns, 74)
   const left = Math.floor((grid.columns - width) / 2)
   const place = new Map(facts.stars.map(star => [star.id, cellOf(star, left, width, top)]))
@@ -91,10 +93,12 @@ function constellation(grid: Grid, facts: BootFacts, age: number, top: number): 
 
     if (a === undefined || b === undefined || pa === undefined || pb === undefined || !visible(a) || !visible(b)) return
 
-    const cells = line(pa, pb)
+    // The line draws outward from its first end over EDGE_MS once both stars are up, so the constellation wires itself together.
+    const both = CYBER_FROM_MS + Math.max(a.appearAt, b.appearAt)
+    const cells = line(pa, pb).slice(0, Math.ceil(Math.min(1, (age - both) / EDGE_MS) * line(pa, pb).length))
     const live = a.alive && b.alive
     // A pulse travels a lit line from one end to the other; a line with a dark end stays a faint dotted trace and carries nothing.
-    const pulse = live && cells.length > 0 ? Math.floor(((age / 1100 + index * 0.37) % 1) * cells.length) : -1
+    const pulse = live && cells.length === line(pa, pb).length && cells.length > 0 ? Math.floor(((age / 1100 + index * 0.37) % 1) * cells.length) : -1
 
     cells.forEach((cell, i) => {
       if (live) grid.set(cell.x, cell.y, i === pulse ? '●' : '·', i === pulse ? WHITE : CYAN)
@@ -107,9 +111,15 @@ function constellation(grid: Grid, facts: BootFacts, age: number, top: number): 
 
     if (at === undefined || !visible(star)) continue
 
+    const since = age - CYBER_FROM_MS - star.appearAt
     const flicker = hash(star.appearAt + Math.floor(age / 260)) % 5 === 0
-    const glyph = star.alive ? (flicker ? '✦' : '★') : '☆'
-    const color = star.alive ? (star.id === 'ruflo' ? AMBER : GREEN) : DIM
+    // A star locks on with a flash; a dark one tries to light and fails, flickering for a moment before it settles as an empty star.
+    const lockOn = star.alive && since < 350
+    const trying = !star.alive && since < 700 && Math.floor(since / 70) % 2 === 1
+    // Once the scan is done a wave of light runs across the lit stars.
+    const wave = star.alive && age >= waveFrom && Math.abs(((age - waveFrom) / 1500) % 1.3 - 0.15 - star.x) < 0.1
+    const glyph = lockOn ? '✺' : trying ? ' ' : star.alive ? (flicker ? '✦' : '★') : '☆'
+    const color = lockOn || wave ? WHITE : star.alive ? (star.id === 'ruflo' ? AMBER : GREEN) : DIM
 
     grid.set(at.x, at.y, glyph, color)
     grid.text(at.x + 2, at.y, star.label, star.alive ? WHITE : DIM)
@@ -159,7 +169,7 @@ export function drawCyber(grid: Grid, facts: BootFacts, modules: readonly { name
   y += 1
 
   if (withMap) {
-    constellation(grid, facts, age, y)
+    constellation(grid, facts, age, y, CYBER_FROM_MS + modules.length * SCAN_MS + SCAN_MS)
     y += CONST_ROWS
   }
 
@@ -180,7 +190,7 @@ export function drawCyber(grid: Grid, facts: BootFacts, modules: readonly { name
     const bad = isOn && failed.includes(entry)
 
     grid.text(x, row, bad ? '[FAIL]' : isOn ? '[ OK ]' : '[ .. ]', bad ? PINK : isOn ? GREEN : CYAN)
-    grid.text(x + 7, row, entry.name.slice(0, CELL - 8), bad ? PINK : WHITE)
+    grid.text(x + 7, row, entry.name.slice(0, CELL - 8), bad ? PINK : isOn ? WHITE : CYAN)
   })
   y += scanRows
 

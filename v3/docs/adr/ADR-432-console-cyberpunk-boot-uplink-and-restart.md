@@ -26,3 +26,7 @@ Seen only through `Grid` text in specs, not on a terminal. The constellation's e
 ## 3. Tests
 
 `tests/boot-cyber.spec.ts` (8): evidence lights stars, READY matches the evidence, the egg's window, determinism and scramble, the narrow fallback, and the boot replaying from a reset clock.
+
+## 4. Amendment: motion that stays true to the data
+
+Lines draw outward over 350 ms once both their stars are up; a lit star flashes on with `✺` as it locks; a dark star flickers as if trying to light, then settles as `☆` (it is never drawn lit); an area's name is cyan while it is scanned and white once read; after the scan a wave of light runs across the lit stars only. Specs: lock-on only for a lit star, no lit glyph with no evidence, lines drawn progressively.

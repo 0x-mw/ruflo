@@ -123,3 +123,26 @@ describe('restart (the footer Refresh and r)', () => {
     expect(isBooting(state, 100_500)).toBe(false)
   })
 })
+
+describe('the constellation animation', () => {
+  const dots = (age: number): number => [...textOf(bootPicture('p', 90, age, 10, 10, rowsFor, allOk, bootFacts(withPlugins(['ruflo-ruvector', 'ruflo-rvf']), '1', '')))].filter(ch => ch === '·').length
+
+  it('flashes a lit star on as it locks, and never lights a dark one', () => {
+    const facts = bootFacts(withPlugins([]), '1', '')
+    const lock = textOf(bootPicture('p', 90, 1500 + 100, 10, 10, rowsFor, allOk, facts))
+    const later = textOf(bootPicture('p', 90, 6000, 10, 10, rowsFor, allOk, facts))
+
+    expect(facts.stars.every(star => !star.alive)).toBe(true)
+    expect(later).not.toMatch(/[★✦✺]/)
+    expect(lock).not.toContain('✺')
+
+    const lit = bootFacts(withPlugins(['ruflo-ruvector']), '1', '')
+
+    lit.stars.find(star => star.id === 'ruflo')!.alive = true
+    expect(textOf(bootPicture('p', 90, 1500 + 100, 10, 10, rowsFor, allOk, lit))).toContain('✺')
+  })
+
+  it('draws its lines out over time rather than all at once', () => {
+    expect(dots(1500 + 1000 + 100)).toBeLessThan(dots(1500 + 1000 + 1000))
+  })
+})
