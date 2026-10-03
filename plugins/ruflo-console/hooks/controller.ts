@@ -470,7 +470,7 @@ export function createController(state: State, host: Host): Controller {
     drill,
     command: name => (name === 'refresh' ? actions.refresh() : name === 'help' ? actions.help() : actions.close()),
   })
-  const actions: Actions = actionsOf(state, host, runner, { freshRead, probe, setView, drill, close })
+  const actions: Actions = actionsOf(state, host, runner, { freshRead, probe, setView, drill, close, animate })
 
   function markFrame(requestId: string, isWorking: boolean): void {
     markRequest = requestId

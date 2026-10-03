@@ -34,6 +34,7 @@ import { openTasks, selection } from './views/select'
 
 export type Steps = {
   freshRead: () => Promise<void>
+  animate: () => void
   probe: (force?: boolean) => Promise<void>
   setView: (view: State['view']) => void
   drill: (agentId: string) => void
@@ -41,7 +42,7 @@ export type Steps = {
 }
 
 export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps): Actions {
-  const { freshRead, probe, setView, drill, close } = steps
+  const { freshRead, probe, setView, drill, close, animate } = steps
 
   /**
    * After a command typed in the terminal field (/ruflo, /new, /up…) the rows above the field change, and the engine
@@ -118,6 +119,13 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       // The skills lists come from `npx skills`, not the disk read: r asks for them again on that view.
       if (state.view === 'skills') actions.skills.list()
       if (state.view === 'evolve') actions.evolve.reread()
+    },
+    restart: () => {
+      // The intro plays again from now (BBS look and the boot option on); the pane redraws at once, and the read starts over beneath it.
+      state.pane.bootAtMs = Date.now()
+      host.invalidate()
+      animate()
+      actions.refresh()
     },
     help: () => {
       state.isHelp = !state.isHelp
@@ -202,7 +210,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       if (word === '') return
       if (word === '?' || word === 'h' || word === 'help') actions.help()
       else if (word === 'p') actions.palette('all')
-      else if (word === 'r') actions.refresh()
+      else if (word === 'r') actions.restart()
       else if (word === 'o' || word === 'bye' || word === 'logoff') actions.close()
       else if (view !== null) setView(view)
       else runner.ask(null, `no area "${plain(word, 24)}": type a key from the menu, or ? for help`)

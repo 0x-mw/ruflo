@@ -35,6 +35,8 @@ export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Rast
 export type Actions = {
   view: (id: ViewId) => void
   refresh: () => void
+  /** Refresh and replay the intro boot screen: the footer button and the r key. */
+  restart: () => void
   help: () => void
   close: () => void
   back: () => void

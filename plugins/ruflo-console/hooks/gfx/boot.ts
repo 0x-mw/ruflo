@@ -7,6 +7,8 @@
  * [FAIL] with the first problem if not, so what the screen claims is what was verified.
  */
 import type { BootCheck } from '../boot-checks'
+import type { BootFacts } from '../boot-facts'
+import { drawCyber } from './boot-cyber'
 import { neonPicture, NEON_ROWS } from './neon'
 import { Grid } from './raster'
 
@@ -59,7 +61,7 @@ const NAME_WIDTH = 15
  * `total`), so it moves before any read returns and reads 100% before the boot ends at BOOT_MIN_MS. `rows` is the
  * pane's body height when it is known: the boot log fills what is left under the sign (0: the sign alone).
  */
-export function bootPicture(project: string, columns: number, age: number, done: number, total: number, rows = 0, checks?: readonly BootCheck[]): Grid {
+export function bootPicture(project: string, columns: number, age: number, done: number, total: number, rows = 0, checks?: readonly BootCheck[], facts?: BootFacts): Grid {
   const height = Math.max(BOOT_ROWS, rows)
   const grid = new Grid(columns, height)
   const type = (y: number, from: number, text: string, color: number, msPerChar = 22) => {
@@ -89,7 +91,10 @@ export function bootPicture(project: string, columns: number, age: number, done:
   const started = age < LOG_FROM_MS ? 0 : Math.min(entries.length, Math.floor((age - LOG_FROM_MS) / LOG_MS_PER) + 1)
   const logProgress = started / entries.length
 
-  if (room > 0 && started > 0) {
+  // With the machine's facts and room for it, the log is the cyberpunk uplink (boot-cyber.ts); otherwise the plain list below.
+  const isCyber = facts !== undefined && age >= LOG_FROM_MS - 200 && drawCyber(grid, facts, BOOT_MODULES, checks, age, BOOT_ROWS + 1, room)
+
+  if (!isCyber && room > 0 && started > 0) {
     const first = Math.max(0, started - room)
 
     for (let i = first; i < started; i++) {

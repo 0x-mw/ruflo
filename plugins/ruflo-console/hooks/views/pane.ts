@@ -214,7 +214,7 @@ function footer(ctx: Ctx, isPlaced = false): RenderElement {
         { id: 'close', full: 'Close', short: '×', priority: 4 },
       ]
   const fit = fitFooter(items, ctx.columns - 2)
-  const press: Record<string, () => void> = { palette: () => ctx.act.palette('all'), actions: () => ctx.act.palette('selection'), 'ask-claude': () => ctx.act.ask.ask(), 'ask-slash': () => ctx.act.ask.slash(), refresh: ctx.act.refresh, help: ctx.act.help, close: ctx.act.close }
+  const press: Record<string, () => void> = { palette: () => ctx.act.palette('all'), actions: () => ctx.act.palette('selection'), 'ask-claude': () => ctx.act.ask.ask(), 'ask-slash': () => ctx.act.ask.slash(), refresh: ctx.act.restart, help: ctx.act.help, close: ctx.act.close }
   const hotkey: Record<string, string> = { palette: 'p', actions: 'x', refresh: 'r', help: 'h' }
   const full = new Map(items.map(item => [item.id, item.full]))
   const statusRoom = Math.max(10, ctx.columns - fit.used - 3)

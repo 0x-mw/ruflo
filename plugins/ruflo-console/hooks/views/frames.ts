@@ -7,6 +7,7 @@ import type { AuditTrend, HarnessScore, Intelligence } from '../data/cli'
 import { recentByAgent } from '../data/events'
 import { agentLabels } from '../data/parse'
 import { getBootChecks } from '../boot-checks'
+import { bootFacts } from '../boot-facts'
 import { getBuild } from '../build'
 import { PALETTE, rgb } from '../menu-colors'
 import { CONSOLE_VERSION } from '../version'
@@ -128,7 +129,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
 
   // The BBS boot screen owns the pane for its first seconds; nothing else is drawn under it.
   if (isBooting(state, nowMs)) {
-    pictures.set('boot', bootPicture(state.cwd.split('/').filter(Boolean).at(-1) ?? '', Math.min(width, 90), nowMs - state.pane.bootAtMs, state.probes.size, PROBES.length, state.pane.rows, getBootChecks()))
+    pictures.set('boot', bootPicture(state.cwd.split('/').filter(Boolean).at(-1) ?? '', Math.min(width, 90), nowMs - state.pane.bootAtMs, state.probes.size, PROBES.length, state.pane.rows, getBootChecks(), bootFacts(state, CONSOLE_VERSION, getBuild())))
 
     return pictures
   }
