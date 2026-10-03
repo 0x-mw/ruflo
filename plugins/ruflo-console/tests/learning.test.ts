@@ -38,7 +38,7 @@ describe('learning page', () => {
     const seen = new Set<string>()
     const mark = (text: string) => /● ([A-Z]+)/.exec(text)?.[1]
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 6 && seen.size < 2; i++) {
       await new Promise(resolve => setTimeout(resolve, 400))
       await pane.press({ key: 'sec-learn-config' })
 

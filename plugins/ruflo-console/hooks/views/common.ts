@@ -7,6 +7,7 @@ import type { AskActions } from '../ask-claude'
 import type { OptimizerActions } from '../optimizer'
 import type { WatchActions } from '../watch'
 import type { Attention } from './attention'
+import { HEADS, mark as marked } from './marks'
 import type { LoopActions } from '../loops'
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
 
@@ -21,7 +22,7 @@ import type { MemoryActions } from '../memory-lab'
 import type { SkillActions } from '../skills'
 import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
-import type { HarnessId, NavStyle, State, ViewId } from '../state'
+import { VIEWS, type HarnessId, type NavStyle, type State, type ViewId } from '../state'
 import type { VectorActions } from '../vector'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
@@ -107,6 +108,8 @@ export type Ctx = {
   /** Every picture of this view, by Raster key, already drawn for this frame. */
   pictures: Map<string, Grid>
   act: Actions
+  /** True while the page is drawn in cards (views/card.ts): a section header then needs no blank row above it. */
+  cards?: boolean
   /** The page's attention panel (views/attention.ts): lab views hand their result rows to it with `slot`. */
   attention?: Attention
 }
@@ -180,15 +183,18 @@ export function section(ctx: Ctx, id: string, title: string, right: string, chil
   const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
 
   return [
-    ...(look === 'bbs' ? [ctx.kit.Text({ children: ' ' })] : []),
-    row(
-      ctx,
-      [
-        ctx.kit.Button({ key: `sec-${id}`, label: head, plain: true, onPress: () => ctx.act.toggle(key) }),
-        ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
-        ctx.kit.Text({ color: THEME.info, children: right }),
-      ],
-      `sec-row-${id}`,
+    ...(look === 'bbs' && ctx.cards !== true ? [ctx.kit.Text({ children: ' ' })] : []),
+    marked(
+      HEADS,
+      row(
+        ctx,
+        [
+          ctx.kit.Button({ key: `sec-${id}`, label: head, plain: true, onPress: () => ctx.act.toggle(key) }),
+          ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
+          ctx.kit.Text({ color: THEME.info, children: right }),
+        ],
+        `sec-row-${id}`,
+      ),
     ),
     ...(isOpen ? children : []),
   ]
@@ -201,16 +207,15 @@ export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
     const head = `▓▒░ ${title.toUpperCase()} ░▒▓`
     const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
 
-    // A blank line above each section, so the board breathes instead of packing every block together.
-    return col(ctx, [
-      ctx.kit.Text({ children: ' ' }),
-      row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: head }), ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: THEME.info, children: right })]),
-    ])
+    const line = row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: head }), ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: THEME.info, children: right })])
+
+    // In a card the header is the card's first row; otherwise a blank line above each section, so the board breathes instead of packing every block together.
+    return ctx.cards === true ? marked(HEADS, line) : marked(HEADS, col(ctx, [ctx.kit.Text({ children: ' ' }), line]))
   }
 
   const fill = Math.max(1, ctx.columns - title.length - right.length - 3)
 
-  return row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: title }), ctx.kit.Text({ dimColor: true, children: ` ${'─'.repeat(fill)} ` }), ctx.kit.Text({ dimColor: true, children: right })])
+  return marked(HEADS, row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: title }), ctx.kit.Text({ dimColor: true, children: ` ${'─'.repeat(fill)} ` }), ctx.kit.Text({ dimColor: true, children: right })]))
 }
 
 /** A label and its value; the value dims when it is n/a. */
@@ -290,6 +295,21 @@ export function confirmRow(ctx: Ctx): RenderElement | null {
   const pending = ctx.state.pending
 
   if (pending === null) return null
+
+  // An ask belongs to the page that raised it: anywhere else it is one line, with a way there and a way to drop it.
+  if (pending.view !== undefined && pending.view !== ctx.state.view) {
+    const where = VIEWS.find(entry => entry.id === pending.view)
+
+    return row(
+      ctx,
+      [
+        text(ctx, `⚠ An ask is waiting on ${where?.label ?? pending.view}: ${clip(pending.label, Math.max(16, ctx.columns - 64))} `, { bold: true, color: THEME.warn }),
+        button(ctx, 'confirm-go', 'Go there', () => ctx.act.view(pending.view as ViewId)),
+        button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' }),
+      ],
+      'confirm',
+    )
+  }
 
   return col(
     ctx,
