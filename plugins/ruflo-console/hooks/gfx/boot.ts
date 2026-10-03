@@ -19,7 +19,7 @@ const DIM = 0x6b7280
 const SIGN_ON_MS = 900
 /** The boot log starts once the handshake is typed, and brings one area online every LOG_MS_PER. */
 const LOG_FROM_MS = 1500
-const LOG_MS_PER = 150
+const LOG_MS_PER = 120
 
 /** Every area of the console, in menu order: what the boot log brings online. */
 export const BOOT_MODULES: readonly { name: string; note: string }[] = [

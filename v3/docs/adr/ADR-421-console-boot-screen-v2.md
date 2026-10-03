@@ -19,7 +19,7 @@ The boot screen was a modem dial-up (`ATDT`, `CONNECT`), the neon sign striking 
 Keep the dial-up and the sign, and add a **boot log** under them that brings every area of the console online:
 
 - 25 areas, in menu order (Missions, Overview, Swarm, Hive-Mind, Claims, Approvals, Automation, Learning, Neural, Vector Lab, Memory Lab, MetaHarness, Self-Evolution, Security, Federation, x.ruv.io, Plugins & Mods, Skills, Dev Tools, Cost & Budget, Timeline, Events, Performance, AI Terminal, Settings), each with a few words on what it is, then a `READY` line.
-- One area starts every 150 ms: `[ .. ]` while it starts, `[ OK ]` once the next has begun. The log starts at 1.5 s, after the handshake line is typed.
+- One area starts every 120 ms: `[ .. ]` while it starts, `[ OK ]` once the next has begun. The log starts at 1.5 s, after the handshake line is typed.
 - The log fills the pane: `bootPicture` takes the pane's body rows (`state.pane.rows`) and the log uses every row under the sign. In a short pane it scrolls, the newest lines in view and the oldest gone; with no rows known it is the sign alone, as before.
 - The loading bar now also follows the log, so it moves steadily and reads 100% as `READY` appears, not only when the first reads land.
 - The boot plays for at least 5.4 s (was 3.2) and at most 8 s (was 6): long enough for the whole log, still ending by itself, still only with the bbs look and the boot option on. The boot picture is up to 90 columns wide (was 72).

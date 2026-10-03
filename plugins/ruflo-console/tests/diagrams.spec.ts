@@ -168,7 +168,7 @@ describe('BBS boot screen', () => {
   it('brings every area online in a log under the sign, as many lines as the pane has rows, newest in view, READY last', () => {
     const rows = BOOT_ROWS + 1 + BOOT_MODULES.length + 1
 
-    // Nothing is logged before the handshake; one line per 150 ms after it.
+    // Nothing is logged before the handshake; one line per 120 ms after it.
     expect(text(bootPicture('demo', 80, 1_000, 0, 10, rows), 80)).not.toContain('[ OK ]')
     expect(text(bootPicture('demo', 80, 1_550, 0, 10, rows), 80)).toContain('[ .. ] Missions')
     expect(text(bootPicture('demo', 80, 1_700, 0, 10, rows), 80)).toContain('[ OK ] Missions')
