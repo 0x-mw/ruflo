@@ -21,4 +21,4 @@ Seen only as text and element trees, not on a terminal. A press on an entry whil
 
 ## 3. Amendment: ASCII glitch in the strike-in
 
-Behind the leading edge, a share of the settled letters (14%, fading to none by the end) flip for a frame to an ASCII character (`#%&@/\|<>=+*`) in pink or cyan, and a title row now and then slips sideways one or two cells and snaps back. Hash-driven, so reproducible; none once the 1.2 s are over (spec: glitch characters appear during the entry and the finished title has none).
+Behind the leading edge, a share of the settled letters (4%, fading to none by the end; first tried at 14%, too loud) flip for a frame to an ASCII character (`#%&@/\|<>=+*`) in pink or cyan, and a title row now and then slips sideways one cell (about one frame in sixteen) and snaps back. Hash-driven, so reproducible; none once the 1.2 s are over (spec: glitch characters appear during the entry and the finished title has none).

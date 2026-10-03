@@ -333,14 +333,14 @@ export function titlePicture(name: string, columns: number, t: number, age = Inf
         if (x > lead + 1) grid.set(x, y, '░▒▓█'[hash(x * 7 + y + Math.floor(age / 60)) % 4] as string, mix(0x3a0f2e, NEON_CYAN, 0.35))
         else if (x > lead - 1.5) grid.set(x, y, grid.glyph(x, y), 0xffffff)
         // Behind the edge the letters are settled but still glitching: some flip to an ASCII character for a frame, pink or cyan, less as the entry ends.
-        else if (hash(x * 13 + y * 7 + Math.floor(age / 50)) % 100 < 14 * (1 - age / TITLE_ENTRY_MS)) grid.set(x, y, GLITCH[hash(x + y + Math.floor(age / 50)) % GLITCH.length] as string, hash(x + Math.floor(age / 50)) % 2 === 0 ? 0xff2a6d : 0x05d9e8)
+        else if (hash(x * 13 + y * 7 + Math.floor(age / 50)) % 100 < 4 * (1 - age / TITLE_ENTRY_MS)) grid.set(x, y, GLITCH[hash(x + y + Math.floor(age / 50)) % GLITCH.length] as string, hash(x + Math.floor(age / 50)) % 2 === 0 ? 0xff2a6d : 0x05d9e8)
       }
 
       // And now and then a whole row slips sideways a cell or two, and snaps back.
       const slip = hash(y * 5 + Math.floor(age / 80))
 
-      if (slip % 6 === 0 && age < TITLE_ENTRY_MS - 150) {
-        const by = 1 + (slip >>> 3) % 2 * (slip % 2 === 0 ? 1 : -1)
+      if (slip % 16 === 0 && age < TITLE_ENTRY_MS - 150) {
+        const by = (slip >>> 4) % 2 === 0 ? 1 : -1
         const row = grid.cells.slice(y * columns * 3, (y + 1) * columns * 3)
 
         for (let x = x0; x < Math.min(columns, x0 + width); x++) grid.cells.set(row.slice(Math.max(0, x - by) * 3, Math.max(0, x - by) * 3 + 3), (y * columns + x) * 3)
