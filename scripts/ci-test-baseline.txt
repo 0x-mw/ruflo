@@ -169,6 +169,7 @@ plugins/ruflo-console/tests/loops.test.ts
 plugins/ruflo-console/tests/learning.test.ts
 plugins/ruflo-console/tests/matrix.test.ts
 plugins/ruflo-console/tests/optimizer.test.ts
+plugins/ruflo-console/tests/watch.test.ts
 plugins/ruflo-console/tests/missions.test.ts
 plugins/ruflo-console/tests/settings.test.ts
 plugins/ruflo-console/tests/plugin-catalog.test.ts

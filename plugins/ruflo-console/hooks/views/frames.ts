@@ -23,7 +23,7 @@ import { openTasks } from './select'
 
 export const MAX_NODES = 100
 export const HEALTH_CHECKS = ['installed', 'enabled', 'clone', 'mod'] as const
-const TIMELINE_MS = 15 * 60_000
+import { watchOf } from '../watch'
 /** The radar's axis words: the score's own dimension names, shortened to fit at a spoke's end. */
 const AXIS: Record<string, string> = { harnessFit: 'fit', compileConfidence: 'compile', taskCoverage: 'coverage', toolSafety: 'safety', memoryUsefulness: 'memory' }
 
@@ -96,7 +96,7 @@ export function healthRowsOf(state: State): HealthRow[] {
 
 /** The timeline's lanes over the last 15 minutes: ruflo agents' observed statuses and Claude Code's tool calls. */
 export function lanesOf(state: State, nowMs: number): Lane[] {
-  const from = nowMs - TIMELINE_MS
+  const from = nowMs - watchOf(state).rangeMs
   const labels = agentLabels(state.snapshot?.agents ?? [])
   const agents = (state.snapshot?.agents ?? []).slice(0, 24).map(agent => {
     const log = state.statusLog.get(agent.id) ?? []
@@ -216,7 +216,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     case 'timeline': {
       const lanes = lanesOf(state, nowMs)
 
-      if (lanes.length > 0) pictures.set('gantt', ganttPicture(lanes, width, nowMs - TIMELINE_MS, nowMs))
+      if (lanes.length > 0) pictures.set('gantt', ganttPicture(lanes, width, nowMs - watchOf(state).rangeMs, nowMs))
       break
     }
     default:

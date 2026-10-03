@@ -8,6 +8,7 @@ import { evolveActions } from './evolve'
 import { askActions } from './ask-claude'
 import { loopActions } from './loops'
 import { optimizerActions } from './optimizer'
+import { watchActions } from './watch'
 import { missionActions } from './mission-control'
 import { catalogActions } from './plugin-catalog'
 import { saveAllowed } from './remember'
@@ -330,6 +331,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     ask: askActions(state, host, runner, () => actions),
     loops: loopActions(state, host, runner),
     optimizer: optimizerActions(state, () => host.invalidate(), id => void runner.runById(id, ''), question => actions.ask.ask(question, 'overview')),
+    watch: watchActions(state, () => host.invalidate(), (question, view) => actions.ask.ask(question, view)),
     catalog: catalogActions(state, host, runner, text => actions.term.load('claude', text)),
     devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }
