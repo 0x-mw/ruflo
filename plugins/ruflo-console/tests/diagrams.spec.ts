@@ -8,7 +8,7 @@ import { gaugePicture, pipelinePicture, radarPicture, samplesPicture, trendPictu
 import { flowModelOf, flowPicture, flowRows, ringOf } from '../hooks/gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture } from '../hooks/gfx/maps'
 import { BOOT_MODULES, BOOT_ROWS } from '../hooks/gfx/boot'
-import { activityPicture, bannerPicture, bootPicture, curvePicture, edges, headerPicture, layout, markPicture, topologyPicture, type TopoModel } from '../hooks/gfx/pictures'
+import { activityPicture, bannerPicture, bootPicture, curvePicture, edges, headerPicture, layout, markPicture, palettePicture, topologyPicture, type TopoModel } from '../hooks/gfx/pictures'
 import { isBooting, newState, optionsOf } from '../hooks/state'
 import type { Grid } from '../hooks/gfx/raster'
 import { parseClaims, type ClaimRecord } from '../hooks/data/parse'
@@ -228,5 +228,52 @@ describe('BBS boot screen', () => {
     expect(isBooting(state, 9_500)).toBe(false)
     expect(isBooting({ ...state, options: { ...state.options, boot: false } }, 1_100)).toBe(false)
     expect(isBooting({ ...state, options: { ...state.options, look: 'plain' } }, 1_100)).toBe(false)
+  })
+})
+
+describe('the menu palette strip', () => {
+  const colors = [0xff0000, 0x00ff00, 0x0000ff]
+  const fg = (grid: ReturnType<typeof palettePicture>, x: number): number => grid.cells[x * 3 + 1] as number
+  const base = (x: number, columns: number): number => colors[Math.min(colors.length - 1, Math.floor((x * colors.length) / columns))] as number
+  /** The cell the light is on: the one furthest from its own colour. */
+  const litAt = (grid: ReturnType<typeof palettePicture>): number => {
+    const far = (x: number): number => [0, 8, 16].reduce((sum, shift) => sum + Math.abs(((fg(grid, x) >> shift) & 255) - ((base(x, grid.columns) >> shift) & 255)), 0)
+
+    return Array.from({ length: grid.columns }, (_, x) => x).sort((a, b) => far(b) - far(a))[0] as number
+  }
+
+  it('is one row of blocks, and at rest is exactly the colours, a segment each', () => {
+    const grid = palettePicture(60, 0, colors)
+
+    expect([grid.columns, grid.rows]).toEqual([60, 1])
+    for (let x = 0; x < 60; x++) {
+      expect(grid.cells[x * 3], `char ${x}`).toBe(0x2580)
+      expect(fg(grid, x), `colour ${x}`).toBe(base(x, 60))
+    }
+    expect(fg(grid, 0)).toBe(0xff0000)
+    expect(fg(grid, 30)).toBe(0x00ff00)
+    expect(fg(grid, 59)).toBe(0x0000ff)
+  })
+
+  it('has a band of light that brightens the cells it is on and leaves the rest alone', () => {
+    const grid = palettePicture(60, 1_512, colors)
+
+    expect(litAt(grid)).toBe(30)
+    expect(fg(grid, 30)).not.toBe(base(30, 60))
+    expect((fg(grid, 30) >> 16) & 255).toBeGreaterThan(150)
+    expect(fg(grid, 0)).toBe(base(0, 60))
+    expect(fg(grid, 59)).toBe(base(59, 60))
+  })
+
+  it('moves along the strip as the clock runs, about three cells a frame at 8 fps, and starts again after it leaves', () => {
+    expect(litAt(palettePicture(60, 1_512, colors))).toBe(30)
+    expect(litAt(palettePicture(60, 1_512 + 360, colors))).toBe(40)
+    expect(Array.from(palettePicture(60, 36 * 84, colors).cells)).toEqual(Array.from(palettePicture(60, 0, colors).cells))
+    expect(Array.from(palettePicture(60, 0, colors).cells)).not.toEqual(Array.from(palettePicture(60, 1_512, colors).cells))
+  })
+
+  it('holds for a tiny width and an empty list of colours without throwing', () => {
+    expect(palettePicture(1, 500, colors).columns).toBe(1)
+    expect(palettePicture(8, 500, []).rows).toBe(1)
   })
 })

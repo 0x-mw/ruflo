@@ -320,6 +320,26 @@ export function titlePicture(name: string, columns: number, t: number): Grid {
   return grid
 }
 
+/**
+ * The menu's palette strip: one block of each colour across the width, and a band of light that sweeps along it and starts again,
+ * brightening the cells it passes (about 28 cells a second: three cells a frame at the default 8 fps, so it reads as motion, not a
+ * jump). At `t` = 0 the light is off the strip and the cells are exactly the colours, so a still frame (fps 0) is the plain strip.
+ * Decoration, like the boot's sign: it carries no data. A pure function of its size and the clock, as every picture here.
+ */
+export function palettePicture(columns: number, t: number, colors: readonly number[]): Grid {
+  const grid = new Grid(columns, 1)
+  const at = ((t / 36) % (columns + 24)) - 12
+
+  for (let x = 0; x < columns; x++) {
+    const base = colors[Math.min(colors.length - 1, Math.floor((x * colors.length) / columns))] ?? 0xffffff
+    const glow = Math.max(0, 1 - Math.abs(x - at) / 7)
+
+    grid.set(x, 0, '▀', mix(base, 0xffffff, glow * 0.8))
+  }
+
+  return grid
+}
+
 export function headerPicture(title: string, columns: number, t: number): Grid {
   const grid = new Grid(columns, 1)
   const at = ((t / 22) % (columns + 60)) - 20

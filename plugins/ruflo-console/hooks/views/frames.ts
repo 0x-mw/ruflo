@@ -8,6 +8,7 @@ import { recentByAgent } from '../data/events'
 import { agentLabels } from '../data/parse'
 import { getBootChecks } from '../boot-checks'
 import { getBuild } from '../build'
+import { PALETTE, rgb } from '../menu-colors'
 import { CONSOLE_VERSION } from '../version'
 import type { Snapshot } from '../data/snapshot'
 import type { Channels, Peers, Roster } from '../data/cli'
@@ -15,7 +16,7 @@ import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePictu
 import { loopPicture, loopStagesOf } from '../gfx/evolve'
 import { flowModelOf, flowPicture, flowRows } from '../gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture, type FedNode, type HealthRow, type Lane } from '../gfx/maps'
-import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture, headerPicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
+import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture, headerPicture, palettePicture, PULSE_MS, topologyPicture, type TopoModel } from '../gfx/pictures'
 import type { Grid } from '../gfx/raster'
 import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
@@ -136,6 +137,8 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
     pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`} · ${project}`, Math.min(width, 64), t))
+    // The palette strip above the menu's groups moves while the frame loop runs; with fps 0 it is the still strip (the light is off it).
+    if (state.options.look === 'bbs') pictures.set('palette', palettePicture(Math.max(8, width - 2), state.options.fps > 0 ? t : 0, PALETTE.map(rgb)))
   }
 
   // BBS: every view's name as ANSI-style block art under the tabs, compact or not (the neon sign is the boot's alone).

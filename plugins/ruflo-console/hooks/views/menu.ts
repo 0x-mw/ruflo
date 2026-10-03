@@ -3,7 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { ACCENT, badgesOf, INK, LOUD, MUTED, PALETTE } from '../menu-style'
 import { VIEWS, type ViewId } from '../state'
 import { barParts } from './bar'
-import { clip, col, isBbs, row, text, THEME, type Ctx } from './common'
+import { clip, col, isBbs, picture, row, text, THEME, type Ctx } from './common'
 import { missionStrip } from './mission-control'
 
 type Item = { label: string; go: string }
@@ -133,8 +133,15 @@ export function menuView(ctx: Ctx): RenderElement {
     })
   }
 
-  // A strip of the accents across the top, as a BBS drew its palette: one block of each, the width of the pane shared between them.
-  if (bbs) rows.push(ctx.kit.Box({ flexDirection: 'row', key: 'menu-palette', children: PALETTE.map((color, i) => ctx.kit.Text({ color, children: '▀'.repeat(Math.max(1, Math.floor((ctx.columns - 2) / PALETTE.length))), key: `menu-palette-${i}` })) }))
+  // A strip of the accents across the top, as a BBS drew its palette, with a band of light sweeping along it (a picture, so it moves with
+  // the frame loop and costs one element). A surface that cannot draw pictures gets the still strip.
+  if (bbs) {
+    rows.push(
+      ctx.pictures.has('palette') && ctx.kit.Raster !== undefined
+        ? picture(ctx, 'palette', '')
+        : ctx.kit.Box({ flexDirection: 'row', key: 'menu-palette', children: PALETTE.map((color, i) => ctx.kit.Text({ color, children: '▀'.repeat(Math.max(1, Math.floor((ctx.columns - 2) / PALETTE.length))), key: `menu-palette-${i}` })) }),
+    )
+  }
 
   for (let i = 0; i < GROUPS.length; i += perRow) {
     rows.push(ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `menu-row-${i}`, children: GROUPS.slice(i, i + perRow).map(box) }))

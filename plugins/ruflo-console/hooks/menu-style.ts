@@ -12,22 +12,7 @@ import { secMemo } from './secure'
 import type { State, ViewId } from './state'
 import { money } from './views/bar'
 
-/** The ink on an accent's solid bar, and the muted ink for a badge that is only information. */
-export const INK = '#1c1c1c'
-export const MUTED = '#8a8a8a'
-export const LOUD = '#ffaf00'
-
-/** One accent per menu group, by the group's title. */
-export const ACCENT: Readonly<Record<string, string>> = {
-  SWARM: '#ffaf00',
-  INTELLIGENCE: '#5fd7ff',
-  'SAFETY & OPS': '#ff5f5f',
-  'NETWORK & EXTEND': '#5fd75f',
-  TOOLS: '#d787ff',
-}
-
-/** The palette strip above the groups: the accents in menu order. */
-export const PALETTE: readonly string[] = ['#ffaf00', '#5fd7ff', '#ff5f5f', '#5fd75f', '#d787ff']
+export { ACCENT, INK, LOUD, MUTED, PALETTE } from './menu-colors'
 
 export type Badge = { text: string; tone: 'attention' | 'plain' }
 
