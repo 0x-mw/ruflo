@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { ReadCache } from '../hooks/data/files'
 import { readSnapshot } from '../hooks/data/snapshot'
-import { ACCENT, badgesOf, INK, LOUD, MUTED, PALETTE } from '../hooks/menu-style'
+import { ACCENT, badgesOf, LOUD, MUTED, PALETTE } from '../hooks/menu-style'
 import { NAV_ACCENT, TONE } from '../hooks/menu-colors'
 import { accentOfView, NAV_GROUPS } from '../hooks/nav-state'
 import { secMemo } from '../hooks/secure'
@@ -50,11 +50,11 @@ describe('the menu accents', () => {
   })
 
   it('uses only colours the 256-colour palette has, so they render the same without truecolor and in tmux', () => {
-    for (const color of [...Object.values(ACCENT), ...PALETTE, INK, MUTED, LOUD, ...Object.values(TONE), ...Object.values(NAV_ACCENT)]) expect(isXterm256(color), color).toBe(true)
+    for (const color of [...Object.values(ACCENT), ...PALETTE, MUTED, LOUD, ...Object.values(TONE), ...Object.values(NAV_ACCENT)]) expect(isXterm256(color), color).toBe(true)
   })
 
-  it('has ink on every accent that can be read (contrast 4.5 or more), and no two groups share a colour', () => {
-    for (const [group, color] of Object.entries(ACCENT)) expect(contrast(INK, color), group).toBeGreaterThanOrEqual(4.5)
+  it('has accents that read as text on a dark terminal (contrast 4.5 or more), so a chip that falls back to coloured text stays legible, and no two groups share a colour', () => {
+    for (const [group, color] of Object.entries(ACCENT)) expect(contrast('#1c1c1c', color), group).toBeGreaterThanOrEqual(4.5)
     expect(new Set(Object.values(ACCENT)).size).toBe(Object.keys(ACCENT).length)
   })
 

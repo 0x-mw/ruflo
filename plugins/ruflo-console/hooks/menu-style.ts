@@ -12,7 +12,7 @@ import { secMemo } from './secure'
 import type { State, ViewId } from './state'
 import { money } from './views/bar'
 
-export { ACCENT, INK, LOUD, MUTED, PALETTE } from './menu-colors'
+export { ACCENT, chip, LOUD, MUTED, PALETTE } from './menu-colors'
 
 export type Badge = { text: string; tone: 'attention' | 'plain' }
 

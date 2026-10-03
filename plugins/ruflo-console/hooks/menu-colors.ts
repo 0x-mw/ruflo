@@ -3,8 +3,14 @@
  * menu-style.ts, which reaches the pages, re-exports them. Each is a step of the xterm 256-colour cube or its grey ramp
  * (tests/menu-style.spec.ts holds that, and the contrast of the ink on each accent).
  */
-/** The ink on an accent's solid bar, and the muted ink for a badge that is only information. */
-export const INK = '#1c1c1c'
+/**
+ * A chip: the colour is its ground, drawn with `inverse`, so the text takes the terminal's own background colour over it. Never a fixed
+ * ink on an explicit background: if the host did not draw that background, the ink would be near-black on a dark terminal and the text
+ * would be gone. Inverse cannot vanish, and where it is not honoured the chip falls back to text in the colour itself.
+ */
+export const chip = (ground: string) => ({ color: ground, inverse: true, bold: true }) as const
+
+/** The muted colour of a badge that is only information, and the loud one for a badge that needs a person. */
 export const MUTED = '#8a8a8a'
 export const LOUD = '#ffaf00'
 

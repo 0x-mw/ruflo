@@ -3,7 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { lifecycleOf, PHASE_NAME, PROFILES, RIGORS, stageOf } from '../goap'
 import { guidanceStatus } from '../mission-guidance'
 import { activeMission, derive, mcOf, nextTask, progressOf, rufloTaskOf, type Derived, type LedgerTask, type McTab, type MissionRecord } from '../mission-control'
-import { ACCENT, INK, TONE } from '../menu-colors'
+import { ACCENT, chip as inverseChip, TONE } from '../menu-colors'
 import { barCells, percentOf, stripStatus } from '../mission-strip'
 import { ago, button, clip, col, confirmHere, isBbs, row, rule, section, text, THEME, type Ctx } from './common'
 import { GOALS_PLUGIN, isAvailable, MISSION_SKILLS, slashOf } from '../mission-skills'
@@ -246,7 +246,7 @@ function stripCard(ctx: Ctx, mission: ReturnType<typeof activeMission>, field: R
   const m = ctx.act.mission
   const accent = ACCENT.SWARM as string
   const inner = Math.max(24, ctx.columns - 4)
-  const rows: RenderElement[] = [ctx.kit.Box({ backgroundColor: accent, key: 'menu-mc-bar', children: [ctx.kit.Text({ bold: true, color: INK, wrap: 'truncate-end', children: ' ▓▒░ MISSION CONTROL ░▒▓'.padEnd(inner).slice(0, inner) })] })]
+  const rows: RenderElement[] = [ctx.kit.Box({ key: 'menu-mc-bar', children: [ctx.kit.Text({ ...inverseChip(accent), wrap: 'truncate-end', children: ' ▓▒░ MISSION CONTROL ░▒▓'.padEnd(inner).slice(0, inner) })] })]
 
   if (mission === null) {
     rows.push(...field, text(ctx, ' research → create (ADRs, SOP) → build → test → validate → secure → benchmark → learn', { dimColor: true }), row(ctx, [open], 'menu-mission-links'))

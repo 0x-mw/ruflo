@@ -1,6 +1,6 @@
 import type { RenderElement } from 'claude-code'
 
-import { ACCENT, badgesOf, INK, LOUD, MUTED, PALETTE } from '../menu-style'
+import { ACCENT, badgesOf, chip, LOUD, MUTED, PALETTE } from '../menu-style'
 import { VIEWS, type ViewId } from '../state'
 import { barParts } from './bar'
 import { clip, col, isBbs, picture, row, text, THEME, type Ctx } from './common'
@@ -103,7 +103,7 @@ export function menuView(ctx: Ctx): RenderElement {
       key: `menu-${group.title}`,
       children: [
         bbs
-          ? ctx.kit.Box({ backgroundColor: accent, key: `menu-bar-${group.title}`, children: [ctx.kit.Text({ bold: true, color: INK, wrap: 'truncate-end', children: ` ${title}`.padEnd(width - 2).slice(0, width - 2) })] })
+          ? ctx.kit.Box({ key: `menu-bar-${group.title}`, children: [ctx.kit.Text({ ...chip(accent), wrap: 'truncate-end', children: ` ${title}`.padEnd(width - 2).slice(0, width - 2) })] })
           : ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: title }),
         ...group.sections.flatMap(section => {
           const items = section.items.filter(isShown)
@@ -121,7 +121,7 @@ export function menuView(ctx: Ctx): RenderElement {
                     key: `mi-${item.go}`,
                     children: [
                       // The key is a chip in the accent in the BBS look, so the keys read as the commands; plain, as it always was.
-                      bbs ? ctx.kit.Text({ bold: true, color: INK, backgroundColor: accent, children: ` ${key} ` }) : ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${key})` }),
+                      bbs ? ctx.kit.Text({ ...chip(accent), children: ` ${key} ` }) : ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${key})` }),
                       ctx.kit.Button({ key: `menu-go-${item.go}`, label: ` ${clip(item.label, width - 11 - (badge === undefined ? 0 : badge.text.length + 1))}`, plain: true, onPress: go(item) }),
                       ...(badge === undefined ? [] : [ctx.kit.Text({ bold: badge.tone === 'attention', color: bbs ? (badge.tone === 'attention' ? LOUD : MUTED) : badge.tone === 'attention' ? THEME.warn : THEME.info, children: ` ${badge.text}` })]),
                     ],

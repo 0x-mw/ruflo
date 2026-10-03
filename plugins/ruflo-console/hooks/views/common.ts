@@ -25,7 +25,7 @@ import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
 import { VIEWS, type HarnessId, type NavStyle, type State, type ViewId } from '../state'
 import type { UpdatesMode } from '../updates'
-import { COST_CHIP, INK } from '../menu-colors'
+import { chip, COST_CHIP } from '../menu-colors'
 import { accentOfView } from '../nav-state'
 import type { VectorActions } from '../vector'
 
@@ -154,7 +154,7 @@ export function tagChip(ctx: Ctx, text: string, color: string): RenderElement {
 
   if (ground === undefined) return ctx.kit.Text({ bold: true, color, children: ` ${text}` })
 
-  return ctx.kit.Box({ flexDirection: 'row', children: [ctx.kit.Text({ children: ' ' }), ctx.kit.Text({ bold: true, color: INK, backgroundColor: ground, children: text })] })
+  return ctx.kit.Box({ flexDirection: 'row', children: [ctx.kit.Text({ children: ' ' }), ctx.kit.Text({ ...chip(ground), children: text })] })
 }
 
 export const clip = (text: string, width: number): string => (text.length <= width ? text : `${text.slice(0, Math.max(0, width - 1))}…`)

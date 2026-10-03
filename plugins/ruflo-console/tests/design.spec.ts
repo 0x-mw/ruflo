@@ -6,10 +6,12 @@
  */
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { COST_CHIP, INK, NAV_ACCENT } from '../hooks/menu-colors'
+import { COST_CHIP, NAV_ACCENT } from '../hooks/menu-colors'
 import { newState, type State, type ViewId } from '../hooks/state'
 import { CARD_COLUMNS } from '../hooks/views/card'
 import { setLook, tagChip, THEME, type Actions, type Ctx } from '../hooks/views/common'
+import { menuView } from '../hooks/views/menu'
+import { missionStrip } from '../hooks/views/mission-control'
 import { groupedTabs } from '../hooks/views/nav'
 
 type El = { kind: string; props: Record<string, unknown> }
@@ -42,16 +44,16 @@ describe('a cost tag', () => {
     setLook('bbs')
 
     for (const [color, ground] of [[THEME.ok, COST_CHIP.ok], [THEME.info, COST_CHIP.info], [THEME.warn, COST_CHIP.warn], [THEME.bad, COST_CHIP.bad]] as const) {
-      const shown = texts(chip(color)).find(node => node.props.backgroundColor !== undefined)
+      const shown = texts(chip(color)).find(node => node.props.inverse === true)
 
-      expect(shown?.props, color).toMatchObject({ backgroundColor: ground, color: INK, bold: true, children: ' $0 ' })
+      expect(shown?.props, color).toMatchObject({ color: ground, inverse: true, bold: true, children: ' $0 ' })
     }
   })
 
   it('stays coloured text in the plain look, as it always was, and a colour that is none of the four is text in either', () => {
     setLook('plain')
     expect(chip(THEME.ok)).toMatchObject({ kind: 'Text', props: { color: THEME.ok, children: '  $0 ' } })
-    expect(flat(chip(THEME.ok)).some(node => node.props.backgroundColor !== undefined)).toBe(false)
+    expect(flat(chip(THEME.ok)).some(node => node.props.backgroundColor !== undefined || node.props.inverse === true)).toBe(false)
 
     setLook('bbs')
     expect(chip(THEME.head)).toMatchObject({ kind: 'Text' })
@@ -74,13 +76,14 @@ describe('the nav card', () => {
     const bbs = tab(open('secure').card, 'secure')
     const chipText = texts(bbs).find(node => String(node.props.children).includes('SECURITY & DOCTOR'))
 
-    expect(chipText?.props).toMatchObject({ backgroundColor: NAV_ACCENT.SAFETY, color: INK, bold: true, children: '[u: 🔒 SECURITY & DOCTOR]' })
+    expect(chipText?.props).toMatchObject({ color: NAV_ACCENT.SAFETY, inverse: true, bold: true, children: '[u: 🔒 SECURITY & DOCTOR]' })
 
     setLook('plain')
 
     const plain = texts(tab(open('secure').card, 'secure')).find(node => String(node.props.children).includes('Security & Doctor'))
 
     expect(plain?.props.backgroundColor).toBeUndefined()
+    expect(plain?.props.inverse).toBeUndefined()
     expect(plain?.props.children).toBe('u: 🔒 Security & Doctor')
   })
 
@@ -89,7 +92,7 @@ describe('the nav card', () => {
 
     const group = texts(open('secure').card).find(node => String(node.props.children).includes('SAFETY ▾'))
 
-    expect(group?.props).toMatchObject({ backgroundColor: NAV_ACCENT.SAFETY, color: INK })
+    expect(group?.props).toMatchObject({ color: NAV_ACCENT.SAFETY, inverse: true })
   })
 
   it('puts the menu\'s badges on the page buttons: spend on Cost, an update on Settings', () => {
@@ -123,5 +126,24 @@ describe('the nav card', () => {
         expect(used, `${columns} columns, ${String(row.props.key)}`).toBeLessThanOrEqual(inner)
       }
     }
+  })
+})
+
+describe('a chip cannot vanish', () => {
+  it('is drawn inverse, never in a fixed colour on an explicit background, so it stays there if the host does not draw that background', () => {
+    setLook('bbs')
+
+    const state = newState({})
+
+    state.view = 'menu'
+
+    const trees: unknown[] = [menuView(ctxOf(state, 120)), groupedTabs(ctxOf(state, 120), () => true), ...missionStrip(ctxOf(state, 120)), tagChip(ctxOf(state), ' $0 ', THEME.ok), tagChip(ctxOf(state), ' $$ ', THEME.bad)]
+
+    for (const tree of trees) {
+      for (const node of texts(tree)) expect(node.props.backgroundColor, String(node.props.children)).toBeUndefined()
+    }
+
+    // And there are chips to be checked: the menu's group bars and key chips, the nav's open page and group, the cost tags.
+    expect(trees.flatMap(texts).filter(node => node.props.inverse === true).length).toBeGreaterThan(10)
   })
 })

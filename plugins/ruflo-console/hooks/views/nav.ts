@@ -8,7 +8,7 @@
  */
 import type { RenderElement } from 'claude-code'
 
-import { INK, NAV_ACCENT } from '../menu-colors'
+import { chip, NAV_ACCENT } from '../menu-colors'
 import { badgesOf } from '../menu-style'
 import { accentOfView, findPages, NAV_GROUPS, shownGroup } from '../nav-state'
 import { VIEWS, type ViewId } from '../state'
@@ -46,7 +46,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
     // The open page names itself whatever the style, as the flat tab bar did: [3: 📌 CLAIMS], [0: 📟 MAIN MENU].
     const accent = isBbs() ? accentOfView(view.id) : null
 
-    if (view.id === open) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ bold: true, color: accent === null ? THEME.head : INK, ...(accent !== null && { backgroundColor: accent }), wrap: 'truncate-end', children: isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}` })] })
+    if (view.id === open) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ ...(accent === null ? { bold: true, color: THEME.head } : chip(accent)), wrap: 'truncate-end', children: isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}` })] })
 
     return ctx.kit.Button({ key: `tab-${view.id}`, label: ` ${words}${badgeText(view)} `, ...(hasHotkey(view) && view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
@@ -58,7 +58,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const isSearchInline = inner - chipCells >= 28
   const chips = NAV_GROUPS.map(group =>
     group.title === shown && found === null
-      ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ bold: true, color: isBbs() ? INK : THEME.head, ...(isBbs() && { backgroundColor: NAV_ACCENT[group.title] ?? THEME.head }), children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
+      ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ ...(isBbs() ? chip(NAV_ACCENT[group.title] ?? THEME.head) : { bold: true, color: THEME.head }), children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
       : ctx.kit.Button({ key: `nav-group-${group.title}`, label: ` ${icons ? `${group.icon} ` : ''}${group.title} `, plain: true, dimColor: true, onPress: () => ctx.act.navigator.group(group.title) }),
   )
   const Input = ctx.kit.Input
