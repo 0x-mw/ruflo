@@ -71,6 +71,17 @@ function trainingRows(ctx: Ctx): RenderElement[] {
   return rows
 }
 
+/** Bootstrap, consolidate, and the pattern store: the learning loop's own actions. */
+function selfLearnRows(ctx: Ctx): RenderElement[] {
+  return [
+    rule(ctx, 'Self-learning', 'bootstrap, consolidate and teach the ReasoningBank · local, no model calls'),
+    strip(ctx, 'nn-pretrain', [{ id: 'nn-pretrain-shallow', label: 'pretrain: shallow', cost: 'local' }, { id: 'nn-pretrain-medium', label: 'medium', cost: 'local' }, { id: 'nn-pretrain-deep', label: 'deep', cost: 'local' }]),
+    strip(ctx, 'nn-consolidate', [{ id: 'nn-consolidate', label: 'consolidate retained memories', cost: 'local' }]),
+    field(ctx, 'nn-pattern-search', 'pattern search', 'what the stored patterns should be searched for, in words', 'search'),
+    field(ctx, 'nn-pattern-store', 'teach a pattern', 'a pattern to remember: always run the auth tests after touching login', 'store'),
+  ]
+}
+
 function routerRows(ctx: Ctx): RenderElement[] {
   return [
     rule(ctx, 'Router', 'which agent for this task? · $0, local'),
@@ -79,6 +90,9 @@ function routerRows(ctx: Ctx): RenderElement[] {
     field(ctx, 'nn-predict', 'predict', 'text for the trained models’ top predictions', 'predict'),
   ]
 }
+
+/** Everything the Learning Lab does, as rows: what was learned, training, self-learning actions and the router. Also drawn, folded, on the Learning page. */
+export const neuralActionRows = (ctx: Ctx): RenderElement[] => [...intelligenceRows(ctx), ...trainingRows(ctx), ...selfLearnRows(ctx), ...routerRows(ctx)]
 
 /**
  * The Learning Lab: what ruflo has learned (from its own files), training with a loss sparkline, and the router's
@@ -89,9 +103,7 @@ export function neuralView(ctx: Ctx): RenderElement {
     ctx,
     [
       ...resultRows(ctx, ['nn-']),
-      ...intelligenceRows(ctx),
-      ...trainingRows(ctx),
-      ...routerRows(ctx),
+      ...neuralActionRows(ctx),
       text(ctx, ' $0 read, runs at once · cpu local compute that writes .claude-flow/neural, asks first · no entry here calls a paid model', { dimColor: true }),
     ],
     'neural',

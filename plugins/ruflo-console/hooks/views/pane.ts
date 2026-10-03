@@ -9,6 +9,7 @@ import { HELP } from '../commands'
 import { slashFor } from '../ask-claude'
 import { launchRows } from './launch'
 import { donated, newAttention, panelOf, wrapKit } from './attention'
+import { optimizerResult } from './optimizer'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { automateResult, automateView } from './automate'
@@ -245,6 +246,7 @@ function wildcat(ctx: Ctx): { strip: RenderElement[]; art: RenderElement[] } {
 
 /** The views whose lab result block can be drawn alone (so finding it costs one block, not a second page). */
 const RESULT_OF: Partial<Record<ViewId, (ctx: Ctx) => RenderElement[]>> = {
+  overview: optimizerResult,
   metaharness: labResult,
   devtools: devtoolsResult,
   vector: vectorResult,
@@ -253,6 +255,7 @@ const RESULT_OF: Partial<Record<ViewId, (ctx: Ctx) => RenderElement[]>> = {
   perf: perfResult,
   automate: automateResult,
   neural: neuralResult,
+  learning: neuralResult,
 }
 
 export function paneView(base: Ctx): RenderElement {
