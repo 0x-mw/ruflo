@@ -6,6 +6,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
+import { slashFor } from '../ask-claude'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { automateView } from './automate'
@@ -191,6 +192,8 @@ function footer(ctx: Ctx): RenderElement {
         ? [
             button(ctx, 'palette', 'Palette', () => ctx.act.palette('all'), { hotkey: 'p' }),
             ...(state.view === 'agent' || state.palette.isOpen ? [] : [button(ctx, 'actions', 'Actions', () => ctx.act.palette('selection'), { hotkey: 'x' })]),
+            ...(state.palette.isOpen ? [] : [button(ctx, 'ask-claude', '✦ Ask Claude', () => ctx.act.ask.ask())]),
+            ...(state.palette.isOpen || slashFor(state, state.view) === null ? [] : [button(ctx, 'ask-slash', `▸ /${slashFor(state, state.view)}`, () => ctx.act.ask.slash())]),
             button(ctx, 'refresh', 'Refresh', ctx.act.refresh, { hotkey: 'r' }),
             button(ctx, 'help', 'Help', ctx.act.help, { hotkey: 'h' }),
             button(ctx, 'close', 'Close', ctx.act.close),
@@ -260,11 +263,11 @@ export function paneView(ctx: Ctx): RenderElement {
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
   const parts = isCompact
-    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && !INLINE_CONFIRM.has(ctx.state.view) ? [confirm] : []), footer(ctx), body]
+    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && (!INLINE_CONFIRM.has(ctx.state.view) || ctx.state.pending?.scope === 'ask') ? [confirm] : []), footer(ctx), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
-        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx), ...(confirm !== null && !isTerminal && !INLINE_CONFIRM.has(ctx.state.view) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
-      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal && !INLINE_CONFIRM.has(ctx.state.view) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
+        [...bbs.art, ...(about !== null ? [about] : []), ...gap, ...bbs.strip, ...gap, tabs(ctx), ...gap, footer(ctx), ...(confirm !== null && !isTerminal && (!INLINE_CONFIRM.has(ctx.state.view) || ctx.state.pending?.scope === 'ask') ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
+      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx)]), ...(confirm !== null && !isTerminal && (!INLINE_CONFIRM.has(ctx.state.view) || ctx.state.pending?.scope === 'ask') ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx)] : [])]
 
   return ctx.kit.Box({ flexDirection: 'column', children: parts })
 }
