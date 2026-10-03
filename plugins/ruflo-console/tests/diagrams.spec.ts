@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest'
 import { gaugePicture, pipelinePicture, radarPicture, samplesPicture, trendPicture } from '../hooks/gfx/charts'
 import { flowModelOf, flowPicture, flowRows, ringOf } from '../hooks/gfx/flow'
 import { federationPicture, ganttPicture, heatmapPicture } from '../hooks/gfx/maps'
+import { BOOT_MODULES, BOOT_ROWS } from '../hooks/gfx/boot'
 import { activityPicture, bannerPicture, bootPicture, curvePicture, edges, headerPicture, layout, markPicture, topologyPicture, type TopoModel } from '../hooks/gfx/pictures'
 import { isBooting, newState, optionsOf } from '../hooks/state'
 import type { Grid } from '../hooks/gfx/raster'
@@ -152,7 +153,7 @@ describe('BBS boot screen', () => {
     expect(text(bootPicture('demo', 60, 100, 0, 10), 60)).toContain('ATDT')
     expect(text(bootPicture('demo', 60, 100, 0, 10), 60)).not.toContain('CONNECT')
 
-    const done = text(bootPicture('demo', 60, 3_800, 10, 10), 60)
+    const done = text(bootPicture('demo', 60, 5_400, 10, 10), 60)
 
     expect(done).toContain('CONNECT 115200 / ARQ / V.42bis')
     expect(done).toContain('│ ~~~~~ │')
@@ -164,17 +165,43 @@ describe('BBS boot screen', () => {
     expect(done).toContain('100%  reads 10/10')
   })
 
-  it('plays at least 3.2 s, longer while the first read is out, never past 6 s; only with the bbs look and boot on', () => {
+  it('brings every area online in a log under the sign, as many lines as the pane has rows, newest in view, READY last', () => {
+    const rows = BOOT_ROWS + 1 + BOOT_MODULES.length + 1
+
+    // Nothing is logged before the handshake; one line per 150 ms after it.
+    expect(text(bootPicture('demo', 80, 1_000, 0, 10, rows), 80)).not.toContain('[ OK ]')
+    expect(text(bootPicture('demo', 80, 1_550, 0, 10, rows), 80)).toContain('[ .. ] Missions')
+    expect(text(bootPicture('demo', 80, 1_700, 0, 10, rows), 80)).toContain('[ OK ] Missions')
+    expect(text(bootPicture('demo', 80, 1_700, 0, 10, rows), 80)).not.toContain('Hive-Mind')
+
+    // Every area, in menu order, then READY.
+    const full = text(bootPicture('demo', 80, 5_400, 10, 10, rows), 80)
+
+    for (const entry of BOOT_MODULES) expect(full).toContain(entry.name)
+    expect(full.indexOf('Missions')).toBeLessThan(full.indexOf('Settings'))
+    expect(full).toContain(`[ OK ] READY`)
+    expect(full).toContain(`${BOOT_MODULES.length} areas online`)
+    expect(full).toContain('100%  reads 10/10')
+
+    // A short pane shows the newest lines, not the oldest; no rows given: the sign alone, as before.
+    const short = text(bootPicture('demo', 80, 5_400, 10, 10, BOOT_ROWS + 1 + 5), 80)
+
+    expect(short).toContain('READY')
+    expect(short).not.toContain('Missions')
+    expect(bootPicture('demo', 80, 5_400, 10, 10).rows).toBe(BOOT_ROWS)
+  })
+
+  it('plays at least 5.4 s, longer while the first read is out, never past 8 s; only with the bbs look and boot on', () => {
     const state = newState({})
 
     state.pane.bootAtMs = 1_000
     expect(isBooting(state, 1_100)).toBe(true)
-    expect(isBooting(state, 5_000)).toBe(true) // past the 3.2 s minimum, but no snapshot yet
+    expect(isBooting(state, 7_000)).toBe(true) // past the 5.4 s minimum, but no snapshot yet
     state.snapshot = {} as never
-    expect(isBooting(state, 5_000)).toBe(false)
+    expect(isBooting(state, 7_000)).toBe(false)
     expect(isBooting(state, 2_000)).toBe(true)
     state.snapshot = null
-    expect(isBooting(state, 7_500)).toBe(false)
+    expect(isBooting(state, 9_500)).toBe(false)
     expect(isBooting({ ...state, options: { ...state.options, boot: false } }, 1_100)).toBe(false)
     expect(isBooting({ ...state, options: { ...state.options, look: 'plain' } }, 1_100)).toBe(false)
   })

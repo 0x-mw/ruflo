@@ -375,8 +375,8 @@ export function restoreSessions(state: State, value: unknown): void {
 export const isSessionId = (id: string): boolean => SESSION_ID.test(id)
 
 /** The BBS boot screen's span: at least BOOT_MIN_MS, longer while the first read is still out, never past BOOT_MAX_MS. */
-export const BOOT_MIN_MS = 3_200
-export const BOOT_MAX_MS = 6_000
+export const BOOT_MIN_MS = 5_400
+export const BOOT_MAX_MS = 8_000
 
 export function isBooting(state: State, nowMs: number): boolean {
   if (state.options.look !== 'bbs' || !state.options.boot || state.pane.bootAtMs === 0) return false

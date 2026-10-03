@@ -1,7 +1,9 @@
 /**
  * The BBS boot screen, played for the first seconds after the pane opens: a modem dials and connects, then the RuFlo
  * neon sign strikes up tube by tube on its brick wall (gfx/neon.ts), then a handshake line and a bar that fills with
- * the first ruflo reads. The boot is the one animation in the console that is decoration; it ends by itself.
+ * the first ruflo reads, and under them a boot log that brings every area of the console online, one line at a time,
+ * for as many rows as the pane has (it scrolls when the pane is short). The boot is the one animation in the console
+ * that is decoration; it ends by itself.
  */
 import { neonPicture, NEON_ROWS } from './neon'
 import { Grid } from './raster'
@@ -11,16 +13,52 @@ export const BOOT_ROWS = SIGN_TOP + NEON_ROWS + 3
 
 const GREEN = 0x39ff14
 const CYAN = 0x05d9e8
+const PINK = 0xff2a6d
 const DIM = 0x6b7280
 /** The sign is switched on once the line connects. */
 const SIGN_ON_MS = 900
+/** The boot log starts once the handshake is typed, and brings one area online every LOG_MS_PER. */
+const LOG_FROM_MS = 1500
+const LOG_MS_PER = 150
+
+/** Every area of the console, in menu order: what the boot log brings online. */
+export const BOOT_MODULES: readonly { name: string; note: string }[] = [
+  { name: 'Missions', note: 'goal → SPARC plan → tasks' },
+  { name: 'Overview', note: 'subsystems, health, Optimizer' },
+  { name: 'Swarm', note: 'topology, agents, tasks' },
+  { name: 'Hive-Mind', note: 'queen, workers, votes, quorum' },
+  { name: 'Claims', note: 'one owner per resource' },
+  { name: 'Approvals', note: 'votes and asks in one place' },
+  { name: 'Automation', note: 'workflows, workers, autopilot' },
+  { name: 'Learning', note: 'SONA, MoE, EWC++ pulse' },
+  { name: 'Neural', note: 'pretrain, patterns, routing' },
+  { name: 'Vector Lab', note: 'HNSW, RaBitQ, RVF' },
+  { name: 'Memory Lab', note: 'AgentDB, embeddings' },
+  { name: 'MetaHarness', note: 'readiness, flywheel, lab' },
+  { name: 'Self-Evolution', note: 'governed receipts, lineage' },
+  { name: 'Security', note: 'scans, AIDefence, doctor' },
+  { name: 'Federation', note: 'peers, trust, relay' },
+  { name: 'x.ruv.io', note: 'swarm board, AgentBBS rooms' },
+  { name: 'Plugins & Mods', note: 'every ruflo plugin mapped' },
+  { name: 'Skills', note: 'find, add, manage' },
+  { name: 'Dev Tools', note: 'ADRs, SPARC, tests, git, docs' },
+  { name: 'Cost & Budget', note: 'spend, burn, limits' },
+  { name: 'Timeline', note: 'who was busy, and when' },
+  { name: 'Events', note: 'what changed, live' },
+  { name: 'Performance', note: 'metrics and bottlenecks' },
+  { name: 'AI Terminal', note: 'ruflo, codex, claude' },
+  { name: 'Settings', note: 'every option a button' },
+]
+const NAME_WIDTH = 15
 
 /**
  * `age` is ms since the pane opened; the bar mixes elapsed time with the reads that have answered (`done` of
- * `total`), so it moves before any read returns and reads 100% before the boot ends at BOOT_MIN_MS.
+ * `total`), so it moves before any read returns and reads 100% before the boot ends at BOOT_MIN_MS. `rows` is the
+ * pane's body height when it is known: the boot log fills what is left under the sign (0: the sign alone).
  */
-export function bootPicture(project: string, columns: number, age: number, done: number, total: number): Grid {
-  const grid = new Grid(columns, BOOT_ROWS)
+export function bootPicture(project: string, columns: number, age: number, done: number, total: number, rows = 0): Grid {
+  const height = Math.max(BOOT_ROWS, rows)
+  const grid = new Grid(columns, height)
   const type = (y: number, from: number, text: string, color: number, msPerChar = 22) => {
     if (age < from) return
 
@@ -35,11 +73,37 @@ export function bootPicture(project: string, columns: number, age: number, done:
 
   grid.cells.set(sign.cells, SIGN_TOP * columns * 3)
 
-  type(BOOT_ROWS - 2, 2300, `> handshake ok · node ${project}`, CYAN, 14)
+  type(BOOT_ROWS - 2, 1300, `> handshake ok · node ${project}`, CYAN, 14)
+
+  // The boot log: one area comes online every LOG_MS_PER, [ .. ] while it starts and [ OK ] once the next one has begun; the
+  // newest lines stay in view when the pane is shorter than the list, and READY closes it.
+  const entries = [...BOOT_MODULES.map(entry => ({ ...entry, ready: false })), { name: 'READY', note: `${BOOT_MODULES.length} areas online · press a key or click`, ready: true }]
+  const room = height - BOOT_ROWS - 1
+  const started = age < LOG_FROM_MS ? 0 : Math.min(entries.length, Math.floor((age - LOG_FROM_MS) / LOG_MS_PER) + 1)
+  const logProgress = started / entries.length
+
+  if (room > 0 && started > 0) {
+    const first = Math.max(0, started - room)
+
+    for (let i = first; i < started; i++) {
+      const entry = entries[i] as (typeof entries)[number]
+      const y = BOOT_ROWS + 1 + (i - first)
+      const isOn = i < started - 1 || started === entries.length
+
+      if (entry.ready) {
+        grid.text(0, y, `[ OK ] ${entry.name}`, GREEN)
+        grid.text(7 + 'READY '.length, y, entry.note.slice(0, Math.max(0, columns - 13)), PINK)
+      } else {
+        grid.text(0, y, isOn ? '[ OK ]' : '[ .. ]', isOn ? GREEN : CYAN)
+        grid.text(7, y, entry.name.padEnd(NAME_WIDTH).slice(0, NAME_WIDTH), 0xe6e6e6)
+        grid.text(7 + NAME_WIDTH + 1, y, entry.note.slice(0, Math.max(0, columns - 7 - NAME_WIDTH - 1)), DIM)
+      }
+    }
+  }
 
   // LOADING [▓▓▓▓░░░░] 58%  reads 6/10, with a blinking cursor while it runs.
-  if (age >= 2300) {
-    const pct = Math.min(1, 0.55 * Math.min(1, (age - 2300) / 700) + 0.45 * (total > 0 ? done / total : 1))
+  if (age >= 1300) {
+    const pct = Math.min(1, 0.4 * Math.min(1, (age - 1300) / 3300) + 0.3 * logProgress + 0.3 * (total > 0 ? done / total : 1))
     const barWidth = Math.max(6, Math.min(24, columns - 30))
     const filled = Math.round(pct * barWidth)
     const line = `LOADING [${'▓'.repeat(filled)}${'░'.repeat(barWidth - filled)}] ${String(Math.round(pct * 100)).padStart(3)}%  reads ${done}/${total}`
