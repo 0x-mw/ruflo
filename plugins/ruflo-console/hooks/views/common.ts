@@ -4,6 +4,7 @@
  * Text colours are theme names only, so nothing fades on a light background.
  */
 import type { AskActions } from '../ask-claude'
+import type { OptimizerActions } from '../optimizer'
 import type { Attention } from './attention'
 import type { LoopActions } from '../loops'
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
@@ -71,6 +72,8 @@ export type Actions = {
   devtools: DevtoolsActions
   /** The Loop Manager (Automation): presets, the configurator, and the launcher into the Claude UI. */
   loops: LoopActions
+  /** The Optimizer (Overview): scope, fixes (each asks first) and asking Claude about a finding. */
+  optimizer: OptimizerActions
   /** Ask Claude about this section (a visible prompt or a /btw aside) or run the plugin command that fits it: each asks first. */
   ask: AskActions
   /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */

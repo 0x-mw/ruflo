@@ -3,6 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { alertsOf } from '../data/alerts'
 import type { MemoryStats } from '../data/cli'
 import type { StartId } from '../starts'
+import { optimizerRows } from './optimizer'
 import { ago, col, count, kv, live, picture, rule, sourceLine, starts, text, THEME, type Ctx } from './common'
 
 /** Each subsystem in one line: what it is, from where, as of when. Nothing on this view is estimated. */
@@ -17,7 +18,7 @@ export function overviewView(ctx: Ctx): RenderElement {
   const loaded = state.mods.filter(mod => mod.isLoaded).length
   const refused = state.mods.length - loaded
   const swarm = snap?.swarm ?? null
-  const rows: RenderElement[] = [rule(ctx, 'Subsystems', snap?.isRufloProject === false ? 'not a ruflo project' : '')]
+  const rows: RenderElement[] = [...optimizerRows(ctx), rule(ctx, 'Subsystems', snap?.isRufloProject === false ? 'not a ruflo project' : '')]
 
   rows.push(kv(ctx, 'ruflo CLI', version !== null ? `v${version} (${state.options.cli})` : sourceLine(state.probes.get('version'), nowMs, 'n/a').text))
   rows.push(
