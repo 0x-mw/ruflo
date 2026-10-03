@@ -189,6 +189,7 @@ export function memSpec(entry: MemEntry, input: MemInput, state: State): ActionS
     args,
     expect: entry.cost === 'read' ? 'its output in the lab' : `its result in the lab${entry.note !== undefined ? `; ${entry.note}` : ''}`,
     lab: entry.id,
+    scope: `mem:${state.memoryLab.origin}`,
     lines: (stdout, stderr) => memLines(entry.id, stdout, stderr),
     ...(entry.cost === 'read' && { isReadOnly: true }),
     ...(entry.note !== undefined && { note: entry.note }),
@@ -215,9 +216,11 @@ export type MemoryLabState = {
   text: string
   filter: string | null
   page: number
+  /** The area the last action was raised in (search, entry, browse, or a lab group): its confirm and its result are drawn there. */
+  origin: string
 }
 
-export const emptyMemoryLab = (): MemoryLabState => ({ query: '', scope: 'memory', key: '', value: '', namespace: 'default', text: '', filter: null, page: 0 })
+export const emptyMemoryLab = (): MemoryLabState => ({ query: '', scope: 'memory', key: '', value: '', namespace: 'default', text: '', filter: null, page: 0, origin: 'entry' })
 
 export type MemField = 'query' | 'key' | 'value' | 'namespace' | 'text'
 
@@ -250,10 +253,12 @@ export type MemoryActions = {
 
 export function memoryActions(state: State, runner: Runner, invalidate: () => void): MemoryActions {
   const lab = state.memoryLab
-  const go = (id: string, text: string) => {
+  const go = (id: string, text: string, origin: string) => {
     const entry = memEntry(id)
 
     if (entry === undefined) return
+
+    lab.origin = origin
 
     // A fresh result reads from its top.
     state.select.item = 0
@@ -266,7 +271,7 @@ export function memoryActions(state: State, runner: Runner, invalidate: () => vo
     },
     search: text => {
       lab.query = text
-      go(lab.scope === 'unified' ? 'mem-unified' : 'mem-search', text)
+      go(lab.scope === 'unified' ? 'mem-unified' : 'mem-search', text, 'search')
     },
     scope: () => {
       lab.scope = lab.scope === 'memory' ? 'unified' : 'memory'
@@ -275,10 +280,11 @@ export function memoryActions(state: State, runner: Runner, invalidate: () => vo
     run: id => {
       const entry = memEntry(id)
 
-      if (entry !== undefined) go(id, textOfFields(entry, lab))
+      // The entry fields' own buttons answer under the entry fields; a lab row answers under its group.
+      if (entry !== undefined) go(id, textOfFields(entry, lab), id === 'mem-store' || id === 'mem-retrieve' || id === 'mem-delete' ? 'entry' : entry.group)
     },
-    open: entry => go('mem-retrieve', `${entry.namespace} ${entry.key}`),
-    remove: entry => go('mem-delete', `${entry.namespace} ${entry.key}`),
+    open: entry => go('mem-retrieve', `${entry.namespace} ${entry.key}`, 'browse'),
+    remove: entry => go('mem-delete', `${entry.namespace} ${entry.key}`, 'browse'),
     filter: namespace => {
       lab.filter = lab.filter === namespace ? null : namespace
       lab.page = 0
