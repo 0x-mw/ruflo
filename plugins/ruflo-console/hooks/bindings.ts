@@ -26,6 +26,8 @@ import type { Runner } from './runner'
 import { skillActions } from './skills'
 import { moreSkillActions } from './skills-lab'
 import { CLI_PREFIXES, NAV_KEY, PANE_ID, viewOf, type State } from './state'
+import { runUpdateCheck } from './update-flow'
+import { UPDATES_KEY } from './updates'
 import { vectorActions } from './vector'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
@@ -86,6 +88,16 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       state.nav = style
       void host.storeSet(NAV_KEY, style).catch(() => undefined)
       host.invalidate()
+    },
+    updates: mode => {
+      state.updates = mode
+      void host.storeSet(UPDATES_KEY, mode).catch(() => undefined)
+      host.invalidate()
+    },
+    checkUpdates: () => {
+      state.updateNote = 'checking…'
+      host.invalidate()
+      void runUpdateCheck(state, host, { force: true })
     },
     editField: (key, text) => {
       state.fieldText.set(key, text)

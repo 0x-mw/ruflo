@@ -6,6 +6,7 @@
  */
 import { Braille, COLOR, Grid, mix, ramp, sparkline } from './raster'
 import { bigText } from './font'
+import { getBuild } from '../build'
 import { CONSOLE_VERSION } from '../version'
 
 export { bootPicture, BOOT_ROWS } from './boot'
@@ -263,7 +264,8 @@ export function bannerPicture(project: string, columns: number, t: number): Grid
   const x0 = width + 2
 
   if (columns > x0 + 4) {
-    grid.text(x0, 0, `░▒▓ AGENT SWARM CONSOLE v${CONSOLE_VERSION}`.slice(0, columns - x0), NEON_MAGENTA)
+    // The version, and the git revision when the session knows it: the revision changes with every commit, so it shows which build is loaded.
+    grid.text(x0, 0, `░▒▓ AGENT SWARM CONSOLE v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`}`.slice(0, columns - x0), NEON_MAGENTA)
     const node = `▸ npx ruflo · ${project}`.slice(0, columns - x0 - 2)
 
     grid.text(x0, 1, node, NEON_CYAN)

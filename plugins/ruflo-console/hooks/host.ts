@@ -17,6 +17,12 @@ export type Host = {
   after: (ms: number, fn: () => void) => Timer
   storeGet: (key: string) => Promise<unknown>
   storeSet: (key: string, value: unknown) => Promise<void>
+  /** A GET through the host (never the plugin's own network; an administrator's policy may refuse it): the status and the body text. */
+  fetchText: (url: string) => Promise<{ ok: boolean; status: number; text: string }>
+  /** The engine's own choice dialog: the label chosen. Rejects when dismissed, and when nobody can be asked (a -p run). */
+  askChoice: (question: string, options: readonly string[]) => Promise<string>
+  /** A short note over the transcript's corner; it leaves the transcript and the model untouched. */
+  toast: (text: string, timeoutMs?: number) => void
   invalidate: () => void
   /** Moves a pane's focus ring onto an element it drew (a field), while the pane holds the keys. */
   focus: (paneId: string, key: string) => Promise<unknown>

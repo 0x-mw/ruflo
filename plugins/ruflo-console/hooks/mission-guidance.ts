@@ -139,11 +139,13 @@ export function startGuidance(state: State, host: Host, mc: McState): void {
 
   mc.guidance = guidance
 
-  // The section redraws while the run is going, so its spinner and clock move even before the first words arrive.
+  // The section redraws while the run is going, so its spinner and clock move even before the first words arrive. fps 0 is the
+  // person's choice of no animation and a closed pane has nothing to redraw, so neither is redrawn for it; the section still
+  // updates as words arrive.
   const tick = (): void => {
     if (guidance.status !== 'running') return
 
-    host.invalidate()
+    if (state.options.fps > 0 && state.pane.isOpen) host.invalidate()
     host.after(250, tick)
   }
 

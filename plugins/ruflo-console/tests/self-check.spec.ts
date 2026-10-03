@@ -3,11 +3,13 @@
  * entry fails (a pass that cannot fail would prove nothing). Run with
  *   npx vitest run plugins/ruflo-console/tests/self-check.spec.ts
  */
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
+import { setBootChecks } from '../hooks/boot-checks'
+import { alertsOf } from '../hooks/data/alerts'
 import { BOOT_MODULES } from '../hooks/gfx/boot'
 import { AREA_VIEW, REGISTRIES, selfCheck, selfCheckResults, type Registries } from '../hooks/self-check'
-import { VIEWS } from '../hooks/state'
+import { newState, VIEWS } from '../hooks/state'
 
 const failing = (results: ReturnType<typeof selfCheck>) => results.filter(result => !result.ok)
 const area = (results: ReturnType<typeof selfCheck>, name: string) => results.find(result => result.area === name)
@@ -35,6 +37,34 @@ describe('self-check: the real console', () => {
 
   it('is computed once for the boot log', () => {
     expect(selfCheckResults()).toBe(selfCheckResults())
+  })
+})
+
+describe('self-check: seen in every look, not only on the boot screen', () => {
+  afterEach(() => setBootChecks(undefined))
+
+  it('a failed area is an Overview alert, even before any project is read, so the plain look and a boot-off BBS look see it', () => {
+    const state = newState({})
+
+    expect(state.snapshot).toBeNull()
+
+    setBootChecks([{ area: 'Missions', ok: true, problems: [] }, { area: 'Security', ok: false, problems: ['aid-check: an empty field must be refused'] }])
+
+    const alert = alertsOf(state, 0, 0).find(entry => entry.id === 'self-check')
+
+    expect(alert?.level).toBe('bad')
+    expect(alert?.text).toContain('Security failed')
+    expect(alert?.text).toContain('aid-check: an empty field must be refused')
+    expect(alert?.text).not.toContain('Missions')
+  })
+
+  it('is no alert when every area passed, or when nothing has run the check', () => {
+    const state = newState({})
+
+    setBootChecks(selfCheck().map(result => ({ area: result.area, ok: result.ok, problems: result.problems })))
+    expect(alertsOf(state, 0, 0).some(entry => entry.id === 'self-check')).toBe(false)
+    setBootChecks(undefined)
+    expect(alertsOf(state, 0, 0).some(entry => entry.id === 'self-check')).toBe(false)
   })
 })
 

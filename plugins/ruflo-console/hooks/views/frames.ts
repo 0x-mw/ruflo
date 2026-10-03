@@ -7,6 +7,8 @@ import type { AuditTrend, HarnessScore, Intelligence } from '../data/cli'
 import { recentByAgent } from '../data/events'
 import { agentLabels } from '../data/parse'
 import { getBootChecks } from '../boot-checks'
+import { getBuild } from '../build'
+import { CONSOLE_VERSION } from '../version'
 import type { Snapshot } from '../data/snapshot'
 import type { Channels, Peers, Roster } from '../data/cli'
 import { pipelinePicture, radarPicture, samplesPicture, trendPicture, gaugePicture, type Stage } from '../gfx/charts'
@@ -133,7 +135,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
   if (!isCompactPane(state) && state.view === 'menu') {
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
-    pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo · ${project}`, Math.min(width, 40), t))
+    pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t) : headerPicture(`◆ ruflo v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`} · ${project}`, Math.min(width, 64), t))
   }
 
   // BBS: every view's name as ANSI-style block art under the tabs, compact or not (the neon sign is the boot's alone).

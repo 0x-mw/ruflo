@@ -24,6 +24,7 @@ import type { SkillActions } from '../skills'
 import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
 import { VIEWS, type HarnessId, type NavStyle, type State, type ViewId } from '../state'
+import type { UpdatesMode } from '../updates'
 import type { VectorActions } from '../vector'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
@@ -97,6 +98,10 @@ export type Actions = {
   navigator: NavActions
   /** Sets how the main nav spells its tabs (saved). */
   nav: (style: NavStyle) => void
+  /** Sets whether to check for a newer published ruflo-console: ask first, update without asking, or never (saved). */
+  updates: (mode: UpdatesMode) => void
+  /** Checks now, whatever the daily gate or an off setting says (it still asks before installing, and skips a development checkout). */
+  checkUpdates: () => void
   /** Opens or closes a collapsible section (`<view>/<id>`). */
   toggle: (key: string) => void
   /** Settings: the level, a plugin, an option or ruflo config change (each asks first), AI preferences, and ▸ ask claude/codex. */

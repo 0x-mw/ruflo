@@ -11,6 +11,9 @@ import { ownerLine, ownerOf } from './tool-owner'
 import { newState, PANE_ID, restore, restoreSessions, storeKeyOf, termStoreKeyOf } from './state'
 import { BAR_KEY, barView } from './views/bar'
 import { setBootChecks } from './boot-checks'
+import { buildOf, isOurCheckout, setBuild } from './build'
+import { runUpdateCheck } from './update-flow'
+import { parseMode, UPDATES_KEY } from './updates'
 import { selfCheckResults } from './self-check'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
@@ -41,6 +44,13 @@ function hostOf($: EngineInterface, cwd: string): Host {
     after: (ms, fn) => $.clock.after(ms, fn),
     storeGet: async key => $.store.get(key),
     storeSet: async (key, value) => $.store.set(key, value as never),
+    fetchText: async url => {
+      const response = await $.http.fetch(url)
+
+      return { ok: response.ok, status: response.status, text: response.text }
+    },
+    askChoice: async (question, options) => $.ui.ask(question, options),
+    toast: (text, timeoutMs) => quietly(() => $.ui.toast(text, timeoutMs === undefined ? undefined : { timeoutMs })),
     invalidate: () => quietly(() => $.ui.invalidate('ui.render')),
     focus: async (paneId, key) => $.ui.focus({ requestId: paneId, key }),
     blit: args => quietly(() => $.ui.blit(args)),
@@ -108,6 +118,34 @@ export const register: Register = (on, raw: PluginOptions) => {
     state.cwd = e.cwd
     state.isInteractive = e.isInteractive !== false
     control = createController(state, host)
+
+    // Which build is this? Only a checkout of this plugin in its repository is read (an installed copy inside some other repo is not
+    // that repo's commit); read-only, $0, and any failure leaves the header at its version alone.
+    const here = host
+    const root = here.pluginRoot
+
+    const built = here
+      .run(['git', '-C', root, 'rev-parse', '--show-prefix'], 3_000)
+      .then(prefix => (prefix.exitCode === 0 && isOurCheckout(prefix.stdout) ? here.run(['git', '-C', root, 'describe', '--always', '--dirty', '--abbrev=7'], 3_000) : null))
+      .then(described => {
+        setBuild(described !== null && described.exitCode === 0 ? buildOf(described.stdout) : '')
+        here.invalidate()
+      })
+      .catch(() => undefined)
+
+    // The update mode is the person's, kept in the plugin's store; then, once the build is known (a development checkout is never offered
+    // an update) and the screen has settled, one check for a newer published version. It never throws and never blocks the console.
+    const moded = here.storeGet(UPDATES_KEY).then(
+      value => {
+        state.updates = parseMode(value)
+        here.invalidate()
+      },
+      () => undefined,
+    )
+
+    void Promise.all([built, moded]).then(() => {
+      if (state.isInteractive) here.after(2_500, () => void runUpdateCheck(state, here))
+    })
 
     const bound = host
 

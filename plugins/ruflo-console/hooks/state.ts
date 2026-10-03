@@ -7,6 +7,7 @@ import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
 import { emptyEvolve, type EvolveState } from './data/evolve'
 import { emptySkills, type SkillsState } from './data/skills'
+import type { UpdatesMode } from './updates'
 import { emptyMemoryLab, type MemoryLabState } from './memory-lab'
 import { emptyVector, type VectorState } from './data/vector'
 import type { Snapshot } from './data/snapshot'
@@ -206,6 +207,12 @@ export type State = {
   allowed: Map<string, string>
   /** The main nav's style, saved across sessions. */
   nav: NavStyle
+  /** Whether to check for a newer published ruflo-console: ask first (the default), update without asking, or never check. Kept in the plugin's store. */
+  updates: UpdatesMode
+  /** What the last update check found, in a line, for Settings; empty until one has run. */
+  updateNote: string
+  /** A published version the person has not taken ("Not now"), shown on the band as a link to Settings; empty when there is none. */
+  updateAvailable: string
   /** The nav group whose pages are showing, picked on this page (it follows the open page again once the page changes). */
   navPick: { group: string; view: ViewId } | null
   /** The nav search words (empty: no search). */
@@ -310,6 +317,9 @@ export function newState(raw: PluginOptions | undefined): State {
     curveGrewAtMs: 0,
     dockColumns: 0,
     nav: 'auto',
+    updates: 'ask',
+    updateNote: '',
+    updateAvailable: '',
     navPick: null,
     navQuery: '',
     turnActive: false,
