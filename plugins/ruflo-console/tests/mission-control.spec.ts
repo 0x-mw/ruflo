@@ -266,6 +266,7 @@ describe('mission control: handing work to the primary session', () => {
     actions.guide('   ')
     expect(asked[0]?.spec).toBeNull()
     actions.guide('prefer the existing settings store')
+    await new Promise(resolve => setTimeout(resolve, 5))
     expect(calls.prompts).toEqual([])
     await asked[1]?.spec?.run?.()
     expect(calls.prompts).toEqual(['prefer the existing settings store'])

@@ -13,6 +13,7 @@ import type { Host } from './host'
 import { plain, type TaskRecord } from './data/parse'
 import { isAvailable, MISSION_SKILLS, slashOf, GOALS_PLUGIN } from './mission-skills'
 import { offerGuidance } from './mission-guidance'
+import { blocksCreate, blocksGuidance, isCapability, screenText } from './mission-options'
 import type { Runner } from './runner'
 import { CLI_PREFIXES, type State } from './state'
 import type { Derived, LedgerEvent, LedgerTask, McState, McTab, MissionActions, MissionRecord } from './mission-types'
@@ -26,7 +27,7 @@ export function mcOf(state: State): McState {
   let found = states.get(state)
 
   if (found === undefined) {
-    found = { goal: '', profile: 'feature', rigor: 'standard', isProfilePicked: false, planned: null, missions: new Map(), active: null, tab: 'plan', lastGuide: '', guidance: null, last: null }
+    found = { goal: '', profile: 'feature', rigor: 'standard', isProfilePicked: false, planned: null, missions: new Map(), active: null, tab: 'plan', lastGuide: '', guidance: null, screen: null, isScreenOn: true, last: null }
     states.set(state, found)
   }
 
@@ -318,14 +319,59 @@ export function missionActions(state: State, host: Host, runner: Runner): Missio
   }
   const tasksNow = (): readonly TaskRecord[] => state.snapshot?.tasks ?? []
 
+  /** Runs a slash command on the goal (or the active mission's objective) in the main UI: now when idle, prepared in the prompt box mid-turn. */
+  const launch = (slash: string, label: string) => {
+    const objective = activeMission(state)?.objective ?? mc.goal
+
+    if (objective.trim() === '') return say(label, false, 'type a goal first: it works on the goal')
+
+    const args = plain(objective, MAX_TEXT)
+
+    if (state.turnActive) {
+      void host.fillPrompt(`/${slash} ${args}`).then(
+        isFilled => say(isFilled ? 'prepared in the prompt box' : 'no prompt box here', isFilled, `press Enter to run /${slash} in the main conversation`),
+        () => say(label, false, 'the prompt box refused it'),
+      )
+
+      return
+    }
+
+    void host.runSlash(slash, args).then(
+      () => say(`${label}: /${slash} is running`, true, 'in the main conversation: the pane follows the task store'),
+      () => say(label, false, `/${slash} did not run`),
+    )
+  }
+
   const actions: MissionActions = {
     goal: text => {
       setGoal(state, text)
       mc.tab = 'plan'
-      offerGuidance(state, host, runner, mc)
+      mc.screen = null
+
+      const goal = mc.goal
+
+      // AIDefence looks at the goal first: an unsafe or PII-bearing goal is not sent to a model for guidance.
+      if (!mc.isScreenOn || mc.planned === null) offerGuidance(state, host, runner, mc)
+      else {
+        mc.guidance = null
+        void screenText(state, host, goal).then(screen => {
+          if (mc.goal !== goal) return
+
+          mc.screen = screen
+          if (!blocksGuidance(screen)) offerGuidance(state, host, runner, mc)
+          host.invalidate()
+        })
+      }
+
       host.invalidate()
     },
-    askGuidance: () => offerGuidance(state, host, runner, mc),
+    askGuidance: () => (blocksGuidance(mc.screen) ? say('guidance blocked', false, `AIDefence: ${mc.screen?.detail ?? ''}. Change the goal.`) : offerGuidance(state, host, runner, mc)),
+    capability: slash => (isCapability(state, slash) ? launch(slash, slash) : say(`${slash} is not available`, false, 'install that plugin (Plugin Catalog) and /reload-plugins')),
+    screen: on => {
+      mc.isScreenOn = on
+      if (!on) mc.screen = null
+      host.invalidate()
+    },
     profile: profile => {
       setProfile(state, profile, mc.rigor)
       host.invalidate()
@@ -338,7 +384,7 @@ export function missionActions(state: State, host: Host, runner: Runner): Missio
       mc.tab = tab
       host.invalidate()
     },
-    create: () => runner.ask(createSpec(state, host, () => undefined), 'type a goal first: the plan is made from it'),
+    create: () => runner.ask(blocksCreate(mc.screen) ? null : createSpec(state, host, () => undefined), blocksCreate(mc.screen) ? 'AIDefence flagged the goal: change it first' : 'type a goal first: the plan is made from it'),
     select: id => {
       if (mc.missions.has(id)) mc.active = id
       saveLedger(state, host)
@@ -393,40 +439,30 @@ export function missionActions(state: State, host: Host, runner: Runner): Missio
     },
     skill: id => {
       const skill = MISSION_SKILLS.find(candidate => candidate.id === id)
-      const objective = activeMission(state)?.objective ?? mc.goal
 
       if (skill === undefined) return say('skill', false, 'not a ruflo-goals skill')
       if (!isAvailable(state, skill)) return say(`${slashOf(skill)} is not available`, false, `install the ${GOALS_PLUGIN} plugin (Plugin Catalog) and /reload-plugins`)
-      if (objective.trim() === '') return say(skill.title, false, 'type a goal first: the skill works on it')
 
-      const args = plain(objective, MAX_TEXT)
-
-      if (state.turnActive) {
-        void host.fillPrompt(`/${slashOf(skill)} ${args}`).then(
-          isFilled => say(isFilled ? 'prepared in the prompt box' : 'no prompt box here', isFilled, `press Enter to run /${slashOf(skill)} in the main conversation`),
-          () => say(skill.title, false, 'the prompt box refused it'),
-        )
-
-        return
-      }
-
-      void host.runSlash(slashOf(skill), args).then(
-        () => say(`${skill.title}: /${slashOf(skill)} is running`, true, 'in the main conversation: the pane follows the task store'),
-        () => say(skill.title, false, `/${slashOf(skill)} did not run`),
-      )
+      launch(slashOf(skill), skill.title)
     },
     guide: text => {
       const t = plain(text, MAX_TEXT).trim()
 
       if (t !== '') mc.lastGuide = t
 
-      runner.ask(
-        t === ''
-          ? null
-          : { label: `send Claude: ${plain(t, 70)}`, scope: 'guide', args: [], shows: `to the Claude Code session, as a visible prompt: “${t}”`, expect: 'the instruction in the transcript', note: 'Starts a Claude Code turn (billed as any turn is).', run: async () => host.submitPrompt(t) },
-        'type the instruction first',
-      )
+      const ask = () =>
+        runner.ask(
+          t === ''
+            ? null
+            : { label: `send Claude: ${plain(t, 70)}`, scope: 'guide', args: [], shows: `to the Claude Code session, as a visible prompt: “${t}”`, expect: 'the instruction in the transcript', note: 'Starts a Claude Code turn (billed as any turn is).', run: async () => host.submitPrompt(t) },
+          'type the instruction first',
+        )
+
+      if (t === '' || !mc.isScreenOn) return ask()
+
+      void screenText(state, host, t).then(screen => (blocksGuidance(screen) ? say('AIDefence blocked the instruction', false, screen.detail) : ask()))
     },
+
   }
 
   wired.set(state, { host, actions })
