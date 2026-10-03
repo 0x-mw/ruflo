@@ -16,11 +16,14 @@ function configRows(ctx: Ctx): RenderElement[] {
     { key: 'hooks.enabled', title: 'Hooks', help: 'hooks that learn from your edits and routes' },
   ]
 
+  // The header says where each switch stands, so the state reads without opening the section; each change still asks first.
+  const summary = keys.map(item => `${item.title.toLowerCase()} ${core?.get(item.key) === 'true' ? 'on' : core?.get(item.key) === 'false' ? 'off' : 'n/a'}`).join(' · ')
+
   return section(
     ctx,
     'learn-config',
     'Settings & configuration',
-    'what lets ruflo learn · each change asks first',
+    `${summary} · each change asks first`,
     [
       ...keys.map(item => {
         const value = core?.get(item.key)
