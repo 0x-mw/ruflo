@@ -39,7 +39,8 @@ describe('x.ruv.io board', () => {
     const tree = await pane.drawn()
     const text = textOf(tree)
 
-    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['xr-x-join', 'xr-x-bbs-identity', 'xr-x-registry', 'xr-x-roster', 'xr-x-claims', 'xr-x-sync', 'xr-x-channels', 'xr-x-accept']))
+    expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['xr-x-join', 'xr-x-bbs-identity', 'xr-x-registry', 'xr-x-roster', 'xr-x-claims', 'xr-x-sync', 'xr-x-channels', 'xr-x-accept', 'xr-x-bbs-peers', 'xr-x-bbs-serve']))
+    expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(expect.arrayContaining(['xr-in-x-bbs-register', 'xr-in-x-bbs-publish', 'xr-in-x-bbs-watch', 'xr-in-x-bbs-peer-add', 'xr-in-x-bbs-sync']))
     expect(elementsOf(tree, 'Input').map(keyOf)).toEqual(expect.arrayContaining(['xr-in-x-join', 'xr-in-x-read', 'xr-in-x-publish', 'xr-in-x-create', 'xr-in-x-grant']))
     expect(text).toContain(' JOIN ....')
     expect(text).toContain('present: ~/.ruflo/nostr.key (never read here)')
