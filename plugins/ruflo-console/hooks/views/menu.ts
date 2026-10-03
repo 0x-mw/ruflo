@@ -1,5 +1,6 @@
 import type { RenderElement } from 'claude-code'
 
+import { ACCENT, badgesOf, INK, LOUD, MUTED, PALETTE } from '../menu-style'
 import { VIEWS, type ViewId } from '../state'
 import { barParts } from './bar'
 import { clip, col, isBbs, row, text, THEME, type Ctx } from './common'
@@ -16,7 +17,7 @@ const keyOf = (item: Item): string => COMMAND_KEYS[item.go] ?? VIEWS.find(view =
  * commands. Keys are the pane's own hotkeys; an area without one (`·`) is reached by its name at the prompt. An
  * entry for a view this build does not have is left out.
  */
-const GROUPS: readonly { title: string; sections: readonly { name: string; items: readonly Item[] }[] }[] = [
+export const GROUPS: readonly { title: string; sections: readonly { name: string; items: readonly Item[] }[] }[] = [
   {
     title: 'SWARM',
     sections: [
@@ -83,17 +84,27 @@ export function menuView(ctx: Ctx): RenderElement {
   rows.push(text(ctx, ' '))
   rows.push(...missionStrip(ctx))
 
+  // In the BBS look each group is set apart by an accent: its border, a solid title bar and its key chips. The plain look keeps the theme's
+  // colours and has none of this. A badge says what is going on behind an entry (approvals waiting, a mission under way, findings, an update).
+  const bbs = isBbs()
+  const badges = badgesOf(state, nowMs)
+
   // Each group a bordered box: ▓▒░ TITLE ░▒▓ on top, then its sub-sections, each a dim ── name ── rule and its items.
-  const box = (group: (typeof GROUPS)[number]) =>
-    ctx.kit.Box({
+  const box = (group: (typeof GROUPS)[number]) => {
+    const accent = ACCENT[group.title] ?? '#d0d0d0'
+    const title = clip(`▓▒░ ${group.title} ░▒▓`, width - 4)
+
+    return ctx.kit.Box({
       flexDirection: 'column',
       width,
       borderStyle: 'single',
-      borderColor: isBbs() ? '#d0d0d0' : 'inactive',
+      borderColor: bbs ? accent : 'inactive',
       paddingX: 1,
       key: `menu-${group.title}`,
       children: [
-        ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: clip(`▓▒░ ${group.title} ░▒▓`, width - 4) }),
+        bbs
+          ? ctx.kit.Box({ backgroundColor: accent, key: `menu-bar-${group.title}`, children: [ctx.kit.Text({ bold: true, color: INK, wrap: 'truncate-end', children: ` ${title}`.padEnd(width - 2).slice(0, width - 2) })] })
+          : ctx.kit.Text({ bold: true, color: THEME.head, wrap: 'truncate-end', children: title }),
         ...group.sections.flatMap(section => {
           const items = section.items.filter(isShown)
 
@@ -101,20 +112,29 @@ export function menuView(ctx: Ctx): RenderElement {
             ? []
             : [
                 ctx.kit.Text({ color: THEME.info, dimColor: true, wrap: 'truncate-end', children: clip(`── ${section.name} ${'─'.repeat(Math.max(0, width - section.name.length - 8))}`, width - 4) }),
-                ...items.map(item =>
-                  ctx.kit.Box({
+                ...items.map(item => {
+                  const badge = badges[item.go as ViewId]
+                  const key = keyOf(item)
+
+                  return ctx.kit.Box({
                     flexDirection: 'row',
                     key: `mi-${item.go}`,
                     children: [
-                      ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${keyOf(item)})` }),
-                      ctx.kit.Button({ key: `menu-go-${item.go}`, label: clip(item.label, width - 9), plain: true, onPress: go(item) }),
+                      // The key is a chip in the accent in the BBS look, so the keys read as the commands; plain, as it always was.
+                      bbs ? ctx.kit.Text({ bold: true, color: INK, backgroundColor: accent, children: ` ${key} ` }) : ctx.kit.Text({ bold: true, color: THEME.ok, children: ` (${key})` }),
+                      ctx.kit.Button({ key: `menu-go-${item.go}`, label: ` ${clip(item.label, width - 11 - (badge === undefined ? 0 : badge.text.length + 1))}`, plain: true, onPress: go(item) }),
+                      ...(badge === undefined ? [] : [ctx.kit.Text({ bold: badge.tone === 'attention', color: bbs ? (badge.tone === 'attention' ? LOUD : MUTED) : badge.tone === 'attention' ? THEME.warn : THEME.info, children: ` ${badge.text}` })]),
                     ],
-                  }),
-                ),
+                  })
+                }),
               ]
         }),
       ],
     })
+  }
+
+  // A strip of the accents across the top, as a BBS drew its palette: one block of each, the width of the pane shared between them.
+  if (bbs) rows.push(ctx.kit.Box({ flexDirection: 'row', key: 'menu-palette', children: PALETTE.map((color, i) => ctx.kit.Text({ color, children: '▀'.repeat(Math.max(1, Math.floor((ctx.columns - 2) / PALETTE.length))), key: `menu-palette-${i}` })) }))
 
   for (let i = 0; i < GROUPS.length; i += perRow) {
     rows.push(ctx.kit.Box({ flexDirection: 'row', gap: 1, key: `menu-row-${i}`, children: GROUPS.slice(i, i + perRow).map(box) }))
@@ -131,10 +151,10 @@ export function menuView(ctx: Ctx): RenderElement {
   rows.push(
     ctx.kit.Box({
       flexDirection: 'row',
-      backgroundColor: isBbs() ? '#8b1a1a' : undefined,
+      backgroundColor: isBbs() ? '#870000' : undefined,
       key: 'menu-status',
       children: [
-        ctx.kit.Text({ bold: true, color: '#ffd319', children: line }),
+        ctx.kit.Text({ bold: true, color: '#ffd700', children: line }),
         // The live facts are links: a click goes to the view each is about.
         ...facts.flatMap((part, i) => {
           if (room <= 6) return []
@@ -144,14 +164,14 @@ export function menuView(ctx: Ctx): RenderElement {
           room -= label.length + 3
 
           return [
-            ctx.kit.Text({ bold: true, color: '#ffd319', children: ' │ ' }),
+            ctx.kit.Text({ bold: true, color: '#ffd700', children: ' │ ' }),
             part.go !== undefined
               ? ctx.kit.Button({ key: `status-${i}`, label, plain: true, onPress: () => ctx.act.view(part.go as ViewId) })
-              : ctx.kit.Text({ bold: true, color: '#ffd319', children: label }),
+              : ctx.kit.Text({ bold: true, color: '#ffd700', children: label }),
           ]
         }),
         ctx.kit.Box({ flexGrow: 1, key: 'status-gap', children: [ctx.kit.Text({ children: ' ' })] }),
-        ctx.kit.Text({ bold: true, color: '#ffd319', children: right }),
+        ctx.kit.Text({ bold: true, color: '#ffd700', children: right }),
       ],
     }),
   )
