@@ -21,7 +21,7 @@ export const MOD_GUIDANCE_DIR = '.claude-flow/mods/guidance';
 const MAX_BYTES = 256 * 1024;
 const HEX = /^[a-f0-9]{64}$/;
 const RUN = /^mod-[a-z0-9]+-[a-z0-9]{1,12}-[a-z0-9]{1,12}$/;
-const ID = /^[A-Za-z0-9_-]{1,64}$/;
+const ID = /^[A-Z]{1,58}-?\d{3,4}$/;
 
 export interface ModObservation {
   version: 1;

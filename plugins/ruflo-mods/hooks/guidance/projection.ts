@@ -24,7 +24,7 @@ export const MAX_PROJECTION_BYTES = 256 * 1024
 export const MAX_CONTEXT_CHARS = 4096
 export const MAX_RULES = 5
 const HEX = /^[a-f0-9]{64}$/
-const ID = /^[A-Za-z0-9_-]{1,64}$/
+const ID = /^[A-Z]{1,58}-?\d{3,4}$/
 const INTENTS = new Set(['bug-fix', 'feature', 'refactor', 'security', 'performance', 'testing', 'docs', 'deployment', 'architecture', 'debug', 'general'])
 
 /** Screening reduces exposure. It is not a prompt injection security boundary. */
