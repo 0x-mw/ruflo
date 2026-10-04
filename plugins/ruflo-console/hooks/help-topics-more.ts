@@ -34,6 +34,20 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
     keywords: ['spend', 'money', 'budget', 'price', 'tokens', 'limit', 'expensive'],
   },
   {
+    id: 'research',
+    title: 'Research a question, capped',
+    group: 'Safety',
+    summary: 'start a web research run with a depth and a dollar cap, after a confirm',
+    steps: [
+      { text: 'Open Missions. Type the question, choose quick, standard or deep, and set the cap in dollars (default $2, from 0.10 to 50).', go: { view: 'missions' }, label: 'Open Missions' },
+      { text: 'The question is screened first by AIDefence. An unsafe one, or one with personal data, is refused.' },
+      { text: 'Read the confirm: it starts a billed Claude Code turn and allows web search and fetch up to the cap. Web content is untrusted, and nothing is stored until you accept the report.', go: { run: 'mission-research' }, label: 'Start research' },
+    ],
+    tips: ['The console only prepares /ruflo-goals:deep-research --depth <d> --cap <usd> <question>. The run itself happens in the main conversation.', 'Needs the ruflo-goals plugin.'],
+    related: ['cost', 'security'],
+    keywords: ['deep', 'research', 'web', 'search', 'fetch', 'cap', 'depth', 'question'],
+  },
+  {
     id: 'perf',
     title: 'Find and fix slowness',
     group: 'Safety',
