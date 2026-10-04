@@ -1067,9 +1067,11 @@ grep -q "from './_harness.mjs'" "$F" 2>/dev/null || miss="$miss not-using-produc
 # Gate flag exposed
 grep -q -- "--max-mean-us" "$F" 2>/dev/null || miss="$miss no-gate-flag"
 # Runtime: bench produces sub-5μs results across all categories
-node "$F" --iters 10000 --max-mean-us 5 >/dev/null 2>&1 || miss="$miss runtime-fails-or-perf-blew-5us"
+# The median, not the mean: a scheduler pause on a loaded CI runner moves the mean and flaked this step in the fleet smoke.
+grep -q -- "--gate-stat" "$F" 2>/dev/null || miss="$miss no-gate-stat-flag"
+node "$F" --iters 10000 --max-mean-us 5 --gate-stat p50 >/dev/null 2>&1 || miss="$miss runtime-fails-or-perf-blew-5us"
 # Runtime: gate trips on absurd ceiling
-if node "$F" --iters 10000 --max-mean-us 0.0001 >/dev/null 2>&1; then
+if node "$F" --iters 10000 --max-mean-us 0.0001 --gate-stat p50 >/dev/null 2>&1; then
   miss="$miss gate-failed-to-trip"
 fi
 [[ -z "$miss" ]] && ok || bad "$miss"
