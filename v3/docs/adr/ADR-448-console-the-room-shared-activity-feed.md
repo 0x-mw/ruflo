@@ -1,6 +1,6 @@
 # ADR 448: The Room — a shared live feed where a person, Claude and the swarm watch and talk to each other
 
-Status: Proposed (the Room page); §3.2, the expiry event, is implemented in ruflo-console 0.32.2
+Status: Accepted (implemented in ruflo-console 0.33.0; §3.2, the expiry event, shipped in 0.32.2)
 
 Date: 2026 10 04
 
@@ -73,3 +73,12 @@ An expired confirm must leave a trace. `confirm()` (`runner.ts:147-150`) gains o
 ## 7. Tests
 
 `tests/room.spec.ts`: the pending banner renders the age against the 30 s window and the raising page; the merged feed interleaves `ConsoleEvent` and `ControlEntry` in time order; the three text actions run the same `ActionSpec` the palette would (assert on the dispatched id and args, not a new code path); pause/resume and paging behave as `tests/watch.spec.ts` already asserts for Events, reused against the merged feed. `tests/runner.spec.ts` gains one case: a `confirm()` call after `PENDING_TTL_MS` produces exactly one new `ConsoleEvent` naming the expired label, and still leaves `state.pending === null`. The dead-button sweep (ADR 416 §6) covers every button on the new page.
+
+## 8. Implementation notes (0.33.0)
+
+- **No hotkey.** The ADR said `r` was free; it is not: `p x r h j k y n o` are reserved for the footer, the confirm row, scrolling and the menu prompt (`tests/nav.spec.ts`), and every other letter is taken. The Room is a named-only page like Sandbox: reached from the menu (Safety → Room), `/ruflo room` and `console_open view=room`. Its label is `Room` (the banner format wants one word); its title on the page is "The Room".
+- **Shape as decided:** `hooks/data/room.ts` (pure feed, banner, status), `hooks/room.ts` (state and actions), `hooks/views/room.ts` (page). No fourth tool, no new confirm path: the three senders are the existing `broadcast`, `mission-aside` and `mission-guide` entries run through `runner.runById`, and the page only offers them once there is a draft.
+- **What the person said** is kept (at most 50) with the label its confirm showed; its state (waiting for your yes, sent, not sent: why, not confirmed) is derived from the pending action and the last outcome, never assumed.
+- **Limits that hold:** draft 500 chars, find text 80, feed 200 items after a merge of at most ~600, every text from every source passes `plain()` (control and bidi characters stripped, length cut), and nothing in the feed is an action: an instruction inside an event is only text. Measured: merging 300 events, 200 Claude actions and 50 sayings takes well under 5 ms (asserted in `tests/room.spec.ts`).
+- **Checked live:** a real Claude (haiku) opened the page through `console_open` and read its four sections through `console_state`.
+- **Tests:** `tests/room.spec.ts` (13), plus the page is covered by the dead-button sweep, the every-affordance-refused sweep, the guide, ask, nav, boot-log and self-check suites (kit suite 211/0, vitest 871).

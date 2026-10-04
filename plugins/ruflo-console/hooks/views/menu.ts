@@ -39,7 +39,7 @@ export const GROUPS: readonly { title: string; sections: readonly { name: string
     title: 'SAFETY & OPS',
     sections: [
       { name: 'protect', items: [{ label: 'Security & Doctor', go: 'secure' }, { label: 'Cost & Budget', go: 'cost' }] },
-      { name: 'observe', items: [{ label: 'Performance', go: 'perf' }, { label: 'Agent Timeline', go: 'timeline' }, { label: 'Event Stream', go: 'events' }] },
+      { name: 'observe', items: [{ label: 'Performance', go: 'perf' }, { label: 'Agent Timeline', go: 'timeline' }, { label: 'Event Stream', go: 'events' }, { label: 'The Room', go: 'room' }] },
     ],
   },
   {
