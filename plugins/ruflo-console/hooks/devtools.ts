@@ -203,7 +203,10 @@ export function devWhy(entry: DevEntry, fields: DevFields): string {
   const filled = (except: DevField | null): DevFields => ({ ...fields, ...Object.fromEntries(failing.filter(field => field !== except).map(field => [field, SAMPLE[field]])) })
   const broken = entry.args === undefined || entry.args(filled(null)) === null ? undefined : failing.find(field => entry.args?.(filled(field)) === null)
 
-  return broken === undefined ? 'nothing to run' : `${broken} field: ${fieldRule(broken)}`
+  if (broken === undefined) return 'nothing to run'
+
+  // An empty field is the common case: say where to type, not only the rule.
+  return `${broken} field${fields[broken].trim() === '' ? ' is empty: type it in the field above, then ▶ run' : ''}: ${fieldRule(broken)}`
 }
 
 /** A value each field accepts, to find which field kept an entry from running. */
@@ -228,6 +231,8 @@ export function devPalette(state: State): PaletteEntry[] {
       run: {
         kind: 'text',
         keyword: entry.id,
+        // Said when nothing builds: the field to fill and its rule, not a generic palette hint.
+        why: text => devWhy(entry, text.trim() === '' ? fields : { ...fields, [input]: text.trim() }),
         make: text => {
           if (text.trim() !== '') fields[input] = text.trim()
 

@@ -180,7 +180,7 @@ describe('the Dev Tools catalog', () => {
     const checkpoint = DEV.find(entry => entry.id === 'dt-cow-checkpoint')!
 
     expect(devSpec(checkpoint, fields)).toBeNull()
-    expect(devWhy(checkpoint, fields)).toMatch(/^path field: /)
+    expect(devWhy(checkpoint, fields)).toMatch(/^path field( is empty: type it in the field above, then ▶ run)?: /)
     expect(devSpec(DEV.find(entry => entry.id === 'dt-diff-stats')!, fields)?.args).toEqual(['mcp', 'exec', '-t', 'analyze_diff-stats', '-p', '{"ref":"HEAD"}'])
   })
 })
@@ -272,6 +272,17 @@ describe('headless and the fields', () => {
     // An empty text uses what the field holds: the view's button press.
     expect(diff.run.make('')?.args[5]).toBe('{"ref":"HEAD~2"}')
     expect(entries.find(entry => entry.id === 'dt-prov-list')?.run).toMatchObject({ kind: 'spec', spec: { args: ['providers', 'list'], isReadOnly: true } })
+  })
+
+  it('a field entry with nothing to run says which field to fill, not a palette hint', () => {
+    const entry = devPalette(newState({})).find(candidate => candidate.id === 'dt-brain')
+
+    expect(entry?.run.kind).toBe('text')
+    if (entry?.run.kind !== 'text') return
+    expect(entry.run.make('')).toBeNull()
+    expect(entry.run.why?.('')).toMatch(/^task field is empty: type it in the field above, then ▶ run: what you want to do/)
+    expect(entry.run.why?.('-x')).toMatch(/^task field: what you want to do/)
+    expect(entry.run.why?.('review my PR')).toBe('nothing to run')
   })
 
   it('Enter in a field keeps its text and runs its entry, or says the rule; a field with no entry only keeps it', () => {
