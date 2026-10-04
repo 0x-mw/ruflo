@@ -17,6 +17,9 @@ import { pluginNames, settingsActions } from './settings'
 import { catalogOf } from './plugin-catalog'
 import { devtoolsActions } from './devtools'
 import { HARNESSES, harnessSpec, isAutoAccept, isLive, newSession, send, whyNotRun } from './harness'
+import { helpActions } from './help-actions'
+import { VIEW_TOPIC } from './help-docs'
+import { pluginSpec } from './plugin-ops'
 import { startSpec } from './starts'
 import { plain } from './data/parse'
 import type { Host } from './host'
@@ -26,12 +29,15 @@ import type { Runner } from './runner'
 import { skillActions } from './skills'
 import { moreSkillActions } from './skills-lab'
 import { CLI_PREFIXES, NAV_KEY, PANE_ID, viewOf, type State } from './state'
+import { runUpdateCheck } from './update-flow'
+import { UPDATES_KEY } from './updates'
 import { vectorActions } from './vector'
 import type { Actions } from './views/common'
 import { openTasks, selection } from './views/select'
 
 export type Steps = {
   freshRead: () => Promise<void>
+  animate: () => void
   probe: (force?: boolean) => Promise<void>
   setView: (view: State['view']) => void
   drill: (agentId: string) => void
@@ -39,7 +45,7 @@ export type Steps = {
 }
 
 export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps): Actions {
-  const { freshRead, probe, setView, drill, close } = steps
+  const { freshRead, probe, setView, drill, close, animate } = steps
 
   /**
    * After a command typed in the terminal field (/ruflo, /new, /up…) the rows above the field change, and the engine
@@ -87,6 +93,16 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       void host.storeSet(NAV_KEY, style).catch(() => undefined)
       host.invalidate()
     },
+    updates: mode => {
+      state.updates = mode
+      void host.storeSet(UPDATES_KEY, mode).catch(() => undefined)
+      host.invalidate()
+    },
+    checkUpdates: () => {
+      state.updateNote = 'checking…'
+      host.invalidate()
+      void runUpdateCheck(state, host, { force: true })
+    },
     editField: (key, text) => {
       state.fieldText.set(key, text)
       host.invalidate()
@@ -107,8 +123,22 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       if (state.view === 'skills') actions.skills.list()
       if (state.view === 'evolve') actions.evolve.reread()
     },
+    restart: () => {
+      // The intro plays again from now (BBS look and the boot option on); the pane redraws at once, and the read starts over beneath it.
+      state.pane.bootAtMs = Date.now()
+      state.pane.menuAtMs = 0
+      host.invalidate()
+      animate()
+      actions.refresh()
+    },
     help: () => {
       state.isHelp = !state.isHelp
+      // Help opens on the guide for the page you were on (the index from the menu), with a clean question.
+      if (state.isHelp) {
+        host.scrollTop()
+        state.help.query = ''
+        state.help.topic = VIEW_TOPIC[state.view === 'agent' ? state.back : state.view] ?? null
+      }
       host.invalidate()
     },
     close: () => void close(),
@@ -152,6 +182,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     palette: context => {
       state.palette = { isOpen: !state.palette.isOpen || state.palette.context !== context, query: '', index: 0, context }
       state.isHelp = false
+      if (state.palette.isOpen) host.scrollTop()
       host.invalidate()
     },
     paletteQuery: text => {
@@ -181,6 +212,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       host.invalidate()
     },
     focus: key => void host.focus(PANE_ID, key).catch(() => undefined),
+    plugin: op => runner.ask(pluginSpec(op), 'that cannot run here'),
     start: (id, text = '') => runner.ask(startSpec(id, Date.now(), text), id === 'mission' || id === 'task' ? 'type it first (it may not start with -)' : 'that start cannot run here'),
     // The main menu's prompt, as a board's: a key (2, w, i), a name (swarm, x.ruv.io), ? for help, O to log off.
     menu: text => {
@@ -190,7 +222,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
       if (word === '') return
       if (word === '?' || word === 'h' || word === 'help') actions.help()
       else if (word === 'p') actions.palette('all')
-      else if (word === 'r') actions.refresh()
+      else if (word === 'r') actions.restart()
       else if (word === 'o' || word === 'bye' || word === 'logoff') actions.close()
       else if (view !== null) setView(view)
       else runner.ask(null, `no area "${plain(word, 24)}": type a key from the menu, or ? for help`)
@@ -330,6 +362,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     settings: settingsActions(state, host, runner, (agent, text) => actions.term.ask(agent, text), () => CLI_PREFIXES[state.options.cli], () => pluginNames(state, (catalogOf(state).plugins ?? []).filter(plugin => plugin.options.length > 0).map(plugin => plugin.name))),
     mission: missionActions(state, host, runner),
     ask: askActions(state, host, runner, () => actions),
+    ruhelp: helpActions(state, host, runner, () => actions),
     loops: loopActions(state, host, runner),
     optimizer: optimizerActions(state, () => host.invalidate(), id => void runner.runById(id, ''), question => actions.ask.ask(question, 'overview')),
     watch: watchActions(state, () => host.invalidate(), (question, view) => actions.ask.ask(question, view)),

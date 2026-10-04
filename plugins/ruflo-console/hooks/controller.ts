@@ -14,12 +14,15 @@ import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { agentLogs } from './ops'
 import { createRunner, type Runner } from './runner'
-import { advance, loadLedger } from './mission-control'
+import { advance, loadLedger, mcOf } from './mission-control'
+import { hasLiveWork } from './mission-list'
 import { loadAllowed } from './remember'
 import { loadAiPrefs } from './settings'
 import { openLoaders } from './view-open'
 import { listSkills } from './skills'
-import { CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
+import { readDrillLogs } from './drill-logs'
+import { entryAge } from './menu-entry'
+import { BOOT_MIN_MS, CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
 import { pulseDue } from './pulse'
@@ -250,17 +253,17 @@ export function createController(state: State, host: Host): Controller {
     state.timers.delete(name)
   }
 
-  /** One frame of every picture of the view in front, each blitted only at the size it was mounted. */
-  // Whether the last frame drew the boot screen: when it ends the whole pane redraws once, and an unfocused pane's
-  // loop stops again (the boot screen animates whether or not the pane holds the keys).
+  // Whether the last frame drew the boot screen: when it ends the whole pane redraws once, and an unfocused pane's loop stops again.
   let wasBooting = false
 
+  /** One frame of every picture of the view in front, each blitted only at the size it was mounted. */
   function frame(): void {
     const started = Date.now()
     const booting = isBooting(state, started)
 
     if (wasBooting && !booting) {
       wasBooting = false
+      state.pane.menuAtMs = Date.now()
       host.invalidate()
       animate()
 
@@ -269,7 +272,7 @@ export function createController(state: State, host: Host): Controller {
 
     wasBooting = booting
 
-    if (pulseDue(state.view, started)) host.invalidate()
+    if (pulseDue(state.view, started) || (state.view === 'menu' && entryAge({ look: state.options.look, boot: state.options.boot, ...state.pane }, started, BOOT_MIN_MS) !== null)) host.invalidate()
 
     for (const [key, grid] of picturesOf(state, state.pane.columns, Date.now(), Date.now())) {
       const mounted = state.mounted.get(key)
@@ -284,11 +287,10 @@ export function createController(state: State, host: Host): Controller {
 
   /** Runs the frame loop while the pane is shown and holds the keys (or plays the boot screen), at `fps`; stops it otherwise. */
   function animate(): void {
-    if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && state.mounted.size > 0)) {
-      cancel('frames')
+    // Something in progress moves its spinner, pictured or not: a lab action in flight, or a live mission, task or guidance run on the Missions page.
+    const moving = state.lab.running !== null || (state.view === 'missions' && hasLiveWork(state.snapshot?.missions?.missions ?? [], mcOf(state).guidance?.status === 'running'))
 
-      return
-    }
+    if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && (state.mounted.size > 0 || moving))) return cancel('frames')
 
     every('frames', Math.round(1000 / state.options.fps), frame)
   }
@@ -407,12 +409,16 @@ export function createController(state: State, host: Host): Controller {
     if (view !== state.view) {
       if (view === 'agent' || state.view !== 'agent') state.back = state.view === 'agent' ? state.back : state.view
       state.view = view
+      // A group picked on one page (the menu's pages row) does not follow you to the next, or back to this one.
+      state.navPick = null
+      state.pane.viewAtMs = Date.now()
       state.select.item = 0
       state.mounted.clear()
       persist()
       // A new view asks for its own height inline; the dock ignores it.
       if (state.pane.isOpen) void host.openPane({ id: PANE_ID, title: 'ruflo', rows: rowsOf(view), ...(state.dockColumns > 0 && { columns: state.dockColumns }) }).catch(() => undefined)
       void probe(true)
+      host.scrollTop()
     }
 
     host.invalidate()
@@ -448,15 +454,7 @@ export function createController(state: State, host: Host): Controller {
 
     const spec = agent === undefined ? null : agentLogs(agent)
 
-    if (spec !== null) {
-      void host
-        .run([...CLI_PREFIXES[state.options.cli], ...spec.args], 30_000)
-        .then(result => {
-          if (state.drill.agentId === agentId) state.drill = { agentId, logs: result.stdout.split('\n').map(line => plain(line, 160)).filter(Boolean).slice(-12), logsAtMs: Date.now() }
-        })
-        .catch(() => undefined)
-        .finally(() => host.invalidate())
-    }
+    if (spec !== null) readDrillLogs(state, host, agentId, spec.args)
   }
 
   const runner = createRunner(state, host, {
@@ -465,7 +463,7 @@ export function createController(state: State, host: Host): Controller {
     drill,
     command: name => (name === 'refresh' ? actions.refresh() : name === 'help' ? actions.help() : actions.close()),
   })
-  const actions: Actions = actionsOf(state, host, runner, { freshRead, probe, setView, drill, close })
+  const actions: Actions = actionsOf(state, host, runner, { freshRead, probe, setView, drill, close, animate })
 
   function markFrame(requestId: string, isWorking: boolean): void {
     markRequest = requestId

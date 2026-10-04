@@ -3,6 +3,7 @@ import type { RenderElement } from 'claude-code'
 import { catalogOf } from '../plugin-catalog'
 import { AI_BUDGETS, CLAUDE_MODELS, CORE, DEFAULT_AI, pluginNames, SIMPLE, settingsOf, type CoreKey, type Level, type PluginConfig } from '../settings'
 import { NAV_STYLES } from '../state'
+import { UPDATES_MODES, type UpdatesMode } from '../updates'
 import { button, clip, col, row, rule, section, text, THEME, type Ctx } from './common'
 
 /** One setting, whatever it belongs to, so a search, a level and "changed only" filter one list. */
@@ -189,6 +190,39 @@ function uiItems(ctx: Ctx): Item[] {
           fieldHint: '',
           where: 'the console’s main nav',
         }),
+    },
+    {
+      id: 'ui-updates',
+      source: 'UI',
+      title: 'Updates',
+      haystack: `updates update auto-update automatic version new published github check ${ctx.state.updates}`,
+      level: 'simple',
+      changed: ctx.state.updates !== 'ask',
+      rows: () => [
+        ...settingRows(ctx, {
+          key: 'ui-updates',
+          title: 'Updates',
+          description:
+            'when a newer ruflo-console is published to github.com/ruvnet/ruflo: ask (offer it at load), auto (install a new minor or patch version without asking; a new major version still asks), or off (never look). One small request to GitHub a day; the install is Claude Code’s own claude plugin update, and takes effect after a restart',
+          current: ctx.state.updates,
+          isChanged: ctx.state.updates !== 'ask',
+          choices: UPDATES_MODES,
+          defaultText: 'default ask',
+          onChoice: value => ctx.act.updates(value as UpdatesMode),
+          fieldKey: 'st-ui-in-updates',
+          fieldLabel: 'updates',
+          fieldHint: '',
+          where: 'the console’s update check',
+        }),
+        row(
+          ctx,
+          [
+            button(ctx, 'updates-check-now', '↻ check for an update now', () => ctx.act.checkUpdates(), { primary: true }),
+            text(ctx, ` ${ctx.state.updateNote === '' ? 'it asks before installing, whatever the setting' : ctx.state.updateNote}`, { dimColor: true }),
+          ],
+          'updates-check-row',
+        ),
+      ],
     },
   ]
 }

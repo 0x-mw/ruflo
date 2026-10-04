@@ -3,7 +3,7 @@ import type { RenderElement } from 'claude-code'
 import type { Channels, Registry, Roster } from '../data/cli'
 import type { SwarmMessages, WorkClaims } from '../data/xruv'
 import { BBS_SERVE_COMMAND, INVITE_COMMAND, UNREGISTER_WHY, XRUV, type XEntry, type XGroup } from '../xruv'
-import { ago, button, clip, col, kv, live, row, rule, sourceLine, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, type Ctx, kv, live, row, rule, sourceLine, tagChip, text, THEME } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const XRUV_ROWS = 8
@@ -49,7 +49,7 @@ function entryRow(ctx: Ctx, entry: XEntry, lead: number): RenderElement {
   return row(
     ctx,
     [
-      ctx.kit.Text({ bold: true, color: tag.color(), children: ` ${tag.text}` }),
+      tagChip(ctx, tag.text, tag.color()),
       ctx.kit.Button({ key: `xr-name-${entry.id}`, label: ` ${entry.name} `.padEnd(lead, '.'), plain: true, onPress: press }),
       ctx.kit.Button({ key: `xr-about-${entry.id}`, label: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 18)), plain: true, dimColor: true, onPress: press }),
       ...(action === null ? [] : [action]),

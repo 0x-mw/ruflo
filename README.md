@@ -50,9 +50,9 @@ User --> Ruflo (CLI/MCP) --> Router --> Swarm --> Agents --> Memory --> LLM Prov
 
 ---
 
-<p align="center"><img src="docs/assets/ruflo-console-tour-9x11.gif" alt="The ruflo console inside Claude Code: the dial-up boot bringing every area online, then all 26 pages in order, each as bordered cards under a grouped nav, with Start here steps where a page has an order" width="480"></p>
+<p align="center"><img src="docs/assets/ruflo-console-walkthrough.gif" alt="A walkthrough of the ruflo console inside Claude Code, in its narrow layout so it reads on a phone: the boot checking every area, the main menu entering and its cards folding, the nav, pages, the command palette, ruHelp, settings and refresh" width="420"></p>
 
-<sub>The <code>/ruflo</code> console running in Claude Code, full screen in a 9:11 frame (the cockpit docked beside Claude, cropped to the cockpit): the dial-up boot that brings every area online, then all 26 pages in order (a mission goal typed and planned along the way): each page is bordered cards under a grouped nav, a Start here card leads the pages that have an order, and each page can launch its plugin commands in Claude or ask Claude about what you see. A <a href="docs/assets/ruflo-console-tour.gif">wide-terminal tour</a> with Claude beside it is also kept. <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
+<sub>The <code>/ruflo</code> console running in Claude Code, shown in its narrow layout (the cockpit docked beside Claude, cropped to the cockpit) with large text so it reads on a phone as well as a desktop: the boot that checks every area, the main menu entering and its cards folding, the grouped nav, a few pages, the command palette (a tag on every entry for what it does), <b>ruHelp</b> (built-in help: ask a question, get steps with buttons; a guide for every capability), settings and refresh. A <a href="docs/assets/ruflo-console-walkthrough-wide.gif">wide-display walkthrough</a> shows the same console with room for every label. <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
 
 **Install the mods from the ruflo marketplace** (Claude Code 2.1.287 or later; mods run with your account's permissions and are not sandboxed, so read the code first):
 

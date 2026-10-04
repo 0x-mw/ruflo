@@ -7,6 +7,7 @@ import type { ConsoleEvent } from './data/events'
 import type { ReadCache } from './data/files'
 import { emptyEvolve, type EvolveState } from './data/evolve'
 import { emptySkills, type SkillsState } from './data/skills'
+import type { UpdatesMode } from './updates'
 import { emptyMemoryLab, type MemoryLabState } from './memory-lab'
 import { emptyVector, type VectorState } from './data/vector'
 import type { Snapshot } from './data/snapshot'
@@ -52,15 +53,15 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'xruv', key: 'w', label: 'x.ruv.io', short: 'XRV', icon: '🛸', blurb: 'the open agent federation: what it offers, how to join, its channels and who is on', rows: 50 },
   { id: 'terminal', key: 'i', label: 'Terminal', short: 'Trm', icon: '💻', blurb: 'an AI terminal: claude -p, codex or both, each a session that remembers the conversation, streamed live', rows: 120 },
   { id: 'skills', key: 'z', label: 'Skills', short: 'Skl', icon: '🧰', blurb: 'agent skills (npx skills, skills.sh): installed, search, use without installing, preview, add to chosen agents, update, create', rows: 60 },
-  { id: 'secure', key: 'u', label: 'Security & Doctor', short: 'Sec', icon: '🔒',blurb: 'security scans, a paste field that checks text for injection and PII, policy, and every doctor check', rows: 40 },
+  { id: 'secure', key: 'u', label: 'Security & Doctor', short: 'Sec', icon: '🔒',blurb: 'security scans, a paste field where AIDefence checks text for injection and PII, policy, sentries that scan on a schedule or on change, and every doctor check', rows: 40 },
   { id: 'perf', key: 'f', label: 'Performance', short: 'Prf', icon: '📈', blurb: 'metrics, profile, benchmarks, bottlenecks and a latency sparkline from each run', rows: 30 },
-  { id: 'automate', key: 'a', label: 'Automation', short: 'Aut', icon: '🤖', blurb: 'workflows, the twelve background workers and their daemon, autopilot, sessions, config and a task kanban', rows: 44 },
+  { id: 'automate', key: 'a', label: 'Automation', short: 'Aut', icon: '🤖', blurb: 'workflows, the twelve background workers and their daemon, loops, autopilot, sessions, config and a task kanban', rows: 44 },
   { id: 'neural', key: 'l', label: 'Learning Lab', short: 'Lab', icon: '🧪', blurb: 'train neural patterns and watch the loss, ask the router which agent fits a task, and why', rows: 36 },
   { id: 'vector', key: 'v', label: 'Vector Lab', short: 'Vec', icon: '🧲', blurb: 'ruvector: the shared brain, RVF stores, rvlite queries, decompile, workers, edge, hooks intel and your pi identity', rows: 44 },
   { id: 'evolve', key: 't', label: 'Self-Evolution', short: 'Evo', icon: '🧬', blurb: 'the governed loop: flywheel receipts, ledger, lineage, the policy gate, the witness; Autogenous and rGi', rows: 44 },
   { id: 'devtools', key: 'd', label: 'Dev Tools', short: 'Dev', icon: '🔧', blurb: 'the integration surface: GitHub, diff analysis, agenticow, WASM, browser, terminal, providers, maintenance', rows: 40 },
   { id: 'market', key: 'm', label: 'Plugin Catalog', short: 'Cat', icon: '📦', blurb: 'every ruflo plugin, mod and skill: what it ships, install, enable, disable, update, view and use', rows: 50 },
-  { id: 'settings', key: 's', label: 'Settings', short: 'Set', icon: '⚙️', blurb: 'simple to advanced settings: plugin options, ruflo config, and the AI terminal’s model and budget, each edited in place', rows: 50 },
+  { id: 'settings', key: 's', label: 'Settings', short: 'Set', icon: '⚙️', blurb: 'simple to advanced settings: plugin options, ruflo config, updates, and the AI terminal’s model and budget, each edited in place', rows: 50 },
 ]
 
 export const AGENT_VIEW = { id: 'agent' as const, rows: 28 }
@@ -179,6 +180,8 @@ export type State = {
   /** The view to go back to from the drill-down. */
   back: ViewId
   isHelp: boolean
+  /** ruHelp: the question typed, and the guide open (null: the index). */
+  help: { query: string; topic: string | null }
   snapshot: Snapshot | null
   cache: ReadCache
   probes: Map<string, ProbeResult>
@@ -206,6 +209,12 @@ export type State = {
   allowed: Map<string, string>
   /** The main nav's style, saved across sessions. */
   nav: NavStyle
+  /** Whether to check for a newer published ruflo-console: ask first (the default), update without asking, or never check. Kept in the plugin's store. */
+  updates: UpdatesMode
+  /** What the last update check found, in a line, for Settings; empty until one has run. */
+  updateNote: string
+  /** A published version the person has not taken ("Not now"), shown on the band as a link to Settings; empty when there is none. */
+  updateAvailable: string
   /** The nav group whose pages are showing, picked on this page (it follows the open page again once the page changes). */
   navPick: { group: string; view: ViewId } | null
   /** The nav search words (empty: no search). */
@@ -220,7 +229,7 @@ export type State = {
   fieldText: Map<string, string>
   /** The dock width asked for (RUFLO_CONSOLE_COLUMNS, 40 to 400); 0 leaves the engine's share. A request: a dragged width wins. */
   dockColumns: number
-  pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string; /** When the pane last opened: the BBS boot screen plays from here. */ bootAtMs: number }
+  pane: { isOpen: boolean; isShown: boolean; isFocused: boolean; columns: number; rows: number; placement: 'dock' | 'inline'; isClosedByPerson: boolean; autoTried: boolean; autoReason: string; /** When the pane last opened: the BBS boot screen plays from here. */ bootAtMs: number; /** When the boot ended: the menu's entry plays from here (0: not yet). */ menuAtMs: number; /** When the page was last switched: its title strikes in from here (0: not since the pane opened). */ viewAtMs: number }
   /** The size of each Raster as last mounted, by key: a blit of any other size is refused, so none is sent. */
   mounted: Map<string, { columns: number; rows: number }>
   select: { claim: number; agent: number; task: number; item: number }
@@ -291,6 +300,7 @@ export function newState(raw: PluginOptions | undefined): State {
     view: 'overview',
     back: 'overview',
     isHelp: false,
+    help: { query: '', topic: null },
     snapshot: null,
     cache: new Map(),
     probes: new Map(),
@@ -310,6 +320,9 @@ export function newState(raw: PluginOptions | undefined): State {
     curveGrewAtMs: 0,
     dockColumns: 0,
     nav: 'auto',
+    updates: 'ask',
+    updateNote: '',
+    updateAvailable: '',
     navPick: null,
     navQuery: '',
     turnActive: false,
@@ -317,7 +330,7 @@ export function newState(raw: PluginOptions | undefined): State {
     allowed: new Map(),
     sections: new Set(),
     fieldText: new Map(),
-    pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '', bootAtMs: 0 },
+    pane: { isOpen: false, isShown: false, isFocused: false, columns: 0, rows: 0, placement: 'inline', isClosedByPerson: false, autoTried: false, autoReason: '', bootAtMs: 0, menuAtMs: 0, viewAtMs: 0 },
     mounted: new Map(),
     select: { claim: 0, agent: 0, task: 0, item: 0 },
     drill: { agentId: null, logs: null, logsAtMs: 0 },

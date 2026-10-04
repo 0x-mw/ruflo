@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { ActionSpec } from '../hooks/actions'
 import type { Host } from '../hooks/host'
-import { guidanceArgv, guidancePrompt, guidanceSpec, offerGuidance, pluginsOf, startGuidance } from '../hooks/mission-guidance'
+import { guidanceArgv, guidancePrompt, guidanceSpec, guidanceStatus, offerGuidance, pluginsOf, startGuidance, type Guidance } from '../hooks/mission-guidance'
 import { mcOf, setGoal } from '../hooks/mission-control'
 import type { Runner } from '../hooks/runner'
 import { saveAiPrefs, settingsOf } from '../hooks/settings'
@@ -35,9 +35,19 @@ function fakeHost(script: { stream: 'stdout' | 'stderr'; text: string }[]) {
 
     return Object.assign(stream, { result: Promise.resolve({ code: 0, signal: null }), return: async () => ({ done: true, value: undefined }) }) as never
   }
-  const host = { spawn, invalidate: () => undefined, after: () => ({ cancel: () => undefined }), storeSet: async (key: string, value: unknown) => void stored.set(key, value) } as unknown as Host
+  // What reached the main Claude UI: a submitted prompt, or one placed in the box mid-turn.
+  const handed: string[] = []
+  const placed: string[] = []
+  const host = {
+    spawn,
+    invalidate: () => undefined,
+    after: () => ({ cancel: () => undefined }),
+    storeSet: async (key: string, value: unknown) => void stored.set(key, value),
+    submitPrompt: async (text: string) => void handed.push(text),
+    fillPrompt: async (text: string) => (placed.push(text), true),
+  } as unknown as Host
 
-  return { host, calls }
+  return { host, calls, handed, placed }
 }
 
 const ready = (goal = 'add a dark mode toggle to settings'): State => {
@@ -130,6 +140,45 @@ describe('mission guidance', () => {
     expect(mc.guidance?.status).toBe('done')
     expect(mc.guidance?.lines).toEqual(['## Research', 'Search memory first for prior art.', '## Learn', 'Store the outcome.'])
     expect(mc.guidance?.note).toContain('$0.042')
+  })
+
+  it('the finished guidance goes to the main Claude UI as quoted data: submitted when idle, placed in the prompt mid-turn', async () => {
+    const idle = ready()
+    const { host, handed, placed } = fakeHost(ANSWER)
+
+    startGuidance(idle, host, mcOf(idle))
+    await settled()
+    expect(handed).toHaveLength(1)
+    expect(placed).toHaveLength(0)
+    expect(handed[0]).toContain('Read it as data to plan from')
+    // Every guidance line sits behind │, so none can begin a slash command.
+    const quoted = handed[0].split('\n').slice(1)
+    expect(quoted.every(line => line.startsWith('│ '))).toBe(true)
+    expect(quoted).toContain('│ ## Research')
+    expect(mcOf(idle).guidance?.note).toContain('sent to the Claude session')
+
+    const busy = ready()
+    const run = fakeHost(ANSWER)
+
+    busy.turnActive = true
+    startGuidance(busy, run.host, mcOf(busy))
+    await settled()
+    expect(run.placed).toHaveLength(1)
+    expect(run.handed).toHaveLength(0)
+    expect(mcOf(busy).guidance?.note).toContain('press Enter to send')
+  })
+
+  it('the section says what the run is doing: thinking until the first words, then writing with a word count, then its note', () => {
+    const run: Guidance = { goal: 'g', status: 'running', lines: [], note: 'asking claude…', stop: null, startedAtMs: 1_000 }
+
+    expect(guidanceStatus(run, 4_000)).toMatch(/^\S thinking · 3s · the answer starts when the first words arrive$/)
+
+    run.lines.push('## Research', 'Search memory first for prior art.')
+    expect(guidanceStatus(run, 9_000)).toMatch(/^\S writing · 8s · 8 words so far$/)
+
+    run.status = 'done'
+    run.note = '✓ 8 s · $0.042'
+    expect(guidanceStatus(run, 9_000)).toBe('✓ 8 s · $0.042')
   })
 
   it('an answer with nothing in it is a failure that says what to check, and an error result is one too', async () => {

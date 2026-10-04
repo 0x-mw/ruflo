@@ -13,6 +13,9 @@ import { CARD_COLUMNS, hasCards, withCards } from './card'
 import { groupedTabs } from './nav'
 import { stepsRows } from './steps'
 import { optimizerResult } from './optimizer'
+import { fitFooter, type FooterItem } from '../footer-layout'
+import { chip } from '../menu-colors'
+import { accentOfView } from '../nav-state'
 import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../state'
 import { agentView } from './agent'
 import { automateResult, automateView } from './automate'
@@ -34,6 +37,8 @@ import { labResult } from './mh-lab'
 import { neuralResult, neuralView } from './neural'
 import { missionControlView } from './mission-control'
 import { overviewView } from './overview'
+import { ICON_MARGIN, ICONS, iconsSpellWords } from '../icon-layout'
+import { helpView } from './help'
 import { paletteView } from './palette'
 import { perfResult, perfView } from './perf'
 import { pluginsView } from './plugins'
@@ -90,7 +95,12 @@ function tabs(ctx: Ctx): RenderElement {
     const index = VIEWS.findIndex(view => view.id === ctx.state.view)
     const label = index < 0 ? 'Agent' : (VIEWS[index]?.label ?? '')
 
-    return text(ctx, `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label} · /ruflo help`, { bold: true, color: THEME.head })
+    const where = `${index < 0 ? '·' : `${index + 1}/${VIEWS.length}`} ${label}`
+
+    // Even this narrow, the BBS look keeps its colours: the page is a solid chip in its group's accent, with the way to help beside it.
+    return isBbs()
+      ? row(ctx, [ctx.kit.Text({ ...chip(accentOfView(ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view) ?? '#05d9e8'), bold: true, children: ` ${where} ` }), ctx.kit.Text({ dimColor: true, children: ' /ruflo help' })])
+      : text(ctx, `${where} · /ruflo help`, { bold: true, color: THEME.head })
   }
 
   // Two rows: the nine data views (1-9), then the management views and the two boards (g q e m, w x.ruv.io, i terminal). Each tab is its emoji; the
@@ -171,11 +181,6 @@ function blurb(ctx: Ctx): RenderElement | null {
   ], 'about')
 }
 
-function help(ctx: Ctx): RenderElement {
-  return col(ctx, [...HELP.split('\n').map((line, i) => text(ctx, line || ' ', i === 0 ? { bold: true, color: THEME.head } : /^[A-Z]/.test(line) ? { bold: true } : { dimColor: i > 20 })), row(ctx, [button(ctx, 'help-close', 'Back', ctx.act.help, { hotkey: 'h' })])], 'help')
-}
-
-
 function footer(ctx: Ctx, isPlaced = false): RenderElement {
   const { state, nowMs } = ctx
   const outcome = isPlaced ? null : state.outcome
@@ -197,23 +202,46 @@ function footer(ctx: Ctx, isPlaced = false): RenderElement {
   // BBS: the link status in modem-speak, [LINK OK] ▸ sync 3s · keys on.
   const read = state.snapshot === null ? (isBbs() ? '[DIALING…]' : 'reading…') : isBbs() ? `[LINK OK] ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')}` : `read ${ago(state.snapshot.readAtMs, nowMs)}`
   const keys = state.pane.isFocused ? 'keys on' : 'keys off: click the pane (or /ruflo …)'
+  const slash = slashFor(state, state.view)
+  // The buttons, most important first. Each has a short form and a priority: a narrow pane shortens the least important, then drops them
+  // (a dropped one stays, hidden, so its hotkey still works) instead of running off the edge and cutting the last in half.
+  const items: FooterItem[] = ctx.columns < NARROW
+    ? []
+    : [
+        { id: 'palette', full: 'Palette', short: 'p', priority: 1 },
+        ...(state.view === 'agent' || state.palette.isOpen ? [] : [{ id: 'actions', full: 'Actions', short: 'x', priority: 5 }]),
+        ...(state.palette.isOpen ? [] : [{ id: 'ask-claude', full: '✦ Ask Claude', short: '✦', priority: 2 }]),
+        ...(state.palette.isOpen || slash === null ? [] : [{ id: 'ask-slash', full: `▸ /${slash}`, short: '▸', priority: 7 }]),
+        { id: 'refresh', full: 'Refresh', short: 'r', priority: 6 },
+        { id: 'help', full: 'Help', short: 'h', priority: 3 },
+        { id: 'close', full: 'Close', short: '×', priority: 4 },
+      ]
+  const fit = fitFooter(items, ctx.columns - 2)
+  const press: Record<string, () => void> = { palette: () => ctx.act.palette('all'), actions: () => ctx.act.palette('selection'), 'ask-claude': () => ctx.act.ask.ask(), 'ask-slash': () => ctx.act.ask.slash(), refresh: ctx.act.restart, help: ctx.act.help, close: ctx.act.close }
+  const hotkey: Record<string, string> = { palette: 'p', actions: 'x', refresh: 'r', help: 'h' }
+  const full = new Map(items.map(item => [item.id, item.full]))
+  const statusRoom = Math.max(10, ctx.columns - fit.used - 3)
+  // BBS: the link in colour ([LINK OK] green, how fresh the read is, whether the keys are on); plain: one dim line, as before.
+  const status =
+    isBbs() && state.snapshot !== null
+      ? [
+          ctx.kit.Text({ bold: true, color: THEME.ok, children: '[LINK OK]' }),
+          ctx.kit.Text({ dimColor: true, children: clip(` ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')} · `, Math.max(4, statusRoom - 9)) }),
+          ctx.kit.Text({ bold: state.pane.isFocused, color: state.pane.isFocused ? THEME.ok : THEME.warn, children: clip(`${keys} `, Math.max(4, statusRoom - 28)) }),
+        ]
+      : [text(ctx, `${clip(`${read} · ${keys}`, statusRoom)} `, { dimColor: true })]
 
   parts.push(
     row(ctx, [
-      text(ctx, `${clip(`${read} · ${keys}`, Math.max(10, ctx.columns - 46))} `, { dimColor: true }),
-      ...(ctx.columns >= NARROW
-        ? [
-            button(ctx, 'palette', 'Palette', () => ctx.act.palette('all'), { hotkey: 'p' }),
-            ...(state.view === 'agent' || state.palette.isOpen ? [] : [button(ctx, 'actions', 'Actions', () => ctx.act.palette('selection'), { hotkey: 'x' })]),
-            ...(state.palette.isOpen ? [] : [button(ctx, 'ask-claude', '✦ Ask Claude', () => ctx.act.ask.ask())]),
-            ...(state.palette.isOpen || slashFor(state, state.view) === null ? [] : [button(ctx, 'ask-slash', `▸ /${slashFor(state, state.view)}`, () => ctx.act.ask.slash())]),
-            button(ctx, 'refresh', 'Refresh', ctx.act.refresh, { hotkey: 'r' }),
-            button(ctx, 'help', 'Help', ctx.act.help, { hotkey: 'h' }),
-            button(ctx, 'close', 'Close', ctx.act.close),
-          ]
-        : []),
+      ...status,
+      ...fit.shown.map(entry => button(ctx, entry.id, entry.label, press[entry.id] as () => void, hotkey[entry.id] === undefined ? {} : { hotkey: hotkey[entry.id] })),
     ]),
   )
+
+  // A dropped button's hotkey must still work from here: drawn hidden, the engine still arms it.
+  const hiddenKeys = fit.hidden.filter(id => hotkey[id] !== undefined)
+
+  if (hiddenKeys.length > 0) parts.push(ctx.kit.Box({ key: 'footer-keys', display: 'none', children: hiddenKeys.map(id => button(ctx, id, full.get(id) ?? id, press[id] as () => void, { hotkey: hotkey[id] as string })) } as never))
 
   return col(ctx, parts, 'footer')
 }
@@ -238,13 +266,19 @@ function wildcat(ctx: Ctx): { strip: RenderElement[]; art: RenderElement[] } {
         ctx.kit.Text({ bold: true, color: THEME.ok, children: clip('AGENTS WELCOME.', Math.max(4, ctx.columns - 16)) }),
       ], 'welcome'),
       // Each network is a link to the view that shows it.
-      row(ctx, [
-        ctx.kit.Text({ color: THEME.head, children: 'NETWORKS: ' }),
-        ...NETWORKS.flatMap(([name, view], i) => [
-          ...(i > 0 ? [ctx.kit.Text({ color: THEME.info, dimColor: true, children: ' * ' })] : []),
-          ctx.kit.Button({ key: `net-${view}-${i}`, label: name, plain: true, onPress: () => ctx.act.view(view) }),
-        ]),
-      ], 'networks'),
+      // (A row that wraps, so a narrow pane breaks it onto a second line rather than squeezing the names together.)
+      ctx.kit.Box({
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        key: 'networks',
+        children: [
+          ctx.kit.Text({ color: THEME.head, children: 'NETWORKS: ' }),
+          ...NETWORKS.flatMap(([name, view], i) => [
+            ...(i > 0 ? [ctx.kit.Text({ color: THEME.info, dimColor: true, children: ' * ' })] : []),
+            ctx.kit.Button({ key: `net-${view}-${i}`, label: name, plain: true, onPress: () => ctx.act.view(view) }),
+          ]),
+        ],
+      }),
     ],
     art: art !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(art.toRaster('title'))] : [],
   }
@@ -264,6 +298,54 @@ const RESULT_OF: Partial<Record<ViewId, (ctx: Ctx) => RenderElement[]>> = {
   learning: neuralResult,
 }
 
+/**
+ * The icons on one line, at the right of the first row, beside the host's ✕: the main menu, the palette, help, settings and refresh (hooks/icon-layout.ts
+ * says which glyphs and why). Each says its word as well when the pane is wide and the header art beside it leaves room for the whole row; otherwise it
+ * is a glyph and a cell. The one for the page you are on is lit: coloured text of exactly the width of a button (a plain Button draws exactly its label).
+ */
+export function iconRow(ctx: Ctx): RenderElement {
+  const { state } = ctx
+  const header = ctx.pictures.get(state.view === 'menu' ? 'header' : 'title')
+  const withWords = iconsSpellWords(ctx.columns, header?.columns ?? 0)
+  const press: Record<(typeof ICONS)[number]['id'], { isCurrent: boolean; run: () => void }> = {
+    menu: { isCurrent: state.view === 'menu' && !state.isHelp && !state.palette.isOpen, run: () => ctx.act.view('menu') },
+    palette: { isCurrent: state.palette.isOpen, run: () => ctx.act.palette('all') },
+    help: { isCurrent: state.isHelp, run: ctx.act.help },
+    settings: { isCurrent: state.view === 'settings' && !state.isHelp && !state.palette.isOpen, run: () => ctx.act.view('settings') },
+    // Refresh re-reads everything and replays the intro, as the footer's Refresh and the r key do; it is an action, never the page you are on.
+    refresh: { isCurrent: false, run: ctx.act.restart },
+  }
+
+  return ctx.kit.Box({
+    flexDirection: 'row',
+    flexShrink: 0,
+    key: 'pane-icons',
+    children: [
+      ...ICONS.map(icon => {
+        const key = `pane-icon-${icon.id}`
+        const label = withWords ? `${icon.glyph} ${icon.word} ` : `${icon.glyph} `
+        const entry = press[icon.id]
+
+        return entry.isCurrent
+          ? ctx.kit.Box({ key, flexShrink: 0, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: label })] })
+          : ctx.kit.Button({ key, label, plain: true, dimColor: true, onPress: entry.run })
+      }),
+      ctx.kit.Text({ children: ' '.repeat(ICON_MARGIN) }),
+    ],
+  })
+}
+
+/** Puts the icon row at the right of the first line of the pane, beside the header art and its purpose line; with no header, on a row of its own. */
+function withIcons(ctx: Ctx, parts: RenderElement[], lead: number): RenderElement[] {
+  if (ctx.columns < 40) return parts
+
+  if (lead === 0) {
+    return [ctx.kit.Box({ flexDirection: 'row', key: 'pane-top', children: [ctx.kit.Box({ flexGrow: 1, key: 'pane-top-gap', children: [ctx.kit.Text({ children: ' ' })] }), iconRow(ctx)] }), ...parts]
+  }
+
+  return [ctx.kit.Box({ flexDirection: 'row', key: 'pane-top', children: [ctx.kit.Box({ flexDirection: 'column', flexGrow: 1, key: 'pane-lead', children: parts.slice(0, lead) }), iconRow(ctx)] }), ...parts.slice(lead)]
+}
+
 export function paneView(base: Ctx): RenderElement {
   setLook(base.state.options.look)
 
@@ -277,12 +359,12 @@ export function paneView(base: Ctx): RenderElement {
 
     return boot !== undefined && ctx.kit.Raster !== undefined
       ? col(ctx, [ctx.kit.Raster(boot.toRaster('boot'))], 'boot')
-      : col(ctx, [text(ctx, 'CONNECT 115200 · RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
+      : col(ctx, [text(ctx, 'RUFLO AGENT SWARM CONSOLE · loading…', { bold: true, color: THEME.head })], 'boot')
   }
   // A section of a page is a bordered card (views/card.ts): the body is drawn narrower by the border and padding, through a kit that groups its rows.
-  const cardsOn = hasCards(base.columns, isCompactPane(base.state)) && !ctx.state.palette.isOpen && !ctx.state.isHelp
-  const bodyCtx: Ctx = cardsOn ? { ...ctx, columns: ctx.columns - CARD_COLUMNS, cards: true, kit: withCards(ctx.kit) } : ctx
-  const drawBody = () => (ctx.state.palette.isOpen ? paletteView(ctx) : ctx.state.isHelp ? help(ctx) : BODIES[ctx.state.view](bodyCtx))
+  const cardsOn = hasCards(base.columns, isCompactPane(base.state))
+  const bodyCtx: Ctx = cardsOn ? { ...ctx, columns: ctx.columns - CARD_COLUMNS, cards: true, kit: withCards(ctx.kit, isBbs() ? (accentOfView(ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view) ?? undefined) : undefined) } : ctx
+  const drawBody = () => (ctx.state.palette.isOpen ? paletteView(bodyCtx) : ctx.state.isHelp ? helpView(bodyCtx) : BODIES[ctx.state.view](bodyCtx))
   // A lab's result block is drawn first into the panel (pass one), then the page is drawn with the panel placed under the clicked row.
   if (ctx.state.origin !== null && (ctx.state.lab.result !== null || ctx.state.lab.running !== null)) {
     attention.donated = donated(ctx, () => {
@@ -320,7 +402,8 @@ export function paneView(base: Ctx): RenderElement {
   const confirm = attention.placed ? null : confirmRow(ctx)
   const header = ctx.pictures.get('header')
   const isCompact = isCompactPane(ctx.state)
-  const title = !isCompact && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
+  // The logo banner leads the main menu in every layout, compact too (the other pages lead with their own title art there).
+  const title = (!isCompact || ctx.state.view === 'menu') && header !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(header.toRaster('header'))] : []
   const about = blurb(ctx)
   const bbs = isBbs() ? wildcat(ctx) : { strip: [], art: [] }
   // The status row (keys, sync, Palette, Actions) sits above the body, so a tall view cannot push it off the screen; only the main menu keeps it below its prompt, as a BBS does.
@@ -329,15 +412,22 @@ export function paneView(base: Ctx): RenderElement {
   const isTerminal = ctx.state.view === 'terminal'
   const gap = isBbs() && !isCompact && !isMenu ? [text(ctx, ' ')] : []
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
-  // Compact keeps every page's title and its line of purpose; only the banner and the spacing go.
+  // Compact keeps every page's title and its line of purpose; only the banner and the spacing go. The title leads, then the tabs, as in the wide layout.
   const parts = isCompact
-    ? [tabs(ctx), ...bbs.art, ...(about !== null ? [about] : []), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
+    ? [...(ctx.state.view === 'menu' && title.length > 0 ? title : bbs.art), ...(about !== null ? [about] : []), tabs(ctx), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
         [...bbs.art, ...(about !== null ? [about] : []), ...(cardsOn ? [] : [...gap, ...bbs.strip, ...gap]), tabs(ctx), ...(cardsOn ? [] : gap), footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
       : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx, attention.placed)]), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx, attention.placed)] : [])]
 
-  return ctx.kit.Box({ flexDirection: 'column', children: parts })
+  // The leading rows that sit beside the icons: the header art (one picture) and the line that says what the page is for; on the menu, the banner and the blank row under it.
+  const lead = isCompact
+    ? (ctx.state.view === 'menu' && title.length > 0 ? title.length : bbs.art.length) + (about !== null ? 1 : 0)
+    : !isMenu && isBbs()
+      ? bbs.art.length + (about !== null ? 1 : 0)
+      : title.length + (isMenu && isBbs() ? 1 : 0)
+
+  return ctx.kit.Box({ flexDirection: 'column', children: withIcons(ctx, parts, lead) })
 }
 
 type Plain = { type: string; props: { children?: unknown; label?: string } }

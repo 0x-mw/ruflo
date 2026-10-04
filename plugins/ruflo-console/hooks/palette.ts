@@ -211,9 +211,13 @@ export function filterPalette(entries: readonly PaletteEntry[], query: string, c
 
       return score === null ? [] : [{ entry, score }]
     })
-    .sort((a, b) => b.score - a.score)
+    // What can run comes first, so the best match, which Enter runs, is something that runs; each half keeps its own order.
+    .sort((a, b) => Number(isUnavailable(a.entry)) - Number(isUnavailable(b.entry)) || b.score - a.score)
     .map(match => match.entry)
 }
+
+/** An entry that cannot run now (its spec is null: a mod that is not seated, a missing selection). */
+export const isUnavailable = (entry: PaletteEntry): boolean => entry.run.kind === 'spec' && entry.run.spec === null
 
 /** The argument a text entry takes from the query: everything after its keyword. */
 export const textOfQuery = (query: string, keyword: string): string => query.trim().slice(keyword.length).trim()

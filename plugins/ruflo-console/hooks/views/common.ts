@@ -21,9 +21,14 @@ import type { Grid } from '../gfx/raster'
 import type { MemoryActions } from '../memory-lab'
 import type { NavActions } from '../nav-state'
 import type { SkillActions } from '../skills'
+import type { HelpActions } from '../help-actions'
+import type { PluginOp } from '../plugin-ops'
 import { START_LABEL, type StartId } from '../starts'
 import type { MoreSkillActions } from '../skills-lab'
 import { VIEWS, type HarnessId, type NavStyle, type State, type ViewId } from '../state'
+import type { UpdatesMode } from '../updates'
+import { chip, COST_CHIP } from '../menu-colors'
+import { accentOfView } from '../nav-state'
 import type { VectorActions } from '../vector'
 
 export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Raster?: Elements['terminal']['Raster']; Input?: Elements['terminal']['Input'] }
@@ -32,6 +37,8 @@ export type Kit = Pick<Elements['terminal'], 'Box' | 'Text' | 'Button'> & { Rast
 export type Actions = {
   view: (id: ViewId) => void
   refresh: () => void
+  /** Refresh and replay the intro boot screen: the footer button and the r key. */
+  restart: () => void
   help: () => void
   close: () => void
   back: () => void
@@ -60,6 +67,8 @@ export type Actions = {
   /** Puts the keys in one of the pane's fields by its key (a row that takes text focuses its field). */
   focus: (key: string) => void
   start: (id: StartId, text?: string) => void
+  /** The marketplace update on the Plugins and Plugin Catalog pages: asks first, then runs one `claude plugin` command. */
+  plugin: (op: PluginOp) => void
   /** The main menu's prompt: a key or a name takes the person to that area. */
   menu: (text: string) => void
   term: { harness: (id: HarnessId) => void; draft: (text: string) => void; submit: (text: string) => void; stop: () => void; fresh: () => void; clear: () => void; load: (id: HarnessId, text: string) => void; /** A click on an ask link: opens the terminal, picks the agent and sends the text at once (read-only, plan mode, the saved per-turn budget): the reply streams in with no second click. */ ask: (id: HarnessId, text: string) => void; /** Moves the window up (positive) or down by screen rows. */ scroll: (by: number) => void; /** Puts an earlier question back in the field. */ reuse: (text: string) => void }
@@ -81,6 +90,8 @@ export type Actions = {
   watch: WatchActions
   /** Ask Claude about this section (a visible prompt or a /btw aside) or run the plugin command that fits it: each asks first. */
   ask: AskActions
+  /** ruHelp, the built-in help: a question, a guide, a step's button, and asking Claude with the docs. */
+  ruhelp: HelpActions
   /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */
   mission: MissionActions
   /** The Plugin Catalog: read the clone, filter, select a plugin, view or use an item, change a plugin (each asks first). */
@@ -97,6 +108,10 @@ export type Actions = {
   navigator: NavActions
   /** Sets how the main nav spells its tabs (saved). */
   nav: (style: NavStyle) => void
+  /** Sets whether to check for a newer published ruflo-console: ask first, update without asking, or never (saved). */
+  updates: (mode: UpdatesMode) => void
+  /** Checks now, whatever the daily gate or an off setting says (it still asks before installing, and skips a development checkout). */
+  checkUpdates: () => void
   /** Opens or closes a collapsible section (`<view>/<id>`). */
   toggle: (key: string) => void
   /** Settings: the level, a plugin, an option or ruflo config change (each asks first), AI preferences, and ▸ ask claude/codex. */
@@ -137,6 +152,34 @@ export function setLook(next: Look): void {
 
 export const isBbs = (): boolean => look === 'bbs'
 
+/**
+ * A cost tag (`$0`, `wr`, `net`, `$$`) on a run row. In the BBS look it is a solid chip, the way the menu draws a key: the ink on a ground
+ * by how much the run asks (a read green, local work or a write cyan, the network amber, spending or deleting red). In the plain look it
+ * is coloured text, as it always was. `color` is the tag's theme colour; a colour that is none of the four stays text.
+ */
+export function tagChip(ctx: Ctx, text: string, color: string): RenderElement {
+  const ground = look !== 'bbs' ? undefined : color === THEME.ok ? COST_CHIP.ok : color === THEME.info ? COST_CHIP.info : color === THEME.warn ? COST_CHIP.warn : color === THEME.bad ? COST_CHIP.bad : undefined
+
+  if (ground === undefined) return ctx.kit.Text({ bold: true, color, children: ` ${text}` })
+
+  return ctx.kit.Box({ flexDirection: 'row', children: [ctx.kit.Text({ children: ' ' }), ctx.kit.Text({ ...chip(ground), children: text })] })
+}
+
+/** Words wrapped to `width`, so a long line reads as several instead of running off the edge. */
+export function wrap(line: string, width: number): string[] {
+  const out: string[] = []
+  let current = ''
+
+  for (const word of line.split(' ')) {
+    if (current !== '' && current.length + word.length + 1 > width) {
+      out.push(current)
+      current = word
+    } else current = current === '' ? word : `${current} ${word}`
+  }
+
+  return current === '' ? out : [...out, current]
+}
+
 export const clip = (text: string, width: number): string => (text.length <= width ? text : `${text.slice(0, Math.max(0, width - 1))}…`)
 
 export function ago(atMs: number | null | undefined, nowMs: number): string {
@@ -174,6 +217,11 @@ export function col(ctx: Ctx, parts: readonly RenderChildren[], key?: string): R
   return ctx.kit.Box({ flexDirection: 'column', ...(key !== undefined && { key }), children: [...parts] })
 }
 
+/** The colour a BBS page's section headers wear: the accent of its nav group (the menu's colours), else the theme's. Plain look: the theme's. */
+function accentOf(ctx: Ctx): string {
+  return look === 'bbs' ? (accentOfView(ctx.state.view === 'agent' ? ctx.state.back : ctx.state.view) ?? THEME.info) : THEME.info
+}
+
 /**
  * A collapsible section: its header is a button (▾ open, ▸ closed) and the rows follow only while it is open. `open` is the
  * section's default; pressing the header flips it for this session. The header reads as `rule` does.
@@ -193,8 +241,8 @@ export function section(ctx: Ctx, id: string, title: string, right: string, chil
         ctx,
         [
           ctx.kit.Button({ key: `sec-${id}`, label: head, plain: true, onPress: () => ctx.act.toggle(key) }),
-          ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
-          ctx.kit.Text({ color: THEME.info, children: right }),
+          ctx.kit.Text({ color: accentOf(ctx), dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
+          ctx.kit.Text({ color: accentOf(ctx), children: right }),
         ],
         `sec-row-${id}`,
       ),
@@ -210,7 +258,7 @@ export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
     const head = `▓▒░ ${title.toUpperCase()} ░▒▓`
     const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
 
-    const line = row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: head }), ctx.kit.Text({ color: THEME.info, dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: THEME.info, children: right })])
+    const line = row(ctx, [ctx.kit.Text({ bold: true, color: accentOf(ctx), children: head }), ctx.kit.Text({ color: accentOf(ctx), dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: accentOf(ctx), children: right })])
 
     // In a card the header is the card's first row; otherwise a blank line above each section, so the board breathes instead of packing every block together.
     return ctx.cards === true ? marked(HEADS, line) : marked(HEADS, col(ctx, [ctx.kit.Text({ children: ' ' }), line]))

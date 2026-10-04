@@ -10,6 +10,11 @@ import type { Host } from './host'
 import { ownerLine, ownerOf } from './tool-owner'
 import { newState, PANE_ID, restore, restoreSessions, storeKeyOf, termStoreKeyOf } from './state'
 import { BAR_KEY, barView } from './views/bar'
+import { setBootChecks } from './boot-checks'
+import { buildOf, isOurCheckout, setBuild } from './build'
+import { runUpdateCheck } from './update-flow'
+import { parseMode, UPDATES_KEY } from './updates'
+import { selfCheckResults } from './self-check'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
 import { withClearing } from './views/clearing'
@@ -21,6 +26,9 @@ const RUFLO_TOOL = /^mcp__(claude-flow|ruflo|plugin_ruflo[\w-]*)__/
  * Binds a Host from `$`, every member spelled `$.noun.method(...)` here and nowhere else, so the engine reads what
  * the module calls off this one place. Calls that answer nothing are wrapped: a refused draw is not a crashed hook.
  */
+/** True while the console itself scrolls the pane to its top, so the terminal's own wheel handling does not take that for the person's wheel. */
+let isResettingScroll = false
+
 function hostOf($: EngineInterface, cwd: string): Host {
   const rooted = (path: string) => (path.startsWith('/') ? path : `${cwd.replace(/\/+$/, '')}/${path}`)
   const quietly = (fn: () => unknown) => {
@@ -39,7 +47,28 @@ function hostOf($: EngineInterface, cwd: string): Host {
     after: (ms, fn) => $.clock.after(ms, fn),
     storeGet: async key => $.store.get(key),
     storeSet: async (key, value) => $.store.set(key, value as never),
+    fetchText: async url => {
+      const response = await $.http.fetch(url)
+
+      return { ok: response.ok, status: response.status, text: response.text }
+    },
+    askChoice: async (question, options) => $.ui.ask(question, options),
+    toast: (text, timeoutMs) => quietly(() => $.ui.toast(text, timeoutMs === undefined ? undefined : { timeoutMs })),
     invalidate: () => quietly(() => $.ui.invalidate('ui.render')),
+    // Once now and once after the new page has drawn: a page taller than the one before keeps the old offset until it is moved.
+    scrollTop: () => {
+      const go = () =>
+        quietly(() => {
+          isResettingScroll = true
+
+          return Promise.resolve($.ui.scroll({ to: 'start', in: PANE_ID })).finally(() => {
+            isResettingScroll = false
+          })
+        })
+
+      go()
+      $.clock.after(80, go)
+    },
     focus: async (paneId, key) => $.ui.focus({ requestId: paneId, key }),
     blit: args => quietly(() => $.ui.blit(args)),
     openPane: async pane => $.ui.open(pane),
@@ -88,6 +117,14 @@ function hostOf($: EngineInterface, cwd: string): Host {
  * drill-down, timeline, approvals, events). Every change goes through the ruflo CLI with fixed argv after a confirm.
  */
 export const register: Register = (on, raw: PluginOptions) => {
+  // The boot log reports this check, so an [ OK ] on screen means the area's commands resolved. It spawns nothing and takes a
+  // moment; a failure of the check itself leaves the log drawing as it did, never stops the console.
+  try {
+    setBootChecks(selfCheckResults())
+  } catch {
+    setBootChecks(undefined)
+  }
+
   const state = newState(raw)
   let host: Host | null = null
   let control: Controller | null = null
@@ -98,6 +135,34 @@ export const register: Register = (on, raw: PluginOptions) => {
     state.cwd = e.cwd
     state.isInteractive = e.isInteractive !== false
     control = createController(state, host)
+
+    // Which build is this? Only a checkout of this plugin in its repository is read (an installed copy inside some other repo is not
+    // that repo's commit); read-only, $0, and any failure leaves the header at its version alone.
+    const here = host
+    const root = here.pluginRoot
+
+    const built = here
+      .run(['git', '-C', root, 'rev-parse', '--show-prefix'], 3_000)
+      .then(prefix => (prefix.exitCode === 0 && isOurCheckout(prefix.stdout) ? here.run(['git', '-C', root, 'describe', '--always', '--dirty', '--abbrev=7'], 3_000) : null))
+      .then(described => {
+        setBuild(described !== null && described.exitCode === 0 ? buildOf(described.stdout) : '')
+        here.invalidate()
+      })
+      .catch(() => undefined)
+
+    // The update mode is the person's, kept in the plugin's store; then, once the build is known (a development checkout is never offered
+    // an update) and the screen has settled, one check for a newer published version. It never throws and never blocks the console.
+    const moded = here.storeGet(UPDATES_KEY).then(
+      value => {
+        state.updates = parseMode(value)
+        here.invalidate()
+      },
+      () => undefined,
+    )
+
+    void Promise.all([built, moded]).then(() => {
+      if (state.isInteractive) here.after(2_500, () => void runUpdateCheck(state, here))
+    })
 
     const bound = host
 
@@ -207,7 +272,7 @@ export const register: Register = (on, raw: PluginOptions) => {
   // The AI terminal's conversation is its own window: the wheel and the page keys over the pane move it, so the header,
   // tabs and the field below stay where they are (the engine would scroll the whole pane).
   on('ui.scroll', { component: 'Pane', requestId: PANE_ID }, ($, e, next) => {
-    if (control === null || state.view !== 'terminal' || e.by === 0) return next(e)
+    if (control === null || state.view !== 'terminal' || e.by === 0 || isResettingScroll) return next(e)
 
     const lines = Math.abs(e.by) >= e.bodyRows ? Math.max(1, Math.round(e.bodyRows / 2)) : Math.abs(e.by) * 3
 

@@ -1,7 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { MEM_GROUPS, MEM_LAB, memSpecOf, textOfFields, type MemCost, type MemEntry, type MemField } from '../memory-lab'
-import { ago, button, clip, confirmHere, row, rule, section, text, THEME, type Ctx } from './common'
+import { ago, button, clip, confirmHere, type Ctx, row, rule, section, tagChip, text, THEME } from './common'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const MEM_ROWS = 16
@@ -71,7 +71,7 @@ function entryRow(ctx: Ctx, entry: MemEntry, lead: number): RenderElement {
   return row(
     ctx,
     [
-      ctx.kit.Text({ bold: true, color: tag.color(), children: ` ${tag.text}` }),
+      tagChip(ctx, tag.text, tag.color()),
       ctx.kit.Text({ bold: true, color: entry.cost === 'deletes' ? THEME.bad : THEME.head, children: ` ${entry.name} `.padEnd(lead, '.') }),
       ctx.kit.Text({ color: THEME.info, dimColor: !isReady, wrap: 'truncate-end', children: clip(` ${entry.about}`, Math.max(4, ctx.columns - lead - 16)) }),
       ctx.kit.Button({ key: `mem-lab-${entry.id}`, label: ' ▸ run', plain: true, dimColor: true, onPress: () => ctx.act.memory.run(entry.id) }),

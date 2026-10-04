@@ -12,6 +12,7 @@ import { idOf, parseAgents, parseClaims, parseHive, parseSwarmStore, plain } fro
 import { readSnapshot } from '../hooks/data/snapshot'
 import { toBase64 } from '../hooks/gfx/raster'
 import { newState } from '../hooks/state'
+import { CARD_COLUMNS } from '../hooks/views/card'
 import { picturesOf } from '../hooks/views/frames'
 import { ladder } from '../hooks/views/cost'
 import { CLI_OUT, HIVE_TOKEN, RUFLO_FILES } from './fixtures/ruflo-run'
@@ -151,7 +152,30 @@ describe('graphics', () => {
     expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['title'])
     // The RUFLO banner is the main menu's alone; every other page leads with `RUFLO | PAGE`.
     state.view = 'menu'
-    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'title'])
+    expect([...picturesOf(state, 90, 0, 5).keys()]).toEqual(['header', 'palette', 'title'])
+  })
+
+  it('the menu\'s palette strip moves with the clock, is still at fps 0, and is the BBS look\'s alone', () => {
+    const cells = (state: ReturnType<typeof newState>, t: number) => Array.from((picturesOf(state, 90, 0, t).get('palette') as { cells: Uint32Array }).cells)
+    const bbs = newState({})
+
+    bbs.view = 'menu'
+    expect(cells(bbs, 0)).not.toEqual(cells(bbs, 1_512))
+    // As wide as the menu's own rows: the pane less the card's border and padding, less the two columns of margin.
+    expect(cells(bbs, 0).length / 3).toBe(90 - CARD_COLUMNS - 2)
+
+    bbs.options.fps = 0
+    expect(cells(bbs, 987_654)).toEqual(cells(bbs, 0))
+
+    const plain = newState({ look: 'plain' } as never)
+
+    plain.view = 'menu'
+    expect([...picturesOf(plain, 90, 0, 5).keys()]).toEqual(['header'])
+
+    const other = newState({})
+
+    other.view = 'swarm'
+    expect(picturesOf(other, 90, 0, 5).has('palette')).toBe(false)
   })
 
   it('the budget ladder marks 50/75/90/100% and fills to the spend', () => {

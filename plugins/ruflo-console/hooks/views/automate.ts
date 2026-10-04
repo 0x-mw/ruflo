@@ -7,7 +7,7 @@ import type { LabCost } from '../mh-lab'
 import { neuralEntries } from '../neural'
 import { slot } from './attention'
 import { loopRows } from './loops'
-import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, type Ctx, row, rule, tagChip, text, THEME } from './common'
 import { selection } from './select'
 
 /** Result lines in view at once; j/k scroll the rest. */
@@ -27,7 +27,7 @@ export type Item = { id: string; label: string; cost: LabCost }
 export function strip(ctx: Ctx, key: string, items: readonly Item[]): RenderElement {
   return row(
     ctx,
-    items.flatMap(item => [ctx.kit.Text({ bold: true, color: TAG[item.cost].color(), children: ` ${TAG[item.cost].text}` }), ctx.kit.Button({ key: `run-${item.id}`, label: `▸ ${item.label}`, plain: true, onPress: () => void ctx.act.run(item.id) })]),
+    items.flatMap(item => [tagChip(ctx, TAG[item.cost].text, TAG[item.cost].color()), ctx.kit.Button({ key: `run-${item.id}`, label: `▸ ${item.label}`, plain: true, onPress: () => void ctx.act.run(item.id) })]),
     key,
   )
 }

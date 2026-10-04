@@ -1,28 +1,31 @@
 import type { RenderElement } from 'claude-code'
 
 import { gauge, sparkline } from '../memory-lines'
-import { count, rule, row, text, THEME, type Ctx } from './common'
+import { section, count, row, text, THEME, type Ctx } from './common'
 import { stagesOf } from './frames'
+import { spinAt } from '../spinner'
 
 /** One step of the animation every 160 ms; nothing moves while the pane is hidden (the frame loop stops). */
 const beat = (ctx: Ctx, ms: number): number => Math.floor(ctx.nowMs / ms)
 
 /**
- * The learning pulse: text charts that move while the pane is open. A marker travels the pipeline (RETRIEVE → JUDGE → DISTILL →
- * CONSOLIDATE), the router's model mix is a bar chart with a highlight that sweeps along each bar, and the success rate is a sparkline
- * with a scanning cursor. They draw what was measured and nothing else: no data, no chart.
+ * The learning pulse, folded in its own section: text charts that move while the pane is open. A marker travels the pipeline
+ * (RETRIEVE → JUDGE → DISTILL → CONSOLIDATE), the router's model mix is a bar chart with a highlight that sweeps along each bar, and
+ * the success rate is a sparkline with a scanning cursor. While a learning action runs the marker quickens and the active stage
+ * shows the spinner, so activity reads at a glance. They draw what was measured and nothing else: no data, no chart.
  */
 export function pulseRows(ctx: Ctx): RenderElement[] {
   const { state } = ctx
-  const rows: RenderElement[] = [rule(ctx, 'Learning pulse', 'live: the marker moves, the data is what ruflo measured')]
+  const rows: RenderElement[] = []
+  const running = state.lab.running?.id.startsWith('nn-') === true
   const stages = stagesOf(state)
-  const at = beat(ctx, 700) % Math.max(1, stages.length)
+  const at = beat(ctx, running ? 250 : 700) % Math.max(1, stages.length)
 
   rows.push(
     row(
       ctx,
       stages.flatMap((stage, i) => [
-        ctx.kit.Text({ bold: i === at, color: i === at ? THEME.warn : THEME.info, children: ` ${i === at ? '●' : '○'} ${stage.name} ${stage.count ?? 'n/a'}` }),
+        ctx.kit.Text({ bold: i === at, color: i === at ? THEME.warn : THEME.info, children: ` ${i === at ? (running ? spinAt(ctx.nowMs) : '●') : '○'} ${stage.name} ${stage.count ?? 'n/a'}` }),
         ...(i < stages.length - 1 ? [ctx.kit.Text({ dimColor: true, children: ' ━━' })] : []),
       ]),
       'pulse-pipeline',
@@ -67,5 +70,7 @@ export function pulseRows(ctx: Ctx): RenderElement[] {
     for (const [name, value] of Object.entries(sizes)) rows.push(text(ctx, ` ${name.padEnd(14)} ${gauge(value, top, 24)} ${count(value)}`, { color: THEME.info }))
   }
 
-  return rows
+  const live = state.lab.running?.id.startsWith('nn-') === true
+
+  return section(ctx, 'learn-pulse', 'Learning pulse', live ? `${spinAt(ctx.nowMs)} learning now · the marker quickens` : 'live: the marker moves, the data is what ruflo measured', rows, true)
 }
