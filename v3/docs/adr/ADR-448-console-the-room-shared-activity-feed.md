@@ -1,6 +1,6 @@
 # ADR 448: The Room — a shared live feed where a person, Claude and the swarm watch and talk to each other
 
-Status: Proposed
+Status: Proposed (the Room page); §3.2, the expiry event, is implemented in ruflo-console 0.32.2
 
 Date: 2026 10 04
 
@@ -12,8 +12,8 @@ Builds on: ADR 407 (cockpit), ADR 416 (Timeline and Events — read-only, per-pa
 
 Testing the console's four model tools end to end (a full page sweep plus `console_set`/`console_run` probes, 2026-10-04) surfaced a real gap: a person asked the console to create a mission; a few minutes and several unrelated console actions later the pending confirm was simply gone — no mission, no error, nothing in `console_state` pointing at what happened to it. Tracing it through the source (`hooks/runner.ts`, `hooks/model-tools.ts`) found two independent ways that happens, both already in the shipped code, neither visible anywhere:
 
-- **`state.pending` is one slot, not a queue.** `ask()` (`runner.ts:141`) assigns it unconditionally. `model-tools.ts:276` *does* guard Claude's own `console_run` against clobbering a person's pending action ("never replaced, never cleared") — but nothing guards the reverse, and nothing guards a person's own second click. Two asks in a row anywhere in the console still only ever leave one pending.
-- **A confirm older than 30 s is silently dropped.** `PENDING_TTL_MS = 30_000` (`runner.ts:15`); `confirm()` (`runner.ts:147-150`) nulls `state.pending` either way and only *speaks* the "more than 30 s, ask again" outcome into the console's own `say()` — which is local, transient UI text, not `state.outcome`, not `control.log`, not an event. A person who answers "y" a minute later sees it fail only if they were still looking at that exact screen; `console_state` afterward shows `waiting: null` with no trace that anything was asked, let alone refused.
+- **`state.pending` is one slot, not a queue.** `ask()` (`runner.ts:141`) assigns it unconditionally. `model-tools.ts:276` *does* guard Claude's own `console_run` against clobbering a person's pending action ("never replaced, never cleared") — but nothing guards the reverse, and nothing guards a person's own second click. Two asks in a row anywhere in the console still only ever leave one pending. (Review note: the one background path that did this to Claude's own pending action, the async guidance offer, was fixed in #3699, ruflo-console 0.32.1; a person's own second click still replaces it, by design.)
+- **A confirm older than 30 s is silently dropped.** `PENDING_TTL_MS = 30_000` (`runner.ts:15`); `confirm()` (`runner.ts:147-150`) nulls `state.pending` either way and speaks the "more than 30 s, ask again" outcome through `say()`. (Review note, corrected: `say()` does write `state.outcome`, so the miss is not untraced; but `outcome` is one slot that the next action overwrites, and it is not `control.log` or an event, so the trace is gone as soon as anything else runs.) A person who answers "y" a minute later sees it fail only if they were still looking at that exact screen; `console_state` afterward shows `waiting: null` and, once another action has run, no trace that anything was asked, let alone refused.
 
 The console already has three real pages for *watching* (Timeline, Events, Approvals) and three real ways to *write into the room* (`broadcast`, `mission-aside`, `mission-guide` — ADR 406/443, `hooks/mission-palette.ts:34-35`, `hooks/palette.ts:136`). Nothing puts the two together, and nothing makes the one pending confirm — the single most consequential thing on screen — impossible to miss. The user asked for a dashboard that helps a human and the agents "see what's happening" and collaborate; this ADR is that page, built from what already exists rather than a fourth notification system (the claims lesson: don't build a fifth of something that already has four).
 
@@ -41,9 +41,9 @@ A new view, `room` (`ViewId`, key `r`, icon `💬`, label "The Room", blurb "wha
    Same mechanics as Events (ADR 416 §2.2): kind chips, find, pause/resume, paging — reused, not reinvented, because Events already solved "a feed too long to read live."
 4. **Who's here** — the per-lane busy/idle summary `timelineView` already computes (`manage.ts:27-57`), condensed to one line per lane (name, busy % of the last 15 min, last tool call), each with the existing "✦ ask Claude" button.
 
-### 3.2 The one behavioral fix this ADR makes (not just a new page)
+### 3.2 The one behavioral fix this ADR makes (not just a new page) — implemented
 
-An expired confirm must leave a trace. `confirm()` (`runner.ts:147-150`) gains one line: when `isFresh` is false, push a `ConsoleEvent` ("a confirm for '<label>' arrived 46s after the ask and was not run — answer within 30s next time") before nulling `pending`, the same way every other event reaches `watch.ts`. This is the minimum fix that makes the failure mode this ADR found show up in the feed it just built, instead of nowhere. It does **not** extend the TTL, add a queue, or change who may answer a pending — those are explicitly deferred (§5).
+An expired confirm must leave a trace. `confirm()` (`runner.ts:147-150`) gains one `record(state.events, …)` call (done, with `tests/runner.spec.ts`): when `isFresh` is false, push a `ConsoleEvent` (kind `tools`) ("a confirm for '<label>' arrived 46s after the ask and was not run — answer within 30s next time") before nulling `pending`, the same way every other event reaches `watch.ts`. This is the minimum fix that makes the failure mode this ADR found show up in the feed it just built, instead of nowhere. It does **not** extend the TTL, add a queue, or change who may answer a pending — those are explicitly deferred (§5).
 
 ### 3.3 Model tools
 
