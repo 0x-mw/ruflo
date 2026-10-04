@@ -56,7 +56,7 @@ describe('research start: validation', () => {
   })
 
   it('the draft defaults to standard depth and a $2 cap', () => {
-    expect(researchOf(newState())).toEqual({ question: '', depth: 'standard', cap: '2' })
+    expect(researchOf(newState({}))).toEqual({ question: '', depth: 'standard', cap: '2' })
   })
 })
 

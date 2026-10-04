@@ -46,7 +46,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'learning', key: '7', label: 'Learning', short: 'Lrn', icon: '🧠', blurb: 'router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline', rows: 30 },
   { id: 'metaharness', key: '8', label: 'MetaHarness', short: 'MH', icon: '🔬', blurb: 'harness readiness, the flywheel, the audit trend, and a lab that runs every MetaHarness verb', rows: 40 },
   { id: 'memory', key: '9', label: 'Memory', short: 'Mem', icon: '💾', blurb: 'the Memory Lab: browse, search, store and delete entries; AgentDB, embeddings and upkeep, each a button', rows: 60 },
-  { id: 'cost', key: 'c', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'set a budget, see where spend is reported, and project its burn', rows: 40 },
+  { id: 'cost', key: 'c', label: 'Cost', short: 'Cst', icon: '💰', blurb: 'set a budget, see spend across Claude Code and Codex, and how to cut it', rows: 40 },
   { id: 'timeline', key: 'g', label: 'Timeline', short: 'Gnt', icon: '🕒', blurb: 'each agent busy or idle over the last minutes, beside Claude Code tool calls', rows: 24 },
   { id: 'approvals', key: 'q', label: 'Approvals', short: 'Apv', icon: '✅', blurb: 'decisions waiting for a person: votes, stealable claims, refused mods, budget', rows: 24 },
   { id: 'events', key: 'e', label: 'Events', short: 'Evt', icon: '📡', blurb: 'every swarm, claim, memory and mod event as it happens (f filters them)', rows: 26 },

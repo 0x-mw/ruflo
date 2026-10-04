@@ -6,6 +6,7 @@
 import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
 import { PROBES, probeArgv, probeReady, type ProbeResult } from './data/cli'
+import { COST_PROBES } from './data/cost-ledger'
 import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
@@ -31,7 +32,7 @@ const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
 const MAX_PARALLEL_PROBES = 2
 /** The CLI probes and the x.ruv.io board's two network reads, one cadence and one option gate for all. */
-const ALL_PROBES = [...PROBES, ...X_PROBES]
+const ALL_PROBES = [...PROBES, ...X_PROBES, ...COST_PROBES]
 const BAR_FRESH_MS = 10_000
 const IDLE_REFRESH_MS = 30_000
 const TOOLS_RECOUNT_MS = 30_000
