@@ -76,11 +76,72 @@ Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].opt
 | Option | Default | Effect |
 |---|---|---|
 | `routeContext` | `true` | Include ranked memory with routes |
+| `guidanceContext` | `false` | Screened lexical excerpts from a compiler exported guidance projection |
+| `guidanceLearning` | `false` | Unverified activity observations for independent review; no training or promotion |
 | `statusLine` | `true` | One-line ruflo status. Skipped where the ruflo statusLine helper is configured |
 | `costBudgetUsd` | `0` (off) | Session budget for the ladder |
 | `costHardStop` | `false` | Refuse new subagents at 100% of budget |
 | `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate |
 | `modTrustAllow` | `` | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses |
+
+## Task guidance and observation review (ADR-447)
+
+Export reviewed guidance with a CLI built from this revision. Supply the commit
+that contains the reviewed source. The revision is declared provenance, not an
+authenticated receipt; an independent verifier must compare the source before
+accepting evidence.
+
+```bash
+ruflo guidance compile --mod-projection --revision "$(git rev-parse HEAD)" --root ./CLAUDE.md
+```
+
+This reuses the Guidance Control Plane compiler. The default destination is
+`.claude-flow/mods/guidance/projection.json`. `--output` overrides its directory;
+the native mod reads only the default project path. No embeddings, optimizer or
+model calls are used. Retrieval is lexical, at most five excerpts and 4096
+characters. Missing, oversized, symlinked or corrupt advisory data adds no context.
+Screening reduces exposure to credentials and injection; it does not grant trust.
+
+Enable the two independent options through Claude Code user settings:
+
+```json
+{
+  "pluginConfigs": {
+    "ruflo-mods@ruflo": {
+      "options": { "guidanceContext": true, "guidanceLearning": true }
+    }
+  }
+}
+```
+
+`guidanceLearning` records observations, despite its compatibility-oriented name.
+Each registration lifetime owns a separate queue under
+`.claude-flow/mods/guidance/observations/`. Records contain generated task IDs,
+bundle digest, source revision, displayed rule IDs, permission counters, tool
+execution counters and completion class. They contain no prompt, answer, command,
+tool output or file path. A successful tool call and a completed turn stay
+`verified: false` and `learningEligible: false`. With guidanceContext disabled,
+observations correctly contain no displayed rule IDs.
+
+```bash
+ruflo guidance mod-candidates --json
+ruflo guidance mod-candidates --bundle-id <64-character-bundle-digest> --json
+```
+
+The report groups observations into review priorities, rejecting forged verified
+flags, unknown fields, replayed records and mismatched queue namespaces. It writes
+no accepted guidance ledger, memory, policy or source file. Task-bound independent
+acceptance evidence, a held out baseline comparison and authorized promotion are
+required before these observations can support trusted learning. Keep candidates
+outside CLAUDE.md and CLAUDE.local.md until that review completes.
+
+Queues retain at most 128 observations per registration lifetime and 256 KiB.
+Flushes serialize in the process and retry refused writes without overwriting
+unreadable or corrupt existing bytes. Native filesystem writes cannot guarantee
+atomic persistence through a crash; a hot reload can lose an unfinished turn.
+The review command accepts at most 128 queue files per batch. Archive reviewed
+queues explicitly outside the active directory. `/ruflo mods` reports saved,
+pending and dropped observations. These counts are activity, not correctness.
 
 ## Tests
 

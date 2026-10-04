@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Structural + security smoke for ruflo-mods v0.1.1 (ADR-404).
+# Structural + security smoke for ruflo-mods v0.2.0 (ADR-404, ADR-447).
 # Static only: CI has no Claude Code, so the hooks module's behaviour is held
 # by v3/@claude-flow/cli/__tests__/mods/*.test.ts and, where function hooks are
 # on, by `claude plugin test plugins/ruflo-mods`.
@@ -12,9 +12,9 @@ ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 HOOKS="$ROOT/hooks"
 
-step "1. plugin.json declares ruflo-mods 0.1.1"
+step "1. plugin.json declares ruflo-mods 0.2.0"
 grep -q '"name": "ruflo-mods"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.1.1"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.2.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -55,6 +55,10 @@ step "10. the \$.ruflo contract is declared and flat (one input per method)"
 grep -q '"types": "./types/index.d.ts"' "$ROOT/.claude-plugin/plugin.json" \
   && grep -q "ruflo: Ruflo" "$ROOT/types/index.d.ts" \
   && ! grep -qE "^\s+[a-z]+: \{" "$ROOT/types/index.d.ts" && ok || bad "types/index.d.ts must declare a flat Ruflo noun"
+
+step "11. guidance observations cannot train or promote"
+hits=$(grep -rnE '(hooks_post-task|outcomeAccepted|applyPromotions|runCycle|optimize\(|events\.ndjson)' "$HOOKS/guidance" || true)
+[[ -z "$hits" ]] && grep -q 'learningEligible: false' "$HOOKS/guidance/observations.ts" && ok || bad "guidance must remain candidate-only"
 
 printf "\n%d passed, %d failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]
