@@ -30,7 +30,7 @@ export function agentdbModRows(ctx: Ctx): RenderElement[] {
   rows.push(kv(ctx, 'secret guard', mod.guard ? 'on · memory writes holding a key, token or password are refused' : 'off', mod.guard ? THEME.ok : THEME.warn))
   rows.push(kv(ctx, 'attached', `${count(mod.attached)} · ${count(mod.cached)} from cache · ${count(mod.skipped)} skipped · ${count(mod.timedOut)} timed out${mod.lastMs === null ? '' : ` · last ${mod.lastMs} ms`}`))
   rows.push(kv(ctx, 'refused', `${count(mod.dropped)} memories dropped as unsafe · ${count(mod.blocked)} writes blocked${mod.errors > 0 ? ` · ${count(mod.errors)} errors` : ''}`, mod.dropped + mod.blocked > 0 ? THEME.warn : undefined))
-  rows.push(text(ctx, ` written ${ago(mod.updatedMs, ctx.nowMs)}${stale ? ' (an earlier session)' : ''} · /agentdb status|recall|scan|recent`, { dimColor: true }))
+  rows.push(text(ctx, ` written ${ago(mod.updatedMs, ctx.nowMs)}${stale ? ' (an earlier session)' : ''} · /agentdb-mod status|recall|scan|recent`, { dimColor: true }))
 
   for (const item of mod.recent) {
     rows.push(text(ctx, `  ◆ ${item.snippet.slice(0, Math.max(20, ctx.columns - 30))} [${item.source}${item.score === null ? '' : ` ${item.score.toFixed(2)}`}]`, { color: THEME.info }))

@@ -3,7 +3,7 @@ import { scan } from './screen'
 import type { ModOptions } from './options'
 import type { Stats } from './status'
 
-/** `/agentdb` is answered locally and takes no model turn. `read` is the same recall path the prompt hook uses. */
+/** `/agentdb-mod` is answered locally and takes no model turn. `read` is the same recall path the prompt hook uses. */
 export type CommandDeps = {
   readonly opts: ModOptions
   readonly stats: Stats
@@ -11,7 +11,7 @@ export type CommandDeps = {
   readonly nowMs: () => Promise<number>
 }
 
-const HELP = ['/agentdb status', '/agentdb recall <text>', '/agentdb scan <text>', '/agentdb recent'].join('\n')
+const HELP = ['/agentdb-mod status', '/agentdb-mod recall <text>', '/agentdb-mod scan <text>', '/agentdb-mod recent'].join('\n')
 
 export async function answer(args: string, deps: CommandDeps): Promise<string> {
   const [verb = '', ...rest] = args.trim().split(/\s+/)
@@ -28,7 +28,7 @@ export async function answer(args: string, deps: CommandDeps): Promise<string> {
   }
 
   if (verb === 'scan') {
-    if (arg === '') return 'usage: /agentdb scan <text>'
+    if (arg === '') return 'usage: /agentdb-mod scan <text>'
     const found = scan(arg)
     const parts = [found.secrets.length ? `secrets: ${found.secrets.join(', ')}` : '', found.injection.length ? `injection phrasing: ${found.injection.join(', ')}` : ''].filter(Boolean)
     return parts.length ? `The guard would refuse a memory write of that (${parts.join('; ')}).` : 'Nothing found: the guard would let that be stored.'
@@ -40,7 +40,7 @@ export async function answer(args: string, deps: CommandDeps): Promise<string> {
   }
 
   if (verb === 'recall') {
-    if (arg === '') return 'usage: /agentdb recall <text>'
+    if (arg === '') return 'usage: /agentdb-mod recall <text>'
     const got = await deps.read(arg)
     if (!got) return 'No memory tool is connected (or the source is set to none). Connect the ruflo MCP server and try again.'
     const screened = screen(parse(got.text, got.tool, await deps.nowMs()), opts.recallLimit)

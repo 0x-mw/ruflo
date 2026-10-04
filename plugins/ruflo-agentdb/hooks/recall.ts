@@ -25,6 +25,14 @@ export function cacheKey(prompt: string): string {
   return `${t.length}:${h.toString(16)}`
 }
 
+const STOP = new Set('about above after again also been being between both could does doing done each from have here into just like make more most much only other over really same should some such than that their them then there these they this those through very want were what when where which while will with would your how why can you the and for are not but did get has its let our out see use way'.split(' '))
+
+/** Up to `n` (3) salient words of a prompt, longest first. A substring-matching store finds "cobalt" where it never finds a whole sentence. */
+export function keywords(prompt: string, n = 3): string[] {
+  const words = prompt.toLowerCase().match(/[a-z][a-z0-9_-]{3,30}/g) ?? []
+  return [...new Set(words.filter(w => !STOP.has(w)))].sort((a, b) => b.length - a.length).slice(0, n)
+}
+
 const LISTS = ['results', 'patterns', 'memories', 'entries', 'items', 'matches', 'data'] as const
 const TEXTS = ['content', 'text', 'value', 'pattern', 'approach', 'description', 'summary', 'memory', 'key'] as const
 

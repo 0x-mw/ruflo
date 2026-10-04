@@ -74,7 +74,7 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
       { text: 'The secret guard is on by itself: a memory write that holds a key, token or password is refused, and Claude is told to store a reference instead. Nothing else is touched.' },
       { text: 'Recall is off until you turn it on in the plugin’s options (recall = on). Then each prompt gets the best few matching memories attached as retrieved data, never as instructions. A slow memory read is given up on after 800 ms.' },
       { text: 'Anything retrieved is treated as untrusted: a memory that holds a secret or an instruction to the model is dropped, and the count shows on the Memory page.' },
-      { text: 'Type /agentdb status, /agentdb recall <text>, /agentdb scan <text> or /agentdb recent for the same answers in the prompt, with no model call.' },
+      { text: 'Type /agentdb-mod status, /agentdb-mod recall <text>, /agentdb-mod scan <text> or /agentdb-mod recent for the same answers in the prompt, with no model call.' },
     ],
     tips: ['Recall adds tokens to every prompt, which is why it is off by default.', 'The page reads the mod’s status file; it does not call the mod.'],
     related: ['memory', 'vector', 'security'],

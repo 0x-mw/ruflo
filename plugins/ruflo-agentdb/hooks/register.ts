@@ -3,9 +3,9 @@ import type { Hook, Register } from 'claude-code'
 import { answer } from './command'
 import { verdict } from './guard'
 import { readOptions, type ModOptions } from './options'
-import { cacheKey, frame, parse, screen, worthRecalling } from './recall'
+import { cacheKey, frame, keywords, parse, screen, worthRecalling } from './recall'
 import { newStats, noteAttached, STATUS_PATH, statusText, type Stats } from './status'
-import { pickReader, type Reader } from './tools'
+import { pickReaders, type Reader } from './tools'
 
 const CACHE_MS = 600_000
 const CACHE_MAX = 50
@@ -19,15 +19,15 @@ type Session = {
   readonly stats: Stats
   readonly cache: Map<string, { atMs: number; block: string }>
   root?: string
-  reader?: Reader
+  readers?: readonly Reader[]
 }
 
 type Read = { readonly tool: string; readonly text: string }
 
-/** The first connected memory reader, found once per session and again after a miss (a server may connect late). */
-async function find($: Dollar, s: Session): Promise<Reader | undefined> {
-  if (s.reader === undefined) s.reader = pickReader(await $.tool.list(), s.opts.source)
-  return s.reader
+/** The connected memory readers, found once per session and again after an error (a server may connect late). */
+async function find($: Dollar, s: Session): Promise<readonly Reader[]> {
+  if (s.readers === undefined) s.readers = pickReaders(await $.tool.list(), s.opts.source)
+  return s.readers
 }
 
 async function flush($: Dollar, s: Session): Promise<void> {
@@ -39,13 +39,37 @@ async function flush($: Dollar, s: Session): Promise<void> {
   }
 }
 
-/** One read through a connected tool, bounded by `ms`: its first text block, 'late' past the deadline, undefined when none is connected. */
+/** One reader's first text block, or '' when it errored or said nothing. */
+async function ask($: Dollar, r: Reader, query: string, limit: number): Promise<Read> {
+  const res = await $.mcp.call(r.server, r.tool, r.args(query.slice(0, 1000), limit))
+  return { tool: r.label, text: res.isError ? '' : (res.content.find(b => b.type === 'text')?.text ?? '').slice(0, TEXT_CAP) }
+}
+
+/**
+ * Reads through the connected tools until one has usable results, all within `ms`: the whole prompt on each reader, then its salient words (a
+ * store that matches substrings never matches a sentence). The first answer whose items survive the screen, else the last answer; 'late'
+ * past the deadline; undefined when no reader is connected.
+ */
 async function read($: Dollar, s: Session, query: string, ms: number): Promise<Read | 'late' | undefined> {
-  const r = await find($, s)
-  if (!r) return undefined
-  const call = $.mcp.call(r.server, r.tool, r.args(query.slice(0, 1000), s.opts.recallLimit)).then(res => ({ tool: r.label, text: res.isError ? '' : (res.content.find(b => b.type === 'text')?.text ?? '').slice(0, TEXT_CAP) }))
-  const won = await Promise.race([call, $.clock.sleep(ms).then(() => 'late' as const, () => 'late' as const)])
-  if (won === 'late') call.catch(() => undefined)
+  const readers = await find($, s)
+  if (readers.length === 0) return undefined
+  const work = (async (): Promise<Read> => {
+    let last: Read = { tool: readers[0]?.label ?? '', text: '' }
+    for (const q of [query, ...keywords(query)]) {
+      for (const r of readers) {
+        try {
+          last = await ask($, r, q, s.opts.recallLimit)
+        } catch {
+          continue
+        }
+        const seen = screen(parse(last.text, last.tool, 0), s.opts.recallLimit)
+        if (seen.items.length > 0 || seen.unsafe > 0) return last
+      }
+    }
+    return last
+  })()
+  const won = await Promise.race([work, $.clock.sleep(ms).then(() => 'late' as const, () => 'late' as const)])
+  if (won === 'late') work.catch(() => undefined)
   return won
 }
 
@@ -89,7 +113,7 @@ async function recallFor($: Dollar, s: Session, text: string): Promise<string | 
     return block
   } catch {
     stats.errors++
-    s.reader = undefined
+    s.readers = undefined
     return undefined
   }
 }
@@ -104,7 +128,11 @@ export const register: Register = (on, options) => {
   on('session.start', async ($, e, next) => {
     const result = await next(e)
     s.root = (await $.session.root()) as string | undefined
-    await $.command.register({ name: 'agentdb', description: 'AgentDB memory: status, recall <text>, scan <text>, recent' })
+    try {
+      await $.command.register({ name: 'agentdb-mod', description: 'AgentDB mod: status, recall <text>, scan <text>, recent' })
+    } catch {
+      /* a name taken by another plugin must not stop the mod */
+    }
     await flush($, s)
     return result
   })
@@ -126,8 +154,10 @@ export const register: Register = (on, options) => {
     })
   }
 
-  on('command.run', { command: 'agentdb' }, async ($, e) => {
-    const text = await answer(typeof e.args === 'string' ? e.args : '', {
+  /** `/agentdb-mod` (the plugin's `/agentdb` is a prompt command, which no hook can answer). */
+  on('command.run', { command: 'agentdb-mod' }, async ($, e) => {
+    const args = typeof e.args === 'string' ? e.args : ''
+    const text = await answer(args, {
       opts: s.opts,
       stats: s.stats,
       nowMs: () => $.clock.now(),

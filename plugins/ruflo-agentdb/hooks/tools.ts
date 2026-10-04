@@ -18,16 +18,17 @@ export function splitName(name: string): { server: string; tool: string } | unde
   return at > 5 ? { server: name.slice(5, at), tool: name.slice(at + 2) } : undefined
 }
 
-/** The first connected reader allowed by `source`, in preference order (hierarchical recall, pattern search, ruvector recall). */
-export function pickReader(tools: readonly ToolInfo[], source: Source): Reader | undefined {
-  if (source === 'none') return undefined
+/** Every connected reader allowed by `source`, in preference order (hierarchical recall, pattern search, ruvector recall). */
+export function pickReaders(tools: readonly ToolInfo[], source: Source): Reader[] {
+  if (source === 'none') return []
+  const found: Reader[] = []
   for (const reader of READERS) {
     if (source !== 'auto' && source !== reader.label) continue
     const hit = tools.find(t => t.mcp && splitName(t.name)?.tool === reader.suffix)
     const parts = hit && splitName(hit.name)
-    if (parts) return { label: reader.label, server: parts.server, tool: parts.tool, args: reader.args }
+    if (parts) found.push({ label: reader.label, server: parts.server, tool: parts.tool, args: reader.args })
   }
-  return undefined
+  return found
 }
 
 /** The tools that put text into memory. A write through any of them is screened by the guard. */

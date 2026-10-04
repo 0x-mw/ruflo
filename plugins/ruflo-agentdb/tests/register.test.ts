@@ -6,7 +6,7 @@ tier('user')
 const ROOT = '/work'
 const START = { surface: 'terminal', isInteractive: true, cwd: ROOT } as const
 const prompt = (text: string) => ({ text, wait: false, origin: { kind: 'composer' } }) as const
-const slash = (args: string) => ({ command: 'agentdb', args, origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } }) as const
+const slash = (args: string) => ({ command: 'agentdb-mod', args, origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } }) as const
 
 const TOOLS = [
   { name: 'mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-recall', description: '', mcp: true },
@@ -16,7 +16,7 @@ const TOOLS = [
 type Calls = { server: string; tool: string; args: unknown }[]
 
 /** The world beneath the mod: a project, a file map, one connected AgentDB recall tool that answers with `answer`. */
-function world(on: On, answer: () => string | Promise<string>, tools = TOOLS) {
+function world(on: On, answer: (tool: string) => string | Promise<string>, tools = TOOLS) {
   const files = new Map<string, string>()
   const calls: Calls = []
   on('session.start', ($, e) => ({ cwd: e.cwd }))
@@ -28,7 +28,7 @@ function world(on: On, answer: () => string | Promise<string>, tools = TOOLS) {
   on('clock.sleep', async ($, e) => (await new Promise<void>(resolve => setTimeout(resolve, e.ms)), { value: undefined }))
   on('mcp.call', async ($, e) => {
     calls.push({ server: e.server, tool: e.tool, args: e.args })
-    return { value: { content: [{ type: 'text', text: await answer() }], isError: false } }
+    return { value: { content: [{ type: 'text', text: await answer(e.tool) }], isError: false } }
   })
   return { files, calls }
 }
@@ -61,6 +61,28 @@ describe('recall', () => {
     expect(seen[1]?.[0]).toBe(seen[0]?.[0])
     const status = JSON.parse(w.files.get(`${ROOT}/.claude-flow/agentdb-mod/status.json`) ?? '{}')
     expect(status).toMatchObject({ version: 1, recall: true, attached: 1 })
+  })
+
+  test('falls through to the next reader when the first has nothing', { options: { recall: 'on' } }, async ($, on) => {
+    const tools = [...TOOLS, { name: 'mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search', description: '', mcp: true }]
+    const w = world(on, tool => (tool === 'agentdb_pattern-search' ? hit('cobalt deploys need --no-traffic') : '{"results":[]}'), tools)
+    let context: readonly string[] | undefined
+    on('prompt.submit', ($, e) => ((context = e.context), { text: e.text }))
+    await $.session.start(START)
+    await $.prompt.submit(prompt('how do we deploy the cobalt service'))
+    expect(w.calls.map(c => c.tool)).toEqual(['agentdb_hierarchical-recall', 'agentdb_pattern-search'])
+    expect(context?.[0]).toContain('--no-traffic')
+  })
+
+  test('a store that only matches substrings is asked again with the prompt\'s salient words', { options: { recall: 'on' } }, async ($, on) => {
+    const w = world(on, () => '{"results":[]}')
+    on('prompt.submit', ($, e) => ({ text: e.text }))
+    await $.session.start(START)
+    await $.prompt.submit(prompt('how do we deploy the cobalt service'))
+    const queries = w.calls.map(c => (c.args as { query: string }).query)
+    expect(queries[0]).toBe('how do we deploy the cobalt service')
+    expect(queries).toContain('service')
+    expect(queries).toContain('cobalt')
   })
 
   test('poisoned memory is dropped, not attached', { options: { recall: 'on' } }, async ($, on) => {
@@ -119,7 +141,7 @@ describe('guard', () => {
   })
 })
 
-describe('/agentdb', () => {
+describe('/agentdb-mod', () => {
   test('status, scan and recall answer locally', async ($, on) => {
     const w = world(on, () => hit('prefer RaBitQ for 32x compression'))
     await $.session.start(START)
@@ -131,6 +153,13 @@ describe('/agentdb', () => {
     expect(recall).toContain('RaBitQ')
     expect(recall).toContain('DATA')
     expect(w.calls).toHaveLength(1)
+  })
+
+  test('an unknown verb gets the help, not a model turn', async ($, on) => {
+    world(on, () => hit('x'))
+    await $.session.start(START)
+    expect((await $.command.run(slash('how do I index vectors'))).text).toContain('/agentdb-mod recall <text>')
+    expect((await $.command.run(slash(''))).text).toContain('/agentdb-mod status')
   })
 
   test('no connected memory tool is said plainly', async ($, on) => {

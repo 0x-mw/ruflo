@@ -60,7 +60,7 @@ Initialization order per ADR-053 (`controller-registry.ts:160-174`):
 
 ## Commands
 
-- `/agentdb` — AgentDB health, controller status, session management
+- `/agentdb-mod` — AgentDB health, controller status, session management
 - `/embeddings` — RuVector embedding engine status and operations
 
 ## Skills
@@ -214,13 +214,13 @@ A function-hook mod ships beside the skills. Needs a Claude Code with mods (2.1.
 | **Secret guard** | on | Refuses a memory write (`agentdb_hierarchical-store`, `agentdb_pattern-store`, `agentdb_batch`, `agentdb_causal-edge`, `memory_store`, `hooks_remember`) that holds a private key, cloud/GitHub/Slack token, bearer token, JWT or key-like assignment. The secret is never echoed. |
 | **Recall into prompts** | **off** | Attaches the best 1–5 memories to each prompt as framed, per-prompt context (the prompt cache is not disturbed). Read through the already-connected AgentDB (or ruvector) tool: no CLI, no network. Skipped for slash commands, `!` lines and short prompts; gives up after `recallDeadlineMs` (800); cached 10 minutes. |
 | **Untrusted memory** | always | A retrieved memory with a secret or an instruction-to-the-model phrase is dropped; the rest are control-character-stripped, capped (5 items, 400 chars each, 1500 total) and framed as data. |
-| **`/agentdb`** | — | `status`, `recall <text>`, `scan <text>`, `recent`; answered locally, no model call. |
+| **`/agentdb-mod`** | — | `status`, `recall <text>`, `scan <text>`, `recent`; answered locally, no model call. |
 | **Status file** | — | `.claude-flow/agentdb-mod/status.json` (counts and short snippets); the ruflo console's Memory page shows it. |
 
 Options (`userConfig`): `recall` off|on, `recallLimit` 1–5, `recallDeadlineMs` 200–3000, `guard` on|off, `source` auto|agentdb|ruvector|none.
 
 ```bash
-claude plugin test plugins/ruflo-agentdb      # 20 tests: screening, recall, guard, /agentdb, deadline, cache
+claude plugin test plugins/ruflo-agentdb      # 24 tests: screening, recall, reader fallback, guard, /agentdb-mod, deadline, cache
 node plugins/ruflo-agentdb/scripts/bench.mjs  # per-call cost of the pure paths (tens of µs)
 ```
 

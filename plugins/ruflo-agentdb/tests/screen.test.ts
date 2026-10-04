@@ -2,9 +2,9 @@ import { describe, expect, test, tier } from 'claude-code/testing'
 
 import { verdict } from '../hooks/guard'
 import { readOptions } from '../hooks/options'
-import { cacheKey, frame, parse, screen as screenItems, worthRecalling } from '../hooks/recall'
+import { cacheKey, frame, keywords, parse, screen as screenItems, worthRecalling } from '../hooks/recall'
 import { hasSecret, scan, tidy } from '../hooks/screen'
-import { isWriter, pickReader, splitName } from '../hooks/tools'
+import { isWriter, pickReaders, splitName } from '../hooks/tools'
 
 tier('user')
 
@@ -40,6 +40,12 @@ describe('recall', () => {
     expect(worthRecalling('!ls -la /tmp')).toBe(false)
     expect(worthRecalling('fix it')).toBe(false)
     expect(worthRecalling('why does the router pick the wrong agent')).toBe(true)
+  })
+
+  test('keywords picks the longest salient words and drops filler', () => {
+    expect(keywords('how do we deploy the cobalt service')).toEqual(['service', 'deploy', 'cobalt'])
+    expect(keywords('why does the router pick the wrong agent', 3)).toEqual(['router', 'wrong', 'agent'])
+    expect(keywords('what is it')).toEqual([])
   })
 
   test('cacheKey ignores case and whitespace', () => {
@@ -83,12 +89,12 @@ describe('tools and guard', () => {
     { name: 'mcp__ruvector__hooks_recall', description: '', mcp: true },
   ]
 
-  test('pickReader prefers AgentDB, honours the source, and splits the name', () => {
+  test('pickReaders lists AgentDB first, honours the source, and splits the name', () => {
     expect(splitName('mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search')).toEqual({ server: 'plugin_ruflo-core_ruflo', tool: 'agentdb_pattern-search' })
-    expect(pickReader(list, 'auto')).toMatchObject({ label: 'agentdb', tool: 'agentdb_pattern-search' })
-    expect(pickReader(list, 'ruvector')).toMatchObject({ label: 'ruvector', server: 'ruvector', tool: 'hooks_recall' })
-    expect(pickReader(list, 'none')).toBeUndefined()
-    expect(pickReader(list.slice(0, 1), 'auto')).toBeUndefined()
+    expect(pickReaders(list, 'auto').map(r => r.tool)).toEqual(['agentdb_pattern-search', 'hooks_recall'])
+    expect(pickReaders(list, 'ruvector')).toMatchObject([{ label: 'ruvector', server: 'ruvector', tool: 'hooks_recall' }])
+    expect(pickReaders(list, 'none')).toEqual([])
+    expect(pickReaders(list.slice(0, 1), 'ruvector')).toEqual([])
   })
 
   test('guard refuses secrets in store tools only', () => {
