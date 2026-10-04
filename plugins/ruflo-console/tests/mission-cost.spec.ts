@@ -37,9 +37,18 @@ describe('missionCostArgv', () => {
   })
 })
 
+describe('parseMissionCost window',()=>{
+  it('reads which window the ledger answered for, so a reading is never shown for another mission', () => {
+    const out = JSON.stringify({ totals: { usd: 1 }, rows: 1, window: { from: '2026-10-04T00:00:00.000Z', to: null, project: '/p' } })
+
+    expect(parseMissionCost(out)?.fromMs).toBe(Date.parse('2026-10-04T00:00:00.000Z'))
+    expect(parseMissionCost(JSON.stringify({ totals: { usd: 1 }, window: { from: 'not a date' } }))?.fromMs).toBeNull()
+  })
+})
+
 describe('parseMissionCost', () => {
   it('keeps USD and credits apart and lists unpriced models', () => {
-    expect(parseMissionCost(LEDGER({ unpriced: { 'gpt-5.6-sol': { messages: 3 } } }))).toEqual({ usd: 12.5, credits: 300, unpriced: ['gpt-5.6-sol'], rows: 4 })
+    expect(parseMissionCost(LEDGER({ unpriced: { 'gpt-5.6-sol': { messages: 3 } } }))).toEqual({ usd: 12.5, credits: 300, unpriced: ['gpt-5.6-sol'], rows: 4, fromMs: null })
   })
 
   it('treats a window with no rows as a real zero, but all-unpriced rows as unknown', () => {

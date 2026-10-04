@@ -9,7 +9,7 @@ import { jsonAfter } from './cli'
 import { safeInstallPath } from './cost-ledger'
 import { numberOf, plain, recordOf } from './parse'
 
-export type MissionCost = { usd: number | null; credits: number | null; unpriced: string[]; rows: number }
+export type MissionCost = { usd: number | null; credits: number | null; unpriced: string[]; rows: number; /** The window's start the ledger reports back: it says which mission the reading is for. */ fromMs: number | null }
 export type CapLevel = 'none' | 'OK' | 'INFO' | 'WARNING' | 'CRITICAL' | 'HARD_STOP'
 export type CapState = { level: CapLevel; percent: number | null }
 
@@ -55,7 +55,15 @@ export function parseMissionCost(stdout: string): MissionCost | null {
     credits: credits !== undefined && credits >= 0 ? credits : null,
     unpriced: Object.keys(recordOf(value.unpriced) ?? {}).slice(0, 10).map(name => plain(name, 50)),
     rows,
+    fromMs: windowFromMs(value.window),
   }
+}
+
+function windowFromMs(window: unknown): number | null {
+  const from = recordOf(window)?.from
+  const ms = typeof from === 'string' ? Date.parse(from) : NaN
+
+  return Number.isFinite(ms) ? ms : null
 }
 
 /** Where `spendUsd` sits on the ladder of `cap`; `none` without a spend or a cap. `percent` is the share of the cap used. */

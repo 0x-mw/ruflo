@@ -1,6 +1,6 @@
 # ADR 443: Missions that Claude knows about, verified evidence, mission spend and a loop manager
 
-Status: Proposed
+Status: Accepted (ships in ruflo-console 0.29.0 with ruflo-cost-tracker 0.27.1)
 
 Date: 2026 10 04
 

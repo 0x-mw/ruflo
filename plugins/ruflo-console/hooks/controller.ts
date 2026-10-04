@@ -6,7 +6,7 @@
 import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
 import { PROBES, probeArgv, probeReady, type ProbeResult } from './data/cli'
-import { COST_PROBES } from './data/cost-ledger'
+import { ALL_COST_PROBES as COST_PROBES } from './data/cost-probes'
 import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
