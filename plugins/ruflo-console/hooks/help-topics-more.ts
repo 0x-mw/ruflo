@@ -65,6 +65,22 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
     keywords: ['claude', 'control', 'drive', 'computer', 'use', 'tools', 'autonomy', 'level', 'auto', 'ask', 'take', 'back', 'confirm', 'autoconfirm', 'approve', 'yes'],
   },
   {
+    id: 'agentdb-mod',
+    title: 'Memory in every prompt, without secrets',
+    group: 'Learn',
+    summary: 'the AgentDB mod: safe recall into prompts and a guard that keeps secrets out of memory',
+    steps: [
+      { text: 'Install the ruflo-agentdb plugin (0.4 or newer), then start a new Claude Code session. Open Memory (key 9): the AgentDB mod section shows what it is set to and what it has done.', go: { view: 'memory' }, label: 'Open Memory' },
+      { text: 'The secret guard is on by itself: a memory write that holds a key, token or password is refused, and Claude is told to store a reference instead. Nothing else is touched.' },
+      { text: 'Recall is off until you turn it on in the plugin’s options (recall = on). Then each prompt gets the best few matching memories attached as retrieved data, never as instructions. A slow memory read is given up on after 800 ms.' },
+      { text: 'Anything retrieved is treated as untrusted: a memory that holds a secret or an instruction to the model is dropped, and the count shows on the Memory page.' },
+      { text: 'Type /agentdb status, /agentdb recall <text>, /agentdb scan <text> or /agentdb recent for the same answers in the prompt, with no model call.' },
+    ],
+    tips: ['Recall adds tokens to every prompt, which is why it is off by default.', 'The page reads the mod’s status file; it does not call the mod.'],
+    related: ['memory', 'vector', 'security'],
+    keywords: ['agentdb', 'mod', 'recall', 'prompt', 'retrieval', 'recalled'],
+  },
+  {
     id: 'perf',
     title: 'Find and fix slowness',
     group: 'Safety',

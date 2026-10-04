@@ -1,6 +1,6 @@
 # ADR 445: AgentDB as a mod: safe recall in the prompt, a write guard, `/agentdb`, and a status the console shows
 
-Status: Proposed
+Status: Accepted (implemented in ruflo-agentdb 0.4.0 and ruflo-console 0.31.0)
 
 Date: 2026 10 05
 
@@ -52,3 +52,11 @@ Settings are the plugin's `userConfig`, which the console's Settings page alread
 - Auto-learning (writing to memory at the end of a turn) and `agentdb_feedback` from outcomes: a write path with a weak signal. Left for a later ADR with evidence.
 - Moving the ruflo CLI to `ruvector` 0.3.x.
 - Use of `recall with-certificate` provenance certificates in the frame (the CLI has it; whether a connected tool exposes it is UNVERIFIED).
+
+## 6. Result (2026-10-05)
+
+- Implemented as designed: `hooks/{options,screen,recall,tools,guard,command,status,register}.ts`, all under 120 lines; `claude plugin validate` lists the hooks (`session.start`, `prompt.submit`, `tool.call`, `command.run`) and only `$.clock`, `$.command`, `$.fs.write`, `$.mcp.call`, `$.session.root`, `$.tool.list` as calls: no `$.http`, no `$.process`.
+- **The mod reads memory with `$.mcp.call`** on the connected server (the name is split out of `$.tool.list()`), so it needs no CLI and is not blocked by a permission prompt; `hooks_recall` / `agentdb_hierarchical-recall` / `agentdb_pattern-search` take `query` and `topK` (checked against the tool schemas).
+- 20 tests under `claude plugin test` (screening, parsing, the guard, the prompt hook with a mocked tool, the deadline, the cache, `/agentdb`). The console adds a status parser spec and the Memory page section; the console's own results are unchanged (165/39 under `claude plugin test` before and after; the 39 need the CI kit).
+- Cost of the mod's own work (`scripts/bench.mjs`, median of 7): scan of 2 KB 8.8 µs; guard on a clean memory write 5.5 µs; parse + screen + frame of 5 results 22 µs; 20 KB adversarial input (ReDoS probe) 0.53 ms, linear. All negligible beside the read it wraps.
+- Finding while writing it: a regex literal holding raw U+2028 in the source breaks the mod parser; the character class is built with `new RegExp` from escaped text.

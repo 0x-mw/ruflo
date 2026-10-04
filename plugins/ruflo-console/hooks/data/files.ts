@@ -36,6 +36,7 @@ export const PROJECT = {
   helpersVersion: '.claude/helpers/.helpers-version',
   config: '.claude-flow/config.yaml',
   missions: '.claude-flow/missions/observation.json',
+  agentdbMod: '.claude-flow/agentdb-mod/status.json',
 } as const
 
 export type ProjectKey = keyof typeof PROJECT
