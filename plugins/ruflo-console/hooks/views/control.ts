@@ -7,6 +7,9 @@ import { ago, button, kv, row, rule, text, THEME, type Ctx } from './common'
 const MARK = { ok: '✓', waiting: '…', denied: '✕', error: '!' } as const
 const COLOR = { ok: THEME.ok, waiting: THEME.warn, denied: THEME.bad, error: THEME.bad } as const
 
+/** True while control is on or Claude has acted this session: then the dashboard leads the page, so it is never below the fold. */
+export const isControlActive = (ctx: Ctx): boolean => levelOf(settingsOf(ctx.state).ai.modelControl) !== 'off' || ctx.state.control.log.length > 0
+
 /**
  * The "Claude control" dashboard (ADR-444): whether Claude may drive the console and how far, what it has done this session, and the
  * button that takes control back. Shown on Overview; the log is the audit trail, newest last.

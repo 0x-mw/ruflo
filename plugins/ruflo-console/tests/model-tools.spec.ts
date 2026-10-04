@@ -17,13 +17,13 @@ type Level = 'off' | 'read' | 'write' | 'manage' | 'full'
 /** A controller whose runner behaves like the real one: read-only entries finish at once, the rest wait in `state.pending`. */
 function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Record<string, { label: string; readOnly?: boolean; note?: string }> = {}, followUp?: { label: string; note?: string }) {
   const state = newState({})
-  const calls = { setView: [] as string[], open: 0, goal: [] as string[], profile: [] as string[], draft: [] as string[][], confirm: 0, cancel: 0, runs: [] as string[] }
+  const calls = { timers: [] as (() => void)[], finishAfter: undefined as Promise<void> | undefined, setView: [] as string[], open: 0, goal: [] as string[], profile: [] as string[], draft: [] as string[][], confirm: 0, cancel: 0, runs: [] as string[] }
 
   Object.assign(settingsOf(state).ai, { modelControl: level, modelConfirm: confirm })
 
   const catalog = { 'mission-open': { label: 'open Mission Control', readOnly: true }, 'mission-create': { label: 'create the mission and its tasks' }, 'mission-cancel': { label: 'cancel the mission and its open tasks' }, 'plugin-install': { label: 'install a plugin', note: 'network: clones it from GitHub' }, 'hand-task': { label: 'hand task t1 to Claude', note: 'Starts a Claude Code turn (billed as any turn is)' }, ...entries }
   const control = {
-    host: { invalidate: () => undefined },
+    host: { invalidate: () => undefined, after: (_ms: number, fn: () => void) => ({ cancel: () => calls.timers.splice(calls.timers.indexOf(fn), 1), fire: fn, ...(calls.timers.push(fn) && {}) }) },
     setView: (view: string) => void calls.setView.push(view),
     open: async () => void (calls.open += 1),
     actions: { mission: { goal: (text: string) => {
@@ -43,6 +43,7 @@ function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Record<st
         return true
       },
       settled: async () => undefined,
+      finished: async () => (calls.finishAfter === undefined ? undefined : calls.finishAfter),
       confirm: async () => {
         calls.confirm += 1
         state.outcome = { label: state.pending?.label ?? '', ok: true, verified: 'n/a', detail: 'ran', atMs: Date.now() + 1 }
@@ -275,6 +276,33 @@ describe('running an entry: ask, auto, and the level', () => {
     expect(await callTool('console_run', { id: 'mission-create' }, deps)).toMatch(/^Failed: create the mission.* the ruflo CLI did not answer/)
   })
 
+  it('waits for an action that runs on its own to finish before saying Done, and says Started if it does not in time', async () => {
+    let release: () => void = () => undefined
+    const slow = setup('write', 'auto')
+
+    slow.calls.finishAfter = new Promise<void>(resolve => (release = resolve))
+
+    const answer = slow.deps.control.runner.confirm !== undefined ? callTool('console_run', { id: 'mission-create' }, slow.deps) : Promise.resolve('')
+    let settled: string | null = null
+
+    void answer.then(text => (settled = text))
+    await Promise.resolve()
+    await new Promise(resolve => setTimeout(resolve, 5))
+    expect(settled).toBeNull()
+    release()
+    expect(await answer).toMatch(/^Ran: create the mission|^Done: create the mission/)
+
+    const stuck = setup('write', 'auto')
+
+    stuck.calls.finishAfter = new Promise<void>(() => undefined)
+
+    const waiting = callTool('console_run', { id: 'mission-create' }, stuck.deps)
+
+    await new Promise(resolve => setTimeout(resolve, 5))
+    for (const fire of [...stuck.calls.timers]) fire()
+    expect(await waiting).toMatch(/^Started: .*still running after 90 s/)
+  })
+
   it('refuses and cancels an action above the level, even in auto mode: nothing runs', async () => {
     const { deps, calls } = setup('write', 'auto')
 
@@ -335,6 +363,19 @@ describe('the dashboard', () => {
     for (const word of ['write · waits for your Yes', '3 actions', 'open missions', 'run mission-create', 'Take back control']) expect(text, word).toContain(word)
     state.control.paused = true
     expect(show(state)).toContain('Give control back')
+  })
+
+  it('leads the Overview while control is on, and sits after the optimizer when it is off', async () => {
+    const { deps, state } = setup('write', 'ask')
+
+    await callTool('console_state', {}, deps)
+
+    const on = show(state).toLowerCase()
+    const off = show(newState({})).toLowerCase()
+
+    expect(on.indexOf('claude control')).toBeGreaterThanOrEqual(0)
+    expect(on.indexOf('claude control')).toBeLessThan(on.indexOf('optimizer'))
+    expect(off.indexOf('claude control')).toBeGreaterThan(off.indexOf('optimizer'))
   })
 
   it('has no tool whose job is to answer Yes: confirming is only ever the chosen auto mode, inside console_run', () => {

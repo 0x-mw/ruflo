@@ -337,7 +337,8 @@ export const register: Register = (on, raw: PluginOptions) => {
 
   /** The band's mark pulses during a turn: a redraw at its start, and the loop stopped at its end, whatever redraws. */
   on('turn.start', ($, e, next) => {
-    if (e.agentId === undefined) state.control.turnCalls = 0
+    // A new turn: the per-turn cap on Claude's console actions starts over.
+    state.control.turnCalls = 0
 
     try {
       $.ui.invalidate('ui.render')

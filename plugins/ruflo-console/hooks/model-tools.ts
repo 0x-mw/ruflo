@@ -76,6 +76,21 @@ export function parseControlEnv(value: unknown): { level: ControlLevel; confirm:
 
 export type ModelToolDeps = { state: State; control: Controller }
 
+/** How long Claude's call waits for an action that runs on its own. */
+export const FINISH_MS = 90_000
+
+/** True if `work` finished within `ms` (on the host's clock: a mod has no setTimeout), false if the limit came first. */
+function within(work: Promise<void>, ms: number, host: Pick<Controller['host'], 'after'>): Promise<boolean> {
+  return new Promise(resolve => {
+    const timer = host.after(ms, () => resolve(false))
+
+    void work.then(() => {
+      timer.cancel()
+      resolve(true)
+    })
+  })
+}
+
 const say = (state: State, tool: string, summary: string, outcome: ControlEntry['outcome'], detail = ''): void => {
   state.control.log.push({ atMs: Date.now(), tool, summary: plain(summary, 80), outcome, detail: plain(detail, 160) })
   if (state.control.log.length > LOG_MAX) state.control.log.splice(0, state.control.log.length - LOG_MAX)
@@ -173,11 +188,20 @@ async function settlePending(deps: ModelToolDeps, tool: string, id: string, aske
   await control.runner.confirm()
   await control.runner.settled()
 
+  // An action that brings its own run (creating a mission is several CLI calls) is not waited on by confirm: wait here, with a limit.
+  const isFinished = await within(control.runner.finished(), FINISH_MS, control.host)
+
   const fresh = state.outcome !== null && state.outcome.atMs > askedAt ? state.outcome : null
   const mission = mcOf(state).last !== lastBefore ? mcOf(state).last : null
   const done = fresh ?? mission
 
   say(state, tool, id, done === null || done.ok ? 'ok' : 'error', done?.detail ?? '')
+
+  if (!isFinished) {
+    say(state, tool, id, 'waiting', 'still running')
+
+    return { status: 'waiting', text: `Started: "${plain(pending.label, 100)}". It is still running after ${FINISH_MS / 1000} s; call console_state later to see the result.` }
+  }
 
   return { status: 'done', text: `${done === null ? 'Ran' : done.ok ? 'Done' : 'Failed'}: ${plain(pending.label, 100)}.${done === null ? '' : ` ${plain(done.detail, 200)}`}` }
 }

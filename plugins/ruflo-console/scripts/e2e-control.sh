@@ -43,7 +43,7 @@ TOOLS="mcp__ruflo-console__console_state,mcp__ruflo-console__console_open,mcp__r
 run() {
   local name="$1" control="$2" prompt="$3"
   (cd "$PROJECT" && env ${control:+RUFLO_CONSOLE_CONTROL="$control"} CLAUDE_CONFIG_DIR="$CFG" timeout 240 "$CLAUDE" -p --model haiku --max-budget-usd 0.50 \
-    --plugin-dir "$PLUGIN" --allowedTools "$TOOLS" --output-format stream-json --verbose --debug-file "$OUT/$name.log" "$prompt" </dev/null >"$OUT/$name.jsonl" 2>"$OUT/$name.err")
+    --plugin-dir "$PLUGIN" --allowedTools "$TOOLS" --disallowedTools Bash,Write,Edit,NotebookEdit --output-format stream-json --verbose --debug-file "$OUT/$name.log" "$prompt" </dev/null >"$OUT/$name.jsonl" 2>"$OUT/$name.err")
 }
 
 # transcript NAME: one line per console tool call and per result, for the assertions below.
@@ -64,6 +64,14 @@ console.log(`COST ${r ? r.total_cost_usd : '?'}`)
 NODE
 }
 
+# attempt NAME CONTROL PROMPT: a run, then its transcript; if the model made no console call at all (a small model sometimes talks about the tools
+# instead of calling them) it is run once more. A refusal or a wrong result is never retried: only an absent attempt.
+attempt() {
+  run "$1" "$2" "$3"
+  transcript "$1" >"$OUT/$1.txt"
+  if ! grep -q '^CALL' "$OUT/$1.txt"; then run "$1" "$2" "$3"; transcript "$1" >"$OUT/$1.txt"; fi
+}
+
 ASK="Use only the ruflo console tools (console_state, console_open, console_set, console_run). Do the steps in order and report the exact results."
 
 # A: off
@@ -72,23 +80,20 @@ transcript A >"$OUT/A.txt"
 check A1 "control off: no console tool is callable" "A.txt" bash -c "! grep -q '^CALL' '$OUT/A.txt'"
 
 # B: read
-run B "read" "$ASK 1) console_state. 2) console_open view=overview. 3) console_set field=goal value='x'."
-transcript B >"$OUT/B.txt"
+attempt B "read" "$ASK 1) console_state. 2) console_open view=overview. 3) console_set field=goal value='x'."
 check B1 "read: console_state answers with the page" "B.txt" grep -q 'RESULT console_state {"view"' "$OUT/B.txt"
 check B2 "read: console_open opens a page" "B.txt" grep -q 'RESULT console_open Opened' "$OUT/B.txt"
 check B3 "read: console_set is refused and names the level it needs" "B.txt" grep -q 'RESULT console_set Refused: console_set needs the "write" level' "$OUT/B.txt"
 
 # C: write, auto
-run C "write:auto" "$ASK 1) console_open view=missions. 2) console_set field=goal value='add a dark mode toggle'. 3) console_run id=mission-create. 4) console_state."
-transcript C >"$OUT/C.txt"
+attempt C "write:auto" "$ASK 1) console_open view=missions. 2) console_set field=goal value='add a dark mode toggle'. 3) console_run id=mission-create. 4) console_state."
 check C1 "write: the goal is set" "C.txt" grep -q 'RESULT console_set Set goal' "$OUT/C.txt"
 check C2 "write: the console planned it (state shows the goal)" "C.txt" grep -q 'RESULT console_state .*dark mode toggle' "$OUT/C.txt"
 check C3 "write+auto: Claude's own call ran mission-create (Done or Failed, never Waiting)" "C.txt" grep -qE 'RESULT console_run (Done|Failed): create the mission' "$OUT/C.txt"
 check C4 "write+auto: no billed guidance turn was queued behind the goal" "C.txt" bash -c "! grep -q 'guidance on this mission' '$OUT/C.txt'"
 
 # D: write, ask
-run D "write:ask" "$ASK 1) console_open view=missions. 2) console_set field=goal value='add a dark mode toggle'. 3) console_run id=mission-create. 4) console_state."
-transcript D >"$OUT/D.txt"
+attempt D "write:ask" "$ASK 1) console_open view=missions. 2) console_set field=goal value='add a dark mode toggle'. 3) console_run id=mission-create. 4) console_state."
 check D1 "ask: mission-create waits for the person" "D.txt" grep -q 'RESULT console_run Waiting for the person to confirm' "$OUT/D.txt"
 check D2 "ask: Claude never confirmed it (no Done/Failed for mission-create)" "D.txt" bash -c "! grep -qE 'RESULT console_run (Done|Failed)' '$OUT/D.txt'"
 check D3 "ask: the state names what is waiting" "D.txt" grep -q '"waiting":{' "$OUT/D.txt"
