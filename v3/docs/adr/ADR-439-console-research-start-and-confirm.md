@@ -1,6 +1,6 @@
 # ADR 439: Console research start and confirm
 
-Status: Proposed
+Status: Accepted (shipped in ruflo-console 0.28.0 and its companion plugins, PR #3667)
 
 Date: 2026 10 04
 
