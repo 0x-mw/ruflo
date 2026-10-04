@@ -1069,7 +1069,8 @@ grep -q -- "--max-mean-us" "$F" 2>/dev/null || miss="$miss no-gate-flag"
 # Runtime: bench produces sub-5μs results across all categories
 # The median, not the mean: a scheduler pause on a loaded CI runner moves the mean and flaked this step in the fleet smoke.
 grep -q -- "--gate-stat" "$F" 2>/dev/null || miss="$miss no-gate-stat-flag"
-node "$F" --iters 10000 --max-mean-us 5 --gate-stat p50 >/dev/null 2>&1 || miss="$miss runtime-fails-or-perf-blew-5us"
+# On failure keep the bench's own output on stderr (the fleet JSON report captures stderrTail): the reason was invisible in CI before.
+bench_out=$(node "$F" --iters 10000 --max-mean-us 5 --gate-stat p50 2>&1) || { miss="$miss runtime-fails-or-perf-blew-5us"; printf '%s\n' "$bench_out" | tail -15 >&2; }
 # Runtime: gate trips on absurd ceiling
 if node "$F" --iters 10000 --max-mean-us 0.0001 --gate-stat p50 >/dev/null 2>&1; then
   miss="$miss gate-failed-to-trip"
