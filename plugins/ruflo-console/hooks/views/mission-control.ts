@@ -8,6 +8,7 @@ import { barCells, percentOf, stripStatus } from '../mission-strip'
 import { ago, button, clip, col, confirmHere, isBbs, row, rule, section, text, THEME, wrap, type Ctx } from './common'
 import { GOALS_PLUGIN, isAvailable, MISSION_SKILLS, slashOf } from '../mission-skills'
 import { observationRows } from './missions'
+import { loopTabRows } from './mission-claude'
 import { capabilityRows, launchRows } from './mission-launch'
 import { researchStartRows } from './research-start'
 
@@ -18,6 +19,7 @@ const TABS: readonly { id: McTab; label: string }[] = [
   { id: 'tasks', label: 'Tasks' },
   { id: 'agents', label: 'Agents' },
   { id: 'evidence', label: 'Evidence' },
+  { id: 'loop', label: 'Loop' },
   { id: 'record', label: 'Record' },
 ]
 
@@ -237,7 +239,7 @@ export function missionControlView(ctx: Ctx): RenderElement {
 
   const tab = mission === null && mc.tab !== 'record' ? 'plan' : mc.tab
 
-  rows.push(...(mission === null ? (tab === 'record' ? observationRows(ctx) : planRows(ctx)) : tab === 'plan' ? planRows(ctx) : tab === 'tasks' ? tasksRows(ctx, mission) : tab === 'agents' ? agentsRows(ctx, mission) : tab === 'evidence' ? evidenceRows(ctx, mission) : recordRows(ctx, mission)))
+  rows.push(...(mission === null ? (tab === 'record' ? observationRows(ctx) : planRows(ctx)) : tab === 'plan' ? planRows(ctx) : tab === 'tasks' ? tasksRows(ctx, mission) : tab === 'agents' ? agentsRows(ctx, mission) : tab === 'evidence' ? evidenceRows(ctx, mission) : tab === 'loop' ? loopTabRows(ctx, mission) : recordRows(ctx, mission)))
 
   return col(ctx, rows, 'mission-control')
 }

@@ -3,6 +3,8 @@
 //
 //   node ledger.mjs [--since 7d|24h|all] [--provider claude|codex|all] [--format json|markdown] [--advise]
 //   --advise adds the optimisation findings (advise.mjs) from the same single pass over the logs.
+//   --from <ISO> --to <ISO> --project </abs/path> narrow the rows to a time window (inclusive) and to one project
+//   (row.project is the path or inside it); JSON then carries `window`. A bad ISO time or a relative path exits 2.
 //
 // Reads local logs only; sends nothing anywhere. Prices come from data/prices.json
 // (dated). USD and Codex credits are NEVER added together, and an unpriced model
@@ -67,14 +69,42 @@ function markdown(summary, meta) {
   return lines.join('\n');
 }
 
+const bad = message => { console.error(`ledger: ${message}`); process.exit(2); };
+
+/** An ISO time as epoch ms; anything else (relative words, bare numbers, a missing value) exits 2. */
+function isoMs(name) {
+  const value = arg(name);
+  if (value === undefined || !/^\d{4}-\d{2}-\d{2}/.test(value) || !Number.isFinite(Date.parse(value))) bad(`--${name} needs an ISO time such as 2026-10-04T09:30:00Z`);
+
+  return Date.parse(value);
+}
+
+/** An absolute POSIX path with no control characters or `..`; anything else exits 2. */
+function absolutePath(name) {
+  const value = arg(name);
+  if (typeof value !== 'string' || !value.startsWith('/') || /[\u0000-\u001f\u007f]/.test(value) || value.split('/').includes('..')) bad(`--${name} needs an absolute path with no '..'`);
+
+  return value;
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const sinceSpec = arg('since', '7d');
-  const sinceMs = sinceSpec === 'all' ? 0 : Date.now() - (parseDurationMs(sinceSpec) ?? 7 * 86_400_000);
+  const given = name => process.argv.includes(`--${name}`);
+  const fromMs = given('from') ? isoMs('from') : null;
+  const toMs = given('to') ? isoMs('to') : null;
+  const project = given('project') ? absolutePath('project') : null;
+  if (fromMs !== null && toMs !== null && fromMs > toMs) bad('--from is after --to');
+  const windowed = fromMs !== null || toMs !== null || project !== null;
+
+  // An explicit window replaces the default 7-day look-back; an explicit --since still narrows it.
+  const sinceSpec = given('since') || !windowed ? arg('since', '7d') : 'window';
+  const spanMs = sinceSpec === 'all' || sinceSpec === 'window' ? 0 : Date.now() - (parseDurationMs(sinceSpec) ?? 7 * 86_400_000);
+  const sinceMs = Math.max(spanMs, fromMs ?? 0);
   const providers = arg('provider', 'all') === 'all' ? undefined : [arg('provider')];
-  const rows = collect({ providers, sinceMs });
+  const rows = collect({ providers, sinceMs, ...(toMs !== null && { untilMs: toMs }), ...(project !== null && { project }) });
   const summary = summarise(rows);
   const meta = { since: sinceSpec, priceDate: bookDate() };
   const findings = process.argv.includes('--advise') ? advise(rows) : undefined;
+  const window = windowed ? { window: { from: fromMs === null ? null : new Date(fromMs).toISOString(), to: toMs === null ? null : new Date(toMs).toISOString(), project } } : {};
 
-  console.log(arg('format', 'markdown') === 'json' ? JSON.stringify({ ...meta, ...summary, ...(findings && { findings }) }, null, 2) : markdown(summary, meta));
+  console.log(arg('format', 'markdown') === 'json' ? JSON.stringify({ ...meta, ...summary, ...window, ...(findings && { findings }) }, null, 2) : markdown(summary, meta));
 }

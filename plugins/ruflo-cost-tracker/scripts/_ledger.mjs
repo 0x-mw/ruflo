@@ -133,10 +133,22 @@ export function* codexRows({ sinceMs = 0 } = {}) {
 
 export const READERS = { claude: claudeRows, codex: codexRows };
 
-/** Rows for the chosen providers (default all), oldest first. */
-export function collect({ providers = Object.keys(READERS), sinceMs = 0 } = {}) {
+/** True when `row.project` is `project` itself or a directory inside it (a trailing slash on `project` is ignored). */
+export function inProject(row, project) {
+  const root = project.length > 1 ? project.replace(/\/+$/, '') : project;
+  const at = typeof row.project === 'string' ? row.project : '';
+
+  return at === root || at.startsWith(`${root}/`);
+}
+
+/**
+ * Rows for the chosen providers (default all), oldest first. `untilMs` (inclusive) and `project` narrow the window;
+ * with neither, the result is exactly what it was before they existed.
+ */
+export function collect({ providers = Object.keys(READERS), sinceMs = 0, untilMs = Infinity, project = '' } = {}) {
   const rows = [];
   for (const name of providers) if (READERS[name]) rows.push(...READERS[name]({ sinceMs }));
+  const kept = untilMs === Infinity && project === '' ? rows : rows.filter(row => row.ts <= untilMs && (project === '' || inProject(row, project)));
 
-  return rows.sort((a, b) => a.ts - b.ts);
+  return kept.sort((a, b) => a.ts - b.ts);
 }
