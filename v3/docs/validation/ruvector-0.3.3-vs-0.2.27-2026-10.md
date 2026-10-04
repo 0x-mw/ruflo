@@ -6,6 +6,10 @@ No `package.json`, lockfile or pin was changed anywhere. All installs and runs w
 
 ## Recommendation: **GO, conditionally** (one blocking migration, three small follow-ups)
 
+Evidence base: 0.3.3 vs 0.2.27 side by side, the CLI's real adapter code, **10 ruvector-related CLI test files
+(254 tests) run against each version in a scratch copy: 253 passed / 1 skipped on both, identical**, and the real
+MCP server queried over stdio on both. Not covered: the full CLI suite, non-linux-x64 native packages.
+
 0.3.3 is a strict superset of 0.2.27 on every surface the CLI and plugins touch, and it fixes a real
 data-loss bug (RVF string ids). The single behavioural break is the **legacy vector-store write lock
 (ADR-210)**: after the bump, `ruvector hooks remember` fails on every existing `~/.ruvector/intelligence.json`
@@ -48,7 +52,8 @@ Plugin/mod surface: `ruflo-agentdb` mod calls MCP tool `hooks_recall` with `{que
 | CLI's own `vector-db.ts` adapter (copied to scratch, run on each) | `loadRuVector`, `getStatus` | `ruvector-native`, wasm false | same | same |
 | `ruvector` CLI commands | `--help` listing | 34 | 36 | +`harness`, +`tiny-dancer` |
 | `hooks` subcommands | | 56 | 57 | +`reembed` |
-| MCP tools (`ruvector mcp tools`) | names | 91 | 97 | 0 removed; +6 `decompile_*`. `hooks_recall`, `hooks_remember`, `brain_search`, `brain_share` entries byte-identical (listing carries name/desc/group only, **no input schemas**, so arg schemas were not compared) |
+| MCP tools, CLI listing (`ruvector mcp tools`) | names | 91 | 97 | 0 removed; +6 `decompile_*` |
+| MCP tools, **real server over stdio** (`bin/mcp-server.js`, `initialize` + `tools/list`, with input schemas) | names + schemas | 97 | 105 | 0 removed. +8: `metaharness_{status,route,replay_verify,flywheel_gate,workspace_probe,reward_hack_scan}`, `rvf_branch`, `rvf_freeze`. Exactly **1 schema changed**: `rvf_create` gains a `dimensions` alias and `required` relaxes `[path,dimension]` → `[path]` (additive, compatible). `hooks_recall` (`{query, top_k=5}`, required `query`) and `hooks_remember` (`{content, type}`) schemas identical, so the `ruflo-agentdb` mod's `{query, top_k}` call is unaffected |
 | `hooks route "implement user login"` | output | `coder`, conf 0 | identical | same |
 | `hooks remember/recall`, **fresh** store | | ok | ok, identical result | same |
 | `hooks remember`, **legacy** store | existing `intelligence.json` | ok | **`ERR_LEGACY_STORE_READONLY`** | **BREAKING** (see below) |
@@ -59,7 +64,14 @@ Plugin/mod surface: `ruflo-agentdb` mod calls MCP tool `hooks_recall` with `{que
 
 ## Breaking changes and risks
 
-1. **ADR-210 embedding provenance, legacy store is read-only for writes (BREAKING).**
+1. **ADR-210 embedding provenance, legacy store is read-only for writes (BREAKING).** *Which surface sees it depends
+   on which ruvector runs:* (a) the **CLI pin** governs the in-process `import('ruvector')` sites (proven compatible
+   above) **and** the `ruvector` MCP server — the live server on this host is
+   `node …/v3/@claude-flow/cli/node_modules/ruvector/bin/mcp-server.js`, so `mcp__ruvector__hooks_remember` flips to the
+   new behaviour with the pin bump; (b) the plugin docs/commands run `npx -y ruvector@0.2.25` (pinned,
+   independent) and are **not** changed by the bump; (c) one process here runs unpinned `npm exec ruvector mcp start`
+   and resolves whatever npm gives it — that one may already be on 0.3.x today. Mixed versions writing one
+   `intelligence.json` (0.2.25 writes after a 0.3.3 `reembed`) were **not** tested.
    Reproduced with a copy of the real `~/.ruvector/intelligence.json` under an isolated `HOME`:
    `hooks remember` returns `{"success":false,"code":"ERR_LEGACY_STORE_READONLY"}` and `recall` warns that the
    stored vectors are `{embedder=hash,dim=64,normalize=false}` while the query is `normalize=true`.
@@ -84,31 +96,41 @@ Plugin/mod surface: `ruflo-agentdb` mod calls MCP tool `hooks_recall` with `{que
    - `js-beautify` was dropped from dependencies (fewer packages).
 4. **Pre-existing, not caused by 0.3.3:** `vector-db.ts` `insert` is fire-and-forget (`db.insert(...)` result is not
    awaited). In the scratch contract run 300 inserts followed by `size()` returned 85–126 on 0.2.27 and 88–117 on
-   0.3.3 (varies run to run); awaited inserts return the full count on both. This corrupts any "HNSW size" the CLI
-   reports and can drop vectors from a freshly built transient index. Fix independently of the bump.
+   0.3.3 (varies run to run); awaited inserts return the full count on both. With a 1.5 s drain before `size()`, all 300 were present on both
+   versions (immediately: 68 on 0.2.27, 54 on 0.3.3) — vectors are *pending*, not lost, but any `size()`/search
+   issued right after a batch of inserts sees a partial index. Fix independently of the bump.
 5. `getOptimizedOnnxEmbedder()` is broken in both versions in this environment (see table); the CLI's tier
    fallthrough hides it.
 6. **Not verified:** the CLI's full vitest suite against 0.3.3 (see "What was not done"); MCP argument schemas;
    behaviour on macOS/Windows or arm64 native binaries (`@ruvector/ruvllm-linux-x64-gnu` and
    `tiny-dancer-linux-x64-gnu` are new native packages — check darwin/win32 optional builds exist before release).
 
-## CLI tests
+## CLI tests (run, scratch copy only)
 
-The worktree has no installed dependency trees (no root or `v3/node_modules`), and installing the full v3 pnpm
-workspace into scratch was out of scope for this item. Findings from reading the tests: only three CLI tests touch
-`ruvector` at all — `issue-3325-pattern-embedding-fallback`, `issue-3375-rescue-local-embedder`,
-`issue-3108-embedding-space` — and all three `vi.mock('ruvector', …)`, so they cannot detect a real-module
-incompatibility on either version. The real-module contract was therefore tested directly: the repo's actual
-`src/ruvector/vector-db.ts` + `memory/embedding-policy.ts` were copied to scratch and run (via `tsx`) against each
-version (results in the table), and the `neural-tools.ts` embed sequence (`isOnnxAvailable` → `initOnnxEmbedder` →
-`embed` → unwrap) was replayed against each version with identical output. The release owner should still run the
-CLI suite after the pin change (step 5).
+Method: the worktree has no installed trees, so a scratch copy of `cli/{src,__tests__,vitest.config.ts}` plus the
+sibling `security/src` and `guidance/src` (the vitest aliases) was built per version, with `node_modules` a directory of
+symlinks into the main checkout's tree (read-only use) except `ruvector`, which points at the 0.2.27 (`a/`) or 0.3.3
+(`b/`) install. The CLI `tsconfig.json` was replaced by a minimal one (the original extends a file outside the copy).
+Files: the three that `vi.mock('ruvector')` (`issue-3325`, `issue-3375`, `issue-3108`) plus every test that reaches
+the real import through `loadRuVector`/`createVectorDB`/`initializeEmbeddingModel`/`getHNSWStatus`
+(`issue-3228`, `issue-2922`, `memory-stats-selected-store`, `issue-3311`, `ruvector/index`, `memory-ruvector-deep`,
+`ruvector/graph-analyzer`).
+
+| | files | tests |
+|---|---|---|
+| 0.2.27 | 10 passed | 253 passed, 1 skipped |
+| 0.3.3 | 10 passed | 253 passed, 1 skipped |
+
+The mocked tests cannot detect a real-module break; the other seven can, and passed. Not run: the other ~hundreds of
+CLI tests (no ruvector dependence found by grep), and `ruvector` resolved by other workspace packages.
+The earlier hand-written contract run (real `vector-db.ts` + `neural-tools` embed sequence) is in the table.
 
 ## Go / no-go steps for a human
 
 Do these on a branch from fresh `origin/main` (sync first), in this order:
 
-1. **Decide the legacy-store policy.** Either (a) ship release notes telling users to run
+1. **Decide the legacy-store policy** (it applies to the CLI-bundled MCP server after the bump; plugin-doc `npx`
+   commands stay on 0.2.25 until those docs are bumped). Either (a) ship release notes telling users to run
    `npx ruvector hooks reembed` (suggest `--dry-run` first), or (b) have the CLI/`ruflo-agentdb` mod detect
    `ERR_LEGACY_STORE_READONLY` and surface that exact command. (b) is recommended: today the mod would just see
    an empty/failed write.
@@ -138,9 +160,11 @@ provenance were **not** tested for readability by 0.2.27 — treat `reembed` as 
 ## What was not done
 
 - No pin, lockfile, manifest or source file in the repo was changed; this report is the only file added.
-- Full CLI vitest suite not run against 0.3.3 (no installed tree; see above).
-- MCP tool argument schemas not compared (the listing exposes none); `hooks_recall` through the MCP transport was not
-  exercised, only the equivalent CLI commands.
+- Full CLI vitest suite not run against 0.3.3 (10 ruvector-related files were; see above).
+- `tools/list` schemas were compared; `hooks_recall`/`hooks_remember` were exercised through the CLI, not through
+  an MCP `tools/call`.
+- The `ruflo-ruvector` mod's write-tool guard list (`hooks/tools.ts` `OWNED`) was not checked against the 8 new tools
+  (`isOwned` also matches any tool whose server is `ruvector`, so they are likely covered).
 - No timing run of a cold `npx -y` of the real published CLI tarball.
 - Incident during testing: my first CLI probe ran without an isolated `HOME` and wrote one test memory
   (`mem_1791157548`) into the real `~/.ruvector/intelligence.json`. I removed exactly that entry and restored
