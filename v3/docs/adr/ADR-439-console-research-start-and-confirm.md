@@ -17,9 +17,9 @@ The Missions page can start a capped deep-research run. The console only **prepa
 - **Confirm, in words.** The runner's ask row states: it starts a billed Claude Code turn; it allows web search and fetch up to the cap (and the depth); web content is untrusted; nothing is stored until you accept the report. The ask is never "remembered" (the spec has a `run`, so `rememberKey` returns null). The existing denylist and ask-first rules are unchanged.
 - **The prepared command**, idle: `runSlash`; mid-turn: only placed in the prompt box.
 
-  `/ruflo-goals:deep-research --depth <d> --cap <usd> <question>`
+  `/ruflo-goals:deep-research --depth <d> --cap-usd <usd> <question>`
 
-  **Contract with the plugin side:** `ruflo-goals` (updated concurrently) accepts exactly the flags `--depth <quick|standard|deep>` and `--cap <usd>` before the question text, in that order, and treats everything after them as the question. If the plugin and console disagree, this ADR and ADR-438 are the reference.
+  **Contract with the plugin side:** `ruflo-goals` (updated concurrently) accepts exactly the flags `--depth <quick|standard|deep>` and `--cap-usd <usd>` before the question text, in that order, and treats everything after them as the question. If the plugin and console disagree, this ADR and ADR-438 are the reference.
 - **Palette and Help.** Palette entry `mission-research` (runs the start on the question typed in Missions); Help topic `research`.
 
 ## 2. Notes

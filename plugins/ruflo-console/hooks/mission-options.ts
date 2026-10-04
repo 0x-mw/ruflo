@@ -137,8 +137,8 @@ export function researchWhy(question: string, cap: number | null): string | null
   return cap === null ? 'the cap must be a number of dollars from 0.10 to 50' : null
 }
 
-/** The slash-command arguments, the contract with the ruflo-goals skill: `--depth <d> --cap <usd> <question>`. */
-export const researchArgs = (question: string, depth: ResearchDepth, cap: number): string => `--depth ${depth} --cap ${cap} ${question}`
+/** The slash-command arguments, the contract with the ruflo-goals skill: `--depth <d> --cap-usd <usd> <question>`. */
+export const researchArgs = (question: string, depth: ResearchDepth, cap: number): string => `--depth ${depth} --cap-usd ${cap} ${question}`
 
 /** The confirm text, in words: what pressing yes starts, what it allows, what is untrusted, and when anything is stored. */
 export const researchConfirm = (depth: ResearchDepth, cap: number, screen: Screen): string =>

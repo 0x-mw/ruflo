@@ -61,7 +61,7 @@ describe('research start: validation', () => {
 })
 
 describe('research start: screen, confirm, prepare', () => {
-  it('prepares exactly /ruflo-goals:deep-research --depth <d> --cap <usd> <question> after the confirm, with no network but the AIDefence screens', async () => {
+  it('prepares exactly /ruflo-goals:deep-research --depth <d> --cap-usd <usd> <question> after the confirm, with no network but the AIDefence screens', async () => {
     const { state, net, slashes, asked, start } = setup()
 
     setResearch(state, { question: 'How does Raft handle log compaction?', depth: 'deep', cap: '3.5' })
@@ -69,11 +69,11 @@ describe('research start: screen, confirm, prepare', () => {
     await settle()
     expect(net.sort()).toEqual(['aidefence_has_pii', 'aidefence_is_safe'])
     expect(asked).toHaveLength(1)
-    expect(asked[0]?.shows).toBe('/ruflo-goals:deep-research --depth deep --cap 3.5 How does Raft handle log compaction?')
+    expect(asked[0]?.shows).toBe('/ruflo-goals:deep-research --depth deep --cap-usd 3.5 How does Raft handle log compaction?')
     expect(slashes).toEqual([])
     await asked[0]?.run?.()
     await settle()
-    expect(slashes).toEqual(['ruflo-goals:deep-research --depth deep --cap 3.5 How does Raft handle log compaction?'])
+    expect(slashes).toEqual(['ruflo-goals:deep-research --depth deep --cap-usd 3.5 How does Raft handle log compaction?'])
   })
 
   it('the confirm row says it in words', async () => {
@@ -90,7 +90,7 @@ describe('research start: screen, confirm, prepare', () => {
     expect(note).toContain('untrusted')
     expect(note).toContain('Nothing is stored until you accept the report')
     expect(researchConfirm('deep', 7, { status: 'unavailable', detail: '' })).toContain('could not screen')
-    expect(researchArgs('q', 'quick', 0.1)).toBe('--depth quick --cap 0.1 q')
+    expect(researchArgs('q', 'quick', 0.1)).toBe('--depth quick --cap-usd 0.1 q')
   })
 
   it('an unsafe question is refused: no confirm, nothing prepared', async () => {
