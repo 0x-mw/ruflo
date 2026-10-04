@@ -97,7 +97,7 @@ describe('the cyberpunk log', () => {
   it('falls back to the plain log in a narrow or short pane', () => {
     const facts = bootFacts(withPlugins([]), '1', '')
 
-    expect(textOf(bootPicture('p', 50, 6000, 10, 10, rowsFor, allOk, facts))).toContain('[ OK ] READY 26 of 26 areas verified')
+    expect(textOf(bootPicture('p', 44, 6000, 10, 10, rowsFor, allOk, facts))).toContain('[ OK ] READY 26 of 26 areas verified')
     expect(textOf(bootPicture('p', 90, 6000, 10, 10, BOOT_ROWS + 6, allOk, facts))).not.toContain('RUV.NET')
   })
 })
@@ -217,5 +217,46 @@ describe('the boot scan grid\'s names', () => {
 
       expect(shown.length, entry.name).toBeLessThanOrEqual(SCAN_NAME_CELLS)
     }
+  })
+})
+
+describe('the uplink in a narrow or short pane', () => {
+  const lines = (columns: number, rows: number, age = 6000, facts = bootFacts(withPlugins(['ruflo-ruvector']), '0.26.0', 'abc123')): string[] => textOf(bootPicture('p', columns, age, 10, 10, rows, allOk, facts)).split('\n')
+
+  it.each([48, 60, 72])('draws the whole uplink at %i columns: title, constellation, scan, READY, none cut mid-word', columns => {
+    const text = lines(columns, BOOT_ROWS + 30).join('\n')
+
+    expect(text).toContain('RUV.NET')
+    expect(text).toMatch(/rUv/)
+    expect(text).toMatch(/[★☆]/)
+    expect(text).toContain('[ OK ]')
+    expect(text).toMatch(/READY/)
+    expect(text).not.toMatch(/areas verifi\b|areas veri\b/)
+    for (const line of lines(columns, BOOT_ROWS + 30)) expect(line.length, line).toBeLessThanOrEqual(columns)
+  })
+
+  it('draws a compact constellation (five rows) when the pane is shorter, and none when it is shorter still', () => {
+    const scanRows = Math.ceil(BOOT_MODULES.length / 4)
+    const compact = lines(72, BOOT_ROWS + 1 + 1 + 5 + 1 + scanRows + 1).join('\n')
+    const none = lines(72, BOOT_ROWS + 1 + 1 + 1 + scanRows + 1).join('\n')
+
+    expect(compact).toMatch(/[★☆]/)
+    expect(compact).toMatch(/READY/)
+    expect(none).not.toMatch(/[★☆]/)
+    expect(none).toMatch(/READY/)
+  })
+
+  it('says ALL STARS ALIGNED whole at 60 columns when everything is lit, and keeps the easter egg short enough to fit', () => {
+    const lit = withPlugins(['ruflo-ruvector', 'ruflo-rvf', 'ruflo-ruvllm', 'rulake-stack', 'ruqu-mcp', 'rvdna-mcp', 'ruflo-agentdb'])
+
+    lit.snapshot = { ...(lit.snapshot as object), isRufloProject: true, sona: { patterns: 3 } } as never
+
+    expect(lines(60, BOOT_ROWS + 20, 6000, bootFacts(lit, '0.26.0', 'abc123')).join('\n')).toContain('ALL STARS ALIGNED')
+    expect(eggText(EGG_FROM_MS + 1400, false)).toContain('=  rUv')
+    expect(eggText(EGG_FROM_MS + 1400, false)).not.toContain('the stars')
+  })
+
+  it('still falls back to the plain log under 48 columns', () => {
+    expect(lines(44, BOOT_ROWS + 20).join('\n')).not.toContain('RUV.NET')
   })
 })

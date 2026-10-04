@@ -30,10 +30,15 @@ export const SCAN_NAMES: Readonly<Record<string, string>> = { MetaHarness: 'Harn
 /** How many characters of a name its cell holds. */
 export const SCAN_NAME_CELLS = 10
 
+/** The constellation's height: seven rows when the pane has room, five (the same nine stars, closer together) when it is shorter. */
 const CONST_ROWS = 7
+const COMPACT_ROWS = 5
 const CELL = 18
-/** Rows the full layout needs under the sign's own rows: title, constellation, signal row, a scan grid, READY. */
-const MIN_COLUMNS = 64
+/** The narrowest pane the uplink is drawn in: below it the plain boot log. Its text fits the width it is given (see `fit`). */
+const MIN_COLUMNS = 48
+
+/** The first of `variants` that fits `columns`, else the last cut to fit: the long form when there is room, never a sentence cut mid-word. */
+const fit = (columns: number, variants: readonly string[]): string => variants.find(text => text.length <= columns) ?? (variants.at(-1) as string).slice(0, columns)
 
 /** A deterministic hash, 0 to 0xffffffff. */
 export const hash = (n: number): number => {
@@ -58,19 +63,19 @@ export function scramble(text: string, age: number, from: number, span: number):
 }
 
 /** The ghost signal's text at `age`: three bytes of binary that decode, byte by byte, into rUv. */
-export function eggText(age: number): string {
+export function eggText(age: number, withTail = true): string {
   const bytes = [...'rUv'].map(ch => ch.charCodeAt(0).toString(2).padStart(8, '0'))
   const shown = Math.min(1, Math.max(0, (age - EGG_FROM_MS) / 1100))
   const bits = bytes.join(' ')
   const lit = Math.floor(shown * bits.length)
   const done = shown >= 1
 
-  return `${bits.slice(0, lit)}${bits.slice(lit).replace(/[01]/g, (_m, at: number) => (hash(at + Math.floor(age / 70)) % 2 === 0 ? '0' : '1'))}${done ? '  =  rUv · the stars were always there' : ''}`
+  return `${bits.slice(0, lit)}${bits.slice(lit).replace(/[01]/g, (_m, at: number) => (hash(at + Math.floor(age / 70)) % 2 === 0 ? '0' : '1'))}${done ? (withTail ? '  =  rUv · the stars were always there' : '  =  rUv') : ''}`
 }
 
-const cellOf = (star: Star, left: number, width: number, top: number): { x: number; y: number } => ({
+const cellOf = (star: Star, left: number, width: number, top: number, rows: number): { x: number; y: number } => ({
   x: left + Math.round(star.x * Math.max(0, width - star.label.length - 3)),
-  y: top + Math.round(star.y * (CONST_ROWS - 1)),
+  y: top + Math.round(star.y * (rows - 1)),
 })
 
 /** The cells of a straight line between two points, ends excluded. */
@@ -83,10 +88,10 @@ function line(a: { x: number; y: number }, b: { x: number; y: number }): { x: nu
   return out
 }
 
-function constellation(grid: Grid, facts: BootFacts, age: number, top: number, waveFrom: number): void {
+function constellation(grid: Grid, facts: BootFacts, age: number, top: number, waveFrom: number, rows: number): void {
   const width = Math.min(grid.columns, 74)
   const left = Math.floor((grid.columns - width) / 2)
-  const place = new Map(facts.stars.map(star => [star.id, cellOf(star, left, width, top)]))
+  const place = new Map(facts.stars.map(star => [star.id, cellOf(star, left, width, top, rows)]))
   const visible = (star: Star): boolean => age >= CYBER_FROM_MS + star.appearAt
   const byId = new Map(facts.stars.map(star => [star.id, star]))
 
@@ -134,7 +139,7 @@ function constellation(grid: Grid, facts: BootFacts, age: number, top: number, w
 /** The signal row: the project's real numbers two at a time, or the easter egg while it is on. */
 function signal(grid: Grid, facts: BootFacts, age: number, y: number): void {
   if (age >= EGG_FROM_MS && age <= EGG_TO_MS) {
-    grid.text(0, y, `░ ${eggText(age)}`.slice(0, grid.columns), PINK)
+    grid.text(0, y, `░ ${eggText(age, grid.columns >= 72)}`.slice(0, grid.columns), PINK)
 
     return
   }
@@ -159,7 +164,9 @@ export function drawCyber(grid: Grid, facts: BootFacts, modules: readonly { name
   const columns = grid.columns
   const per = Math.max(1, Math.floor(columns / CELL))
   const scanRows = Math.ceil(modules.length / per)
-  const withMap = room >= 1 + CONST_ROWS + 1 + scanRows + 1
+  // The full constellation if the pane has the rows, else the compact one, else none: the title, the signal row, the scan and READY always.
+  const constRows = room >= 1 + CONST_ROWS + 1 + scanRows + 1 ? CONST_ROWS : room >= 1 + COMPACT_ROWS + 1 + scanRows + 1 ? COMPACT_ROWS : 0
+  const withMap = constRows > 0
   const needed = 1 + 1 + scanRows + 1
 
   if (columns < MIN_COLUMNS || room < needed) return false
@@ -168,14 +175,15 @@ export function drawCyber(grid: Grid, facts: BootFacts, modules: readonly { name
 
   // Title strip: scrambles into place, with a brief pink glitch now and then.
   const glitch = age > 3000 && Math.floor(age / 40) % 53 === 0
-  const title = `▌ ${facts.title} ▐  ${facts.credit} · ruflo v${facts.version}${facts.build !== '' ? ` · ${facts.build}` : ''}`
+  const build = facts.build !== '' ? ` · ${facts.build}` : ''
+  const title = fit(columns, [`▌ ${facts.title} ▐  ${facts.credit} · ruflo v${facts.version}${build}`, `▌ ${facts.title} ▐  ${facts.credit} · v${facts.version}`, `▌ RUV.NET // RUVECTOR ▐  ${facts.credit} · v${facts.version}`, `▌ RUV.NET ▐ ${facts.credit} · v${facts.version}`])
 
   grid.text(0, y, scramble(title, age, CYBER_FROM_MS - 200, 900).slice(0, columns), glitch ? PINK : CYAN)
   y += 1
 
   if (withMap) {
-    constellation(grid, facts, age, y, CYBER_FROM_MS + modules.length * SCAN_MS + SCAN_MS)
-    y += CONST_ROWS
+    constellation(grid, facts, age, y, CYBER_FROM_MS + modules.length * SCAN_MS + SCAN_MS, constRows)
+    y += constRows
   }
 
   signal(grid, facts, age, y)
@@ -206,9 +214,14 @@ export function drawCyber(grid: Grid, facts: BootFacts, modules: readonly { name
   if (age >= scanEnd) {
     const verified = modules.length - failed.length
     const aligned = dark === 0 && failed.length === 0
-    const text = aligned ? `ALL STARS ALIGNED · ${verified} areas verified · press a key or click` : `READY · ${verified} of ${modules.length} areas verified${failed.length > 0 ? ` · ${failed.length} failed` : ''}${dark > 0 ? ` · ${dark} star${dark === 1 ? '' : 's'} dark` : ''} · press a key or click`
+    const tags = `${failed.length > 0 ? ` · ${failed.length} failed` : ''}${dark > 0 ? ` · ${dark} star${dark === 1 ? '' : 's'} dark` : ''}`
+    const mark = aligned ? '[ OK ]' : failed.length > 0 ? '[FAIL]' : '[WARN]'
+    // The long sentence when it fits, else shorter ones, never cut mid-word.
+    const text = aligned
+      ? fit(columns - 7, [`ALL STARS ALIGNED · ${verified} areas verified · press a key or click`, `ALL STARS ALIGNED · ${verified} verified · press a key`, 'ALL STARS ALIGNED'])
+      : fit(columns - 7, [`READY · ${verified} of ${modules.length} areas verified${tags} · press a key or click`, `READY · ${verified}/${modules.length} verified${tags} · press a key`, `READY · ${verified}/${modules.length}${tags}`])
 
-    grid.text(0, y, `${aligned ? '[ OK ]' : failed.length > 0 ? '[FAIL]' : '[WARN]'} ${text}`.slice(0, columns), aligned ? GREEN : failed.length > 0 ? PINK : AMBER)
+    grid.text(0, y, `${mark} ${text}`.slice(0, columns), aligned ? GREEN : failed.length > 0 ? PINK : AMBER)
   }
 
   return true
