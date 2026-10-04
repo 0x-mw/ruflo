@@ -74,6 +74,7 @@ describe('ruHelp finds the guide a person means', () => {
 
   it.each([
     ['how do I start a swarm', 'swarm'],
+    ['can claude control the console for me', 'control'],
     ['how do I set a budget', 'cost'],
     ['what is a claim', 'claims'],
     ['how do I connect codex', 'connect'],

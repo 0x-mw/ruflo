@@ -45,8 +45,8 @@ export const CORE: readonly CoreKey[] = [
 export const CLAUDE_MODELS = ['default', 'haiku', 'sonnet', 'opus'] as const
 export const AI_BUDGETS = [0.25, 0.5, 1, 2] as const
 /** `autoAccept`: claude, codex and swarm turns go straight out with no confirm (they stay read-only, in plan mode, under the budget); ruflo commands still ask. */
-export type AiPrefs = { claudeModel: (typeof CLAUDE_MODELS)[number]; budgetUsd: (typeof AI_BUDGETS)[number]; autoAccept: boolean; /** Claude writes guidance after a mission goal is entered. */ guidance: boolean } & LoopPrefs
-export const DEFAULT_AI: AiPrefs = { claudeModel: 'default', budgetUsd: 1, autoAccept: false, guidance: true, ...DEFAULT_LOOP }
+export type AiPrefs = { claudeModel: (typeof CLAUDE_MODELS)[number]; budgetUsd: (typeof AI_BUDGETS)[number]; autoAccept: boolean; /** Claude writes guidance after a mission goal is entered. */ guidance: boolean; /** ADR-444: how far Claude may drive the console with its console_* tools (they exist only when not off). */ modelControl: 'off' | 'read' | 'write' | 'manage' | 'full'; /** ADR-444: a non-read action waits for the person's Yes (ask) or confirms itself (auto). */ modelConfirm: 'ask' | 'auto' } & LoopPrefs
+export const DEFAULT_AI: AiPrefs = { claudeModel: 'default', budgetUsd: 1, autoAccept: false, guidance: true, modelControl: 'off', modelConfirm: 'ask', ...DEFAULT_LOOP }
 
 const ON_OFF = ['on', 'off'] as const
 const onOff = (value: boolean) => (value ? 'on' : 'off')
@@ -282,6 +282,8 @@ export async function loadAiPrefs(state: State, host: Host): Promise<void> {
     budgetUsd: budget ?? DEFAULT_AI.budgetUsd,
     autoAccept: stored?.autoAccept === true,
     guidance: stored?.guidance !== false,
+    modelControl: (['read', 'write', 'manage', 'full'] as const).find(item => item === stored?.modelControl) ?? 'off',
+    modelConfirm: stored?.modelConfirm === 'auto' ? 'auto' : 'ask',
     loopInterval: LOOP_INTERVALS.find(item => item === stored?.loopInterval) ?? DEFAULT_LOOP.loopInterval,
     loopWorktrees: flag('loopWorktrees', DEFAULT_LOOP.loopWorktrees),
     loopCommit: flag('loopCommit', DEFAULT_LOOP.loopCommit),

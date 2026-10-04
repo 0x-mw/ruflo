@@ -48,6 +48,22 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
     keywords: ['deep', 'research', 'web', 'search', 'fetch', 'cap', 'depth', 'question'],
   },
   {
+    id: 'control',
+    title: 'Let Claude drive the console',
+    group: 'Work',
+    summary: 'Claude opens pages, fills fields and runs actions for you, as far as you allow',
+    steps: [
+      { text: 'Choose how far in Settings → Claude control: read (look and open pages), write (also fill fields and run local actions), manage (also network), full (also spend, deploy, delete). It is off until you turn it on.', go: { view: 'settings' }, label: 'Open Settings' },
+      { text: 'Choose who says Yes: ask leaves each action Claude requests waiting for you in the console; auto lets Claude’s call confirm itself, within the level.' },
+      { text: 'Start a new Claude Code session (or /reload-plugins). Claude now has four tools: console_state, console_open, console_set and console_run.' },
+      { text: 'Ask Claude in words: "set up a mission to add a dark mode toggle, then show me the security page". The console opens and changes as it works.' },
+      { text: 'Watch Overview → Claude control: the level, the count, and a log of each action (done, waiting for you, refused). Take back control stops every tool at once.', go: { view: 'overview' }, label: 'Open Overview' },
+    ],
+    tips: ['An action above the level is refused and nothing runs; the answer says which level it needs.', 'Text from peers, the web or files on screen is data to Claude, not instructions.'],
+    related: ['settings', 'mission', 'security'],
+    keywords: ['claude', 'control', 'drive', 'computer', 'use', 'tools', 'autonomy', 'level', 'auto', 'ask', 'take', 'back'],
+  },
+  {
     id: 'perf',
     title: 'Find and fix slowness',
     group: 'Safety',
