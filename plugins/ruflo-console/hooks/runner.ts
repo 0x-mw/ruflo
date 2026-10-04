@@ -5,6 +5,7 @@
  */
 import type { ActionSpec } from './actions'
 import { rememberKey } from './remember'
+import { record } from './data/events'
 import { plain } from './data/parse'
 import type { Host } from './host'
 import { labLines } from './mh-lab'
@@ -148,11 +149,17 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     const spec = pendingSpec
     const isFresh = state.pending !== null && Date.now() - state.pending.askedAtMs < PENDING_TTL_MS
 
+    const waitedMs = state.pending === null ? 0 : Date.now() - state.pending.askedAtMs
+
     pendingSpec = null
     state.pending = null
 
     if (spec === null || !isFresh || state.isActing) {
-      if (spec !== null && !isFresh) say(spec.label, false, 'the confirm came more than 30 s after the ask; ask again')
+      if (spec !== null && !isFresh) {
+        say(spec.label, false, 'the confirm came more than 30 s after the ask; ask again')
+        // `say` is one slot that the next action overwrites; the event stays in the feed (ADR-448 §3.2).
+        record(state.events, [{ atMs: Date.now(), kind: 'tools', text: `confirm for "${plain(spec.label, 60)}" came ${Math.round(waitedMs / 1000)}s after the ask and was not run (${PENDING_TTL_MS / 1000}s window)` }])
+      }
 
       host.invalidate()
 
