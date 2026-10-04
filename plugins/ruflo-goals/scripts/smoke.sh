@@ -83,5 +83,20 @@ for f in "$ROOT"/skills/*/SKILL.md; do
 done
 [[ -z "$bad_skills" ]] && ok || bad "wildcard:$bad_skills"
 
+step "11. deep-research: cap, depth, AIDefence, marker, accept-before-store (ADR-438)"
+miss=""
+for f in "$ROOT/skills/deep-research/SKILL.md" "$ROOT/agents/deep-researcher.md"; do
+  b=$(basename "$f")
+  for t in aidefence_scan '--cap-usd' 'quick|standard|deep' 'research-active.json' truncated 'research-<slug>-<yyyymmddhhmm>' 'accept'; do
+    grep -qF -- "$t" "$f" || miss="$miss $b-no-$t"
+  done
+done
+grep -q 'aidefence_scan' "$ROOT/skills/deep-research/SKILL.md" && grep -E '^allowed-tools:' "$ROOT/skills/deep-research/SKILL.md" | grep -q aidefence_scan || miss="$miss skill-allowed-tools-no-aidefence"
+grep -E '^  - .*aidefence_scan' "$ROOT/agents/deep-researcher.md" >/dev/null || miss="$miss agent-tools-no-aidefence"
+[[ -z "$miss" ]] && ok || bad "$miss"
+
+step "12. research-list.mjs runtime test passes"
+out=$(node "$ROOT/scripts/test-research-list.mjs" 2>&1) && ok || bad "$out"
+
 printf "\n%s passed, %s failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]] || exit 1
