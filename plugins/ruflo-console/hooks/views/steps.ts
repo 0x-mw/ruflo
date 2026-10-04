@@ -101,7 +101,9 @@ export function stepsRows(ctx: Ctx): RenderElement[] {
 
   if (plan === undefined || snapshot === null || ctx.state.palette.isOpen || ctx.state.isHelp) return []
 
-  const done = plan.steps.map(step => step.done?.(snapshot) === true)
+  // A JOIN receipt completes this card only; unknown current key status must still ask before a read can create a key.
+  const done = plan.steps.map(step => step.done?.(snapshot) === true ||
+    ('start' in step.go && step.go.start === 'federation-join' && snapshot.hasNostrKey === null && ctx.state.nostrKeyVerifiedAtMs !== null))
   const checkable = plan.steps.filter(step => step.done !== undefined).length
 
   // Every step the disk can check is done (and there is at least one): the card has done its job.

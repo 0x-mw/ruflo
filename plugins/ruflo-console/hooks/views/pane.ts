@@ -20,7 +20,7 @@ import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../sta
 import { agentView } from './agent'
 import { automateResult, automateView } from './automate'
 import { claimsView } from './claims'
-import { ago, button, clip, col, confirmInline, confirmRow, isBbs, row, setLook, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, confirmRow, isBbs, row, setLook, text, THEME, type Ctx } from './common'
 import { costView } from './cost'
 import { evolveResult, evolveView } from './evolve'
 import { catalogView } from './plugin-catalog'
@@ -218,18 +218,21 @@ function footer(ctx: Ctx, isPlaced = false): RenderElement {
         { id: 'help', full: 'Help', short: 'h', priority: 3 },
         { id: 'close', full: 'Close', short: '×', priority: 4 },
       ]
-  const fit = fitFooter(items, ctx.columns - 2)
+  // Keep the focus state whole: a clipped "keys …" does not tell the person where their typing will go.
+  const fit = fitFooter(items, ctx.columns - 2, isBbs() && state.snapshot !== null ? 23 : 10)
   const press: Record<string, () => void> = { palette: () => ctx.act.palette('all'), actions: () => ctx.act.palette('selection'), 'ask-claude': () => ctx.act.ask.ask(), 'ask-slash': () => ctx.act.ask.slash(), refresh: ctx.act.restart, help: ctx.act.help, close: ctx.act.close }
   const hotkey: Record<string, string> = { palette: 'p', actions: 'x', refresh: 'r', help: 'h' }
   const full = new Map(items.map(item => [item.id, item.full]))
   const statusRoom = Math.max(10, ctx.columns - fit.used - 3)
+  const focusLabel = !state.pane.isFocused && keys.length + 25 > statusRoom ? 'keys off' : keys
+  const syncRoom = Math.max(0, statusRoom - 9 - focusLabel.length - 1)
   // BBS: the link in colour ([LINK OK] green, how fresh the read is, whether the keys are on); plain: one dim line, as before.
   const status =
     isBbs() && state.snapshot !== null
       ? [
           ctx.kit.Text({ bold: true, color: THEME.ok, children: '[LINK OK]' }),
-          ctx.kit.Text({ dimColor: true, children: clip(` ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')} · `, Math.max(4, statusRoom - 9)) }),
-          ctx.kit.Text({ bold: state.pane.isFocused, color: state.pane.isFocused ? THEME.ok : THEME.warn, children: clip(`${keys} `, Math.max(4, statusRoom - 28)) }),
+          ...(syncRoom === 0 ? [] : [ctx.kit.Text({ dimColor: true, children: clip(` ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')} · `, syncRoom) })]),
+          ctx.kit.Text({ bold: state.pane.isFocused, color: state.pane.isFocused ? THEME.ok : THEME.warn, children: `${focusLabel} ` }),
         ]
       : [text(ctx, `${clip(`${read} · ${keys}`, statusRoom)} `, { dimColor: true })]
 
@@ -403,6 +406,8 @@ export function paneView(base: Ctx): RenderElement {
 
   // Placed under what was clicked: not drawn again at the top.
   const confirm = attention.placed ? null : confirmRow(ctx)
+  // An inline view may fold away its confirm, or be covered by Help. Suppress the fallback only when the body actually drew it.
+  const hasInlineConfirm = attention.keys.get(body)?.has('confirm') === true
   const header = ctx.pictures.get('header')
   const isCompact = isCompactPane(ctx.state)
   // The logo banner leads the main menu in every layout, compact too (the other pages lead with their own title art there).
@@ -417,11 +422,11 @@ export function paneView(base: Ctx): RenderElement {
   // The confirm row sits above the body in both layouts: below it, a tall view would push the question off the screen.
   // Compact keeps every page's title and its line of purpose; only the banner and the spacing go. The title leads, then the tabs, as in the wide layout.
   const parts = isCompact
-    ? [...(ctx.state.view === 'menu' && title.length > 0 ? title : bbs.art), ...(about !== null ? [about] : []), tabs(ctx), ...(confirm !== null && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), footer(ctx, attention.placed), body]
+    ? [...(ctx.state.view === 'menu' && title.length > 0 ? title : bbs.art), ...(about !== null ? [about] : []), tabs(ctx), ...(confirm !== null && !hasInlineConfirm ? [confirm] : []), footer(ctx, attention.placed), body]
     : !isMenu && isBbs()
       ? // Every page but the main menu leads with its own title and purpose line; the welcome line and network links follow, with a blank row between the blocks.
-        [...bbs.art, ...(about !== null ? [about] : []), ...(cardsOn ? [] : [...gap, ...bbs.strip, ...gap]), tabs(ctx), ...(cardsOn ? [] : gap), footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
-      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx, attention.placed)]), ...(confirm !== null && !isTerminal && !confirmInline(ctx.state.view, ctx.state.pending?.scope) ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx, attention.placed)] : [])]
+        [...bbs.art, ...(about !== null ? [about] : []), ...(cardsOn ? [] : [...gap, ...bbs.strip, ...gap]), tabs(ctx), ...(cardsOn ? [] : gap), footer(ctx, attention.placed), ...(confirm !== null && !isTerminal && !hasInlineConfirm ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : [])]
+      : [...title, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...bbs.strip, ...(isMenu && isBbs() ? [text(ctx, ' ')] : []), ...gap, tabs(ctx), ...gap, ...(isMenu && isBbs() ? [] : [...bbs.art, ...(about !== null ? [about] : [])]), ...gap, ...(isMenu ? [] : [footer(ctx, attention.placed)]), ...(confirm !== null && !isTerminal && !hasInlineConfirm ? [confirm] : []), body, ...(confirm !== null && isTerminal ? [confirm] : []), ...gap, ...(isMenu ? [footer(ctx, attention.placed)] : [])]
 
   // The leading rows that sit beside the icons: the header art (one picture) and the line that says what the page is for; on the menu, the banner and the blank row under it.
   const lead = isCompact
@@ -484,4 +489,3 @@ export function viewText(ctx: Omit<Ctx, 'kit' | 'pictures'>, view: ViewId): stri
 
   return out.map(line => line.trimEnd()).filter(line => line !== '').join('\n')
 }
-

@@ -182,3 +182,4 @@ plugins/ruflo-console/tests/skills-secure.test.ts
 plugins/ruflo-console/tests/xruv.test.ts
 plugins/ruflo-console/tests/steps.test.ts
 plugins/ruflo-console/tests/nav.test.ts
+plugins/ruflo-console/tests/setup.test.ts

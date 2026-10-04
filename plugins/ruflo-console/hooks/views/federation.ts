@@ -22,13 +22,17 @@ export function federationView(ctx: Ctx): RenderElement {
   rows.push(text(ctx, '● pinned peer or own key: solid · channel: dashed', { dimColor: true }))
   rows.push(text(ctx, '○ roster member: sparse, unvetted · a dot runs an edge for 2 s after a sync', { dimColor: true }))
   rows.push(rule(ctx, 'This node', 'local only'))
+  const confirmed = snap?.hasNostrKey === null && state.nostrKeyVerifiedAtMs !== null
+  const present = confirmed
+    ? `confirmed by JOIN ${ago(state.nostrKeyVerifiedAtMs, nowMs)} (never read here)`
+    : '~/.ruflo/nostr.key present (never read here)'
 
   rows.push(
     kv(
       ctx,
       'nostr identity',
-      snap?.hasNostrKey === true ? '~/.ruflo/nostr.key present (never read here)' : snap?.hasNostrKey === false ? 'none yet (join below makes one)' : 'n/a',
-      snap?.hasNostrKey === true ? THEME.ok : undefined,
+      snap?.hasNostrKey === true || confirmed ? present : snap?.hasNostrKey === false ? 'none yet (join below makes one)' : 'n/a',
+      snap?.hasNostrKey === true || confirmed ? THEME.ok : undefined,
     ),
   )
   rows.push(kv(ctx, 'federation keys', nodes === null ? 'n/a — no .claude-flow/federation' : nodes.length === 0 ? 'none' : `${nodes.length} node ids: ${nodes.slice(0, 4).join(', ')}${nodes.length > 4 ? ' …' : ''} (keys never read)`))

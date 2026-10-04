@@ -42,6 +42,35 @@ describe('register', () => {
     expect(JSON.parse(w.files.get(`${ROOT}/.claude-flow/mods/session.json`) ?? '{}').owned).toEqual(['route', 'post-edit'])
   })
 
+  test('a user-scoped mod does not inject routing or create state in an unrelated project; its guard stays active', async ($, on) => {
+    const w = world(on)
+    w.dirs.delete(`${ROOT}/.claude-flow`)
+    w.env.set('RUFLO_MODS_OWNS', 'route,post-edit')
+    let context: readonly string[] | undefined
+    on('prompt.submit', ($, e) => ((context = e.context), { text: e.text }))
+    on('tool.call', () => ({ result: 'edited' }))
+    on('turn.complete', ($, e) => ({ text: e.answer }))
+    on('tool.check', () => ({ decision: 'allow' }))
+
+    await $.session.start(START)
+    await $.prompt.submit(prompt('review this code'))
+    await $.tool.call({ tool: 'Edit', file_path: `${ROOT}/a.ts`, old_string: 'a', new_string: 'b' })
+    await $.turn.complete({ answer: 'done', durationMs: 1, isAborted: false, turnId: 't1', reason: 'answer' })
+
+    expect(context).toBeUndefined()
+    expect(w.env.has('RUFLO_MODS_OWNS')).toBe(false)
+    expect(w.files.size).toBe(0)
+    expect((await $.tool.check({ tool: 'Bash', input: { command: 'rm -rf /' } })).decision).toBe('deny')
+  })
+
+  test('a file named .claude-flow does not enable project event ownership or a heartbeat', async ($, on) => {
+    const w = world(on, {}, { [`${ROOT}/.claude-flow`]: 'not a directory' })
+    await $.session.start(START)
+
+    expect(w.env.has('RUFLO_MODS_OWNS')).toBe(false)
+    expect(w.files.size).toBe(1)
+  })
+
   test('stands down where a classic helper too old for the handshake runs route', async ($, on) => {
     const w = world(on, CLASSIC_ROUTE, { [HELPER]: '// an older helper' })
     let context: readonly string[] | undefined

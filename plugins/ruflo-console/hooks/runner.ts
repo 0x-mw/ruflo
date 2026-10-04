@@ -87,7 +87,9 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
 
       await deps.freshRead()
 
-      const verified = spec.verify === undefined || state.snapshot === null ? 'n/a' : spec.verify(state.snapshot) ? 'yes' : 'no'
+      const verified = spec.verifyLocal !== undefined
+        ? ok && await spec.verifyLocal(host) ? 'yes' : 'no'
+        : spec.verify === undefined || state.snapshot === null ? 'n/a' : spec.verify(state.snapshot) ? 'yes' : 'no'
 
       state.outcome = {
         label: spec.label,

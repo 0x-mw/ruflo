@@ -214,7 +214,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     },
     focus: key => void host.focus(PANE_ID, key).catch(() => undefined),
     plugin: op => runner.ask(pluginSpec(op), 'that cannot run here'),
-    start: (id, text = '') => runner.ask(startSpec(id, Date.now(), text), id === 'mission' || id === 'task' ? 'type it first (it may not start with -)' : 'that start cannot run here'),
+    start: (id, text = '') => runner.ask(startSpec(id, Date.now(), text, present => { state.nostrKeyVerifiedAtMs = present ? Date.now() : null }), id === 'mission' || id === 'task' ? 'type it first (it may not start with -)' : 'that start cannot run here'),
     // The main menu's prompt, as a board's: a key (2, w, i), a name (swarm, x.ruv.io), ? for help, O to log off.
     menu: text => {
       const word = text.trim().toLowerCase()

@@ -6,6 +6,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { Grid } from '../hooks/gfx/raster'
+import { readSnapshot } from '../hooks/data/snapshot'
 import { newState, type ViewId } from '../hooks/state'
 import { setLook, type Ctx } from '../hooks/views/common'
 import { paneView } from '../hooks/views/pane'
@@ -234,6 +235,22 @@ describe('the icon row does not shrink in the host\'s flex layout', () => {
 
 describe('a narrow pane reads cleanly', () => {
   const rowOf = (grid: { columns: number; glyph: (x: number, y: number) => number }, y: number): string => Array.from({ length: grid.columns }, (_, x) => String.fromCodePoint(grid.glyph(x, y))).join('')
+
+  it.each([44, 60, 90, 110, 140, 180])('keeps the focus state whole at %i columns, so the person knows where typing goes', async columns => {
+    const missing = async (): Promise<never> => { throw new Error('ENOENT') }
+    const snapshot = await readSnapshot({ read: missing, stat: missing, list: async () => [] }, new Map(), '/work', null, {}, Date.now())
+
+    for (const isFocused of [true, false]) {
+      const tree = draw('swarm', columns, 40, state => {
+        state.pane.isFocused = isFocused
+        state.snapshot = snapshot
+      })
+      const focus = flat(tree).find(node => node.kind === 'Text' && String(node.props.children).startsWith(isFocused ? 'keys on' : 'keys off'))
+
+      expect(focus, `focus ${isFocused}`).toBeDefined()
+      expect(String(focus?.props.children)).not.toMatch(/…\s*$/)
+    }
+  })
 
   it('keeps the banner\'s title whole: the longest of version, title, shorter title that fits', async () => {
     const { bannerPicture } = await import('../hooks/gfx/pictures')

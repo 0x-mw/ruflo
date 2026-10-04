@@ -482,4 +482,13 @@ export type ProbeId = (typeof PROBES)[number]['id']
 /** What a probe came to: the last good value and when, and the last error, so a failing source is never drawn as live. */
 export type ProbeResult<T = unknown> = { value: T | null; okAtMs: number | null; error: string | null; errorAtMs: number | null; isRunning: boolean }
 
+/** An empty offline npm cache needs one explicit install; probes never download it themselves. */
+export function probeError(argv: readonly string[], result: { exitCode: number; stdout: string; stderr: string }): string {
+  if (result.exitCode === 0) return 'no JSON in the CLI output'
+  if (argv[0] === 'npx' && argv.includes('--offline') && argv.includes('@claude-flow/cli@latest') && /\bENOTCACHED\b/.test(`${result.stderr}\n${result.stdout}`)) {
+    return 'ruflo CLI not cached; run: npx -y @claude-flow/cli@latest --version'
+  }
+  return `exit ${result.exitCode}: ${plain(result.stderr.split('\n').find(line => line.trim() !== '') ?? '', 100) || 'no message'}`
+}
+
 export const emptyResult = (): ProbeResult => ({ value: null, okAtMs: null, error: null, errorAtMs: null, isRunning: false })

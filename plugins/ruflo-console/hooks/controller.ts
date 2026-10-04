@@ -5,7 +5,7 @@
  */
 import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
-import { PROBES, probeArgv, probeReady, type ProbeResult } from './data/cli'
+import { PROBES, probeArgv, probeError, probeReady, type ProbeResult } from './data/cli'
 import { ALL_COST_PROBES as COST_PROBES } from './data/cost-probes'
 import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
@@ -133,8 +133,8 @@ export function createController(state: State, host: Host): Controller {
       ])
       const previous = state.snapshot
       const now = Date.now()
-      const snapshot = await readSnapshot(host.fs, state.cache, state.cwd, state.home, settings, now, state.configDir)
-
+      const snapshot = await readSnapshot(host.fs, state.cache, state.cwd, state.home, settings, now, state.configDir, state.options.federationNetwork)
+      if (snapshot.hasNostrKey === false) state.nostrKeyVerifiedAtMs = null
       state.snapshot = snapshot
       record(state.events, diffEvents(previous, snapshot, now))
 
@@ -208,9 +208,9 @@ export function createController(state: State, host: Host): Controller {
     lastAttempt.set(probe.id, Date.now())
 
     try {
-      const result = await host.run(probeArgv(probe, state.options.cli, state), probe.timeoutMs)
+      const argv = probeArgv(probe, state.options.cli, state)
+      const result = await host.run(argv, probe.timeoutMs)
       const value = result.exitCode === 0 ? (probe.parse(result.stdout) as unknown) : null
-
       state.probes.set(
         probe.id,
         value !== null
@@ -219,7 +219,7 @@ export function createController(state: State, host: Host): Controller {
               ...held,
               isRunning: false,
               errorAtMs: Date.now(),
-              error: result.exitCode !== 0 ? `exit ${result.exitCode}: ${plain(result.stderr.split('\n').find(line => line.trim() !== '') ?? '', 100) || 'no message'}` : 'no JSON in the CLI output',
+              error: probeError(argv, result),
             },
       )
     } catch (error) {
