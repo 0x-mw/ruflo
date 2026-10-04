@@ -30,6 +30,7 @@ import { skillActions } from './skills'
 import { moreSkillActions } from './skills-lab'
 import { CLI_PREFIXES, NAV_KEY, PANE_ID, viewOf, type State } from './state'
 import { runUpdateCheck } from './update-flow'
+import { claudeActions } from './mission-claude'
 import { UPDATES_KEY } from './updates'
 import { vectorActions } from './vector'
 import type { Actions } from './views/common'
@@ -360,7 +361,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     vector: vectorActions(state, runner, text => actions.term.load('claude', text)),
     evolve: evolveActions(state, host, text => actions.term.ask('claude', text)),
     settings: settingsActions(state, host, runner, (agent, text) => actions.term.ask(agent, text), () => CLI_PREFIXES[state.options.cli], () => pluginNames(state, (catalogOf(state).plugins ?? []).filter(plugin => plugin.options.length > 0).map(plugin => plugin.name))),
-    mission: missionActions(state, host, runner),
+    mission: { ...missionActions(state, host, runner), ...claudeActions(state, host, runner) },
     ask: askActions(state, host, runner, () => actions),
     ruhelp: helpActions(state, host, runner, () => actions),
     loops: loopActions(state, host, runner),

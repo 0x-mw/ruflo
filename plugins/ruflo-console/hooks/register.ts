@@ -15,6 +15,7 @@ import { buildOf, isOurCheckout, setBuild } from './build'
 import { runUpdateCheck } from './update-flow'
 import { announceModelTools, parseControlEnv, serveModelTools } from './model-tools'
 import { loadAiPrefs, settingsOf } from './settings'
+import { contextSection, onPromptSubmit, onTurnComplete } from './mission-claude'
 import { parseMode, RECHECK_EVERY_MS, UPDATES_KEY } from './updates'
 import { selfCheckResults } from './self-check'
 import type { Kit } from './views/common'
@@ -351,6 +352,34 @@ export const register: Register = (on, raw: PluginOptions) => {
 
   on('turn.complete', ($, e, next) => {
     if (e.agentId === undefined) control?.markFrame('', false)
+    if (e.agentId === undefined && host !== null) {
+      try {
+        onTurnComplete(state, host, e.reason)
+      } catch {
+        // A note that could not be recorded never changes the turn.
+      }
+    }
+
+    return next(e)
+  })
+
+  // The mission Claude is working on rides in the system prompt (ADR-443); the text changes only when the task does.
+  on('prompt.compose', async ($, e, next) => {
+    const result = await next(e)
+    const section = contextSection(state)
+
+    return section === null ? result : { sections: [...result.sections, section] }
+  })
+
+  // A prompt carrying a mission's loop marker is that loop's tick.
+  on('prompt.submit', ($, e, next) => {
+    if (host !== null) {
+      try {
+        onPromptSubmit(state, host, e.text)
+      } catch {
+        // Counting a tick never blocks the prompt.
+      }
+    }
 
     return next(e)
   })

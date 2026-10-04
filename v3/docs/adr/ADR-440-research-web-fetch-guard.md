@@ -1,6 +1,6 @@
 # ADR 440: Research web-fetch guard
 
-Status: Proposed
+Status: Accepted (shipped in ruflo-console 0.28.0 and its companion plugins, PR #3667)
 
 Date: 2026 10 04
 

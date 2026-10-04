@@ -1,7 +1,7 @@
 ---
 name: cost-ledger
 description: One cost view across Claude Code and Codex on this machine — spend, tokens, cache hit ratio per provider and model, with unpriced models flagged. Use when asked "what did I spend", "how much did Codex cost", or to compare providers. Local logs only, nothing is sent.
-argument-hint: "[--since 7d|24h|all] [--provider claude|codex|all] [--format json|markdown]"
+argument-hint: "[--since 7d|24h|all] [--from <ISO> --to <ISO>] [--project <path>] [--provider claude|codex|all] [--format json|markdown]"
 allowed-tools: Bash
 ---
 
@@ -15,6 +15,10 @@ Reads the logs the agents already wrote (`~/.claude/projects`, `$CODEX_HOME` or 
 node ${CLAUDE_PLUGIN_ROOT}/scripts/ledger.mjs --since 7d
 node ${CLAUDE_PLUGIN_ROOT}/scripts/ledger.mjs --provider codex --format json
 ```
+
+## One mission, or one project
+
+`--from` and `--to` (ISO times) cut the window and `--project <absolute path>` keeps one project's rows; the console's mission page uses them for a mission's spend. An explicit `--from`/`--to` replaces the default 7-day look-back.
 
 ## Read the result correctly
 
