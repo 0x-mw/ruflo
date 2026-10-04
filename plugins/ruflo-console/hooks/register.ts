@@ -13,7 +13,7 @@ import { BAR_KEY, barView } from './views/bar'
 import { setBootChecks } from './boot-checks'
 import { buildOf, isOurCheckout, setBuild } from './build'
 import { runUpdateCheck } from './update-flow'
-import { parseMode, UPDATES_KEY } from './updates'
+import { parseMode, RECHECK_EVERY_MS, UPDATES_KEY } from './updates'
 import { selfCheckResults } from './self-check'
 import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
@@ -161,7 +161,11 @@ export const register: Register = (on, raw: PluginOptions) => {
     )
 
     void Promise.all([built, moded]).then(() => {
-      if (state.isInteractive) here.after(2_500, () => void runUpdateCheck(state, here))
+      if (!state.isInteractive) return
+
+      here.after(2_500, () => void runUpdateCheck(state, here))
+      // A session left open for days re-asks too, quietly (no dialog mid-work); the daily gate keeps the network to once a day.
+      state.timers.set('update-recheck', here.every(RECHECK_EVERY_MS, () => void runUpdateCheck(state, here, { quiet: true })))
     })
 
     const bound = host
