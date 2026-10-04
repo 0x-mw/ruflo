@@ -50,7 +50,7 @@ User --> Ruflo (CLI/MCP) --> Router --> Swarm --> Agents --> Memory --> LLM Prov
 
 ---
 
-<p align="center"><img src="docs/assets/ruflo-console-walkthrough.gif" alt="A walkthrough of the ruflo console inside Claude Code in a near-square frame: the whole boot (the neon sign in its border, the ruvector constellation, every area checked), the main menu entering and its cards folding, the nav, pages, the command palette, ruHelp, settings and refresh" width="460"></p>
+<p align="center"><img src="docs/assets/ruflo-console-walkthrough.gif" alt="A walkthrough of the ruflo console inside Claude Code in a near-square frame: the whole boot (the neon sign in its border, the ruvector constellation, every area checked), the main menu entering and its cards folding, the nav, pages, the command palette, ruHelp, settings and refresh"></p>
 
 <sub>The <code>/ruflo</code> console running in Claude Code, shown in a compact, near-square frame (the cockpit docked beside Claude, cropped to the cockpit) so it reads on a phone as well as a desktop: the whole boot (the neon sign in its border, the ruvector constellation lit by what is really installed, every area checked, an easter egg), the main menu entering and its cards folding, the grouped nav, a few pages, the command palette (a tag on every entry for what it does), <b>ruHelp</b> (built-in help: ask a question, get steps with buttons; a guide for every capability), settings and refresh. A <a href="docs/assets/ruflo-console-walkthrough-wide.gif">wide-display walkthrough</a> shows the same console with room for every label. <code>npx ruflo init</code>, restart Claude Code, then <code>/ruflo</code>.</sub>
 
