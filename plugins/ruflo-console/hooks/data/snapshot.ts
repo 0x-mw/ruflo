@@ -26,6 +26,7 @@ import {
 import { parseMissions, type MissionObservation } from './missions'
 import { readBounded, readDisk, textOf, type ProjectKey, type Read, type ReadCache, type ReaderFs } from './files'
 import { parseAgentdbMod, type AgentdbMod } from './agentdb-mod'
+import { readMods, type ModsFacts } from './mods'
 import {
   parseAgents,
   parseClaims,
@@ -81,6 +82,8 @@ export type Snapshot = {
   missions: MissionObservation | null
   /** The ruflo-agentdb mod's own status file (ADR-445); null while the mod has not written one. */
   agentdbMod: AgentdbMod | null
+  /** Every `.claude-flow/<short>-mod/status.json` the per-plugin mods wrote (ADR-446), bounded and shape-checked. */
+  mods: ModsFacts
   changed: number
   readAtMs: number
 }
@@ -131,6 +134,7 @@ export async function readSnapshot(fs: ReaderFs, cache: ReadCache, cwd: string, 
     },
     missions: parseMissions(text('missions')),
     agentdbMod: parseAgentdbMod(text('agentdbMod')),
+    mods: await readMods(fs, cache, cwd),
     changed: disk.changed,
     readAtMs: nowMs,
   }

@@ -5,7 +5,7 @@ import type { MemoryStats } from '../data/cli'
 import type { StartId } from '../starts'
 import { controlRows, isControlActive } from './control'
 import { optimizerRows } from './optimizer'
-import { ago, col, count, kv, live, picture, rule, sourceLine, starts, text, THEME, type Ctx } from './common'
+import { ago, button, col, count, kv, live, row, picture, rule, sourceLine, starts, text, THEME, type Ctx } from './common'
 
 /** Each subsystem in one line: what it is, from where, as of when. Nothing on this view is estimated. */
 export function overviewView(ctx: Ctx): RenderElement {
@@ -70,6 +70,11 @@ export function overviewView(ctx: Ctx): RenderElement {
     ),
   )
   rows.push(kv(ctx, 'function hooks', `on (this mod runs) · mods seen since it loaded: ${loaded} loaded, ${refused} refused`, refused > 0 ? THEME.warn : THEME.ok))
+  const modsSeen = snap?.mods?.rows ?? []
+  const modsBlocked = modsSeen.filter(mod => mod.blocked > 0).length
+
+  rows.push(kv(ctx, 'mods reporting', modsSeen.length === 0 ? 'none yet' : `${modsSeen.length}${modsBlocked > 0 ? ` · ${modsBlocked} blocked something` : ''}`, modsBlocked > 0 ? THEME.warn : undefined))
+  rows.push(row(ctx, [button(ctx, 'overview-mods', 'The Room: Mods', () => ctx.act.view('room'))], 'overview-mods-row'))
   rows.push(kv(ctx, 'swarm', swarm === null ? 'n/a — no swarm on disk' : `${swarm.id} · ${swarm.topology} · ${swarm.status} · ${swarm.agentIds.length || (snap?.agents.length ?? 0)} agents`))
 
   // What is missing here, each with the button that adds it, most basic first.
