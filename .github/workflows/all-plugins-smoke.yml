@@ -18,12 +18,14 @@ on:
       - 'plugins/**'
       - 'scripts/smoke-all-plugins.mjs'
       - 'scripts/audit-plugin-mcp-prefix.mjs'
+      - 'scripts/sync-mod-screen.mjs'
       - '.github/workflows/all-plugins-smoke.yml'
   pull_request:
     paths:
       - 'plugins/**'
       - 'scripts/smoke-all-plugins.mjs'
       - 'scripts/audit-plugin-mcp-prefix.mjs'
+      - 'scripts/sync-mod-screen.mjs'
       - '.github/workflows/all-plugins-smoke.yml'
   workflow_dispatch:
 
@@ -46,6 +48,11 @@ jobs:
         # still complete in <5s; 300s protects against a genuinely-hung
         # smoke while letting the metaharness fleet finish.
         run: node scripts/smoke-all-plugins.mjs --timeout 300
+
+      - name: Mod secret screen — every copy matches the origin (ADR-445)
+        run: node scripts/sync-mod-screen.mjs --check
+        # Fails when any plugins/*/hooks/screen.ts drifted from plugins/ruflo-agentdb/hooks/screen.ts between the
+        # SHARED SCREEN markers, or when it finds no copies. Fix: node scripts/sync-mod-screen.mjs
 
       - name: Fleet-wide exit-bypass antipattern lint (iter-75 bug class)
         run: node scripts/audit-exit-bypass-antipattern.mjs

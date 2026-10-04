@@ -36,6 +36,7 @@ describe('screen', () => {
   test('tidy strips control and bidi characters and caps length', () => {
     expect(tidy('a\u202eb\u0000c\n\n  d', 50)).toBe('abc d')
     expect(tidy('x'.repeat(100), 10)).toHaveLength(10)
+    expect(tidy('a\u200bb\u2028c', 50)).toBe('abc')
   })
 })
 
