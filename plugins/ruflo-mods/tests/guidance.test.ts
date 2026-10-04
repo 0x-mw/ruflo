@@ -1,8 +1,4 @@
 import { describe, expect, test, tier } from 'claude-code/testing'
-import type { Plugin } from 'claude-code/testing'
-
-import { register } from '../hooks/register'
-
 import { prompt, ROOT, START, world } from './fixtures/world'
 
 tier('user')
@@ -18,16 +14,11 @@ const projection = () => JSON.stringify({
   ],
 })
 const options = { guidanceContext: true, guidanceLearning: true, routeContext: false }
-// Exercise production registration directly: the 2.1.283 kit does not apply
-// per-test option overrides. Current kits may also run these same contracts.
-const enabledGuidance: Plugin = {
-  name: 'guidance-contract', tier: 'user', register: on => { register(on, options) },
-}
 const complete = (turnId: string, isAborted = false) => ({ answer: 'EXAMPLE_ANSWER_SENTINEL', durationMs: 1, isAborted, turnId, reason: 'answer' }) as const
 const queued = (files: Map<string, string>) => [...files].filter(([path]) => path.includes('/guidance/observations/'))
 
 describe('guidance (ADR-447)', () => {
-  test('native prompt context is versioned, screened, bounded and preserves existing content', { plugins: [enabledGuidance] }, async ($, on) => {
+  test('native prompt context is versioned, screened, bounded and preserves existing content', { options }, async ($, on) => {
     world(on, {}, { [PATH]: projection() })
     let seen: readonly string[] | undefined
     on('prompt.submit', ($, e) => { seen = e.context; return { text: e.text } })
@@ -42,7 +33,7 @@ describe('guidance (ADR-447)', () => {
     expect(context.length).toBeLessThan(5000)
   })
 
-  test('native lifecycle stores only unverified metadata once, with failures and final denies', { plugins: [enabledGuidance] }, async ($, on) => {
+  test('native lifecycle stores only unverified metadata once, with failures and final denies', { options }, async ($, on) => {
     const w = world(on, {}, { [PATH]: projection() })
     on('prompt.submit', ($, e) => ({ text: e.text }))
     on('tool.check', () => ({ decision: 'deny', reason: 'host rule', rule: 'Read(secret)' }))
@@ -62,7 +53,7 @@ describe('guidance (ADR-447)', () => {
     expect(text).not.toMatch(/SENTINEL|host rule|Read\(secret\)/)
   })
 
-  test('unreadable advisory data leaves prompts flowing and cannot loosen enforcement', { plugins: [enabledGuidance] }, async ($, on) => {
+  test('unreadable advisory data leaves prompts flowing and cannot loosen enforcement', { options }, async ($, on) => {
     const w = world(on, {}, { [PATH]: '{torn', [`${ROOT}/.claude-flow/policy/claude-code.json`]: '{torn' })
     on('prompt.submit', ($, e) => ({ text: e.text }))
     on('tool.check', () => ({ decision: 'allow' }))

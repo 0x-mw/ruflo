@@ -7,8 +7,8 @@ import { tmpdir } from 'node:os';
 import { GuidanceCompiler } from '../../../guidance/src/compiler';
 import { register } from '../../../../../plugins/ruflo-mods/hooks/register';
 import { parseProjection, PROJECTION_PATH, MAX_CONTEXT_CHARS, safeText, selectGuidance } from '../../../../../plugins/ruflo-mods/hooks/guidance/projection';
-import { finishTask, flushObservations, guidanceState, validObservation, MAX_OBSERVATIONS } from '../../../../../plugins/ruflo-mods/hooks/guidance/observations';
-import { buildModProjection, collectModCandidates, MOD_GUIDANCE_DIR, parseModObservations, writeModProjection } from '../../src/guidance/mod-projection';
+import { validObservation, MAX_OBSERVATIONS } from '../../../../../plugins/ruflo-mods/hooks/guidance/observations';
+import { buildModProjection, collectModCandidates, MOD_GUIDANCE_DIR, parseModObservations } from '../../src/guidance/mod-projection';
 import { guidanceCommand } from '../../src/commands/guidance';
 import { output } from '../../src/output';
 import { loadMod, memoryWorld, realWorld, type World } from './harness';
@@ -150,6 +150,30 @@ describe('guidance lifecycle', () => {
     const result = Object.defineProperty({ result: 'ok' }, 'isError', { get() { throw new Error('telemetry fault'); } });
     expect(await mod.dispatch('tool.call', { tool: 'Read' }, () => { calls++; return result; })).toBe(result);
     expect(calls).toBe(1);
+  });
+
+  it('preserves corrupt queue bytes until they are repaired, then flushes pending once', async () => {
+    const w = memoryWorld(); seed(w); const mod = await start(w); await prompt(mod); await complete(mod);
+    const path = queues(w)[0][0]; const original = files(w).get(path)!.text;
+    files(w).set(path, { text: '{corrupt', mtimeMs: 2 });
+    await prompt(mod); await complete(mod, 't2');
+    expect(files(w).get(path)!.text).toBe('{corrupt');
+    files(w).set(path, { text: original, mtimeMs: 3 });
+    await end(mod); await end(mod);
+    expect(records(w)).toHaveLength(2);
+  });
+
+  it('binds each turn to its displayed version and does not attribute undisplayed guidance', async () => {
+    const w = memoryWorld(); const first = projection(); seed(w, first); const mod = await start(w);
+    await prompt(mod); await complete(mod, 't1');
+    const second = buildModProjection(new GuidanceCompiler().compile(SOURCE + '\n- TEST-002: Always test invalid parser inputs.\n'), 'd'.repeat(40));
+    files(w).set(`${w.root}/${PROJECTION_PATH}`, { text: JSON.stringify(second), mtimeMs: 2 });
+    await prompt(mod); await complete(mod, 't2');
+    expect(records(w).map(r => r.bundleId)).toEqual([first.bundleId, second.bundleId]);
+    const invisible = memoryWorld(); seed(invisible);
+    const observe = await start(invisible, { guidanceContext: false, guidanceLearning: true });
+    await prompt(observe); await complete(observe);
+    expect(records(invisible)[0].ruleIds).toEqual([]);
   });
 
   it('uses a distinct queue on reload and leaves classic hook ownership intact', async () => {

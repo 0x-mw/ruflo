@@ -23,6 +23,22 @@ const HEX = /^[a-f0-9]{64}$/;
 const RUN = /^mod-[a-z0-9]+-[a-z0-9]{1,12}-[a-z0-9]{1,12}$/;
 const ID = /^[A-Za-z0-9_-]{1,64}$/;
 
+export interface ModObservation {
+  version: 1;
+  kind: 'guidance-observation';
+  id: string;
+  runId: string;
+  taskId: number;
+  bundleId: string;
+  sourceRevision: string;
+  ruleIds: string[];
+  checks: { allow: number; ask: number; deny: number };
+  tools: { ok: number; error: number; denied: number };
+  completion: 'completed' | 'aborted' | 'interrupted';
+  verified: false;
+  learningEligible: false;
+}
+
 /** Stable digest of the exported rules; a provenance identifier, not a signature. */
 export function buildModProjection(bundle: Bundle, sourceRevision: string) {
   if (!/^[a-f0-9]{40,64}$/.test(sourceRevision)) throw new Error('--revision must be an immutable source commit SHA');
@@ -60,7 +76,7 @@ const keys = ['version', 'kind', 'id', 'runId', 'taskId', 'bundleId', 'sourceRev
 const counters = (value: any, names: string[]) => value && !Array.isArray(value) && Object.keys(value).length === names.length && names.every(k => Number.isSafeInteger(value[k]) && value[k] >= 0 && value[k] <= 100000);
 
 /** Strict allowlist: a writable `verified: true` or receipt cannot become evidence. */
-export function parseModObservations(text: string): any[] {
+export function parseModObservations(text: string): ModObservation[] {
   if (Buffer.byteLength(text) > MAX_BYTES) throw new Error('Observation file exceeds 256 KiB');
   const records = JSON.parse(text);
   if (!Array.isArray(records) || records.length > 128) throw new Error('Invalid observation queue');

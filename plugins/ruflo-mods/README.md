@@ -149,6 +149,13 @@ pending and dropped observations. These counts are activity, not correctness.
 CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test plugins/ruflo-mods   # real engine; needs the rollout switch on
 cd v3/@claude-flow/cli && npx vitest run __tests__/mods/                      # declaration-faithful harness, parity tests
 bash plugins/ruflo-mods/scripts/smoke.sh                                       # static security contract
+bash plugins/ruflo-mods/scripts/native-guidance-smoke.sh                       # three configured native guidance contracts
 ```
 
 To typecheck, load the plugin once (Claude Code >= 2.1.287 writes its declarations into `.claude-plugin/types/`), then run `npx tsc -p plugins/ruflo-mods`.
+
+The focused native guidance smoke uses a disposable plugin copy with explicit
+feature options because the 2.1.283 test kit ignores per-test option overrides.
+It runs the three feature contracts against unchanged production hooks. The
+default settings contract belongs to the standard suite. A rollout gate still
+applies, and the focused result must not be reported as the complete native suite.
