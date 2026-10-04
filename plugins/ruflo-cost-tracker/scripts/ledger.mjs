@@ -56,7 +56,7 @@ function markdown(summary, meta) {
   lines.push('| Provider · model | Cost | Msgs | Input | Cache read | Cache write | Output |', '|---|---|---|---|---|---|---|');
   for (const [key, cost] of Object.entries(summary.byModel).sort((a, b) => Object.values(b[1])[0] - Object.values(a[1])[0])) {
     const t = summary.tokens[key];
-    lines.push(`| ${key.replace('|', ' · ')} | ${Object.entries(cost).map(([unit, value]) => money(value, unit)).join(', ')} | ${t.messages} | ${t.input} | ${t.cache_read} | ${t.cache_write} | ${t.output} |`);
+    lines.push(`| ${key.replaceAll('|', ' · ')} | ${Object.entries(cost).map(([unit, value]) => money(value, unit)).join(', ')} | ${t.messages} | ${t.input} | ${t.cache_read} | ${t.cache_write} | ${t.output} |`);
   }
   for (const [provider, cache] of Object.entries(summary.cache)) lines.push('', `Cache hit ratio · ${provider}: ${cache.hitRatio === null ? 'n/a' : `${(cache.hitRatio * 100).toFixed(1)}%`}`);
   const dark = Object.entries(summary.unpriced);
