@@ -110,6 +110,17 @@ describe('mission guidance', () => {
     expect(calls[0]?.input).toContain('GOAL: add a dark mode toggle to settings')
   })
 
+  it('never displaces an action that is already waiting for a Yes', () => {
+    const state = ready()
+    const { host } = fakeHost(ANSWER)
+    const asked: unknown[] = []
+    const runner = { ask: (spec: unknown) => void asked.push(spec) } as unknown as Runner
+
+    state.pending = { label: 'create the mission and its tasks', args: [], expect: 'x', askedAtMs: Date.now() }
+    offerGuidance(state, host, runner, mcOf(state))
+    expect(asked).toEqual([])
+  })
+
   it('always accept runs it at once; turning Mission guidance off in Settings asks and runs nothing', async () => {
     const state = ready()
     const { host, calls } = fakeHost(ANSWER)

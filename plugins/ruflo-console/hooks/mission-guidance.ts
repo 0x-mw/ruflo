@@ -247,6 +247,8 @@ export function offerGuidance(state: State, host: Host, runner: Runner, mc: McSt
   // Claude is the one driving the console (ADR-444): it needs no second `claude -p` turn, billed, to advise it on its own goal.
   if (state.control.drivingUntilMs > Date.now()) return
   if (ai.autoAccept) return startGuidance(state, host, mc)
+  // A background offer never displaces an action already waiting for a Yes (the console holds one): it would vanish unanswered.
+  if (state.pending !== null) return
 
   runner.ask(guidanceSpec(state, host, mc), 'type a goal first')
 }
