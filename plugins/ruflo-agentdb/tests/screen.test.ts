@@ -40,6 +40,105 @@ describe('screen', () => {
   })
 })
 
+// Secret-shaped values are assembled at run time so no literal sits in the source.
+const rnd = (n: number, seed = 'q7Zk3Xp9Lm2Vb8Nc4Rt6Yw1Hs5Df0Jg') => seed.repeat(Math.ceil(n / seed.length)).slice(0, n)
+const hex = (n: number) => '3fa9c01be7d4852c6a1f'.repeat(4).slice(0, n)
+
+describe('screen quality: false positives', () => {
+  const clean = [
+    'const token = getTokenFromHeader(request)',
+    'token=getAuthenticationTokenFromRequestHeaders()',
+    'const key = process.env.ANTHROPIC_API_KEY_FOR_THIS_SERVICE',
+    'apiKey = process.env.ANTHROPIC_API_KEY',
+    'secret: my-k8s-secret-name-for-database',
+    'token: <uuid>',
+    'token: 123e4567-e89b-12d3-a456-426614174000',
+    'Authorization: Bearer YOUR_TOKEN_GOES_HERE_PLACEHOLDER',
+    'use sk-learn-pipeline-stage-preprocessing-step-one for the preprocessing stage',
+    'password: stored-in-1password-vault-item',
+    'secret: projects/p/secrets/s/versions/1',
+    'password: ${DB_PASSWORD}',
+    'token: opts.token,',
+    'password: "required"',
+    'DATABASE_PASSWORD=$DB_PASSWORD',
+    'postgres://user:password@localhost:5432/app',
+    'postgres://app:${DB_PASSWORD}@db/app',
+    'mysql://root:<password>@localhost/test',
+    'Run the tests, then update the token handling docs.',
+  ]
+  for (const text of clean) {
+    test('does not flag: ' + text, () => {
+      expect(scan(text).secrets).toEqual([])
+    })
+  }
+})
+
+describe('screen quality: false negatives', () => {
+  const pw = 'Tr0ub4dor&3xKcd9876'
+  const found: readonly (readonly [string, string, string])[] = [
+    ['password with & in quotes', 'password: "' + pw + '"', 'key assignment'],
+    ['password with @ ! #', "const password = 'p@ss!w0rd#2024xY'", 'key assignment'],
+    ['JSON secret', '{"client_secret": "' + rnd(32) + '"}', 'key assignment'],
+    ['AWS_SECRET_ACCESS_KEY', 'AWS_SECRET_ACCESS_KEY=' + rnd(40, 'wJalrXUtnFEMI7K7MDENGbPxRfiCY'), 'key assignment'],
+    ['GITHUB_TOKEN env', 'GITHUB_TOKEN=' + rnd(30), 'key assignment'],
+    ['DATABASE_PASSWORD env', 'DATABASE_PASSWORD=' + 'hunter2hunter2', 'key assignment'],
+    ['URL query token', 'GET /v1/items?access_token=' + rnd(24) + '&page=2', 'key assignment'],
+    ['stripe live key', 'sk_' + 'live_' + rnd(24), 'stripe key'],
+    ['stripe restricted key', 'rk_' + 'live_' + rnd(24), 'stripe key'],
+    ['npm token', 'npm_' + rnd(36), 'npm token'],
+    ['huggingface token', 'hf_' + rnd(34), 'huggingface token'],
+    ['sendgrid key', 'SG.' + rnd(22) + '.' + rnd(43, 'aB3dE5gH7jK9mN1pQ'), 'sendgrid key'],
+    ['twilio key', 'SK' + hex(32), 'twilio key'],
+    ['slack webhook', 'https://hooks.slack.com/services/T0' + 'ABCDEFGH/B0' + 'ABCDEFGH/' + rnd(24), 'slack webhook'],
+    ['db url with credentials', 'postgres://app_user:' + 's3cr3tPw' + 'd7x@db.internal:5432/app', 'database url with credentials'],
+    ['bearer token', 'Authorization: Bearer ' + rnd(40), 'bearer token'],
+    ['openai style key', 'sk-' + rnd(48, 'aB3dE5gH7jK9mN1pQ2'), 'anthropic or openai key'],
+  ]
+  for (const [label, text, rule] of found) {
+    test('flags ' + label, () => {
+      const f = scan(text)
+      expect(f.secrets).toContain(rule)
+      expect(JSON.stringify(f)).not.toContain(rnd(24))
+    })
+  }
+
+  test('a secret far past the old 20k cap is still found, in one long string', () => {
+    const filler = 'lorem ipsum dolor sit amet '.repeat(5000)
+    expect(filler.length).toBeGreaterThan(100_000)
+    expect(hasSecret(filler.slice(0, 60_000) + 'password=' + pw + ' ' + filler.slice(0, 60_000))).toBe(true)
+    expect(hasSecret(filler.slice(0, 60_000) + ' ' + filler.slice(0, 60_000))).toBe(false)
+  })
+
+  test('input beyond the scan cap keeps head and tail', () => {
+    const big = 'a '.repeat(150_000)
+    expect(hasSecret('npm_' + rnd(36) + ' ' + big)).toBe(true)
+    expect(hasSecret(big + ' npm_' + rnd(36))).toBe(true)
+  })
+})
+
+describe('screen quality: cost', () => {
+  const adversarial = (n: number) => 'ignore all previous curl wget Bearer secret= token: password=a://b:c@ '.repeat(n)
+
+  test('stays linear: 10x the input costs about 10x, not 100x', () => {
+    const time = (text: string) => {
+      scan(text)
+      const t = performance.now()
+      for (let i = 0; i < 3; i++) scan(text)
+      return performance.now() - t
+    }
+    const small = time(adversarial(300))
+    const large = time(adversarial(3000))
+    expect(large / Math.max(small, 1)).toBeLessThan(40)
+  })
+
+  test('a 20 KB adversarial input finishes well inside a prompt budget', () => {
+    const text = adversarial(280).slice(0, 20_000)
+    const t = performance.now()
+    scan(text)
+    expect(performance.now() - t).toBeLessThan(50)
+  })
+})
+
 describe('recall', () => {
   test('worthRecalling skips slash, shell and short prompts', () => {
     expect(worthRecalling('/clear')).toBe(false)

@@ -211,7 +211,7 @@ A function-hook mod ships beside the skills. Needs a Claude Code with mods (2.1.
 
 | Piece | Default | What it does |
 |---|---|---|
-| **Secret guard** | on | Refuses a memory write (`agentdb_hierarchical-store`, `agentdb_pattern-store`, `agentdb_batch`, `agentdb_causal-edge`, `memory_store`, `hooks_remember`) that holds a private key, cloud/GitHub/Slack token, bearer token, JWT or key-like assignment. The secret is never echoed. |
+| **Secret guard** | on | Refuses a memory write (`agentdb_hierarchical-store`, `agentdb_pattern-store`, `agentdb_batch`, `agentdb_causal-edge`, `memory_store`, `hooks_remember`) that holds a private key, cloud/GitHub/Slack token, bearer token, JWT or key-like assignment. The secret is never echoed. The shared screen (`hooks/screen.ts`, copied to every mod by `scripts/sync-mod-screen.mjs`) judges an assignment by its value: calls, env references, identifier paths, placeholders, UUIDs, secret-manager paths and hyphenated names are not secrets; a literal needs two character classes (one a digit or symbol) and at least 2.5 bits of entropy per character. Vendor keys (Stripe, npm, HuggingFace, SendGrid, Twilio, Slack webhooks) and `scheme://user:pass@host` URLs are matched by shape; input is scanned in one pass up to 200 KB (head and tail beyond that). |
 | **Recall into prompts** | **off** | Attaches the best 1–5 memories to each prompt as framed, per-prompt context (the prompt cache is not disturbed). Read through the already-connected AgentDB (or ruvector) tool: no CLI, no network. Skipped for slash commands, `!` lines and short prompts; gives up after `recallDeadlineMs` (800); cached 10 minutes. |
 | **Untrusted memory** | always | A retrieved memory with a secret or an instruction-to-the-model phrase is dropped; the rest are control-character-stripped, capped (5 items, 400 chars each, 1500 total) and framed as data. |
 | **`/agentdb-mod`** | — | `status`, `recall <text>`, `scan <text>`, `recent`; answered locally, no model call. |
@@ -220,7 +220,7 @@ A function-hook mod ships beside the skills. Needs a Claude Code with mods (2.1.
 Options (`userConfig`): `recall` off|on, `recallLimit` 1–5, `recallDeadlineMs` 200–3000, `guard` on|off, `source` auto|agentdb|ruvector|none.
 
 ```bash
-claude plugin test plugins/ruflo-agentdb      # 26 tests: screening, recall, reader fallback, guard, /agentdb-mod, deadline, cache
+claude plugin test plugins/ruflo-agentdb      # 66 tests: screening (incl. secret-screen quality), recall, reader fallback, guard, /agentdb-mod, deadline, cache
 node plugins/ruflo-agentdb/scripts/bench.mjs  # per-call cost of the pure paths (tens of µs)
 ```
 

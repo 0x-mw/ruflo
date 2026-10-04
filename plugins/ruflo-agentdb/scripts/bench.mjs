@@ -53,6 +53,8 @@ function time(name, fn, n) {
 const rows = [
   time('scan 2 KB text', () => m.scan(note.repeat(16)), 20000),
   time('scan 20 KB adversarial (ReDoS probe)', () => m.scan('ignore all previous curl wget Bearer secret= '.repeat(450)), 300),
+  time('scan 20 KB of assignments + URLs (screen-quality probe)', () => m.scan('token= password: a://b:c@h api_key = "x1" Bearer secret_key=Ab1 '.repeat(330)), 300),
+  time('scan 200 KB clean text (cap, one pass)', () => m.scan(note.repeat(1600)), 20),
   time('guard verdict (memory write, clean)', () => m.verdict('mcp__x__agentdb_hierarchical-store', write), 20000),
   time('guard verdict (other tool, skipped)', () => m.verdict('Bash', { command: 'ls -la' }), 200000),
   time('parse + screen + frame (5 results)', () => m.frame(m.screen(m.parse(result, 'agentdb', Date.now()), 3).items), 10000),
