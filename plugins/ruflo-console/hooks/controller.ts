@@ -5,7 +5,7 @@
  */
 import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
-import { PROBES, probeArgv, type ProbeResult } from './data/cli'
+import { PROBES, probeArgv, probeReady, type ProbeResult } from './data/cli'
 import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
 import { plain } from './data/parse'
@@ -207,7 +207,7 @@ export function createController(state: State, host: Host): Controller {
     lastAttempt.set(probe.id, Date.now())
 
     try {
-      const result = await host.run(probeArgv(probe, state.options.cli), probe.timeoutMs)
+      const result = await host.run(probeArgv(probe, state.options.cli, state), probe.timeoutMs)
       const value = result.exitCode === 0 ? (probe.parse(result.stdout) as unknown) : null
 
       state.probes.set(
@@ -235,7 +235,7 @@ export function createController(state: State, host: Host): Controller {
       entry =>
         (isVisible() || force) &&
         entry.views.includes(state.view) &&
-        (!entry.isNetwork || state.options.federationNetwork) &&
+        (!entry.isNetwork || state.options.federationNetwork) && probeReady(entry, state) &&
         (force || (state.probes.get(entry.id)?.isRunning !== true && now - (lastAttempt.get(entry.id) ?? 0) >= entry.everyMs)),
     )
 
