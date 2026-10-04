@@ -1,6 +1,6 @@
 import type { RenderElement } from 'claude-code'
 
-import { filterPalette, paletteEntries, type PaletteEntry } from '../palette'
+import { filterPalette, isUnavailable, paletteEntries, type PaletteEntry } from '../palette'
 import { button, clip, col, row, rule, tagChip, text, THEME, type Ctx } from './common'
 
 export const PALETTE_ROWS = 12
@@ -19,7 +19,7 @@ export function entryTag(entry: PaletteEntry): { text: string; color: string } {
     case 'text':
       return { text: 'text ', color: THEME.warn }
     case 'spec':
-      return run.spec === null ? { text: ' n/a ', color: THEME.bad } : run.spec.isReadOnly === true ? { text: ' $0 ', color: THEME.ok } : { text: 'ask ', color: THEME.warn }
+      return isUnavailable(entry) || run.spec === null ? { text: ' n/a ', color: THEME.bad } : run.spec.isReadOnly === true ? { text: ' $0 ', color: THEME.ok } : { text: 'ask ', color: THEME.warn }
   }
 }
 

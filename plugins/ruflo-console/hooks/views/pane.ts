@@ -37,6 +37,7 @@ import { labResult } from './mh-lab'
 import { neuralResult, neuralView } from './neural'
 import { missionControlView } from './mission-control'
 import { overviewView } from './overview'
+import { ICON_MARGIN, ICONS, iconsSpellWords } from '../icon-layout'
 import { helpView } from './help'
 import { paletteView } from './palette'
 import { perfResult, perfView } from './perf'
@@ -291,43 +292,37 @@ const RESULT_OF: Partial<Record<ViewId, (ctx: Ctx) => RenderElement[]>> = {
   learning: neuralResult,
 }
 
-/** How many cells of space follow the last icon, so the row does not touch the host's ✕ at the edge. */
-const ICON_MARGIN = 2
-
 /**
- * The icons' glyphs: one cell each, and none an emoji or with an emoji form. A glyph that is also an emoji (⚙, ℹ) can be drawn two cells wide when a terminal
- * switches to its emoji font for it, as it can when the glyph is bold, which is how the page you are on is drawn: the row then jumps when that page is
- * selected. A plain ? is also visibly larger than the small symbols beside it. So: ⌂ the main menu, ⌘ the palette, ʔ help (a small question-mark shape: a plain ? is too large, ⓘ was not obvious), ⛭ settings (a gear with no emoji form),
- * ⟳ refresh last (it draws a little larger than ↻, as asked). A bare glyph is not always obvious (help most of all), so from WORDS_FROM columns each icon also says its word.
+ * The icons on one line, at the right of the first row, beside the host's ✕: the main menu, the palette, help, settings and refresh (hooks/icon-layout.ts
+ * says which glyphs and why). Each says its word as well when the pane is wide and the header art beside it leaves room for the whole row; otherwise it
+ * is a glyph and a cell. The one for the page you are on is lit: coloured text of exactly the width of a button (a plain Button draws exactly its label).
  */
-const ICON_GLYPHS = { menu: '⌂', palette: '⌘', refresh: '⟳', help: 'ʔ', settings: '⛭' } as const
-
-/** The pane width from which each icon spells its word beside its glyph. */
-export const ICON_WORDS_FROM = 110
-
-/** The icons on one line, at the right of the first row, beside the host's ✕: the main menu, the palette, refresh, help and settings. The one for the page you are on is lit: coloured text, the same width as a button. */
 export function iconRow(ctx: Ctx): RenderElement {
   const { state } = ctx
-  const withWords = ctx.columns >= ICON_WORDS_FROM
-  // A plain Button draws exactly its label, so the page you are on is coloured text of exactly the same width: nothing moves when it changes.
-  const icon = (key: string, glyph: string, word: string, isCurrent: boolean, press: () => void): RenderElement => {
-    const label = withWords ? `${glyph} ${word} ` : `${glyph} `
-
-    return isCurrent
-      ? ctx.kit.Box({ key, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: label })] })
-      : ctx.kit.Button({ key, label, plain: true, dimColor: true, onPress: press })
+  const header = ctx.pictures.get(state.view === 'menu' ? 'header' : 'title')
+  const withWords = iconsSpellWords(ctx.columns, header?.columns ?? 0)
+  const press: Record<(typeof ICONS)[number]['id'], { isCurrent: boolean; run: () => void }> = {
+    menu: { isCurrent: state.view === 'menu' && !state.isHelp && !state.palette.isOpen, run: () => ctx.act.view('menu') },
+    palette: { isCurrent: state.palette.isOpen, run: () => ctx.act.palette('all') },
+    help: { isCurrent: state.isHelp, run: ctx.act.help },
+    settings: { isCurrent: state.view === 'settings' && !state.isHelp && !state.palette.isOpen, run: () => ctx.act.view('settings') },
+    // Refresh re-reads everything and replays the intro, as the footer's Refresh and the r key do; it is an action, never the page you are on.
+    refresh: { isCurrent: false, run: ctx.act.restart },
   }
 
   return ctx.kit.Box({
     flexDirection: 'row',
     key: 'pane-icons',
     children: [
-      icon('pane-icon-menu', ICON_GLYPHS.menu, 'menu', state.view === 'menu' && !state.isHelp && !state.palette.isOpen, () => ctx.act.view('menu')),
-      icon('pane-icon-palette', ICON_GLYPHS.palette, 'palette', state.palette.isOpen, () => ctx.act.palette('all')),
-      icon('pane-icon-help', ICON_GLYPHS.help, 'help', state.isHelp, ctx.act.help),
-      icon('pane-icon-settings', ICON_GLYPHS.settings, 'settings', state.view === 'settings' && !state.isHelp && !state.palette.isOpen, () => ctx.act.view('settings')),
-      // Last, beside the close mark: refresh re-reads everything and replays the intro, as the footer's Refresh and the r key do; it is an action, never the page you are on.
-      icon('pane-icon-refresh', ICON_GLYPHS.refresh, 'refresh', false, ctx.act.restart),
+      ...ICONS.map(icon => {
+        const key = `pane-icon-${icon.id}`
+        const label = withWords ? `${icon.glyph} ${icon.word} ` : `${icon.glyph} `
+        const entry = press[icon.id]
+
+        return entry.isCurrent
+          ? ctx.kit.Box({ key, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: label })] })
+          : ctx.kit.Button({ key, label, plain: true, dimColor: true, onPress: entry.run })
+      }),
       ctx.kit.Text({ children: ' '.repeat(ICON_MARGIN) }),
     ],
   })

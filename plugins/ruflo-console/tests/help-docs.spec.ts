@@ -252,3 +252,12 @@ describe('the Help page', () => {
     expect(wrap('a bb ccc dddd', 6)).toEqual(['a bb', 'ccc', 'dddd'])
   })
 })
+
+describe('the guides\' text', () => {
+  it('keeps the cost tags as written: $0, cpu, net, $$ (a string replace once collapsed $$ to $)', () => {
+    const all = TOPICS.flatMap(topic => [topic.summary, ...topic.steps.map(step => step.text), ...(topic.tips ?? [])]).join('\n')
+
+    expect(all).toContain('$0, cpu, net, $$.')
+    expect(all).toContain('$$ may spend')
+  })
+})

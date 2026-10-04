@@ -25,6 +25,11 @@ const EDGE_MS = 350
 export const EGG_FROM_MS = 2400
 export const EGG_TO_MS = 3800
 
+/** The scan grid's names, shortened where the full one would not fit its cell (the checks are still keyed by the full name). */
+export const SCAN_NAMES: Readonly<Record<string, string>> = { MetaHarness: 'Harness', 'Self-Evolution': 'Evolution', 'Plugins & Mods': 'Plugins', 'Plugin Catalog': 'Catalog', 'Cost & Budget': 'Cost', Performance: 'Perf', 'AI Terminal': 'Terminal' }
+/** How many characters of a name its cell holds. */
+export const SCAN_NAME_CELLS = 10
+
 const CONST_ROWS = 7
 const CELL = 18
 /** Rows the full layout needs under the sign's own rows: title, constellation, signal row, a scan grid, READY. */
@@ -190,7 +195,7 @@ export function drawCyber(grid: Grid, facts: BootFacts, modules: readonly { name
     const bad = isOn && failed.includes(entry)
 
     grid.text(x, row, bad ? '[FAIL]' : isOn ? '[ OK ]' : '[ .. ]', bad ? PINK : isOn ? GREEN : CYAN)
-    grid.text(x + 7, row, entry.name.slice(0, CELL - 8), bad ? PINK : isOn ? WHITE : CYAN)
+    grid.text(x + 7, row, (SCAN_NAMES[entry.name] ?? entry.name).slice(0, SCAN_NAME_CELLS), bad ? PINK : isOn ? WHITE : CYAN)
   })
   y += scanRows
 

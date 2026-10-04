@@ -29,7 +29,7 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
       { text: 'Inspect which models were used and what they cost.', go: { run: 'cost-model-stats' } },
       { text: 'The main menu and the band above the prompt show the running total.' },
     ],
-    tips: ['Reads and local work cost nothing. The tag on each button says what it may cost: $0, cpu, net, $.', 'More agents are not automatically cheaper: parallel work saves waiting but can use more tokens. Judge cost per accepted result.', 'A good start: one coordinator, a few really independent tasks, a fixed budget and a finish line.'],
+    tips: ['Reads and local work cost nothing. The tag on each button says what it may cost: $0, cpu, net, $$.', 'More agents are not automatically cheaper: parallel work saves waiting but can use more tokens. Judge cost per accepted result.', 'A good start: one coordinator, a few really independent tasks, a fixed budget and a finish line.'],
     related: ['settings', 'terminal'],
     keywords: ['spend', 'money', 'budget', 'price', 'tokens', 'limit', 'expensive'],
   },

@@ -6,7 +6,7 @@
  */
 import { describe, expect, it } from 'vitest'
 
-import { filterPalette, paletteEntries } from '../hooks/palette'
+import { filterPalette, isUnavailable, paletteEntries } from '../hooks/palette'
 import { newState, type State } from '../hooks/state'
 import type { Ctx } from '../hooks/views/common'
 import { entryTag, paletteView, PALETTE_ROWS } from '../hooks/views/palette'
@@ -105,5 +105,24 @@ describe('the palette page', () => {
     const tree = paletteView({ kit, state, nowMs: Date.now(), columns: 120, pictures: new Map(), act, cards: true } as unknown as Ctx)
 
     expect(flat(tree).some(node => String(node.props.key).startsWith('pal-kw-'))).toBe(false)
+  })
+})
+
+describe('what cannot run sorts last', () => {
+  it('puts the entries that cannot run now after those that can, so the best match is one Enter runs', () => {
+    const state = newState({})
+    const all = paletteEntries(state, Date.now())
+
+    for (const query of ['', 'budget', 'set', 'a']) {
+      const matches = filterPalette(all, query, 'all')
+      const firstNa = matches.findIndex(isUnavailable)
+      const lastRunnable = matches.map(isUnavailable).lastIndexOf(false)
+
+      if (firstNa >= 0) expect(lastRunnable, `query "${query}"`).toBeLessThan(firstNa)
+      expect(isUnavailable(matches[0] as never), `query "${query}": the best match`).toBe(false)
+    }
+
+    // And there are entries that cannot run in this state, so the rule is exercised.
+    expect(all.some(isUnavailable)).toBe(true)
   })
 })

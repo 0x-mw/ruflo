@@ -20,6 +20,7 @@ import { loadAllowed } from './remember'
 import { loadAiPrefs } from './settings'
 import { openLoaders } from './view-open'
 import { listSkills } from './skills'
+import { readDrillLogs } from './drill-logs'
 import { entryAge } from './menu-entry'
 import { BOOT_MIN_MS, CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, push, rowsOf, storeKeyOf, type State } from './state'
 import type { Actions } from './views/common'
@@ -252,11 +253,10 @@ export function createController(state: State, host: Host): Controller {
     state.timers.delete(name)
   }
 
-  /** One frame of every picture of the view in front, each blitted only at the size it was mounted. */
-  // Whether the last frame drew the boot screen: when it ends the whole pane redraws once, and an unfocused pane's
-  // loop stops again (the boot screen animates whether or not the pane holds the keys).
+  // Whether the last frame drew the boot screen: when it ends the whole pane redraws once, and an unfocused pane's loop stops again.
   let wasBooting = false
 
+  /** One frame of every picture of the view in front, each blitted only at the size it was mounted. */
   function frame(): void {
     const started = Date.now()
     const booting = isBooting(state, started)
@@ -287,15 +287,10 @@ export function createController(state: State, host: Host): Controller {
 
   /** Runs the frame loop while the pane is shown and holds the keys (or plays the boot screen), at `fps`; stops it otherwise. */
   function animate(): void {
-    // Something in progress moves its spinner, pictured or not: a lab action in flight (on any page), or, on the Missions page, a
-    // mission, a task or a guidance run that is live.
+    // Something in progress moves its spinner, pictured or not: a lab action in flight, or a live mission, task or guidance run on the Missions page.
     const moving = state.lab.running !== null || (state.view === 'missions' && hasLiveWork(state.snapshot?.missions?.missions ?? [], mcOf(state).guidance?.status === 'running'))
 
-    if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && (state.mounted.size > 0 || moving))) {
-      cancel('frames')
-
-      return
-    }
+    if (!(state.options.fps > 0 && isVisible() && (state.pane.isFocused || isBooting(state, Date.now())) && (state.mounted.size > 0 || moving))) return cancel('frames')
 
     every('frames', Math.round(1000 / state.options.fps), frame)
   }
@@ -459,15 +454,7 @@ export function createController(state: State, host: Host): Controller {
 
     const spec = agent === undefined ? null : agentLogs(agent)
 
-    if (spec !== null) {
-      void host
-        .run([...CLI_PREFIXES[state.options.cli], ...spec.args], 30_000)
-        .then(result => {
-          if (state.drill.agentId === agentId) state.drill = { agentId, logs: result.stdout.split('\n').map(line => plain(line, 160)).filter(Boolean).slice(-12), logsAtMs: Date.now() }
-        })
-        .catch(() => undefined)
-        .finally(() => host.invalidate())
-    }
+    if (spec !== null) readDrillLogs(state, host, agentId, spec.args)
   }
 
   const runner = createRunner(state, host, {

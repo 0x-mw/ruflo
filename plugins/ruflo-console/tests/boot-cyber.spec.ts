@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest'
 import { bootFacts } from '../hooks/boot-facts'
 import { bootPicture, BOOT_MODULES, BOOT_ROWS } from '../hooks/gfx/boot'
 import { NEON_ROWS } from '../hooks/gfx/neon'
-import { eggText, scramble, EGG_FROM_MS } from '../hooks/gfx/boot-cyber'
+import { eggText, scramble, EGG_FROM_MS, SCAN_NAMES, SCAN_NAME_CELLS } from '../hooks/gfx/boot-cyber'
 import { newState, type State } from '../hooks/state'
 
 const textOf = (grid: ReturnType<typeof bootPicture>): string => {
@@ -207,5 +207,15 @@ describe('the border round the boot animation', () => {
     expect(lit(300)).toBe(0)
     expect(lit(400 + 450)).toBeGreaterThan(0)
     expect(lit(400 + 450)).toBeLessThan(lit(4_000))
+  })
+})
+
+describe('the boot scan grid\'s names', () => {
+  it('all fit their cell whole: none is clipped mid-word', () => {
+    for (const entry of BOOT_MODULES) {
+      const shown = SCAN_NAMES[entry.name] ?? entry.name
+
+      expect(shown.length, entry.name).toBeLessThanOrEqual(SCAN_NAME_CELLS)
+    }
   })
 })

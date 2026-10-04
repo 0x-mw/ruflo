@@ -153,3 +153,72 @@ describe('the icon row', () => {
     expect(key(draw('swarm', 36, 0), 'pane-icons')).toBeUndefined()
   })
 })
+
+describe('the icon row never runs under the header art', () => {
+  it('spells words only when the pane is wide and the art leaves room for the whole row', async () => {
+    const { iconCells, iconsSpellWords, ICON_WORDS_FROM } = await import('../hooks/icon-layout')
+
+    expect(iconCells(true)).toBe(47)
+    expect(iconCells(false)).toBe(12)
+    expect(iconsSpellWords(ICON_WORDS_FROM - 1, 0)).toBe(false)
+    expect(iconsSpellWords(ICON_WORDS_FROM, 0)).toBe(true)
+    expect(iconsSpellWords(126, 126 - 47)).toBe(true)
+    expect(iconsSpellWords(126, 126 - 46)).toBe(false)
+  })
+
+  it('draws every page\'s header art narrower than the pane by at least the glyph row, at every width from 40 to 220', async () => {
+    const { picturesOf } = await import('../hooks/views/frames')
+    const { iconCells } = await import('../hooks/icon-layout')
+    const { VIEWS } = await import('../hooks/state')
+    const problems: string[] = []
+
+    for (const view of VIEWS) {
+      for (let columns = 40; columns <= 220; columns += 7) {
+        const state = newState({})
+
+        state.options.look = 'bbs'
+        state.options.boot = false
+        state.view = view.id
+        state.pane.columns = columns
+        state.snapshot = null
+
+        const pictures = picturesOf(state, columns, Date.now(), 0)
+        const art = pictures.get(view.id === 'menu' ? 'header' : 'title')
+
+        if (art !== undefined && art.columns + iconCells(false) > columns) problems.push(`${view.id} at ${columns}: art ${art.columns} + icons ${iconCells(false)} > ${columns}`)
+      }
+    }
+
+    expect(problems).toEqual([])
+  })
+
+  it('with the real header art: words on the menu banner at 126 columns, glyphs only under a wide page title, and the art plus the row always fit', async () => {
+    const { picturesOf } = await import('../hooks/views/frames')
+    const { iconCells } = await import('../hooks/icon-layout')
+    const render = (view: ViewId, columns: number): { tree: El; art: number } => {
+      const state = newState({})
+
+      state.options.look = 'bbs'
+      state.options.boot = false
+      state.view = view
+      state.pane.placement = 'dock'
+      state.pane.columns = columns
+      state.snapshot = null
+      setLook('bbs')
+
+      const pictures = picturesOf(state, columns, Date.now(), 0)
+      const tree = paneView({ kit, state, nowMs: Date.now(), columns, pictures, act: recorder('') as never, cards: false } as unknown as Ctx) as unknown as El
+
+      return { tree, art: pictures.get(view === 'menu' ? 'header' : 'title')?.columns ?? 0 }
+    }
+    const word = (tree: El): string => String(key(tree, 'pane-icon-help')?.props.label ?? flat(key(tree, 'pane-icon-help'))[1]?.props.children)
+    const menu = render('menu', 126)
+    const page = render('market', 126)
+
+    expect(word(menu.tree)).toBe('ʔ help ')
+    expect(word(page.tree)).toBe('ʔ ')
+    // Whichever form is chosen, the art and the row fit in the pane.
+    expect(menu.art + iconCells(true)).toBeLessThanOrEqual(126)
+    expect(page.art + iconCells(false)).toBeLessThanOrEqual(126)
+  })
+})

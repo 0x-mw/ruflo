@@ -21,6 +21,7 @@ import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture
 import type { Grid } from '../gfx/raster'
 import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
+import { iconCells, usedColumns } from '../icon-layout'
 import { entryAge } from '../menu-entry'
 import { BOOT_MIN_MS, isBooting, isCompactPane, VIEWS, type State } from '../state'
 import { CARD_COLUMNS, hasCards } from './card'
@@ -122,6 +123,17 @@ export function lanesOf(state: State, nowMs: number): Lane[] {
 /** When the score on screen was first drawn: the radar grows from there. Module-held, reset by a new value. */
 const scoreShown = new WeakMap<object, number>()
 
+/**
+ * A header picture sized to what it uses, and never wider than the pane leaves beside the icon row: the Raster draws its whole grid, so a grid padded
+ * to 120 cells would sit under the icons. Built at the widest allowed size, then again at the width it really used.
+ */
+function fitHeader(paneColumns: number, build: (columns: number) => Grid, max: number): Grid {
+  const wide = build(Math.max(8, Math.min(max, paneColumns - iconCells(false) - 1)))
+  const used = usedColumns(wide.cells, wide.columns, wide.rows)
+
+  return used > 0 && used < wide.columns ? build(used) : wide
+}
+
 export function picturesOf(state: State, columns: number, nowMs: number, t: number): Map<string, Grid> {
   const pictures = new Map<string, Grid>()
   // A page in cards (views/card.ts) is narrower by the border and padding: its pictures are drawn to that width, by the render and by the frame loop alike.
@@ -142,7 +154,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
   if (state.view === 'menu') {
     const project = state.cwd.split('/').filter(Boolean).at(-1) ?? ''
 
-    pictures.set('header', state.options.look === 'bbs' ? bannerPicture(project, Math.min(width, 72), t, headerAge) : headerPicture(`◆ ruflo v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`} · ${project}`, Math.min(width, 64), t))
+    pictures.set('header', state.options.look === 'bbs' ? fitHeader(columns, size => bannerPicture(project, size, t, headerAge), 72) : headerPicture(`◆ ruflo v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`} · ${project}`, Math.min(width, 64), t))
     // The palette strip above the menu's groups moves while the frame loop runs; with fps 0 it is the still strip (the light is off it).
     if (state.options.look === 'bbs') pictures.set('palette', palettePicture(Math.max(8, width - 2), state.options.fps > 0 ? t : 0, PALETTE.map(rgb)))
   }
@@ -153,7 +165,7 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     // The menu is the RUFLO board itself; every other page reads `RUFLO | PAGE`, the logo's style left of the page's name.
     const name = state.view === 'menu' && !state.isHelp && !state.palette.isOpen ? 'ruflo bbs' : `ruflo | ${page}`
 
-    pictures.set('title', titlePicture(name, Math.min(width, 120), t, headerAge))
+    pictures.set('title', fitHeader(columns, size => titlePicture(name, size, t, headerAge), 120))
   }
 
   switch (state.view) {
