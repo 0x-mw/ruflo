@@ -1,0 +1,19 @@
+import type { PluginOptions } from 'claude-code'
+
+/** The plugin's `userConfig`, validated: a bad value is the safe default (guard on, 8 KB payload cap). */
+export type ModOptions = { readonly guard: boolean; readonly maxPayloadBytes: number }
+
+const flag = (value: unknown, fallback: boolean) =>
+  value === true || value === 'true' || value === 'on' ? true : value === false || value === 'false' || value === 'off' ? false : fallback
+
+const clamp = (value: unknown, min: number, max: number, fallback: number) => {
+  const n = typeof value === 'number' ? value : typeof value === 'string' && value.trim() !== '' ? Number(value) : Number.NaN
+  return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.round(n))) : fallback
+}
+
+export const readOptions = (options: PluginOptions | undefined): ModOptions => ({
+  guard: flag(options?.guard, true),
+  maxPayloadBytes: clamp(options?.maxPayloadBytes, 256, 65_536, 8192),
+})
+
+export const modeOf = (o: ModOptions) => ({ guard: o.guard, maxPayloadBytes: o.maxPayloadBytes })

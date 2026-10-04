@@ -76,3 +76,13 @@ src/
   index.ts     export surface + default { tools }
   cli.ts       human-facing CLI
 ```
+
+## As a mod
+
+Arena also ships as a function-hook mod (ADR-445 pattern; hooks in `hooks/`, loaded with the plugin). No network, no process, no model call.
+
+- **No guard**: this plugin owns no tool a guard could usefully screen, so the mod only reports status.
+- **`/arena-mod`**: answered locally. `/arena-mod status`, `/arena-mod strategies`.
+- **Status file**: `.claude-flow/arena-mod/status.json` (`version`, `updatedMs`, counters), written at session start; the console reads it.
+
+Test: `claude plugin validate plugins/ruflo-arena`, `claude plugin test plugins/ruflo-arena` (this plugin also holds vitest files that `claude plugin test` cannot load; run it on a copy holding only `.claude-plugin`, `hooks` and `tests/mod.test.ts`), and `bash plugins/ruflo-arena/scripts/smoke.sh`.

@@ -96,6 +96,23 @@ bash plugins/ruflo-goals/scripts/smoke.sh
 # Expected: "12 passed, 0 failed"
 ```
 
+## As a mod (0.4.0)
+
+A function-hook mod ships beside the skills (ADR-445 pattern). Needs a Claude Code with mods (2.1.287+); older builds ignore it. No network, no process spawning: it only tightens calls to this plugin's own tools and reads through tools already connected.
+
+| Piece | Default | What it does |
+|---|---|---|
+| **Write guard** | on | Refuses a write to the goals, horizons, research or dossier namespaces (`memory_store`, `agentdb_*-store`, `hooks_intelligence_pattern-store`) or a `task_create` that holds a key, token or password. |
+| **Dossier ID screen** | on | Refuses a dossier or research note that holds a government ID number (SSN shape). |
+| **`/goals-mod`** | — | `status`, `scan <text>`, `horizons` (reads the horizons namespace through the connected memory tool); answered locally, no model call. |
+| **Status file** | — | `.claude-flow/goals-mod/status.json` (`version`, `updatedMs`, mode flags and counters); written at session start and when a counter changes. |
+
+Options (`userConfig`): `guard` on\|off, `personal` on\|off. Refusals never echo the value they matched.
+
+```bash
+claude plugin test plugins/ruflo-goals      # 10 tests
+```
+
 ## Architecture Decisions
 
 - [`ADR-0001` — ruflo-goals plugin contract (legacy-vs-canonical namespaces, GOAP/dossier workflow contract)](./docs/adrs/0001-goals-contract.md)
