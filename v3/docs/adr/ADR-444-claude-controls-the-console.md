@@ -35,7 +35,7 @@ Four tools, `mcp__ruflo-console__` plus:
 | `manage` | also run entries that touch the network (install, update, push) |
 | `full` | also run entries that spend money or delete or stop things (deploys, cancellations, resets) |
 
-and a second setting, **confirm**: `ask` (default) leaves every non-read action pending in the console's own confirm row for the person to answer; `auto` lets Claude's call confirm itself, within the level. An entry's class is read from its spec: the console's own read-only flag, else its label, command and notes. Words for deleting, stopping, resetting, cleaning up or migrating make it `delete`; words for a billed turn or "costs money" make it `spend`; words for the network (install, push, fetch, update, publish) make it `network`; anything else that is not read-only is a local `write`. The notes also say what an action does *not* do ("spends nothing", "not a charge", "runs no agent"), and those do not count.
+and a second setting, **confirm**: `auto` (default since console 0.32: once the person has chosen a level, Claude runs unattended inside it) lets Claude's call confirm itself, within the level; `ask` leaves every non-read action pending in the console's own confirm row for the person to answer. An entry's class is read from its spec: the console's own read-only flag, else its label, command and notes. Words for deleting, stopping, resetting, cleaning up or migrating make it `delete`; words for a billed turn or "costs money" make it `spend`; words for the network (install, push, fetch, update, publish) make it `network`; anything else that is not read-only is a local `write`. The notes also say what an action does *not* do ("spends nothing", "not a charge", "runs no agent"), and those do not count.
 
 **The cockpit is the dashboard.** An "Claude control" section on Overview shows the level and confirm mode, whether control is on or paused, the call count, and a log of the last actions with their outcome (ok, waiting for you, refused, failed). A **Take back control** button pauses every tool at once (the next call is refused with that reason) and **Give control back** resumes. The log is the audit trail for a session.
 
@@ -53,3 +53,7 @@ and a second setting, **confirm**: `ask` (default) leaves every non-read action 
 - A separate human-confirm channel through Claude Code's permission dialog for `ask` mode.
 - Per-entry allow lists; the level is coarse by design.
 - Driving panes other than the console's own.
+
+## 6. Amendment: autopilot by default
+
+With `ask` as the default, a person who had turned control on found Claude parked on every write, waiting for a Yes that nothing prompted for. The level is the real limit (it defaults to off, and only the person raises it), so the confirm default is now `auto`; `ask` remains an explicit choice. Claude Code's own permission prompt for the four tools is separate: allow `mcp__ruflo-console__*` in the permissions settings to remove that one too (a mod can only tighten `tool.check`, never loosen it).

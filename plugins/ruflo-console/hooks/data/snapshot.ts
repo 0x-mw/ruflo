@@ -25,6 +25,7 @@ import {
 } from './facts'
 import { parseMissions, type MissionObservation } from './missions'
 import { readBounded, readDisk, textOf, type ProjectKey, type Read, type ReadCache, type ReaderFs } from './files'
+import { parseAgentdbMod, type AgentdbMod } from './agentdb-mod'
 import {
   parseAgents,
   parseClaims,
@@ -78,6 +79,8 @@ export type Snapshot = {
   hasNostrKey: boolean | null
   plugins: PluginsFacts
   missions: MissionObservation | null
+  /** The ruflo-agentdb mod's own status file (ADR-445); null while the mod has not written one. */
+  agentdbMod: AgentdbMod | null
   changed: number
   readAtMs: number
 }
@@ -127,6 +130,7 @@ export async function readSnapshot(fs: ReaderFs, cache: ReadCache, cwd: string, 
       missingFromClone: offered === null ? [] : EXPECTED_IN_MARKET.filter(name => !offered.includes(name)),
     },
     missions: parseMissions(text('missions')),
+    agentdbMod: parseAgentdbMod(text('agentdbMod')),
     changed: disk.changed,
     readAtMs: nowMs,
   }

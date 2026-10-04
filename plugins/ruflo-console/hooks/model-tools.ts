@@ -64,11 +64,11 @@ export function classOf(pending: Pick<Pending, 'label' | 'args' | 'note' | 'show
 export const allows = (level: ControlLevel, kind: ActionClass): boolean => rank(level) >= rank(NEEDS[kind])
 
 export const levelOf = (value: unknown): ControlLevel => LEVELS.find(level => level === value) ?? 'off'
-export const confirmOf = (value: unknown): ControlConfirm => (value === 'auto' ? 'auto' : 'ask')
+export const confirmOf = (value: unknown): ControlConfirm => (value === 'ask' ? 'ask' : 'auto')
 
 /** `RUFLO_CONSOLE_CONTROL=write:auto` (level, then ask|auto): one session's setting, for a recording or a test; null when not a valid pair. */
 export function parseControlEnv(value: unknown): { level: ControlLevel; confirm: ControlConfirm } | null {
-  const [level, confirm = 'ask'] = typeof value === 'string' ? value.trim().toLowerCase().split(':') : []
+  const [level, confirm = 'auto'] = typeof value === 'string' ? value.trim().toLowerCase().split(':') : []
   const found = LEVELS.find(candidate => candidate === level)
 
   return found === undefined || (confirm !== 'ask' && confirm !== 'auto') ? null : { level: found, confirm }

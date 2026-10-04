@@ -65,7 +65,9 @@ describe('levels, classes and the environment override', () => {
     expect(levelOf('root')).toBe('off')
     expect(levelOf(undefined)).toBe('off')
     expect(confirmOf('auto')).toBe('auto')
-    expect(confirmOf('whatever')).toBe('ask')
+    expect(confirmOf('ask')).toBe('ask')
+    expect(confirmOf(undefined)).toBe('auto')
+    expect(confirmOf('whatever')).toBe('auto')
     expect([allows('read', 'read'), allows('read', 'write'), allows('write', 'write'), allows('write', 'network'), allows('manage', 'network'), allows('manage', 'spend'), allows('full', 'delete'), allows('off', 'read')]).toEqual([true, false, true, false, true, false, true, false])
   })
 
@@ -88,7 +90,8 @@ describe('levels, classes and the environment override', () => {
 
   it('takes RUFLO_CONSOLE_CONTROL as level and confirm, or nothing', () => {
     expect(parseControlEnv('write:auto')).toEqual({ level: 'write', confirm: 'auto' })
-    expect(parseControlEnv('read')).toEqual({ level: 'read', confirm: 'ask' })
+    expect(parseControlEnv('read')).toEqual({ level: 'read', confirm: 'auto' })
+    expect(parseControlEnv('write:ask')).toEqual({ level: 'write', confirm: 'ask' })
     for (const bad of [undefined, '', 'god', 'write:maybe', 7]) expect(parseControlEnv(bad)).toBeNull()
   })
 })
