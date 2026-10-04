@@ -95,5 +95,59 @@ test('openrouter: a key in the environment is never echoed', () => {
   assert.ok(!(r.stdout + r.stderr).includes('SECRET123'));
 });
 
+// ── Window and project filters, through the real script, on their own fixture logs.
+const win = mkdtempSync(join(tmpdir(), 'ledger-window-'));
+mkdirSync(join(win, 'claude', 'projects', 'q'), { recursive: true });
+mkdirSync(join(win, 'codex'), { recursive: true });
+const at = (iso, id, cwd) => ({ type: 'assistant', sessionId: `s-${id}`, cwd, requestId: `r-${id}`, timestamp: iso, message: { id, role: 'assistant', model: 'claude-opus-5-5', usage: { input_tokens: 1000, output_tokens: 0 } } });
+jsonl(join(win, 'claude', 'projects', 'q', 'w.jsonl'), [
+  at('2026-10-01T00:00:00.000Z', 'before', '/proj/a'),
+  at('2026-10-02T00:00:00.000Z', 'start', '/proj/a'), // exactly on --from: inclusive
+  at('2026-10-02T12:00:00.000Z', 'sub', '/proj/a/sub'),
+  at('2026-10-02T13:00:00.000Z', 'sibling', '/proj/ab'), // shares the prefix text, not the directory
+  at('2026-10-02T14:00:00.000Z', 'other', '/proj/b'),
+  at('2026-10-03T00:00:00.000Z', 'end', '/proj/a'), // exactly on --to: inclusive
+  at('2026-10-04T00:00:00.000Z', 'after', '/proj/a'),
+]);
+const ledger = (...flags) => {
+  const r = spawnSync(process.execPath, [join(HERE, 'ledger.mjs'), '--format', 'json', ...flags], { encoding: 'utf-8', env: { PATH: process.env.PATH, CLAUDE_CONFIG_DIR: join(win, 'claude'), CODEX_HOME: join(win, 'codex') } });
+
+  return { ...r, json: r.status === 0 ? JSON.parse(r.stdout) : null };
+};
+const FROM = '2026-10-02T00:00:00Z';
+const TO = '2026-10-03T00:00:00Z';
+
+test('window: --from/--to keep rows inside the window, both ends inclusive, in every project', () => {
+  const r = ledger('--from', FROM, '--to', TO);
+  assert.equal(r.json.rows, 5);
+  assert.deepEqual(r.json.window, { from: '2026-10-02T00:00:00.000Z', to: '2026-10-03T00:00:00.000Z', project: null });
+});
+test('window: a --from older than 7 days is honoured (it replaces the default look-back)', () => assert.equal(ledger('--from', '2026-10-01T00:00:00Z').json.rows, 7));
+test('window: --project matches the path and its subdirectories, not a sibling sharing the prefix', () => {
+  const r = ledger('--from', FROM, '--to', TO, '--project', '/proj/a');
+  assert.equal(r.json.rows, 3); // start, sub, end — not /proj/ab, not /proj/b
+  assert.equal(r.json.window.project, '/proj/a');
+});
+test('window: a trailing slash on --project is ignored; --project alone has no time limit', () => {
+  assert.equal(ledger('--project', '/proj/a/').json.rows, 5);
+  assert.equal(ledger('--project', '/proj/b').json.rows, 1);
+});
+test('window: the JSON keeps every existing field', () => {
+  const r = ledger('--from', FROM, '--project', '/proj/a');
+  for (const key of ['since', 'priceDate', 'totals', 'byProvider', 'byModel', 'byDay', 'unpriced', 'approx', 'cache', 'rows', 'tokens']) assert.ok(key in r.json, key);
+});
+test('window: without the flags the output has no window and counts every row', () => {
+  const r = ledger('--since', 'all');
+  assert.equal(r.json.rows, 7);
+  assert.ok(!('window' in r.json));
+});
+test('window: an invalid ISO time, a missing value, or a relative path exits 2 with a message', () => {
+  for (const flags of [['--from', 'yesterday'], ['--to', '5'], ['--from'], ['--project', 'proj/a'], ['--project', '/proj/../etc'], ['--from', TO, '--to', FROM]]) {
+    const r = ledger(...flags);
+    assert.equal(r.status, 2, flags.join(' '));
+    assert.match(r.stderr, /^ledger: /, flags.join(' '));
+  }
+});
+
 if (failed > 0) { console.log(`\n${failed} failed`); process.exit(1); }
 console.log('\nall passed');
