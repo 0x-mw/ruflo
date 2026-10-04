@@ -116,7 +116,7 @@ export function helpView(ctx: Ctx): RenderElement {
       ? text(ctx, ' this surface has no text field: /ruflo help, or press ✦ Ask Claude on any page', { dimColor: true })
       : ctx.kit.Input({
           key: 'help-input',
-          label: 'ruHelp ›',
+          label: ctx.columns < 70 ? '›' : 'ruHelp ›',
           placeholder: 'ask anything: how do I start a swarm? set a budget? what is a claim?',
           value: state.help.query,
           submitLabel: 'ask',

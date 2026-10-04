@@ -22,11 +22,18 @@ export const ICONS = [
 /** Cells after the last icon, so the row does not touch the host's ✕ at the edge. */
 export const ICON_MARGIN = 2
 
+/**
+ * Cells kept free beside the row. The pane's body is a few cells narrower than its column count (the frame and the close mark), and the host's flex
+ * layout shrinks whatever does not fit: a lit icon (a text box) collapsed to nothing and the last word wrapped onto a second line when the row was
+ * sized to the exact count. Found by recording the real pane.
+ */
+export const ICON_SLACK = 4
+
 /** The row's width in cells: glyph and a cell each, or glyph, word and a cell each; then the margin. */
 export const iconCells = (withWords: boolean): number => ICONS.reduce((sum, icon) => sum + (withWords ? icon.glyph.length + 1 + icon.word.length + 1 : icon.glyph.length + 1), 0) + ICON_MARGIN
 
 /** Whether each icon spells its word, given the pane's width and how many cells the header art uses of the first line. */
-export const iconsSpellWords = (columns: number, headerCells: number): boolean => columns >= ICON_WORDS_FROM && headerCells + iconCells(true) <= columns
+export const iconsSpellWords = (columns: number, headerCells: number): boolean => columns >= ICON_WORDS_FROM && headerCells + iconCells(true) + ICON_SLACK <= columns
 
 /** How many columns of a cell grid hold anything: the right edge of what is drawn. `glyphs` is the grid's first cell of each three (glyph, fg, bg). */
 export function usedColumns(cells: Uint32Array, columns: number, rows: number): number {

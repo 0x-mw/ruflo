@@ -341,9 +341,14 @@ export function bannerPicture(project: string, columns: number, t: number, age =
     // The title, with the version and build when they fit beside the logo; when they do not, the title whole rather than cut mid-word.
     const title = '░▒▓ AGENT SWARM CONSOLE'
     const full = `${title} v${CONSOLE_VERSION}${getBuild() === '' ? '' : ` · ${getBuild()}`}`
+    // The longest that fits, never cut mid-word: version and build, the title, a shorter title, the shortest.
+    const room = columns - x0
+    const shown = [full, title, '░▒▓ SWARM CONSOLE', '░▒▓ CONSOLE'].find(text => text.length <= room) ?? '░▒▓ CONSOLE'
 
-    grid.text(x0, 0, (full.length <= columns - x0 ? full : title).slice(0, columns - x0), NEON_MAGENTA)
-    const node = `▸ npx ruflo · ${project}`.slice(0, columns - x0 - 2)
+    grid.text(x0, 0, shown.slice(0, room), NEON_MAGENTA)
+
+    const line = `▸ npx ruflo · ${project}`
+    const node = line.length <= room - 2 ? line : `${line.slice(0, Math.max(1, room - 3))}…`
 
     grid.text(x0, 1, node, NEON_CYAN)
     if (Math.floor(t / 530) % 2 === 0 && x0 + node.length + 1 < columns) grid.set(x0 + node.length + 1, 1, '█', NEON_CYAN)

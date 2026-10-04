@@ -156,19 +156,19 @@ describe('the icon row', () => {
 
 describe('the icon row never runs under the header art', () => {
   it('spells words only when the pane is wide and the art leaves room for the whole row', async () => {
-    const { iconCells, iconsSpellWords, ICON_WORDS_FROM } = await import('../hooks/icon-layout')
+    const { iconCells, iconsSpellWords, ICON_SLACK, ICON_WORDS_FROM } = await import('../hooks/icon-layout')
 
     expect(iconCells(true)).toBe(47)
     expect(iconCells(false)).toBe(12)
     expect(iconsSpellWords(ICON_WORDS_FROM - 1, 0)).toBe(false)
     expect(iconsSpellWords(ICON_WORDS_FROM, 0)).toBe(true)
-    expect(iconsSpellWords(126, 126 - 47)).toBe(true)
-    expect(iconsSpellWords(126, 126 - 46)).toBe(false)
+    expect(iconsSpellWords(126, 126 - 47 - ICON_SLACK)).toBe(true)
+    expect(iconsSpellWords(126, 126 - 47 - ICON_SLACK + 1)).toBe(false)
   })
 
   it('draws every page\'s header art narrower than the pane by at least the glyph row, at every width from 40 to 220', async () => {
     const { picturesOf } = await import('../hooks/views/frames')
-    const { iconCells } = await import('../hooks/icon-layout')
+    const { ICON_SLACK, iconCells } = await import('../hooks/icon-layout')
     const { VIEWS } = await import('../hooks/state')
     const problems: string[] = []
 
@@ -185,7 +185,7 @@ describe('the icon row never runs under the header art', () => {
         const pictures = picturesOf(state, columns, Date.now(), 0)
         const art = pictures.get(view.id === 'menu' ? 'header' : 'title')
 
-        if (art !== undefined && art.columns + iconCells(false) > columns) problems.push(`${view.id} at ${columns}: art ${art.columns} + icons ${iconCells(false)} > ${columns}`)
+        if (art !== undefined && art.columns + iconCells(false) + ICON_SLACK > columns) problems.push(`${view.id} at ${columns}: art ${art.columns} + icons ${iconCells(false)} + slack > ${columns}`)
       }
     }
 
@@ -220,5 +220,101 @@ describe('the icon row never runs under the header art', () => {
     // Whichever form is chosen, the art and the row fit in the pane.
     expect(menu.art + iconCells(true)).toBeLessThanOrEqual(126)
     expect(page.art + iconCells(false)).toBeLessThanOrEqual(126)
+  })
+})
+
+describe('the icon row does not shrink in the host\'s flex layout', () => {
+  it('is told not to shrink, nor is the lit icon, so a tight row clips the art instead of collapsing the icon', () => {
+    const tree = draw('settings', 126, 0)
+
+    expect(key(tree, 'pane-icons')?.props.flexShrink).toBe(0)
+    expect(key(tree, 'pane-icon-settings')?.props.flexShrink).toBe(0)
+  })
+})
+
+describe('a narrow pane reads cleanly', () => {
+  const rowOf = (grid: { columns: number; glyph: (x: number, y: number) => number }, y: number): string => Array.from({ length: grid.columns }, (_, x) => String.fromCodePoint(grid.glyph(x, y))).join('')
+
+  it('keeps the banner\'s title whole: the longest of version, title, shorter title that fits', async () => {
+    const { bannerPicture } = await import('../hooks/gfx/pictures')
+
+    expect(rowOf(bannerPicture('p', 90, 0), 0)).toMatch(/AGENT SWARM CONSOLE v\d/)
+    expect(rowOf(bannerPicture('p', 46, 0), 0)).toContain('AGENT SWARM CONSOLE')
+    expect(rowOf(bannerPicture('p', 44, 0), 0)).toContain('SWARM CONSOLE')
+    expect(rowOf(bannerPicture('p', 44, 0), 0)).not.toMatch(/CONSOL\s*$/)
+    expect(rowOf(bannerPicture('p', 34, 0), 0)).toContain('CONSOLE')
+  })
+
+  it('clips a long project name with an ellipsis, not mid-letter', async () => {
+    const { bannerPicture } = await import('../hooks/gfx/pictures')
+    const second = rowOf(bannerPicture('a-very-long-project-name', 44, 0), 1)
+
+    expect(second).toContain('…')
+    expect(second.trimEnd().length).toBeLessThanOrEqual(44)
+  })
+
+  it('draws a page title that fits the pane, whole: the page alone when the ruflo prefix will not fit, and never clipped mid-letter', async () => {
+    const { picturesOf } = await import('../hooks/views/frames')
+    const { titlePicture } = await import('../hooks/gfx/pictures')
+    const { usedColumns, iconCells, ICON_SLACK } = await import('../hooks/icon-layout')
+    const { VIEWS } = await import('../hooks/state')
+    const problems: string[] = []
+
+    for (const view of VIEWS) {
+      if (view.id === 'menu') continue
+
+      for (const columns of [50, 60, 70, 90, 126]) {
+        const state = newState({})
+
+        state.options.look = 'bbs'
+        state.options.boot = false
+        state.view = view.id
+        state.pane.columns = columns
+        state.snapshot = null
+
+        const art = picturesOf(state, columns, Date.now(), 0).get('title')
+        const unclipped = [`ruflo | ${view.label}`, view.label, view.short].map(name => {
+          const grid = titlePicture(name, 120, 0)
+
+          return usedColumns(grid.cells, grid.columns, grid.rows)
+        })
+        const room = columns - iconCells(false) - ICON_SLACK
+
+        // Whole means: its width is exactly the width of one of the unclipped names (or, when none fits the room, the room itself).
+        if (art !== undefined && !unclipped.includes(art.columns) && art.columns !== room) problems.push(`${view.id} at ${columns}: art ${art.columns}, names ${unclipped.join('/')}, room ${room}`)
+        if (art !== undefined && unclipped.some(width => width <= room) && art.columns > room) problems.push(`${view.id} at ${columns}: art wider than the room`)
+        // And the first name that fits is the one chosen.
+        const firstFit = unclipped.find(width => width <= room)
+
+        if (art !== undefined && firstFit !== undefined && art.columns !== firstFit) problems.push(`${view.id} at ${columns}: chose ${art.columns}, first that fits is ${firstFit}`)
+      }
+    }
+
+    expect(problems).toEqual([])
+  })
+
+  it('shows the main menu chip as MENU in a narrow nav, and the networks row wraps', async () => {
+    const tree = draw('menu', 60, 0)
+    const chipText = flat(tree).find(node => /\[0: .*MENU\]/.test(String(node.props.children)))
+
+    expect(chipText).toBeDefined()
+    expect(String(chipText?.props.children)).not.toContain('MAIN')
+    expect(key(tree, 'networks')?.props.flexWrap).toBe('wrap')
+  })
+
+  it('shortens the ruHelp field\'s label to the arrow when the pane is narrow', async () => {
+    const { helpView } = await import('../hooks/views/help')
+    const labelAt = (columns: number): string => {
+      const state = newState({})
+
+      state.isHelp = true
+
+      const tree = helpView({ kit, state, nowMs: Date.now(), columns, pictures: new Map(), act: recorder('') as never, cards: true } as unknown as Ctx) as unknown as El
+
+      return String(flat(tree).find(node => node.props.key === 'help-input')?.props.label)
+    }
+
+    expect(labelAt(56)).toBe('›')
+    expect(labelAt(120)).toBe('ruHelp ›')
   })
 })

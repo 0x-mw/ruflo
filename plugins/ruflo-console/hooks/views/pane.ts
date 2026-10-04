@@ -266,13 +266,19 @@ function wildcat(ctx: Ctx): { strip: RenderElement[]; art: RenderElement[] } {
         ctx.kit.Text({ bold: true, color: THEME.ok, children: clip('AGENTS WELCOME.', Math.max(4, ctx.columns - 16)) }),
       ], 'welcome'),
       // Each network is a link to the view that shows it.
-      row(ctx, [
-        ctx.kit.Text({ color: THEME.head, children: 'NETWORKS: ' }),
-        ...NETWORKS.flatMap(([name, view], i) => [
-          ...(i > 0 ? [ctx.kit.Text({ color: THEME.info, dimColor: true, children: ' * ' })] : []),
-          ctx.kit.Button({ key: `net-${view}-${i}`, label: name, plain: true, onPress: () => ctx.act.view(view) }),
-        ]),
-      ], 'networks'),
+      // (A row that wraps, so a narrow pane breaks it onto a second line rather than squeezing the names together.)
+      ctx.kit.Box({
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        key: 'networks',
+        children: [
+          ctx.kit.Text({ color: THEME.head, children: 'NETWORKS: ' }),
+          ...NETWORKS.flatMap(([name, view], i) => [
+            ...(i > 0 ? [ctx.kit.Text({ color: THEME.info, dimColor: true, children: ' * ' })] : []),
+            ctx.kit.Button({ key: `net-${view}-${i}`, label: name, plain: true, onPress: () => ctx.act.view(view) }),
+          ]),
+        ],
+      }),
     ],
     art: art !== undefined && ctx.kit.Raster !== undefined ? [ctx.kit.Raster(art.toRaster('title'))] : [],
   }
@@ -312,6 +318,7 @@ export function iconRow(ctx: Ctx): RenderElement {
 
   return ctx.kit.Box({
     flexDirection: 'row',
+    flexShrink: 0,
     key: 'pane-icons',
     children: [
       ...ICONS.map(icon => {
@@ -320,7 +327,7 @@ export function iconRow(ctx: Ctx): RenderElement {
         const entry = press[icon.id]
 
         return entry.isCurrent
-          ? ctx.kit.Box({ key, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: label })] })
+          ? ctx.kit.Box({ key, flexShrink: 0, children: [ctx.kit.Text({ bold: true, color: THEME.head, children: label })] })
           : ctx.kit.Button({ key, label, plain: true, dimColor: true, onPress: entry.run })
       }),
       ctx.kit.Text({ children: ' '.repeat(ICON_MARGIN) }),

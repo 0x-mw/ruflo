@@ -21,7 +21,7 @@ import { activityPicture, bannerPicture, bootPicture, titlePicture, curvePicture
 import type { Grid } from '../gfx/raster'
 import { PROBES, severityOf } from '../data/cli'
 import { EXPECTED_IN_MARKET, RUFLO_MARKET } from '../data/snapshot'
-import { iconCells, usedColumns } from '../icon-layout'
+import { ICON_SLACK, iconCells, usedColumns } from '../icon-layout'
 import { entryAge } from '../menu-entry'
 import { BOOT_MIN_MS, isBooting, isCompactPane, VIEWS, type State } from '../state'
 import { CARD_COLUMNS, hasCards } from './card'
@@ -128,10 +128,24 @@ const scoreShown = new WeakMap<object, number>()
  * to 120 cells would sit under the icons. Built at the widest allowed size, then again at the width it really used.
  */
 function fitHeader(paneColumns: number, build: (columns: number) => Grid, max: number): Grid {
-  const wide = build(Math.max(8, Math.min(max, paneColumns - iconCells(false) - 1)))
+  const wide = build(Math.max(8, Math.min(max, paneColumns - iconCells(false) - ICON_SLACK)))
   const used = usedColumns(wide.cells, wide.columns, wide.rows)
 
   return used > 0 && used < wide.columns ? build(used) : wide
+}
+
+/** The first name whose art fits the room beside the icon row, built at the width it uses; the last, clipped to the room, when none does. */
+function titleThatFits(paneColumns: number, names: readonly string[], build: (name: string, columns: number) => Grid): Grid {
+  const room = Math.max(8, Math.min(120, paneColumns - iconCells(false) - ICON_SLACK))
+
+  for (const name of names) {
+    const wide = build(name, 120)
+    const used = usedColumns(wide.cells, wide.columns, wide.rows)
+
+    if (used > 0 && used <= room) return build(name, used)
+  }
+
+  return build(names.at(-1) as string, room)
 }
 
 export function picturesOf(state: State, columns: number, nowMs: number, t: number): Map<string, Grid> {
@@ -165,7 +179,11 @@ export function picturesOf(state: State, columns: number, nowMs: number, t: numb
     // The menu is the RUFLO board itself; every other page reads `RUFLO | PAGE`, the logo's style left of the page's name.
     const name = state.view === 'menu' && !state.isHelp && !state.palette.isOpen ? 'ruflo bbs' : `ruflo | ${page}`
 
-    pictures.set('title', fitHeader(columns, size => titlePicture(name, size, t, headerAge), 120))
+    // The first of these whose art fits beside the icons: the whole name, the page alone, its short name; clipped only as a last resort.
+    const shortName = VIEWS.find(view => view.id === state.view)?.short ?? page
+    const names = state.view === 'menu' && !state.isHelp && !state.palette.isOpen ? [name] : [name, page, shortName]
+
+    pictures.set('title', titleThatFits(columns, names, (candidate, size) => titlePicture(candidate, size, t, headerAge)))
   }
 
   switch (state.view) {

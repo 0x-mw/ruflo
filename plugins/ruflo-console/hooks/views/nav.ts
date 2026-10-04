@@ -38,7 +38,9 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const badges = badgesOf(state, ctx.nowMs)
   const badgeText = (view: View): string => (badges[view.id] === undefined ? '' : ` ${badges[view.id]?.text}`)
   // The open page always spells out its whole name, whatever the form (see `tab`), so that is how wide it is.
-  const openName = (view: View) => (isBbs() ? `[${view.key === '' ? '' : `${view.key}: `}${view.icon} ${view.label.toUpperCase()}]` : `${view.key === '' ? '' : `${view.key}: `}${view.icon} ${view.label}`)
+  // (On the main menu of a narrow card the chip says MENU, so it is not cut to "MAIN M…" beside the groups.)
+  const nameOf = (view: View) => (view.id === 'menu' && inner < 72 ? 'Menu' : view.label)
+  const openName = (view: View) => (isBbs() ? `[${view.key === '' ? '' : `${view.key}: `}${view.icon} ${nameOf(view).toUpperCase()}]` : `${view.key === '' ? '' : `${view.key}: `}${view.icon} ${nameOf(view)}`)
   const cells = (view: View, form: string) => (view.id === open ? openName(view).length + 1 : (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + badgeText(view).length + 3)
   const widest = (form: string) => Math.max(0, ...pages.map(ids => ids.reduce((sum, id) => sum + (find(id) === undefined ? 0 : cells(find(id) as View, form)), 0)))
   // auto: the richest form whose widest row fits the page; the others are the person's choice (Settings).
@@ -65,7 +67,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
     // The open page names itself whatever the style, as the flat tab bar did: [3: 📌 CLAIMS], [0: 📟 MAIN MENU].
     const accent = isBbs() ? accentOfView(view.id) : null
 
-    if (view.id === open) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ ...(accent === null ? { bold: true, color: THEME.head } : chip(accent)), wrap: 'truncate-end', children: isBbs() ? `[${prefix}${view.icon} ${view.label.toUpperCase()}]` : `${prefix}${view.icon} ${view.label}` })] })
+    if (view.id === open) return ctx.kit.Box({ key: `tab-${view.id}`, children: [ctx.kit.Text({ ...(accent === null ? { bold: true, color: THEME.head } : chip(accent)), wrap: 'truncate-end', children: isBbs() ? `[${prefix}${view.icon} ${nameOf(view).toUpperCase()}]` : `${prefix}${view.icon} ${nameOf(view)}` })] })
 
     return ctx.kit.Button({ key: `tab-${view.id}`, label: ` ${words}${badgeText(view)} `, ...(hasHotkey(view) && view.key !== '' && { hotkey: view.key }), plain: true, dimColor: true, onPress: () => ctx.act.view(view.id) })
   }
