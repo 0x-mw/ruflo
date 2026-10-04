@@ -94,7 +94,7 @@ const COMMANDS: Record<string, readonly string[]> = {
   'appliance verify': ['-f', '--quick'],
 }
 
-const FULL: DevFields = { ref: 'main..HEAD', path: '.swarm/memory.rvf', label: 'try-1', url: 'https://example.com/a?b=1', target: '@e3', query: 'neural', task: 'review my pull request', cmd: 'git status', id: 'agent-1', note: 'worked well' }
+const FULL: DevFields = { ref: 'main..HEAD', path: '.swarm/memory.rvf', label: 'try-1', url: 'https://example.com/a?b=1', target: '@e3', query: 'neural', task: 'review my pull request', cmd: 'git status', id: 'agent-1', note: 'worked well', session: 'demo', send: 'git status' }
 
 const runnable = DEV.filter(entry => entry.na === undefined)
 
@@ -134,7 +134,8 @@ describe('the Dev Tools catalog', () => {
       const argv = devSpec(entry, FULL)?.args ?? []
 
       expect(argv.some(word => /^(sh|bash|zsh)$/.test(word)), entry.id).toBe(false)
-      if (argv[0] === 'mcp') continue
+      // A tmux entry is a fixed command outside ruflo (`exec`): tests/sandbox.spec.ts checks it.
+      if (argv[0] === 'mcp' || entry.exec !== undefined) continue
 
       const name = Object.keys(COMMANDS).find(command => argv.join(' ').startsWith(command))
 

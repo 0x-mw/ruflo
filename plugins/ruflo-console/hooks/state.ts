@@ -21,7 +21,7 @@ export type NavStyle = 'auto' | 'icons' | 'brief' | 'full'
 export const NAV_STYLES: readonly NavStyle[] = ['auto', 'icons', 'brief', 'full']
 export const NAV_KEY = 'nav-style'
 
-export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve' | 'devtools' | 'market' | 'settings'
+export type ViewId = 'menu' | 'overview' | 'swarm' | 'hive' | 'claims' | 'federation' | 'plugins' | 'learning' | 'metaharness' | 'memory' | 'cost' | 'timeline' | 'approvals' | 'events' | 'missions' | 'xruv' | 'terminal' | 'skills' | 'agent' | 'secure' | 'perf' | 'automate' | 'neural' | 'vector' | 'evolve' | 'devtools' | 'sandbox' | 'market' | 'settings'
 
 /**
  * The views in tab order, each with its hotkey and the inline height it asks for. Digits are the first nine; the three
@@ -60,6 +60,7 @@ export const VIEWS: readonly { id: ViewId; key: string; label: string; short: st
   { id: 'vector', key: 'v', label: 'Vector Lab', short: 'Vec', icon: '🧲', blurb: 'ruvector: the shared brain, RVF stores, rvlite queries, decompile, workers, edge, hooks intel and your pi identity', rows: 44 },
   { id: 'evolve', key: 't', label: 'Self-Evolution', short: 'Evo', icon: '🧬', blurb: 'the governed loop: flywheel receipts, ledger, lineage, the policy gate, the witness; Autogenous and rGi', rows: 44 },
   { id: 'devtools', key: 'd', label: 'Dev Tools', short: 'Dev', icon: '🔧', blurb: 'the integration surface: GitHub, diff analysis, agenticow, WASM, browser, terminal, providers, maintenance', rows: 40 },
+  { id: 'sandbox', key: '', label: 'Sandbox', short: 'Sbx', icon: '🧫', blurb: 'isolated places to try things: tmux sessions, RVF copy-on-write branches, RVM', rows: 40 },
   { id: 'market', key: 'm', label: 'Plugin Catalog', short: 'Cat', icon: '📦', blurb: 'every ruflo plugin, mod and skill: what it ships, install, enable, disable, update, view and use', rows: 50 },
   { id: 'settings', key: 's', label: 'Settings', short: 'Set', icon: '⚙️', blurb: 'simple to advanced settings: plugin options, ruflo config, updates, and the AI terminal’s model and budget, each edited in place', rows: 50 },
 ]
@@ -284,7 +285,7 @@ export type State = {
   /** The Self-Evolution view: the flywheel files as last read, and what its checks answered. */
   evolve: EvolveState
   /** The Dev Tools view: what is typed in its fields (its runs share the lab result panel, ids dt-*). */
-  devtools: { fields: DevFields }
+  devtools: { fields: DevFields; /** Whether tmux is on this machine, from a probe when the Sandbox page opens. */ tmux: 'unknown' | 'present' | 'missing' }
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
 }
@@ -350,7 +351,7 @@ export function newState(raw: PluginOptions | undefined): State {
     auto: emptyAuto(),
     vector: emptyVector(),
     evolve: emptyEvolve(),
-    devtools: { fields: emptyFields() },
+    devtools: { fields: emptyFields(), tmux: 'unknown' },
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
   }
