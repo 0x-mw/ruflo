@@ -167,6 +167,9 @@ export type Denied = { tool: string; reason: string; atMs: number }
 /** One sample of a measured series, with when it was taken. */
 export type Sample = { atMs: number; value: number }
 
+/** One thing Claude did with the console's tools (ADR-444): what, and how it came out. */
+export type ControlEntry = { atMs: number; tool: string; summary: string; outcome: 'ok' | 'waiting' | 'denied' | 'error'; detail: string }
+
 export type State = {
   options: Options
   cwd: string
@@ -288,6 +291,8 @@ export type State = {
   devtools: { fields: DevFields; /** Whether tmux is on this machine, from a probe when the Sandbox page opens. */ tmux: 'unknown' | 'present' | 'missing' }
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
+  /** Claude's control of the console (ADR-444): paused by the person, the call counts, and the log the dashboard shows. */
+  control: { paused: boolean; calls: number; turnCalls: number; log: ControlEntry[]; /** Until when Claude counts as driving (a tool call extends it): the console does not spend a second Claude turn on guidance meanwhile. */ drivingUntilMs: number }
 }
 
 export function newState(raw: PluginOptions | undefined): State {
@@ -354,6 +359,7 @@ export function newState(raw: PluginOptions | undefined): State {
     devtools: { fields: emptyFields(), tmux: 'unknown' },
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
+    control: { paused: false, calls: 0, turnCalls: 0, log: [], drivingUntilMs: 0 },
   }
 }
 

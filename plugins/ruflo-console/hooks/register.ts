@@ -13,6 +13,8 @@ import { BAR_KEY, barView } from './views/bar'
 import { setBootChecks } from './boot-checks'
 import { buildOf, isOurCheckout, setBuild } from './build'
 import { runUpdateCheck } from './update-flow'
+import { announceModelTools, parseControlEnv, serveModelTools } from './model-tools'
+import { loadAiPrefs, settingsOf } from './settings'
 import { parseMode, RECHECK_EVERY_MS, UPDATES_KEY } from './updates'
 import { selfCheckResults } from './self-check'
 import type { Kit } from './views/common'
@@ -129,6 +131,9 @@ export const register: Register = (on, raw: PluginOptions) => {
   let host: Host | null = null
   let control: Controller | null = null
 
+  // Claude's console tools (ADR-444): answered only for their own names, and only when the person's setting lets them exist.
+  serveModelTools(on, () => (control === null ? null : { state, control }))
+
   on('session.start', async ($, e, next) => {
     control?.stop()
     host = hostOf($, e.cwd)
@@ -198,6 +203,14 @@ export const register: Register = (on, raw: PluginOptions) => {
     control.start()
     await control.refresh()
     control.autoOpen()
+
+    // Declare the console tools to the model when control is on: the saved setting, or this session's RUFLO_CONSOLE_CONTROL=<level>:<ask|auto>.
+    await loadAiPrefs(state, bound).catch(() => undefined)
+
+    const forced = parseControlEnv(await (async () => $.env.get('RUFLO_CONSOLE_CONTROL'))().catch(() => undefined))
+
+    if (forced !== null) Object.assign(settingsOf(state).ai, { modelControl: forced.level, modelConfirm: forced.confirm })
+    await announceModelTools(tool => $.tool.register(tool), state).catch(() => 0)
 
     return next(e)
   })
@@ -324,6 +337,9 @@ export const register: Register = (on, raw: PluginOptions) => {
 
   /** The band's mark pulses during a turn: a redraw at its start, and the loop stopped at its end, whatever redraws. */
   on('turn.start', ($, e, next) => {
+    // A new turn: the per-turn cap on Claude's console actions starts over.
+    state.control.turnCalls = 0
+
     try {
       $.ui.invalidate('ui.render')
     } catch {

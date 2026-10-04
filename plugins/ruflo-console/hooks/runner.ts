@@ -30,11 +30,14 @@ export type Runner = {
   runById: (id: string, text: string) => boolean
   /** Resolves when the read started last has finished: `/ruflo run` waits on it to answer with what it printed. */
   settled: () => Promise<void>
+  /** Resolves when the last action that brought its own `run` (and is not awaited by `confirm`) has finished: the model tools wait on it, with a limit. */
+  finished: () => Promise<void>
 }
 
 export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner {
   let pendingSpec: ActionSpec | null = null
   let inflight: Promise<void> = Promise.resolve()
+  let background: Promise<void> = Promise.resolve()
 
   const say = (label: string, ok: boolean, detail: string, lines?: string[]) => {
     state.outcome = { label, ok, verified: 'n/a', detail, atMs: Date.now(), ...(lines !== undefined && { lines }) }
@@ -45,6 +48,8 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     // A harness run reports into the terminal and may take minutes: it does not hold the other buttons.
     if (spec.run !== undefined) {
       const running = spec.run()
+
+      background = running.then(() => undefined, () => undefined)
 
       // A read that runs its own command (a skills search) is waited on, so `/ruflo run` answers with what it found.
       if (spec.isReadOnly === true) await running
@@ -197,5 +202,5 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
     return true
   }
 
-  return { ask, confirm, cancel, runEntry, runById, settled: () => inflight }
+  return { ask, confirm, cancel, runEntry, runById, settled: () => inflight, finished: () => background }
 }

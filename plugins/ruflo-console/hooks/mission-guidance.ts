@@ -244,6 +244,8 @@ export function offerGuidance(state: State, host: Host, runner: Runner, mc: McSt
   const ai = settingsOf(state).ai
 
   if (mc.planned === null || ai.guidance === false) return
+  // Claude is the one driving the console (ADR-444): it needs no second `claude -p` turn, billed, to advise it on its own goal.
+  if (state.control.drivingUntilMs > Date.now()) return
   if (ai.autoAccept) return startGuidance(state, host, mc)
 
   runner.ask(guidanceSpec(state, host, mc), 'type a goal first')

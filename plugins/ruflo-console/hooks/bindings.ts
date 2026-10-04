@@ -368,6 +368,12 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
     watch: watchActions(state, () => host.invalidate(), (question, view) => actions.ask.ask(question, view)),
     navigator: navActions(state, () => host.invalidate(), view => actions.view(view)),
     catalog: catalogActions(state, host, runner, text => actions.term.load('claude', text)),
+    control: {
+      pause: on => {
+        state.control.paused = on
+        host.invalidate()
+      },
+    },
     devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }
 

@@ -94,6 +94,8 @@ export type Actions = {
   ruhelp: HelpActions
   /** Mission Control: goal, profile, create, run next, pause/resume/cancel, auto-run, ask aside, guide Claude. */
   mission: MissionActions
+  /** Claude's control of the console (ADR-444): the person takes it back, or gives it back. */
+  control: { pause: (on: boolean) => void }
   /** The Plugin Catalog: read the clone, filter, select a plugin, view or use an item, change a plugin (each asks first). */
   catalog: CatalogActions
   /** Puts text back in an entry field and gives it the keys, so what was entered can be edited and sent again. */

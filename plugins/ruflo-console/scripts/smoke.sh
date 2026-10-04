@@ -11,9 +11,9 @@ step() { printf "→ %s ... " "$1"; }
 ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 
-step "1. plugin.json declares ruflo-console 0.28.1"
+step "1. plugin.json declares ruflo-console 0.30.0"
 grep -q '"name": "ruflo-console"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.28.1"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.30.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -52,10 +52,15 @@ grep -q "JSON.stringify(params)" "$HOOKS/actions.ts" \
   && [[ "$(grep -ohE "exec\('claims_[a-z-]+'" "$HOOKS/actions.ts" "$HOOKS/ops.ts" | sort -u | tr '\n' ' ')" == "exec('claims_claim' exec('claims_handoff' exec('claims_release' exec('claims_status' exec('claims_steal' " ]] \
   && grep -q "state.pending = " "$HOOKS/runner.ts" && ! grep -qE "'(sh|bash)', '-c'" -r "$HOOKS" && ok || bad "action surface changed"
 
-step "9. plugin.register and tool.call are observed, never answered"
+step "9. plugin.register and tool.call are observed, never answered (but the console's own tools, ADR-444)"
 reg=$(awk '/on\(.plugin.register./,/^  }\)/' "$HOOKS/register.ts" | grep -cE "refuse:|deny:")
 tool=$(awk '/on\(.tool.call./,/^  }\)/' "$HOOKS/register.ts" | grep -cE "deny|result:")
-[[ "$reg" == "0" && "$tool" == "0" ]] && ok || bad "plugin.register answers: $reg tool.call answers: $tool"
+# The one exception: model-tools.ts answers tool.call for the console's own mcp__ruflo-console__ names, nowhere else; tool.check is only ever observed.
+others=$(grep -rln "on('tool.call'" "$HOOKS" | grep -vE "/(register|model-tools)\.ts$" || true)
+own=$(grep -c "tool: \`\${TOOL_PREFIX}" "$HOOKS/model-tools.ts")
+anycall=$(grep -c "on('tool.call'" "$HOOKS/model-tools.ts")
+check=$(grep -rln "on('tool.check'" "$HOOKS" | grep -v '/register\.ts$' || true)$(awk '/on\(.tool.check./,/^  }\)/' "$HOOKS/register.ts" | grep -cE "return \{" | grep -v '^0$' || true)
+[[ "$reg" == "0" && "$tool" == "0" && -z "$others" && "$own" == "$anycall" && "$anycall" -ge 1 && -z "$check" ]] && ok || bad "plugin.register answers: $reg tool.call answers: $tool; other files: $others; unmatched tool.call in model-tools: $anycall/$own; tool.check: $check"
 
 step "10. no secrets or credentials in the module"
 sec=$(grep -rniE "(api[_-]?key|secret|password|token)\s*[:=]\s*['\"][^'\"]{8,}" "$HOOKS" || true)
