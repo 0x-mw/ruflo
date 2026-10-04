@@ -25,20 +25,23 @@ const INJECTION: readonly (readonly [string, RegExp])[] = [
   ['shell pipe', /\b(?:curl|wget)\b[^|\n]{0,200}\|\s*(?:sudo\s+)?(?:ba|z)?sh\b/i],
 ]
 
+// C0/C1 controls (keeping tab and newline), DEL, zero-width and bidi override characters.
+const INVISIBLE = new RegExp('[\\u0000-\\u0008\\u000b-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u2028-\\u202e\\u2060-\\u2064\\ufeff]', 'g')
+
+const bare = (text: string) => (text.length > 20_000 ? text.slice(0, 20_000) : text).replace(INVISIBLE, '')
+
 export type Findings = { readonly secrets: readonly string[]; readonly injection: readonly string[] }
 
 const names = (rules: readonly (readonly [string, RegExp])[], text: string) => rules.filter(([, re]) => re.test(text)).map(([name]) => name)
 
 /** Names of every secret shape and injection phrase found in `text`. Cost is linear in the capped input. */
 export function scan(text: string): Findings {
-  const bounded = text.length > 20_000 ? text.slice(0, 20_000) : text
+  const bounded = bare(text)
   return { secrets: names(SECRETS, bounded), injection: names(INJECTION, bounded) }
 }
 
-export const hasSecret = (text: string) => names(SECRETS, text.length > 20_000 ? text.slice(0, 20_000) : text).length > 0
+export const hasSecret = (text: string) => names(SECRETS, bare(text)).length > 0
 
-// C0/C1 controls (keeping tab and newline), DEL, zero-width and bidi override characters.
-const INVISIBLE = new RegExp('[\\u0000-\\u0008\\u000b-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u2028-\\u202e\\u2060-\\u2064\\ufeff]', 'g')
 
 /** Makes stored text safe to show: no control or bidi characters, whitespace collapsed, at most `max` characters. */
 export function tidy(text: string, max: number): string {

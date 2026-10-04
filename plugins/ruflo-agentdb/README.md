@@ -220,7 +220,7 @@ A function-hook mod ships beside the skills. Needs a Claude Code with mods (2.1.
 Options (`userConfig`): `recall` off|on, `recallLimit` 1–5, `recallDeadlineMs` 200–3000, `guard` on|off, `source` auto|agentdb|ruvector|none.
 
 ```bash
-claude plugin test plugins/ruflo-agentdb      # 24 tests: screening, recall, reader fallback, guard, /agentdb-mod, deadline, cache
+claude plugin test plugins/ruflo-agentdb      # 26 tests: screening, recall, reader fallback, guard, /agentdb-mod, deadline, cache
 node plugins/ruflo-agentdb/scripts/bench.mjs  # per-call cost of the pure paths (tens of µs)
 ```
 
