@@ -68,6 +68,7 @@ export const VIEW_TOPIC: Partial<Record<ViewId, string>> = {
   settings: 'settings',
   timeline: 'watch',
   events: 'watch',
+  room: 'room',
 }
 
 /** Words that mean the same thing, so "how do I stop spending" finds Cost: each group is one idea. */

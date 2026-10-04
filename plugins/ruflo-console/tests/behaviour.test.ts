@@ -3,7 +3,7 @@ import { describe, expect, mock, test } from 'claude-code/testing'
 import { RUFLO_FILES } from './fixtures/ruflo-run'
 import { BAND, command, elementsOf, fakeRuflo, keyOf, paneAt, PLUGIN, SESSION, textOf, worldOf } from './fixtures/world'
 
-const VIEWS = ['overview', 'swarm', 'claims', 'federation', 'plugins', 'learning', 'metaharness', 'memory', 'cost', 'timeline', 'approvals', 'events', 'agent'] as const
+const VIEWS = ['overview', 'swarm', 'claims', 'federation', 'plugins', 'learning', 'metaharness', 'memory', 'cost', 'timeline', 'approvals', 'events', 'room', 'agent'] as const
 
 describe('behaviour', () => {
   test('with the default bbs look, a freshly opened pane plays the boot screen first, and draws nothing else under it', async ($, on) => {

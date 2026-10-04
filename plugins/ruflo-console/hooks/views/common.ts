@@ -5,6 +5,7 @@
  */
 import type { AskActions } from '../ask-claude'
 import type { OptimizerActions } from '../optimizer'
+import type { RoomActions } from '../room'
 import type { WatchActions } from '../watch'
 import type { Attention } from './attention'
 import { HEADS, mark as marked } from './marks'
@@ -88,6 +89,8 @@ export type Actions = {
   optimizer: OptimizerActions
   /** The Timeline and Events pages: look-back range, kind filter, search, pause, paging, an event's detail, and asking about one. */
   watch: WatchActions
+  /** The Room (ADR-448): the draft, what to send through, the feed's source filter, search, pause and paging. */
+  room: RoomActions
   /** Ask Claude about this section (a visible prompt or a /btw aside) or run the plugin command that fits it: each asks first. */
   ask: AskActions
   /** ruHelp, the built-in help: a question, a guide, a step's button, and asking Claude with the docs. */

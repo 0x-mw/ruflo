@@ -13,7 +13,7 @@ import { outputLines } from './ops'
 import { filterPalette, paletteEntries, textOfQuery, type PaletteEntry } from './palette'
 import { CLI_PREFIXES, type State } from './state'
 
-const PENDING_TTL_MS = 30_000
+export const PENDING_TTL_MS = 30_000
 
 export type RunnerDeps = {
   /** A read of the disk that starts after this call. */

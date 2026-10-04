@@ -31,6 +31,7 @@ import { federationView } from './federation'
 import { hiveView } from './hive'
 import { learningView } from './learning'
 import { approvalsView, eventsView, timelineView } from './manage'
+import { roomView } from './room'
 import { memoryView } from './memory'
 import { menuView } from './menu'
 import { metaharnessView } from './metaharness'
@@ -53,7 +54,7 @@ import { xruvView } from './xruv'
 export const NARROW = 44
 
 /** The keyless views that keep a tab of their own (the rest are reached from the main menu). */
-const CORE_TABS = new Set<ViewId>(['hive', 'skills', 'cost', 'timeline', 'approvals', 'events', 'xruv', 'terminal'])
+const CORE_TABS = new Set<ViewId>(['hive', 'skills', 'cost', 'timeline', 'approvals', 'events', 'room', 'xruv', 'terminal'])
 
 /** The networks the Wildcat strip names, each with the view a click on it opens. */
 const NETWORKS: readonly (readonly [string, ViewId])[] = [['x.ruv.io', 'xruv'], ['relay.ruv.io', 'xruv'], ['agentbbs', 'federation'], ['mcp', 'plugins'], ['claude code', 'terminal']]
@@ -75,6 +76,7 @@ const BODIES: Record<ViewId, (ctx: Ctx) => RenderElement> = {
   timeline: timelineView,
   approvals: approvalsView,
   events: eventsView,
+  room: roomView,
   missions: missionControlView,
   xruv: xruvView,
   terminal: terminalView,

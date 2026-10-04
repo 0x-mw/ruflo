@@ -54,6 +54,7 @@ export const BOOT_MODULES: readonly { name: string; note: string }[] = [
   { name: 'Cost & Budget', note: 'spend, burn, limits' },
   { name: 'Timeline', note: 'who was busy, and when' },
   { name: 'Events', note: 'what changed, live' },
+  { name: 'The Room', note: 'who says and does what, and what waits for a yes' },
   { name: 'Performance', note: 'metrics and bottlenecks' },
   { name: 'AI Terminal', note: 'ruflo, codex, claude' },
   { name: 'Settings', note: 'every option a button' },
