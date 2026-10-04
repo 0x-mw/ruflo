@@ -1,5 +1,6 @@
 import type { BudgetLevel } from './cost/budget'
 import type { EditRecord } from './learn/insights'
+import { guidanceState, type GuidanceState } from './guidance/observations'
 import type { Ownable } from './ownership'
 import type { RouteResult } from './route/route-task'
 
@@ -21,6 +22,7 @@ export type ModState = {
   tightened: number
   observed: number
   edits: EditRecord[]
+  guidance: GuidanceState
   editCount: number
   policy: 'none' | 'legacy' | 'observe' | 'enforce' | 'unreadable'
   /** The research run (marker startedAt) whose first web call was already put to the person. */
@@ -44,6 +46,7 @@ export function createState(): ModState {
     tightened: 0,
     observed: 0,
     edits: [],
+    guidance: guidanceState(),
     editCount: 0,
     policy: 'none',
     budget: { level: 'OK' },
@@ -130,5 +133,6 @@ export function report(s: ModState): string {
     `  policy:      ${s.policy}; ${s.tightened} call(s) tightened, ${s.observed} observed`,
     `  budget:      ${budget}`,
     `  segments:    ${segments.join(', ') || 'none'}`,
+    `  guidance:    ${s.guidance.status}; ${s.guidance.saved} unverified observation(s), ${s.guidance.pending.length} pending, ${s.guidance.dropped} dropped`,
   ].join('\n')
 }

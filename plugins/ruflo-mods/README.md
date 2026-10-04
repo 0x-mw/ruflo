@@ -76,11 +76,98 @@ Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].opt
 | Option | Default | Effect |
 |---|---|---|
 | `routeContext` | `true` | Include ranked memory with routes |
+| `guidanceContext` | `false` | Screened lexical excerpts from a compiler exported guidance projection |
+| `guidanceLearning` | `false` | Unverified activity observations for independent review; no training or promotion |
 | `statusLine` | `true` | One-line ruflo status. Skipped where the ruflo statusLine helper is configured |
 | `costBudgetUsd` | `0` (off) | Session budget for the ladder |
 | `costHardStop` | `false` | Refuse new subagents at 100% of budget |
 | `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate |
 | `modTrustAllow` | `` | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses |
+
+## Task guidance and observation review (ADR-447)
+
+Export reviewed guidance with a CLI built from this revision. Supply the full
+40 or 64 character commit ID containing the reviewed source. The exporter checks
+that root and every explicitly supplied local overlay are regular tracked files
+whose raw bytes match that commit. It compiles those checked snapshots and binds
+their full SHA256 digests into the projection. JSON output also reports each
+source's relative path, blob ID and byte length.
+
+```bash
+ruflo guidance compile --mod-projection --revision "$(git rev-parse HEAD)" --root ./CLAUDE.md
+ruflo guidance compile --mod-projection --revision "$(git rev-parse HEAD)" --root ./CLAUDE.md --local ./CLAUDE.local.md --json
+```
+
+Changed source bytes, missing or untracked explicit overlays, symlinks, sources
+in another repository, abbreviated IDs and missing local objects reject before
+replacing an existing projection. Each source is limited to 1 MiB of valid UTF8.
+An empty committed overlay is supported. Unrelated workspace edits are allowed;
+the exporter verifies source snapshots, not the Git index or the entire worktree.
+Use a full or ordinary shallow checkout. Partial clones and promisor repositories
+are refused so older Git cannot fetch missing objects during export. Git overrides
+and replacement refs cannot substitute another repository or commit. These checks
+run only in the explicit CLI export, never in native prompt or tool hooks.
+
+The checked export is provenance, not a signed acceptance receipt. Project writable
+projections remain untrusted advisory data; an independent evaluator must still
+bind and verify source, task and artifact evidence before accepting learning.
+
+This reuses the Guidance Control Plane compiler. The default destination is
+`.claude-flow/mods/guidance/projection.json`. `--output` overrides its directory;
+the native mod reads only the default project path. No embeddings, optimizer or
+model calls are used. Retrieval is lexical, at most five excerpts and 4096
+characters. Missing, oversized, symlinked or corrupt advisory data adds no context.
+Screening reduces exposure to credentials and injection; it does not grant trust.
+
+Enable the two independent options through Claude Code user settings:
+
+```json
+{
+  "pluginConfigs": {
+    "ruflo-mods@ruflo": {
+      "options": { "guidanceContext": true, "guidanceLearning": true }
+    }
+  }
+}
+```
+
+`guidanceLearning` records observations, despite its compatibility-oriented name.
+Each registration lifetime owns a separate queue under
+`.claude-flow/mods/guidance/observations/`. Records contain generated task IDs,
+bundle digest, source revision, displayed rule IDs, permission counters, tool
+execution counters and completion class. They contain no prompt, answer, command,
+tool output or file path. A successful tool call and a completed turn stay
+`verified: false` and `learningEligible: false`. With guidanceContext disabled,
+observations correctly contain no displayed rule IDs.
+
+```bash
+ruflo guidance mod-candidates --json
+ruflo guidance mod-candidates --bundle-id <64-character-bundle-digest> --json
+```
+
+The report groups observations into review priorities, rejecting forged verified
+flags, unknown fields, replayed records and mismatched queue namespaces. It writes
+no accepted guidance ledger, memory, policy or source file. Task-bound independent
+acceptance evidence, a held out baseline comparison and authorized promotion are
+required before these observations can support trusted learning. Keep candidates
+outside CLAUDE.md and CLAUDE.local.md until that review completes.
+
+Review reasons identify observed tool errors, denied checks or calls, and aborted
+or interrupted turns. Each rule reports exposure counts, affected observations,
+completed turns and rates with explicit denominators: errors divided by executed
+tools (ok + error), and denials divided by permission checks (allow + ask + deny).
+An empty denominator produces null. Global totals count each observation once,
+even when it displayed several rules, and include turns without guidance. Ties
+use the full version identity for deterministic reports. These are correlations:
+completion is not accepted success and a displayed rule is not a proven cause.
+
+Queues retain at most 128 observations per registration lifetime and 256 KiB.
+Flushes serialize in the process and retry refused writes without overwriting
+unreadable or corrupt existing bytes. Native filesystem writes cannot guarantee
+atomic persistence through a crash; a hot reload can lose an unfinished turn.
+The review command accepts at most 128 queue files per batch. Archive reviewed
+queues explicitly outside the active directory. `/ruflo mods` reports saved,
+pending and dropped observations. These counts are activity, not correctness.
 
 ## Tests
 
@@ -88,6 +175,21 @@ Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].opt
 CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test plugins/ruflo-mods   # real engine; needs the rollout switch on
 cd v3/@claude-flow/cli && npx vitest run __tests__/mods/                      # declaration-faithful harness, parity tests
 bash plugins/ruflo-mods/scripts/smoke.sh                                       # static security contract
+bash plugins/ruflo-mods/scripts/native-guidance-smoke.sh                       # three configured native guidance contracts
 ```
 
 To typecheck, load the plugin once (Claude Code >= 2.1.287 writes its declarations into `.claude-plugin/types/`), then run `npx tsc -p plugins/ruflo-mods`.
+
+The separate CLI adapter check is `tsc -p v3/@claude-flow/cli/tsconfig.mod-guidance.json`.
+The `Native mod guidance source contracts` workflow runs the adapter types,
+security smoke and source mod suites on every PR to main and every main push,
+using locked dependencies without lifecycle scripts. It uses the CLI workspace
+compiler aliases. The new native kit file stays outside ordinary root Vitest;
+the source E2E suite runs in this dedicated workflow. Native engine declarations,
+the complete native suite and built CLI tests remain separate provisioned gates.
+
+The focused native guidance smoke uses a disposable plugin copy with explicit
+feature options because the 2.1.283 test kit ignores per-test option overrides.
+It runs the three feature contracts against unchanged production hooks. The
+default settings contract belongs to the standard suite. A rollout gate still
+applies, and the focused result must not be reported as the complete native suite.

@@ -2,6 +2,7 @@ import type { Register } from 'claude-code'
 
 import { registerCost } from './cost'
 import { registerGuard } from './guard'
+import { createGuidance } from './guidance'
 import { registerLearn } from './learn'
 import { registerNoun } from './noun'
 import { readOptions } from './options'
@@ -25,12 +26,13 @@ import { registerTrust } from './trust'
 export const register: Register = (on, options) => {
   const state = createState()
   const opts = readOptions(options)
+  const guidance = createGuidance(state, opts)
 
   registerTrust(on, opts.modTrust, opts.modTrustAllow)
   registerNoun(on, state)
-  registerSession(on, state, opts)
-  registerRoute(on, state, opts)
-  registerGuard(on, state)
-  registerLearn(on, state)
+  registerSession(on, state, opts, guidance)
+  registerRoute(on, state, opts, guidance)
+  registerGuard(on, state, guidance)
+  registerLearn(on, state, guidance)
   registerCost(on, state, opts)
 }

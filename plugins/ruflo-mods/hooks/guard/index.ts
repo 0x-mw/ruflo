@@ -1,6 +1,7 @@
 import type { On } from 'claude-code'
 
 import { cachedFile, type Read } from '../files'
+import type { GuidanceHooks } from '../guidance'
 import { redraw, under, type ModState } from '../state'
 import { dangerousCommandVerdict } from './dangerous-command'
 import { parseProjection, policyOpinion, PROJECTION_PATH, type Projection } from './policy'
@@ -48,11 +49,12 @@ export function opinionOf(
  * becomes looser. The dangerous-command list always applies; ruflo policy
  * applies when the CLI projected rules for Claude Code tools.
  */
-export function registerGuard(on: On, state: ModState) {
+export function registerGuard(on: On, state: ModState, guidance?: GuidanceHooks) {
   const projection = cachedFile(() => under(state, PROJECTION_PATH), parseProjection)
   const research = researchCheck(state)
 
   on('tool.check', async ($, e, next) => {
+    const task = guidance?.active()
     const chain = await next(e)
     const tool = typeof e.tool === 'string' ? e.tool : ''
     const read = await projection({ stat: path => $.fs.stat(path), read: path => $.fs.read(path) })
@@ -71,11 +73,14 @@ export function registerGuard(on: On, state: ModState) {
       state.tightened++
       redraw(state)
     }
+    guidance?.check(task, merged.decision)
     return merged
   }).catch(async ($, e, next) => {
     // ruflo could not judge. Fail closed by one step: the chain's verdict
     // stands where it is already ask or deny; an allow is put to the person.
     const chain = await next(e).catch(() => undefined)
-    return chain ? stricter(chain, CHECK_FAILED) : CHECK_FAILED
+    const result = chain ? stricter(chain, CHECK_FAILED) : CHECK_FAILED
+    guidance?.check(guidance.active(), result.decision)
+    return result
   })
 }

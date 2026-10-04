@@ -6,6 +6,8 @@ import type { TrustPolicy } from './trust'
 /** The plugin's `userConfig` options, validated: a bad value is the default. */
 export type ModOptions = {
   readonly routeContext: boolean
+  readonly guidanceContext: boolean
+  readonly guidanceLearning: boolean
   readonly statusLine: boolean
   readonly costBudgetUsd?: number
   readonly costHardStop: boolean
@@ -28,6 +30,8 @@ export function readOptions(options: PluginOptions | undefined): ModOptions {
   const o = options ?? {}
   return {
     routeContext: bool(o.routeContext, true),
+    guidanceContext: bool(o.guidanceContext, false),
+    guidanceLearning: bool(o.guidanceLearning, false),
     statusLine: bool(o.statusLine, true),
     costBudgetUsd: budgetOf(o.costBudgetUsd),
     costHardStop: bool(o.costHardStop, false),
