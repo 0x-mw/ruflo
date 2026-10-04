@@ -12,7 +12,8 @@
 //   node scripts/probe-mod-guards.mjs --only ruflo-adr,ruflo-rvf --verbose
 //   node scripts/probe-mod-guards.mjs --known-holes scripts/probe-mod-guards.known-holes.json   # only NEW holes fail
 //   node scripts/probe-mod-guards.mjs --write-known-holes <file>                               # record current holes
-//   node scripts/probe-mod-guards.mjs --report v3/docs/validation/mod-guard-probe-2026-10.md   # write the markdown report
+//   node scripts/probe-mod-guards.mjs --report <path.md>     # write the markdown report; if <path.md> already has a
+//                                                            # `<!-- generated below` marker, only the part below it is replaced
 //   node scripts/probe-mod-guards.mjs --strict               # advisory (encoding/confusable) misses fail too
 //   node scripts/probe-mod-guards.mjs --plugins-dir <dir>    # probe <dir>/*/hooks/guard.ts (used by the tests)
 //
@@ -159,7 +160,13 @@ const isHole = r => r.status === 'fail' || (args.strict && r.status === 'info')
 const holes = rows.flatMap(r => r.results.filter(isHole).map(x => `${r.name}:${x.id}`))
 const known = args.knownHoles && existsSync(args.knownHoles) ? new Set(Object.entries(JSON.parse(readFileSync(args.knownHoles, 'utf8'))).flatMap(([p, ids]) => ids.map(i => `${p}:${i}`))) : new Set()
 const fresh = holes.filter(h => !known.has(h))
-const ran = (k) => { const i = k.indexOf(':'); return rows.find(r => r.name === k.slice(0, i))?.results.some(x => x.id === k.slice(i + 1) && !isHole(x)) }
+// A baselined guard whose secret surface can no longer be found (it stopped refusing anything) must not read as 26 fixes: every evasion
+// probe is then skipped. It is a failure, and "fixed" needs an actual pass.
+for (const r of rows) {
+  const listed = [...known].filter(k => k.startsWith(`${r.name}:`)).length
+  if (listed > 0 && r.meta.calibrated === 0 && !r.fatal) r.fatal = `calibration lost: the baseline lists ${listed} holes but no secret surface was found (the guard stopped refusing secrets?)`
+}
+const ran = (k) => { const i = k.indexOf(':'); return rows.find(r => r.name === k.slice(0, i))?.results.some(x => x.id === k.slice(i + 1) && x.status === 'pass') }
 const fixed = [...known].filter(ran)
 const fatal = rows.filter(r => r.fatal)
 
@@ -171,7 +178,11 @@ if (args.writeKnownHoles) {
 }
 if (args.report) {
   mkdirSync(dirname(args.report), { recursive: true })
-  writeFileSync(args.report, renderReport({ rows, args: { fast: args.fast, budgetMs: args.budgetMs }, startedMs: started }))
+  const generated = renderReport({ rows, args: { fast: args.fast, budgetMs: args.budgetMs }, startedMs: started })
+  const MARK = '<!-- generated below'
+  const prior = existsSync(args.report) ? readFileSync(args.report, 'utf8') : ''
+  const at = prior.indexOf(MARK)
+  writeFileSync(args.report, at < 0 ? generated : `${prior.slice(0, prior.indexOf('\n', at) + 1)}\n${generated}`)
 }
 
 if (args.format === 'json') {

@@ -184,3 +184,24 @@ test('CLI contract: exit 2 on a bad flag, exit 3 when nothing is found', () => {
   mkdirSync(empty)
   assert.equal(run('--plugins-dir', empty).status, 3)
 })
+
+test('a baselined guard that stops refusing anything fails instead of reading as fixed', () => {
+  const dir = fixtures(join(tmp, 'plugins-lost'), { naive: 'export function verdict(tool: string, input: unknown): string | undefined {\n  return undefined\n}' })
+  const base = join(tmp, 'known-lost.json')
+  writeFileSync(base, JSON.stringify({ naive: ['nest-obj-12', 'key-name'] }))
+  const r = run('--fast', '--plugins-dir', dir, '--known-holes', base)
+  assert.equal(r.status, 1, r.stdout)
+  assert.match(r.stdout, /calibration lost/)
+  assert.doesNotMatch(r.stdout, /known holes that now pass/)
+})
+
+test('--report keeps the hand-written text above the generated marker', () => {
+  const dir = fixtures(join(tmp, 'plugins-report'), { screening: SCREENING })
+  const out = join(tmp, 'report.md')
+  writeFileSync(out, '# Findings\nhand written\n<!-- generated below: x -->\nold generated text\n')
+  assert.equal(run('--fast', '--plugins-dir', dir, '--report', out).status, 0)
+  const text = readFileSync(out, 'utf8')
+  assert.match(text, /^# Findings\nhand written\n<!-- generated below: x -->\n/)
+  assert.doesNotMatch(text, /old generated text/)
+  assert.match(text, /## Per-plugin summary/)
+})
