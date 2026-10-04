@@ -178,6 +178,24 @@ describe('the nav card on the main menu', () => {
     expect(close).toBeDefined()
   })
 
+  it('puts the ✕ on the search line in a narrow card, so the chips keep their row, and beside the chips in a wide one', () => {
+    const where = (columns: number): string => {
+      const state = newState({})
+
+      state.view = 'menu'
+      state.navPick = { group: 'MIND', view: 'menu' }
+      setLook('bbs')
+
+      const card = groupedTabs(ctxOf(state, columns), () => true) as unknown as El
+      const holder = flat(card).find(node => Array.isArray(node.props.children) && (node.props.children as El[]).some(child => child?.props?.key === 'nav-pick-close'))
+
+      return String(holder?.props.key)
+    }
+
+    expect(where(56)).toBe('tabs-find')
+    expect(where(140)).toBe('tabs-groups')
+  })
+
   it('keeps every page reachable by its key from the menu: they are hidden buttons, not gone', () => {
     const keys = flat(draw(false)).filter(node => String(node.props.key).startsWith('tab-') && node.props.hotkey !== undefined).map(node => String(node.props.key))
 

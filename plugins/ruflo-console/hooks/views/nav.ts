@@ -79,7 +79,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const isSearchInline = inner - chipCells >= 28
   const chips = NAV_GROUPS.map(group =>
     group.title === shown && found === null && !isMenuIdle
-      ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ ...(isBbs() ? chip(NAV_ACCENT[group.title] ?? THEME.head) : { bold: true, color: THEME.head }), children: `[${icons ? `${group.icon} ` : ''}${group.title} ▾]` })] })
+      ? ctx.kit.Box({ key: `nav-group-${group.title}`, children: [ctx.kit.Text({ ...(isBbs() ? chip(NAV_ACCENT[group.title] ?? THEME.head) : { bold: true, color: THEME.head }), children: `[${icons ? `${group.icon} ` : ''}${group.title}${inner < 72 ? '' : ' ▾'}]` })] })
       : ctx.kit.Button({ key: `nav-group-${group.title}`, label: ` ${icons ? `${group.icon} ` : ''}${group.title} `, plain: true, dimColor: true, onPress: () => ctx.act.navigator.group(group.title) }),
   )
   // On the main menu a picked group's pages are open: a ✕ beside the chips closes them again.
@@ -91,9 +91,9 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
     flexDirection: 'row',
     gap: 1,
     key: 'tabs-groups',
-    children: [menu === undefined ? ctx.kit.Text({ children: '' }) : open === 'menu' ? tab(menu) : ctx.kit.Button({ key: 'tab-menu', label: ' 📟 MAIN ', plain: true, hotkey: '0', onPress: () => ctx.act.view('menu') }), ...chips, ...closePick, ...(isSearchInline ? [...search, ...clear] : [])],
+    children: [menu === undefined ? ctx.kit.Text({ children: '' }) : open === 'menu' ? tab(menu) : ctx.kit.Button({ key: 'tab-menu', label: ' 📟 MAIN ', plain: true, hotkey: '0', onPress: () => ctx.act.view('menu') }), ...chips, ...(isSearchInline ? closePick : []), ...(isSearchInline ? [...search, ...clear] : [])],
   })
-  const findRow = isSearchInline ? [] : [ctx.kit.Box({ flexDirection: 'row', gap: 1, key: 'tabs-find', children: [...search, ...clear] })]
+  const findRow = isSearchInline ? [] : [ctx.kit.Box({ flexDirection: 'row', gap: 1, key: 'tabs-find', children: [...search, ...clear, ...closePick] })]
   const lines =
     found !== null && found.length === 0
       ? [ctx.kit.Text({ dimColor: true, children: ` no page matches “${query}” — try a name, a group or what it does` })]
