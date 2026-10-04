@@ -2,26 +2,9 @@ name: Native mod guidance source contracts
 
 on:
   pull_request:
-    paths:
-      - 'plugins/ruflo-mods/**'
-      - 'v3/@claude-flow/cli/src/commands/guidance.ts'
-      - 'v3/@claude-flow/cli/src/guidance/mod-*.ts'
-      - 'v3/@claude-flow/cli/__tests__/mods/**'
-      - 'v3/@claude-flow/cli/vitest.config.ts'
-      - 'v3/@claude-flow/cli/tsconfig.mod-guidance.json'
-      - 'v3/@claude-flow/guidance/src/**'
-      - 'v3/@claude-flow/security/src/safe-git.ts'
-      - 'scripts/ci-test-ratchet.mjs'
-      - '.github/workflows/mod-guidance.yml'
-      - 'package-lock.json'
+    branches: [main]
   push:
     branches: [main]
-    paths:
-      - 'plugins/ruflo-mods/**'
-      - 'v3/@claude-flow/cli/src/guidance/mod-*.ts'
-      - 'v3/@claude-flow/cli/src/commands/guidance.ts'
-      - 'v3/@claude-flow/cli/__tests__/mods/**'
-      - '.github/workflows/mod-guidance.yml'
 
 permissions:
   contents: read

@@ -22,11 +22,26 @@ export interface ModSourceBinding {
 /** Local reads only; no shell, Git hooks, filters, replacement refs or lazy fetch. */
 async function git(repo: string, args: string[]): Promise<Buffer> {
   const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.toUpperCase().startsWith('GIT_')));
-  Object.assign(env, { GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: devNull, GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_OPTIONAL_LOCKS: '0' });
-  const { stdout } = await run('git', safeGitArgv(repo, ['--no-replace-objects', '--literal-pathspecs', '-c', `core.hooksPath=${devNull}`, ...args]), {
+  Object.assign(env, { GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: devNull, GIT_NO_LAZY_FETCH: '1', GIT_ALLOW_PROTOCOL: '', GIT_TERMINAL_PROMPT: '0', GIT_OPTIONAL_LOCKS: '0' });
+  const { stdout } = await run('git', safeGitArgv(repo, ['--no-replace-objects', '--literal-pathspecs', '-c', `core.hooksPath=${devNull}`, '-c', 'protocol.allow=never', ...args]), {
     encoding: 'buffer', env, maxBuffer: 2 * MAX_GUIDANCE_SOURCE_BYTES, timeout: 10_000, windowsHide: true,
   });
   return stdout;
+}
+
+/** Older Git ignores GIT_NO_LAZY_FETCH. Refuse all promisor configuration
+ * before reading objects, including repositories whose objects happen to exist.
+ * Shallow clones with ordinary local objects remain supported. */
+async function requireLocalObjects(repo: string): Promise<void> {
+  try {
+    await git(repo, ['config', '--get-regexp', '^(extensions\\.partialclone|remote\\..*\\.(promisor|partialclonefilter))$']);
+  } catch (error) {
+    const result = error as { code?: number; signal?: string; stdout?: Buffer; stderr?: Buffer };
+    // git config returns 1 only for no matching entries. Other errors fail closed.
+    if (result.code === 1 && !result.signal && result.stdout?.length === 0 && result.stderr?.length === 0) return;
+    throw error;
+  }
+  throw new Error('Offline mod export does not support partial clones or promisor repositories; use a checkout with local objects');
 }
 
 async function sourcePath(path: string): Promise<string> {
@@ -39,7 +54,7 @@ async function sourcePath(path: string): Promise<string> {
 
 /** Descriptor based bounded read; never reread mutable bytes after verification. */
 async function sourceBytes(path: string): Promise<Buffer> {
-  const file = await open(path, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0));
+  const file = await open(path, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0) | (constants.O_NONBLOCK ?? 0));
   try {
     const stat = await file.stat();
     if (!stat.isFile() || stat.size > MAX_GUIDANCE_SOURCE_BYTES) throw new Error('Guidance source exceeds 1 MiB or is not a regular file');
@@ -63,8 +78,12 @@ export async function readModGuidanceSources(input: { rootPath: string; localPat
   try {
     repo = (await git(dirname(rootPath), ['rev-parse', '--show-toplevel'])).toString('utf8').replace(/\r?\n$/, '');
     repo = await realpath(repo);
+  } catch { throw new Error('Guidance source requires a local Git repository'); }
+  await requireLocalObjects(repo);
+  try {
     if ((await git(repo, ['cat-file', '-t', input.revision])).toString('utf8').trim() !== 'commit') throw new Error('not a commit');
-  } catch { throw new Error('Guidance source requires a local Git repository and an existing immutable commit'); }
+    if ((await git(repo, ['rev-parse', '--verify', `${input.revision}^{commit}`])).toString('utf8').trim() !== input.revision) throw new Error('abbreviated commit');
+  } catch { throw new Error('Guidance source requires an existing full immutable commit'); }
 
   const read = async (path: string): Promise<{ content: string; binding: ModSourceBinding }> => {
     const absolute = await sourcePath(path);
@@ -72,6 +91,7 @@ export async function readModGuidanceSources(input: { rootPath: string; localPat
     if (!rel || isAbsolute(rel) || rel === '..' || rel.startsWith(`..${sep}`)) throw new Error('Guidance sources must belong to the same Git repository');
     const sourceRepo = (await git(dirname(absolute), ['rev-parse', '--show-toplevel'])).toString('utf8').replace(/\r?\n$/, '');
     if (await realpath(sourceRepo) !== repo) throw new Error('Guidance sources must belong to the same Git repository');
+    await requireLocalObjects(repo);
     const gitPath = rel.split(sep).join('/');
     const tree = (await git(repo, ['ls-tree', '-z', '--full-tree', input.revision, '--', gitPath])).toString('utf8');
     const match = /^(100644|100755) blob ([a-f0-9]{40}|[a-f0-9]{64})\t([^\0]+)\0$/.exec(tree);

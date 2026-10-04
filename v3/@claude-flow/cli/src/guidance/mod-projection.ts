@@ -55,8 +55,12 @@ export function buildModProjection(bundle: Bundle, sourceRevision: string, sourc
   if (!/^[a-f0-9]{16}$/.test(bundle.constitution.hash) || Object.entries(sourceHashes).some(([key, value]) => !['root', 'local'].includes(key) || !/^[a-f0-9]{16}$/.test(value))) {
     throw new Error('Unsupported compiler source hashes');
   }
-  if (sourceDigests && (Object.keys(sourceDigests).length !== Object.keys(sourceHashes).length ||
-      Object.entries(sourceDigests).some(([key, digest]) => !HEX.test(digest) || sourceHashes[key] !== digest.slice(0, 16)))) throw new Error('Source digests do not match compiler snapshots');
+  // The compiler omits an empty local overlay from its manifest. Bind that
+  // explicitly supplied empty source too, without changing compiler semantics.
+  const emptyDigest = createHash('sha256').update('').digest('hex');
+  if (sourceDigests && (Object.entries(sourceHashes).some(([key, hash]) => sourceDigests[key]?.slice(0, 16) !== hash) ||
+      Object.entries(sourceDigests).some(([key, digest]) => !['root', 'local'].includes(key) || !HEX.test(digest) ||
+        (!sourceHashes[key] && !(key === 'local' && digest === emptyDigest))))) throw new Error('Source digests do not match compiler snapshots');
   const data = { version: 1 as const, sourceRevision, constitutionHash: bundle.constitution.hash, sourceHashes,
     ...(sourceDigests ? { sourceDigests: Object.fromEntries(Object.entries(sourceDigests).sort(([a], [b]) => a.localeCompare(b))) } : {}), entries };
   const bundleId = createHash('sha256').update(JSON.stringify(data)).digest('hex');
@@ -67,10 +71,12 @@ export function buildModProjection(bundle: Bundle, sourceRevision: string, sourc
 
 /** Explicit CLI export only. Never called from the native prompt/tool hooks. */
 export async function writeModProjection(directory: string, projection: ReturnType<typeof buildModProjection>) {
+  const serialized = `${JSON.stringify(projection)}\n`;
+  if (Buffer.byteLength(serialized) > MAX_BYTES) throw new Error('Serialized mod projection exceeds 256 KiB');
   await mkdir(directory, { recursive: true });
   const target = join(directory, 'projection.json');
   const temp = join(directory, `.projection-${process.pid}-${Date.now()}.tmp`);
-  await writeFile(temp, `${JSON.stringify(projection, null, 2)}\n`, { flag: 'wx', mode: 0o600 });
+  await writeFile(temp, serialized, { flag: 'wx', mode: 0o600 });
   await rename(temp, target);
   return target;
 }
@@ -88,7 +94,7 @@ export function parseModObservations(text: string): ModObservation[] {
     if (!r || Object.keys(r).length !== keys.length || Object.keys(r).some(k => !keys.includes(k)) ||
         r.version !== 1 || r.kind !== 'guidance-observation' || !RUN.test(r.runId ?? '') ||
         !Number.isSafeInteger(r.taskId) || r.taskId < 1 || r.id !== `${r.runId}:${r.taskId}` || seen.has(r.id) ||
-        !HEX.test(r.bundleId ?? '') || !/^[a-f0-9]{40,64}$/.test(r.sourceRevision ?? '') ||
+        !HEX.test(r.bundleId ?? '') || !/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(r.sourceRevision ?? '') ||
         !Array.isArray(r.ruleIds) || r.ruleIds.length > 5 || r.ruleIds.some((id: unknown) => typeof id !== 'string' || !ID.test(id)) || new Set(r.ruleIds).size !== r.ruleIds.length ||
         !counters(r.checks, ['allow', 'ask', 'deny']) || !counters(r.tools, ['ok', 'error', 'denied']) ||
         !['completed', 'aborted', 'interrupted'].includes(r.completion) || r.verified !== false || r.learningEligible !== false) {

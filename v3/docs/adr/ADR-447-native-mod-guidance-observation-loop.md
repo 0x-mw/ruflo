@@ -25,7 +25,7 @@ guidanceLearning. The latter means observation collection, not trusted training.
 
 | Boundary | Input | Output | Authority |
 |---|---|---|---|
-| Explicit CLI export | Reviewed root and optional local source | Compiler projection with full bundle SHA256 and declared source revision | No permission changes |
+| Explicit CLI export | Root and optional local bytes matching regular blobs in an immutable local Git commit | Compiler projection with full bundle and source SHA256 digests | No permission changes |
 | Native prompt hook | Bounded local projection and current prompt | Screened lexical excerpts, IDs, source and version | Advisory reference only |
 | Native activity hooks | Final tool verdicts and execution results | Strictly bounded metadata queue per registration lifetime | Unverified observations |
 | CLI candidate review | Strictly validated queue files | Version scoped rule review priorities | No training or promotion |
@@ -33,8 +33,27 @@ guidanceLearning. The latter means observation collection, not trusted training.
 
 The projection omits embeddings and compiler timestamps. Its SHA256 identifies
 the exported content; it is not a signature. Compiler constitution and source
-hashes are preserved. Source revision is caller supplied and must be checked by
-the independent evaluator. Learned candidates are never compiled automatically.
+hashes are preserved. The exporter requires an exact full 40 or 64 character
+commit ID, verifies the object type and resolved ID, and compares raw source
+bytes against that commit's regular tracked blobs before compilation. Every
+supplied overlay must exist and match, including an empty overlay. Checked
+buffers are compiled without a second mutable read. Full source SHA256 digests
+enter the bundle identity; JSON results also expose paths, blob IDs and byte sizes.
+Learned candidates are never compiled automatically.
+
+Verification is CLI only: bounded local Git argument vectors reuse safeGitArgv,
+disable fsmonitor, hooks and replacement refs, strip inherited Git overrides and
+use literal pathspecs. Partial clones and promisor repositories are refused before
+object reads to prevent older Git from demand fetching. Full and ordinary shallow
+checkouts work. Sources must belong to one repository, contain valid UTF8 and
+remain within 1 MiB. Symlink sources and ancestors are rejected. Descriptor reads
+are bounded and nonblocking, with no following final symlinks where supported.
+Unrelated dirty files and index changes do not invalidate an otherwise matching
+source snapshot. Exact serialized projection bytes, including newline, stay
+within 256 KiB; oversized output cannot replace an existing projection.
+
+These checks do not authenticate a project writable projection or establish task
+acceptance. An independent evaluator still validates source and artifact evidence.
 
 Native retrieval validates schema and file bounds, refuses symlinks, screens
 credentials, role delimiters and common injection patterns, then ranks lexically.
@@ -68,6 +87,14 @@ IDs, and produces priorities for review. It never appends to guidance/events.ndj
 calls hooks_post-task, trains memory, invokes optimize or changes active guidance.
 Accepted evidence and promotion remain governed by ADR-322A.
 
+The review report counts global observations once, including turns without
+displayed guidance. Per rule exposure groups contain affected observations,
+completed, aborted and interrupted counts; error and denied check rates include
+their exact denominators, with null for no executions/checks. Reasons describe
+observed activity and version identity breaks ordering ties. Completed turns do
+not establish accepted success, and correlations do not establish that a rule
+caused an error. Both report and candidate groups remain explicitly unverified.
+
 ## Alternatives
 
 1. Run a process or MCP call from every prompt. Rejected because it reintroduces
@@ -95,6 +122,15 @@ combinations monotonic, record execution failures and aborted turns, persist onc
 retry refused storage, reject forged verification and leave canonical sources and
 the accepted ledger untouched. Native engine tests and real filesystem tests are
 reported separately from live model task execution and quality benchmarks.
+
+A real Git fixture must export committed root/local sources and preserve prior
+projection bytes on dirty, missing, untracked, foreign or symlinked sources.
+SHA256 repositories reject a SHA1 length abbreviation. Git environment overrides,
+replacement refs, missing promisor objects, invalid UTF8, empty overlays and the
+exact output size limit are covered. Source mod contracts and adapter types run
+in a dedicated CI workflow with CLI compiler aliases on every main PR/push.
+The new native kit file is excluded from root Vitest without adding failure debt;
+its enabled host suite and built CLI checks remain separate merge prerequisites.
 
 Runtime versions, source revisions and measured test results belong in the linked
 PR evidence. No routing latency or learning uplift is inferred from fixture tests.

@@ -55,7 +55,7 @@ export function validObservation(r: Observation): boolean {
   return !!r && Object.keys(r).length === KEYS.length && Object.keys(r).every(k => KEYS.includes(k)) &&
     r.version === 1 && r.kind === 'guidance-observation' && /^mod-[a-z0-9]+-[a-z0-9]{1,12}-[a-z0-9]{1,12}$/.test(r.runId ?? '') &&
     Number.isSafeInteger(r.taskId) && r.taskId > 0 && r.id === `${r.runId}:${r.taskId}` &&
-    /^[a-f0-9]{64}$/.test(r.bundleId ?? '') && /^[a-f0-9]{40,64}$/.test(r.sourceRevision ?? '') &&
+    /^[a-f0-9]{64}$/.test(r.bundleId ?? '') && /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(r.sourceRevision ?? '') &&
     Array.isArray(r.ruleIds) && r.ruleIds.length <= 5 && new Set(r.ruleIds).size === r.ruleIds.length && r.ruleIds.every(id => typeof id === 'string' && /^[A-Z]{1,58}-?\d{3,4}$/.test(id)) &&
     counts(r.checks, ['allow', 'ask', 'deny']) && counts(r.tools, ['ok', 'error', 'denied']) &&
     ['completed', 'aborted', 'interrupted'].includes(r.completion) && r.verified === false && r.learningEligible === false

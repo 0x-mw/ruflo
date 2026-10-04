@@ -40,7 +40,7 @@ export function safeText(text: unknown): text is string {
 export function parseProjection(text: string): GuidanceProjection {
   if (text.length > MAX_PROJECTION_BYTES) throw new Error('guidance projection too large')
   const p = JSON.parse(text)
-  if (p?.version !== 1 || !HEX.test(p.bundleId ?? '') || !/^[a-f0-9]{40,64}$/.test(p.sourceRevision ?? '') ||
+  if (p?.version !== 1 || !HEX.test(p.bundleId ?? '') || !/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(p.sourceRevision ?? '') ||
       !/^[a-f0-9]{16}$/.test(p.constitutionHash ?? '') || !Array.isArray(p.entries) || p.entries.length > 256 ||
       !p.sourceHashes || typeof p.sourceHashes !== 'object' || Array.isArray(p.sourceHashes) ||
       Object.entries(p.sourceHashes).some(([k, v]) => !['root', 'local'].includes(k) || typeof v !== 'string' || !/^[a-f0-9]{16}$/.test(v))) {
