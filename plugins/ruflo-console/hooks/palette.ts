@@ -102,7 +102,7 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
   for (const type of AGENT_TYPES) add(`spawn-${type}`, 'swarm', `spawn ${/^[aeiou]/.test(type) ? 'an' : 'a'} ${type} agent`, { kind: 'spec', spec: spawnAgent(type, nowMs), why: 'unknown agent type' })
 
   // One-click starts, also reachable as `/ruflo run <id>`: everything an empty section offers.
-  for (const id of START_IDS) add(id, 'start', `${START_LABEL[id]}`, { kind: 'spec', spec: startSpec(id, nowMs), why: 'that start cannot run here' })
+  for (const id of START_IDS) add(id, 'start', `${START_LABEL[id]}`, { kind: 'spec', spec: startSpec(id, nowMs, '', present => { state.nostrKeyVerifiedAtMs = present ? Date.now() : null }), why: 'that start cannot run here' })
   add('task', 'start', 'task <text>: put a task on the board', { kind: 'text', keyword: 'task', make: text => startSpec('task', nowMs, text) })
   add('mission', 'start', 'mission <objective>: create an ADR-406 mission', { kind: 'text', keyword: 'mission', make: text => startSpec('mission', nowMs, text) })
 

@@ -174,6 +174,8 @@ export type State = {
   options: Options
   cwd: string
   home: string | null
+  /** Session evidence from a confirmed JOIN, kept without background key access. */
+  nostrKeyVerifiedAtMs: number | null
   /** Claude Code's config directory: `$CLAUDE_CONFIG_DIR`, else `~/.claude`. Its plugin records are read from here. */
   configDir: string | null
   /** False in a session with no pane to show (claude -p, an SDK host): views are then answered as text. */
@@ -300,6 +302,7 @@ export function newState(raw: PluginOptions | undefined): State {
     options: optionsOf(raw),
     cwd: '',
     home: null,
+    nostrKeyVerifiedAtMs: null,
     configDir: null,
     isInteractive: true,
     loadedAtMs: Date.now(),

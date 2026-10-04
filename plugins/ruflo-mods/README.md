@@ -60,7 +60,7 @@ In a session, `/ruflo mods` (through ruflo-console's `/ruflo`) reports what the 
 
 ## What it does
 
-- **Routing:** `prompt.submit` routes each prompt in-process and hands the route, plus ranked memory, to the model as context. The text is the same as the classic `route` hook produces.
+- **Routing:** in an initialized Ruflo project (an existing `.claude-flow/` directory), `prompt.submit` routes each prompt in-process and hands the route, plus ranked memory, to the model as context. The text is the same as the classic `route` hook produces.
 - **Edit learning:** `tool.call` records finished edits for the intelligence consolidator, once per turn.
 - **Tool checks:** `tool.check` only tightens. It applies the dangerous-command list and ruflo policy rules that name `claude-code.*` actions (written by the CLI to `.claude-flow/policy/claude-code.json`). It never loosens a verdict.
 - **Trust gate:** `plugin.register` names what a later-installed mod can do (host commands, network, environment, tool verdicts) and, under `modTrust: refuse-risky`, refuses it unless allow-listed.
@@ -68,6 +68,8 @@ In a session, `/ruflo mods` (through ruflo-console's `/ruflo`) reports what the 
 - **Budget:** `session.measure` applies the cost-tracker budget ladder to live session cost (`costBudgetUsd`); `costHardStop` halts new subagents at 100%.
 
 The classic `hook-handler.cjs` hooks stay installed and remain the fallback. The mod takes an event only where the classic helper hands it over (`RUFLO_MODS_OWNS`), so nothing fires twice. When the mod is not loaded, every classic hook runs as before.
+
+At user scope, an unrelated project receives no routing context, edit-learning writes or `.claude-flow/mods/session.json` heartbeat. The mod does not initialize projects itself. Tool guards, trust checks and explicitly configured budgets remain active there.
 
 ## Options
 

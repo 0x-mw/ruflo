@@ -4,7 +4,7 @@
  * fact, and a file over READ_MAX bytes is never read (`.claude-flow/policy/state.json` reaches 40 MB in a busy project).
  *
  * Never listed here, never read: `.claude-flow/federation/key-*.json`, `~/.ruflo/nostr.key` and `~/.ruflo/channels.json`
- * hold private keys. The console names the first by listing the folder and the second by `stat` alone.
+ * hold private keys. The console names the first by listing the folder and stats the second only with federation enabled.
  */
 
 /** The `$.fs` calls a reader makes; each may reject. */
@@ -112,7 +112,7 @@ export const under = (root: string, path: string): string => `${root.replace(/\/
 export type DiskRead = { project: Record<ProjectKey, Read>; home: Record<keyof typeof HOME, Read>; changed: number; federationNodes: string[] | null; hasNostrKey: boolean | null }
 
 /** Reads every file in parallel; nothing here rejects. `home` and `configDir` are null when unknown. */
-export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home: string | null, configDir: string | null = home === null ? null : `${home}/.claude`): Promise<DiskRead> {
+export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home: string | null, configDir: string | null = home === null ? null : `${home}/.claude`, federationNetwork = false): Promise<DiskRead> {
   const mtimeOf = (held: ReadCache extends Map<string, infer V> ? V : never) => ('mtimeMs' in held ? held.mtimeMs : -1)
   const before = new Map([...cache].map(([path, held]) => [path, mtimeOf(held)]))
   const projectKeys = Object.keys(PROJECT) as ProjectKey[]
@@ -125,7 +125,7 @@ export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home
       .list(under(cwd, FEDERATION_DIR))
       .then(entries => entries.flatMap(entry => (/^key-[A-Za-z0-9._-]{1,64}\.json$/.test(entry.name) ? [entry.name.slice(4, -5)] : [])).slice(0, 50))
       .catch(() => null),
-    home === null ? Promise.resolve(null) : fs.stat(under(home, NOSTR_KEY)).then(() => true, () => false),
+    home === null || !federationNetwork ? Promise.resolve(null) : fs.stat(under(home, NOSTR_KEY)).then(stat => stat !== undefined, () => false),
   ])
   const project = Object.fromEntries(projectKeys.map((key, i) => [key, projectReads[i] as Read])) as Record<ProjectKey, Read>
   const homeRecord = Object.fromEntries(homeKeys.map((key, i) => [key, homeReads[i] as Read])) as Record<keyof typeof HOME, Read>

@@ -139,6 +139,7 @@ export const register: Register = (on, raw: PluginOptions) => {
     control?.stop()
     host = hostOf($, e.cwd)
     state.cwd = e.cwd
+    state.nostrKeyVerifiedAtMs = null
     state.isInteractive = e.isInteractive !== false
     control = createController(state, host)
 

@@ -90,8 +90,8 @@ export type ReadStatus = 'ok' | 'missing' | 'too-large' | 'refused'
 const statusOf = (read: Read): ReadStatus => (read.text !== null ? 'ok' : read.reason)
 
 /** Reads and parses everything; never rejects. `settings` is the merged settings, for `enabledPlugins`. */
-export async function readSnapshot(fs: ReaderFs, cache: ReadCache, cwd: string, home: string | null, settings: unknown, nowMs: number, configDir?: string | null): Promise<Snapshot> {
-  const disk = await readDisk(fs, cache, cwd, home, configDir === undefined ? (home === null ? null : `${home}/.claude`) : configDir)
+export async function readSnapshot(fs: ReaderFs, cache: ReadCache, cwd: string, home: string | null, settings: unknown, nowMs: number, configDir?: string | null, federationNetwork = false): Promise<Snapshot> {
+  const disk = await readDisk(fs, cache, cwd, home, configDir === undefined ? (home === null ? null : `${home}/.claude`) : configDir, federationNetwork)
   const text = (key: ProjectKey) => textOf(disk.project[key])
   const stored = parseSwarmStore(text('swarm'))
   const pointer = parseSwarmPointer(text('pointer'))

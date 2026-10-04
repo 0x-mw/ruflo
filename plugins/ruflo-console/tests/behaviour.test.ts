@@ -246,7 +246,8 @@ describe('behaviour', () => {
     const band = textOf(await $.ui.render(BAND)).replace(/\n/g, '')
 
     // Urgent first, then what is happening now (a fresh event), then the standing context.
-    expect(band).toContain('ruflo · 3 to approve (q) · ⚠ 1 alert · router picked tester (60%) · 0s ago · 2 claims')
+    expect(band).toContain('ruflo · 3 to approve (q) · ⚠ 1 alert · router picked tester (60%) · 0s ago')
+    expect(band).toContain('2 claims (1 stealable)')
     expect(band).not.toMatch(/0\/\d+ busy|\d patterns/)
     expect(band).toContain('open console')
     expect(textOf(await $.ui.render({ ...BAND, props: { ...BAND.props, hasSurvey: true } }))).toBe('engine')

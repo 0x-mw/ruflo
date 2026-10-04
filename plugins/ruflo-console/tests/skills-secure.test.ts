@@ -77,11 +77,11 @@ describe('skills, security and performance', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    const { text, tree } = await drawn($, 'secure')
+    const { text, tree } = await drawn($, 'secure', 110, ['sec-scan', 'sec-doctor'])
 
     for (const section of ['FINDINGS', 'CHECK TEXT', 'SCAN & INSPECT', 'DOCTOR', 'RESULT']) expect(text).toContain(section)
     expect(text).toContain('nothing run yet')
-    expect(text).toMatch(/n\/a {2}VALIDATE/)
+    expect(text).toMatch(/n\/a\s+VALIDATE/)
     expect(inputKeys(tree)).toEqual(['sec-text'])
     expect(elementsOf(tree, 'Button').map(keyOf)).toEqual(expect.arrayContaining(['run-sec-scan-quick', 'run-sec-threats', 'run-doc-all', 'run-doc-fix', 'run-doc-node', 'run-aid-pii', 'run-policy-status']))
     expect(ours()).toEqual([])
@@ -132,6 +132,7 @@ describe('skills, security and performance', () => {
     await pane.press({ key: 'run-perf-metrics' })
     expect(textOf(await pane.drawn())).toMatch(/event loop\s+\n?▁█/)
 
+    await pane.press({ key: 'sec-perf-record' })
     await pane.press({ key: 'run-perf-report' })
     expect(textOf(await pane.drawn())).toContain('runs: ruflo mcp exec -t performance_report -p {"format":"detailed"}')
     expect(world.runs.some(argv => argv.includes('performance_report'))).toBe(false)

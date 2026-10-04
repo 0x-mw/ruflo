@@ -180,7 +180,9 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    const { text, rasters } = await drawn($, 'learning')
+    const folded = await drawn($, 'learning')
+    expect(folded.rasters).toEqual(['title', 'curve'])
+    const { text, rasters } = await drawn($, 'learning', 110, ['learn-pipeline'])
 
     expect(rasters).toEqual(['title', 'curve', 'pipeline', 'patterns'])
     expect(text).toContain('tester 60% · keyword match')
@@ -193,7 +195,9 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    const { text, rasters } = await drawn($, 'metaharness')
+    const folded = await drawn($, 'metaharness')
+    expect(folded.rasters).toEqual(['title', 'radar'])
+    const { text, rasters } = await drawn($, 'metaharness', 110, ['mh-trend'])
 
     expect(rasters).toEqual(['title', 'radar', 'trend'])
     expect(text).toContain('$0.024')
@@ -206,7 +210,7 @@ describe('views', () => {
     mock.clock(on)
     await $.session.start(SESSION)
 
-    const { text, tree } = await drawn($, 'metaharness')
+    const { text, tree } = await drawn($, 'metaharness', 110, ['mh-record', 'mh-evolve', 'mh-promote'])
     const buttons = elementsOf(tree, 'Button').map(keyOf)
 
     expect(text).toMatch(/LAB · INSPECT/i)
@@ -215,7 +219,7 @@ describe('views', () => {
     expect(text).toContain('ruflo metaharness flywheel promote <receipt-id> --public-key <approved-ed25519.pem> --confirm')
     expect(text).toContain('nothing run yet')
     expect(buttons).toEqual(expect.arrayContaining(['lab-mh-genome', 'lab-mh-mcp-scan', 'lab-mh-audit', 'lab-mh-redblue-real', 'lab-mh-learn-run', 'lab-mh-flywheel-run']))
-    expect(buttons.some(key => /promote/.test(key))).toBe(false)
+    expect(buttons.some(key => key.startsWith('lab-') && /promote/.test(key))).toBe(false)
     // Drawing the lab runs nothing but the view's own probes.
     expect(world.runs.some(argv => /genome|mcp-scan|redblue|evolve|learn/.test(argv.join(' ')))).toBe(false)
   })
@@ -305,7 +309,7 @@ describe('views', () => {
   })
 
   test('main menu: bare /ruflo lands on it in the BBS look; its prompt takes a key or a name', { options: { boot: false } }, async ($, on) => {
-    worldOf(on, RUFLO_FILES)
+    const world = worldOf(on, RUFLO_FILES)
     mock.clock(on)
     await $.session.start(SESSION)
     await $.command.run(command())
@@ -313,15 +317,16 @@ describe('views', () => {
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
     const menu = await pane.drawn()
 
-    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header'])
+    expect(elementsOf(menu, 'Raster').map(keyOf)).toEqual(['header', 'palette'])
     expect(textOf(menu)).toContain('▓▒░ SWARM ░▒▓')
-    expect(textOf(menu)).toContain('── live')
+    expect(textOf(menu)).toContain('── start here')
     expect(textOf(menu)).toContain('Swarm Topology')
     expect(textOf(menu)).toContain('ANSI-BBS')
     expect(inputKeys(menu)).toEqual(['menu-goal', 'menu-prompt'])
 
     await pane.input({ key: 'menu-prompt', text: 'w', kind: 'submit' })
-    expect(textOf(await pane.drawn())).toContain('MAIN MENU')
+    expect(textOf(await pane.drawn()).toLowerCase()).toContain('x.ruv.io')
+    expect(world.stored.get('ruflo-console/ui:/work')).toMatchObject({ view: 'xruv' })
 
     await pane.press({ key: 'tab-menu' })
     await pane.input({ key: 'menu-prompt', text: 'nope', kind: 'submit' })
@@ -391,6 +396,7 @@ describe('views', () => {
 
     const pane = await $.ui.mount({ ...paneAt(110), surface: 'terminal' as const, plugin: PLUGIN })
 
+    await pane.press({ key: 'sec-nn-train' })
     await pane.press({ key: 'run-nn-train-coordination-20' })
     const asked = textOf(await pane.drawn())
 

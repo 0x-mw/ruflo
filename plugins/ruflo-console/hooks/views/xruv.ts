@@ -73,8 +73,12 @@ function identityRows(ctx: Ctx, lead: number): RenderElement[] {
   const hasKey = state.snapshot?.hasNostrKey ?? null
   const reg = live<Registry>(state.probes.get('registry'))?.registration
   const rows: RenderElement[] = [rule(ctx, 'Identity', 'your own key · the file is never read')]
+  const confirmed = hasKey === null && state.nostrKeyVerifiedAtMs !== null
+  const present = confirmed
+    ? `confirmed by JOIN ${ago(state.nostrKeyVerifiedAtMs, ctx.nowMs)} (never read here)`
+    : 'present: ~/.ruflo/nostr.key (never read here)'
 
-  rows.push(kv(ctx, 'nostr key', hasKey === null ? 'n/a' : hasKey ? 'present: ~/.ruflo/nostr.key (never read here)' : 'none yet: JOIN makes ~/.ruflo/nostr.key', hasKey === true ? THEME.ok : undefined))
+  rows.push(kv(ctx, 'nostr key', hasKey || confirmed ? present : hasKey === null ? 'n/a' : 'none yet: JOIN makes ~/.ruflo/nostr.key', hasKey || confirmed ? THEME.ok : undefined))
   rows.push(kv(ctx, 'pubkey', state.xruv.pubkey !== null ? `${state.xruv.pubkey.slice(0, 16)}…${state.xruv.pubkey.slice(-6)}` : 'n/a — named by the next JOIN, ACCEPT or PUBLISH result'))
   rows.push(kv(ctx, 'registration', reg === undefined ? 'n/a — open or closed is in the registry (▸ fetch below)' : `${reg.isOpen ? 'open' : 'closed'}${reg.auth !== undefined ? ` · ${reg.auth}` : ''} · JOIN checks membership first and registers only if needed`, reg?.isOpen === true ? THEME.ok : undefined))
 
