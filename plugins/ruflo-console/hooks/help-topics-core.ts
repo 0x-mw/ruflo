@@ -76,7 +76,7 @@ export const CORE_TOPICS: readonly HelpTopic[] = [
       { text: 'Letters reach the rest: b hive · c cost · g timeline · q approvals · e events · w x.ruv.io · i terminal · z skills · u security · f performance · a automation · l learning lab · v vector lab · t self-evolution · d dev tools · m plugin catalog · s settings.' },
       { text: 'p palette · x actions for the selection · r refresh and replay the intro · h help · y / n confirm or cancel.' },
       { text: 'j / k move the selection · d drill into an agent · b back · f filters the events page.' },
-      { text: 'On the main menu, type a key or a name in the prompt and press Enter. o logs off.' },
+      { text: 'On the main menu, type a key or a name in the prompt and press Enter. o logs off. Sandbox has no key: type sandbox, or find it under NETWORK in the nav.' },
     ],
     tips: ['In a text field, your keys type into the field.'],
     related: ['tour', 'headless'],
