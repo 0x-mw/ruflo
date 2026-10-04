@@ -40,8 +40,8 @@ export interface ModObservation {
 }
 
 /** Stable digest of the exported rules; a provenance identifier, not a signature. */
-export function buildModProjection(bundle: Bundle, sourceRevision: string) {
-  if (!/^[a-f0-9]{40,64}$/.test(sourceRevision)) throw new Error('--revision must be an immutable source commit SHA');
+export function buildModProjection(bundle: Bundle, sourceRevision: string, sourceDigests?: Record<string, string>) {
+  if (!/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(sourceRevision)) throw new Error('--revision must be an immutable source commit SHA');
   const rules = [...bundle.constitution.rules, ...bundle.shards.map(s => s.rule)];
   if (rules.length > 256) throw new Error('Mod projection supports at most 256 rules; supply a reviewed scoped source');
   const ids = new Set<string>();
@@ -55,7 +55,10 @@ export function buildModProjection(bundle: Bundle, sourceRevision: string) {
   if (!/^[a-f0-9]{16}$/.test(bundle.constitution.hash) || Object.entries(sourceHashes).some(([key, value]) => !['root', 'local'].includes(key) || !/^[a-f0-9]{16}$/.test(value))) {
     throw new Error('Unsupported compiler source hashes');
   }
-  const data = { version: 1 as const, sourceRevision, constitutionHash: bundle.constitution.hash, sourceHashes, entries };
+  if (sourceDigests && (Object.keys(sourceDigests).length !== Object.keys(sourceHashes).length ||
+      Object.entries(sourceDigests).some(([key, digest]) => !HEX.test(digest) || sourceHashes[key] !== digest.slice(0, 16)))) throw new Error('Source digests do not match compiler snapshots');
+  const data = { version: 1 as const, sourceRevision, constitutionHash: bundle.constitution.hash, sourceHashes,
+    ...(sourceDigests ? { sourceDigests: Object.fromEntries(Object.entries(sourceDigests).sort(([a], [b]) => a.localeCompare(b))) } : {}), entries };
   const bundleId = createHash('sha256').update(JSON.stringify(data)).digest('hex');
   const projection = { ...data, bundleId };
   if (Buffer.byteLength(JSON.stringify(projection)) > MAX_BYTES) throw new Error('Mod projection exceeds 256 KiB');
@@ -104,9 +107,11 @@ export async function collectModCandidates(directory: string, bundleId?: string)
   catch (error) { if ((error as NodeJS.ErrnoException).code === 'ENOENT') names = []; else throw error; }
   if (names.length > 128) throw new Error('At most 128 observation files may be reviewed per batch');
   const seen = new Set<string>();
-  const groups = new Map<string, { bundleId: string; sourceRevision: string; ruleId: string; observations: number; toolErrors: number; deniedChecks: number; aborted: number }>();
+  const groups = new Map<string, { bundleId: string; sourceRevision: string; ruleId: string; observations: number; affectedObservations: number; toolErrors: number; toolExecutions: number; deniedTools: number; deniedChecks: number; permissionChecks: number; aborted: number; interrupted: number; completed: number }>();
   let observations = 0;
   let excluded = 0;
+  const summary = { files: names.length, withGuidance: 0, withoutGuidance: 0, completed: 0, aborted: 0, interrupted: 0,
+    checks: { allow: 0, ask: 0, deny: 0 }, tools: { ok: 0, error: 0, denied: 0 } };
   for (const name of names) {
     const path = join(directory, name);
     const stat = await lstat(path);
@@ -117,20 +122,38 @@ export async function collectModCandidates(directory: string, bundleId?: string)
       seen.add(r.id);
       if (bundleId && r.bundleId !== bundleId) { excluded++; continue; }
       observations++;
+      summary[r.ruleIds.length ? 'withGuidance' : 'withoutGuidance']++;
+      summary[r.completion]++;
+      for (const key of ['allow', 'ask', 'deny'] as const) summary.checks[key] += r.checks[key];
+      for (const key of ['ok', 'error', 'denied'] as const) summary.tools[key] += r.tools[key];
       for (const ruleId of r.ruleIds) {
         const key = `${r.bundleId}:${r.sourceRevision}:${ruleId}`;
-        const group = groups.get(key) ?? { bundleId: r.bundleId, sourceRevision: r.sourceRevision, ruleId, observations: 0, toolErrors: 0, deniedChecks: 0, aborted: 0 };
+        const group = groups.get(key) ?? { bundleId: r.bundleId, sourceRevision: r.sourceRevision, ruleId, observations: 0, affectedObservations: 0,
+          toolErrors: 0, toolExecutions: 0, deniedTools: 0, deniedChecks: 0, permissionChecks: 0, aborted: 0, interrupted: 0, completed: 0 };
         group.observations++;
+        group.affectedObservations += r.tools.error > 0 || r.tools.denied > 0 || r.checks.deny > 0 || r.completion !== 'completed' ? 1 : 0;
         group.toolErrors += r.tools.error;
+        group.toolExecutions += r.tools.ok + r.tools.error;
+        group.deniedTools += r.tools.denied;
         group.deniedChecks += r.checks.deny;
-        group.aborted += r.completion === 'aborted' ? 1 : 0;
+        group.permissionChecks += r.checks.allow + r.checks.ask + r.checks.deny;
+        group[r.completion]++;
         groups.set(key, group);
       }
     }
   }
   return {
-    version: 1, status: 'pending-independent-verification', learningEligible: false,
-    observations, excluded, candidates: [...groups.values()].sort((a, b) => b.toolErrors - a.toolErrors || a.ruleId.localeCompare(b.ruleId)),
+    version: 1, status: 'pending-independent-verification', verified: false, learningEligible: false,
+    observations, excluded, summary,
+    candidates: [...groups.values()].sort((a, b) => b.affectedObservations - a.affectedObservations || b.toolErrors - a.toolErrors ||
+      b.deniedChecks - a.deniedChecks || a.bundleId.localeCompare(b.bundleId) || a.sourceRevision.localeCompare(b.sourceRevision) || a.ruleId.localeCompare(b.ruleId))
+      .map(group => ({ ...group, verified: false, learningEligible: false,
+        toolErrorRate: group.toolExecutions ? group.toolErrors / group.toolExecutions : null,
+        deniedCheckRate: group.permissionChecks ? group.deniedChecks / group.permissionChecks : null,
+        reviewReasons: [group.toolErrors ? 'observed tool errors' : '', group.deniedTools ? 'denied tool calls' : '', group.deniedChecks ? 'denied checks' : '',
+          group.aborted ? 'aborted turns' : '', group.interrupted ? 'interrupted turns' : ''].filter(Boolean),
+      })),
+    interpretation: 'Activity correlations only. Completed turns are not accepted successes; displayed rules are not proven causes.',
     requiredBeforeLearning: ['task-bound acceptance evidence', 'held-out baseline and candidate evaluation', 'authorized promotion'],
   };
 }

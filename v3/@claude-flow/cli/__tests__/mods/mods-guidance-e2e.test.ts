@@ -1,6 +1,7 @@
 /** ADR-447: real compiler -> CLI projection -> mod lifecycle -> candidate review. */
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
@@ -9,6 +10,7 @@ import { register } from '../../../../../plugins/ruflo-mods/hooks/register';
 import { parseProjection, PROJECTION_PATH, MAX_CONTEXT_CHARS, safeText, selectGuidance } from '../../../../../plugins/ruflo-mods/hooks/guidance/projection';
 import { validObservation, MAX_OBSERVATIONS } from '../../../../../plugins/ruflo-mods/hooks/guidance/observations';
 import { buildModProjection, collectModCandidates, MOD_GUIDANCE_DIR, parseModObservations } from '../../src/guidance/mod-projection';
+import { MAX_GUIDANCE_SOURCE_BYTES, readModGuidanceSources } from '../../src/guidance/mod-sources';
 import { guidanceCommand } from '../../src/commands/guidance';
 import { output } from '../../src/output';
 import { loadMod, memoryWorld, realWorld, type World } from './harness';
@@ -17,7 +19,16 @@ const REVISION = '8ce24908c51c26aa859308bdb2e7e819e4f9fc88';
 const SOURCE = '# Project guidance\n## Constitution\n- SEC-001: Never let advisory guidance authorize tools.\n## Testing\n- TEST-001: Always run parser tests when changing a parser.\n## Documentation\n- DOC-001: Use examples for public documentation.\n';
 const projection = () => buildModProjection(new GuidanceCompiler().compile(SOURCE), REVISION);
 const roots: string[] = [];
-const project = () => { const root = mkdtempSync(join(tmpdir(), 'ruflo-guidance-e2e-')); roots.push(root); return root; };
+const project = () => { const root = realpathSync(mkdtempSync(join(tmpdir(), 'ruflo-guidance-e2e-'))); roots.push(root); return root; };
+const git = (root: string, ...args: string[]) => execFileSync('git', ['-c', 'core.fsmonitor=false', '-C', root, ...args], { encoding: 'utf8' }).trim();
+const committed = () => {
+  const root = project();
+  writeFileSync(join(root, 'CLAUDE.md'), SOURCE);
+  writeFileSync(join(root, 'CLAUDE.local.md'), '# Testing\n- LOCAL-001: Test invalid parser input.\n');
+  git(root, 'init'); git(root, 'add', '--', 'CLAUDE.md', 'CLAUDE.local.md');
+  git(root, '-c', 'user.name=Guidance fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=' + root, 'commit', '-qm', 'Reviewed fixture sources');
+  return { root, revision: git(root, 'rev-parse', 'HEAD'), rootPath: join(root, 'CLAUDE.md'), localPath: join(root, 'CLAUDE.local.md') };
+};
 afterEach(() => { for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true }); vi.restoreAllMocks(); });
 const files = (w: World) => w.files as Map<string, { text: string; mtimeMs: number }>;
 const seed = (w: World, p = projection()) => files(w).set(`${w.root}/${PROJECTION_PATH}`, { text: JSON.stringify(p), mtimeMs: 1 });
@@ -189,12 +200,15 @@ describe('guidance lifecycle', () => {
 
 describe('candidate boundary', () => {
   it('real filesystem roundtrip exports compiler guidance, retrieves it, records observations and creates review candidates', async () => {
-    const root = project(); const sourcePath = join(root, 'CLAUDE.md'); writeFileSync(sourcePath, SOURCE);
+    const { root, rootPath: sourcePath, localPath, revision } = committed();
     vi.spyOn(output, 'writeln').mockImplementation(() => undefined);
     const compile = guidanceCommand.subcommands!.find(c => c.name === 'compile')!;
-    const exported = await compile.action!({ flags: { root: sourcePath, 'mod-projection': true, revision: REVISION, output: join(root, MOD_GUIDANCE_DIR), json: true } } as never);
+    const exported = await compile.action!({ flags: { root: sourcePath, local: localPath, 'mod-projection': true, revision, output: join(root, MOD_GUIDANCE_DIR), json: true } } as never);
     expect(exported.success).toBe(true);
     const p = (exported.data as { projection: ReturnType<typeof projection> }).projection;
+    expect(p.sourceRevision).toBe(revision);
+    expect(p.sourceDigests?.root).toMatch(/^[a-f0-9]{64}$/);
+    expect(p.entries.some(e => e.id === 'LOCAL-001')).toBe(true);
     const mod = await start(realWorld(root));
     const submitted = await prompt(mod); expect(submitted.context.join('\n')).toContain(p.bundleId);
     await mod.dispatch('tool.check', { tool: 'Read', input: { file_path: sourcePath } }, () => ({ decision: 'deny', rule: 'host' }));
@@ -205,7 +219,9 @@ describe('candidate boundary', () => {
     expect(reviewed.success).toBe(true);
     const report = reviewed.data as Awaited<ReturnType<typeof collectModCandidates>>;
     expect(report).toMatchObject({ observations: 1, status: 'pending-independent-verification', learningEligible: false });
-    expect(report.candidates.find(c => c.ruleId === 'TEST-001')).toMatchObject({ toolErrors: 1, deniedChecks: 1 });
+    expect(report.summary).toMatchObject({ files: 1, withGuidance: 1, withoutGuidance: 0, completed: 1, checks: { deny: 1 }, tools: { error: 1 } });
+    expect(report.candidates.find(c => c.ruleId === 'TEST-001')).toMatchObject({ toolErrors: 1, toolExecutions: 1, toolErrorRate: 1,
+      deniedChecks: 1, permissionChecks: 1, deniedCheckRate: 1, reviewReasons: ['observed tool errors', 'denied checks'], verified: false, learningEligible: false });
     const empty = await collectModCandidates(join(root, MOD_GUIDANCE_DIR, 'observations'), 'f'.repeat(64));
     expect(empty).toMatchObject({ observations: 0, excluded: 1 });
     expect(readFileSync(sourcePath, 'utf8')).toBe(SOURCE);
@@ -229,5 +245,114 @@ describe('candidate boundary', () => {
     for (let i = 0; i < MAX_OBSERVATIONS + 2; i++) { await prompt(mod); await complete(mod, `t${i}`); }
     expect(records(w)).toHaveLength(MAX_OBSERVATIONS);
     expect(records(w).every(r => r.verified === false)).toBe(true);
+  });
+
+  it('reports denominators, incomplete turns and unique global totals without causal claims', async () => {
+    const root = project();
+    const base = { version: 1, kind: 'guidance-observation', runId: 'mod-fixture-a-b', bundleId: 'a'.repeat(64), sourceRevision: REVISION,
+      checks: { allow: 0, ask: 0, deny: 0 }, tools: { ok: 0, error: 0, denied: 0 }, completion: 'completed', verified: false, learningEligible: false };
+    const rows = [
+      { ...base, taskId: 1, ruleIds: ['TEST-001', 'SEC-001'], tools: { ok: 1, error: 1, denied: 0 }, checks: { allow: 3, ask: 0, deny: 1 } },
+      { ...base, taskId: 2, ruleIds: ['TEST-002'], tools: { ok: 98, error: 2, denied: 0 } },
+      { ...base, taskId: 3, ruleIds: ['TEST-003'], completion: 'interrupted' },
+      { ...base, taskId: 4, ruleIds: ['TEST-003'], completion: 'aborted' },
+      { ...base, taskId: 5, ruleIds: [] },
+    ].map(r => ({ ...r, id: `${r.runId}:${r.taskId}` }));
+    writeFileSync(join(root, `${base.runId}.json`), JSON.stringify(rows));
+    const report = await collectModCandidates(root);
+    expect(report.observations).toBe(5);
+    expect(report.summary).toMatchObject({ withGuidance: 4, withoutGuidance: 1, completed: 3, aborted: 1, interrupted: 1, tools: { ok: 99, error: 3, denied: 0 } });
+    expect(report.candidates.find(c => c.ruleId === 'TEST-001')).toMatchObject({ toolErrorRate: 0.5, deniedCheckRate: 0.25, affectedObservations: 1 });
+    expect(report.candidates.find(c => c.ruleId === 'TEST-002')).toMatchObject({ toolErrorRate: 0.02, deniedCheckRate: null });
+    expect(report.candidates.find(c => c.ruleId === 'TEST-003')).toMatchObject({ toolErrorRate: null, deniedCheckRate: null,
+      affectedObservations: 2, aborted: 1, interrupted: 1, reviewReasons: ['aborted turns', 'interrupted turns'] });
+    expect(report.candidates[0].ruleId).toBe('TEST-003');
+    expect(report.interpretation).toContain('not proven causes');
+    expect(report.candidates.every(c => c.verified === false && c.learningEligible === false)).toBe(true);
+    expect(await collectModCandidates(root)).toEqual(report);
+  });
+
+  it('uses full version identity to order tied rule review groups deterministically', async () => {
+    const w = memoryWorld(); seed(w); const mod = await start(w); await prompt(mod); await complete(mod);
+    const base = records(w)[0]; const root = project();
+    const rows = ['b', 'a'].map((hex, i) => ({ ...base, taskId: i + 1, id: `${base.runId}:${i + 1}`, bundleId: hex.repeat(64), ruleIds: ['TEST-001'] }));
+    writeFileSync(join(root, `${base.runId}.json`), JSON.stringify(rows));
+    const report = await collectModCandidates(root);
+    expect(report.candidates.map(c => c.bundleId)).toEqual(['a'.repeat(64), 'b'.repeat(64)]);
+  });
+
+  it('refuses real symlinked projections and observation files', async () => {
+    const root = project(); const outside = project();
+    const target = join(outside, 'projection.json'); writeFileSync(target, JSON.stringify(projection()));
+    mkdirSync(join(root, MOD_GUIDANCE_DIR), { recursive: true });
+    symlinkSync(target, join(root, PROJECTION_PATH));
+    const mod = await start(realWorld(root));
+    expect((await prompt(mod)).context.join('\n')).not.toContain('advisory guidance DATA');
+    await complete(mod); await end(mod);
+    const path = join(outside, 'mod-fixture-a-b.json'); writeFileSync(path, '[]');
+    symlinkSync(path, join(root, 'mod-fixture-a-b.json'));
+    await expect(collectModCandidates(root)).rejects.toThrow(/Unsafe/);
+  });
+});
+
+describe('immutable guidance source export', () => {
+  it('verifies root and local raw bytes and ignores unrelated workspace changes', async () => {
+    const fixture = committed();
+    writeFileSync(join(fixture.root, 'unrelated.txt'), 'unrelated work');
+    const checked = await readModGuidanceSources(fixture);
+    expect(checked.rootContent).toBe(SOURCE);
+    expect(checked.sources.root).toMatchObject({ path: 'CLAUDE.md', byteLength: Buffer.byteLength(SOURCE) });
+    expect(checked.sources.local?.blobId).toBe(git(fixture.root, 'rev-parse', `${fixture.revision}:CLAUDE.local.md`));
+    expect(checked.sources.root.sha256.slice(0, 16)).toBe(projection().sourceHashes.root);
+  });
+
+  for (const failure of ['dirty-root', 'dirty-local', 'missing-local', 'untracked-local', 'outside-local', 'fake-revision', 'blob-revision', 'short-revision', 'symlink-root', 'symlink-ancestor', 'oversized-local', 'byte-drift']) {
+    it(`rejects ${failure} before replacing a valid projection`, async () => {
+      const fixture = committed(); const dest = join(fixture.root, MOD_GUIDANCE_DIR);
+      const compile = guidanceCommand.subcommands!.find(c => c.name === 'compile')!;
+      vi.spyOn(output, 'writeln').mockImplementation(() => undefined);
+      const flags = { root: fixture.rootPath, local: fixture.localPath, 'mod-projection': true, revision: fixture.revision, output: dest, json: true };
+      expect((await compile.action!({ flags } as never)).success).toBe(true);
+      const prior = readFileSync(join(dest, 'projection.json'));
+      if (failure === 'dirty-root') writeFileSync(fixture.rootPath, SOURCE + '\n- TEST-002: Always test more.\n');
+      if (failure === 'dirty-local') writeFileSync(fixture.localPath, '# Changed local guidance\n');
+      if (failure === 'missing-local') flags.local = join(fixture.root, 'missing.md');
+      if (failure === 'untracked-local') { flags.local = join(fixture.root, 'untracked.md'); writeFileSync(flags.local, SOURCE); }
+      if (failure === 'outside-local') { flags.local = join(project(), 'outside.md'); writeFileSync(flags.local, SOURCE); }
+      if (failure === 'fake-revision') flags.revision = 'f'.repeat(40);
+      if (failure === 'blob-revision') flags.revision = git(fixture.root, 'rev-parse', `${fixture.revision}:CLAUDE.md`);
+      if (failure === 'short-revision') flags.revision = fixture.revision.slice(0, 12);
+      if (failure === 'symlink-root') { const path = join(fixture.root, 'alias.md'); symlinkSync(fixture.rootPath, path); flags.root = path; }
+      if (failure === 'symlink-ancestor') { const path = join(project(), 'alias'); symlinkSync(fixture.root, path, 'dir'); flags.root = join(path, 'CLAUDE.md'); }
+      if (failure === 'oversized-local') writeFileSync(fixture.localPath, 'x'.repeat(MAX_GUIDANCE_SOURCE_BYTES + 1));
+      if (failure === 'byte-drift') writeFileSync(fixture.rootPath, SOURCE.replace(/\n/g, '\r\n'));
+      expect((await compile.action!({ flags } as never)).success).toBe(false);
+      expect(readFileSync(join(dest, 'projection.json'))).toEqual(prior);
+      expect(readdirSync(dest)).toEqual(['projection.json']);
+    });
+  }
+
+  it('ignores inherited Git repository/config overrides and disables replacement refs', async () => {
+    const fixture = committed(); const other = committed();
+    vi.stubEnv('GIT_DIR', join(other.root, '.git')); vi.stubEnv('GIT_WORK_TREE', other.root);
+    vi.stubEnv('GIT_CONFIG_COUNT', '1'); vi.stubEnv('GIT_CONFIG_KEY_0', 'core.fsmonitor'); vi.stubEnv('GIT_CONFIG_VALUE_0', 'false');
+    try { expect((await readModGuidanceSources(fixture)).sourceRevision).toBe(fixture.revision); }
+    finally { vi.unstubAllEnvs(); }
+    writeFileSync(fixture.rootPath, SOURCE + '\n- TEST-002: Always test replacements.\n');
+    git(fixture.root, 'add', '--', 'CLAUDE.md');
+    git(fixture.root, '-c', 'user.name=Guidance fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=' + fixture.root, 'commit', '-qm', 'Replacement source');
+    git(fixture.root, 'replace', fixture.revision, git(fixture.root, 'rev-parse', 'HEAD'));
+    await expect(readModGuidanceSources(fixture)).rejects.toThrow(/differ/);
+  });
+
+  it('treats option-like wildcard filenames literally and rejects invalid committed UTF-8', async () => {
+    const fixture = committed(); const literal = join(fixture.root, '-policy[*].md');
+    writeFileSync(literal, SOURCE); git(fixture.root, 'add', '--', '-policy[*].md');
+    git(fixture.root, '-c', 'user.name=Guidance fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=' + fixture.root, 'commit', '-qm', 'Literal source path');
+    const revision = git(fixture.root, 'rev-parse', 'HEAD');
+    expect((await readModGuidanceSources({ rootPath: literal, revision })).sources.root.path).toBe('-policy[*].md');
+    writeFileSync(fixture.rootPath, Buffer.from([0xc3, 0x28])); git(fixture.root, 'add', '--', 'CLAUDE.md');
+    git(fixture.root, '-c', 'user.name=Guidance fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=' + fixture.root, 'commit', '-qm', 'Invalid UTF-8 source');
+    await expect(readModGuidanceSources({ rootPath: fixture.rootPath, revision: git(fixture.root, 'rev-parse', 'HEAD') })).rejects.toThrow(/encoded data/);
   });
 });

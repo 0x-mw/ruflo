@@ -19,7 +19,7 @@
  * not run), budgets, streaming events, rendering.
  */
 
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, lstatSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 
 type AnyHook = ($: any, e: any, next: any) => any;
@@ -60,9 +60,8 @@ function engineOf(world: World) {
           if (!f) throw enoent(path);
           return { kind: 'file', size: Buffer.byteLength(f.text), mtimeMs: f.mtimeMs, isLink: false };
         }
-        if (!existsSync(path)) throw enoent(path);
-        const s = statSync(path);
-        return { kind: s.isFile() ? 'file' : s.isDirectory() ? 'dir' : 'other', size: s.size, mtimeMs: s.mtimeMs, isLink: false };
+        const s = lstatSync(path);
+        return { kind: s.isFile() ? 'file' : s.isDirectory() ? 'dir' : 'other', size: s.size, mtimeMs: s.mtimeMs, isLink: s.isSymbolicLink() };
       },
       async read(path: string) {
         const injected = world.failRead?.(path);

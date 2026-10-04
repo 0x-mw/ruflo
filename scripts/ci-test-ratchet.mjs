@@ -109,6 +109,12 @@ function main() {
     const run = spawnSync(process.execPath, [
       vitestBin,
       'run',
+      // These files use Claude Code's native test kit, not Vitest. Their
+      // enabled host gate is separate from the ordinary source runner.
+      '--exclude=plugins/ruflo-mods/tests/*.test.ts',
+      // ADR-447 needs the CLI workspace compiler/source aliases. The
+      // mod-guidance workflow requires this suite with that configuration.
+      '--exclude=v3/@claude-flow/cli/__tests__/mods/mods-guidance-e2e.test.ts',
       '--reporter=json',
       `--outputFile=${reportPath}`,
     ], {

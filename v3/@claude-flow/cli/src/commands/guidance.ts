@@ -52,9 +52,14 @@ const compileCommand: Command = {
         return { success: false, message: `File not found: ${rootPath}` };
       }
 
-      const rootContent = await readFile(rootPath, 'utf-8');
+      const modExport = ctx.flags['mod-projection'] === true;
+      const checked = modExport ? await (await import('../guidance/mod-sources.js')).readModGuidanceSources({
+        rootPath, localPath, revision: String(ctx.flags.revision || ''),
+      }) : undefined;
+      const rootContent = checked ? checked.rootContent : await readFile(rootPath, 'utf-8');
       let localContent: string | undefined;
-      if (localPath && existsSync(localPath)) {
+      if (checked) localContent = checked.localContent;
+      else if (localPath && existsSync(localPath)) {
         localContent = await readFile(localPath, 'utf-8');
       }
 
@@ -62,12 +67,14 @@ const compileCommand: Command = {
       const compiler = new GuidanceCompiler();
       const bundle = compiler.compile(rootContent, localContent);
 
-      if (ctx.flags['mod-projection'] === true) {
+      if (checked) {
         const { buildModProjection, writeModProjection, MOD_GUIDANCE_DIR } = await import('../guidance/mod-projection.js');
-        const projection = buildModProjection(bundle, String(ctx.flags.revision || ''));
+        const sourceDigests = Object.fromEntries(Object.entries(checked.sources).map(([key, binding]) => [key, binding.sha256]));
+        const projection = buildModProjection(bundle, checked.sourceRevision, sourceDigests);
         const path = await writeModProjection(String(ctx.flags.output || MOD_GUIDANCE_DIR), projection);
-        output.writeln(jsonOutput ? JSON.stringify({ path, projection }) : output.success(`Advisory mod projection exported: ${path}`));
-        return { success: true, data: { path, projection } };
+        const data = { path, projection, sources: checked.sources };
+        output.writeln(jsonOutput ? JSON.stringify(data) : output.success(`Git source matched; advisory mod projection exported: ${path}`));
+        return { success: true, data };
       }
 
       if (jsonOutput) {
