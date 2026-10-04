@@ -1,0 +1,40 @@
+import { secretsIn, textsOf } from './screen'
+import type { ModOptions } from './options'
+import type { Stats } from './status'
+
+const WRITERS = new Set(['memory_store', 'agentdb_pattern-store', 'agentdb_hierarchical-store', 'agentdb_batch'])
+// Order placement on a neural-trader MCP server (`neural-trader mcp start`), however the plugin names the server.
+const ORDER = /^(?:execute|place|submit)[_-]?(?:trade|order)s?$|^live[_-]?(?:trade|order|execute)|^(?:close|cancel)[_-]?all/i
+
+const toolOf = (name: string) => (name.startsWith('mcp__') ? name.slice(name.lastIndexOf('__') + 2) : name)
+const serverOf = (name: string) => (name.startsWith('mcp__') ? name.slice(5, name.lastIndexOf('__')) : '')
+const isTrader = (name: string) => /neural[-_]?trader/i.test(serverOf(name))
+
+/** Whether the call states, in its own input, that it is a paper trade or carries an explicit confirm. */
+function confirmed(input: unknown): boolean {
+  const top = typeof input === 'object' && input !== null ? (input as Record<string, unknown>) : {}
+  const inner = typeof top.input === 'object' && top.input !== null ? (top.input as Record<string, unknown>) : {}
+  return [top, inner].some(o => o.confirm === true || o.confirmed === true || o.paper === true || o.dryRun === true || o.dry_run === true)
+}
+
+/**
+ * The reason a call is refused, or undefined when it may go. Two rules: a memory write or trader call holding a secret is refused
+ * (broker keys must not be stored or echoed), and a live order call without an explicit `confirm: true` (or `paper`/`dryRun`) is refused.
+ * Names the rule, never echoes the value.
+ */
+export function verdict(tool: string, input: unknown, opts: ModOptions, stats: Stats): string | undefined {
+  const trader = isTrader(tool)
+  if (!trader && !WRITERS.has(toolOf(tool))) return undefined
+  stats.checked++
+  const found = textsOf(input).flatMap(secretsIn)
+  if (found.length > 0) {
+    stats.lastBlock = found[0]
+    return 'ruflo-neural-trader: this call holds what looks like a secret (a broker key, token or password). Keep credentials in the environment and pass a reference, not the value.'
+  }
+  if (opts.liveGuard && trader && ORDER.test(toolOf(tool)) && !confirmed(input)) {
+    stats.liveBlocked++
+    stats.lastBlock = 'live order without confirm'
+    return 'ruflo-neural-trader: a live order needs an explicit confirm: true in the call (or paper: true to simulate). Re-run the paper backtest and risk gate first.'
+  }
+  return undefined
+}
