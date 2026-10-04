@@ -18,7 +18,7 @@ const refuse = (rule: string, reason: string): Verdict => ({ rule, reason: `rufl
 
 const bytes = (v: unknown): number => {
   try {
-    return JSON.stringify(v)?.length ?? 0
+    return new TextEncoder().encode(JSON.stringify(v) ?? '').length
   } catch {
     return Number.POSITIVE_INFINITY
   }

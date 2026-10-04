@@ -4,9 +4,9 @@ import { hasSecret, textsOf } from './screen'
 const tail = (name: string) => (name.startsWith('mcp__') ? name.slice(name.lastIndexOf('__') + 2) : name)
 
 const WRITERS = new Set(['memory_store', 'agentdb_hierarchical-store'])
-const DOMAIN = /^ddd-|^(?:context|aggregate):/
+const DOMAIN = /^(?:ddd|domain)-|^(?:context|aggregate):/
 
-/** The DDD skills' own entries: a key named ddd-*, or a hierarchy edge whose ends are context:* or aggregate:*. */
+/** The DDD skills' own entries: a key named ddd-* or domain-*, or a hierarchy edge whose ends are context:* or aggregate:*. */
 function isDomainWrite(input: unknown): boolean {
   const o = (typeof input === 'object' && input !== null ? input : {}) as Record<string, unknown>
   return ['key', 'parent', 'child'].some(k => typeof o[k] === 'string' && DOMAIN.test(o[k] as string))
