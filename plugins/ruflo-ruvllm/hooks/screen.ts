@@ -65,7 +65,7 @@ function entropy(v: string): number {
 
 /** True when `v` is a name, call, path or placeholder rather than a literal credential. */
 function isReference(v: string): boolean {
-  if (PLACEHOLDER.test(v) || REFERENCE.test(v) || CALL.test(v) || IDENT_PATH.test(v)) return true
+  if (PLACEHOLDER.test(v) || REFERENCE.test(v) || CALL.test(v) || IDENT_PATH.test(v) || URL_NO_CREDS.test(v)) return true
   return NAME_LIKE.test(v) && v.replace(/\D/g, '').length / v.length < 0.15
 }
 
@@ -77,21 +77,41 @@ export function plausibleSecret(v: string): boolean {
   return classes >= 2 && (digit || symbol) && entropy(v) >= 2.5
 }
 
-const KEY_NAME = /(?:api[_-]?key|secret|token|passw(?:or)?d|passwd|pwd|credential|private[_-]?key)s?[A-Za-z0-9_-]{0,40}["']?\s*[:=]\s*/gi
+/** Under a secret-named key a literal this long is a secret even with one character class or a UUID shape, unless it is a clear reference. */
+const KEYED_MIN = 20
+const PLACEHOLDER_WORD = /(?:^|[^a-z])(?:your|placeholder|changeme|change[-_]?me|example|redacted|dummy|replace[-_]?me|insert)(?:[^a-z]|$)|\*{3,}|x{5,}|\.{3}|^(?:none|null|undefined|true|false)$/i
+const URL_NO_CREDS = /^[a-z][a-z0-9+.-]{1,20}:\/\/[^\s@]*$/i
+
+/** Three or more lowercase hyphen-separated words (no hex or digit-only run of 8+, few digits), such as my-k8s-secret-name-for-database. */
+function hyphenName(v: string): boolean {
+  const parts = v.split('-')
+  return parts.length >= 3 && parts.every(p => /^[a-z0-9]{2,}$/.test(p) && !/^[0-9a-f]{8,}$/.test(p)) && v.replace(/\D/g, '').length / v.length < 0.15
+}
+
+function keyedSecret(v: string): boolean {
+  if (v.length < KEYED_MIN || v.length > 256 || /\s/.test(v)) return false
+  return !(PLACEHOLDER_WORD.test(v) || REFERENCE.test(v) || CALL.test(v) || IDENT_PATH.test(v) || URL_NO_CREDS.test(v) || (!UUID.test(v) && hyphenName(v)))
+}
+
+const KEY_NAME = /(?:api[_-]?key|secret|token|passw(?:or)?d|passwd|pwd|credential|private[_-]?key|auth(?!or))s?[A-Za-z0-9_-]{0,40}["']?\s*[:=]\s*/gi
 const QUOTED = /(["'\x60])((?:(?!\1)[^\n]){1,256})\1/y
 const BARE_VALUE = /[^\s"'\x60,;]{1,256}/y
 const QUERY_VALUE = /[^\s"'\x60,;&]{1,256}/y
 
 /** A secret-named key assigned a literal value: env style, JSON, YAML, code. Values that are calls, references or placeholders do not count. */
 function assignmentSecret(text: string): boolean {
+  let valueEnd = 0
   for (const m of text.matchAll(KEY_NAME)) {
+    if (m.index < valueEnd) continue // a key-looking word inside the previous value, such as secretsmanager in an ARN
     const at = m.index + m[0].length
     let back = m.index
     while (back > 0 && m.index - back < 64 && /[A-Za-z0-9_.-]/.test(text.charAt(back - 1))) back--
     const re = /["'\x60]/.test(text.charAt(at)) ? QUOTED : /[?&]/.test(text.charAt(back - 1)) ? QUERY_VALUE : BARE_VALUE
     re.lastIndex = at
     const hit = re.exec(text)
-    if (hit && plausibleSecret(hit[2] ?? hit[0])) return true
+    const v = hit && (hit[2] ?? hit[0])
+    valueEnd = hit ? at + hit[0].length : at
+    if (v && (plausibleSecret(v) || keyedSecret(v))) return true
   }
   return false
 }

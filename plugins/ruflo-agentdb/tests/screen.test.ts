@@ -52,7 +52,11 @@ describe('screen quality: false positives', () => {
     'apiKey = process.env.ANTHROPIC_API_KEY',
     'secret: my-k8s-secret-name-for-database',
     'token: <uuid>',
-    'token: 123e4567-e89b-12d3-a456-426614174000',
+    'id: 123e4567-e89b-12d3-a456-426614174000',
+    'request_id: 9b2d6c1e-4f3a-4c8e-9d71-2a5b8e0f6c13',
+    'trace: 9b2d6c1e-4f3a-4c8e-9d71-2a5b8e0f6c13',
+    'auth_url: https://login.company.com/oauth/authorize',
+    'author: someone-wrote-this-long-name-here',
     'Authorization: Bearer YOUR_TOKEN_GOES_HERE_PLACEHOLDER',
     'use sk-learn-pipeline-stage-preprocessing-step-one for the preprocessing stage',
     'password: stored-in-1password-vault-item',
@@ -71,6 +75,41 @@ describe('screen quality: false positives', () => {
       expect(scan(text).secrets).toEqual([])
     })
   }
+})
+
+describe('screen quality: secret-named key with a low-variety value (regression vs the old screen)', () => {
+  const flagged = [
+    'password: correcthorsebatterystaple',
+    'api_key = abcdefghijklmnopqrstuvwxyzabcdef',
+    '{"secret": "correcthorsebatterystaple"}',
+    'api_key: 123e4567-e89b-12d3-a456-426614174000',
+    'token: 9b2d6c1e-4f3a-4c8e-9d71-2a5b8e0f6c13',
+    'SECRET_KEY=mqkwzxvbnplhgfdsatyrewoiu',
+    'auth: mqkwzxvbnplhgfdsatyrewoiu',
+  ]
+  for (const text of flagged) {
+    test('flags: ' + text, () => {
+      expect(scan(text).secrets).toContain('key assignment')
+    })
+  }
+  const refs = [
+    'password: ${DB_PASSWORD_FROM_VAULT_STORE}',
+    'token: getTokenFromTheVaultService(ctx)',
+    'secret: arn:aws:secretsmanager:us-east-1:1:secret:x',
+    'password: YOUR_PASSWORD_GOES_HERE_PLEASE',
+    'secret: my-k8s-secret-name-for-database',
+    'password: stored-in-1password-vault-item',
+    'token: a.b.c.d.e.f.g.h.i.j.k.l',
+    'password: vault:secret/data/app/db/pw1',
+  ]
+  for (const text of refs) {
+    test('still a reference: ' + text, () => {
+      expect(scan(text).secrets).toEqual([])
+    })
+  }
+  test('a 19-character single-class value stays below the keyed threshold', () => {
+    expect(scan('password: abcdefghijklmnopqrs').secrets).toEqual([])
+  })
 })
 
 describe('screen quality: false negatives', () => {
