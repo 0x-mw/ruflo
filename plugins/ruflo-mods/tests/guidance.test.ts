@@ -1,9 +1,7 @@
 import { describe, expect, test, tier } from 'claude-code/testing'
 import type { Plugin } from 'claude-code/testing'
 
-import { registerGuidance } from '../hooks/guidance'
-import { readOptions } from '../hooks/options'
-import { createState } from '../hooks/state'
+import { register } from '../hooks/register'
 
 import { prompt, ROOT, START, world } from './fixtures/world'
 
@@ -23,11 +21,7 @@ const options = { guidanceContext: true, guidanceLearning: true, routeContext: f
 // Exercise production registration directly: the 2.1.283 kit does not apply
 // per-test option overrides. Current kits may also run these same contracts.
 const enabledGuidance: Plugin = {
-  name: 'guidance-contract', tier: 'user', register: on => {
-    const state = createState()
-    on('session.start', async ($, e, next) => { state.root = await $.session.root(); return next(e) })
-    registerGuidance(on, state, readOptions(options))
-  },
+  name: 'guidance-contract', tier: 'user', register: on => register(on, options),
 }
 const complete = (turnId: string, isAborted = false) => ({ answer: 'EXAMPLE_ANSWER_SENTINEL', durationMs: 1, isAborted, turnId, reason: 'answer' }) as const
 const queued = (files: Map<string, string>) => [...files].filter(([path]) => path.includes('/guidance/observations/'))

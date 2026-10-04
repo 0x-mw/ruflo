@@ -1,4 +1,5 @@
 import type { EngineInterface, On } from 'claude-code'
+import type { GuidanceHooks } from './guidance'
 
 import { HANDSHAKE_MARKER, ownedEvents } from './ownership'
 import type { ModOptions } from './options'
@@ -43,13 +44,14 @@ function hasClassicStatusLine(settings: unknown): boolean {
  * hooks through the process environment; register `/ruflo-mods`. Any failure
  * leaves the mod owning nothing, so every classic hook keeps running.
  */
-export function registerSession(on: On, state: ModState, options: ModOptions) {
+export function registerSession(on: On, state: ModState, options: ModOptions, guidance?: GuidanceHooks) {
   on('session.start', async ($, e, next) => {
     state.root = await $.session.root()
     const settings = await $.settings.read()
     state.owned = new Set(ownedEvents(settings, await helperHonours($)))
     await $.env.set('RUFLO_MODS_OWNS', state.owned.size ? [...state.owned].join(',') : undefined)
     state.statusLine = options.statusLine && !hasClassicStatusLine(settings)
+    guidance?.start()
     redraw(state)
     await $.command
       .register({ name: 'ruflo-mods', description: 'Same as /ruflo mods: what this session routed, recorded and tightened' })

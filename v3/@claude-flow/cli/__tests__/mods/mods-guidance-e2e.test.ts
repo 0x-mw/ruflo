@@ -9,6 +9,8 @@ import { register } from '../../../../../plugins/ruflo-mods/hooks/register';
 import { parseProjection, PROJECTION_PATH, MAX_CONTEXT_CHARS, safeText, selectGuidance } from '../../../../../plugins/ruflo-mods/hooks/guidance/projection';
 import { finishTask, flushObservations, guidanceState, validObservation, MAX_OBSERVATIONS } from '../../../../../plugins/ruflo-mods/hooks/guidance/observations';
 import { buildModProjection, collectModCandidates, MOD_GUIDANCE_DIR, parseModObservations, writeModProjection } from '../../src/guidance/mod-projection';
+import { guidanceCommand } from '../../src/commands/guidance';
+import { output } from '../../src/output';
 import { loadMod, memoryWorld, realWorld, type World } from './harness';
 
 const REVISION = '8ce24908c51c26aa859308bdb2e7e819e4f9fc88';
@@ -162,14 +164,20 @@ describe('guidance lifecycle', () => {
 describe('candidate boundary', () => {
   it('real filesystem roundtrip exports compiler guidance, retrieves it, records observations and creates review candidates', async () => {
     const root = project(); const sourcePath = join(root, 'CLAUDE.md'); writeFileSync(sourcePath, SOURCE);
-    const p = buildModProjection(new GuidanceCompiler().compile(readFileSync(sourcePath, 'utf8')), REVISION);
-    await writeModProjection(join(root, MOD_GUIDANCE_DIR), p);
+    vi.spyOn(output, 'writeln').mockImplementation(() => undefined);
+    const compile = guidanceCommand.subcommands!.find(c => c.name === 'compile')!;
+    const exported = await compile.action!({ flags: { root: sourcePath, 'mod-projection': true, revision: REVISION, output: join(root, MOD_GUIDANCE_DIR), json: true } } as never);
+    expect(exported.success).toBe(true);
+    const p = (exported.data as { projection: ReturnType<typeof projection> }).projection;
     const mod = await start(realWorld(root));
     const submitted = await prompt(mod); expect(submitted.context.join('\n')).toContain(p.bundleId);
     await mod.dispatch('tool.check', { tool: 'Read', input: { file_path: sourcePath } }, () => ({ decision: 'deny', rule: 'host' }));
     await mod.dispatch('tool.call', { tool: 'Read', tool_use_id: 'r1' }, () => ({ isError: true, result: 'fixture failure' }));
     await complete(mod); await complete(mod); await end(mod);
-    const report = await collectModCandidates(join(root, MOD_GUIDANCE_DIR, 'observations'), p.bundleId);
+    const review = guidanceCommand.subcommands!.find(c => c.name === 'mod-candidates')!;
+    const reviewed = await review.action!({ flags: { directory: join(root, MOD_GUIDANCE_DIR, 'observations'), 'bundle-id': p.bundleId, json: true } } as never);
+    expect(reviewed.success).toBe(true);
+    const report = reviewed.data as Awaited<ReturnType<typeof collectModCandidates>>;
     expect(report).toMatchObject({ observations: 1, status: 'pending-independent-verification', learningEligible: false });
     expect(report.candidates.find(c => c.ruleId === 'TEST-001')).toMatchObject({ toolErrors: 1, deniedChecks: 1 });
     const empty = await collectModCandidates(join(root, MOD_GUIDANCE_DIR, 'observations'), 'f'.repeat(64));
