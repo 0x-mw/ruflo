@@ -14,13 +14,14 @@ import {
   decide,
   firstLine,
   INSTALLED_KEY,
-  installedEntry,
+  installedEntries,
   isBeingApplied,
   isDue,
   LABEL,
   MANIFEST_URL,
   MANUAL_COMMAND,
   needsConfirmation,
+  NOTIFIED_KEY,
   PLUGIN_ID,
   MARKET,
   promptOf,
@@ -40,6 +41,8 @@ export type UpdateDeps = {
   after: Host['after']
   /** The version this session is running. */
   local: string
+  /** The folder this session works in: which project-scope installs apply to it. */
+  cwd: string
   isInteractive: boolean
   /** A development checkout (a session loaded from a git worktree) manages itself with git: it is never offered an update. */
   isDevCheckout: () => boolean
@@ -79,10 +82,11 @@ const fetched = (deps: UpdateDeps): Promise<{ ok: boolean; status: number; text:
     )
   })
 
+/** Every install that applies to this session (the user one and this project's), or null when the list could not be read. */
 async function listInstalled(deps: UpdateDeps) {
   const listed = await deps.run(['claude', 'plugin', 'list', '--json'], LIST_TIMEOUT_MS).catch(() => null)
 
-  return listed === null || listed.exitCode !== 0 ? null : installedEntry(listed.stdout)
+  return listed === null || listed.exitCode !== 0 ? null : installedEntries(listed.stdout, deps.cwd)
 }
 
 /** Installs `remote` with Claude Code's own commands, then reads back what is installed. Never throws. */
@@ -92,28 +96,36 @@ export async function applyUpdate(deps: UpdateDeps, remote: string): Promise<Upd
   try {
     const before = await listInstalled(deps)
 
-    if (before === null) return { outcome: 'failed', remote, detail: `${PLUGIN_ID} is not installed from the ruflo marketplace here (a session loaded with --plugin-dir has nothing to update)` }
+    if (before === null || before.length === 0) return { outcome: 'failed', remote, detail: `${PLUGIN_ID} is not installed from the ruflo marketplace here (a session loaded with --plugin-dir has nothing to update)` }
 
     const market = await deps.run(['claude', 'plugin', 'marketplace', 'update', MARKET], STEP_TIMEOUT_MS).catch(() => null)
 
     if (market === null || market.exitCode !== 0) return { outcome: 'failed', remote, detail: `the marketplace did not update: ${firstLine(`${market?.stderr ?? ''}\n${market?.stdout ?? ''}`) || 'no answer'}` }
 
-    // No -y and no --accept-command, ever: a marketplace-declared command is Claude Code's to confirm with a person.
-    const updated = await deps.run(['claude', 'plugin', 'update', PLUGIN_ID, '--scope', before.scope], STEP_TIMEOUT_MS).catch(() => null)
-    const output = `${updated?.stderr ?? ''}\n${updated?.stdout ?? ''}`
+    // Every install that applies here and is behind: the user copy alone is not enough when this project has its own, which is the one
+    // that loads. One that is already at `remote` is left alone (it only needs the restart).
+    const behind = before.filter(entry => bumpKind(entry.version, remote) !== null)
+    const scopes = [...new Set(behind.map(entry => entry.scope))]
 
-    if (updated !== null && updated.exitCode !== 0 && needsConfirmation(output)) return { outcome: 'failed', remote, detail: `Claude Code wants you to confirm this update itself: run \`${MANUAL_COMMAND}\` in a terminal` }
-    if (updated === null || updated.exitCode !== 0) return { outcome: 'failed', remote, detail: `claude plugin update failed: ${firstLine(output) || 'no answer'}` }
+    for (const scope of scopes) {
+      // No -y and no --accept-command, ever: a marketplace-declared command is Claude Code's to confirm with a person.
+      const updated = await deps.run(['claude', 'plugin', 'update', PLUGIN_ID, '--scope', scope], STEP_TIMEOUT_MS).catch(() => null)
+      const output = `${updated?.stderr ?? ''}\n${updated?.stdout ?? ''}`
+
+      if (updated !== null && updated.exitCode !== 0 && needsConfirmation(output)) return { outcome: 'failed', remote, detail: `Claude Code wants you to confirm this update itself: run \`${MANUAL_COMMAND}\` in a terminal` }
+      if (updated === null || updated.exitCode !== 0) return { outcome: 'failed', remote, detail: `claude plugin update (${scope} scope) failed: ${firstLine(output) || 'no answer'}` }
+    }
 
     const after = await listInstalled(deps)
+    const lagging = (after ?? []).filter(entry => bumpKind(entry.version, remote) !== null)
 
-    if (after !== null && after.version === remote) {
+    if (after !== null && after.length > 0 && lagging.length === 0) {
       await deps.set(INSTALLED_KEY, remote)
 
       return { outcome: 'installed', remote, detail: `${remote} installed: restart Claude Code, or run /reload-plugins, to load it` }
     }
 
-    return { outcome: 'unverified', remote, detail: `the update ran, but Claude Code lists ${after?.version ?? 'no version'} (expected ${remote}): check /plugin, then restart` }
+    return { outcome: 'unverified', remote, detail: `the update ran, but Claude Code lists ${(after ?? []).map(entry => `${entry.scope} ${entry.version}`).join(', ') || 'no version'} (expected ${remote}): check /plugin, then restart` }
   } finally {
     await deps.set(APPLYING_KEY, 0).catch(() => undefined)
   }
@@ -121,9 +133,10 @@ export async function applyUpdate(deps: UpdateDeps, remote: string): Promise<Upd
 
 /**
  * One check. `force` is the person's own "check now": it ignores the daily gate and an off setting (they asked), but not a development
- * checkout. Never throws: every failure is a result, and the console starts whatever happens here.
+ * checkout. `quiet` is the re-check of a session left open: it never opens a dialog mid-work, so a newer version it would have asked about
+ * is only noted (once, as a toast, and as the link to Settings), and the daily gate is left open so the next session start asks properly. Never throws: every failure is a result, and the console starts whatever happens here.
  */
-export async function checkForUpdate(deps: UpdateDeps, options: { force?: boolean } = {}): Promise<UpdateResult> {
+export async function checkForUpdate(deps: UpdateDeps, options: { force?: boolean; quiet?: boolean } = {}): Promise<UpdateResult> {
   try {
     const force = options.force === true
     const mode = deps.mode()
@@ -145,12 +158,22 @@ export async function checkForUpdate(deps: UpdateDeps, options: { force?: boolea
 
     if (remote === null) return { outcome: 'failed', detail: 'the published manifest is not one of ours' }
 
-    await deps.set(CHECKED_KEY, now)
-
     const kind = bumpKind(deps.local, remote)
+    const isQuietNote = options.quiet === true && kind !== null && decide(mode === 'off' ? 'ask' : mode, kind) === 'ask'
+
+    if (!isQuietNote) await deps.set(CHECKED_KEY, now)
 
     if (kind === null) return { outcome: 'current', remote, detail: `${deps.local} is the newest published` }
     if ((await deps.get(INSTALLED_KEY)) === remote) return skipped(`${remote} is installed: restart Claude Code to load it`)
+
+    if (isQuietNote) {
+      if ((await deps.get(NOTIFIED_KEY)) !== remote) {
+        await deps.set(NOTIFIED_KEY, remote)
+        deps.toast(`ruflo-console ${remote} is available: Settings → Updates, or restart Claude Code`, 10_000)
+      }
+
+      return { outcome: 'declined', remote, detail: `${remote} is available; Settings → Updates installs it` }
+    }
 
     // "Check now" with checks off still asks: the person asked, but off means nothing is installed without them.
     const decision = decide(mode === 'off' ? 'ask' : mode, kind)
@@ -181,6 +204,7 @@ export function updateDeps(state: State, host: Host): UpdateDeps {
     nowMs: () => Date.now(),
     after: (ms, fn) => host.after(ms, fn),
     local: CONSOLE_VERSION,
+    cwd: state.cwd,
     isInteractive: state.isInteractive,
     isDevCheckout: () => getBuild() !== '',
     mode: () => state.updates,
@@ -203,7 +227,7 @@ export function updateDeps(state: State, host: Host): UpdateDeps {
 }
 
 /** Runs a check with the real dependencies and leaves its outcome in a line for Settings. */
-export async function runUpdateCheck(state: State, host: Host, options: { force?: boolean } = {}): Promise<UpdateResult> {
+export async function runUpdateCheck(state: State, host: Host, options: { force?: boolean; quiet?: boolean } = {}): Promise<UpdateResult> {
   const result = await checkForUpdate(updateDeps(state, host), options)
 
   state.updateNote = result.detail

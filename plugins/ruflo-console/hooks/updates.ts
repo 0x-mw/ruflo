@@ -26,6 +26,10 @@ export const PLUGIN_ID = `${PLUGIN_NAME}@${MARKET}`
 export const MANIFEST_URL = 'https://raw.githubusercontent.com/ruvnet/ruflo/main/plugins/ruflo-console/.claude-plugin/plugin.json'
 /** How often a session checks (the answer is cached across sessions), and how long one session's "I am updating" holds the others off. */
 export const CHECK_EVERY_MS = 24 * 60 * 60_000
+/** A session left open re-asks on this timer; the daily gate above still decides whether the network is touched. */
+export const RECHECK_EVERY_MS = 6 * 60 * 60_000
+/** The newest version a quiet re-check already told this person about, so a long session toasts once, not every tick. */
+export const NOTIFIED_KEY = 'ruflo-console/update-notified'
 export const APPLYING_HOLD_MS = 10 * 60_000
 
 export const LABEL = { now: 'Update now', always: 'Always auto-update', later: 'Not now' } as const
@@ -98,6 +102,32 @@ export function promptOf(local: string, remote: string, kind: Bump): { question:
 }
 
 export type Installed = { version: string; scope: string }
+
+/**
+ * Every install of ours that applies to a session working in `cwd`: the user-scope one, and a project or local one whose project is
+ * `cwd` or holds it. An install for another project does not load here, so it is never touched. If none of those is found but the plugin
+ * is listed, the single entry `installedEntry` would pick stands in (an unusual layout still gets an update, not a refusal).
+ */
+export function installedEntries(listJson: string, cwd: string, id: string = PLUGIN_ID): Installed[] {
+  try {
+    const list = JSON.parse(listJson) as unknown
+
+    if (!Array.isArray(list)) return []
+
+    const ours = list.filter((entry): entry is { id: string; version?: unknown; scope?: unknown; projectPath?: unknown } => typeof entry === 'object' && entry !== null && (entry as { id?: unknown }).id === id)
+    const here = (entry: { projectPath?: unknown }) => typeof entry.projectPath === 'string' && entry.projectPath !== '' && (cwd === entry.projectPath || cwd.startsWith(`${entry.projectPath.replace(/\/+$/, '')}/`))
+    const applies = ours.filter(entry => entry.scope === 'user' || ((entry.scope === 'project' || entry.scope === 'local') && here(entry)))
+    const valid = applies.flatMap(entry => (typeof entry.version === 'string' && typeof entry.scope === 'string' ? [{ version: entry.version, scope: entry.scope }] : []))
+
+    if (valid.length > 0) return valid
+
+    const single = installedEntry(listJson, id)
+
+    return single === null ? [] : [single]
+  } catch {
+    return []
+  }
+}
 
 /**
  * Our plugin in `claude plugin list --json`: the user-scope entry if there is one, else an enabled one, else the first. Null when it is
