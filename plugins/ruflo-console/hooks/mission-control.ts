@@ -9,6 +9,7 @@
  */
 import type { ActionSpec } from './actions'
 import { PHASE_NAME, plan as planOf, stageOf, type Plan, type Profile, profileOf, type Rigor, toMissionPlan } from './goap'
+import { isCapReached } from './mission-guard'
 import type { Host } from './host'
 import { plain, type TaskRecord } from './data/parse'
 import { isAvailable, MISSION_SKILLS, slashOf, GOALS_PLUGIN } from './mission-skills'
@@ -373,6 +374,16 @@ export function advance(state: State, host: Host): void {
   const mission = activeMission(state)
 
   if (mission === null || !mission.auto || state.turnActive) return
+
+  // The spend cap (ADR-443): a reading at or past the person's cap pauses the mission instead of handing out the next task.
+  if (isCapReached(state, mission)) {
+    mission.paused = true
+    record(mission, { type: 'cap.reached', note: 'spend cap reached: auto-run paused' })
+    saveLedger(state, host)
+    host.invalidate()
+
+    return
+  }
 
   const task = nextTask(mission, state.snapshot?.tasks ?? [])
 
