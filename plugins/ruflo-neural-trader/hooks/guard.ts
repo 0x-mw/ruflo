@@ -4,7 +4,8 @@ import type { Stats } from './status'
 
 const WRITERS = new Set(['memory_store', 'agentdb_pattern-store', 'agentdb_hierarchical-store', 'agentdb_batch'])
 // Order placement on a neural-trader MCP server (`neural-trader mcp start`), however the plugin names the server.
-const ORDER = /^(?:execute|place|submit)[_-]?(?:trade|order)s?$|^live[_-]?(?:trade|order|execute)|^(?:close|cancel)[_-]?all/i
+// Covers the package's own names too: execute_trade, execute_multi_asset_trade, place_prediction_order_tool. Paper and simulated tools are not orders.
+const ORDER = /^(?!.*(?:paper|simulat|dry))(?:execute|place|submit)(?:[_-][a-z]+)*[_-]?(?:trade|order|bet)s?(?:[_-]tool)?$|^live[_-]?(?:trade|order|execute)|^(?:close|cancel)[_-]?all/i
 
 const toolOf = (name: string) => (name.startsWith('mcp__') ? name.slice(name.lastIndexOf('__') + 2) : name)
 const serverOf = (name: string) => (name.startsWith('mcp__') ? name.slice(5, name.lastIndexOf('__')) : '')

@@ -6,9 +6,9 @@ const tail = (name: string) => (name.startsWith('mcp__') ? name.slice(name.lastI
 /** Federation tools that put content in front of another installation, plus a federation-namespaced memory write. */
 const OUTBOUND = /^(?:x_federation_(?:publish|channel_publish|sync)|federation_bbs_(?:publish|sync))$/
 
-/** US SSN, and a 13-16 digit run that passes the Luhn check (a card number). */
+/** US SSN, and a 13-16 digit run that passes the Luhn check and starts with a card network digit 2-6 (a card number; a 13-digit epoch-millisecond timestamp starts with 1 and must not read as one). */
 const SSN = /\b\d{3}-\d{2}-\d{4}\b/
-const CARD = /\b(?:\d[ -]?){12,15}\d\b/g
+const CARD = /\b[2-6](?:\d[ -]?){11,14}\d\b/g
 
 function luhn(digits: string): boolean {
   let sum = 0
