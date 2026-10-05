@@ -1,7 +1,7 @@
 /** The result lines are tidied before a view draws them: ASCII tables are drawn again with aligned columns, nothing else is rewritten. */
 import { describe, expect, it } from 'vitest'
 
-import { prettyLines } from '../hooks/result-lines'
+import { plainMarkdown, prettyLines } from '../hooks/result-lines'
 
 const PASTED = [
   'Pattern Optimization (Real)',
@@ -59,5 +59,42 @@ describe('prettyLines', () => {
     const cells = new Set(PASTED.filter(line => line.startsWith('|')).flatMap(line => line.slice(1, -1).split('|').map(cell => cell.trim())))
 
     for (const line of prettyLines(PASTED).filter(row => row.startsWith('│'))) for (const cell of line.slice(1, -1).split('│').map(part => part.trim())) expect(cells.has(cell), cell).toBe(true)
+  })
+})
+
+describe('markdown in a result', () => {
+  it('draws a markdown pipe table like the CLI one, and reads the markers inside its cells', () => {
+    const out = prettyLines(['| Component | Status |', '|---|:---:|', '| **SONA** | `Active` |', '| HNSW | Available |'])
+
+    expect(out[0]).toBe('┌───────────┬───────────┐')
+    expect(out[1]).toBe('│ Component │ Status    │')
+    expect(out[2]).toBe('├───────────┼───────────┤')
+    expect(out[3]).toBe('│ SONA      │ Active    │')
+    expect(out.at(-1)).toBe('└───────────┴───────────┘')
+    expect(out.join('\n')).not.toMatch(/\*\*|`|:---/)
+  })
+
+  it('reads headings, bullets, quotes, bold, code and links as plain text', () => {
+    expect(prettyLines(['## Neural status', '', '- **SONA** is `active`', '  * nested [docs](https://example.com/a)', '> a note'])).toEqual([
+      '▸ Neural status',
+      '',
+      '• SONA is active',
+      '  • nested docs (https://example.com/a)',
+      '│ a note',
+    ])
+  })
+
+  it('shows a fenced block as it is, without the fences, and leaves single asterisks and unpaired markers alone', () => {
+    expect(prettyLines(['```json', '{ "a": **1** }', '```', 'after'])).toEqual(['{ "a": **1** }', 'after'])
+    expect(plainMarkdown('5 * 3 = 15, snake_case, a **dangling')).toBe('5 * 3 = 15, snake_case, a **dangling')
+    expect(plainMarkdown('use `npm test` and **always** [x](https://a.b)')).toBe('use npm test and always x (https://a.b)')
+  })
+
+  it('keeps a table that mixes both styles apart from the text around it', () => {
+    const out = prettyLines(['Result:', '+---+---+', '| a | b |', '+---+---+', '| 1 | 2 |', '+---+---+', '', '**done**'])
+
+    expect(out[0]).toBe('Result:')
+    expect(out.filter(line => line.startsWith('┌'))).toHaveLength(1)
+    expect(out.at(-1)).toBe('done')
   })
 })
