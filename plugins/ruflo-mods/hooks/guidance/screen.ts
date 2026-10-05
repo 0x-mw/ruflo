@@ -1,6 +1,6 @@
 /**
- * Pure text screening for the AgentDB mod (ADR-445). Two jobs: find secrets (so none is stored) and find prompt-injection phrasing (so
- * retrieved memory cannot instruct the model). Findings are NAMES only: the matched text is never returned, logged or counted by value.
+ * Pure text screening for the guidance and delivery features. Two jobs: find secrets (so none is stored or sent) and find prompt-injection phrasing (so
+ * screened text cannot instruct the model). Findings are NAMES only: the matched text is never returned, logged or counted by value.
  */
 
 const SECRETS: readonly (readonly [string, RegExp])[] = [
@@ -38,13 +38,4 @@ const names = (rules: readonly (readonly [string, RegExp])[], text: string) => r
 export function scan(text: string): Findings {
   const bounded = bare(text)
   return { secrets: names(SECRETS, bounded), injection: names(INJECTION, bounded) }
-}
-
-export const hasSecret = (text: string) => names(SECRETS, bare(text)).length > 0
-
-
-/** Makes stored text safe to show: no control or bidi characters, whitespace collapsed, at most `max` characters. */
-export function tidy(text: string, max: number): string {
-  const flat = text.replace(INVISIBLE, '').replace(/\s+/g, ' ').trim()
-  return flat.length > max ? `${flat.slice(0, Math.max(0, max - 1))}…` : flat
 }
