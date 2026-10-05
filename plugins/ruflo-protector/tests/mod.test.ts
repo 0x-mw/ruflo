@@ -43,6 +43,12 @@ describe('defaults', () => {
     expect(w.commands).toContain('protector')
     const s = json(w.files, 'status.json')
     expect(s).toMatchObject({ schemaVersion: 1, name: 'protector', mode: 'learn', calls: 0, blocked: 0, degraded: false })
+    // What the console's mod scan (ADR-446) needs to accept the file: version 1 and numeric start/update times, equal to the ADR's startedAt/updatedAt.
+    expect(s.version).toBe(1)
+    expect(typeof s.startedMs).toBe('number')
+    expect(typeof s.updatedMs).toBe('number')
+    expect(s.updatedMs).toBe(s.updatedAt)
+    expect(s.startedMs).toBe(s.startedAt)
     expect(s.baseline).toMatchObject({ state: 'learning', events: 0 })
     expect(s.alerts).toMatchObject({ open: 0, total: 0 })
     expect(typeof s.summary).toBe('string')

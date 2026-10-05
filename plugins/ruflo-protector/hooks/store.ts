@@ -52,8 +52,9 @@ export function statusText(s: Status, now: number): string {
   const o = s.alertCounts
   const summary = `Project Anatole · ${s.mode} · ${o.open} open alert${o.open === 1 ? '' : 's'} · ${s.blocked} blocked · baseline ${m.mature ? 'mature' : `learning ${m.pct}%`}${s.degraded ? ` · degraded: ${s.degraded}` : ''}`
   return `${JSON.stringify({
-    schemaVersion: 1, name: 'protector', modVersion: s.version, mode: s.mode, guard: s.mode !== 'off', calls: s.calls, blocked: s.blocked,
-    startedAt: s.startedAt, updatedAt: now, summary: summary.slice(0, 200), alerts: o,
+    // `version` and the two `*Ms` keys are what the console's mod scan (ADR-446) requires: without them the Mods page lists this file as refused.
+    schemaVersion: 1, version: 1, name: 'protector', modVersion: s.version, mode: s.mode, guard: s.mode !== 'off', calls: s.calls, blocked: s.blocked,
+    startedAt: s.startedAt, startedMs: s.startedAt, updatedAt: now, updatedMs: now, summary: summary.slice(0, 200), alerts: o,
     baseline: { state: m.mature ? 'mature' : 'learning', maturity: m.pct, events: s.baseline.events, sessions: s.baseline.sessions, firstSeenAt: s.baseline.firstSeenAt },
     rules: s.ruleCounts, degraded: s.degraded,
   }, null, 2)}\n`
