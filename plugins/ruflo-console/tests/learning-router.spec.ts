@@ -1,4 +1,4 @@
-/** The Learning page's Router block says why it is empty, flags a stale history, and does not stretch a flat curve over a handful of outcomes. */
+/** The Learning page's Router block says why it is empty, flags a stale history, and flags a stale history. */
 import { describe, expect, it } from 'vitest'
 
 import { newState } from '../hooks/state'
@@ -49,13 +49,5 @@ describe('the Router block', () => {
   it('flags an outcome history nothing has been added to for a day', () => {
     expect(lines({ owned: [], n: 9, lastMs: NOW - 8 * 86_400_000 })).toMatch(/last 8d ago · nothing recorded since/)
     expect(lines({ owned: [], n: 9, lastMs: NOW - 3_600_000 })).not.toContain('nothing recorded since')
-  })
-
-  it('shows a handful of outcomes as one cell each, not a curve, and keeps the curve for a real history', () => {
-    const few = lines({ owned: [], n: 9, lastMs: NOW, failAt: 3 })
-
-    expect(few).toContain('▇▇▇▂▇▇▇▇▇')
-    expect(few).not.toContain('running success rate of routed tasks')
-    expect(lines({ owned: [], n: 30, lastMs: NOW })).toContain('running success rate of routed tasks')
   })
 })

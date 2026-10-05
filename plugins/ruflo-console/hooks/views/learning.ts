@@ -89,12 +89,8 @@ export function learningView(ctx: Ctx): RenderElement {
         : `${outcomes.successes}/${outcomes.total} succeeded (${pct(outcomes.successes / outcomes.total)} success rate, N=${outcomes.total}) · last ${ago(lastOutcomeMs, nowMs)}${staleOutcomes ? ' · nothing recorded since' : ''}`,
       outcomes !== null && outcomes.total > 0 ? (staleOutcomes ? THEME.warn : THEME.info) : undefined,
     ),
-    // A curve needs a history: with a handful of outcomes it is a flat line stretched across the pane, so show one cell per outcome instead.
-    ...((outcomes?.points.length ?? 0) < 12
-      ? outcomes === null || outcomes.points.length === 0
-        ? []
-        : [kv(ctx, 'recent outcomes', `${outcomes.points.map(point => (point.ok ? '▇' : '▂')).join('')}  oldest left · a full cell passed, a short one failed`, THEME.ok)]
-      : [picture(ctx, 'curve', `running success rate over ${outcomes?.total ?? 0} outcomes`), text(ctx, 'running success rate of routed tasks, oldest left (router accuracy over N outcomes); new outcomes draw in', { dimColor: true })]),
+    picture(ctx, 'curve', `running success rate over ${outcomes?.total ?? 0} outcomes`),
+    text(ctx, 'running success rate of routed tasks, oldest left (router accuracy over N outcomes); new outcomes draw in', { dimColor: true }),
     kv(
       ctx,
       'model router',
