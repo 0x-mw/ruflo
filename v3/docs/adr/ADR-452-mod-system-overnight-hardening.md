@@ -51,9 +51,9 @@ Still not covered by the corpus: the policy rules of the five policy-only or obs
 
 Same class as 2.1, found by the extended probe: a work limit that returns "nothing found" is a fail-open. The rule it taught, applied in #3734: when a limit is hit, refuse. The agentdb guard already did (#3728).
 
-### 2.5 `agentTrim` hides from the listing only (#3733, merged)
+### 2.5 `agentTrim` and dispatch (#3733, merged; corrected by the measurement in the trim-measure PR)
 
-A live headless run of `ruflo-mods` 0.3.1 showed `agentTrim` removes unused agent types from the listing, not from dispatch: a hidden type could still be spawned by name. The text in the option and in the #3729 description said "listing and dispatch", which was wrong; #3733 corrects it (0.3.2, no behaviour change). Also found: a type named in the prompt is not reliably kept in a headless session, because the listing is built before the first prompt; `agentTrimKeep` is the reliable way. Interactive sessions were not tested.
+A live headless run of `ruflo-mods` 0.3.1 appeared to show that `agentTrim` removes unused agent types from the listing only and that a hidden type could still be spawned by name. **That was too broad.** The follow-up measurement (`v3/docs/validation/ruflo-mods-trim-measure-2026-10.md`) found the spawn in the first run had named the type in its prompt, which keeps it at dispatch: with trim on, a hidden type the prompt does not name is refused ("Agent type ... not found"), and one the prompt names plainly is accepted. The measured saving is 4,236 prompt tokens per request with 59 of 69 types hidden. The text in the option and in the #3729 description said "listing and dispatch", which was wrong; #3733 corrects it (0.3.2, no behaviour change). Also found: a type named in the prompt is not reliably kept in a headless session, because the listing is built before the first prompt; `agentTrimKeep` is the reliable way. Interactive sessions were not tested.
 
 ### 2.6 Version-collision hazard when merging concurrent PRs
 
