@@ -48,6 +48,10 @@ jobs:
         with:
           node-version: '20'
 
+      - name: esbuild for the guard probe (scripts/probe-mod-guards.mjs bundles each plugin guard)
+        run: |
+          npm install --prefix "$RUNNER_TEMP/esbuild" --no-audit --no-fund --no-package-lock esbuild@0.25.0
+          echo "ESBUILD=$RUNNER_TEMP/esbuild/node_modules/.bin/esbuild" >> "$GITHUB_ENV"
       - name: Discover and run every plugin smoke contract (parallel)
         # --timeout 300 caps each individual plugin smoke at 5 minutes.
         # iter 119 — bumped from 60s because ruflo-metaharness has grown
