@@ -11,6 +11,9 @@ export type ModOptions = {
   readonly statusLine: boolean
   readonly costBudgetUsd?: number
   readonly costHardStop: boolean
+  readonly toolHints: boolean
+  readonly agentTrim: boolean
+  readonly agentTrimKeep: ReadonlySet<string>
   readonly modTrust: TrustPolicy
   readonly modTrustAllow: ReadonlySet<string>
 }
@@ -35,7 +38,16 @@ export function readOptions(options: PluginOptions | undefined): ModOptions {
     statusLine: bool(o.statusLine, true),
     costBudgetUsd: budgetOf(o.costBudgetUsd),
     costHardStop: bool(o.costHardStop, false),
+    toolHints: bool(o.toolHints, false),
+    agentTrim: bool(o.agentTrim, false),
+    agentTrimKeep: keepNames(o.agentTrimKeep),
     modTrust: TRUST.includes(o.modTrust as TrustPolicy) ? (o.modTrust as TrustPolicy) : 'observe',
     modTrustAllow: names(o.modTrustAllow),
   }
+}
+
+/** Agent type names to never hide, from a comma list or a string array; lower case, plain names only. */
+function keepNames(value: unknown): ReadonlySet<string> {
+  const list = typeof value === 'string' ? value.split(',') : Array.isArray(value) ? value : []
+  return new Set(list.filter((v): v is string => typeof v === 'string').map(v => v.trim().toLowerCase()).filter(v => /^[a-z0-9._:-]{1,64}$/.test(v)))
 }

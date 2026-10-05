@@ -18,6 +18,7 @@ on:
       - 'plugins/**'
       - 'scripts/smoke-all-plugins.mjs'
       - 'scripts/audit-plugin-mcp-prefix.mjs'
+      - 'scripts/sync-mod-screen.mjs'
       - 'scripts/check-guard-tool-names.mjs'
       - 'scripts/guard-tool-names.allow.json'
       - 'v3/@claude-flow/cli/src/mcp-tools/**'
@@ -28,6 +29,7 @@ on:
       - 'plugins/**'
       - 'scripts/smoke-all-plugins.mjs'
       - 'scripts/audit-plugin-mcp-prefix.mjs'
+      - 'scripts/sync-mod-screen.mjs'
       - 'scripts/check-guard-tool-names.mjs'
       - 'scripts/guard-tool-names.allow.json'
       - 'v3/@claude-flow/cli/src/mcp-tools/**'
@@ -46,6 +48,10 @@ jobs:
         with:
           node-version: '20'
 
+      - name: esbuild for the guard probe (scripts/probe-mod-guards.mjs bundles each plugin guard)
+        run: |
+          npm install --prefix "$RUNNER_TEMP/esbuild" --no-audit --no-fund --no-package-lock esbuild@0.25.0
+          echo "ESBUILD=$RUNNER_TEMP/esbuild/node_modules/.bin/esbuild" >> "$GITHUB_ENV"
       - name: Discover and run every plugin smoke contract (parallel)
         # --timeout 300 caps each individual plugin smoke at 5 minutes.
         # iter 119 — bumped from 60s because ruflo-metaharness has grown
@@ -55,6 +61,10 @@ jobs:
         # smoke while letting the metaharness fleet finish.
         run: node scripts/smoke-all-plugins.mjs --timeout 300
 
+      - name: Mod secret screen — every copy matches the origin (ADR-445)
+        run: node scripts/sync-mod-screen.mjs --check
+        # Fails when any plugins/*/hooks/screen.ts drifted from plugins/ruflo-agentdb/hooks/screen.ts between the
+        # SHARED SCREEN markers, or when it finds no copies. Fix: node scripts/sync-mod-screen.mjs
       - name: Guard tool names exist in the registry
         run: |
           node --test tests/check-guard-tool-names.test.mjs
