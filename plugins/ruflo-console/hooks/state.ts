@@ -230,6 +230,8 @@ export type State = {
   commandNames: string[]
   /** True while the primary Claude session is running a turn (the band reports it each draw). */
   turnActive: boolean
+  /** When the person-facing turn began (the band shows how long Claude has been working), null between turns. */
+  turnStartedMs: number | null
   /** Collapsible sections the person flipped from their default (`<view>/<id>`): open ones closed, closed ones open. */
   sections: Set<string>
   /** What one-shot entry fields hold while typed (cleared on Enter), by field key. */
@@ -336,6 +338,7 @@ export function newState(raw: PluginOptions | undefined): State {
     navPick: null,
     navQuery: '',
     turnActive: false,
+    turnStartedMs: null,
     commandNames: [],
     allowed: new Map(),
     sections: new Set(),
