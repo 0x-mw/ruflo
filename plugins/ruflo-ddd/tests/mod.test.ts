@@ -121,3 +121,16 @@ describe('/ddd-mod', () => {
     expect((await $.command.run(slash('contexts'))).text).toContain('No bounded context found')
   })
 })
+
+describe('guard: the keys the ddd skills write', () => {
+  test('a domain-<context> model entry is screened like ddd-*', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    const SECRET = `ghp_${'a1B2'.repeat(10)}`
+    const store = (key: string, value: string) => call({ tool: 'mcp__plugin_ruflo-core_ruflo__memory_store', key, namespace: 'tasks', value })
+    expect(denied(await $.tool.call(store('domain-billing', `token ${SECRET}`)).then(r => r, (e: unknown) => String(e)))).toContain('secret')
+    expect(denied(await $.tool.call(store('domain-billing', 'Contexts: billing, shipping')))).toContain('went through')
+    expect(denied(await $.tool.call(store('domainless', `token ${SECRET}`)))).toContain('went through')
+  })
+})

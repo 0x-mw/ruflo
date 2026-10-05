@@ -85,3 +85,29 @@ describe('/adr-mod', () => {
     expect((await $.command.run(slash(''))).text).toContain('/adr-mod status')
   })
 })
+
+describe('guard: the writes the adr-create skill really makes', () => {
+  const P = 'mcp__plugin_ruflo-core_ruflo__'
+  const text = async (p: Promise<unknown>) => JSON.stringify(await p.then(r => r, (e: unknown) => ({ text: String(e) })))
+
+  test('hierarchical-store has no namespace field: the mem:ADR key marks the entry, and a secret in it is refused', async ($, on) => {
+    const w = world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    const denied = await text($.tool.call(({ tool: `${P}agentdb_hierarchical-store`, key: 'mem:ADR-0007', tier: 'semantic', value: JSON.stringify({ note: ghp }) }) as never))
+    expect(denied).toContain('secret')
+    expect(denied).not.toContain('ghp_')
+    expect(await text($.tool.call(({ tool: `${P}agentdb_hierarchical-store`, key: 'mem:ADR-0007', tier: 'semantic', value: '{"title":"Use HNSW"}' }) as never))).toContain('went through')
+    expect(await text($.tool.call(({ tool: `${P}agentdb_hierarchical-store`, key: 'scratch', tier: 'working', value: ghp }) as never))).toContain('went through')
+    expect(status(w.files)).toMatchObject({ blocked: 1 })
+  })
+
+  test('a causal edge between mem:ADR ids is screened', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    expect(await text($.tool.call(({ tool: `${P}agentdb_causal-edge`, sourceId: 'mem:ADR-0002', targetId: 'mem:ADR-0001', relation: ghp }) as never))).toContain('secret')
+    expect(await text($.tool.call(({ tool: `${P}agentdb_causal-edge`, sourceId: 'mem:ADR-0002', targetId: 'mem:ADR-0001', relation: 'depends-on' }) as never))).toContain('went through')
+    expect(await text($.tool.call(({ tool: `${P}agentdb_causal-edge`, sourceId: 'a', targetId: 'b', relation: ghp }) as never))).toContain('went through')
+  })
+})
