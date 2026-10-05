@@ -1,10 +1,11 @@
 import type { RenderElement } from 'claude-code'
 
-import { pendingBanner, roomFeed, SAY_IDS, SAY_LABEL, type RoomItem, type RoomSource } from '../data/room'
+import { isBlocked, pendingBanner, roomFeed, SAY_IDS, SAY_LABEL, VIEW_OF_KIND, type RoomItem, type RoomSource } from '../data/room'
 import { PENDING_TTL_MS } from '../runner'
 import { ROOM_PAGE, roomOf } from '../room'
 import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
 import { lanesOf } from './frames'
+import { VIEWS, type ViewId } from '../state'
 import { statsOf } from './manage'
 import { modsRows } from './mods'
 
@@ -24,7 +25,15 @@ export function roomShown(ctx: Pick<Ctx, 'state'>): RoomItem[] {
   const { state } = ctx
   const room = roomOf(state)
 
-  return roomFeed({ events: state.events, log: state.control.log, said: room.said, pending: state.pending, outcome: state.outcome, source: room.source, query: room.query, untilMs: room.pausedAtMs })
+  return roomFeed({ events: state.events, log: state.control.log, said: room.said, pending: state.pending, outcome: state.outcome, source: room.source, query: room.query, untilMs: room.pausedAtMs, blocked: room.blocked })
+}
+
+/** How many items the feed holds that were refused or failed, whatever the filters: the number on the blocked chip. */
+export function roomBlockedCount(ctx: Pick<Ctx, 'state'>): number {
+  const { state } = ctx
+  const room = roomOf(state)
+
+  return roomFeed({ events: state.events, log: state.control.log, said: room.said, pending: state.pending, outcome: state.outcome, source: 'all', query: '', untilMs: room.pausedAtMs }).filter(isBlocked).length
 }
 
 export const roomPages = (state: Ctx['state']): number => Math.max(1, Math.ceil(roomShown({ state }).length / ROOM_PAGE))
@@ -64,6 +73,7 @@ export function roomView(ctx: Ctx): RenderElement {
       ctx,
       [
         ...SOURCES.map(source => chip(ctx, `room-src-${source.id}`, source.label, room.source === source.id, () => ctx.act.room.source(source.id))),
+        chip(ctx, 'room-blocked', `⛔ blocked ${roomBlockedCount(ctx)}`, room.blocked, ctx.act.room.blocked),
         ctx.kit.Button({ key: 'room-pause', label: room.pausedAtMs === null ? ' ⏸ pause ' : ' ▶ resume ', ...(room.pausedAtMs === null ? { plain: true as const } : { variant: 'primary' as const }), onPress: ctx.act.room.pause }),
         ...(room.query === '' ? [] : [ctx.kit.Button({ key: 'room-clear', label: ' ✕ clear find ', plain: true, dimColor: true, onPress: () => ctx.act.room.query('') })]),
       ],
@@ -89,7 +99,13 @@ export function roomView(ctx: Ctx): RenderElement {
       ),
     )
 
-    if (isOpen) rows.push(text(ctx, `     ${item.text}  ·  ${new Date(item.atMs).toISOString()}`, { dimColor: true }))
+    if (isOpen) {
+      const target = item.kind === undefined ? undefined : VIEW_OF_KIND[item.kind]
+      const view = target === undefined ? undefined : VIEWS.find(entry => entry.id === target)
+
+      rows.push(text(ctx, `     ${item.text}  ·  ${new Date(item.atMs).toISOString()}`, { dimColor: true }))
+      rows.push(row(ctx, [text(ctx, `     ${item.source === 'event' ? `event: ${item.kind ?? 'unknown'}` : item.source === 'claude' ? 'a console action by Claude' : 'what you said'}${isBlocked(item) ? ' · refused or failed' : ''}`, { dimColor: true }), ...(view === undefined ? [] : [button(ctx, `room-jump-${item.id}`, `jump to ${view.label}`, () => ctx.act.view(view.id as ViewId))])], `room-detail-${item.id}`))
+    }
   }
 
   if (pages > 1) rows.push(row(ctx, [text(ctx, ` page ${page + 1}/${pages} `, { dimColor: true }), ...(page < pages - 1 ? [button(ctx, 'room-older', 'older ▸', () => ctx.act.room.page(1))] : []), ...(page > 0 ? [button(ctx, 'room-newer', '◂ newer', () => ctx.act.room.page(-1))] : [])], 'room-pages'))

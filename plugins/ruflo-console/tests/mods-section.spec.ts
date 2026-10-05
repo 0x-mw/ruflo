@@ -8,8 +8,9 @@ import type { ReaderFs } from '../hooks/data/files'
 import { newState } from '../hooks/state'
 import { readSnapshot } from '../hooks/data/snapshot'
 import type { Actions } from '../hooks/views/common'
+import { roomOf } from '../hooks/room'
 import { viewText } from '../hooks/views/pane'
-import { isStale, MODS_MAX_BYTES, MODS_MAX_FILES, MODS_STALE_MS, orderMods, parseModStatus, readMods, type ModRow } from '../hooks/data/mods'
+import { denyClassOf, isStale, MODS_MAX_BYTES, MODS_MAX_FILES, MODS_STALE_MS, orderMods, parseModStatus, readMods, type ModRow } from '../hooks/data/mods'
 
 const status = (extra: Record<string, unknown> = {}) => JSON.stringify({ version: 1, updatedMs: 1_000, calls: 5, blocked: 0, startedMs: 500, guard: true, ...extra })
 const row = (name: string, blocked: number, updatedMs: number | null): ModRow => ({ name, guard: true, calls: 1, blocked, updatedMs, startedMs: null })
@@ -133,5 +134,68 @@ describe('the Mods section on the pages', () => {
     expect(await draw('room', [])).toContain('No mod has written a status file')
     expect(overview).toMatch(/mods reporting\s+1 · 1 blocked something/)
     expect(overview).toContain('The Room: Mods')
+  })
+})
+
+describe('the Mods detail block', () => {
+  const NOW = 30_000_000
+  const act = new Proxy(() => undefined, { get: () => act, apply: () => undefined }) as unknown as Actions
+  const empty: ReaderFs = { read: () => Promise.reject(new Error('ENOENT')), stat: () => Promise.reject(new Error('ENOENT')), list: () => Promise.reject(new Error('ENOENT')) }
+  const draw = async (rows: ModRow[], open: string | null) => {
+    const state = newState({})
+    const snapshot = await readSnapshot(empty, new Map(), '/work', '/home/dev', {}, 0)
+
+    state.snapshot = { ...snapshot, mods: { rows: orderMods(rows), refused: 0, truncated: false } }
+    state.view = 'room'
+    roomOf(state).mod = open
+
+    return viewText({ state, nowMs: NOW, columns: 100, act }, 'room')
+  }
+
+  it('reads the optional fields and keeps only a class of the last refusal, never its text', () => {
+    const parsed = parseModStatus('docs-mod', status({ modVersion: '1.2.3', summary: 'blocks writes to .env files', lastDenied: 'read of /home/u/.ssh/id_rsa private key sk-live-123' }), 7000)
+
+    expect(parsed).toMatchObject({ modVersion: '1.2.3', summary: 'blocks writes to .env files', lastDenied: 'secret', fileMs: 7000 })
+    expect(JSON.stringify(parsed)).not.toContain('id_rsa')
+    expect(denyClassOf('a destructive delete')).toBe('destructive')
+    expect(denyClassOf('outside the project directory')).toBe('path')
+    expect(denyClassOf('xyzzy')).toBe('other')
+    expect(denyClassOf('')).toBeNull()
+    expect(denyClassOf(42)).toBeNull()
+  })
+
+  it('drops a hostile version and caps and cleans the summary', () => {
+    const parsed = parseModStatus('docs-mod', status({ modVersion: '\u001b[31m9'.repeat(5), summary: `\u001b[31mred\u202e${'x'.repeat(5000)}` }))
+
+    expect(parsed?.modVersion).toBeUndefined()
+    expect(parsed?.summary?.length).toBeLessThanOrEqual(120)
+    expect(parsed?.summary).not.toMatch(/[\u0000-\u001f\u202e]/)
+  })
+
+  it('shows nothing extra closed, and every reported field open; an unreported one says so', async () => {
+    const mod: ModRow = { ...row('docs', 3, NOW - 60_000), startedMs: NOW - 3_600_000, modVersion: '1.2.3', summary: 'blocks writes to .env files', lastDenied: 'secret', fileMs: NOW - 90_000 }
+
+    expect(await draw([mod], null)).not.toContain('last refusal')
+    expect(await draw([mod], null)).toContain('▸ docs')
+
+    const open = await draw([mod], 'docs')
+
+    expect(open).toContain('▾ docs')
+    expect(open).toMatch(/guards\s+blocks writes to .env files/)
+    expect(open).toMatch(/last refusal\s+secret: it asked for a secret or credential/)
+    expect(open).toMatch(/version\s+1.2.3/)
+    expect(open).toMatch(/file age\s+1m/)
+    expect(await draw([row('plain', 0, NOW - 1000)], 'plain')).toMatch(/guards\s+no summary reported by this mod/)
+  })
+
+  it('renders a hostile status file safely, however it was read', async () => {
+    const text = JSON.stringify({ version: 1, updatedMs: NOW, guard: true, calls: 1e308, blocked: 2, modVersion: '99'.repeat(30), summary: `\u001b[2J\u202e${'A'.repeat(9000)}`, lastDenied: '\u001b]0;pwn\u0007 token' })
+    const mod = parseModStatus('evil-mod', text, 5) as ModRow
+    const drawn = await draw([mod], 'evil')
+
+    expect(drawn).not.toMatch(/[\u0000-\u0008\u000b-\u001f\u007f\u202e]/)
+    expect(drawn).toContain('secret: it asked for a secret or credential')
+    expect(drawn).not.toContain('pwn')
+    expect(drawn.split('\n').every(line => line.length < 400)).toBe(true)
   })
 })
