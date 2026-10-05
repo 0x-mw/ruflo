@@ -110,3 +110,34 @@ describe('/rvf-mod', () => {
     expect((await $.command.run(slash(''))).text).toContain('/rvf-mod status')
   })
 })
+
+describe('guard: a write to a namespace this plugin does not own', () => {
+  const STORE = 'mcp__plugin_ruflo-core_ruflo__memory_store'
+  const put = (namespace: string | undefined, value: string) => ({ tool: STORE, key: 'k', ...(namespace === undefined ? {} : { namespace }), value }) as never
+  const text = async ($: { tool: { call: (e: never) => Promise<unknown> } }, e: never) => JSON.stringify(await attempt($.tool.call(e)))
+
+  test('is refused exactly as before, but the message neither claims the write nor echoes anything', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    const own = await text($, put('rvf-sessions', `token ${SECRET}`))
+    expect(own).toContain('ruflo-rvf')
+    expect(own).toContain('this call holds')
+    for (const ns of ['unrelated-notes', undefined, 'x'.repeat(80)]) {
+      const denied = await text($, put(ns, `token ${SECRET}`))
+      expect(denied).toContain('secret-shaped value')
+      expect(denied).toMatch(ns === undefined ? /no namespace/ : new RegExp(`targeted namespace \\\\?"${ns.slice(0, 40)}\\\\?"`))
+      expect(denied).not.toMatch(/this call holds|vector store|shared brain/)
+      expect(denied).not.toContain('ghp_')
+      expect(denied).toContain('reference')
+    }
+    expect(await text($, put('unrelated-notes', 'a plain note about indexing'))).toContain('done')
+  })
+
+  test('a secret-shaped namespace is refused and never repeated', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    const denied = await text($, put(SECRET, 'a plain note'))
+    expect(denied).toContain('secret-shaped value')
+    expect(denied).not.toContain('ghp_')
+  })
+})
