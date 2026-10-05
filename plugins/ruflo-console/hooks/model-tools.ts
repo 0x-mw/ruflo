@@ -45,17 +45,28 @@ export const TOOL_SPECS: readonly Spec[] = [
   { name: 'console_run', needs: 'read', description: 'Run a palette entry by its id (as listed by console_state), with optional text. Read-only entries run at once. Others run only if the person allowed this level, and wait for their Yes unless they chose auto-confirm; the result says which. Example: id "mission-goal", text "add a dark mode toggle".', inputSchema: { type: 'object', properties: { id: { type: 'string' }, text: { type: 'string' } }, required: ['id'] } },
 ]
 
+/**
+ * The words that put an action in a class (ADR-450). They are read from the console's own label, command and notes. Only the console's own
+ * prose (`note`, `shows`) is cleaned of what an action does NOT do; the label and the command (which carry typed text) are read as they are,
+ * so typed text can only add words, never cancel one. Matching is by stem, so "deleting", "removal" and "deletes" count. Anything it does not
+ * name stays 'write': the list is a floor, not a proof.
+ */
+const DELETE = /\b(delet|remov|kill|terminat|destr[ou]y|shut ?down|stop|reset|rollback|cancel|wip(e|ing)|purg|prun|uninstall|force|clean ?up|migrat|drop|eras|unlink|truncat|revok|discard|flush|evict|unregister|nuke|abort|shell command|runs a shell|runs your (test|code)|terminal_execute|rm -)/
+const SPEND = /\$\$|billed|costs? money|may cost|model turn|starts a (claude|codex)|spends (money|tokens|credits)|\bpaid\b|may call models|calls the anthropic api|with your (anthropic |api )?key|api key|openrouter|real (model|judge)/
+const NETWORK = /\b(network|publish|deploy|push|install|download|fetch|registry|github|npm|gcloud|upload|update|clone|join|federat|reaches|curl|https?:|ssh|webhook|slack|ipfs|pi\.ruv\.io|x\.ruv\.io|relay|peer|broadcast|sends?|sync)/
+
 /** Which class an action is, from its label, command and notes; anything unclear counts as the most dangerous class. */
 export function classOf(pending: Pick<Pending, 'label' | 'args' | 'note' | 'shows' | 'expect'>): ActionClass {
   // The console's own notes say what an action does NOT do too ("spends nothing", "not a charge", "runs no agent"): those must not count.
-  const text = `${pending.label} ${pending.args.join(' ')} ${pending.note ?? ''} ${pending.shows ?? ''}`
+  const prose = `${pending.note ?? ''} ${pending.shows ?? ''}`
     .toLowerCase()
     .replace(/\b(spends|costs|charges|bills|runs|starts|takes)\s+(nothing|no\b[^.;,]{0,30})/g, ' ')
     .replace(/\b(no|not|never|without)\s+(a\s+|an\s+)?(spend\w*|billed|charge\w*|cost\w*|model turn|ai turn|agent|credits?)\b/g, ' ')
+  const text = `${pending.label} ${pending.args.join(' ')}`.toLowerCase() + ' \u00a6 ' + prose
 
-  if (/\b(delete|remove|kill|terminate|destroy|shutdown|shut down|stop|reset|rollback|cancel|wipe|purge|prune|uninstall|force|clean ?up|migrate|drop)\b/.test(text)) return 'delete'
-  if (/\$\$|billed|costs money|model turn|starts a (claude|codex)|spends (money|tokens|credits)|\bpaid\b/.test(text)) return 'spend'
-  if (/\b(network|publish|deploy|push|install|download|fetch|registry|github|npm|gcloud|upload|update|clone|join|federat)/.test(text)) return 'network'
+  if (DELETE.test(text)) return 'delete'
+  if (SPEND.test(text)) return 'spend'
+  if (NETWORK.test(text)) return 'network'
 
   return 'write'
 }
