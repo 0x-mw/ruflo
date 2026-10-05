@@ -50,7 +50,7 @@ describe('tool.describe hints (ADR-451)', () => {
     ]) {
       expect((await $.tool.describe(ask(tool))).description).toBe('Core description.')
     }
-    for (const tool of ['mcp__claude-flow__swarm_init', 'mcp__ruflo__hooks_route']) {
+    for (const tool of ['mcp__claude-flow__swarm_init', 'mcp__ruflo__hooks_route']) {  // audit-allow: standalone-mcp-prefix (the hint also supports the standalone claude-flow server name)
       expect((await $.tool.describe(ask(tool))).description).toContain(MARK)
     }
   })
