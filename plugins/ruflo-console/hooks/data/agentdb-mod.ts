@@ -1,4 +1,4 @@
-import { jsonObject, recordOf } from './parse'
+import { jsonObject, plain, recordOf } from './parse'
 
 /** What the ruflo-agentdb mod last wrote to `.claude-flow/agentdb-mod/status.json` (ADR-445): its settings, counters and the last items it attached. */
 export type AgentdbMod = {
@@ -29,14 +29,14 @@ export function parseAgentdbMod(text: string | null): AgentdbMod | null {
   const recent = (Array.isArray(value.recent) ? value.recent : []).slice(-5).flatMap(item => {
     const r = recordOf(item)
 
-    return r !== null && typeof r.snippet === 'string' ? [{ source: typeof r.source === 'string' ? r.source.slice(0, 24) : '?', score: typeof r.score === 'number' ? r.score : null, snippet: r.snippet.slice(0, 120) }] : []
+    return r !== null && typeof r.snippet === 'string' ? [{ source: typeof r.source === 'string' ? plain(r.source, 24) : '?', score: typeof r.score === 'number' && Number.isFinite(r.score) ? r.score : null, snippet: plain(r.snippet, 120) }] : []
   })
 
   return {
     recall: value.recall === true,
     guard: value.guard === true,
-    source: typeof value.source === 'string' ? value.source.slice(0, 16) : 'auto',
-    tool: typeof value.lastTool === 'string' ? value.lastTool.slice(0, 24) : null,
+    source: typeof value.source === 'string' ? plain(value.source, 16) : 'auto',
+    tool: typeof value.lastTool === 'string' ? plain(value.lastTool, 24) : null,
     updatedMs: whole(value.updatedMs),
     attached: whole(value.attached),
     skipped: whole(value.skipped),
