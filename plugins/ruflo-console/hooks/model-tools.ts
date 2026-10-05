@@ -25,7 +25,7 @@ export const LEVELS = ['off', 'read', 'write', 'manage', 'full'] as const
 export type ControlLevel = (typeof LEVELS)[number]
 export type ControlConfirm = 'ask' | 'auto'
 /** What an action does, read from its spec; the level it needs follows. */
-export type ActionClass = 'read' | 'write' | 'network' | 'spend' | 'delete'
+export type ActionClass = 'read' | 'write' | 'network' | 'install' | 'spend' | 'delete'
 
 export const MAX_CALLS_PER_TURN = 40
 export const MAX_TEXT = 500
@@ -34,7 +34,7 @@ export const DRIVING_MS = 60_000
 const SCREEN_MAX = 3500
 const LOG_MAX = 40
 
-const NEEDS: Record<ActionClass, ControlLevel> = { read: 'read', write: 'write', network: 'manage', spend: 'full', delete: 'full' }
+const NEEDS: Record<ActionClass, ControlLevel> = { read: 'read', write: 'write', network: 'manage', install: 'full', spend: 'full', delete: 'full' }
 const rank = (level: ControlLevel): number => LEVELS.indexOf(level)
 
 type Spec = { name: string; description: string; inputSchema: Record<string, unknown>; needs: ControlLevel }
@@ -54,6 +54,8 @@ export const TOOL_SPECS: readonly Spec[] = [
  */
 const DELETE = /\b(delet|remov|kill|terminat|destr[ou]y|shut ?down|stop|reset|rollback|cancel|wip(e|ing)|purg|prun|uninstall|force|clean ?up|migrat|drop|eras|unlink|truncat|revok|discard|flush|evict|unregister|nuke|abort|shell command|runs a shell|runs your (test|code)|terminal_execute|rm -)/
 const SPEND = /\$\$|billed|costs? money|may cost|model turn|starts a (claude|codex)|spends (money|tokens|credits)|\bpaid\b|may call models|calls the anthropic api|with your (anthropic |api )?key|api key|openrouter|real (model|judge)/
+/** Code that runs with Claude Code's own access, or settings and hooks that change how it behaves: plugin and marketplace changes (ADR-450 T8). */
+const INSTALL = /\b(install\w*|marketplace|claude plugin|plugin (enable|disable|update)|enabledplugins|settings(\.local)?\.json|hooks\.json)/
 const NETWORK = /\b(network|publish|deploy|push|install|download|fetch|registry|github|npm|gcloud|upload|update|clone|join|federat|reaches|curl|https?:|ssh|webhook|slack|ipfs|pi\.ruv\.io|x\.ruv\.io|relay|peer|broadcast|sends?|sync)/
 
 /** Which class an action is, from its label, command and notes; anything unclear counts as the most dangerous class. */
@@ -67,6 +69,7 @@ export function classOf(pending: Pick<Pending, 'label' | 'args' | 'note' | 'show
 
   if (DELETE.test(text)) return 'delete'
   if (SPEND.test(text)) return 'spend'
+  if (INSTALL.test(text)) return 'install'
   if (NETWORK.test(text)) return 'network'
 
   return 'write'
@@ -97,7 +100,14 @@ export function lowerOnly(saved: { level: ControlLevel; confirm: ControlConfirm 
 }
 
 /** Classes whose effect leaves the machine, costs money or cannot be undone: they always wait for the person, whatever `modelConfirm` says (ADR-450 T8). */
-export const ALWAYS_ASK: readonly ActionClass[] = ['network', 'spend', 'delete']
+export const ALWAYS_ASK: readonly ActionClass[] = ['network', 'install', 'spend', 'delete']
+
+/**
+ * How many actions of each class Claude may put through the console in one session (ADR-450 T8). The per-turn cap bounds one turn; a /loop gets
+ * a fresh turn each time, so this one spans the session. Past it, a write action waits for the person's Yes even in auto, and an action of a
+ * class that always asks is refused, so the person is not asked again and again for the same kind of thing.
+ */
+export const SESSION_BUDGET: Record<Exclude<ActionClass, 'read'>, number> = { write: 20, network: 5, install: 2, spend: 3, delete: 3 }
 
 export type ModelToolDeps = { state: State; control: Controller }
 
@@ -206,10 +216,23 @@ async function settlePending(deps: ModelToolDeps, tool: string, id: string, aske
     return { status: 'refused', text: `"${plain(pending.label, 80)}" is a ${kind} action and control is set to "${level}" (it needs "${NEEDS[kind]}"). The person can raise it in Settings → Claude control. Nothing ran.` }
   }
 
-  if (confirmOf(ai.modelConfirm) === 'ask' || ALWAYS_ASK.includes(kind)) {
+  const budget = kind === 'read' ? Infinity : SESSION_BUDGET[kind]
+  const used = state.control.used[kind] ?? 0
+  const over = used >= budget
+
+  if (over && ALWAYS_ASK.includes(kind)) {
+    control.runner.cancel()
+    say(state, tool, `${id}: ${kind} budget used`, 'denied', pending.label)
+
+    return { status: 'refused', text: `the session budget for ${kind} actions (${budget}) is used up, so "${plain(pending.label, 80)}" was not queued. Tell the person what you wanted to do and let them do it in the console. Nothing ran.` }
+  }
+
+  state.control.used[kind] = used + 1
+
+  if (confirmOf(ai.modelConfirm) === 'ask' || ALWAYS_ASK.includes(kind) || over) {
     say(state, tool, id, 'waiting', pending.label)
 
-    return { status: 'waiting', text: `Waiting for the person to confirm in the console: "${plain(pending.label, 100)}" (${kind}). Expect: ${plain(pending.expect, 160)}. Do not repeat it; call console_state later to see the result.` }
+    return { status: 'waiting', text: `Waiting for the person to confirm in the console: "${plain(pending.label, 100)}" (${kind}${over ? `; the session budget of ${budget} auto-confirmed ${kind} actions is used up` : ''}). Expect: ${plain(pending.expect, 160)}. Do not repeat it; call console_state later to see the result.` }
   }
 
   // Mission Control reports its own actions on `last`, the rest on `outcome`: whichever moved is what happened.

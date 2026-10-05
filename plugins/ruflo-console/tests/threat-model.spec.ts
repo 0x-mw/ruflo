@@ -15,7 +15,7 @@ import { paletteEntries } from '../hooks/palette'
 import { newState } from '../hooks/state'
 
 const make = (label: string, note?: string, args: string[] = []) => ({ label, args, expect: '', ...(note !== undefined && { note }) })
-const RANK: Record<ActionClass, number> = { read: 0, write: 1, network: 2, spend: 3, delete: 3 }
+const RANK: Record<ActionClass, number> = { read: 0, write: 1, network: 2, install: 3, spend: 3, delete: 3 }
 
 describe('T1 classOf: words that name what an action does', () => {
   const corpus: [ActionClass, string, string?][] = [
