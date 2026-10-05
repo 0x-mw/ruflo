@@ -7,6 +7,7 @@ import type { RenderElement } from 'claude-code'
 
 import { HELP } from '../commands'
 import { slashFor } from '../ask-claude'
+import { askedBy } from '../data/room'
 import { launchRows } from './launch'
 import { donated, newAttention, panelOf, wrapKit } from './attention'
 import { CARD_COLUMNS, hasCards, withCards } from './card'
@@ -191,7 +192,7 @@ function footer(ctx: Ctx, isPlaced = false): RenderElement {
   const parts: RenderElement[] = []
 
   // Something is waiting for a yes or no: said here, where the keys are, wherever the confirm itself sits.
-  if (state.pending !== null && (state.pending.view === undefined || state.pending.view === state.view)) parts.push(text(ctx, `⚠ confirm needed: ${clip(state.pending.label, Math.max(20, ctx.columns - 40))} — y yes · n cancel${isPlaced ? ' (under what you clicked)' : ''}`, { bold: true, color: THEME.warn }))
+  if (state.pending !== null && (state.pending.view === undefined || state.pending.view === state.view)) parts.push(text(ctx, `⚠ confirm needed: ${clip(askedBy(state.pending) + state.pending.label, Math.max(20, ctx.columns - 40))} — y yes · n cancel${isPlaced ? ' (under what you clicked)' : ''}`, { bold: true, color: THEME.warn }))
 
   if (outcome !== null && nowMs - outcome.atMs < 90_000) {
     parts.push(

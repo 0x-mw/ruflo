@@ -9,6 +9,7 @@ import type { Register } from 'claude-code'
 
 import type { Controller } from './controller'
 import { plain } from './data/parse'
+import { askedBy } from './data/room'
 import { DEV_FIELDS } from './data/devtools'
 import { PROFILES, RIGORS } from './goap'
 import { mcOf, setResearch } from './mission-control'
@@ -153,7 +154,7 @@ function stateJson(deps: ModelToolDeps, filter: string): string {
     view: state.view,
     title: VIEWS.find(view => view.id === state.view)?.label ?? state.view,
     screen,
-    waiting: state.pending === null ? null : { label: plain(state.pending.label, 120), expect: plain(state.pending.expect, 160), note: state.pending.note === undefined ? undefined : plain(state.pending.note, 160) },
+    waiting: state.pending === null ? null : { ...(askedBy(state.pending) !== '' && { askedBy: askedBy(state.pending).replace(/: $/, '') }), label: plain(state.pending.label, 120), expect: plain(state.pending.expect, 160), note: state.pending.note === undefined ? undefined : plain(state.pending.note, 160) },
     lastResult: state.outcome === null ? null : { label: plain(state.outcome.label, 100), ok: state.outcome.ok, detail: plain(state.outcome.detail, 200), lines: (state.outcome.lines ?? []).slice(0, 12).map(line => plain(line, 160)) },
     entries,
     entryCount: all.length,
@@ -214,6 +215,10 @@ async function settlePending(deps: ModelToolDeps, tool: string, id: string, aske
   if (pending === null) return null
 
   const kind = classOf(pending)
+
+  // Claude's own ask: the row says who asked and what class it is (ADR-450 T14).
+  pending.source = 'claude'
+  if (kind !== 'read') pending.kind = kind
 
   if (!allows(level, kind)) {
     control.runner.cancel()
