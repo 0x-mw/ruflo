@@ -1,5 +1,6 @@
 import type { Register } from 'claude-code'
 
+import { registerAgents } from './agents'
 import { registerCost } from './cost'
 import { registerDescribe } from './describe'
 import { registerGuard } from './guard'
@@ -37,4 +38,5 @@ export const register: Register = (on, options) => {
   registerLearn(on, state, guidance)
   registerCost(on, state, opts)
   if (opts.toolHints) registerDescribe(on, state)
+  if (opts.agentTrim) registerAgents(on, state, opts)
 }
