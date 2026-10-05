@@ -12,6 +12,7 @@ import { alertsOf, approvalsOf } from '../data/alerts'
 import { agentLabels } from '../data/parse'
 import { secMemo } from '../secure'
 import type { State, ViewId } from '../state'
+import { sparkline } from '../memory-lines'
 import { ago, clip, type Kit } from './common'
 
 export const BAR_KEY = 'mark'
@@ -25,6 +26,27 @@ export type BarPart = { text: string; tone: 'attention' | 'live' | 'plain'; go?:
 
 /** How long an event counts as "now" on the band. */
 const FRESH_MS = 60_000
+
+/** The window of the activity sparkline: one bar per minute. */
+export const ACTIVITY_MINUTES = 10
+
+/**
+ * Tool calls per minute over the last ten minutes, oldest left, one bar a minute: how busy an unattended session has been, at a glance.
+ * Null when fewer than three calls fell in the window (a rhythm needs more than a blip). Counts only what the console observed.
+ */
+export function activityBars(events: readonly { atMs: number; kind: string }[], nowMs: number): string | null {
+  const start = nowMs - ACTIVITY_MINUTES * 60_000
+  const counts = Array.from({ length: ACTIVITY_MINUTES }, () => 0)
+  let total = 0
+
+  for (const event of events) {
+    if (event.kind !== 'tools' || event.atMs < start || event.atMs > nowMs) continue
+    counts[Math.min(ACTIVITY_MINUTES - 1, Math.floor((event.atMs - start) / 60_000))] += 1
+    total += 1
+  }
+
+  return total < 3 ? null : sparkline(counts)
+}
 
 const since = (atMs: number | undefined, nowMs: number): string => (atMs === undefined ? '' : ` ${ago(atMs, nowMs).replace(' ago', '')}`)
 
@@ -86,7 +108,9 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
 
   if (missing !== null) parts.push(missing)
 
-  // What is happening now: agents at work, the AI terminal's runs, and the newest event while it is fresh.
+  // What is happening now: how long Claude has been on this turn, agents at work, the AI terminal's runs, and the newest event while it is fresh.
+  if (state.turnActive && state.turnStartedMs !== null) parts.push({ text: `▶ Claude working${since(state.turnStartedMs, nowMs)}`, tone: 'live', go: 'events' })
+
   parts.push(...workingParts(state, nowMs))
 
   for (const [agent, run] of state.terminal.runs) parts.push({ text: `💻 ${agent} answering${since(run.startedAtMs, nowMs)}`, tone: 'live', go: 'terminal' })
@@ -107,6 +131,10 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
   // last did with it), claims held, this session's spend, what the last scan found, and a published update not yet taken.
   if (latest !== undefined && !isFresh) parts.push({ text: `${clip(latest.text, 44)} ·${since(latest.atMs, nowMs)} ago`, tone: 'plain', go: 'events', row: 'standing', compact: `${clip(latest.text, 18)} ·${since(latest.atMs, nowMs)} ago` })
 
+  const bars = activityBars(state.events, nowMs)
+
+  if (bars !== null) parts.push({ text: `${bars} tool calls, ${ACTIVITY_MINUTES}m`, tone: 'plain', go: 'events', row: 'standing', compact: bars })
+
   const claims = snap?.claims ?? []
 
   if (claims.length > 0) {
@@ -116,6 +144,13 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
   }
 
   if (state.usage?.costUsd !== undefined && state.usage.costUsd >= 0.01) parts.push({ text: `${money(state.usage.costUsd)} this session`, tone: 'plain', go: 'cost', row: 'standing', compact: money(state.usage.costUsd) })
+
+  // The context window filling: quiet until it matters, amber when it is close, with the hint that acts on it.
+  const context = state.usage?.contextPercent
+
+  if (context !== undefined && context >= 60) {
+    parts.push({ text: `ctx ${Math.round(context)}%${context >= 85 ? ' · /compact soon' : ''}`, tone: context >= 80 ? 'attention' : 'plain', go: 'cost', row: 'standing', compact: `ctx ${Math.round(context)}%` })
+  }
 
   const findings = secMemo(state).findings
   const serious = findings === null ? 0 : findings.counts.critical + findings.counts.high
@@ -173,15 +208,16 @@ export function barView(kit: Kit, state: State, columns: number, mark: RenderEle
   }
   // A row whose parts do not all fit in full uses their compact forms (a part with none keeps its words), so a part is shortened by
   // its own choice of words, not cut in the middle of one.
-  const fill = (lead: RenderElement[], room: number, shown: BarPart[], from: number): { children: RenderElement[]; room: number } => {
+  // `bare` is a row whose lead already ends in its own space (the standing row's "↳ "): its first part needs no separator before it.
+  const fill = (lead: RenderElement[], room: number, shown: BarPart[], from: number, bare = false): { children: RenderElement[]; room: number } => {
     const children = [...lead]
     const tight = shown.reduce((sum, part) => sum + part.text.length + 3, 0) > room
     const forms = shown.map(part => (tight && part.compact !== undefined ? { ...part, text: part.compact } : part))
 
     for (const [i, part] of forms.entries()) {
       if (room <= 6) break
-      children.push(sep(), partElement(part, `band-${from + i}`, room))
-      room -= part.text.length + 3
+      children.push(...(bare && i === 0 ? [] : [sep()]), partElement(part, `band-${from + i}`, room))
+      room -= part.text.length + (bare && i === 0 ? 0 : 3)
     }
 
     return { children, room }
@@ -194,7 +230,7 @@ export function barView(kit: Kit, state: State, columns: number, mark: RenderEle
   if (!state.pane.isOpen) first.children.push(kit.Text({ children: '  ' }), kit.Button({ key: 'open-console', label: 'open console', plain: true, onPress: onOpen }))
 
   // The second row: the standing facts, then the links with what room is left (a link that does not fit is dropped, not cut).
-  const second = fill([kit.Text({ color: PANEL.dim, children: '↳ ' })], inner - 2, standing, status.length)
+  const second = fill([kit.Text({ color: PANEL.dim, children: '↳ ' })], inner - 2, standing, status.length, true)
   let room = second.room
 
   for (const [i, link] of BAND_LINKS.entries()) {

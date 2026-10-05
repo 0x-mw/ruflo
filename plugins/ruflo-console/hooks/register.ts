@@ -345,6 +345,7 @@ export const register: Register = (on, raw: PluginOptions) => {
   on('turn.start', ($, e, next) => {
     // A new turn: the per-turn cap on Claude's console actions starts over.
     state.control.turnCalls = 0
+    if (e.agentId === undefined) state.turnStartedMs = Date.now()
 
     try {
       $.ui.invalidate('ui.render')
@@ -356,6 +357,7 @@ export const register: Register = (on, raw: PluginOptions) => {
   })
 
   on('turn.complete', ($, e, next) => {
+    if (e.agentId === undefined) state.turnStartedMs = null
     if (e.agentId === undefined) control?.markFrame('', false)
     if (e.agentId === undefined && host !== null) {
       try {
