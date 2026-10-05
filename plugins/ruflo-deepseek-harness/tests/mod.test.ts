@@ -82,3 +82,15 @@ describe('/deepseek-mod', () => {
   })
 
 })
+
+describe('guard: an installed copy of the scripts', () => {
+  test('a script under a plugin-cache version directory is screened like the repo path', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    const SECRET = `ghp_${'a1B2'.repeat(10)}`
+    const run = (prompt: string) => call({ tool: 'Bash', command: `node ~/.claude/plugins/cache/ruflo/ruflo-deepseek-harness/0.2.0/scripts/reason.mjs --prompt "${prompt}"` })
+    expect(denied(await $.tool.call(run(`use ${SECRET}`)).then(r => r, (e: unknown) => String(e)))).toContain('api.deepseek.com')
+    expect(denied(await $.tool.call(run('hello')))).toContain('went through')
+  })
+})

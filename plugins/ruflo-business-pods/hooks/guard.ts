@@ -5,7 +5,7 @@ export type Verdict = { readonly rule: string; readonly reason: string }
 
 const OWN = new Set(['business_pod_validate', 'business_pod_route_backend'])
 // Where credentials live: a pod template path has no business pointing at any of these.
-const SENSITIVE = /(?:^|[\\/])(?:\.env[^\\/]*|\.ssh|\.aws|\.gnupg|\.netrc|\.npmrc|id_(?:rsa|ed25519|ecdsa)|credentials(?:\.json)?|passwd|shadow)(?:$|[\\/])/i
+const SENSITIVE = /(?:^|[\\/])(?:\.env(?:\.[^\\/]*)?|\.ssh|\.aws|\.gnupg|\.netrc|\.npmrc|id_(?:rsa|ed25519|ecdsa)|credentials(?:\.json)?|passwd|shadow)(?:$|[\\/])/i
 
 /** Why a template path is refused (traversal, not .json, a credential location), or undefined. Never echoes the path. */
 export function badTemplatePath(path: string): string | undefined {
