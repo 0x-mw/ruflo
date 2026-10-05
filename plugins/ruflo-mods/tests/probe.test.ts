@@ -27,8 +27,8 @@ describe('capability probe, pure (ADR-451 item 5)', () => {
     const off = registeredEvents({ toolHints: false, agentTrim: false, deliveryScreen: false })
     expect(off).not.toContain('tool.describe')
     expect(off).toContain('tool.check')
-    expect(registeredEvents({ toolHints: true, agentTrim: true, deliveryScreen: true })).toEqual(
-      [...off, 'tool.describe', 'agent.offer', 'session.receive', 'session.send'].sort(),
+    expect(registeredEvents({ toolHints: true, agentTrim: true, deliveryScreen: true, compactCarry: true })).toEqual(
+      [...off, 'tool.describe', 'agent.offer', 'session.receive', 'session.send', 'session.compact'].sort(),
     )
   })
 })
