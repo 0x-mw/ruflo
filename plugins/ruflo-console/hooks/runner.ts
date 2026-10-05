@@ -131,10 +131,11 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
       return
     }
 
-    // A kind of action the person said never to ask about again runs now, its label saying so.
+    // A kind of action the person said never to ask about again runs now, its label saying so. That answer is the person's: an action
+    // Claude asked for (ADR-444) still goes through the pending path, where the control level and the confirm mode decide.
     const kind = rememberKey(spec)
 
-    if (kind !== null && state.allowed.has(kind)) {
+    if (kind !== null && state.allowed.has(kind) && !state.control.viaModel) {
       inflight = execute({ ...spec, label: `${spec.label} (remembered: not asked)` })
 
       return

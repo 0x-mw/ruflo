@@ -45,3 +45,25 @@ describe('a confirm after the window', () => {
     expect(state.events).toEqual([])
   })
 })
+
+describe('a remembered always-allow answer (ADR-444)', () => {
+  // The kind key of a spec with no argv/run and plain args is its first two words (hooks/remember.ts).
+  const spec = (ran: string[]) => ({ label: 'store a note', args: ['memory', 'store'], expect: 'x', note: 'writes one entry', exec: () => ran.push('ran') }) as unknown as ActionSpec
+
+  it('runs a person action at once, with no pending ask', () => {
+    const { state, runner } = fake()
+
+    state.allowed.set('memory store', 'store a note')
+    runner.ask(spec([]), 'why not')
+    expect(state.pending).toBeNull()
+  })
+
+  it('never lets an action Claude asked for skip the pending path: the control level and confirm mode decide there', () => {
+    const { state, runner } = fake()
+
+    state.allowed.set('memory store', 'store a note')
+    state.control.viaModel = true
+    runner.ask(spec([]), 'why not')
+    expect(state.pending?.label).toBe('store a note')
+  })
+})

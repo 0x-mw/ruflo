@@ -230,6 +230,8 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
 
   if (state.control.turnCalls > MAX_CALLS_PER_TURN) return refuse(name, `more than ${MAX_CALLS_PER_TURN} console actions in one turn. Summarise for the person and stop.`)
 
+  state.control.viaModel = true
+
   try {
     if (name === 'console_state') {
       say(state, name, 'read the console', 'ok')
@@ -298,6 +300,7 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
 
     return `Failed: ${plain(error instanceof Error ? error.message : 'the console action failed', 160)}`
   } finally {
+    state.control.viaModel = false
     control.host.invalidate()
   }
 }
