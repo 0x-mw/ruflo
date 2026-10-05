@@ -18,12 +18,20 @@ on:
       - 'plugins/**'
       - 'scripts/smoke-all-plugins.mjs'
       - 'scripts/audit-plugin-mcp-prefix.mjs'
+      - 'scripts/check-guard-tool-names.mjs'
+      - 'scripts/guard-tool-names.allow.json'
+      - 'v3/@claude-flow/cli/src/mcp-tools/**'
+      - 'v3/@claude-flow/cli/src/ruvector/coverage-tools.ts'
       - '.github/workflows/all-plugins-smoke.yml'
   pull_request:
     paths:
       - 'plugins/**'
       - 'scripts/smoke-all-plugins.mjs'
       - 'scripts/audit-plugin-mcp-prefix.mjs'
+      - 'scripts/check-guard-tool-names.mjs'
+      - 'scripts/guard-tool-names.allow.json'
+      - 'v3/@claude-flow/cli/src/mcp-tools/**'
+      - 'v3/@claude-flow/cli/src/ruvector/coverage-tools.ts'
       - '.github/workflows/all-plugins-smoke.yml'
   workflow_dispatch:
 
@@ -46,6 +54,14 @@ jobs:
         # still complete in <5s; 300s protects against a genuinely-hung
         # smoke while letting the metaharness fleet finish.
         run: node scripts/smoke-all-plugins.mjs --timeout 300
+
+      - name: Guard tool names exist in the registry
+        run: |
+          node --test tests/check-guard-tool-names.test.mjs
+          node scripts/check-guard-tool-names.mjs
+        # A renamed MCP tool leaves a plugin guard watching a name that no
+        # longer exists, so it silently stops guarding. Fails loud if zero
+        # names are extracted or the registry is empty.
 
       - name: Fleet-wide exit-bypass antipattern lint (iter-75 bug class)
         run: node scripts/audit-exit-bypass-antipattern.mjs
