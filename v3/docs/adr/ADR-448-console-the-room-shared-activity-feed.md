@@ -4,7 +4,7 @@ Status: Accepted (implemented in ruflo-console 0.33.0; §3.2, the expiry event, 
 
 Date: 2026 10 04
 
-Scope: `plugins/ruflo-console`: new `hooks/views/room.ts`, `hooks/data/room.ts`; edits to `hooks/state.ts` (`ViewId`, `VIEWS`, `Pending`), `hooks/views/pane.ts` (`BODIES`), `hooks/runner.ts` (`ask`), `hooks/palette.ts` (three new ids), `hooks/model-tools.ts` (`console_state` reads the new feed).
+Scope: `plugins/ruflo-console`: new `hooks/views/room.ts`, `hooks/data/room.ts`, `hooks/room.ts`; edits to `hooks/state.ts` (`ViewId`, `VIEWS`, `Pending`), `hooks/views/pane.ts` (`BODIES`), `hooks/runner.ts` (`ask`), `hooks/palette.ts` (three new ids), `hooks/model-tools.ts` (`console_state` reads the new feed).
 
 Builds on: ADR 407 (cockpit), ADR 416 (Timeline and Events — read-only, per-page), ADR 444 (Claude controls the console — the model tools and the pending-confirm contract this ADR extends).
 
@@ -61,7 +61,7 @@ An expired confirm must leave a trace. `confirm()` (`runner.ts:147-150`) gains o
 - Queuing more than one pending confirm.
 - Changing the 30 s TTL.
 - A feed entry becoming clickable the way an Events line is (ADR 416 §2.2) — likely yes, deferred to keep this ADR's diff to the merge, not new interaction.
-- Whether `room` joins `CORE_TABS` (`pane.ts:55`, the keyless-view tab set) — a design call for whoever builds it, not an architectural one.
+- Whether `room` joins `CORE_TABS` (the keyless-view tab set) — a design call for whoever builds it, not an architectural one. (Built in 0.33.0: `room` is in `CORE_TABS`, `hooks/views/pane.ts:57`.)
 
 ## 6. Consequences
 
