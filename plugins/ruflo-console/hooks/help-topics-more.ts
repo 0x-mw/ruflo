@@ -211,6 +211,7 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
       { text: 'fps sets how fast things move: 0 turns motion off, 12 is the most.' },
       { text: 'panel decides whether the cockpit opens by itself: auto, only on /ruflo, or never.' },
       { text: 'More options (how often the disk is re-read, the band above the prompt) are listed under the plugin’s options.' },
+      { text: 'Pick ruflo-mods to see its switches: budget, hard stop, tool hints, hiding unused agent types (agentTrim) and screening peer deliveries (deliveryScreen). The last three are off by default, and each change asks for your Yes.' },
     ],
     tips: ['On a slow connection or a small window, set look to plain and fps to 0.'],
     related: ['updates', 'cost'],

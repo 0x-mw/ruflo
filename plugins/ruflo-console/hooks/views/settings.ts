@@ -1,7 +1,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { catalogOf } from '../plugin-catalog'
-import { AI_BUDGETS, CLAUDE_MODELS, CORE, DEFAULT_AI, LOOP_ROWS, pluginNames, SIMPLE, settingsOf, type CoreKey, type Level, type PluginConfig } from '../settings'
+import { AI_BUDGETS, CLAUDE_MODELS, CORE, DEFAULT_AI, LOOP_ROWS, pluginNames, OPTION_NOTES, SIMPLE, settingsOf, type CoreKey, type Level, type PluginConfig } from '../settings'
 import { NAV_STYLES } from '../state'
 import { UPDATES_MODES, type UpdatesMode } from '../updates'
 import { button, clip, col, row, rule, section, text, THEME, type Ctx } from './common'
@@ -94,7 +94,7 @@ function pluginItems(ctx: Ctx, config: PluginConfig): Item[] {
         settingRows(ctx, {
           key: id,
           title: entry.title,
-          description: entry.description,
+          description: OPTION_NOTES[config.name]?.[key] ?? entry.description,
           current,
           isChanged,
           isSecret: entry.isSecret,
