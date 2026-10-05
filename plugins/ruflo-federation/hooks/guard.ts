@@ -4,7 +4,7 @@ import { hasSecret, textsOf } from './screen'
 const tail = (name: string) => (name.startsWith('mcp__') ? name.slice(name.lastIndexOf('__') + 2) : name)
 
 /** Federation tools that put content in front of another installation, plus a federation-namespaced memory write. */
-const OUTBOUND = /^(?:x_federation_(?:publish|channel_publish|sync)|federation_bbs_(?:publish|sync))$/
+const OUTBOUND = /^(?:x_federation_(?:publish|channel_publish|sync|invite_mint)|federation_bbs_(?:publish|sync))$/
 
 /** US SSN, and a 13-16 digit run that passes the Luhn check and starts with a card network digit 2-6 (a card number; a 13-digit epoch-millisecond timestamp starts with 1 and must not read as one). */
 const SSN = /\b\d{3}-\d{2}-\d{4}\b/

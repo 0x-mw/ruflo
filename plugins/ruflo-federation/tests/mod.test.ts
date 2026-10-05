@@ -45,6 +45,17 @@ describe('guard', () => {
     expect(JSON.parse(w.files.get(STATUS) ?? '{}')).toMatchObject({ version: 1, guard: true, blocked: 1 })
   })
 
+  test('x_federation_invite_mint is screened like the other outbound calls', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    const tool = 'mcp__plugin_ruflo-core_ruflo__x_federation_invite_mint'
+    const r = await $.tool.call(call({ tool, note: `token ${SECRET}` })).then(x => x, (e: unknown) => ({ text: String(e) }))
+    expect(denied(r)).toContain('ruflo-federation')
+    expect(denied(r)).not.toContain('ghp_')
+    expect(denied(await $.tool.call(call({ tool, note: 'for ops' })))).toContain('went through')
+  })
+
   test('passes clean input and tools the plugin does not own', async ($, on) => {
     world(on)
     on('tool.call', () => ({ result: 'went through' }))
