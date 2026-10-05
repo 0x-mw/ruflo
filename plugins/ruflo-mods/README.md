@@ -65,7 +65,7 @@ In a session, `/ruflo mods` (through ruflo-console's `/ruflo`) reports what the 
 - **Tool checks:** `tool.check` only tightens. It applies the dangerous-command list and ruflo policy rules that name `claude-code.*` actions (written by the CLI to `.claude-flow/policy/claude-code.json`). It never loosens a verdict.
 - **Trust gate:** `plugin.register` names what a later-installed mod can do (host commands, network, environment, tool verdicts) and, under `modTrust: refuse-risky`, refuses it unless allow-listed.
 - **`$.ruflo`:** other mods add a status segment with `$.ruflo.segment({ id, text })` instead of drawing a second bar; `lastRoute()` and `snapshot()` read what the mod measured. Contract: `types/index.d.ts`.
-- **Budget:** `session.measure` applies the cost-tracker budget ladder to live session cost (`costBudgetUsd`); `costHardStop` halts new subagents at 100%.
+- **Budget:** `session.measure` applies the cost-tracker budget ladder to live session cost (`costBudgetUsd`); Each rung is announced once per session, even if cost falls and rises again. `costHardStop` halts new subagents at 100%.
 
 The classic `hook-handler.cjs` hooks stay installed and remain the fallback. The mod takes an event only where the classic helper hands it over (`RUFLO_MODS_OWNS`), so nothing fires twice. When the mod is not loaded, every classic hook runs as before.
 
@@ -134,7 +134,7 @@ Enable the two independent options through Claude Code user settings:
 }
 ```
 
-`guidanceLearning` records observations, despite its compatibility-oriented name.
+`guidanceLearning` records observations, despite its compatibility-oriented name. A project that does not own `route` records none (it still gets `guidanceContext`). Tool ids past 256 per task are not counted; `/ruflo-mods` reports how many.
 Each registration lifetime owns a separate queue under
 `.claude-flow/mods/guidance/observations/`. Records contain generated task IDs,
 bundle digest, source revision, displayed rule IDs, permission counters, tool

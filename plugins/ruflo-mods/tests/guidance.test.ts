@@ -1,5 +1,5 @@
 import { describe, expect, test, tier } from 'claude-code/testing'
-import { prompt, ROOT, START, world } from './fixtures/world'
+import { HELPER, prompt, ROOT, START, world } from './fixtures/world'
 
 tier('user')
 
@@ -75,5 +75,36 @@ describe('guidance (ADR-447)', () => {
     await $.turn.complete(complete('t1'))
     expect(context).not.toContain('advisory guidance DATA')
     expect(queued(w.files).length).toBe(0)
+  })
+
+  test('a project that does not own routing records no observations but still gets guidance context', { options }, async ($, on) => {
+    const classic = { hooks: { UserPromptSubmit: [{ hooks: [{ command: 'node "$CLAUDE_PROJECT_DIR/.claude/helpers/hook-handler.cjs" route' }] }] } }
+    const w = world(on, classic, { [PATH]: projection(), [HELPER]: '// an older helper' })
+    let context = ''
+    on('prompt.submit', ($, e) => { context = e.context?.join('\n') ?? ''; return { text: e.text } })
+    on('tool.call', () => ({ result: 'ok' }))
+    on('turn.complete', ($, e) => ({ text: e.answer }))
+    await $.session.start(START)
+    await $.prompt.submit(prompt('Write parser tests'))
+    await $.tool.call({ tool: 'Read', file_path: 'a' })
+    await $.turn.complete(complete('t1'))
+    expect(context).toContain('TEST-001')
+    expect(queued(w.files).length).toBe(0)
+  })
+
+  test('tool ids past the per-task cap are counted and the report says how many', { options }, async ($, on) => {
+    world(on, {}, { [PATH]: projection() })
+    on('prompt.submit', ($, e) => ({ text: e.text }))
+    on('tool.call', () => ({ result: 'ok' }))
+    on('turn.complete', ($, e) => ({ text: e.answer }))
+    on('command.run', () => ({ text: 'core' }))
+    await $.session.start(START)
+    await $.prompt.submit(prompt('Write parser tests'))
+    for (let i = 0; i < 260; i++) await $.tool.call({ tool: 'Read', file_path: 'a', tool_use_id: `id${i}` } as never)
+    const text = (await $.command.run({ command: 'ruflo-mods', args: '', origin: { kind: 'composer' as const }, presentation: { isFullscreen: false, columns: 100 } })).text
+    expect(text).toMatch(/4 tool id\(s\) past the 256 cap not counted/)
+    await $.turn.complete(complete('t1'))
+    const after = (await $.command.run({ command: 'ruflo-mods', args: '', origin: { kind: 'composer' as const }, presentation: { isFullscreen: false, columns: 100 } })).text
+    expect(after).toMatch(/4 tool id\(s\) past the 256 cap not counted/)
   })
 })

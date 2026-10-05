@@ -24,6 +24,7 @@ export type ActiveTask = {
   checks: Observation['checks']
   tools: Observation['tools']
   toolIds: Set<string>
+  idsDropped: number
 }
 
 export type GuidanceState = {
@@ -34,6 +35,7 @@ export type GuidanceState = {
   pending: Observation[]
   saved: number
   dropped: number
+  idsDropped: number
   status: 'off' | 'ready' | 'missing' | 'unreadable'
   flush: Promise<void>
 }
@@ -42,7 +44,7 @@ export const OBSERVATIONS_DIR = '.claude-flow/mods/guidance/observations'
 export const MAX_OBSERVATIONS = 128
 export const MAX_QUEUE_CHARS = 256 * 1024
 
-export const guidanceState = (): GuidanceState => ({ runId: '', taskSeq: 0, seenTurns: new Set(), pending: [], saved: 0, dropped: 0, status: 'off', flush: Promise.resolve() })
+export const guidanceState = (): GuidanceState => ({ runId: '', taskSeq: 0, seenTurns: new Set(), pending: [], saved: 0, dropped: 0, idsDropped: 0, status: 'off', flush: Promise.resolve() })
 
 /** A storage namespace, never an authenticated host session identity. */
 export const newRunId = () => `mod-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}-${Math.random().toString(36).slice(2, 12)}`
@@ -65,6 +67,7 @@ export function finishTask(s: GuidanceState, completion: Observation['completion
   const active = s.active
   s.active = undefined
   if (!active) return
+  s.idsDropped += active.idsDropped
   if (s.pending.length + s.saved >= MAX_OBSERVATIONS) { s.dropped++; return }
   s.pending.push({
     version: 1, kind: 'guidance-observation', id: `${s.runId}:${active.taskId}`, runId: s.runId, taskId: active.taskId,
