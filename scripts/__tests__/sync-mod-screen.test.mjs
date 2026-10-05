@@ -10,21 +10,42 @@ const repo = join(__dirname, '..', '..');
 let root;
 const run = (...args) => spawnSync('node', [script, '--root', root, ...args], { encoding: 'utf8' });
 const copy = name => join(root, 'plugins', name, 'hooks', 'screen.ts');
+const opts = name => join(root, 'plugins', name, 'hooks', 'options.ts');
 
 beforeEach(() => {
   root = mkdtempSync(join(tmpdir(), 'sync-screen-'));
   for (const name of ['ruflo-agentdb', 'ruflo-daa', 'ruflo-music']) {
     mkdirSync(join(root, 'plugins', name, 'hooks'), { recursive: true });
     cpSync(join(repo, 'plugins', name, 'hooks', 'screen.ts'), copy(name));
+    cpSync(join(repo, 'plugins', name, 'hooks', 'options.ts'), opts(name));
   }
 });
 afterEach(() => rmSync(root, { recursive: true, force: true }));
 
 describe('sync-mod-screen', () => {
+  it('fails --check when the flag helper of a copy drifted, and write mode repairs it', () => {
+    writeFileSync(opts('ruflo-daa'), readFileSync(opts('ruflo-daa'), 'utf8').replace("=== 'on'", "=== 'yes'"));
+    const bad = run('--check');
+    expect(bad.status).toBe(1);
+    expect(bad.stderr).toContain('options.ts');
+    expect(bad.stderr).toContain('ruflo-daa');
+    expect(run().status).toBe(0);
+    expect(readFileSync(opts('ruflo-daa'), 'utf8')).toContain("=== 'on'");
+    expect(run('--check').status).toBe(0);
+  });
+
+  it('fails a copy whose options.ts lost the flag markers', () => {
+    writeFileSync(opts('ruflo-music'), 'export {}\n');
+    const r = run('--check');
+    expect(r.status).toBe(1);
+    expect(r.stderr).toContain('BEGIN SHARED FLAG');
+  });
+
   it('passes on a tree whose copies match the origin', () => {
     const r = run('--check');
     expect(r.status).toBe(0);
-    expect(r.stdout).toContain('2 copies match');
+    expect(r.stdout).toContain('screen.ts: 2 copies match');
+    expect(r.stdout).toContain('options.ts: 2 copies match');
   });
 
   it('fails --check when the shared region of a copy drifted, and write mode repairs it', () => {
