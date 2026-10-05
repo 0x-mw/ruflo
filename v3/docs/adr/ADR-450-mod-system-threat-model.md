@@ -6,7 +6,7 @@ Status: Proposed
 
 Date: 2026 10 05
 
-Builds on: ADR-404 (ruflo as a mod, trust gate), ADR-444 (Claude controls the console), ADR-445 (AgentDB as a mod), ADR-446 (39 plugin mods), ADR-447, ADR-448 (the Room)
+Builds on: ADR-404 (ruflo as a mod, trust gate), ADR-444 (Claude controls the console), ADR-445 (AgentDB as a mod), ADR-446 (39 plugin mods), ADR-447, ADR-448 (the Room); T19 added from the PR #3737 research
 
 ## 1. Why
 
@@ -191,10 +191,25 @@ Status: **fixed** (this change), **held** (attempted, no break), **open** (recom
 - Mitigation: 40 calls/turn counts reads too; log capped at 40; each reply bounded (3500-character screen, 60 entries).
 - Result: **held** for the console; the cap does not span turns (see T8).
 
+### T19. An `http.fetch` hook observes other plugins' requests and the engine's telemetry
+
+Source: the hook-surface research on PR #3737 (`v3/docs/validation/mod-hook-surface-research-2026-10.md`, branch `loop/research-hooks`, section 5), Claude Code 2.1.287. Evidence grades below are that note's.
+
+- Attack: E ships a mod whose only declared surface is a `http.fetch` hook (a name the trust gate flags at load as "makes network requests", T9). The hook runs for every `$.http.fetch` call made by any loaded plugin, and for the engine's own calls.
+- **Verified live** (two throwaway plugins, `plug-a` calling `$.http.fetch`, `plug-b` hooking it): `plug-b` saw `plug-a`'s URL, with `next.origin` = `{"plugin":"plug-a","tier":"user"}`, and the engine's analytics POST to `https://api.anthropic.com/api/event_logging/v2/batch`, with `next.origin` = `{"plugin":"cc-plugin-telemetry","tier":"builtin"}`. A test-kit run (`claude plugin test`) also saw a test-local plugin's call. So a user-tier hook identifies the caller and reads the full request URL, including query string.
+- **Inferred from the declaration file, not shown by the live test**: that the hook also receives request headers and body, and so any credential a plugin puts in an `Authorization` header or body. The research note says it saw an identifier-bearing body on the telemetry call, but the evidence it quotes is URL and origin only; treat headers and bodies as likely visible, not as demonstrated.
+- What a mod author **can** do: log or count calls per caller; read URLs; (per the declaration file) return `{ deny }` or `{ value }`, so a hook could block a plugin's request or the engine's telemetry. That is a privacy tool and a way to break a feature.
+- What a mod author **cannot** do (as verified): forge `next.origin`; the declaration file says the host sets it and a plugin writes nothing there. Not shown: any ability to see calls from a hook with a lower tier than the caller's, or to escape the fail-open rule.
+- Likelihood: **medium**. It needs the person to enable the mod, and enabled mods are exactly what the marketplace trust model vets; but the read path needs no capability beyond one declared hook. Impact: **medium to high** for URL secrets (verified); **high** for header and body credentials if the inference holds. Residual: high by design, until a call-time control exists.
+- The trust gate (T9) warns when a mod declares network use. It does not warn that the hook sees *other* plugins' traffic, and the person has no way to tell a reporting hook from an exfiltrating one.
+- Recommended mitigations (none is implemented): (1) plugin authors never put secrets in request URLs or query strings (verified exposure), and keep credentials out of anything passed to `$.http.fetch` where another channel exists; (2) review every enabled mod, including the ones installed by a plugin, and remove those that hook `http.fetch` without a stated reason; (3) install mods only from sources the marketplace trust model covers, and prefer `refuse-risky` (T9), which blocks a mod that declares network access at load; (4) the ADR-451 governor, if built, must act only on `origin.tier === "user"` and never deny a built-in origin, and must log host and count, never URL queries, headers or bodies.
+- **Not known**: whether `process.run`, `model.complete` and `telemetry.log` are equally visible to another plugin's hook (only `http.fetch` was run); whether a managed organisation's outermost hook (`sec-default`, ADR-404) changes what a user-tier hook sees; whether other builds than 2.1.287 behave the same; whether header and body content is delivered to the hook; whether the host redacts anything before the hook. This entry claims no fix; no code in this repository changes it.
+- Test: none; the evidence is a manual two-plugin run recorded in the research note, whose scratch plugins were deleted.
+
 ## 6. Decision
 
 1. Accept the fixes in this change as the first slice: truthful classes (T1), whole-sequence stripping and the wider hidden set (T3), sanitised agentdb status text (T3), a recall screen that cannot be passed with an invisible character or a fullwidth letter (T5), and `key: value` scanning in the AgentDB write guard (T6). Console 0.33.1 to 0.33.2. The AgentDB `tidy` also folds NFKC on purpose: it turns fullwidth `＜` into `<` before `frame()` replaces `<>`, which closes a frame-forgery route; the cost is that ligatures and superscripts in recalled text are shown folded.
-2. The recommendations are ranked: T8 (auto never applies to network and above; scan outgoing text), T12 (env may only lower), T6 (shared guard core, guard the six tools in the list), T1 (declared class), T9 (default refuse-risky for session-written mods), then the rest.
+2. The recommendations are ranked: T8 (auto never applies to network and above; scan outgoing text), T12 (env may only lower), T6 (shared guard core, guard the six tools in the list), T1 (declared class), T9 (default refuse-risky for session-written mods), then the rest. T19 (the `http.fetch` read path) is recorded without a fix; its mitigations are guidance for authors and reviewers.
 3. No change to the dependency pins, to the engine, or to any other plugin in this change. The AgentDB plugin source changed (screen and guard) and needs its own version bump when it is released; the console's was bumped.
 
 ## 7. Verification
