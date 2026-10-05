@@ -4,7 +4,7 @@
  */
 import { describe, expect, it } from 'vitest'
 
-import type { ReaderFs } from '../hooks/data/files'
+import { readDisk, type ReaderFs } from '../hooks/data/files'
 import { newState } from '../hooks/state'
 import { readSnapshot } from '../hooks/data/snapshot'
 import type { Actions } from '../hooks/views/common'
@@ -65,6 +65,77 @@ describe('orderMods', () => {
     const ordered = orderMods([row('b', 0, 10), row('a', 0, 10), row('z', 1, 1), row('y', 4, 1), row('n', 0, 99), row('u', 0, null)])
 
     expect(ordered.map(mod => mod.name)).toEqual(['y', 'z', 'n', 'a', 'b', 'u'])
+  })
+})
+
+describe('readMods, a status.json that is not a regular file (ADR-450 T2)', () => {
+  // Observed on the live engine: stat follows a link and reports the target's size plus isLink; read follows it, even outside the project.
+  const kinds: Record<string, { kind: string; isLink: boolean }> = { 'ok-mod': { kind: 'file', isLink: false }, 'link-mod': { kind: 'file', isLink: true }, 'fifo-mod': { kind: 'other', isLink: false }, 'dir-mod': { kind: 'dir', isLink: false } }
+
+  it('never reads a link, a FIFO or a folder named status.json, and counts each as refused', async () => {
+    const fs = fakeFs({ 'ok-mod': status(), 'link-mod': status(), 'fifo-mod': status(), 'dir-mod': status() })
+    const stat = fs.stat
+
+    fs.stat = async path => ({ ...(await stat(path)), ...kinds[path.split('/').at(-2) ?? ''] })
+
+    const mods = await readMods(fs, new Map(), '/p')
+
+    expect(mods.rows.map(r => r.name)).toEqual(['ok'])
+    expect(mods.refused).toBe(3)
+    expect(fs.reads).toEqual(['/p/.claude-flow/ok-mod/status.json'])
+  })
+
+  it('still reads when the engine says nothing about the kind', async () => {
+    const fs = fakeFs({ 'ok-mod': status() })
+
+    expect((await readMods(fs, new Map(), '/p')).rows).toHaveLength(1)
+  })
+
+  it('drops a cached copy once the path turns into a link', async () => {
+    const fs = fakeFs({ 'ok-mod': status() })
+    const cache = new Map()
+
+    expect((await readMods(fs, cache, '/p')).rows).toHaveLength(1)
+
+    const stat = fs.stat
+
+    fs.stat = async path => ({ ...(await stat(path)), isLink: true })
+
+    expect(await readMods(fs, cache, '/p')).toMatchObject({ rows: [], refused: 1 })
+  })
+})
+
+describe('readDisk, the agentdb mod status file (ADR-450 T2)', () => {
+  const FILE = '/p/.claude-flow/agentdb-mod/status.json'
+  const disk = (stat: { kind?: string; isLink?: boolean }) => {
+    const reads: string[] = []
+    const fs = {
+      stat: async (path: string) => (path === FILE ? { mtimeMs: 1, size: 20, ...stat } : undefined),
+      read: async (path: string) => { reads.push(path); return '{"version":1}' },
+      list: async () => [],
+    }
+
+    return { fs, reads }
+  }
+
+  it('never reads it when it is a link, a FIFO or a folder', async () => {
+    for (const stat of [{ kind: 'file', isLink: true }, { kind: 'other' }, { kind: 'dir' }]) {
+      const { fs, reads } = disk(stat)
+      const read = await readDisk(fs as never, new Map(), '/p', null)
+
+      expect(reads).not.toContain(FILE)
+      expect(read.project.agentdbMod).toMatchObject({ text: null })
+    }
+  })
+
+  it('reads a regular file, and a file whose kind the engine does not report', async () => {
+    for (const stat of [{ kind: 'file', isLink: false }, {}]) {
+      const { fs, reads } = disk(stat)
+
+      await readDisk(fs as never, new Map(), '/p', null)
+
+      expect(reads).toContain(FILE)
+    }
   })
 })
 

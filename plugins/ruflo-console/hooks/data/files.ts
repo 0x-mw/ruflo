@@ -10,7 +10,7 @@
 /** The `$.fs` calls a reader makes; each may reject. */
 export type ReaderFs = {
   read: (path: string) => Promise<string>
-  stat: (path: string) => Promise<{ mtimeMs?: number; size?: number } | undefined>
+  stat: (path: string) => Promise<{ mtimeMs?: number; size?: number; kind?: string; isLink?: boolean } | undefined>
   list: (path: string) => Promise<readonly { name: string; kind?: string; size?: number; mtimeMs?: number }[]>
 }
 
@@ -51,7 +51,7 @@ export const FEDERATION_DIR = '.claude-flow/federation'
 export const NOSTR_KEY = '.ruflo/nostr.key'
 
 /** What one read came to: the text, or why there is none. */
-export type Read = { text: string; mtimeMs: number } | { text: null; reason: 'missing' | 'too-large' | 'refused'; size?: number }
+export type Read = { text: string; mtimeMs: number } | { text: null; reason: 'missing' | 'too-large' | 'refused' | 'not-regular'; size?: number }
 
 /** The text of each file as last read, by path, with the mtime and size it was read at. */
 export type ReadCache = Map<string, { mtimeMs: number; size: number; text: string } | { missingUntilMs: number }>
@@ -59,9 +59,12 @@ export type ReadCache = Map<string, { mtimeMs: number; size: number; text: strin
 /** A path found missing is not stat-ed again for this long: a file ruflo creates shows up within it. */
 export const MISSING_RECHECK_MS = 10_000
 
-/** Reads one file, unless its mtime and size match what was read last; stats first, so a huge file is never read. */
-export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string, max = READ_MAX): Promise<Read> {
-  let stat: { mtimeMs?: number; size?: number } | undefined
+/**
+ * Reads one file, unless its mtime and size match what was read last; stats first, so a huge file is never read. With `regularOnly`, a path the
+ * engine's stat reports as a link (it follows links and reads their target, even outside the project) or as anything but a file is never read.
+ */
+export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string, max = READ_MAX, regularOnly = false): Promise<Read> {
+  let stat: Awaited<ReturnType<ReaderFs['stat']>>
 
   const before = cache.get(path)
 
@@ -75,6 +78,12 @@ export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string, 
     cache.set(path, { missingUntilMs: Date.now() + MISSING_RECHECK_MS })
 
     return { text: null, reason: 'missing' }
+  }
+
+  if (regularOnly && (stat?.isLink === true || (stat?.kind !== undefined && stat.kind !== 'file'))) {
+    cache.delete(path)
+
+    return { text: null, reason: 'not-regular' }
   }
 
   const mtimeMs = stat?.mtimeMs ?? -1
@@ -119,7 +128,8 @@ export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home
   const homeKeys = Object.keys(HOME) as (keyof typeof HOME)[]
   const missingHome: Read = { text: null, reason: 'missing' }
   const [projectReads, homeReads, federationNodes, hasNostrKey] = await Promise.all([
-    Promise.all(projectKeys.map(key => readBounded(fs, cache, under(cwd, PROJECT[key])))),
+    // ADR-450 T2: the one mod status file read here must be a regular file, like the per-plugin ones in readMods.
+    Promise.all(projectKeys.map(key => readBounded(fs, cache, under(cwd, PROJECT[key]), READ_MAX, key === 'agentdbMod'))),
     Promise.all(homeKeys.map(key => (configDir === null ? Promise.resolve(missingHome) : readBounded(fs, cache, under(configDir, HOME[key]))))),
     fs
       .list(under(cwd, FEDERATION_DIR))
