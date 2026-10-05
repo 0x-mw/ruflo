@@ -134,6 +134,33 @@ describe('register', () => {
     expect((await $.tool.check({ tool: 'Read', input: { file_path: 'a.ts' } })).decision).toBe('ask')
   })
 
+  test('tool.check: a legacy or unknown-mode projection is unreadable, so the call asks; the report names the state (ADR-450 T10)', async ($, on) => {
+    const PATH = `${ROOT}/.claude-flow/policy/claude-code.json`
+    const rule = { id: 'no-push', effect: 'deny', actions: ['claude-code.tool.Bash'], resources: ['git push*'] }
+    const mk = (mode: unknown) => JSON.stringify({ version: 1, mode, rules: [rule] })
+    const w = world(on, {}, { [PATH]: mk('enforce') })
+    on('tool.check', () => ({ decision: 'allow' }))
+    on('command.run', () => ({ text: 'core' }))
+    await $.session.start(START)
+    const read = { tool: 'Read', input: { file_path: 'a.ts' } }
+    const report = async () => ((await $.command.run({ command: 'ruflo-mods', args: '', origin: { kind: 'composer' }, presentation: { isFullscreen: false, columns: 100 } })).text ?? '')
+
+    expect((await $.tool.check(read)).decision).toBe('allow')
+    expect(await report()).toContain('policy:      enforce (projection read)')
+
+    for (const bad of ['legacy', 'LEGACY', 'off', '', null, 7, ['enforce'], {}]) {
+      w.files.set(PATH, mk(bad))
+      const out = await $.tool.check(read)
+      expect(out.decision).toBe('ask')
+      expect(out.reason).toContain('unreadable')
+      expect(await report()).toContain('policy:      unreadable')
+    }
+
+    w.files.set(PATH, mk('observe'))
+    expect((await $.tool.check(read)).decision).toBe('allow')
+    expect(await report()).toContain('policy:      observe (projection read)')
+  })
+
   test('records a finished edit once per turn, in the classic pending-insights format', async ($, on) => {
     const w = world(on)
     on('tool.call', () => ({ result: 'edited' }))

@@ -27,7 +27,7 @@ export type ModState = {
   edits: EditRecord[]
   guidance: GuidanceState
   editCount: number
-  policy: 'none' | 'legacy' | 'observe' | 'enforce' | 'unreadable'
+  policy: 'none' | 'observe' | 'enforce' | 'unreadable'
   /** The research run (marker startedAt) whose first web call was already put to the person. */
   researchAsked?: string
   budget: { level: BudgetLevel; usd?: number; limit?: number }
@@ -125,7 +125,7 @@ export function statusText(s: ModState): string | undefined {
       parts.push(s.lastRoute.matched ? `${s.lastRoute.agent} ${pct}%` : `no route (${pct}%)`)
     }
     if (s.editCount) parts.push(`${s.editCount} edit${s.editCount === 1 ? '' : 's'}`)
-    if (s.policy !== 'none' && s.policy !== 'legacy') parts.push(`policy ${s.policy}`)
+    if (s.policy !== 'none') parts.push(`policy ${s.policy}`)
     if (s.tightened) parts.push(`${s.tightened} tightened`)
     if (s.budget.limit !== undefined && s.budget.level !== 'OK') parts.push(`budget ${s.budget.level}`)
   }
@@ -135,6 +135,10 @@ export function statusText(s: ModState): string | undefined {
 
 /** Redraws the status line from the state. */
 export const redraw = (s: ModState) => s.draw(statusText(s))
+
+/** The projection state as a short fixed phrase; `unreadable` covers a hand-written legacy or unknown mode. */
+const policyWord = (p: ModState['policy']) =>
+  p === 'none' ? 'none' : p === 'unreadable' ? 'unreadable (rejected: calls ask)' : `${p} (projection read)`
 
 /** What `/ruflo-mods` prints. */
 export function report(s: ModState): string {
@@ -151,7 +155,7 @@ export function report(s: ModState): string {
     `  owns:        ${[...s.owned].join(', ') || 'nothing (classic hooks keep every event)'}`,
     `  routed:      ${s.routed} prompt(s); last ${route}`,
     `  edits:       ${s.editCount} recorded, ${s.edits.length} pending write`,
-    `  policy:      ${s.policy}; ${s.tightened} call(s) tightened, ${s.observed} observed`,
+    `  policy:      ${policyWord(s.policy)}; ${s.tightened} call(s) tightened, ${s.observed} observed`,
     `  budget:      ${budget}`,
     `  tool hints:  ${s.toolHints.enabled ? `${s.toolHints.described.size} tool(s) described` : 'off (set the toolHints option)'}`,
     `  agent trim:  ${s.agentTrim.enabled ? `${s.agentTrim.hidden.size} type(s) hidden` : 'off (set the agentTrim option)'}`,
