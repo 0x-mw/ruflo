@@ -83,6 +83,7 @@ Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].opt
 | `statusLine` | `true` | One-line ruflo status. Skipped where the ruflo statusLine helper is configured |
 | `costBudgetUsd` | `0` (off) | Session budget for the ladder |
 | `costHardStop` | `false` | Refuse new subagents at 100% of budget |
+| `deliveryScreen` | `false` | In-process screen (ADR-451): drops peer or relay deliveries that carry injection phrasing, refuses outgoing messages that carry a secret shape. Never screens your own Remote Control prompts; names the rule, never the text |
 | `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate |
 | `modTrustAllow` | `` | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses |
 
