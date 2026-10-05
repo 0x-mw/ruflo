@@ -102,3 +102,13 @@ describe('status file and command', () => {
     expect((await $.command.run(slash('what is this'))).text).toContain('/bbs-mod status')
   })
 })
+
+describe('guard: every spelling of all interfaces', () => {
+  test('0, 0.0, 00.0.0.0, 0x0.0.0.0, ::0 and the long IPv6 zero form are wildcards; ::1 and a tailnet address are not', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    const serve = (bindHost: string) => attempt($.tool.call({ tool: T('serve'), bindHost, port: 7777 } as never))
+    for (const h of ['0', '0.0', '00.0.0.0', '0x0.0.0.0', '::0', '0:0:0:0:0:0:0:0', '0000:0000:0000:0000:0000:0000:0000:0000', '[::]']) expect(await serve(h)).toContain('every interface')
+    for (const h of ['::1', '127.0.0.1', '100.64.0.1', '10.0.0.0']) expect(await serve(h)).toContain('stored')
+  })
+})
