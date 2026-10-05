@@ -36,6 +36,12 @@ export function saidStatus(said: Said, pending: Pending, outcome: Outcome): { te
   return { text: 'not confirmed', tone: 'info' }
 }
 
+/** The page an event kind belongs on, for the feed's jump; kinds with no page of their own have none. */
+export const VIEW_OF_KIND: Readonly<Record<string, string>> = { swarm: 'swarm', claims: 'claims', learning: 'learning', mods: 'plugins', missions: 'missions', federation: 'federation' }
+
+/** Refused or failed: Claude's console actions the control log marked denied or error, and events that say something was denied. */
+export const isBlocked = (item: RoomItem): boolean => (item.source === 'claude' ? item.tone === 'bad' : item.source === 'event' && /denied/i.test(item.text))
+
 export type FeedInput = {
   events: readonly ConsoleEvent[]
   log: readonly ControlEntry[]
@@ -44,6 +50,8 @@ export type FeedInput = {
   outcome: Outcome
   source: 'all' | RoomSource
   query: string
+  /** Only what was refused or failed (see isBlocked). */
+  blocked?: boolean
   /** The newest time shown: set while paused so the tail holds still. */
   untilMs: number | null
 }
@@ -69,7 +77,9 @@ export function roomFeed(input: FeedInput): RoomItem[] {
   const query = input.query.trim().toLowerCase()
   const kept = query === '' ? out : out.filter(item => item.text.toLowerCase().includes(query) || item.who.includes(query))
 
-  return kept.sort((a, b) => b.atMs - a.atMs).slice(0, ROOM_MAX)
+  const shown = input.blocked === true ? kept.filter(isBlocked) : kept
+
+  return shown.sort((a, b) => b.atMs - a.atMs).slice(0, ROOM_MAX)
 }
 
 /** The banner for the one pending confirm: what, what it expects, where it was raised and how much of the window is left. */

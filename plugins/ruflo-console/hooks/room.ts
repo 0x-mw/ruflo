@@ -8,7 +8,7 @@ import type { State } from './state'
 
 export const ROOM_PAGE = 12
 
-export type RoomState = { draft: string; said: Said[]; source: 'all' | RoomSource; query: string; pausedAtMs: number | null; page: number; open: string | null }
+export type RoomState = { draft: string; said: Said[]; source: 'all' | RoomSource; query: string; pausedAtMs: number | null; page: number; open: string | null; blocked: boolean; mod: string | null }
 
 const states = new WeakMap<State, RoomState>()
 
@@ -16,7 +16,7 @@ export function roomOf(state: State): RoomState {
   let found = states.get(state)
 
   if (found === undefined) {
-    found = { draft: '', said: [], source: 'all', query: '', pausedAtMs: null, page: 0, open: null }
+    found = { draft: '', said: [], source: 'all', query: '', pausedAtMs: null, page: 0, open: null, blocked: false, mod: null }
     states.set(state, found)
   }
 
@@ -32,6 +32,10 @@ export type RoomActions = {
   pause: () => void
   page: (by: number) => void
   open: (id: string) => void
+  /** Shows only what was refused or failed. */
+  blocked: () => void
+  /** Opens or closes one mod's detail block. */
+  mod: (name: string) => void
 }
 
 export function roomActions(state: State, invalidate: () => void, run: (id: string, text: string) => boolean, pageCount: () => number): RoomActions {
@@ -78,6 +82,15 @@ export function roomActions(state: State, invalidate: () => void, run: (id: stri
     },
     open: id => {
       room.open = room.open === id ? null : id
+      invalidate()
+    },
+    blocked: () => {
+      room.blocked = !room.blocked
+      room.page = 0
+      invalidate()
+    },
+    mod: name => {
+      room.mod = room.mod === name ? null : plain(name, 48)
       invalidate()
     },
   }
