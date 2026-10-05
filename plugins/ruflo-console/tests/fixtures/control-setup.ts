@@ -13,7 +13,7 @@ export function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Re
 
   Object.assign(settingsOf(state).ai, { modelControl: level, modelConfirm: confirm })
 
-  const catalog = { 'mission-open': { label: 'open Mission Control', readOnly: true }, 'mission-create': { label: 'create the mission and its tasks' }, 'mission-cancel': { label: 'cancel the mission and its open tasks' }, 'plugin-install': { label: 'install a plugin', note: 'network: clones it from GitHub' }, 'hand-task': { label: 'hand task t1 to Claude', note: 'Starts a Claude Code turn (billed as any turn is)' }, ...entries }
+  const catalog = { 'mission-open': { label: 'open Mission Control', readOnly: true }, 'mission-create': { label: 'create the mission and its tasks' }, 'mission-cancel': { label: 'cancel the mission and its open tasks' }, 'plugin-install': { label: 'install a plugin', note: 'network: clones it from GitHub' }, 'x-publish': { label: 'publish a note to x.ruv.io', note: 'network: sends it to the relay' }, 'hand-task': { label: 'hand task t1 to Claude', note: 'Starts a Claude Code turn (billed as any turn is)' }, ...entries }
   const control = {
     host: { invalidate: () => undefined, after: (_ms: number, fn: () => void) => ({ cancel: () => calls.timers.splice(calls.timers.indexOf(fn), 1), fire: fn, ...(calls.timers.push(fn) && {}) }) },
     setView: (view: string) => void calls.setView.push(view),
