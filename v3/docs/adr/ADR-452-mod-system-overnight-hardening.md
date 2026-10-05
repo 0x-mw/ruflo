@@ -1,6 +1,6 @@
 # ADR 452: Mod-system overnight hardening: what was found, what changed, what is still open
 
-Status: Accepted (a record of work already merged; #3733 and #3734 were still open when this was written)
+Status: Accepted (a record of work already merged; #3734 was still open when this was written; #3733 merged afterwards)
 
 Date: 2026-10-05
 
@@ -51,7 +51,7 @@ Still not covered by the corpus: the policy rules of the five policy-only or obs
 
 Same class as 2.1, found by the extended probe: a work limit that returns "nothing found" is a fail-open. The rule it taught, applied in #3734: when a limit is hit, refuse. The agentdb guard already did (#3728).
 
-### 2.5 `agentTrim` hides from the listing only (#3733, open)
+### 2.5 `agentTrim` hides from the listing only (#3733, merged)
 
 A live headless run of `ruflo-mods` 0.3.1 showed `agentTrim` removes unused agent types from the listing, not from dispatch: a hidden type could still be spawned by name. The text in the option and in the #3729 description said "listing and dispatch", which was wrong; #3733 corrects it (0.3.2, no behaviour change). Also found: a type named in the prompt is not reliably kept in a headless session, because the listing is built before the first prompt; `agentTrimKeep` is the reliable way. Interactive sessions were not tested.
 
@@ -65,7 +65,7 @@ Two kits are now vendored from `ruflo-agentdb` into the other plugins between ma
 
 ## 3. Still open
 
-- **#3734** and **#3733** are open; the 32-entry known-holes baseline and the wrong `agentTrim` wording stand until they merge.
+- **#3734** is open; the 32-entry known-holes baseline stands until it merges. #3733 merged and corrected the `agentTrim` wording (ruflo-mods 0.3.2).
 - Policy-only guards, captured host input, the iot Bash path and the advisory encodings are not probed (2.1).
 - ADR-450's remaining T8 controls (session budget per class, plugin-install as full, default confirm ask) are separate work (#3727 says so).
 - The probe report's generated tables still show the pre-fix 820 failures; regenerate with `--report <tmp>` and splice.
