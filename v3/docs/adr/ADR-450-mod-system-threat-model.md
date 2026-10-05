@@ -126,6 +126,7 @@ Status: **fixed** (this change), **held** (attempted, no break), **open** (recom
 - Is the per-turn cap enough? No. It bounds one turn; a `/loop` or any long task gets 40 per turn without limit, and the cap says nothing about class (40 `x-publish` calls fit).
 - Recommended control: (1) `auto` must not apply to `network` and above: those always ask, whatever `modelConfirm` says; (2) run the `text` of every publishing/broadcast entry through the secret screen (`aidefence_has_pii` / the 9 patterns) and refuse; (3) a session-total budget of non-read actions per class (for example 5 network, 0 spend without ask); (4) `plugin-install`, `marketplace`, anything that writes settings or hooks becomes `full`; (5) default `modelConfirm` to `ask`.
 - Test: not added (needs a product decision); T1 now makes the classes truthful, which is what any of these controls rests on.
+- **Update (console 0.33.4): controls (1) and (2) are implemented.** `settlePending` (`model-tools.ts`) leaves `network`, `spend` and `delete` actions waiting for the person whatever `modelConfirm` is; `console_set` values and `console_run` text are refused when `hooks/screen.ts` (the shared screen) finds a secret, raw or cleaned. Tests: `tests/control-guards.spec.ts` (every class x confirm x level; a secret refused for set and run; clean text still runs). Controls (3) to (5) stay open.
 
 ### T9. Malicious or compromised plugin or mod
 
@@ -152,6 +153,7 @@ Status: **fixed** (this change), **held** (attempted, no break), **open** (recom
 - Attack: A commits `.claude/settings.json` with `env: {"RUFLO_CONSOLE_CONTROL": "full:auto"}`.
 - Mechanism: `register.ts:212` reads `$.env.get('RUFLO_CONSOLE_CONTROL')` and uses it in place of the saved setting. Whether Claude Code puts project-settings `env` into what `$.env` returns is engine behaviour. **Unverified; if it does, a repository can turn Claude's console control to `full` with auto-confirm** as soon as the person trusts the folder.
 - Recommended control: the override may only lower the saved level (and may force `ask`), never raise it; the e2e scripts pass a saved setting instead.
+- **Update (console 0.33.4): fixed.** `lowerOnly` (`model-tools.ts`), applied in `register.ts`, takes the lower level and `ask` if either side says ask. Tested for every saved x env pair in `tests/control-guards.spec.ts`.
 
 ### T13. `runById` fuzzy fallback
 

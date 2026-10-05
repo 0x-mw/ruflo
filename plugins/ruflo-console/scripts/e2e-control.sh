@@ -7,7 +7,8 @@
 # and exits 0, so CI can run it everywhere. Live, it copies ~/.claude/.credentials.json into an isolated CLAUDE_CONFIG_DIR (never the
 # real ~/.claude) and shreds it on exit, as e2e.sh does. The project is a throwaway folder; nothing in the repo is written.
 #
-# Runs, each a separate Claude session with RUFLO_CONSOLE_CONTROL set as shown:
+# Runs, each a separate Claude session whose SAVED control setting is the one shown (RUFLO_CONSOLE_CONTROL can only lower a saved level, so it
+# cannot turn control on; the script seeds the isolated config's plugin store instead):
 #   A  (unset)      control is off: the console's tools do not exist for the model
 #   B  read         it can read and open pages; filling a field is refused with the level it needs
 #   C  write:auto   it opens Missions, sets a goal (the console plans it) and runs mission-create: Claude's own call confirms it
@@ -42,7 +43,9 @@ TOOLS="mcp__ruflo-console__console_state,mcp__ruflo-console__console_open,mcp__r
 # run NAME CONTROL PROMPT: one headless session; the transcript (stream-json) lands in $OUT/NAME.jsonl.
 run() {
   local name="$1" control="$2" prompt="$3"
-  (cd "$PROJECT" && env ${control:+RUFLO_CONSOLE_CONTROL="$control"} CLAUDE_CONFIG_DIR="$CFG" timeout 240 "$CLAUDE" -p --model haiku --max-budget-usd 0.50 \
+  mkdir -p "$CFG/plugins/store"
+  node -e 'const [level, confirm] = (process.argv[1] || "off:auto").split(":"); require("node:fs").writeFileSync(process.argv[2], JSON.stringify({ "ai-prefs": { modelControl: level, modelConfirm: confirm || "auto" } }))' "$control" "$CFG/plugins/store/ruflo-console_inline-b43d4e31bb1a.json"
+  (cd "$PROJECT" && env CLAUDE_CONFIG_DIR="$CFG" timeout 240 "$CLAUDE" -p --model haiku --max-budget-usd 0.50 \
     --plugin-dir "$PLUGIN" --allowedTools "$TOOLS" --disallowedTools Bash,Write,Edit,NotebookEdit --output-format stream-json --verbose --debug-file "$OUT/$name.log" "$prompt" </dev/null >"$OUT/$name.jsonl" 2>"$OUT/$name.err")
 }
 
