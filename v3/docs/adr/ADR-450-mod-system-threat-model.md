@@ -1,12 +1,14 @@
 # ADR 450: Threat model of the mod system (console control, guards, recall, status files)
 
-Status: Proposed
+Status: Proposed; first slice and recommendations T1 (partly), T6, T8, T12 implemented, T19 recorded without a fix; T9 and the default confirm mode await a human decision. See section 9.
 
 > **Integration note (loop, 2026-10-05).** The worker's commit also changed `ruflo-agentdb/hooks/screen.ts` (wider hidden set + NFKC fold, T3/T5) and `guard.ts` (scan keys, T7) with `ruflo-agentdb/tests/threat.test.ts`. Those files were rebased onto the canonical shared screen (#3711/#3715/guard-hardening) and are **not** in this change; where the ADR says an agentdb fix exists, read it as 'pending in the follow-up'. The guard-hardening branch's shared `textsOf` already scans keys and the soft-hyphen/bidi-isolate/Mongolian set. This change ships the console fixes (T1 truthful classes incl. `dt-term-exec` -> `full`, T3 whole-sequence ANSI/OSC stripping and the wider hidden set in `plain()`, sanitised agentdb status text) and the model-tool spec `threat-model.spec.ts`.
 
 Date: 2026 10 05
 
 Builds on: ADR-404 (ruflo as a mod, trust gate), ADR-444 (Claude controls the console), ADR-445 (AgentDB as a mod), ADR-446 (39 plugin mods), ADR-447, ADR-448 (the Room); T19 added from the PR #3737 research
+
+Related: ADR-449 (guidance learning loop), ADR-451 (capability roadmap; its item 4 governor must respect T19), ADR-452 (overnight hardening record)
 
 ## 1. Why
 
@@ -232,3 +234,33 @@ for (const p of readdirSync('plugins')) { const h = join('plugins', p, 'hooks');
 const bearing = [...reg].filter(n => /(_store|_save|_set|_import|_publish|_send|_broadcast|_execute|_eval|_fill|_type|_create|_exec$|_prompt|_tool$|_write|_update|_learn|_remember|_post|_message|_invite|_grant|_ingest|_add|_record)/.test(n))
 console.log(bearing.filter(n => !watched.has(n)).sort().join(' '))
 ```
+
+## 9. Implementation status (checked 2026-10-05 against `origin/main`)
+
+Sections 1-8 are left as written; this section records what happened after. The decisions in section 6 did not change. Every PR below was confirmed MERGED with `gh pr view`. "Verified" means I read the code on `origin/main` or the merged PR title; anything else says so. Current versions: console 0.33.11, agentdb 0.4.6.
+
+| T | Recommendation (short) | Status | PR / evidence |
+|---|---|---|---|
+| T1 | Truthful action classes; a declared `class` per spec | **Partly done.** `classOf` hardened and the shell-run entries fixed. A declared `class` on each `ActionSpec` is **open**: `classOf` in `model-tools.ts` still infers from label, args and note. | #3717 (0.33.3); verified by reading `model-tools.ts` |
+| T2 | `lstat`, refuse non-regular status files | Open (not verified: no `lstat` in `plugins/ruflo-console/hooks`) | none |
+| T3 | Whole-sequence ANSI/OSC stripping, wider hidden set in `plain()`; sanitised agentdb status text | Done for the console | #3717 (per the ADR's own integration note; not re-run) |
+| T4 | `--flag=value` and a `--` before positional text | **Partly.** Several entries (for example `vec-workers-dispatch`, `vec-hooks-route`) pass `--` before the text; a whole-palette audit was not done (not verified) | verified in `data/vector.ts` |
+| T5 | Recall poisoning: invisible-character and fullwidth folding, provenance, threshold | **Open.** The integration note says the agentdb screen change was not merged with #3717, and `NFKC` appears nowhere under the agentdb, mods or console hooks on `main` (grep). Recall is still lowest-authority only by framing. | none |
+| T6 | One shared guard core; guard the six unwatched tools; fail closed | **Done.** One screen source with a drift check; `browser_fill`, `browser_type`, `x_federation_invite_mint`, `config_import`, `memory_import`, `session_import` now named by guards (verified in `hooks/` of five plugins); truncation fails closed; `memory_import` reads the file it points at, failing open past a size bound. The "known holes" count went 32 to 0. Split-across-calls secrets are still not caught (the guards are stateless). | #3711, #3715, #3706 (tool-name CI check), #3727, #3734, #3745, #3764 |
+| T7 | Conformance test that no `additionalContext` source reads `.claude-flow/*-mod/` | Open (no such test found; not verified) | none |
+| T8 | `auto` never applies to network and above; secret screen on outgoing text; per-session budgets; install class | **Done.** Auto-confirm never answers network, spend or delete; the secret screen runs on text Claude passes; install action class and per-session budgets per class | #3720 (0.33.4), #3730 (0.33.5) |
+| T9 | Default `refuse-risky` for session-written mods | **Human decision, not changed.** `modTrust` still defaults to `observe` (verified in `ruflo-mods` `plugin.json`). Listing mods admitted before the gate is open. | none |
+| T10 | Read the policy projection only from user scope or require a signature | Open | none |
+| T11 | Per-session nonce in status files | Open | none |
+| T12 | Environment override may only lower control | **Done.** `lowerOnly` in `ruflo-console/hooks/register.ts` | #3720 |
+| T13 | Exact id for model calls; fuzzy only for people | Open: `runById` still falls back to `filterPalette` (verified in `runner.ts`) | none |
+| T14 | Confirmation prompt shows class and level before the quoted payload | Open (not verified) | none |
+| T15 | Provenance tag on model-written memory; drop from recall unless promoted | Open (grep found no provenance marker in agentdb hooks) | none |
+| T16 | Room as a command channel | Held at review time, no change needed | n/a |
+| T17 | Pending slot and take-over | Held at review time, no change needed | n/a |
+| T18 | Denial of service by the model | Held for the console; the cap does not span turns (see T8's per-session budgets) | n/a |
+| T19 | `http.fetch` hook sees other plugins' requests | **Recorded, no fix**, by design of the entry. ADR-451 item 4's governor is not built. | #3737 (research), #3740 (this entry) |
+
+**Human decisions still open.** (1) Whether `modelConfirm` should default to `ask`: `DEFAULT_AI` in `ruflo-console/hooks/settings.ts` still has `modelConfirm: 'auto'`, with `modelControl: 'off'` so it matters only after the person raises control; T8's always-ask classes bound it. (2) Whether T9's default becomes `refuse-risky`.
+
+**Not verified:** the regression-test counts in section 7 were not re-run for this update; no code or test result was re-measured here, only PR state and the files named above.

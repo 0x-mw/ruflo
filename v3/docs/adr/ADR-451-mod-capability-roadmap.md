@@ -1,10 +1,12 @@
 # ADR 451: Mod capability roadmap: what the Claude Code mod API can do that ruflo does not use yet
 
-Status: Proposed
+Status: Proposed; items 1-3 and 5-7 implemented (ruflo-mods 0.3.9), all default off; items 4, 8, 9, 10 not built. See section 8.
 
 Date: 2026-10-04
 
 Builds on: ADR-404 (ruflo as a mod), ADR-445 (AgentDB as a mod), ADR-446 (the plugin fleet as mods), ADR-447 (guidance observation loop)
+
+Related: ADR-449 (guidance learning loop), ADR-450 (mod-system threat model; its T19 is the risk item 4 must respect), ADR-452 (overnight hardening record)
 
 Evidence: `v3/docs/validation/mod-api-coverage-2026-10.md` (the full coverage table)
 
@@ -267,3 +269,31 @@ lists `tool.describe{tool=/^mcp__(?:plugin_ruflo-core_ruflo|claude-flow|ruflo)__
   renamed, like the string-matched guards ADR-446 notes. Mitigation: item 5's doctor, and a test that
   every hint key exists in the CLI's tool registry (not written).
 - This ADR changes no default and enables nothing.
+
+## 8. Implementation status (checked 2026-10-05 against `origin/main`)
+
+This section records what shipped; sections 1-7 are left as written on 2026-10-04 (so "item 1 is prototyped in this change; the rest are not started" in section 2 describes that day, not today). No decision above changed. Every PR below was confirmed MERGED with `gh pr view`; versions are `plugins/ruflo-mods/.claude-plugin/plugin.json` on `origin/main` (now 0.3.9) and the commit that first set each option.
+
+| # | Item | Option | Shipped | PR | First in | Default | Evidence |
+|---|---|---|---|---|---|---|---|
+| 1 | `tool.describe` hints | `toolHints` | yes | #3716 | 0.3.0 | off | Live: `ruflo-mods-live-2026-10.md` section 1 (hint seen under the 2 asked-about tools, none under an untabled tool; status `6 tool(s) described`). The section 3 A/B (15-point gain in correct first choice, at most 1% more input tokens) was **not run**, so the item is shipped but its stop rule is unevaluated. |
+| 2 | `agent.offer` trim | `agentTrim` (+ `agentTrimKeep`) | yes | #3729; live fixes #3733, text #3761 | 0.3.1 (wording 0.3.2, 0.3.6) | off | Live: `ruflo-mods-live-2026-10.md` section 2; measured saving: `ruflo-mods-trim-measure-2026-10.md` (#3760). |
+| 3 | `session.receive` / `session.send` screens | `deliveryScreen` | yes | #3741 | 0.3.3 | off | Unit tests (`tests/delivery.test.ts`) and the plugin smoke. No live headless run is recorded on `main`, and the 50 + 50 fixture corpus with its 90% / 2% thresholds in section 3 is not recorded here either (not verified). |
+| 4 | Call-time capability governor | none | **no** | none | none | n/a | The two-plugin feasibility test was run for ADR-450 T19 (#3737, #3740): a user-tier hook saw another plugin's `http.fetch` calls. No governor code exists. T19 constrains it: act only on `origin.tier === "user"`, never deny a built-in origin, log host and count only. |
+| 5 | Capability probe | `capabilityProbe` | yes | #3763 | 0.3.7 (0.3.6 went to the #3761 wording fix) | off | Unit tests (`tests/probe.test.ts`) and the plugin smoke, which asserts the probe hook never denies or rewrites. No live run recorded. The CI diff of event names against a manifest (section 4, point 3) is **not** built. |
+| 6 | `session.end` rollup ledger | `sessionRollup` | yes | #3766 | 0.3.8 | off | Unit tests (`tests/rollup.test.ts`). As built: counters only, last 50 sessions, under 32 KB, user-global (the design said a 200-entry ring in `$.store`); the kill -9 test in section 3 is not recorded (not verified). |
+| 7 | `session.compact` carry | `compactCarry` (design name `compactKeep`) | yes | #3768 | 0.3.9 | off | Unit tests (`tests/compact.test.ts`). The canary-swarm-id /compact check in section 3 is not recorded (not verified). |
+| 8 | `turn.step` downshift | none | **no** | none | none | n/a | Not started. |
+| 9 | `$.model.classify` route fallback | none | **no** | none | none | n/a | Not started. |
+| 10 | `$.agent.register` lanes, hash-pinned trust | none | **no** | none | none | n/a | Not started; the feasibility question (no Node in the mod environment) is still open. |
+
+### What the measurements say
+
+- **`agentTrim` saving (measured, `ruflo-mods-trim-measure-2026-10.md`):** 4,236 prompt tokens per request, about 18% of that session's prompt, with 59 of 69 agent types hidden (about 72 tokens per hidden type; haiku, one catalogue, 3 repetitions, spread 139 tokens off and 44 on). That clears the 3,000-token bar in section 3 item 2. The 20-task replay with zero failed `Agent` dispatches was **not** run.
+- **Corrected dispatch behaviour (same doc):** an unused type the prompt does not name is **refused at dispatch**, as the design in item 2 says. The earlier live note (`ruflo-mods-live-2026-10.md`, claim 1) that "a hidden type still spawns by name" is right only when the spawn prompt names the type (the `isKept` prompt-name rule keeps it at dispatch). In a headless session a prompt-named type is not added back to the listing, so `agentTrimKeep` is the reliable way to keep one. The option text was corrected in 0.3.2 and 0.3.6; behaviour never changed.
+- **Latency:** `mod-hook-latency-2026-10.md` (measured before items 3-7 existed) found about 18-21 microseconds per unrelated `tool.call` across the 40 plugins that register one. It does not cover the later options.
+- **Other validation docs on `main`:** `ruflo-mods-live-paths-2026-10.md` (routing, the deny list, the `session.json` heartbeat and `/ruflo-mods`, all proven live) covers the base mod, not the options above.
+
+### Still open from sections 4 and 7
+
+The event-name CI diff, the check that every hint key exists in the CLI tool registry, and the A/B for item 1 are not built or run.
