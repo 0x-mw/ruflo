@@ -226,6 +226,24 @@ describe('a field that raises its own follow-up (a goal is planned, then guidanc
   })
 })
 
+describe('a persons remembered always-allow is not Claudes pass (ADR-444)', () => {
+  it('marks the console as driven by the model for the whole tool call, and clears it after (even on a refusal)', async () => {
+    const seen: boolean[] = []
+    const { deps, state } = setup('write', 'auto', { 'mission-create': { label: 'create the mission and its tasks' } })
+    const run = deps.control.runner.runById
+
+    deps.control.runner.runById = (id: string, text: string) => (seen.push(state.control.viaModel), run(id, text))
+    await callTool('console_run', { id: 'mission-create' }, deps)
+    expect(seen).toEqual([true])
+    expect(state.control.viaModel).toBe(false)
+
+    const off = setup('read', 'auto')
+
+    await callTool('console_run', { id: 'mission-create' }, off.deps)
+    expect(off.state.control.viaModel).toBe(false)
+  })
+})
+
 describe('guidance while Claude drives', () => {
   it('is not offered (no second billed turn) for a goal Claude entered, and is offered again once it stops driving', async () => {
     const { deps, state } = setup('write', 'auto')
