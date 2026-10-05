@@ -24,7 +24,22 @@ export type PluginConfig = { pluginId: string; name: string; schema: Record<stri
 /** Which options a first-time person sees. Anything not listed is advanced; a plugin not listed shows its first four. */
 export const SIMPLE: Record<string, readonly string[]> = {
   'ruflo-console': ['look', 'boot', 'panel', 'fps'],
-  'ruflo-mods': ['costBudgetUsd', 'costHardStop', 'statusLine'],
+  'ruflo-mods': ['costBudgetUsd', 'costHardStop', 'statusLine', 'toolHints', 'agentTrim', 'agentTrimKeep', 'deliveryScreen'],
+}
+
+/**
+ * One honest line per ruflo-mods option the plugin's own long description is too wide for. It replaces the description on screen only: the
+ * value, its choices and how it is changed all still come from the plugin's schema, and a change is the same confirm-gated
+ * `claude plugin configure` as any other option (so it is the same safety class: it waits for the person's Yes, and Claude's console tools
+ * cannot change it below their install level).
+ */
+export const OPTION_NOTES: Record<string, Record<string, string>> = {
+  'ruflo-mods': {
+    toolHints: 'one short static usage hint on a few ruflo tools, from your CLAUDE.md; default off',
+    agentTrim: 'about 4,000 fewer prompt tokens measured; a hidden type the prompt does not name is refused when spawned',
+    agentTrimKeep: 'comma-separated agent types agentTrim must never hide',
+    deliveryScreen: 'default off; screening tuned on a small test set, real-world rate unknown',
+  },
 }
 
 /** ruflo's own configuration: key, how it is edited, and who sees it. */

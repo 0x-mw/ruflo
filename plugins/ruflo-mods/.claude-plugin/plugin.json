@@ -89,6 +89,13 @@
       "required": false,
       "default": false
     },
+    "sessionRollup": {
+      "type": "boolean",
+      "title": "Session rollup ledger",
+      "description": "At session end, append one record of counters (tools called, routed, tightened, denied, agent spawns, cost rung, probe count) to a capped user-global ledger (last 50 sessions, under 32 KB) and show the last few in /ruflo-mods. Never stores prompt text, tool inputs, paths or file contents. Observability only: never denies, rewrites or delays anything. Off by default.",
+      "required": false,
+      "default": false
+    },
     "modTrust": {
       "type": "string",
       "title": "Mod trust gate",

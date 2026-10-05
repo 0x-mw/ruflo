@@ -2,6 +2,8 @@ import type { BudgetLevel } from './cost/budget'
 import type { EditRecord } from './learn/insights'
 import { guidanceState, type GuidanceState } from './guidance/observations'
 import type { Ownable } from './ownership'
+import { rollupState, type RollupState } from './rollup'
+import { ledgerLines } from './rollup/record'
 import { probeLine, probeState, type ProbeState } from './probe'
 import type { RouteResult } from './route/route-task'
 
@@ -39,6 +41,8 @@ export type ModState = {
   compact: { enabled: boolean; carried: number }
   /** Capability probe (ADR-451 item 5): engine version and which registered events fired. */
   probe: ProbeState
+  /** Session rollup (ADR-451 item 6): counters for the `$.store` ledger written at session end. */
+  rollup: RollupState
   /** Other mods' status segments, by id (`$.ruflo.segment`). */
   segments: Map<string, string>
   /**
@@ -66,6 +70,7 @@ export function createState(): ModState {
     delivery: { enabled: false, consumed: 0, blocked: 0 },
     compact: { enabled: false, carried: 0 },
     probe: probeState(),
+    rollup: rollupState(),
     segments: new Map(),
     draw: () => undefined,
   }
@@ -153,6 +158,7 @@ export function report(s: ModState): string {
     `  delivery:    ${s.delivery.enabled ? `${s.delivery.consumed} dropped, ${s.delivery.blocked} refused` : 'off (set the deliveryScreen option)'}`,
     `  compact:     ${s.compact.enabled ? `${s.compact.carried} compaction(s) carried a block` : 'off (set the compactCarry option)'}`,
     `  probe:       ${probeLine(s.probe)}`,
+    `  sessions:    ${s.rollup.enabled ? ledgerLines(s.rollup.recent).join('\n               ') : 'off (set the sessionRollup option)'}`,
     `  segments:    ${segments.join(', ') || 'none'}`,
     `  guidance:    ${s.guidance.status}; ${s.guidance.saved} unverified observation(s), ${s.guidance.pending.length} pending, ${s.guidance.dropped} dropped`,
   ]
