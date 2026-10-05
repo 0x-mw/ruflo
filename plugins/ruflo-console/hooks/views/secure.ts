@@ -6,6 +6,7 @@ import { spinAt } from '../spinner'
 import { sentryRows } from './sentries'
 import { anatoleMeterLine, anatoleSection } from './anatole'
 import { ago, button, clip, col, type Ctx, row, rule, section, tagChip, text, THEME } from './common'
+import { frameResult } from './status-card'
 
 /** Result lines in view at once; j/k scroll the rest. */
 export const RESULT_ROWS = 14
@@ -88,7 +89,7 @@ export function resultRows(ctx: Ctx, isMine: (id: string) => boolean): RenderEle
   if (result === null) {
     if (running === null) rows.push(text(ctx, ' ▸ run an entry: a $0 read shows here at once; the rest show here after you confirm (y)', { dimColor: true }))
 
-    return rows
+    return [frameResult(ctx, rows, running !== null ? 'run' : 'idle')]
   }
 
   rows.push(text(ctx, ` ${result.label}`, { bold: true, color: result.ok ? THEME.ok : THEME.bad }))
@@ -115,7 +116,7 @@ export function resultRows(ctx: Ctx, isMine: (id: string) => boolean): RenderEle
 
   rows.push(sendResultRow(ctx, 'result-send'))
 
-  return slot(ctx, rows)
+  return slot(ctx, [frameResult(ctx, rows, result.ok ? 'ok' : 'bad')])
 }
 
 const SEVERITY_COLOR: Record<Severity, () => string> = { critical: () => THEME.bad, high: () => THEME.bad, medium: () => THEME.warn, low: () => THEME.info }
