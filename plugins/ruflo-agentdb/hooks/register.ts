@@ -3,6 +3,7 @@ import type { Hook, Register } from 'claude-code'
 import { answer } from './command'
 import { expandTruncated } from './expand'
 import { verdict } from './guard'
+import { importPath, importVerdict, isImport, readImport } from './import'
 import { readOptions, type ModOptions } from './options'
 import { cacheKey, frame, keywords, parse, screen, worthRecalling } from './recall'
 import { tidy } from './screen'
@@ -40,6 +41,18 @@ async function flush($: Dollar, s: Session): Promise<void> {
   } catch {
     /* the status file is a courtesy */
   }
+}
+
+/**
+ * Best-effort extra layer for `memory_import`, whose input is only a path: reads the file (bounded, regular, under the project root or home) and screens it.
+ * Undefined, so the import proceeds, on any path, stat or read problem.
+ */
+async function importRefusal($: Dollar, s: Session, input: unknown): Promise<string | undefined> {
+  const home = await $.env.get('HOME').catch(() => undefined)
+  const path = importPath(input, s.root, home)
+  if (path === undefined) return undefined
+  const text = await readImport({ stat: p => $.fs.stat(p), read: p => $.fs.read(p) }, path)
+  return text === undefined ? undefined : importVerdict(text)
 }
 
 /** One memory's full text through `memory_retrieve`; undefined on any failure (the cut text is then kept). */
@@ -170,7 +183,7 @@ export const register: Register = (on, options) => {
 
   if (s.opts.guard) {
     on('tool.call', async ($, e, next) => {
-      const reason = verdict(e.tool, e)
+      const reason = verdict(e.tool, e) ?? (isImport(e.tool) ? await importRefusal($, s, e) : undefined)
       if (reason === undefined) return next(e)
       s.stats.blocked++
       await flush($, s)
