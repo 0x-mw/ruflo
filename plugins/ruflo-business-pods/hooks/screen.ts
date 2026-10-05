@@ -35,8 +35,12 @@ export const INJECTION: Rules = [
   ['shell pipe', /\b(?:curl|wget)\b[^|\n]{0,200}\|\s*(?:sudo\s+)?(?:ba|z)?sh\b/i],
 ]
 
-// C0/C1 controls (keeping tab and newline), DEL, zero-width and bidi override characters; built with escapes, never raw.
-const INVISIBLE = new RegExp('[\\u0000-\\u0008\\u000b-\\u001f\\u007f-\\u009f\\u200b-\\u200f\\u2028-\\u202e\\u2060-\\u2064\\ufeff]', 'g')
+// C0/C1 controls (keeping tab and newline), DEL, soft hyphen, combining grapheme joiner, Arabic letter mark, Hangul and Mongolian fillers/separators,
+// zero-width, bidi (overrides and isolates) and invisible-format characters, variation selectors; built with escapes, never raw.
+const INVISIBLE = new RegExp(
+  '[\\u0000-\\u0008\\u000b-\\u001f\\u007f-\\u009f\\u00ad\\u034f\\u061c\\u115f\\u1160\\u17b4\\u17b5\\u180b-\\u180e\\u200b-\\u200f\\u2028-\\u202e\\u2060-\\u206f\\u3164\\ufe00-\\ufe0f\\ufeff\\uffa0\\ufff9-\\ufffb]',
+  'g',
+)
 
 /** Longest input scanned in one pass; a longer one keeps its head and tail halves. One regex pass per rule, so cost stays linear. */
 const MAX_SCAN = 200_000
@@ -158,6 +162,70 @@ export function tidy(text: string, max: number): string {
   const flat = text.replace(INVISIBLE, '').replace(/\s+/g, ' ').trim()
   return flat.length > max ? `${flat.slice(0, Math.max(0, max - 1))}…` : flat
 }
+/** Bounds for textsOf: nodes visited, characters returned, the longest string read in full, the size of one returned chunk, chunk overlap. */
+export type TextLimits = { readonly nodes?: number; readonly chars?: number; readonly perString?: number }
+const NODES = 20_000
+const CHARS = 2_000_000
+const PER_STRING = 1_500_000
+const OVERLAP = 2_048
+const BARE_KEY_MIN = 8
+
+/** A string as texts the screen can read whole: one text up to MAX_SCAN, else overlapping MAX_SCAN windows so a secret anywhere is inside one. */
+function windows(text: string, out: string[]): void {
+  if (text.length <= MAX_SCAN) {
+    out.push(text)
+    return
+  }
+  for (let at = 0; ; at += MAX_SCAN - OVERLAP) {
+    out.push(text.slice(at, at + MAX_SCAN))
+    if (at + MAX_SCAN >= text.length) return
+  }
+}
+
+/**
+ * Every string in a tool input, for the screen to read: iterative (no recursion, so nesting 5000 deep cannot overflow the stack) and
+ * breadth-first (siblings before depth, so a long list cannot hide a nested value). A string under an object key comes back as `key=value`,
+ * so a secret-named key is judged with its value; a key whose value is not a string is returned bare. Strings longer than the screen window
+ * come back as overlapping windows; one over `perString` keeps its head and tail. Work is bounded by `nodes` slots and `chars` characters.
+ */
+export function textsOf(input: unknown, limits: TextLimits = {}): string[] {
+  const out: string[] = []
+  let slots = limits.nodes ?? NODES
+  let chars = limits.chars ?? CHARS
+  const perString = limits.perString ?? PER_STRING
+  const take = (text: string): void => {
+    if (chars <= 0) return
+    if (text.length <= Math.min(perString, chars)) {
+      chars -= text.length
+      windows(text, out)
+      return
+    }
+    const half = Math.floor(Math.min(perString, chars) / 2)
+    chars -= 2 * half
+    windows(text.slice(0, half), out)
+    windows(text.slice(-half), out)
+  }
+  const queue: unknown[] = [input]
+  for (let head = 0; head < queue.length && chars > 0; head++) {
+    const node = queue[head]
+    if (typeof node === 'string') take(node)
+    else if (Array.isArray(node)) {
+      for (let i = 0; i < node.length && slots > 0; i++, slots--) if (i in node) queue.push(node[i])
+    } else if (typeof node === 'object' && node !== null) {
+      for (const k in node) {
+        if (slots-- <= 0) break
+        if (!Object.prototype.hasOwnProperty.call(node, k)) continue
+        const v = (node as Record<string, unknown>)[k]
+        if (typeof v === 'string') queue.push(k + '=' + v)
+        else {
+          if (k.length >= BARE_KEY_MIN) take(k)
+          queue.push(v)
+        }
+      }
+    }
+  }
+  return out
+}
 // END SHARED SCREEN
 
 const SECRETS: Rules = [
@@ -170,18 +238,6 @@ const SECRETS: Rules = [
 export const secretsIn = (text: string): string[] => names(SECRETS, bare(text))
 
 export const hasSecret = (text: string) => hasSecretIn(SECRETS, text)
-
-/** Every string in a tool's input, to a bounded depth and size: what the guard reads. */
-export function textsOf(input: unknown, budget = { left: 20_000 }, depth = 0): string[] {
-  if (budget.left <= 0 || depth > 6) return []
-  if (typeof input === 'string') {
-    budget.left -= input.length
-    return [input]
-  }
-  if (Array.isArray(input)) return input.slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  if (typeof input === 'object' && input !== null) return Object.values(input).slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  return []
-}
 
 const CRED_KEY = /^(?:pass(?:word|wd)?|secret(?:_?key)?|api_?key|(?:access_?|auth_?|bearer_?)?token|private_?key|nsec|authorization|credentials?)$/i
 
