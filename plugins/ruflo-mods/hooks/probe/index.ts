@@ -32,11 +32,12 @@ const MAX_LINE = 240
  */
 const ALWAYS = ['agent.spawn', 'command.run', 'engine.create', 'plugin.register', 'prompt.submit', 'session.end', 'session.measure', 'session.start', 'tool.call', 'tool.check', 'turn.complete'] as const
 
-export function registeredEvents(opts: Pick<ModOptions, 'toolHints' | 'agentTrim' | 'deliveryScreen'>): string[] {
+export function registeredEvents(opts: Pick<ModOptions, 'toolHints' | 'agentTrim' | 'deliveryScreen'> & Partial<Pick<ModOptions, 'compactCarry'>>): string[] {
   const names: string[] = [...ALWAYS]
   if (opts.toolHints) names.push('tool.describe')
   if (opts.agentTrim) names.push('agent.offer')
   if (opts.deliveryScreen) names.push('session.receive', 'session.send')
+  if (opts.compactCarry) names.push('session.compact')
   return names.sort()
 }
 
