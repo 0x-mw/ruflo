@@ -57,7 +57,7 @@
     "agentTrim": {
       "type": "boolean",
       "title": "Hide unused agent types",
-      "description": "Keep agent types the project does not use out of the model's agent listing and dispatch, to save prompt tokens. Always kept: built-in agents, coder, reviewer, tester, planner, researcher, any type used in the last 30 days, any named in the prompt or in agentTrimKeep. Off by default.",
+      "description": "Keep agent types the project does not use out of the model's agent listing, to save prompt tokens (measured about 4,000 fewer per request with 59 of 69 types hidden). A hidden type the prompt does not name is also refused when spawned. Always kept: built-in agents, coder, reviewer, tester, planner, researcher, any type used in the last 30 days, any in agentTrimKeep. A type named in the prompt can still be spawned, but in a headless session it is not added back to the listing: use agentTrimKeep to keep one reliably. Off by default.",
       "required": false,
       "default": false
     },
