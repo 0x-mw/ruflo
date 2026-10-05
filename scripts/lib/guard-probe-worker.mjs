@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url'
 import { performance } from 'node:perf_hooks'
 import { ALL_SECRETS, BENIGN, SECRET_TYPES, evasionProbes, stressProbes } from './guard-probe-corpus.mjs'
 
-const { bundle, tools, servers, extra, fast, skip, budgetMs } = workerData
+const { bundle, tools, servers, extra, fast, skip, budgetMs, advisoryMs } = workerData
 const done = new Set(skip)
 const send = m => parentPort.postMessage(m)
 
@@ -104,22 +104,30 @@ for (const probe of stressProbes(big)) {
   const payload = probe.build()
   let worst = 0
   const bad = []
+  const slow = []
   for (const t of timing) {
     const input = t.make(payload)
-    let best = Infinity
-    let err
-    for (let i = 0; i < reps; i++) {
-      const r = call(t.tool, input)
-      if (r.err) { err = r.err; best = Math.min(best, r.ms); break }
-      best = Math.min(best, r.ms)
-      if (best * 2 < budgetMs) break // clearly inside the budget: re-measure only the calls that are near it
+    const label = `${bareOf(t.tool)}${t.ns ? `[${t.ns}]` : ''}`
+    const median = inp => {
+      const ms = []
+      for (let i = 0; i < reps; i++) {
+        const r = call(t.tool, inp)
+        if (r.err) return { err: r.err, ms: r.ms }
+        ms.push(r.ms)
+      }
+      return { ms: ms.sort((x, y) => x - y)[1] }
     }
-    if (best > worst) worst = best
-    if (err) bad.push(`${bareOf(t.tool)}${t.ns ? `[${t.ns}]` : ''} threw ${err}`)
-    else if (best > budgetMs) bad.push(`${bareOf(t.tool)}${t.ns ? `[${t.ns}]` : ''} ${best.toFixed(0)}ms`)
-    if (bad.length >= 3) break // three offenders prove the point; do not sweep every shape of a guard that is slow everywhere
+    const m = median(input)
+    if (m.err) { bad.push(`${label} threw ${m.err}`); worst = Math.max(worst, m.ms); if (bad.length >= 3) break; continue }
+    worst = Math.max(worst, m.ms)
+    if (m.ms > budgetMs) bad.push(`${label} ${m.ms.toFixed(0)}ms (median of ${reps}, hang gate ${budgetMs}ms)`)
+    else if (m.ms > advisoryMs) {
+      const base = median(t.make('a')).ms
+      slow.push(`${label} ${m.ms.toFixed(0)}ms${m.ms > 50 * base ? ` slow-relative (>50x the ${base.toFixed(2)}ms trivial call)` : ''}`)
+    }
+    if (bad.length >= 3 || slow.length >= 3) break // three offenders prove the point; do not sweep every shape of a guard that is slow everywhere
   }
-  record(probe, bad.length === 0 ? 'pass' : 'fail', worst, [...new Set(bad)].slice(0, 3).join('; '))
+  record(probe, bad.length === 0 ? 'pass' : 'fail', worst, bad.length ? [...new Set(bad)].slice(0, 3).join('; ') : slow.length ? `advisory slow: ${[...new Set(slow)].slice(0, 2).join('; ')}` : undefined)
 }
 
 // Benign look-alikes must pass on every calibrated shape.

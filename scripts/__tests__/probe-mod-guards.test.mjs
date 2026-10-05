@@ -117,21 +117,30 @@ test('flags the naive guard on nesting, keys, invisible characters and size; pas
   assert.ok(out.newHoles.every(h => h.startsWith('naive:')))
 })
 
-test('a throwing guard and a slow guard are failures of the stress probes', () => {
+test('a throwing guard and a hanging-slow guard are failures; a merely slow one is advisory', () => {
   const dir = fixtures(join(tmp, 'plugins-bad'), {
     thrower: `export function verdict(tool: string, input: unknown): string | undefined {
   if (JSON.stringify(input).length > 1000) throw new RangeError('boom')
   return tool === 'memory_store' ? undefined : undefined
 }`,
+    sluggish: `export function verdict(tool: string, input: unknown): string | undefined {
+  if (tool !== 'memory_store') return undefined
+  let s = ''
+  try { s = JSON.stringify(input) ?? '' } catch { /* deep */ }
+  const end = Date.now() + (s.includes('":"' + 'a'.repeat(5000)) ? 25 : 0)
+  while (Date.now() < end) { /* busy */ }
+  return undefined
+}`,
     slow: `export function verdict(tool: string, input: unknown): string | undefined {
   if (tool !== 'memory_store') return undefined
-  const s = JSON.stringify(input) ?? ''
-  const end = Date.now() + (s.length > 100000 ? 80 : 0)
+  let s = ''
+  try { s = JSON.stringify(input) ?? '' } catch { /* too deep to serialise: not the slow shape */ }
+  const end = Date.now() + (s.includes('":"' + 'a'.repeat(5000)) ? 80 : 0)
   while (Date.now() < end) { /* busy */ }
   return undefined
 }`,
   })
-  const r = run('--fast', '--plugins-dir', dir, '--format', 'json', '--budget-ms', '50')
+  const r = run('--fast', '--plugins-dir', dir, '--format', 'json', '--budget-ms', '60', '--advisory-ms', '10')
   assert.equal(r.status, 1)
   const by = Object.fromEntries(JSON.parse(r.stdout).rows.map(x => [x.name, x]))
   const thrown = by.thrower.results.find(x => x.id === 's-a')
@@ -139,7 +148,10 @@ test('a throwing guard and a slow guard are failures of the stress probes', () =
   assert.match(thrown.note, /RangeError/)
   const slowed = by.slow.results.find(x => x.id === 's-a')
   assert.equal(slowed.status, 'fail')
-  assert.ok(slowed.ms >= 50)
+  assert.ok(slowed.ms >= 60)
+  const adv = by.sluggish.results.find(x => x.id === 's-a')
+  assert.equal(adv.status, 'pass')
+  assert.match(adv.note, /advisory slow/)
 })
 
 test('a hung guard is killed by the watchdog and reported, not waited on forever', () => {

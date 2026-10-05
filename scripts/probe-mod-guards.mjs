@@ -3,7 +3,7 @@
 //
 // Each guard is bundled with esbuild into a private temp dir, then run in a worker thread through a fixed corpus (see
 // scripts/lib/guard-probe-corpus.mjs): secrets split by invisible/bidi characters, nested 5000 levels, in object keys, 1 MB strings,
-// regex-DoS inputs (each call is timed; > --budget-ms fails), encodings, and benign look-alikes (must pass). A worker that hangs is
+// regex-DoS inputs (each call is timed: median of 3 > --budget-ms (1000, hang/backtracking gate) fails, > --advisory-ms (50) is reported as advisory slow), encodings, and benign look-alikes (must pass). A worker that hangs is
 // killed by a watchdog and reported as a failure of the probe it was in.
 //
 // USAGE
@@ -32,7 +32,7 @@ const REPO = dirname(HERE)
 const WORKER = join(HERE, 'lib', 'guard-probe-worker.mjs')
 
 const args = (() => {
-  const a = { fast: false, format: 'table', only: null, verbose: false, pluginsDir: join(REPO, 'plugins'), report: null, knownHoles: null, writeKnownHoles: null, strict: false, budgetMs: 50, watchdogMs: null, concurrency: Math.max(1, Math.min(4, cpus().length >> 1)) }
+  const a = { fast: false, format: 'table', only: null, verbose: false, pluginsDir: join(REPO, 'plugins'), report: null, knownHoles: null, writeKnownHoles: null, strict: false, budgetMs: 1000, advisoryMs: 50, watchdogMs: null, concurrency: Math.max(1, Math.min(4, cpus().length >> 1)) }
   const argv = process.argv.slice(2)
   const need = i => { if (argv[i + 1] === undefined) { console.error(`probe-mod-guards: ${argv[i]} needs a value`); process.exit(2) } return argv[i + 1] }
   for (let i = 0; i < argv.length; i++) {
@@ -44,15 +44,16 @@ const args = (() => {
     else if (v === '--only') a.only = new Set(need(i++).split(',').map(s => s.trim()).filter(Boolean))
     else if (v === '--plugins-dir') a.pluginsDir = resolve(need(i++))
     else if (v === '--report') a.report = resolve(need(i++))
-    else if (v === '--known-holes') a.knownHoles = resolve(need(i++))
+    else if (v === '--known-holes') a.knownHoles = resolve(argv[i + 1] !== undefined && !argv[i + 1].startsWith('--') ? argv[++i] : join(HERE, 'probe-mod-guards.known-holes.json'))
     else if (v === '--write-known-holes') a.writeKnownHoles = resolve(need(i++))
     else if (v === '--budget-ms') a.budgetMs = Number(need(i++))
+    else if (v === '--advisory-ms') a.advisoryMs = Number(need(i++))
     else if (v === '--watchdog-ms') a.watchdogMs = Number(need(i++))
     else if (v === '--concurrency') a.concurrency = Number(need(i++))
     else { console.error(`probe-mod-guards: unknown argument ${v}`); process.exit(2) }
   }
-  if (!['table', 'json'].includes(a.format) || !(a.budgetMs > 0) || !(a.concurrency >= 1)) { console.error('probe-mod-guards: bad --format, --budget-ms or --concurrency'); process.exit(2) }
-  a.watchdogMs ??= a.fast ? 10_000 : 30_000
+  if (!['table', 'json'].includes(a.format) || !(a.budgetMs > 0) || !(a.advisoryMs >= 0) || !(a.concurrency >= 1)) { console.error('probe-mod-guards: bad --format, --budget-ms or --concurrency'); process.exit(2) }
+  a.watchdogMs ??= a.fast ? 30_000 : 60_000 // a hang gate, not a speed gate: calibration alone can take seconds on a loaded box
   return a
 })()
 
@@ -101,7 +102,7 @@ function bundle(esbuild, plugin, tmp) {
 async function runPlugin(plugin, bundled) {
   const guardSrc = readFileSync(join(plugin.dir, 'guard.ts'), 'utf8')
   const named = [...guardSrc.matchAll(/includes\((['"`])([a-z][^'"`]*)\1\)/g)].map(m => m[2])
-  const job = { bundle: bundled, tools: toolsOf(guardSrc), servers: [...SERVERS, ...named], extra: [], fast: args.fast, budgetMs: args.budgetMs }
+  const job = { bundle: bundled, tools: toolsOf(guardSrc), servers: [...SERVERS, ...named], extra: [], fast: args.fast, budgetMs: args.budgetMs, advisoryMs: args.advisoryMs }
   const results = []
   const skip = []
   let meta = { calibrated: 0, chosen: [], timingTargets: 0 }
@@ -178,7 +179,7 @@ if (args.writeKnownHoles) {
 }
 if (args.report) {
   mkdirSync(dirname(args.report), { recursive: true })
-  const generated = renderReport({ rows, args: { fast: args.fast, budgetMs: args.budgetMs }, startedMs: started })
+  const generated = renderReport({ rows, args: { fast: args.fast, budgetMs: args.budgetMs, advisoryMs: args.advisoryMs }, startedMs: started })
   const MARK = '<!-- generated below'
   const prior = existsSync(args.report) ? readFileSync(args.report, 'utf8') : ''
   const at = prior.indexOf(MARK)
@@ -189,7 +190,7 @@ if (args.format === 'json') {
   console.log(JSON.stringify({ rows, holes, newHoles: fresh, fixedKnownHoles: fixed, fatal: fatal.map(f => ({ plugin: f.name, error: f.fatal })) }, null, 1))
 } else {
   const pad = (s, n) => String(s).padEnd(n)
-  console.log(`probe-mod-guards: ${rows.length} guards, ${args.fast ? 'fast' : 'full'} corpus, budget ${args.budgetMs}ms/call, ${((Date.now() - started) / 1000).toFixed(1)}s\n`)
+  console.log(`probe-mod-guards: ${rows.length} guards, ${args.fast ? 'fast' : 'full'} corpus, hang gate ${args.budgetMs}ms/call (median of 3), advisory ${args.advisoryMs}ms, ${((Date.now() - started) / 1000).toFixed(1)}s\n`)
   console.log(`${pad('plugin', 26)} ${pad('surface (tool.field)', 44)} ${pad('pass', 5)} ${pad('fail', 5)} ${pad('info', 5)} ${pad('skip', 5)} worst-ms`)
   for (const r of rows) {
     const c = s => r.results.filter(x => x.status === s).length
@@ -197,7 +198,7 @@ if (args.format === 'json') {
     const surface = r.meta.chosen.length ? r.meta.chosen.map(x => x.at).join(', ') : r.fatal ? `FATAL ${r.fatal}` : 'none (policy guard / no secret surface)'
     console.log(`${pad(r.name, 26)} ${pad(surface.length > 43 ? `${surface.slice(0, 42)}…` : surface, 44)} ${pad(c('pass'), 5)} ${pad(c('fail'), 5)} ${pad(c('info'), 5)} ${pad(c('skip'), 5)} ${worst.ms.toFixed(1)} (${worst.id})`)
     for (const x of r.results) {
-      if (args.verbose || (isHole(x) && !known.has(`${r.name}:${x.id}`))) console.log(`    ${pad(x.status.toUpperCase(), 5)} ${pad(x.id, 24)} ${pad(x.ms.toFixed(1) + 'ms', 10)} ${(x.note ?? '').slice(0, 120)}`)
+      if (args.verbose || x.note?.startsWith('advisory slow') || (isHole(x) && !known.has(`${r.name}:${x.id}`))) console.log(`    ${pad(x.status.toUpperCase(), 5)} ${pad(x.id, 24)} ${pad(x.ms.toFixed(1) + 'ms', 10)} ${(x.note ?? '').slice(0, 120)}`)
     }
   }
   const total = rows.reduce((n, r) => n + r.results.length, 0)

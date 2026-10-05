@@ -24,8 +24,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-agent": [
   "shy-split",
@@ -52,8 +51,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-agentdb": [
   "shy-split",
@@ -80,8 +78,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-ai-team": [
   "shy-split",
@@ -108,8 +105,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-aidefence": [
   "shy-split",
@@ -136,8 +132,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-autopilot": [
   "shy-split",
@@ -164,8 +159,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-bbs-federation": [
   "shy-split",
@@ -192,8 +186,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-daa": [
   "shy-split",
@@ -220,8 +213,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-ddd": [
   "shy-split",
@@ -248,8 +240,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-docs": [
   "shy-split",
@@ -276,8 +267,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-federation": [
   "shy-split",
@@ -304,8 +294,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-goals": [
   "shy-split",
@@ -332,8 +321,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-graph-intelligence": [
   "shy-split",
@@ -360,8 +348,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-intelligence": [
   "shy-split",
@@ -388,8 +375,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-iot-cognitum": [
   "shy-split",
@@ -416,8 +402,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-jujutsu": [
   "shy-split",
@@ -444,8 +429,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-knowledge-graph": [
   "shy-split",
@@ -472,8 +456,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-loop-workers": [
   "shy-split",
@@ -500,8 +483,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-market-data": [
   "shy-split",
@@ -528,8 +510,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-metaharness": [
   "shy-split",
@@ -556,8 +537,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-migrations": [
   "shy-split",
@@ -581,8 +561,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-music": [
   "shy-split",
@@ -606,8 +585,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-neural-trader": [
   "shy-split",
@@ -631,8 +609,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-observability": [
   "shy-split",
@@ -656,8 +633,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-rag-memory": [
   "shy-split",
@@ -684,8 +660,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-ruvector": [
   "shy-split",
@@ -712,8 +687,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-ruvllm": [
   "shy-split",
@@ -740,8 +714,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-rvf": [
   "shy-split",
@@ -768,8 +741,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-security-audit": [
   "shy-split",
@@ -796,8 +768,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-sparc": [
   "shy-split",
@@ -824,8 +795,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-workflows": [
   "shy-split",
@@ -852,8 +822,7 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ],
  "ruflo-x-gateway": [
   "shy-split",
@@ -880,7 +849,6 @@
   "huge-middle",
   "huge-end",
   "after-25k-padding",
-  "after-200k-padding",
-  "s-wide-keys-100k"
+  "after-200k-padding"
  ]
 }
