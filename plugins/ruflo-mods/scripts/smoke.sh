@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Structural + security smoke for ruflo-mods v0.2.0 (ADR-404, ADR-447).
+# Structural + security smoke for ruflo-mods v0.3.0 (ADR-404, ADR-447).
 # Static only: CI has no Claude Code, so the hooks module's behaviour is held
 # by v3/@claude-flow/cli/__tests__/mods/*.test.ts and, where function hooks are
 # on, by `claude plugin test plugins/ruflo-mods`.
@@ -12,9 +12,9 @@ ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 HOOKS="$ROOT/hooks"
 
-step "1. plugin.json declares ruflo-mods 0.2.0"
+step "1. plugin.json declares ruflo-mods 0.3.0"
 grep -q '"name": "ruflo-mods"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.2.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.3.0"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -32,7 +32,7 @@ hits=$(grep -rnE '\$\.(http|process|model|mcp)\.' "$HOOKS" || true)
 
 step "5. only the documented events are hooked"
 events=$(grep -rhoE "on\('[a-z.*]+'" "$HOOKS" | sort -u | tr '\n' ' ')
-expected="on('agent.spawn' on('command.run' on('engine.create' on('plugin.register' on('prompt.submit' on('session.end' on('session.measure' on('session.start' on('tool.call' on('tool.check' on('turn.complete' "
+expected="on('agent.spawn' on('command.run' on('engine.create' on('plugin.register' on('prompt.submit' on('session.end' on('session.measure' on('session.start' on('tool.call' on('tool.check' on('tool.describe' on('turn.complete' "
 [[ "$events" == "$expected" ]] && ok || bad "got: $events"
 
 step "6. tool.check merges with stricter() (tighten-only)"
