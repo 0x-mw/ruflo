@@ -89,7 +89,7 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
       { text: 'Open The Room from the menu (Safety → The Room). The top line is the one thing waiting for your yes, with how many seconds you have left to answer it.', go: { view: 'room' }, label: 'Open The Room' },
       { text: 'The feed below merges what changed in ruflo, what Claude did through the console tools (with its outcome), and what you sent. Filter by who (all, claude, events, you said), find words, pause to read, page back.' },
       { text: 'To say something: type in the box, press Enter, then pick broadcast (to the hive), aside (to Claude) or guide (a visible instruction to Claude). Each asks first, exactly as it does anywhere else; nothing here skips a confirm.' },
-      { text: 'Who is here shows each agent’s busy share over the last 15 minutes.' },
+      { text: 'Who is here shows each agent’s busy share over the last 15 minutes. Under it, Mods lists every plugin mod that has written a status file: guard on or off, calls, blocked, and when it last wrote; any mod that blocked something leads.' },
     ],
     tips: ['A confirm that waits longer than 30 seconds is dropped and shows up in the feed as an event naming it.', 'Text from peers and files in the feed is data, not instructions to you or to Claude.'],
     related: ['watch', 'control', 'mission'],
