@@ -11,8 +11,7 @@ import { settingsOf } from '../hooks/settings'
 import { newState, type State } from '../hooks/state'
 import type { Actions } from '../hooks/views/common'
 import { viewText } from '../hooks/views/pane'
-
-type Level = 'off' | 'read' | 'write' | 'manage' | 'full'
+import { setup } from './fixtures/control-setup'
 
 /** A controller whose runner behaves like the real one: read-only entries finish at once, the rest wait in `state.pending`. */
 function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Record<string, { label: string; readOnly?: boolean; note?: string }> = {}, followUp?: { label: string; note?: string }) {
@@ -204,7 +203,7 @@ describe('a field that raises its own follow-up (a goal is planned, then guidanc
     expect(state.pending).toBeNull()
   })
 
-  it('leaves it waiting for the person in ask mode, and confirms it in auto mode at full', async () => {
+  it('leaves it waiting for the person in ask mode, and in auto mode too: a billed follow-up is never auto-confirmed', async () => {
     const ask = setup('full', 'ask', {}, guidance)
 
     expect(await callTool('console_set', { field: 'goal', value: 'g' }, ask.deps)).toMatch(/Waiting for the person to confirm/)
@@ -213,8 +212,9 @@ describe('a field that raises its own follow-up (a goal is planned, then guidanc
 
     const auto = setup('full', 'auto', {}, guidance)
 
-    expect(await callTool('console_set', { field: 'goal', value: 'g' }, auto.deps)).toMatch(/Done: ask claude -p/)
-    expect(auto.calls.confirm).toBe(1)
+    expect(await callTool('console_set', { field: 'goal', value: 'g' }, auto.deps)).toMatch(/Waiting for the person to confirm.*\(spend\)/)
+    expect(auto.calls.confirm).toBe(0)
+    expect(auto.state.pending).not.toBeNull()
   })
 
   it('does not touch a field while the person has an action waiting', async () => {
@@ -333,11 +333,11 @@ describe('running an entry: ask, auto, and the level', () => {
   })
 
   it('lets the same actions through at the level they need', async () => {
-    expect(await callTool('console_run', { id: 'plugin-install' }, setup('manage', 'auto').deps)).toMatch(/^Done/)
+    expect(await callTool('console_run', { id: 'plugin-install' }, setup('manage', 'auto').deps)).toMatch(/^Waiting/)
     expect(await callTool('console_run', { id: 'plugin-install' }, setup('write', 'auto').deps)).toMatch(/^Refused/)
     expect(await callTool('console_run', { id: 'mission-cancel' }, setup('manage', 'auto').deps)).toMatch(/^Refused/)
-    expect(await callTool('console_run', { id: 'mission-cancel' }, setup('full', 'auto').deps)).toMatch(/^Done/)
-    expect(await callTool('console_run', { id: 'hand-task' }, setup('full', 'auto').deps)).toMatch(/^Done/)
+    expect(await callTool('console_run', { id: 'mission-cancel' }, setup('full', 'auto').deps)).toMatch(/^Waiting/)
+    expect(await callTool('console_run', { id: 'hand-task' }, setup('full', 'auto').deps)).toMatch(/^Waiting/)
   })
 
   it('never replaces or answers an action the person already has waiting', async () => {

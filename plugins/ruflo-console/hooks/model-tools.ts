@@ -14,6 +14,7 @@ import { PROFILES, RIGORS } from './goap'
 import { mcOf, setResearch } from './mission-control'
 import { RESEARCH_DEPTHS } from './mission-options'
 import { filterPalette, paletteEntries } from './palette'
+import { hasSecret } from './screen'
 import { settingsOf } from './settings'
 import type { ControlEntry, Pending, State, ViewId } from './state'
 import { VIEWS } from './state'
@@ -85,6 +86,19 @@ export function parseControlEnv(value: unknown): { level: ControlLevel; confirm:
   return found === undefined || (confirm !== 'ask' && confirm !== 'auto') ? null : { level: found, confirm }
 }
 
+/**
+ * The session override can only LOWER what the person saved, never raise it (ADR-450 T12): a project's settings `env` must not be able to hand
+ * Claude `full:auto`. The level is the lower of the two; the confirm is `ask` if either says ask.
+ */
+export function lowerOnly(saved: { level: ControlLevel; confirm: ControlConfirm }, forced: { level: ControlLevel; confirm: ControlConfirm } | null): { level: ControlLevel; confirm: ControlConfirm } {
+  if (forced === null) return saved
+
+  return { level: rank(forced.level) < rank(saved.level) ? forced.level : saved.level, confirm: forced.confirm === 'ask' || saved.confirm === 'ask' ? 'ask' : 'auto' }
+}
+
+/** Classes whose effect leaves the machine, costs money or cannot be undone: they always wait for the person, whatever `modelConfirm` says (ADR-450 T8). */
+export const ALWAYS_ASK: readonly ActionClass[] = ['network', 'spend', 'delete']
+
 export type ModelToolDeps = { state: State; control: Controller }
 
 /** How long Claude's call waits for an action that runs on its own. */
@@ -106,6 +120,11 @@ const say = (state: State, tool: string, summary: string, outcome: ControlEntry[
   state.control.log.push({ atMs: Date.now(), tool, summary: plain(summary, 80), outcome, detail: plain(detail, 160) })
   if (state.control.log.length > LOG_MAX) state.control.log.splice(0, state.control.log.length - LOG_MAX)
 }
+
+const SECRET_REFUSAL = 'that text looks like a secret. It was not used and is not shown. Do not pass keys, tokens or passwords to the console.'
+
+/** True when the raw argument or its cleaned form holds a secret (the raw form too, so a token split by a hidden character is refused, not just defused). */
+const leaksSecret = (raw: unknown, cleaned: string): boolean => (typeof raw === 'string' && hasSecret(raw)) || hasSecret(cleaned)
 
 const textOf = (value: unknown): string => (typeof value === 'string' ? plain(value, MAX_TEXT).trim() : '')
 
@@ -187,7 +206,7 @@ async function settlePending(deps: ModelToolDeps, tool: string, id: string, aske
     return { status: 'refused', text: `"${plain(pending.label, 80)}" is a ${kind} action and control is set to "${level}" (it needs "${NEEDS[kind]}"). The person can raise it in Settings → Claude control. Nothing ran.` }
   }
 
-  if (confirmOf(ai.modelConfirm) === 'ask') {
+  if (confirmOf(ai.modelConfirm) === 'ask' || ALWAYS_ASK.includes(kind)) {
     say(state, tool, id, 'waiting', pending.label)
 
     return { status: 'waiting', text: `Waiting for the person to confirm in the console: "${plain(pending.label, 100)}" (${kind}). Expect: ${plain(pending.expect, 160)}. Do not repeat it; call console_state later to see the result.` }
@@ -267,6 +286,8 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
       const field = textOf(input.field)
       const value = textOf(input.value)
 
+      if (leaksSecret(input.value, value)) return refuse(`set ${field}`, SECRET_REFUSAL)
+
       if (state.pending !== null) return refuse(`set ${field}`, `an action is already waiting for the person ("${plain(state.pending.label, 80)}"). Do not change fields until they answer.`)
 
       const askedAt = Date.now()
@@ -285,6 +306,8 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
     // console_run
     const id = textOf(input.id)
     const text = textOf(input.text)
+
+    if (leaksSecret(input.text, text)) return refuse(`run ${id}`, SECRET_REFUSAL)
 
     // The person's own waiting action is theirs to answer: never replaced, never cleared.
     if (state.pending !== null) return refuse(`run ${id}`, `an action is already waiting for the person ("${plain(state.pending.label, 80)}"). Do not run another until they answer.`)
