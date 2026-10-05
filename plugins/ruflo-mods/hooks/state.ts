@@ -28,6 +28,12 @@ export type ModState = {
   /** The research run (marker startedAt) whose first web call was already put to the person. */
   researchAsked?: string
   budget: { level: BudgetLevel; usd?: number; limit?: number }
+  /** `tool.describe` hints (ADR-451): whether the feature is on and which tools it described. */
+  toolHints: { enabled: boolean; described: Set<string> }
+  /** `agent.offer` trim (ADR-451): whether it is on, the types it hid, and the latest prompt (lower case). */
+  agentTrim: { enabled: boolean; hidden: Set<string>; prompt: string; ledger?: Promise<Record<string, number>> }
+  /** `session.receive`/`session.send` screen (ADR-451): whether it is on, deliveries consumed, sends refused. */
+  delivery: { enabled: boolean; consumed: number; blocked: number }
   /** Other mods' status segments, by id (`$.ruflo.segment`). */
   segments: Map<string, string>
   /**
@@ -50,6 +56,9 @@ export function createState(): ModState {
     editCount: 0,
     policy: 'none',
     budget: { level: 'OK' },
+    toolHints: { enabled: false, described: new Set() },
+    agentTrim: { enabled: false, hidden: new Set(), prompt: '' },
+    delivery: { enabled: false, consumed: 0, blocked: 0 },
     segments: new Map(),
     draw: () => undefined,
   }
@@ -132,6 +141,9 @@ export function report(s: ModState): string {
     `  edits:       ${s.editCount} recorded, ${s.edits.length} pending write`,
     `  policy:      ${s.policy}; ${s.tightened} call(s) tightened, ${s.observed} observed`,
     `  budget:      ${budget}`,
+    `  tool hints:  ${s.toolHints.enabled ? `${s.toolHints.described.size} tool(s) described` : 'off (set the toolHints option)'}`,
+    `  agent trim:  ${s.agentTrim.enabled ? `${s.agentTrim.hidden.size} type(s) hidden` : 'off (set the agentTrim option)'}`,
+    `  delivery:    ${s.delivery.enabled ? `${s.delivery.consumed} dropped, ${s.delivery.blocked} refused` : 'off (set the deliveryScreen option)'}`,
     `  segments:    ${segments.join(', ') || 'none'}`,
     `  guidance:    ${s.guidance.status}; ${s.guidance.saved} unverified observation(s), ${s.guidance.pending.length} pending, ${s.guidance.dropped} dropped`,
   ].join('\n')

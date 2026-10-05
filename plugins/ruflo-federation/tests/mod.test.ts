@@ -45,6 +45,17 @@ describe('guard', () => {
     expect(JSON.parse(w.files.get(STATUS) ?? '{}')).toMatchObject({ version: 1, guard: true, blocked: 1 })
   })
 
+  test('x_federation_invite_mint is screened like the other outbound calls', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    const tool = 'mcp__plugin_ruflo-core_ruflo__x_federation_invite_mint'
+    const r = await $.tool.call(call({ tool, note: `token ${SECRET}` })).then(x => x, (e: unknown) => ({ text: String(e) }))
+    expect(denied(r)).toContain('ruflo-federation')
+    expect(denied(r)).not.toContain('ghp_')
+    expect(denied(await $.tool.call(call({ tool, note: 'for ops' })))).toContain('went through')
+  })
+
   test('passes clean input and tools the plugin does not own', async ($, on) => {
     world(on)
     on('tool.call', () => ({ result: 'went through' }))
@@ -119,5 +130,18 @@ describe('/federation-mod', () => {
     const text = (await $.command.run(slash('tools'))).text ?? ''
     expect(text).toContain('2 federation tools connected')
     expect(text).not.toContain('memory_store')
+  })
+})
+
+describe('guard PII: timestamps are not card numbers', () => {
+  test('a 13-digit epoch-millisecond timestamp passes however its Luhn sum falls; a real card still does not', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    const publish = (body: string) => call({ tool: 'mcp__plugin_ruflo-core_ruflo__x_federation_publish', body })
+    // 1791154825171 passes the Luhn check; it starts with 1, which no card network issues.
+    expect(denied(await $.tool.call(publish('sent at 1791154825171')))).toContain('went through')
+    expect(denied(await $.tool.call(publish('card 4242424242424242')).then(r => r, (e: unknown) => String(e)))).toContain('personal data')
+    expect(denied(await $.tool.call(publish('amex 3782 822463 10005')).then(r => r, (e: unknown) => String(e)))).toContain('personal data')
   })
 })

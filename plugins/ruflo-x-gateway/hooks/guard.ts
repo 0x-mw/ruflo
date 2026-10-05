@@ -1,16 +1,6 @@
 import { hasSecret } from './screen'
-
-/** Every string in a tool's input, to a bounded depth and size: what the guard reads. */
-export function textsOf(input: unknown, budget = { left: 20_000 }, depth = 0): string[] {
-  if (budget.left <= 0 || depth > 6) return []
-  if (typeof input === 'string') {
-    budget.left -= input.length
-    return [input]
-  }
-  if (Array.isArray(input)) return input.slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  if (typeof input === 'object' && input !== null) return Object.values(input).slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  return []
-}
+import { textsOf } from './screen'
+export { textsOf }
 
 /** The tool's short name: `mcp__<server>__<tool>` to `<tool>`. */
 export const shortName = (name: string) => (name.startsWith('mcp__') && name.lastIndexOf('__') > 5 ? name.slice(name.lastIndexOf('__') + 2) : name)
@@ -20,9 +10,9 @@ const field = (input: unknown, key: string): string => {
   return typeof v === 'string' ? v : ''
 }
 
-const PUBLISH = new Set(['x_federation_publish', 'x_federation_channel_publish'])
+const PUBLISH = new Set(['x_federation_publish', 'x_federation_channel_publish', 'x_federation_invite_mint'])
 
-/** The label of a federation publish, else undefined: the guard only watches calls that put content on the swarm. */
+/** The label of a federation publish, else undefined: the guard only watches calls that put content on the swarm or mint a credential for it. */
 export function watched(tool: string, _input: unknown): string | undefined {
   const t = shortName(tool)
   return PUBLISH.has(t) ? t.replace('x_federation_', '').replace('_', ' ') : undefined

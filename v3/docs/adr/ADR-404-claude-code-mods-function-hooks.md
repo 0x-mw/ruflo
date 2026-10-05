@@ -1,6 +1,6 @@
 # ADR 404: Ruflo as a Claude Code Mod (Function Hooks)
 
-Status: Proposed
+Status: Accepted (implemented in plugins/ruflo-mods, PR #3608; the follow-ups listed below remain open)
 
 Date: 2026 10 01
 

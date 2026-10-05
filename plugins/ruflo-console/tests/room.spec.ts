@@ -6,7 +6,9 @@
 import { describe, expect, it } from 'vitest'
 
 import type { ConsoleEvent } from '../hooks/data/events'
-import { DRAFT_MAX, pendingBanner, ROOM_MAX, roomFeed, SAID_MAX, SAY_IDS, saidStatus, type Said } from '../hooks/data/room'
+import { DRAFT_MAX, isBlocked, pendingBanner, VIEW_OF_KIND, ROOM_MAX, roomFeed, SAID_MAX, SAY_IDS, saidStatus, type Said } from '../hooks/data/room'
+import type { Actions } from '../hooks/views/common'
+import { viewText } from '../hooks/views/pane'
 import { roomActions, roomOf } from '../hooks/room'
 import { newState, VIEWS } from '../hooks/state'
 import type { ControlEntry } from '../hooks/state'
@@ -160,6 +162,60 @@ describe('cost', () => {
 
     expect(roomFeed({ ...base, events, log, said })).toHaveLength(ROOM_MAX)
     expect(per).toBeLessThan(5)
+  })
+})
+
+describe('the blocked filter and the jump', () => {
+  it('keeps only what Claude was refused or failed, and events that say denied', () => {
+    const input = { ...base, events: [ev(1000, 'swarm up'), ev(2000, 'bash denied by permission rule', 'mods')], log: [ctl(3000, 'open a', 'ok'), ctl(4000, 'run b', 'denied'), ctl(5000, 'run c', 'error'), ctl(6000, 'wait d', 'waiting')], said: [{ atMs: 7000, id: 'broadcast' as const, text: 'x', label: null }] }
+    const blocked = roomFeed({ ...input, blocked: true })
+
+    expect(blocked.map(item => item.atMs)).toEqual([5000, 4000, 2000])
+    expect(blocked.every(isBlocked)).toBe(true)
+    expect(roomFeed({ ...input, blocked: true, source: 'event' }).map(item => item.atMs)).toEqual([2000])
+    expect(roomFeed(input)).toHaveLength(7)
+  })
+
+  it('maps an event kind to the page that raised it, and nothing else', () => {
+    expect(VIEW_OF_KIND).toMatchObject({ swarm: 'swarm', claims: 'claims', learning: 'learning', mods: 'plugins', missions: 'missions' })
+    expect(VIEW_OF_KIND.tools).toBeUndefined()
+    expect(Object.values(VIEW_OF_KIND).every(id => VIEWS.some(view => view.id === id))).toBe(true)
+  })
+
+  it('an open event entry names its kind and offers a jump to the page that raised it; one with no page offers none', () => {
+    const act = new Proxy(() => undefined, { get: () => act, apply: () => undefined }) as unknown as Actions
+    const draw = (kind: ConsoleEvent['kind'], text: string) => {
+      const state = newState({})
+
+      state.view = 'room'
+      state.events = [ev(1000, text, kind)]
+      roomOf(state).open = `event:1000:${text.length}`
+
+      return viewText({ state, nowMs: 5000, columns: 100, act }, 'room')
+    }
+
+    expect(draw('mods', 'bash denied')).toMatch(/event: mods · refused or failed/)
+    expect(draw('mods', 'bash denied')).toContain('jump to Plugins')
+    expect(draw('swarm', 'swarm up')).toContain('jump to Swarm')
+    expect(draw('tools', 'a tool ran')).not.toContain('jump to')
+  })
+
+  it('the toggle resets the page and the mod opens and closes', () => {
+    const state = newState({})
+    const act = roomActions(state, () => undefined, () => true, () => 3)
+    const room = roomOf(state)
+
+    act.page(2)
+    act.blocked()
+    expect(room).toMatchObject({ blocked: true, page: 0 })
+    act.blocked()
+    expect(room.blocked).toBe(false)
+    act.mod('docs')
+    expect(room.mod).toBe('docs')
+    act.mod('docs')
+    expect(room.mod).toBeNull()
+    act.mod('x'.repeat(500))
+    expect(room.mod?.length).toBeLessThanOrEqual(48)
   })
 })
 

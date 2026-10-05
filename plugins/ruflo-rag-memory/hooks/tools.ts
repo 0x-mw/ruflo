@@ -26,6 +26,7 @@ const OWNED = new Set([
 /** The tools that put text somewhere durable or shared. A call through any of them is screened by the guard. */
 const WRITERS = new Set([
   'memory_store',
+  'memory_import',
   'agentdb_hierarchical-store',
   'agentdb_pattern-store',
 ])

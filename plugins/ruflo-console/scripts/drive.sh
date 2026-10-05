@@ -8,6 +8,7 @@
 # Exit: 0 ok · 1 no console tool call ran · 2 usage error (bad level, bad regex) · 3 an --expect matched no RESULT.
 # Without RUFLO_E2E_LIVE=1 or a claude binary it prints SKIP and exits 0, so CI can call it everywhere. ~$0.10 per run (haiku, capped $0.40).
 # The level is capped at manage and the run happens in a scratch project, so a drive can never spend money or delete anything.
+# The saved control setting is seeded in an isolated, throwaway config dir (login copied 0600, shredded on exit), not taken from yours.
 # CONSOLE_DRIVE_SEED=<dir> copies that directory into the scratch .claude-flow before the run (seed claims, mods, ...).
 set -u
 EXPECT=(); POS=()
@@ -34,11 +35,20 @@ SCRATCH="$(mktemp -d "${TMPDIR:-/tmp}/console-drive.XXXXXX")"; mkdir -p "$SCRATC
 [[ -n "${CONSOLE_DRIVE_SEED:-}" ]] && cp -r "$CONSOLE_DRIVE_SEED"/. "$SCRATCH/.claude-flow/" 2>/dev/null
 TOOLS="mcp__ruflo-console__console_state,mcp__ruflo-console__console_open,mcp__ruflo-console__console_set,mcp__ruflo-console__console_run"
 EXTRA=(); for d in "${EXTRA_DIRS[@]+"${EXTRA_DIRS[@]}"}"; do EXTRA+=(--plugin-dir "$d"); done
-OUT="$SCRATCH/out.jsonl"
-(cd "$SCRATCH" && RUFLO_CONSOLE_CONTROL="$LEVEL:auto" timeout 240 "$CLAUDE" -p "Use only the ruflo console tools (console_state, console_open, console_set, console_run). $ASK Report exactly what each tool answered." \
+OUTJ="$SCRATCH/out.jsonl"; OUT="$SCRATCH"; CLI=true
+# Control is seeded in an ISOLATED config dir (your login copied 0600, shredded on exit). RUFLO_CONSOLE_CONTROL may only LOWER the saved
+# setting (ADR-450 T12), so it cannot make a drive run with auto confirm when the person's saved mode is "ask": seed the saved setting instead.
+# shellcheck disable=SC1091
+source "$(dirname "${BASH_SOURCE[0]}")/e2e-lib.sh"
+make_config "$SCRATCH"
+trap 'shred_config 2>/dev/null; rm -rf "$CFG"' EXIT
+mkdir -p "$CFG/plugins/store"
+node -e 'require("node:fs").writeFileSync(process.argv[1], JSON.stringify({ "ai-prefs": { modelControl: process.argv[2], modelConfirm: "auto" } }))' \
+  "$CFG/plugins/store/ruflo-console_inline-b43d4e31bb1a.json" "$LEVEL"
+(cd "$SCRATCH" && CLAUDE_CONFIG_DIR="$CFG" timeout 240 "$CLAUDE" -p "Use only the ruflo console tools (console_state, console_open, console_set, console_run). $ASK Report exactly what each tool answered." \
   --plugin-dir "$PLUG" "${EXTRA[@]+"${EXTRA[@]}"}" --allowedTools "$TOOLS" --disallowedTools Bash,Write,Edit,NotebookEdit --model haiku --max-budget-usd 0.40 \
-  --output-format stream-json --verbose </dev/null >"$OUT" 2>"$SCRATCH/err.txt")
-node - "$OUT" "${EXPECT[@]+"${EXPECT[@]}"}" <<'NODE'
+  --output-format stream-json --verbose </dev/null >"$OUTJ" 2>"$SCRATCH/err.txt")
+node - "$OUTJ" "${EXPECT[@]+"${EXPECT[@]}"}" <<'NODE'
 const [file, ...expects] = process.argv.slice(2)
 const lines = require('node:fs').readFileSync(file, 'utf8').split('\n').filter(Boolean).flatMap(l => { try { return [JSON.parse(l)] } catch { return [] } })
 const names = new Map(); const results = []; let calls = 0
