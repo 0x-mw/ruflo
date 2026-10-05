@@ -53,6 +53,10 @@ const WRITERS = new Set([
   'memory_store',
   'hooks_remember',
   'hooks_intelligence_pattern-store',
+  'agentdb_feedback',
+  'agentdb_session-end',
+  'hive-mind_memory',
+  'session_save',
 ])
 
 export const isWriter = (name: string) => WRITERS.has(splitName(name)?.tool ?? name)

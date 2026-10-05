@@ -42,3 +42,23 @@ describe('the memory write guard reads what the walker cannot', () => {
     expect(verdict('memory_search', { key: 'api_key', value: TOKEN })).toBeUndefined()
   })
 })
+
+describe('the write-capable tools found by checking the registry schemas are guarded', () => {
+  const cases: ReadonlyArray<readonly [string, Record<string, unknown>]> = [
+    ['agentdb_feedback', { taskId: 't1', patterns: [`api_key=${TOKEN}`] }],
+    ['agentdb_session-end', { sessionId: 's1', summary: `deploy used password=${TOKEN}` }],
+    ['hive-mind_memory', { action: 'set', key: 'creds', value: { token: TOKEN } }],
+    ['session_save', { name: 'work', description: `secret: ${TOKEN}` }],
+  ]
+  for (const [tool, input] of cases) {
+    test(`${tool} is refused with a secret and passes without one`, () => {
+      expect(verdict(tool, input)).toMatch(/secret/)
+      expect(verdict(`mcp__ruflo__${tool}`, input)).toMatch(/secret/)
+      expect(verdict(tool, JSON.parse(JSON.stringify(input).replaceAll(TOKEN, 'see the vault')))).toBeUndefined()
+    })
+  }
+
+  test('tools that take no free text stay unguarded', () => {
+    for (const tool of ['memory_import', 'rvf_ingest', 'hooks_compress_store']) expect(verdict(tool, { value: `api_key=${TOKEN}` })).toBeUndefined()
+  })
+})
