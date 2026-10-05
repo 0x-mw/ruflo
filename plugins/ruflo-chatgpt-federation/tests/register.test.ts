@@ -99,3 +99,12 @@ describe('status file and command', () => {
     expect((await $.command.run(slash(''))).text).toContain('/chatgpt-mod status')
   })
 })
+
+describe('guard: the cap is in bytes', () => {
+  test('3000 CJK characters are 9000 UTF-8 bytes and over the 8192 cap; 3000 ASCII characters are not', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    expect(await attempt($.tool.call(publish({ payload: { blob: '漢'.repeat(3000) } })))).toContain('8192-byte cap')
+    expect(await attempt($.tool.call(publish({ payload: { blob: 'x'.repeat(3000) } })))).toContain('stored')
+  })
+})

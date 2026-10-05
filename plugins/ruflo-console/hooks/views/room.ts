@@ -6,6 +6,7 @@ import { ROOM_PAGE, roomOf } from '../room'
 import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
 import { lanesOf } from './frames'
 import { statsOf } from './manage'
+import { modsRows } from './mods'
 
 const TONE_COLOR = { ok: THEME.ok, warn: THEME.warn, bad: THEME.bad, info: THEME.info } as const
 const SOURCES: readonly { id: 'all' | RoomSource; label: string }[] = [
@@ -103,6 +104,8 @@ export function roomView(ctx: Ctx): RenderElement {
 
     rows.push(row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: ` ${clip(lane.label, 20).padEnd(20)}` }), ctx.kit.Text({ color: share === null ? THEME.info : share >= 60 ? THEME.ok : share >= 20 ? THEME.warn : THEME.info, children: ` ${share === null ? 'no status seen' : `busy ${share}%`}` }), ctx.kit.Text({ dimColor: true, children: ` · ${stats.calls} tool call${stats.calls === 1 ? '' : 's'}` })], `room-lane-${i}`))
   }
+
+  rows.push(...modsRows(ctx))
 
   return col(ctx, rows, 'room')
 }

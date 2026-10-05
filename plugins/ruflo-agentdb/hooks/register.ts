@@ -1,9 +1,11 @@
 import type { Hook, Register } from 'claude-code'
 
 import { answer } from './command'
+import { expandTruncated } from './expand'
 import { verdict } from './guard'
 import { readOptions, type ModOptions } from './options'
 import { cacheKey, frame, keywords, parse, screen, worthRecalling } from './recall'
+import { tidy } from './screen'
 import { newStats, noteAttached, STATUS_PATH, statusText, type Stats } from './status'
 import { pickReaders, type Reader } from './tools'
 
@@ -22,11 +24,12 @@ type Session = {
   readers?: readonly Reader[]
 }
 
-type Read = { readonly tool: string; readonly text: string }
+/** What a reader answered: `tool` is its label (agentdb | ruvector), `via` the MCP tool itself. */
+type Read = { readonly tool: string; readonly via: string; readonly text: string; readonly unsafe?: number }
 
-/** The connected memory readers, found once per session and again after an error (a server may connect late). */
+/** The connected memory readers, found once per session and looked for again while there are none or after an error (a server may connect late). */
 async function find($: Dollar, s: Session): Promise<readonly Reader[]> {
-  if (s.readers === undefined) s.readers = pickReaders(await $.tool.list(), s.opts.source)
+  if (s.readers === undefined || s.readers.length === 0) s.readers = pickReaders(await $.tool.list(), s.opts.source)
   return s.readers
 }
 
@@ -39,10 +42,24 @@ async function flush($: Dollar, s: Session): Promise<void> {
   }
 }
 
+/** One memory's full text through `memory_retrieve`; undefined on any failure (the cut text is then kept). */
+async function full($: Dollar, server: string, tool: string, key: string, namespace: string | undefined): Promise<string | undefined> {
+  const res = await $.mcp.call(server, tool, namespace === undefined ? { key } : { key, namespace })
+  if (res.isError) return undefined
+  try {
+    const value = (JSON.parse((res.content.find(b => b.type === 'text')?.text ?? '').slice(0, TEXT_CAP)) as { value?: unknown }).value
+    return typeof value === 'string' ? value : undefined
+  } catch {
+    return undefined
+  }
+}
+
 /** One reader's first text block, or '' when it errored or said nothing. */
 async function ask($: Dollar, r: Reader, query: string, limit: number): Promise<Read> {
   const res = await $.mcp.call(r.server, r.tool, r.args(query.slice(0, 1000), limit))
-  return { tool: r.label, text: res.isError ? '' : (res.content.find(b => b.type === 'text')?.text ?? '').slice(0, TEXT_CAP) }
+  const text = res.isError ? '' : (res.content.find(b => b.type === 'text')?.text ?? '').slice(0, TEXT_CAP)
+  const retrieve = r.retrieve
+  return { tool: r.label, via: r.tool, text: retrieve === undefined ? text : await expandTruncated(text, (key, namespace) => full($, r.server, retrieve, key, namespace)) }
 }
 
 /**
@@ -54,19 +71,26 @@ async function read($: Dollar, s: Session, query: string, ms: number): Promise<R
   const readers = await find($, s)
   if (readers.length === 0) return undefined
   const work = (async (): Promise<Read> => {
-    let last: Read = { tool: readers[0]?.label ?? '', text: '' }
+    let last: Read = { tool: readers[0]?.label ?? '', via: readers[0]?.tool ?? '', text: '' }
+    let peak = 0 // the most unsafe results any one answer held: the same note comes back for each query, so counts are not summed
     for (const q of [query, ...keywords(query)]) {
       for (const r of readers) {
+        if (r.wholeOnly && q !== query) continue
         try {
           last = await ask($, r, q, s.opts.recallLimit)
-        } catch {
+        } catch (e) {
+          // A refused permission or a dead server must show in the status file, not read as "nothing relevant".
+          s.stats.errors++
+          s.stats.lastError = tidy(String(e instanceof Error ? e.message : e), 200)
           continue
         }
         const seen = screen(parse(last.text, last.tool, 0), s.opts.recallLimit)
-        if (seen.items.length > 0 || seen.unsafe > 0) return last
+        peak = Math.max(peak, seen.unsafe)
+        // An answer of only unsafe results does not end the walk: one poisoned note must not hide a clean one behind it.
+        if (seen.items.length > 0) return { ...last, unsafe: peak }
       }
     }
-    return last
+    return { ...last, unsafe: peak }
   })()
   const won = await Promise.race([work, $.clock.sleep(ms).then(() => 'late' as const, () => 'late' as const)])
   if (won === 'late') work.catch(() => undefined)
@@ -99,17 +123,16 @@ async function recallFor($: Dollar, s: Session, text: string): Promise<string | 
     }
     stats.lastMs = (await $.clock.now()) - now
     stats.lastTool = got.tool
+    stats.lastReader = got.via
     const screened = screen(parse(got.text, got.tool, now), opts.recallLimit)
-    stats.dropped += screened.unsafe
+    stats.dropped += Math.max(got.unsafe ?? 0, screened.unsafe)
     if (screened.items.length === 0) {
-      if (screened.unsafe > 0) await flush($, s)
       return undefined
     }
     const block = frame(screened.items)
     if (s.cache.size >= CACHE_MAX) s.cache.delete(s.cache.keys().next().value as string)
     s.cache.set(key, { atMs: now, block })
     noteAttached(stats, screened.items, now)
-    await flush($, s)
     return block
   } catch {
     stats.errors++
@@ -140,6 +163,7 @@ export const register: Register = (on, options) => {
   if (s.opts.recall && s.opts.source !== 'none') {
     on('prompt.submit', async ($, e, next) => {
       const block = await recallFor($, s, typeof e.text === 'string' ? e.text : '')
+      await flush($, s) // every outcome (skipped, late, cached, error) moves a counter the console reads, not only an attach
       return next(block === undefined ? e : { ...e, context: [...(e.context ?? []), block] })
     })
   }

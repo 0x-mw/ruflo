@@ -14,6 +14,7 @@ import { PROFILES, RIGORS } from './goap'
 import { mcOf, setResearch } from './mission-control'
 import { RESEARCH_DEPTHS } from './mission-options'
 import { filterPalette, paletteEntries } from './palette'
+import { hasSecret } from './screen'
 import { settingsOf } from './settings'
 import type { ControlEntry, Pending, State, ViewId } from './state'
 import { VIEWS } from './state'
@@ -24,7 +25,7 @@ export const LEVELS = ['off', 'read', 'write', 'manage', 'full'] as const
 export type ControlLevel = (typeof LEVELS)[number]
 export type ControlConfirm = 'ask' | 'auto'
 /** What an action does, read from its spec; the level it needs follows. */
-export type ActionClass = 'read' | 'write' | 'network' | 'spend' | 'delete'
+export type ActionClass = 'read' | 'write' | 'network' | 'install' | 'spend' | 'delete'
 
 export const MAX_CALLS_PER_TURN = 40
 export const MAX_TEXT = 500
@@ -33,7 +34,7 @@ export const DRIVING_MS = 60_000
 const SCREEN_MAX = 3500
 const LOG_MAX = 40
 
-const NEEDS: Record<ActionClass, ControlLevel> = { read: 'read', write: 'write', network: 'manage', spend: 'full', delete: 'full' }
+const NEEDS: Record<ActionClass, ControlLevel> = { read: 'read', write: 'write', network: 'manage', install: 'full', spend: 'full', delete: 'full' }
 const rank = (level: ControlLevel): number => LEVELS.indexOf(level)
 
 type Spec = { name: string; description: string; inputSchema: Record<string, unknown>; needs: ControlLevel }
@@ -45,17 +46,31 @@ export const TOOL_SPECS: readonly Spec[] = [
   { name: 'console_run', needs: 'read', description: 'Run a palette entry by its id (as listed by console_state), with optional text. Read-only entries run at once. Others run only if the person allowed this level, and wait for their Yes unless they chose auto-confirm; the result says which. Example: id "mission-goal", text "add a dark mode toggle".', inputSchema: { type: 'object', properties: { id: { type: 'string' }, text: { type: 'string' } }, required: ['id'] } },
 ]
 
+/**
+ * The words that put an action in a class (ADR-450). They are read from the console's own label, command and notes. Only the console's own
+ * prose (`note`, `shows`) is cleaned of what an action does NOT do; the label and the command (which carry typed text) are read as they are,
+ * so typed text can only add words, never cancel one. Matching is by stem, so "deleting", "removal" and "deletes" count. Anything it does not
+ * name stays 'write': the list is a floor, not a proof.
+ */
+const DELETE = /\b(delet|remov|kill|terminat|destr[ou]y|shut ?down|stop|reset|rollback|cancel|wip(e|ing)|purg|prun|uninstall|force|clean ?up|migrat|drop|eras|unlink|truncat|revok|discard|flush|evict|unregister|nuke|abort|shell command|runs a shell|runs your (test|code)|terminal_execute|rm -)/
+const SPEND = /\$\$|billed|costs? money|may cost|model turn|starts a (claude|codex)|spends (money|tokens|credits)|\bpaid\b|may call models|calls the anthropic api|with your (anthropic |api )?key|api key|openrouter|real (model|judge)/
+/** Code that runs with Claude Code's own access, or settings and hooks that change how it behaves: plugin and marketplace changes (ADR-450 T8). */
+const INSTALL = /\b(install\w*|marketplace|claude plugin|plugin (enable|disable|update)|enabledplugins|settings(\.local)?\.json|hooks\.json)/
+const NETWORK = /\b(network|publish|deploy|push|install|download|fetch|registry|github|npm|gcloud|upload|update|clone|join|federat|reaches|curl|https?:|ssh|webhook|slack|ipfs|pi\.ruv\.io|x\.ruv\.io|relay|peer|broadcast|sends?|sync)/
+
 /** Which class an action is, from its label, command and notes; anything unclear counts as the most dangerous class. */
 export function classOf(pending: Pick<Pending, 'label' | 'args' | 'note' | 'shows' | 'expect'>): ActionClass {
   // The console's own notes say what an action does NOT do too ("spends nothing", "not a charge", "runs no agent"): those must not count.
-  const text = `${pending.label} ${pending.args.join(' ')} ${pending.note ?? ''} ${pending.shows ?? ''}`
+  const prose = `${pending.note ?? ''} ${pending.shows ?? ''}`
     .toLowerCase()
     .replace(/\b(spends|costs|charges|bills|runs|starts|takes)\s+(nothing|no\b[^.;,]{0,30})/g, ' ')
     .replace(/\b(no|not|never|without)\s+(a\s+|an\s+)?(spend\w*|billed|charge\w*|cost\w*|model turn|ai turn|agent|credits?)\b/g, ' ')
+  const text = `${pending.label} ${pending.args.join(' ')}`.toLowerCase() + ' \u00a6 ' + prose
 
-  if (/\b(delete|remove|kill|terminate|destroy|shutdown|shut down|stop|reset|rollback|cancel|wipe|purge|prune|uninstall|force|clean ?up|migrate|drop)\b/.test(text)) return 'delete'
-  if (/\$\$|billed|costs money|model turn|starts a (claude|codex)|spends (money|tokens|credits)|\bpaid\b/.test(text)) return 'spend'
-  if (/\b(network|publish|deploy|push|install|download|fetch|registry|github|npm|gcloud|upload|update|clone|join|federat)/.test(text)) return 'network'
+  if (DELETE.test(text)) return 'delete'
+  if (SPEND.test(text)) return 'spend'
+  if (INSTALL.test(text)) return 'install'
+  if (NETWORK.test(text)) return 'network'
 
   return 'write'
 }
@@ -73,6 +88,26 @@ export function parseControlEnv(value: unknown): { level: ControlLevel; confirm:
 
   return found === undefined || (confirm !== 'ask' && confirm !== 'auto') ? null : { level: found, confirm }
 }
+
+/**
+ * The session override can only LOWER what the person saved, never raise it (ADR-450 T12): a project's settings `env` must not be able to hand
+ * Claude `full:auto`. The level is the lower of the two; the confirm is `ask` if either says ask.
+ */
+export function lowerOnly(saved: { level: ControlLevel; confirm: ControlConfirm }, forced: { level: ControlLevel; confirm: ControlConfirm } | null): { level: ControlLevel; confirm: ControlConfirm } {
+  if (forced === null) return saved
+
+  return { level: rank(forced.level) < rank(saved.level) ? forced.level : saved.level, confirm: forced.confirm === 'ask' || saved.confirm === 'ask' ? 'ask' : 'auto' }
+}
+
+/** Classes whose effect leaves the machine, costs money or cannot be undone: they always wait for the person, whatever `modelConfirm` says (ADR-450 T8). */
+export const ALWAYS_ASK: readonly ActionClass[] = ['network', 'install', 'spend', 'delete']
+
+/**
+ * How many actions of each class Claude may put through the console in one session (ADR-450 T8). The per-turn cap bounds one turn; a /loop gets
+ * a fresh turn each time, so this one spans the session. Past it, a write action waits for the person's Yes even in auto, and an action of a
+ * class that always asks is refused, so the person is not asked again and again for the same kind of thing.
+ */
+export const SESSION_BUDGET: Record<Exclude<ActionClass, 'read'>, number> = { write: 20, network: 5, install: 2, spend: 3, delete: 3 }
 
 export type ModelToolDeps = { state: State; control: Controller }
 
@@ -95,6 +130,11 @@ const say = (state: State, tool: string, summary: string, outcome: ControlEntry[
   state.control.log.push({ atMs: Date.now(), tool, summary: plain(summary, 80), outcome, detail: plain(detail, 160) })
   if (state.control.log.length > LOG_MAX) state.control.log.splice(0, state.control.log.length - LOG_MAX)
 }
+
+const SECRET_REFUSAL = 'that text looks like a secret. It was not used and is not shown. Do not pass keys, tokens or passwords to the console.'
+
+/** True when the raw argument or its cleaned form holds a secret (the raw form too, so a token split by a hidden character is refused, not just defused). */
+const leaksSecret = (raw: unknown, cleaned: string): boolean => (typeof raw === 'string' && hasSecret(raw)) || hasSecret(cleaned)
 
 const textOf = (value: unknown): string => (typeof value === 'string' ? plain(value, MAX_TEXT).trim() : '')
 
@@ -176,10 +216,23 @@ async function settlePending(deps: ModelToolDeps, tool: string, id: string, aske
     return { status: 'refused', text: `"${plain(pending.label, 80)}" is a ${kind} action and control is set to "${level}" (it needs "${NEEDS[kind]}"). The person can raise it in Settings → Claude control. Nothing ran.` }
   }
 
-  if (confirmOf(ai.modelConfirm) === 'ask') {
+  const budget = kind === 'read' ? Infinity : SESSION_BUDGET[kind]
+  const used = state.control.used[kind] ?? 0
+  const over = used >= budget
+
+  if (over && ALWAYS_ASK.includes(kind)) {
+    control.runner.cancel()
+    say(state, tool, `${id}: ${kind} budget used`, 'denied', pending.label)
+
+    return { status: 'refused', text: `the session budget for ${kind} actions (${budget}) is used up, so "${plain(pending.label, 80)}" was not queued. Tell the person what you wanted to do and let them do it in the console. Nothing ran.` }
+  }
+
+  state.control.used[kind] = used + 1
+
+  if (confirmOf(ai.modelConfirm) === 'ask' || ALWAYS_ASK.includes(kind) || over) {
     say(state, tool, id, 'waiting', pending.label)
 
-    return { status: 'waiting', text: `Waiting for the person to confirm in the console: "${plain(pending.label, 100)}" (${kind}). Expect: ${plain(pending.expect, 160)}. Do not repeat it; call console_state later to see the result.` }
+    return { status: 'waiting', text: `Waiting for the person to confirm in the console: "${plain(pending.label, 100)}" (${kind}${over ? `; the session budget of ${budget} auto-confirmed ${kind} actions is used up` : ''}). Expect: ${plain(pending.expect, 160)}. Do not repeat it; call console_state later to see the result.` }
   }
 
   // Mission Control reports its own actions on `last`, the rest on `outcome`: whichever moved is what happened.
@@ -230,6 +283,8 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
 
   if (state.control.turnCalls > MAX_CALLS_PER_TURN) return refuse(name, `more than ${MAX_CALLS_PER_TURN} console actions in one turn. Summarise for the person and stop.`)
 
+  state.control.viaModel = true
+
   try {
     if (name === 'console_state') {
       say(state, name, 'read the console', 'ok')
@@ -254,6 +309,8 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
       const field = textOf(input.field)
       const value = textOf(input.value)
 
+      if (leaksSecret(input.value, value)) return refuse(`set ${field}`, SECRET_REFUSAL)
+
       if (state.pending !== null) return refuse(`set ${field}`, `an action is already waiting for the person ("${plain(state.pending.label, 80)}"). Do not change fields until they answer.`)
 
       const askedAt = Date.now()
@@ -272,6 +329,8 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
     // console_run
     const id = textOf(input.id)
     const text = textOf(input.text)
+
+    if (leaksSecret(input.text, text)) return refuse(`run ${id}`, SECRET_REFUSAL)
 
     // The person's own waiting action is theirs to answer: never replaced, never cleared.
     if (state.pending !== null) return refuse(`run ${id}`, `an action is already waiting for the person ("${plain(state.pending.label, 80)}"). Do not run another until they answer.`)
@@ -298,6 +357,7 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
 
     return `Failed: ${plain(error instanceof Error ? error.message : 'the console action failed', 160)}`
   } finally {
+    state.control.viaModel = false
     control.host.invalidate()
   }
 }

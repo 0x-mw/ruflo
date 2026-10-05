@@ -81,6 +81,18 @@ describe('guard', () => {
     expect(status(w.files)).toMatchObject({ liveBlocked: 1, blocked: 1 })
   })
 
+  test('the package\'s other order tools are gated too, and paper or simulated ones are not', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    for (const name of ['execute_multi_asset_trade', 'place_prediction_order_tool', 'execute_trades']) {
+      expect(await outcome($, call(`mcp__neural-trader__${name}`, { symbol: 'SPY' }))).toContain('confirm: true')
+    }
+    expect(await outcome($, call('mcp__neural-trader__place_prediction_order_tool', { confirm: true }))).toContain('ok')
+    for (const name of ['simulate_trade', 'execute_paper_trade', 'get_market_orderbook_tool', 'run_backtest']) {
+      expect(await outcome($, call(`mcp__neural-trader__${name}`, { symbol: 'SPY' }))).toContain('ok')
+    }
+  })
+
   test('a broker secret in a trader call is refused without echoing it', async ($, on) => {
     world(on)
     await $.session.start(START)
