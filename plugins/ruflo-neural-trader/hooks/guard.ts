@@ -1,4 +1,4 @@
-import { secretsIn, textsOf } from './screen'
+import { hasSecret, secretsIn, textsOf } from './screen'
 import type { ModOptions } from './options'
 import type { Stats } from './status'
 
@@ -18,6 +18,22 @@ function confirmed(input: unknown): boolean {
   return [top, inner].some(o => o.confirm === true || o.confirmed === true || o.paper === true || o.dryRun === true || o.dry_run === true)
 }
 
+/** This plugin's namespaces. A `memory_store` outside them is another plugin's write: still screened, but its refusal must not claim it. */
+const OWN_NS = /^(?:trading|neural-trader|trader)/i
+const namespaceOf = (input: unknown): string | undefined => {
+  const top = typeof input === 'object' && input !== null ? (input as Record<string, unknown>) : {}
+  const inner = typeof top.input === 'object' && top.input !== null ? (top.input as Record<string, unknown>) : {}
+  return [top.namespace, inner.namespace].find((n): n is string => typeof n === 'string')
+}
+const foreignStore = (tool: string, input: unknown): boolean => /(?:^|__)memory_store$/.test(tool) && !OWN_NS.test(namespaceOf(input) ?? '')
+/** The refusal for a secret in another plugin's `memory_store`: what was found and which namespace, never an owner and never content. */
+function foreignRefusal(input: unknown): string {
+  const ns = namespaceOf(input)
+  const label = (ns ?? '').replace(/[^\w.:-]/g, '').slice(0, 40)
+  const where = !ns ? 'no namespace' : label && !hasSecret(ns) && !hasSecret(label) ? `namespace "${label}"` : 'a namespace not shown here'
+  return `ruflo-neural-trader: a secret-shaped value (a key, token or password) was found in a memory write; the call targeted ${where}. Store a reference to where it lives, not the value.`
+}
+
 /**
  * The reason a call is refused, or undefined when it may go. Two rules: a memory write or trader call holding a secret is refused
  * (broker keys must not be stored or echoed), and a live order call without an explicit `confirm: true` (or `paper`/`dryRun`) is refused.
@@ -30,6 +46,7 @@ export function verdict(tool: string, input: unknown, opts: ModOptions, stats: S
   const found = textsOf(input).flatMap(secretsIn)
   if (found.length > 0) {
     stats.lastBlock = found[0]
+    if (!trader && foreignStore(tool, input)) return foreignRefusal(input)
     return 'ruflo-neural-trader: this call holds what looks like a secret (a broker key, token or password). Keep credentials in the environment and pass a reference, not the value.'
   }
   if (opts.liveGuard && trader && ORDER.test(toolOf(tool)) && !confirmed(input)) {
