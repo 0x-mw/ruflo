@@ -205,13 +205,14 @@ bash plugins/ruflo-agentdb/scripts/smoke.sh
 
 The smoke script is the contract. It calls each documented MCP tool, exercises the RaBitQ workflow, and source-inspects the fallback path (no env-var gate exists to force the fallback live).
 
-## As a mod (0.4.5, ADR-445)
+## As a mod (0.4.6, ADR-445)
 
 A function-hook mod ships beside the skills. Needs a Claude Code with mods (2.1.287+); older builds ignore it.
 
 | Piece | Default | What it does |
 |---|---|---|
 | **Secret guard** | on | Refuses a memory write (`agentdb_hierarchical-store`, `agentdb_pattern-store`, `agentdb_batch`, `agentdb_causal-edge`, `memory_store`, `hooks_remember`, `hooks_intelligence_pattern-store`, `agentdb_feedback`, `agentdb_session-end`, `hive-mind_memory`, `session_save`) that holds a private key, cloud/GitHub/Slack token, bearer token, JWT or key-like assignment. The secret is never echoed. The shared screen (`hooks/screen.ts`, copied to every mod by `scripts/sync-mod-screen.mjs`) judges an assignment by its value: calls, env references, identifier paths, placeholders, UUIDs, secret-manager paths and hyphenated names are not secrets; a literal needs two character classes (one a digit or symbol) and at least 2.5 bits of entropy per character. Vendor keys (Stripe, npm, HuggingFace, SendGrid, Twilio, Slack webhooks) and `scheme://user:pass@host` URLs are matched by shape; input is scanned in one pass up to 200 KB (head and tail beyond that). |
+| **Import file screen** | on (with the guard) | `memory_import` takes only a path, so the guard also reads the file at `inputPath` and refuses the import when it holds a secret (same message, never echoing it). Best effort, not a gate, and it **fails open**: a file over 1 MB, a directory, a missing or unreadable file, a path outside the project root and your home, a path with `..`, a backslash or a null byte, a non-string path, or a stat/read error all let the import proceed unread. Symlinks are not resolved. `rvf_ingest` is still unguarded. |
 | **Recall into prompts** | **off** | Attaches the best 1–5 memories to each prompt as framed, per-prompt context (the prompt cache is not disturbed). Read through the already-connected tools, in order: `memory_search` (semantic: the only reader that finds a paraphrase; its 60-character cut is completed with `memory_retrieve`), `agentdb_hierarchical-recall` and `agentdb_pattern-search` (substring matches, so also asked with the prompt's salient words), ruvector `hooks_recall`. A result scoring under 0.25 is noise and skipped. No CLI, no network. Skipped for slash commands, `!` lines and short prompts; gives up after `recallDeadlineMs` (800; the first recall of a fresh session takes 0.5–1.5 s, so consider 1500); cached 10 minutes. |
 | **Untrusted memory** | always | A retrieved memory with a secret or an instruction-to-the-model phrase is dropped; the rest are control-character-stripped, capped (5 items, 400 chars each, 1500 total) and framed as data. |
 | **`/agentdb-mod`** | — | `status`, `recall <text>`, `scan <text>`, `recent`; answered locally, no model call. |
