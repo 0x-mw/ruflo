@@ -47,6 +47,13 @@
       "required": false,
       "default": false
     },
+    "toolHints": {
+      "type": "boolean",
+      "title": "Usage hints on ruflo tools",
+      "description": "Add one short, static usage hint (restating the project's own CLAUDE.md) to the description of a few ruflo MCP tools, such as memory_search and swarm_init, so the model sees it at the tool. Appends text only, cached for the session. Off by default.",
+      "required": false,
+      "default": false
+    },
     "modTrust": {
       "type": "string",
       "title": "Mod trust gate",

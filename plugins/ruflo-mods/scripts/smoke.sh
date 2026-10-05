@@ -32,7 +32,7 @@ hits=$(grep -rnE '\$\.(http|process|model|mcp)\.' "$HOOKS" || true)
 
 step "5. only the documented events are hooked"
 events=$(grep -rhoE "on\('[a-z.*]+'" "$HOOKS" | sort -u | tr '\n' ' ')
-expected="on('agent.spawn' on('command.run' on('engine.create' on('plugin.register' on('prompt.submit' on('session.end' on('session.measure' on('session.start' on('tool.call' on('tool.check' on('turn.complete' "
+expected="on('agent.spawn' on('command.run' on('engine.create' on('plugin.register' on('prompt.submit' on('session.end' on('session.measure' on('session.start' on('tool.call' on('tool.check' on('tool.describe' on('turn.complete' "
 [[ "$events" == "$expected" ]] && ok || bad "got: $events"
 
 step "6. tool.check merges with stricter() (tighten-only)"
