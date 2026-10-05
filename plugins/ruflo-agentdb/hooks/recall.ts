@@ -1,7 +1,16 @@
-import { scan, tidy } from './screen'
+import { extras } from './guard'
+import { fold } from './fold'
+import { hasSecret, scan, tidy } from './screen'
 
-/** One retrieved memory, already screened. */
-export type Item = { readonly text: string; readonly score?: number; readonly source: string; readonly ageMs?: number }
+/** One retrieved memory. `pairs` are the `name=value` texts of its structured fields, judged with the text and never shown; `oversize` marks a record too large to read in full. */
+export type Item = {
+  readonly text: string
+  readonly score?: number
+  readonly source: string
+  readonly ageMs?: number
+  readonly pairs?: readonly string[]
+  readonly oversize?: boolean
+}
 
 /** What a parse + screen of one tool result gave, with what was dropped and why (counts only). */
 export type Screened = { readonly items: readonly Item[]; readonly unsafe: number }
@@ -81,7 +90,8 @@ export function parse(text: string, source: string, nowMs: number): Item[] {
     if (body === undefined) continue
     const r = rec(raw) ? raw : {}
     const at = num(r.updatedAt) ?? num(r.createdAt) ?? num(r.timestamp)
-    out.push({ text: body, score: num(r.score) ?? num(r.confidence) ?? num(r.similarity), source, ...(at === undefined ? {} : { ageMs: Math.max(0, nowMs - at) }) })
+    const more = rec(raw) ? extras(raw) : { pairs: [], oversize: false }
+    out.push({ text: body, ...(more.pairs.length > 0 ? { pairs: more.pairs } : {}), ...(more.oversize ? { oversize: true } : {}), score: num(r.score) ?? num(r.confidence) ?? num(r.similarity), source, ...(at === undefined ? {} : { ageMs: Math.max(0, nowMs - at) }) })
   }
   return out
 }
@@ -93,16 +103,17 @@ export function screen(items: readonly Item[], limit: number): Screened {
   let total = 0
   for (const item of items) {
     if (item.score !== undefined && item.score < MIN_SCORE) continue
-    const found = scan(item.text)
-    if (found.secrets.length > 0 || found.injection.length > 0) {
+    const text = fold(item.text)
+    const found = scan(text)
+    if (item.oversize || found.secrets.length > 0 || found.injection.length > 0 || (item.pairs ?? []).some(p => hasSecret(fold(p)))) {
       unsafe++
       continue
     }
     if (kept.length >= Math.min(limit, MAX_ITEMS)) continue
-    const text = tidy(item.text, MAX_ITEM_CHARS)
-    if (text === '' || total + text.length > MAX_TOTAL_CHARS) continue
-    total += text.length
-    kept.push({ ...item, text })
+    const shown = tidy(text, MAX_ITEM_CHARS)
+    if (shown === '' || total + shown.length > MAX_TOTAL_CHARS) continue
+    total += shown.length
+    kept.push({ text: shown, source: item.source, ...(item.score === undefined ? {} : { score: item.score }), ...(item.ageMs === undefined ? {} : { ageMs: item.ageMs }) })
   }
   return { items: kept, unsafe }
 }
