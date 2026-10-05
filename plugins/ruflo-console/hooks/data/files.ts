@@ -128,7 +128,8 @@ export async function readDisk(fs: ReaderFs, cache: ReadCache, cwd: string, home
   const homeKeys = Object.keys(HOME) as (keyof typeof HOME)[]
   const missingHome: Read = { text: null, reason: 'missing' }
   const [projectReads, homeReads, federationNodes, hasNostrKey] = await Promise.all([
-    Promise.all(projectKeys.map(key => readBounded(fs, cache, under(cwd, PROJECT[key])))),
+    // ADR-450 T2: the one mod status file read here must be a regular file, like the per-plugin ones in readMods.
+    Promise.all(projectKeys.map(key => readBounded(fs, cache, under(cwd, PROJECT[key]), READ_MAX, key === 'agentdbMod'))),
     Promise.all(homeKeys.map(key => (configDir === null ? Promise.resolve(missingHome) : readBounded(fs, cache, under(configDir, HOME[key]))))),
     fs
       .list(under(cwd, FEDERATION_DIR))
