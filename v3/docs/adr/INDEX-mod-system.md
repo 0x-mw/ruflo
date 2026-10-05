@@ -14,8 +14,8 @@ Two files carry the number 430 (the menu's accents, and the menu-design amendmen
 | 446 | The plugin fleet as mods (39 plugins) | Accepted | 10-04 | 404, 445 | — | #3700 | 39 plugins; 44 plugins have a mod today | per-plugin `claude plugin test`, `smoke-all-plugins` |
 | 447 | Native mod guidance and observation loop | Accepted | 10-04 | 404, 445, 322A | — | #3702 | ruflo-mods 0.2.0 + CLI `guidance` adapter | `guidance.test.ts`, `mods-guidance-e2e.test.ts`, workflow `mod-guidance.yml` |
 | 449 | Guidance learning loop on the mod system | Proposed | 10-04 | 404, 447, 322A/C, 446 | — | not merged (branch `loop/adr-guidance`) | — | — |
-| 450 | Threat model of the mod system | Proposed | 10-05 (see note) | 404, 444, 445, 446, 447, 448 | — | not merged (branches `loop/sec-threat`, `loop/sec-console`, `loop/autopilot-limits`) | — | `threat-model.spec.ts`, `threat.test.ts` |
-| 451 | Mod capability roadmap | Proposed | 10-04 | 404, 445, 446, 447 | — | not merged (branch `loop/research-roadmap`) | — | — |
+| 450 | Threat model of the mod system | Proposed | 10-05 (see note) | 404, 444, 445, 446, 447, 448 | — | merged: #3717 (console 0.33.3: T1 truthful classes incl. dt-term-exec, T3 plain()); T8+T12 in #3720 (0.33.4) | ruflo-console `threat-model.spec.ts`, `control-guards.spec.ts` | `threat-model.spec.ts`, `threat.test.ts` |
+| 451 | Mod capability roadmap | Proposed | 10-04 | 404, 445, 446, 447 | — | merged: #3716 (ruflo-mods 0.3.0, prototype `toolHints` default off) | ruflo-mods `tests/describe.test.ts` | — |
 
 ## Console: mission control and Claude control
 
