@@ -10,7 +10,7 @@ import { readSnapshot } from '../hooks/data/snapshot'
 import type { Actions } from '../hooks/views/common'
 import { roomOf } from '../hooks/room'
 import { viewText } from '../hooks/views/pane'
-import { denyClassOf, isStale, MODS_MAX_BYTES, MODS_MAX_FILES, MODS_STALE_MS, orderMods, parseModStatus, readMods, type ModRow } from '../hooks/data/mods'
+import { callsOf, denyClassOf, isStale, MODS_MAX_BYTES, MODS_MAX_FILES, MODS_STALE_MS, orderMods, parseModStatus, readMods, type ModRow } from '../hooks/data/mods'
 
 const status = (extra: Record<string, unknown> = {}) => JSON.stringify({ version: 1, updatedMs: 1_000, calls: 5, blocked: 0, startedMs: 500, guard: true, ...extra })
 const row = (name: string, blocked: number, updatedMs: number | null): ModRow => ({ name, guard: true, calls: 1, blocked, updatedMs, startedMs: null })
@@ -101,6 +101,59 @@ describe('readMods', () => {
     const fs: ReaderFs = { list: async () => Promise.reject(new Error('EACCES')), stat: async () => undefined, read: async () => '' }
 
     expect(await readMods(fs, new Map(), '/p')).toEqual({ rows: [], refused: 0, truncated: false })
+  })
+})
+
+describe('wider status shapes (mod-status-files recommendation 1)', () => {
+  const calls = (extra: Record<string, unknown>) => parseModStatus('x-mod', JSON.stringify({ version: 1, ...extra }))?.calls
+
+  it('sums a calls object over its numeric values and ignores the rest', () => {
+    expect(calls({ calls: { route: 3, deny: 2, note: 'x', nested: { a: 9 }, neg: -4, nan: null } })).toBe(5)
+    expect(calls({ calls: {} })).toBe(0)
+  })
+
+  it('reads seen, then checked, when there is no calls; a real calls wins', () => {
+    expect(calls({ seen: 7, checked: 3 })).toBe(7)
+    expect(calls({ checked: 3 })).toBe(3)
+    expect(calls({ calls: 2, seen: 7 })).toBe(2)
+    expect(calls({ calls: 'many', seen: 4 })).toBe(4)
+    expect(calls({ blocked: 1 })).toBeNull()
+  })
+
+  it('is bounded and never throws on hostile shapes', () => {
+    expect(calls({ calls: 1e300 })).toBe(Number.MAX_SAFE_INTEGER)
+    expect(calls({ calls: { a: 1e300, b: 1e300 } })).toBe(Number.MAX_SAFE_INTEGER)
+    expect(calls({ seen: 1e300 })).toBe(Number.MAX_SAFE_INTEGER)
+    expect(calls({ calls: [1, 2, 3] })).toBeNull()
+    expect(calls({ calls: -1 })).toBeNull()
+    expect(calls({ seen: -1, checked: Number.NaN })).toBeNull()
+    expect(calls({ seen: [4], checked: { a: 1 } })).toBeNull()
+    expect(calls({ calls: Object.fromEntries(Array.from({ length: 500 }, (_, i) => [`k${i}`, 1])) })).toBe(64)
+    expect(callsOf(Object.create(null) as Record<string, unknown>)).toBeNull()
+  })
+
+  it('maps lastReason and lastBlocked to the refusal class, lastDenied first', () => {
+    const denied = (extra: Record<string, unknown>) => parseModStatus('x-mod', JSON.stringify({ version: 1, ...extra }))?.lastDenied
+
+    expect(denied({ lastReason: 'reads a .env file' })).toBe('secret')
+    expect(denied({ lastBlocked: 'curl to a host' })).toBe('network')
+    expect(denied({ lastDenied: 'rm -rf', lastReason: 'token' })).toBe('destructive')
+    expect(denied({ lastReason: 42, lastBlocked: ['secret'] })).toBeUndefined()
+    expect(denied({ lastReason: { a: 'secret' } })).toBeUndefined()
+    expect(denied({ lastReason: '', lastBlocked: 'odd thing' })).toBe('other')
+  })
+
+  it('never keeps the raw reason text, and strips control and bidi characters before classing', () => {
+    const parsed = parseModStatus('x-mod', JSON.stringify({ version: 1, lastReason: '\u202esecret\u0007 /home/me/.ssh/id_rsa ' + 'x'.repeat(5000) }))
+
+    expect(parsed?.lastDenied).toBe('secret')
+    expect(JSON.stringify(parsed)).not.toContain('id_rsa')
+  })
+
+  it('shows the three real shapes in one scan', async () => {
+    const mods = await readMods(fakeFs({ 'a-mod': status(), 'b-mod': JSON.stringify({ version: 1, calls: { x: 4, y: 6 }, blocked: 1, updatedMs: 5 }), 'c-mod': JSON.stringify({ version: 1, seen: 9, blocked: 2, lastReason: 'token leak', updatedMs: 6 }) }), new Map(), '/p')
+
+    expect(Object.fromEntries(mods.rows.map(mod => [mod.name, [mod.calls, mod.lastDenied ?? null]]))).toEqual({ a: [5, null], b: [10, null], c: [9, 'secret'] })
   })
 })
 
