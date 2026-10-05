@@ -26,6 +26,7 @@ export function registerCost(on: On, state: ModState, options: ModOptions) {
     const raised = isRaised(announced, level)
     if (raised) announced = level
     state.budget = { level, usd, limit }
+    if (isRaised(state.rollup.rung, level)) state.rollup.rung = level // the session rollup keeps the highest rung reached
     if (raised) {
       try {
         $.ui.toast(`ruflo budget ${level}: $${usd.toFixed(2)} of $${limit.toFixed(2)} this session`)
