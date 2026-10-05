@@ -253,7 +253,7 @@ Sections 1-8 are left as written; this section records what happened after. The 
 | T10 | Read the policy projection only from user scope or require a signature | Open | none |
 | T11 | Per-session nonce in status files | Open | none |
 | T12 | Environment override may only lower control | **Done.** `lowerOnly` in `ruflo-console/hooks/register.ts` | #3720 |
-| T13 | Exact id for model calls; fuzzy only for people | Open: `runById` still falls back to `filterPalette` (verified in `runner.ts`) | none |
+| T13 | Exact id for model calls; fuzzy only for people | **Fixed** in console 0.33.14: `console_run` passes `{ exact: true }` to `runById`, so only an id as written resolves; the person palette keeps fuzzy (only reachable with text) | tests/runbyid-exact.spec.ts |
 | T14 | Confirmation prompt shows class and level before the quoted payload | Open (not verified) | none |
 | T15 | Provenance tag on model-written memory; drop from recall unless promoted | Open (grep found no provenance marker in agentdb hooks) | none |
 | T16 | Room as a command channel | Held at review time, no change needed | n/a |
