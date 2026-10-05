@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Structural + security smoke for ruflo-mods v0.3.10 (ADR-404, ADR-447).
+# Structural + security smoke for ruflo-mods v0.3.11 (ADR-404, ADR-447).
 # Static only: CI has no Claude Code, so the hooks module's behaviour is held
 # by v3/@claude-flow/cli/__tests__/mods/*.test.ts and, where function hooks are
 # on, by `claude plugin test plugins/ruflo-mods`.
@@ -12,9 +12,9 @@ ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 HOOKS="$ROOT/hooks"
 
-step "1. plugin.json declares ruflo-mods 0.3.10"
+step "1. plugin.json declares ruflo-mods 0.3.11"
 grep -q '"name": "ruflo-mods"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.3.10"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.3.11"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -67,6 +67,13 @@ for ev in $(grep -rhoE "on\('[a-z.]+'" "$HOOKS" | sed -E "s/on\('(.*)'/\1/" | so
 done
 [[ -z "$missing" ]] && ! grep -nE "decision|deny|consumed|isDelivered|\\$\.(fs|env|ui)\." "$HOOKS/probe/index.ts" >/dev/null \
   && ok || bad "probe event list missing:$missing, or the probe answers/writes"
+
+step "13. every userConfig option key has a README row"
+missing=""
+for key in $(grep -oE "^    \"[A-Za-z]+\": \\{" "$ROOT/.claude-plugin/plugin.json" | sed -nE "s/^ *\"([A-Za-z]+)\".*/\\1/p"); do
+  [[ "$(grep -c "^| \`$key\` |" "$ROOT/README.md")" == "1" ]] || missing="$missing $key"
+done
+[[ -z "$missing" ]] && ok || bad "README option row missing or duplicated:$missing"
 
 printf "\n%d passed, %d failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]

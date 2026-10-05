@@ -20,13 +20,20 @@ Output is one `CALL <tool> <input>` and one `RESULT <tool> <text>` line per cons
 | 1 | no console tool call ran |
 | 2 | usage error: bad level or an invalid `--expect` regex |
 | 3 | at least one `--expect` regex (case-insensitive, repeatable) matched no `RESULT` |
+| 4 | `CONSOLE_DRIVE_INSTALL` was set and the marketplace add or install failed |
 
 - **What it spends:** about $0.10 per run with haiku, hard-capped at $0.40 (`--max-budget-usd`). Use one to three runs, not a sweep.
 - **Isolated config:** the run uses a throwaway `CLAUDE_CONFIG_DIR` seeded with the level you ask for and confirm mode `auto` (your login is copied 0600 and shredded on exit), because `RUFLO_CONSOLE_CONTROL` can only lower the saved setting (ADR-450 T12) and your own saved mode would otherwise decide what a drive does.
 - **Why the level is capped:** the level is `read`, `write` or `manage`; `full` is rejected (exit 2). The run happens in a scratch project (`mktemp -d`), with Bash, Write and Edit disallowed, so a drive can never spend money or delete anything.
 - **Seeding:** `CONSOLE_DRIVE_SEED=<dir>` copies that directory into the scratch `.claude-flow/` first, for example a `claims/claims.json` to assert the claims view shows it.
 - **Skips cleanly:** without `RUFLO_E2E_LIVE=1` or a `claude` binary (on `PATH` or `$CLAUDE_BIN`) it prints `SKIP` and exits 0, so it is safe to call from CI.
-- **Extra plugins:** any further arguments are added as `--plugin-dir`.
+- **Extra plugins:** any further arguments are added as `--plugin-dir`. That loads a plugin but does not install it, so `claude plugin configure` cannot see it.
+- **Installed plugin (for option rows):** `CONSOLE_DRIVE_INSTALL=<marketplace-dir>:<plugin>@<marketplace>` registers that directory as a marketplace and installs the plugin (user scope) inside the throwaway config only, then runs the drive; the Settings view can then read the plugin's options. Your real `~/.claude/plugins` and saved console settings are never touched, and `claude plugin update` is never run. Prints `INSTALLED <id>`; a bad value exits 2, a failed install exits 4.
+
+```bash
+CONSOLE_DRIVE_INSTALL="$PWD:ruflo-mods@ruflo" RUFLO_E2E_LIVE=1 bash plugins/ruflo-console/scripts/drive.sh \
+  --expect 'Hide unused agent types' "$PWD/plugins/ruflo-console" read "Open view settings with chip mods, then console_state, and quote the ruflo-mods option rows."
+```
 
 ## Room and Mods
 

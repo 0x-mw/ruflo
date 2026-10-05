@@ -5,10 +5,13 @@
 #   RUFLO_E2E_LIVE=1 bash drive.sh [--expect REGEX]... <console-plugin-dir> <read|write|manage> "<what to do>" [extra plugin dirs...]
 #
 # Prints one CALL / RESULT line per console tool call (results cut at 4000 chars) and a final COST line.
-# Exit: 0 ok · 1 no console tool call ran · 2 usage error (bad level, bad regex) · 3 an --expect matched no RESULT.
+# Exit: 0 ok · 1 no console tool call ran · 2 usage error (bad level, bad regex, bad CONSOLE_DRIVE_INSTALL) · 3 an --expect matched no RESULT · 4 install failed.
 # Without RUFLO_E2E_LIVE=1 or a claude binary it prints SKIP and exits 0, so CI can call it everywhere. ~$0.10 per run (haiku, capped $0.40).
 # The level is capped at manage and the run happens in a scratch project, so a drive can never spend money or delete anything.
 # The saved control setting is seeded in an isolated, throwaway config dir (login copied 0600, shredded on exit), not taken from yours.
+# CONSOLE_DRIVE_INSTALL=<marketplace-dir>:<plugin>@<marketplace> additionally registers that directory as a marketplace and installs the plugin
+# (user scope) INSIDE the throwaway config only, so `claude plugin configure <plugin>@<marketplace>` (the Settings view's option rows) works.
+# Your real ~/.claude plugins are never read or written. Exit 4 if the marketplace add or the install fails.
 # CONSOLE_DRIVE_SEED=<dir> copies that directory into the scratch .claude-flow before the run (seed claims, mods, ...).
 set -u
 EXPECT=(); POS=()
@@ -25,6 +28,13 @@ case "$LEVEL" in read|write|manage) ;; *) echo "level must be read|write|manage 
 for re in "${EXPECT[@]+"${EXPECT[@]}"}"; do
   node -e 'new RegExp(process.argv[1], "i")' "$re" 2>/dev/null || { echo "bad --expect regex: $re"; exit 2; }
 done
+INSTALL_DIR=""; INSTALL_ID=""
+if [[ -n "${CONSOLE_DRIVE_INSTALL:-}" ]]; then
+  INSTALL_DIR="${CONSOLE_DRIVE_INSTALL%:*}"; INSTALL_ID="${CONSOLE_DRIVE_INSTALL##*:}"
+  [[ "$INSTALL_DIR" != "$CONSOLE_DRIVE_INSTALL" && -d "$INSTALL_DIR" && "$INSTALL_ID" =~ ^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+$ ]] \
+    || { echo "CONSOLE_DRIVE_INSTALL must be <existing marketplace dir>:<plugin>@<marketplace>"; exit 2; }
+  INSTALL_DIR="$(cd "$INSTALL_DIR" && pwd)"
+fi
 CLAUDE="${CLAUDE_BIN:-$(command -v claude || echo "$HOME/.local/bin/claude")}"
 if [[ "${RUFLO_E2E_LIVE:-0}" != 1 || ! -x "$CLAUDE" ]]; then
   echo "SKIP drive: set RUFLO_E2E_LIVE=1 with a claude binary on PATH or at \$CLAUDE_BIN"
@@ -42,6 +52,13 @@ OUTJ="$SCRATCH/out.jsonl"; OUT="$SCRATCH"; CLI=true
 source "$(dirname "${BASH_SOURCE[0]}")/e2e-lib.sh"
 make_config "$SCRATCH"
 trap 'shred_config 2>/dev/null; rm -rf "$CFG"' EXIT
+if [[ -n "$INSTALL_ID" ]]; then
+  # Only ever against the throwaway $CFG: CLAUDE_CONFIG_DIR is set on each call, never exported to the rest of the script.
+  (cd "$SCRATCH" && CLAUDE_CONFIG_DIR="$CFG" "$CLAUDE" plugin marketplace add "$INSTALL_DIR" --scope user </dev/null >"$SCRATCH/install.txt" 2>&1 \
+    && CLAUDE_CONFIG_DIR="$CFG" "$CLAUDE" plugin install "$INSTALL_ID" --scope user </dev/null >>"$SCRATCH/install.txt" 2>&1) \
+    || { echo "install of $INSTALL_ID failed:"; tail -5 "$SCRATCH/install.txt"; exit 4; }
+  echo "INSTALLED $INSTALL_ID (throwaway config only)"
+fi
 mkdir -p "$CFG/plugins/store"
 node -e 'require("node:fs").writeFileSync(process.argv[1], JSON.stringify({ "ai-prefs": { modelControl: process.argv[2], modelConfirm: "auto" } }))' \
   "$CFG/plugins/store/ruflo-console_inline-b43d4e31bb1a.json" "$LEVEL"
