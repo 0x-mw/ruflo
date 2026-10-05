@@ -1,8 +1,8 @@
 # ADR 444: Claude controls the console: model tools, an autonomy level and a live dashboard
 
-Status: Proposed
+Status: Accepted (implemented in ruflo-console 0.30.0, PR #3696; the autopilot default of section 6 shipped in 0.32.0)
 
-Date: 2026 10 05
+Date: 2026 10 04
 
 Scope: `plugins/ruflo-console` (new `model-tools.ts`, `views/control.ts`; `register.ts`, `settings.ts`, `state.ts`, `scripts/smoke.sh`, `scripts/e2e-control.sh`)
 
