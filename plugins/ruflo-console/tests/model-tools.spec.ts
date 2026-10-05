@@ -16,7 +16,7 @@ import { setup } from './fixtures/control-setup'
 /** A controller whose runner behaves like the real one: read-only entries finish at once, the rest wait in `state.pending`. */
 function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Record<string, { label: string; readOnly?: boolean; note?: string }> = {}, followUp?: { label: string; note?: string }) {
   const state = newState({})
-  const calls = { timers: [] as (() => void)[], finishAfter: undefined as Promise<void> | undefined, setView: [] as string[], open: 0, goal: [] as string[], profile: [] as string[], draft: [] as string[][], confirm: 0, cancel: 0, runs: [] as string[] }
+  const calls = { timers: [] as (() => void)[], finishAfter: undefined as Promise<void> | undefined, setView: [] as string[], open: 0, goal: [] as string[], profile: [] as string[], draft: [] as string[][], confirm: 0, cancel: 0, runs: [] as string[], chips: [] as string[] }
 
   Object.assign(settingsOf(state).ai, { modelControl: level, modelConfirm: confirm })
 
@@ -28,7 +28,7 @@ function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Record<st
     actions: { mission: { goal: (text: string) => {
           calls.goal.push(text)
           if (followUp !== undefined) state.pending = { label: followUp.label, args: [], expect: 'guidance', askedAtMs: Date.now(), ...(followUp.note !== undefined && { note: followUp.note }) }
-        }, profile: (id: string) => void calls.profile.push(id), rigor: () => undefined }, devtools: { draft: (field: string, text: string) => void calls.draft.push([field, text]) }, costBudgetDraft: () => undefined } as unknown as Actions,
+        }, profile: (id: string) => void calls.profile.push(id), rigor: () => undefined }, devtools: { draft: (field: string, text: string) => void calls.draft.push([field, text]) }, costBudgetDraft: () => undefined, settings: { plugin: (name: string) => void calls.chips.push(name) } } as unknown as Actions,
     runner: {
       runById: (id: string) => {
         const entry = catalog[id as keyof typeof catalog] as { label: string; readOnly?: boolean; note?: string } | undefined
@@ -166,6 +166,21 @@ describe('what Claude may do at each level', () => {
     expect(await callTool('console_open', { view: 'nowhere' }, deps)).toMatch(/^Refused: no such page/)
     expect(await callTool('console_set', { field: 'goal', value: 'x' }, deps)).toMatch(/needs the "write" level/)
     expect(calls.goal).toEqual([])
+  })
+
+  it('selects a Plugin options chip at read: validated, a read, and no setting written', async () => {
+    const { deps, calls } = setup('read')
+
+    expect(await callTool('console_open', { view: 'settings', chip: 'mods' }, deps)).toMatch(/mods options selected/)
+    expect(await callTool('console_open', { view: 'settings', chip: 'ruflo-console' }, deps)).toMatch(/console options selected/)
+    expect(calls.chips).toEqual(['ruflo-mods', 'ruflo-console'])
+    expect(await callTool('console_open', { view: 'settings', chip: 'nope; rm' }, deps)).toMatch(/^Refused: no such chip.*Chips: console, mods/)
+    expect(await callTool('console_open', { view: 'missions', chip: 'mods' }, deps)).toMatch(/^Refused: chip applies only to the settings page/)
+    expect(calls.chips).toHaveLength(2)
+    expect(calls.setView).toEqual(['settings', 'settings'])
+    expect(deps.state.pending).toBeNull()
+    expect(await callTool('console_set', { field: 'goal', value: 'x' }, deps)).toMatch(/needs the "write" level/)
+    expect(TOOL_SPECS.find(spec => spec.name === 'console_open')?.needs).toBe('read')
   })
 
   it('at write: fills fields it knows and refuses ones it does not or values that are not allowed', async () => {

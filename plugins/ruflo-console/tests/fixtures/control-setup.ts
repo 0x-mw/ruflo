@@ -9,7 +9,7 @@ export type Level = 'off' | 'read' | 'write' | 'manage' | 'full'
 /** A controller whose runner behaves like the real one: read-only entries finish at once, the rest wait in `state.pending`. */
 export function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Record<string, { label: string; readOnly?: boolean; note?: string }> = {}, followUp?: { label: string; note?: string }) {
   const state = newState({})
-  const calls = { timers: [] as (() => void)[], finishAfter: undefined as Promise<void> | undefined, setView: [] as string[], open: 0, goal: [] as string[], profile: [] as string[], draft: [] as string[][], confirm: 0, cancel: 0, runs: [] as string[] }
+  const calls = { timers: [] as (() => void)[], finishAfter: undefined as Promise<void> | undefined, setView: [] as string[], open: 0, goal: [] as string[], profile: [] as string[], draft: [] as string[][], confirm: 0, cancel: 0, runs: [] as string[], chips: [] as string[] }
 
   Object.assign(settingsOf(state).ai, { modelControl: level, modelConfirm: confirm })
 
@@ -21,7 +21,7 @@ export function setup(level: Level, confirm: 'ask' | 'auto' = 'ask', entries: Re
     actions: { mission: { goal: (text: string) => {
           calls.goal.push(text)
           if (followUp !== undefined) state.pending = { label: followUp.label, args: [], expect: 'guidance', askedAtMs: Date.now(), ...(followUp.note !== undefined && { note: followUp.note }) }
-        }, profile: (id: string) => void calls.profile.push(id), rigor: () => undefined }, devtools: { draft: (field: string, text: string) => void calls.draft.push([field, text]) }, costBudgetDraft: () => undefined } as unknown as Actions,
+        }, profile: (id: string) => void calls.profile.push(id), rigor: () => undefined }, devtools: { draft: (field: string, text: string) => void calls.draft.push([field, text]) }, costBudgetDraft: () => undefined, settings: { plugin: (name: string) => void calls.chips.push(name) } } as unknown as Actions,
     runner: {
       runById: (id: string) => {
         const entry = catalog[id as keyof typeof catalog] as { label: string; readOnly?: boolean; note?: string } | undefined
