@@ -1,7 +1,7 @@
 {
   "name": "ruflo-mods",
   "description": "ruflo as a Claude Code mod (function hooks, ADR-404): in-process prompt routing, edit learning signals, tighten-only tool checks from ruflo policy, the cost-tracker budget ladder, a mod trust gate for newly installed mods, and the $.ruflo noun other mods compose their status with. Opt-in and removable: the classic hook-handler hooks stay the default and take every event back whenever the mod is not loaded.",
-  "version": "0.3.7",
+  "version": "0.3.9",
   "author": {
     "name": "ruvnet",
     "url": "https://github.com/ruvnet"
@@ -72,6 +72,13 @@
       "type": "boolean",
       "title": "Screen peer deliveries and outgoing messages",
       "description": "Drop a delivery from a peer, relay or webhook that carries prompt-injection phrasing, and refuse to send a message to another agent that carries a secret shape (key, token) or a US social security number. In-process pattern screen: no network, no model. Tighten-only; your own Remote Control prompts are never screened. Off by default.",
+      "required": false,
+      "default": false
+    },
+    "compactCarry": {
+      "type": "boolean",
+      "title": "Carry swarm and claims state through compaction",
+      "description": "When the conversation is compacted, tell the summary to keep one short block (600 characters at most): the live swarm id, its topology word and agent count, the ids and status of open claims, the last route agent, and the budget and policy words. Built only from validated ids and fixed words, never prompt text, tool inputs, paths or file contents; nothing is carried when no swarm or claim is open, or when the block fails a secret or injection screen. Appended to what you typed after /compact. Off by default.",
       "required": false,
       "default": false
     },

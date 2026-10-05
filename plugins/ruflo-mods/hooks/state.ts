@@ -35,6 +35,8 @@ export type ModState = {
   agentTrim: { enabled: boolean; hidden: Set<string>; prompt: string; ledger?: Promise<Record<string, number>> }
   /** `session.receive`/`session.send` screen (ADR-451): whether it is on, deliveries consumed, sends refused. */
   delivery: { enabled: boolean; consumed: number; blocked: number }
+  /** `session.compact` carry (ADR-451 item 7): whether it is on and how many compactions carried a block. */
+  compact: { enabled: boolean; carried: number }
   /** Capability probe (ADR-451 item 5): engine version and which registered events fired. */
   probe: ProbeState
   /** Other mods' status segments, by id (`$.ruflo.segment`). */
@@ -62,6 +64,7 @@ export function createState(): ModState {
     toolHints: { enabled: false, described: new Set() },
     agentTrim: { enabled: false, hidden: new Set(), prompt: '' },
     delivery: { enabled: false, consumed: 0, blocked: 0 },
+    compact: { enabled: false, carried: 0 },
     probe: probeState(),
     segments: new Map(),
     draw: () => undefined,
@@ -148,6 +151,7 @@ export function report(s: ModState): string {
     `  tool hints:  ${s.toolHints.enabled ? `${s.toolHints.described.size} tool(s) described` : 'off (set the toolHints option)'}`,
     `  agent trim:  ${s.agentTrim.enabled ? `${s.agentTrim.hidden.size} type(s) hidden` : 'off (set the agentTrim option)'}`,
     `  delivery:    ${s.delivery.enabled ? `${s.delivery.consumed} dropped, ${s.delivery.blocked} refused` : 'off (set the deliveryScreen option)'}`,
+    `  compact:     ${s.compact.enabled ? `${s.compact.carried} compaction(s) carried a block` : 'off (set the compactCarry option)'}`,
     `  probe:       ${probeLine(s.probe)}`,
     `  segments:    ${segments.join(', ') || 'none'}`,
     `  guidance:    ${s.guidance.status}; ${s.guidance.saved} unverified observation(s), ${s.guidance.pending.length} pending, ${s.guidance.dropped} dropped`,
