@@ -82,12 +82,24 @@ export function roomFeed(input: FeedInput): RoomItem[] {
   return shown.sort((a, b) => b.atMs - a.atMs).slice(0, ROOM_MAX)
 }
 
+/** The classes an ask can be shown as: a fixed list, so no label can add or change a word of the attribution (ADR-450 T14). */
+export const PENDING_KINDS = ['write', 'network', 'install', 'spend', 'delete'] as const
+
+/** "claude asks (network): " for an ask Claude raised, '' for the person's own; the words come from the stamped fields, never from the label. */
+export function askedBy(pending: { source?: string; kind?: string } | null): string {
+  if (pending === null || pending.source !== 'claude') return ''
+
+  const kind = PENDING_KINDS.find(known => known === pending.kind)
+
+  return kind === undefined ? 'claude asks: ' : `claude asks (${kind}): `
+}
+
 /** The banner for the one pending confirm: what, what it expects, where it was raised and how much of the window is left. */
-export function pendingBanner(pending: { label: string; expect: string; view?: string; askedAtMs: number } | null, nowMs: number, ttlMs: number): { label: string; expect: string; view: string | null; ageS: number; leftS: number; tone: RoomTone } | null {
+export function pendingBanner(pending: { label: string; expect: string; view?: string; askedAtMs: number; source?: string; kind?: string } | null, nowMs: number, ttlMs: number): { label: string; expect: string; view: string | null; ageS: number; leftS: number; tone: RoomTone } | null {
   if (pending === null) return null
 
   const ageMs = Math.max(0, nowMs - pending.askedAtMs)
   const leftS = Math.max(0, Math.ceil((ttlMs - ageMs) / 1000))
 
-  return { label: plain(pending.label, 100), expect: plain(pending.expect, 120), view: pending.view ?? null, ageS: Math.floor(ageMs / 1000), leftS, tone: leftS <= 8 ? 'bad' : leftS <= 15 ? 'warn' : 'info' }
+  return { label: askedBy(pending) + plain(pending.label, 100), expect: plain(pending.expect, 120), view: pending.view ?? null, ageS: Math.floor(ageMs / 1000), leftS, tone: leftS <= 8 ? 'bad' : leftS <= 15 ? 'warn' : 'info' }
 }

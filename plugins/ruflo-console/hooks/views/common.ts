@@ -5,6 +5,7 @@
  */
 import type { AskActions } from '../ask-claude'
 import type { OptimizerActions } from '../optimizer'
+import { askedBy } from '../data/room'
 import type { RoomActions } from '../room'
 import type { WatchActions } from '../watch'
 import type { Attention } from './attention'
@@ -359,7 +360,7 @@ export function confirmRow(ctx: Ctx): RenderElement | null {
     return row(
       ctx,
       [
-        text(ctx, `⚠ An ask is waiting on ${where?.label ?? pending.view}: ${clip(pending.label, Math.max(16, ctx.columns - 64))} `, { bold: true, color: THEME.warn }),
+        text(ctx, `⚠ An ask is waiting on ${where?.label ?? pending.view}: ${clip(askedBy(pending) + pending.label, Math.max(16, ctx.columns - 64))} `, { bold: true, color: THEME.warn }),
         button(ctx, 'confirm-go', 'Go there', () => ctx.act.view(pending.view as ViewId)),
         button(ctx, 'cancel', 'Cancel (n)', ctx.act.cancel, { hotkey: 'n' }),
       ],
@@ -371,7 +372,7 @@ export function confirmRow(ctx: Ctx): RenderElement | null {
     ctx,
     [
       text(ctx, '▶ CONFIRM NEEDED — click Yes or press y', { bold: true, color: THEME.warn }),
-      text(ctx, `Confirm: ${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
+      text(ctx, `Confirm: ${askedBy(pending)}${pending.label.replace(/\?+$/, '')}?`, { bold: true, color: THEME.warn }),
       // Wrapped, not clipped: the person says yes to the whole argv, so all of it shows (a JSON argument runs long).
       ctx.kit.Text({ dimColor: true, wrap: 'wrap', children: `runs: ${pending.shows ?? `ruflo ${pending.args.join(' ')}`}` }),
       ...(pending.note !== undefined ? [text(ctx, pending.note, { bold: /money|models/i.test(pending.note), color: /money|models/i.test(pending.note) ? THEME.bad : THEME.warn })] : []),
