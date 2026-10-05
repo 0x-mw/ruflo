@@ -104,7 +104,7 @@ refuse on it, once, in the generator, then shrink the baseline.
 
 ## Gate
 
-`scripts/probe-mod-guards.known-holes.json` records the current holes (32 `over-node-cap-25000` entries as of cap-r3). `smoke-all-plugins.mjs` runs `--fast --known-holes` last, so a
+`scripts/probe-mod-guards.known-holes.json` records the current holes. **Closed in cap-r4**: the shared `textsOf` now appends a `TRUNCATED` marker whenever it drops input (node, character or per-string budget), and `names`/`hasSecretIn` count it as a finding, so every guard refuses what it could not read in full (message never echoes input). The baseline is empty (it held 32 `over-node-cap-25000` entries as of cap-r3). `smoke-all-plugins.mjs` runs `--fast --known-holes` last, so a
 **new** hole (a regression, or a new guard copied from the capped template) fails the smoke while this backlog does not. Fixed holes
 print as "known holes that now pass"; remove them from the baseline. Fix a root cause, rerun `--write-known-holes`, commit the shrink.
 

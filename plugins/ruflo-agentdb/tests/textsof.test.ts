@@ -24,7 +24,7 @@ describe('the shared walker every guard reads through', () => {
     const started = performance.now()
     const texts = textsOf(wide)
     expect(performance.now() - started).toBeLessThan(500)
-    expect(texts.length).toBeLessThanOrEqual(20_000)
+    expect(texts.length).toBeLessThanOrEqual(20_001) // the walked texts and the truncation marker
     expect(texts.some(hasSecret)).toBe(true)
   })
 
@@ -56,6 +56,6 @@ describe('the shared walker every guard reads through', () => {
   })
 
   test('limits bound the work: a node budget of 2 stops the walk', () => {
-    expect(textsOf({ a: 'one', b: 'two', c: 'three' }, { nodes: 2 }).length).toBeLessThanOrEqual(2)
+    expect(textsOf({ a: 'one', b: 'two', c: 'three' }, { nodes: 2 }).length).toBeLessThanOrEqual(3) // two texts and the truncation marker
   })
 })

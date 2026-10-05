@@ -205,7 +205,7 @@ bash plugins/ruflo-agentdb/scripts/smoke.sh
 
 The smoke script is the contract. It calls each documented MCP tool, exercises the RaBitQ workflow, and source-inspects the fallback path (no env-var gate exists to force the fallback live).
 
-## As a mod (0.4.3, ADR-445)
+## As a mod (0.4.4, ADR-445)
 
 A function-hook mod ships beside the skills. Needs a Claude Code with mods (2.1.287+); older builds ignore it.
 
