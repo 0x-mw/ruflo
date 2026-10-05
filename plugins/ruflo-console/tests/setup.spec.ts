@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { probeArgv, probeError, versionProbe } from '../hooks/data/cli'
+import { probeArgv, probeError, scoreProbe, versionProbe } from '../hooks/data/cli'
 import { NOSTR_KEY, type ReaderFs } from '../hooks/data/files'
 import { readSnapshot } from '../hooks/data/snapshot'
 import { startSpec } from '../hooks/starts'
@@ -86,5 +86,14 @@ describe('offline CLI setup guidance', () => {
     expect(probeError(['npx', '--offline', 'other-cli'], result)).not.toContain('ruflo CLI not cached')
     expect(probeError(['ruflo', '--version'], result)).not.toContain('ruflo CLI not cached')
     expect(probeError(argv, { ...result, exitCode: 0 })).toBe('no JSON in the CLI output')
+  })
+
+  it('names an absent optional package from its degraded answer instead of calling it "no JSON" (ADR-150)', () => {
+    const degraded = JSON.stringify({ degraded: true, reason: 'metaharness-not-available', hint: 'Install with npm i -D metaharness@~0.3.0' }, null, 2)
+
+    expect(probeError(['metaharness', 'score'], { exitCode: 0, stdout: degraded, stderr: '' })).toBe('unavailable: metaharness-not-available')
+    expect(probeError(['metaharness', 'score'], { exitCode: 0, stdout: '{"degraded":true}', stderr: '' })).toBe('unavailable: degraded')
+    expect(probeError(['metaharness', 'score'], { exitCode: 0, stdout: '{"degraded":false}', stderr: '' })).toBe('no JSON in the CLI output')
+    expect(scoreProbe.parse(degraded)).toBeNull()
   })
 })
