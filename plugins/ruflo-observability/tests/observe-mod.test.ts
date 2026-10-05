@@ -98,3 +98,33 @@ describe('/observe-mod', () => {
     expect((await $.command.run(slash(''))).text).toContain('/observe-mod scan')
   })
 })
+
+describe('guard: a write to a namespace this plugin does not own', () => {
+  const put = (namespace: string | undefined, value: string) =>
+    call('mcp__plugin_ruflo-core_ruflo__memory_store', { key: 'k', ...(namespace === undefined ? {} : { namespace }), value })
+
+  test('is refused exactly as before, but the message neither claims the write nor echoes anything', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    const own = await outcome($, put('observability-traces', `token ${KEY}`))
+    expect(own).toContain('ruflo-observability')
+    expect(own).toContain('this telemetry write')
+    for (const ns of ['unrelated-notes', undefined, 'x'.repeat(80)]) {
+      const denied = await outcome($, put(ns, `token ${KEY}`))
+      expect(denied).toContain('secret-shaped value')
+      expect(denied).toMatch(ns === undefined ? /no namespace/ : new RegExp(`targeted namespace \\\\?"${ns.slice(0, 40)}\\\\?"`))
+      expect(denied).not.toMatch(/this telemetry write|span, log or label|telemetry/)
+      expect(denied).not.toContain('ghp_')
+      expect(denied).toContain('reference')
+    }
+    expect(await outcome($, put('unrelated-notes', 'prefer small reversible steps'))).toContain('ok')
+  })
+
+  test('a secret-shaped namespace is refused and never repeated', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    const denied = await outcome($, put(KEY, 'a plain note'))
+    expect(denied).toContain('secret-shaped value')
+    expect(denied).not.toContain('ghp_')
+  })
+})
