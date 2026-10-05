@@ -17,7 +17,6 @@ These enable `ruflo-mods@ruflo`, `ruflo-swarm@ruflo` and `ruflo-console@ruflo`, 
 
 - **ruflo-mods and ruflo-console** run only where function hooks are on. With them off, or with Claude Code's rollout switch off, they do nothing, and the classic hooks keep every event.
 - **ruflo-swarm** loads its commands, skills and agents even without function hooks. With them on, it is also a mod that can run host commands (pane actions you start).
-- **ruflo-console** is reported as "pending" until it is released in the marketplace.
 - **The ruflo marketplace is cloned on first use.** Each teammate's first trusted, interactive Claude Code start clones `github.com/ruvnet/ruflo`. A headless `claude -p` on a fresh config loads nothing. Once the marketplace is cloned, which `ruflo init` does, `claude -p` loads the mods too.
 - **Optional hardening:** set `pluginConfigs["ruflo-mods@ruflo"].options.modTrust = "refuse-risky"` with `modTrustAllow` in user or managed settings (e.g. `"ruflo-swarm@ruflo,ruflo-console@ruflo"`: both run host commands, so `refuse-risky` refuses them otherwise). Project settings cannot set it. The default is `observe`, which names what each later mod can do and blocks nothing.
 
@@ -75,20 +74,23 @@ At user scope, an unrelated project receives no routing context, edit-learning w
 
 Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].options` in user settings, `--settings` or managed settings. Project settings are not read for this. Every option has a default:
 
-| Option | Default | Effect |
+| Option | Default | Effect and evidence |
 |---|---|---|
-| `routeContext` | `true` | Include ranked memory with routes |
-| `guidanceContext` | `false` | Screened lexical excerpts from a compiler exported guidance projection |
-| `guidanceLearning` | `false` | Unverified activity observations for independent review; no training or promotion |
-| `statusLine` | `true` | One-line ruflo status. Skipped where the ruflo statusLine helper is configured |
-| `costBudgetUsd` | `0` (off) | Session budget for the ladder |
-| `costHardStop` | `false` | Refuse new subagents at 100% of budget |
-| `deliveryScreen` | `false` | In-process screen (ADR-451): drops peer or relay deliveries that carry injection phrasing, refuses outgoing messages that carry a secret shape. Never screens your own Remote Control prompts; names the rule, never the text |
-| `compactCarry` | `false` | `session.compact` (ADR-451 item 7): appends one block of at most 600 characters to what the compaction summary is told to keep: the live swarm id, topology word and agent count, open claim ids with their status word, the last route agent, and the budget and policy words. Read from `.claude-flow/swarm/swarm-state.json` and `.claude-flow/claims/claims.json`, every field validated to a fixed word or plain identifier; never prompt text, tool inputs, paths or file contents. Framed as data, screened for secret shapes and injection phrases (a hit carries nothing), appended after your own `/compact` text, skipped for subagent compactions and when no swarm or claim is open. Fails open |
-| `capabilityProbe` | `false` | Observability only (ADR-451 item 5): the `/ruflo-mods` report gains `probe: engine <version> · events fired n/m · never fired: ...`, and the heartbeat file lists the engine version and registered events. Reads no event payload; never denies, rewrites or delays; the version is shown as "not exposed" when the build does not answer `$.session.version()` |
-| `sessionRollup` | `false` | Observability only (ADR-451 item 6): at `session.end` one record of counters (tools called, routed, tightened, denied, agent spawns, cost rung, probe count) is appended to a user-global `$.store` ledger kept to the last 50 sessions, 512 bytes each and 32 KB in all, pruned on write; `/ruflo-mods` shows the last few as a `sessions:` line. Never stores prompt text, tool inputs, paths or file contents; a corrupt ledger reads as empty; never denies, rewrites or delays |
-| `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate |
-| `modTrustAllow` | `` | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses |
+| `routeContext` | `true` | Include ranked memory with each prompt's route. Evidence: [live paths](../../v3/docs/validation/ruflo-mods-live-paths-2026-10.md) |
+| `statusLine` | `true` | One-line ruflo status under the prompt; skipped where the ruflo statusLine helper is configured. Evidence: [live paths](../../v3/docs/validation/ruflo-mods-live-paths-2026-10.md) |
+| `costBudgetUsd` | `0` (off) | Session budget for the 50/75/90/100% ladder; each rung is announced once. Evidence: [capability review](../../v3/docs/validation/mod-capability-review-2026-10.md) |
+| `costHardStop` | `false` | Refuse new subagents at 100% of the budget. No live evidence doc yet; design in [ADR-404](../../v3/docs/adr/ADR-404-claude-code-mods-function-hooks.md) |
+| `toolHints` | `false` | Add one short static hint, restating the project's own CLAUDE.md, to a few ruflo MCP tool descriptions. Live: hints appear on exactly the hinted tools, none when off. Evidence: [live validation](../../v3/docs/validation/ruflo-mods-live-2026-10.md) |
+| `agentTrim` | `false` | Keep agent types the project does not use out of the agent listing. Measured saving about 4,000 tokens per request (4,236 on a 69-type catalogue, one model); a hidden type the prompt does not name is refused at dispatch, one the prompt names can still be dispatched. Evidence: [trim measurement](../../v3/docs/validation/ruflo-mods-trim-measure-2026-10.md) |
+| `agentTrimKeep` | empty | Comma-separated agent type names `agentTrim` must keep offered. Evidence: [live validation](../../v3/docs/validation/ruflo-mods-live-2026-10.md) |
+| `deliveryScreen` | `false` | ADR-451 screen: drops peer, relay or webhook deliveries that carry injection phrasing and refuses outgoing messages that carry a secret shape; never screens your own Remote Control prompts; names the rule, never the text. Caught 76% of the test set before tuning; the real-world rate is unknown. No live evidence doc yet; design in [ADR-451](../../v3/docs/adr/ADR-451-mod-capability-roadmap.md) item 3 |
+| `compactCarry` | `false` | `session.compact` (ADR-451 item 7): appends at most 600 characters to what the compaction summary keeps: swarm id, topology word, agent count, open claim ids and status, last route agent, budget and policy words. Fixed words and identifiers only, screened, fails open, skipped when no swarm or claim is open. No live evidence doc yet; design in [ADR-451](../../v3/docs/adr/ADR-451-mod-capability-roadmap.md) |
+| `capabilityProbe` | `false` | Observability only (ADR-451 item 5): `/ruflo-mods` gains `probe: engine <version> · events fired n/m · never fired: ...`; reads no payload and never denies, rewrites or delays. No live evidence doc yet; design in [ADR-451](../../v3/docs/adr/ADR-451-mod-capability-roadmap.md) |
+| `sessionRollup` | `false` | Observability only (ADR-451 item 6): at session end one counter record (no prompt text, inputs or paths) goes to a user-global ledger capped at 50 sessions and 32 KB; `/ruflo-mods` shows the last few. No live evidence doc yet; design in [ADR-451](../../v3/docs/adr/ADR-451-mod-capability-roadmap.md) |
+| `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate. Evidence: [capability review](../../v3/docs/validation/mod-capability-review-2026-10.md) |
+| `modTrustAllow` | empty | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses. Evidence: [capability review](../../v3/docs/validation/mod-capability-review-2026-10.md) |
+| `guidanceContext` | `false` | Screened lexical excerpts (at most five, 4096 characters) from a compiler-exported guidance projection; advisory, cannot authorize tool calls. Design in [ADR-447](../../v3/docs/adr/ADR-447-native-mod-guidance-observation-loop.md); evidence: [native guidance](../../v3/docs/validation/ADR-447-native-guidance-evidence.md) |
+| `guidanceLearning` | `false` | Unverified activity observations for independent review; no training or promotion. Evidence: [native guidance](../../v3/docs/validation/ADR-447-native-guidance-evidence.md) |
 
 ## Task guidance and observation review (ADR-447)
 
