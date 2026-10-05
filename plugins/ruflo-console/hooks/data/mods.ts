@@ -1,5 +1,5 @@
 import { readBounded, under, type ReadCache, type ReaderFs } from './files'
-import { jsonObject, plain } from './parse'
+import { jsonObject, plain, recordOf } from './parse'
 
 /** The most mod folders read, and the most bytes of one status file (a larger one is refused, not trimmed). */
 export const MODS_MAX_FILES = 60
@@ -15,7 +15,7 @@ export const DENY_CLASSES = ['secret', 'destructive', 'path', 'network', 'policy
 export type DenyClass = (typeof DENY_CLASSES)[number]
 
 /**
- * One mod's status file (ADR-446): the counters every mod writes; per-plugin counters are not read here. The last four are optional and only
+ * One mod's status file (ADR-446): the counters every mod writes (calls also from `seen`/`checked`/a `calls` object; lastDenied also from `lastReason`/`lastBlocked`); per-plugin counters are not read here. The last four are optional and only
  * present when the file reported them (modVersion, a one-line summary of what it guards, the class of its last refusal, the file's age source).
  */
 export type ModRow = { name: string; guard: boolean | null; calls: number | null; blocked: number; updatedMs: number | null; startedMs: number | null; modVersion?: string; summary?: string; lastDenied?: DenyClass; fileMs?: number }
@@ -26,6 +26,34 @@ export type ModsFacts = { rows: ModRow[]; refused: number; truncated: boolean }
 export const NO_MODS: ModsFacts = { rows: [], refused: 0, truncated: false }
 
 const whole = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) && v >= 0 ? Math.floor(v) : null)
+
+/** Most keys of a `calls` object that are summed, and the ceiling of any summed or widened count (a hostile 1e300 must not become a display value). */
+const CALLS_KEYS_MAX = 64
+const COUNT_CEILING = Number.MAX_SAFE_INTEGER
+
+/**
+ * How many times a mod ran, from whichever of its three shapes the file uses: a number `calls`; a `calls` object (summed over its numeric values,
+ * at most 64 of them); else `seen`, else `checked`. Anything else (array, nested object, NaN, negative, a string) is not a count: null.
+ */
+export function callsOf(value: Record<string, unknown>): number | null {
+  const direct = whole(value.calls)
+
+  if (direct !== null) return Math.min(direct, COUNT_CEILING)
+
+  const table = recordOf(value.calls)
+
+  if (table !== null) {
+    let sum = 0
+
+    for (const entry of Object.values(table).slice(0, CALLS_KEYS_MAX)) sum = Math.min(sum + (whole(entry) ?? 0), COUNT_CEILING)
+
+    return sum
+  }
+
+  const seen = whole(value.seen) ?? whole(value.checked)
+
+  return seen === null ? null : Math.min(seen, COUNT_CEILING)
+}
 
 const SUMMARY_MAX = 120
 const VERSION = /^[0-9][0-9A-Za-z.+-]{0,15}$/
@@ -53,16 +81,18 @@ export function parseModStatus(name: string, text: string | null, fileMs: number
 
   if (value === null || value.version !== 1) return null
 
+  const denied = denyClassOf(value.lastDenied) ?? denyClassOf(value.lastReason) ?? denyClassOf(value.lastBlocked)
+
   return {
     name: name.slice(0, -4),
     guard: typeof value.guard === 'boolean' ? value.guard : null,
-    calls: whole(value.calls),
+    calls: callsOf(value),
     blocked: whole(value.blocked) ?? 0,
     updatedMs: whole(value.updatedMs),
     startedMs: whole(value.startedMs),
     ...(modVersionOf(value.modVersion) !== null && { modVersion: modVersionOf(value.modVersion) as string }),
     ...(plain(value.summary, SUMMARY_MAX) !== '' && { summary: plain(value.summary, SUMMARY_MAX) }),
-    ...(denyClassOf(value.lastDenied) !== null && { lastDenied: denyClassOf(value.lastDenied) as DenyClass }),
+    ...(denied !== null && { lastDenied: denied }),
     ...(fileMs !== null && fileMs >= 0 && { fileMs }),
   }
 }
