@@ -3,12 +3,23 @@ import type { ToolInfo } from 'claude-code'
 import type { Source } from './options'
 
 /** A memory-read tool found among the connected ones, split into what `$.mcp.call` takes. */
-export type Reader = { readonly label: string; readonly server: string; readonly tool: string; readonly args: (query: string, limit: number) => Record<string, unknown> }
+export type Reader = {
+  readonly label: string
+  readonly server: string
+  readonly tool: string
+  /** Semantic: the whole prompt is the right query, and its salient words add nothing. */
+  readonly wholeOnly: boolean
+  /** `memory_retrieve` on the same server, when connected: memory_search's values are cut to 60 characters and this has the rest. */
+  readonly retrieve?: string
+  readonly args: (query: string, limit: number) => Record<string, unknown>
+}
 
+/** Preference order. `memory_search` is the only one that embeds the query (HNSW over ONNX vectors, so a paraphrase finds its memory); the AgentDB tier and pattern tools match substrings and ruvector's recall is hash-based. */
 const READERS = [
+  { suffix: 'memory_search', label: 'agentdb', whole: true, args: (query: string, limit: number) => ({ query, limit }) },
   { suffix: 'agentdb_hierarchical-recall', label: 'agentdb', args: (query: string, limit: number) => ({ query, topK: limit }) },
   { suffix: 'agentdb_pattern-search', label: 'agentdb', args: (query: string, limit: number) => ({ query, topK: limit }) },
-  { suffix: 'hooks_recall', label: 'ruvector', args: (query: string, limit: number) => ({ query, top_k: limit }) },
+  { suffix: 'hooks_recall', label: 'ruvector', whole: true, args: (query: string, limit: number) => ({ query, top_k: limit }) },
 ] as const
 
 /** `mcp__<server>__<tool>` into its two halves; tool names never hold a double underscore. */
@@ -26,7 +37,9 @@ export function pickReaders(tools: readonly ToolInfo[], source: Source): Reader[
     if (source !== 'auto' && source !== reader.label) continue
     const hit = tools.find(t => t.mcp && splitName(t.name)?.tool === reader.suffix)
     const parts = hit && splitName(hit.name)
-    if (parts) found.push({ label: reader.label, server: parts.server, tool: parts.tool, args: reader.args })
+    if (!parts) continue
+    const retrieve = reader.suffix === 'memory_search' && tools.some(t => t.mcp && t.name === `mcp__${parts.server}__memory_retrieve`) ? 'memory_retrieve' : undefined
+    found.push({ label: reader.label, server: parts.server, tool: parts.tool, wholeOnly: 'whole' in reader, ...(retrieve === undefined ? {} : { retrieve }), args: reader.args })
   }
   return found
 }
