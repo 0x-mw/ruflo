@@ -85,6 +85,7 @@ Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].opt
 | `costHardStop` | `false` | Refuse new subagents at 100% of budget |
 | `deliveryScreen` | `false` | In-process screen (ADR-451): drops peer or relay deliveries that carry injection phrasing, refuses outgoing messages that carry a secret shape. Never screens your own Remote Control prompts; names the rule, never the text |
 | `capabilityProbe` | `false` | Observability only (ADR-451 item 5): the `/ruflo-mods` report gains `probe: engine <version> · events fired n/m · never fired: ...`, and the heartbeat file lists the engine version and registered events. Reads no event payload; never denies, rewrites or delays; the version is shown as "not exposed" when the build does not answer `$.session.version()` |
+| `sessionRollup` | `false` | Observability only (ADR-451 item 6): at `session.end` one record of counters (tools called, routed, tightened, denied, agent spawns, cost rung, probe count) is appended to a user-global `$.store` ledger kept to the last 50 sessions, 512 bytes each and 32 KB in all, pruned on write; `/ruflo-mods` shows the last few as a `sessions:` line. Never stores prompt text, tool inputs, paths or file contents; a corrupt ledger reads as empty; never denies, rewrites or delays |
 | `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate |
 | `modTrustAllow` | `` | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses |
 
