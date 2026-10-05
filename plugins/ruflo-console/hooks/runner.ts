@@ -28,7 +28,8 @@ export type Runner = {
   confirm: () => Promise<void>
   cancel: () => void
   runEntry: (entry: PaletteEntry, text: string) => void
-  runById: (id: string, text: string) => boolean
+  /** `exact` (the model path, ADR-450 T13) resolves the id as written and never falls back to fuzzy matching. */
+  runById: (id: string, text: string, options?: { exact?: boolean }) => boolean
   /** Resolves when the read started last has finished: `/ruflo run` waits on it to answer with what it printed. */
   settled: () => Promise<void>
   /** Resolves when the last action that brought its own `run` (and is not awaited by `confirm`) has finished: the model tools wait on it, with a limit. */
@@ -201,9 +202,9 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
   }
 
   /** A palette entry by its id (`/ruflo run <id> [text]`, an approval's button): false when there is none now. */
-  function runById(id: string, text: string): boolean {
+  function runById(id: string, text: string, options: { exact?: boolean } = {}): boolean {
     const entries = paletteEntries(state, Date.now())
-    const entry = entries.find(candidate => candidate.id === id) ?? (text === '' ? undefined : filterPalette(entries, `${id} ${text}`, 'all')[0])
+    const entry = entries.find(candidate => candidate.id === id) ?? (text === '' || options.exact === true ? undefined : filterPalette(entries, `${id} ${text}`, 'all')[0])
 
     if (entry === undefined) return false
 

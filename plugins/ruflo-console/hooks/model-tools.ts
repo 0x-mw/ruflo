@@ -351,7 +351,7 @@ export async function callTool(name: string, input: Record<string, unknown>, dep
 
     const askedAt = state.outcome?.atMs ?? 0
 
-    if (!control.runner.runById(id, text)) return refuse(`run ${id}`, `no palette entry "${plain(id, 40)}" right now. Call console_state for the entries.`)
+    if (!control.runner.runById(id, text, { exact: true })) return refuse(`run ${id}`, `no palette entry "${plain(id, 40)}" right now. Call console_state for the entries.`)
 
     await control.runner.settled()
 
