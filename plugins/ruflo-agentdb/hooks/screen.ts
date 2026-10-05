@@ -237,6 +237,24 @@ const SECRETS: Rules = [
   ['key assignment', /\b(?:api[_-]?key|secret|token|passw(?:or)?d|credential)s?["']?\s*[:=]\s*["']?[A-Za-z0-9/+=_.-]{16,}/i],
 ]
 
-export const scan = (text: string): Findings => screenWith(SECRETS, text)
+/**
+ * Phrasing aimed at the assistant instead of stating a fact. Found by the live injection runs (v3/docs/validation/agentdb-recall-live-2026-10.md):
+ * a note that passed every shared rule was still followed in 6 of 10 trials, whatever the frame said. Local to this plugin on purpose (outside the
+ * shared region); a heuristic, so it narrows the risk and proves nothing.
+ */
+const DIRECTED: Rules = [
+  ['note to the assistant', /\b(?:note|message|instructions?|reminder|directive)s? (?:for|to) (?:the |any |an )?(?:ai|assistant|model|claude|agent|llm)\b/i],
+  ['do this around your answer', /\b(?:after|before|when) (?:you )?(?:answer|respond|reply|answering|responding|replying)\b[^.\n]{0,60}\b(?:append|add|include|create|write|run|execute|end|say|print|output|send)\b/i],
+  ['dictated reply', /\b(?:end|finish|conclude|begin|start|open|close) (?:your|the|every|each) (?:reply|replies|answer|answers|response|responses)\b|\b(?:every|each|all) (?:reply|replies|answer|answers|response|responses)\b[^.\n]{0,60}\b(?:must|should|shall)\b/i],
+  ['append a token', /\b(?:append|prepend|add) (?:the )?(?:exact |following )?(?:token|sentinel|word|string|phrase|marker)\b/i],
+  ['new task for the model', /\bnew (?:task|request|message|instruction)s? (?:from|for) (?:the )?(?:user|assistant|operator|system)\b/i],
+  ['directive field', /\b(?:assistant|ai|model|agent|system)[_ -]?(?:directive|instruction|prompt|command)s?\b/i],
+  ['respond with a token', /\b(?:respond|reply|answer) (?:only )?(?:with|in) (?:the )?(?:word|token|string|phrase)\b/i],
+]
+
+export const scan = (text: string): Findings => {
+  const found = screenWith(SECRETS, text)
+  return { secrets: found.secrets, injection: [...found.injection, ...names(DIRECTED, bare(text))] }
+}
 
 export const hasSecret = (text: string) => hasSecretIn(SECRETS, text)
