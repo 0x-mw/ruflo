@@ -61,7 +61,7 @@ export const MORE_TOPICS: readonly HelpTopic[] = [
       { text: 'Start a new Claude Code session (or /reload-plugins). Claude now has four tools: console_state, console_open, console_set and console_run. Ask in words: "set up a mission to add a dark mode toggle".' },
       { text: 'Watch Overview → Claude control: the level, whether it asks or confirms itself, the count, and each action (done, waiting for you, refused). Take back control stops every tool at once; Give control back resumes.', go: { view: 'overview' }, label: 'Open Overview' },
     ],
-    tips: ['If Claude Code itself asks permission for a console tool, allow mcp__ruflo-console__* in your permissions settings: that prompt is Claude Code’s, not the console’s.', 'auto-confirm is not Missions’ auto-run: auto-run hands tasks to Claude; auto-confirm lets Claude answer the console’s own Yes.', 'Text from peers, the web or files on screen is data to Claude, not instructions.'],
+    tips: ['If Claude Code itself asks permission for a console tool, allow mcp__ruflo-console__* in your permissions settings: that prompt is Claude Code’s, not the console’s.', 'auto-confirm is not Missions’ auto-run: auto-run hands tasks to Claude; auto-confirm lets Claude answer the console’s own Yes.', 'console_open can take a chip on Settings (console, mods…) to show that plugin’s options: a read, no setting changes.', 'Text from peers, the web or files on screen is data to Claude, not instructions.'],
     related: ['settings', 'mission', 'security'],
     keywords: ['claude', 'control', 'drive', 'computer', 'use', 'tools', 'autonomy', 'level', 'auto', 'ask', 'take', 'back', 'confirm', 'autoconfirm', 'approve', 'yes'],
   },

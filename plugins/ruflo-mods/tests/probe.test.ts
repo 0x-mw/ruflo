@@ -56,8 +56,9 @@ describe('capabilityProbe option (ADR-451 item 5)', () => {
   test('on: version, fired count and the never-fired events are reported', { options: { capabilityProbe: true } }, async ($, on) => {
     boot(on, { version: '2.1.287', base: '2.1.287' })
     await $.session.start(START)
-    const line = (await report($)).split('\n').find(l => l.includes('probe: engine')) ?? ''
-    expect(line).toMatch(/probe: engine 2\.1\.287 · events fired \d+\/\d+ · never fired: /)
+    const line = (await report($)).split('\n').find(l => /^\s*probe:\s+engine/.test(l)) ?? ''
+    expect(line).toMatch(/probe:\s+engine 2\.1\.287 · events fired \d+\/\d+ · never fired: /)
+    expect(line).not.toMatch(/probe:\s+probe:/) // the label is printed once
     expect(Number(/fired (\d+)\//.exec(line)?.[1])).toBeGreaterThanOrEqual(2) // session.start and command.run fired
     expect(line).not.toMatch(/never fired:.*\bsession\.start\b/)
     expect(line).toMatch(/never fired:.*\btool\.check\b/)
@@ -80,7 +81,7 @@ describe('capabilityProbe option (ADR-451 item 5)', () => {
     boot(on)
     on('session.version', () => ({ deny: 'not available' }))
     await $.session.start(START)
-    expect(await report($)).toContain('probe: engine version not exposed · events fired')
+    expect(await report($)).toMatch(/probe:\s+engine version not exposed · events fired/)
     expect(JSON.parse(w.files.get(BEAT) ?? '').engine).toBeNull()
   })
 
@@ -95,6 +96,6 @@ describe('capabilityProbe option (ADR-451 item 5)', () => {
     expect(bad.decision).toBe('deny')
     expect((await $.tool.check(check('ls'))).decision).toBe('allow')
     const odd = await $.command.run({ ...run('ruflo-mods'), args: '\u0000'.repeat(10) })
-    expect(odd.text).toContain('probe: engine')
+    expect(odd.text).toMatch(/probe:\s+engine/)
   })
 })
