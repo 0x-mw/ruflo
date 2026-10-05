@@ -76,3 +76,7 @@ scripts/__tests__/guard-label.test.mjs
 scripts/__tests__/mod-capability-matrix.test.mjs
 tests/check-guard-tool-names.test.mjs
 tests/check-status-forwarding.test.mjs
+plugins/ruflo-protector/tests/corpus.test.ts
+plugins/ruflo-protector/tests/mod.test.ts
+plugins/ruflo-protector/tests/rules.test.ts
+plugins/ruflo-mods/tests/protector.test.ts
