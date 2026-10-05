@@ -6,7 +6,7 @@ import { MAX_PROJECTION_BYTES, parseProjection, PROJECTION_PATH, selectGuidance 
 
 export type GuidanceHooks = {
   start: () => void
-  prompt: (text: string, fs: FileHost, record: boolean) => Promise<string | undefined>
+  prompt: (text: string, fs: FileHost) => Promise<string | undefined>
   active: () => ActiveTask | undefined
   check: (task: ActiveTask | undefined, decision: unknown) => void
   tool: (task: ActiveTask | undefined, event: unknown, result: { deny?: unknown; isError?: boolean }) => void
@@ -29,10 +29,9 @@ export function createGuidance(state: ModState, options: ModOptions): GuidanceHo
     start() {
       if (!s.runId) { s.runId = newRunId(); s.status = 'missing' }
     },
-    async prompt(text, fs, record) {
+    async prompt(text, fs) {
       if (!s.runId) return undefined
-      const learn = options.guidanceLearning && record // a project that does not own routing records nothing
-      if (learn) finishTask(s, 'interrupted')
+      if (options.guidanceLearning) finishTask(s, 'interrupted')
       const read = await projection({
         stat: async path => {
           const stat = await fs.stat(path)
@@ -44,7 +43,7 @@ export function createGuidance(state: ModState, options: ModOptions): GuidanceHo
       s.status = read.kind === 'ok' ? 'ready' : read.kind === 'absent' ? 'missing' : 'unreadable'
       if (read.kind !== 'ok') return undefined
       const selected = selectGuidance(text, read.value)
-      if (learn) {
+      if (options.guidanceLearning) {
         s.active = { taskId: ++s.taskSeq, projection: read.value, ruleIds: options.guidanceContext ? selected.ids : [], checks: { allow: 0, ask: 0, deny: 0 }, tools: { ok: 0, error: 0, denied: 0 }, toolIds: new Set(), idsDropped: 0 }
       }
       return options.guidanceContext ? selected.context : undefined

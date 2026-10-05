@@ -23,7 +23,7 @@ export function registerRoute(on: On, state: ModState, options: ModOptions, guid
   on('prompt.submit', async ($, e, next) => {
     const text = typeof e.text === 'string' ? e.text : ''
     if (state.agentTrim.enabled) state.agentTrim.prompt = text.slice(0, 4000).toLowerCase() // agent.offer keeps a type the prompt names
-    const advisory = guidance ? await guidance.prompt(text, { stat: path => $.fs.stat(path), read: path => $.fs.read(path) }, state.owned.has('route')) : undefined
+    const advisory = guidance ? await guidance.prompt(text, { stat: path => $.fs.stat(path), read: path => $.fs.read(path) }) : undefined
     const context = [...(e.context ?? []), ...(advisory ? [advisory] : [])]
     if (!state.owned.has('route')) return next(advisory ? { ...e, context } : e)
     const result = routeTask(text)

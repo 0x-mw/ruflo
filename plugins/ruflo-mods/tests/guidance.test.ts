@@ -1,5 +1,5 @@
 import { describe, expect, test, tier } from 'claude-code/testing'
-import { HELPER, prompt, ROOT, START, world } from './fixtures/world'
+import { prompt, ROOT, START, world } from './fixtures/world'
 
 tier('user')
 
@@ -74,21 +74,6 @@ describe('guidance (ADR-447)', () => {
     await $.prompt.submit(prompt('Write parser tests'))
     await $.turn.complete(complete('t1'))
     expect(context).not.toContain('advisory guidance DATA')
-    expect(queued(w.files).length).toBe(0)
-  })
-
-  test('a project that does not own routing records no observations but still gets guidance context', { options }, async ($, on) => {
-    const classic = { hooks: { UserPromptSubmit: [{ hooks: [{ command: 'node "$CLAUDE_PROJECT_DIR/.claude/helpers/hook-handler.cjs" route' }] }] } }
-    const w = world(on, classic, { [PATH]: projection(), [HELPER]: '// an older helper' })
-    let context = ''
-    on('prompt.submit', ($, e) => { context = e.context?.join('\n') ?? ''; return { text: e.text } })
-    on('tool.call', () => ({ result: 'ok' }))
-    on('turn.complete', ($, e) => ({ text: e.answer }))
-    await $.session.start(START)
-    await $.prompt.submit(prompt('Write parser tests'))
-    await $.tool.call({ tool: 'Read', file_path: 'a' })
-    await $.turn.complete(complete('t1'))
-    expect(context).toContain('TEST-001')
     expect(queued(w.files).length).toBe(0)
   })
 
