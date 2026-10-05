@@ -1,6 +1,6 @@
 # Index: the mod-system ADRs (404 to 452)
 
-Checked 2026-10-04 against `main` at b4ba5a6c2. "PR" is the merged pull request that added the ADR file (found with `gh api repos/ruvnet/ruflo/commits/<sha>/pulls`); "Shipped in" is the version the ADR's own status line names, confirmed against the `version` in the plugin's `plugin.json` at the commit that added the ADR or its code. "Tests" are test files the ADR names or that the commit implementing it added (console tests are in `plugins/ruflo-console/tests/`, `.spec.ts` unless noted). `—` means the ADR does not say. `node scripts/check-adr-links.mjs` checks the links, the relation lines and the numbering of the 4xx files.
+Checked 2026-10-05 against `main` at 6c7b6e889. "PR" is the merged pull request that added the ADR file (found with `gh api repos/ruvnet/ruflo/commits/<sha>/pulls`); "Shipped in" is the version the ADR's own status line names, confirmed against the `version` in the plugin's `plugin.json` at the commit that added the ADR or its code. "Tests" are test files the ADR names or that the commit implementing it added (console tests are in `plugins/ruflo-console/tests/`, `.spec.ts` unless noted). `—` means the ADR does not say. `node scripts/check-adr-links.mjs` checks the links, the relation lines and the numbering of the 4xx files.
 
 Two files carry the number 430 (the menu's accents, and the menu-design amendments); `scripts/check-adr-links.mjs` allows exactly that pair.
 
@@ -8,15 +8,15 @@ Two files carry the number 430 (the menu's accents, and the menu-design amendmen
 
 | ADR | Title | Status | Date | Builds on / extends | Superseded by | PR | Shipped in | Tests |
 |---|---|---|---|---|---|---|---|---|
-| 404 | Ruflo as a Claude Code mod (function hooks) | Accepted | 10-01 | related 150, 174, 324, 405 | — | #3608 | ruflo-mods (0.2.0 now) | `bench-mods-latency.ts`, mods suites |
+| 404 | Ruflo as a Claude Code mod (function hooks) | Accepted | 10-01 | related 150, 174, 324, 405 | — | #3608 | ruflo-mods (0.3.4 now) | `bench-mods-latency.ts`, mods suites |
 | 405 | ruOS desktops as swarm execution hosts | Proposed | 10-01 | related 150, 324, 325 | — | #3605 | ruflo-ruos 0.1.0 (status not updated) | `smoke.sh` |
 | 445 | AgentDB as a mod: safe recall, a write guard, `/agentdb-mod` | Accepted | 10-04 | 404, 444 | — | #3697 | ruflo-agentdb 0.4.0, console 0.31.0 | `agentdb-mod.spec.ts`, plugin tests, `bench.mjs` |
 | 446 | The plugin fleet as mods (39 plugins) | Accepted | 10-04 | 404, 445 | — | #3700 | 39 plugins; 44 plugins have a mod today | per-plugin `claude plugin test`, `smoke-all-plugins` |
 | 447 | Native mod guidance and observation loop | Accepted | 10-04 | 404, 445, 322A | — | #3702 | ruflo-mods 0.2.0 + CLI `guidance` adapter | `guidance.test.ts`, `mods-guidance-e2e.test.ts`, workflow `mod-guidance.yml` |
-| 449 | Guidance learning loop on the mod system | Proposed | 10-04 | 404, 447, 322A/C, 446 | — | not merged (branch `loop/adr-guidance`) | — | — |
-| 450 | Threat model of the mod system | Proposed | 10-05 (see note) | 404, 444, 445, 446, 447, 448 | — | merged: #3717 (console 0.33.3: T1 truthful classes incl. dt-term-exec, T3 plain()); T8+T12 in #3720 (0.33.4) | ruflo-console `threat-model.spec.ts`, `control-guards.spec.ts` | `threat-model.spec.ts`, `threat.test.ts` |
-| 451 | Mod capability roadmap | Proposed | 10-04 | 404, 445, 446, 447 | — | merged: #3716 (ruflo-mods 0.3.0, prototype `toolHints` default off) | ruflo-mods `tests/describe.test.ts` | — |
-| 452 | Mod-system overnight hardening: findings, changes, open items | Accepted (record) | 10-05 | 404, 444, 445, 446, 450, 451 | — | records #3706, #3711, #3713, #3714, #3715, #3717, #3719, #3727, #3732; #3733 and #3734 open | no code of its own | `probe-mod-guards`, `sync-mod-screen --check` |
+| 449 | Guidance learning loop on the mod system | Proposed | 10-04 | 404, 447, 322A/C, 446 | — | #3722 (doc only) | not built: its "New" rows are unimplemented | — |
+| 450 | Threat model of the mod system | Proposed | 10-05 (see note) | 404, 444, 445, 446, 447, 448 | — | merged: #3717 (console 0.33.3: T1 truthful classes incl. dt-term-exec, T3 plain()); T8+T12 in #3720 (0.33.4); T19 (`http.fetch` read path, recorded without a fix) in #3740 | ruflo-console `threat-model.spec.ts`, `control-guards.spec.ts` | `threat-model.spec.ts`, `threat.test.ts` |
+| 451 | Mod capability roadmap | Proposed (items 1–3 shipped, default off) | 10-04 | 404, 445, 446, 447 | — | #3716 (ADR + `toolHints`, 0.3.0); `agentTrim` item 2 (0.3.1, `33a60c715`); `deliveryScreen` item 3 (0.3.3, `cd01a4aea`); fixes 0.3.2, 0.3.4 | ruflo-mods 0.3.4 | `tests/describe.test.ts` |
+| 452 | Mod-system overnight hardening: findings, changes, open items | Accepted (record) | 10-05 | 404, 444, 445, 446, 450, 451 | — | #3735; records #3706, #3711, #3713, #3714, #3715, #3717, #3719, #3727, #3732, #3733, #3734 (all merged) | no code of its own | `probe-mod-guards`, `sync-mod-screen --check` |
 
 ## Console: mission control and Claude control
 
@@ -68,7 +68,8 @@ Other ADRs outside 404-451 that the mod ADRs lean on: 150 (removable integration
 
 ## Notes
 
-- **Dates.** ADRs 444, 445 and 446 were dated 2026 10 05 but were committed on 2026-10-04 (14:36 -0400, merged 19:24 UTC); corrected. ADR 450 on branch `loop/sec-threat` has the same slip (2026 10 05); fix it when that branch is merged.
+- **Dates.** ADRs 444, 445 and 446 were dated 2026 10 05 but were committed on 2026-10-04 (14:36 -0400, merged 19:24 UTC); corrected. ADR 450 is still dated 2026 10 05 in its own header although its file was added on 2026-10-04 (7725b867f); the owner should fix the file.
 - **ADR 405 and 406** still read "Proposed" although parts shipped (ruflo-ruos 0.1.0 for 405; mission records and the console for 406, which accepted ADRs 408, 409 and 443 build on). Their owners should decide whether to mark them Accepted with the unbuilt parts split out; this index does not change them.
-- **Forward links.** ADR 447 now names 449, 450 and 451 as its followers. The reverse links (449, 450 and 451 naming each other) belong in those files, which are not on `main` yet: 449 cites 404, 446 and 447 but not 450 or 451; 450 cites 444 to 448 but not 449 or 451; 451 cites 445 to 447 but not 449 or 450.
+- **Forward links.** 449, 450 and 451 are on `main`. 447 names all three as followers. They do not yet cite each other: 449 cites 404, 446, 447 but not 450 or 451; 450 cites 444 to 448 but not 449 or 451; 451 cites 445 to 447 but not 449 or 450; 452 cites 450 and 451.
+- **ADR files whose own Status line differs from this index:** 451 (file: "Proposed"; index adds that items 1–3 shipped). No other row disagrees; 405, 406, 449, 450 are "Proposed" in both, and 450 still reads Proposed although #3717, #3720 and #3740 shipped parts of it.
 - **ADRs with no stated parent:** 434, 436, 437, 438, 439, 440, 441 carry no `Builds on` or `Extends` line.
