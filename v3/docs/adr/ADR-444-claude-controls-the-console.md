@@ -1,8 +1,8 @@
 # ADR 444: Claude controls the console: model tools, an autonomy level and a live dashboard
 
-Status: Proposed
+Status: Accepted (implemented in ruflo-console 0.30.0, PR #3696; the autopilot default of section 6 shipped in 0.32.0)
 
-Date: 2026 10 05
+Date: 2026 10 04
 
 Scope: `plugins/ruflo-console` (new `model-tools.ts`, `views/control.ts`; `register.ts`, `settings.ts`, `state.ts`, `scripts/smoke.sh`, `scripts/e2e-control.sh`)
 
@@ -57,3 +57,7 @@ and a second setting, **confirm**: `auto` (default since console 0.32: once the 
 ## 6. Amendment: autopilot by default
 
 With `ask` as the default, a person who had turned control on found Claude parked on every write, waiting for a Yes that nothing prompted for. The level is the real limit (it defaults to off, and only the person raises it), so the confirm default is now `auto`; `ask` remains an explicit choice. Claude Code's own permission prompt for the four tools is separate: allow `mcp__ruflo-console__*` in the permissions settings to remove that one too (a mod can only tighten `tool.check`, never loosen it).
+
+## 7. Amendment: auto never answers network, spend or delete (console 0.33.4, ADR-450 T8, T12)
+
+`modelConfirm: auto` no longer applies to every class. An action classed `network`, `spend` or `delete` always waits for the person in the console's confirm row, even in `auto`: Claude's call is answered "Waiting for the person to confirm" and it must not retry. `auto` still runs local `write` actions unattended. Text Claude passes to `console_set` (the value) or `console_run` (the text) is screened with the shared secret screen (`hooks/screen.ts`, a copy kept in step by `scripts/sync-mod-screen.mjs`) before it reaches an entry; a match is refused ("that text looks like a secret") and never echoed. `RUFLO_CONSOLE_CONTROL` may only lower the saved level, or force `ask`; it can no longer raise either, so a project's settings `env` cannot give Claude more control than the person saved. For a recording or a test that needs a level, save it in Settings (or the plugin store) instead of the environment.

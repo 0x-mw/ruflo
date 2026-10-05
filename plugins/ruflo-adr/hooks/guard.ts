@@ -1,4 +1,6 @@
 import { hasSecret } from './screen'
+import { textsOf } from './screen'
+export { textsOf }
 
 /** `mcp__<server>__<tool>` into its two halves; tool names never hold a double underscore. */
 export function splitName(name: string): { server: string; tool: string } | undefined {
@@ -7,28 +9,31 @@ export function splitName(name: string): { server: string; tool: string } | unde
   return at > 5 ? { server: name.slice(5, at), tool: name.slice(at + 2) } : undefined
 }
 
-/** Every string in a tool's input, to a bounded depth and size: what the guard reads. */
-export function textsOf(input: unknown, budget = { left: 20_000 }, depth = 0): string[] {
-  if (budget.left <= 0 || depth > 6) return []
-  if (typeof input === 'string') {
-    budget.left -= input.length
-    return [input]
-  }
-  if (Array.isArray(input)) return input.slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  if (typeof input === 'object' && input !== null) return Object.values(input).slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  return []
-}
-
 const namespaceOf = (input: unknown): string => {
   const ns = (input as { namespace?: unknown } | null)?.namespace
   return typeof ns === 'string' ? ns : ''
 }
 
-/** True for the tool calls this plugin guards: ADR writes (`agentdb_hierarchical-store`, `agentdb_causal-edge`, `memory_store` into an `adr*` namespace). */
+/** An ADR entry id as the plugin's skills write it: `mem:ADR-0007`, `ADR-0007`. */
+const ADR_ID = /^(?:mem:)?ADR-/i
+
+const field = (input: unknown, key: string): string => {
+  const v = (input as Record<string, unknown> | null)?.[key]
+  return typeof v === 'string' ? v : ''
+}
+
+/**
+ * True for the tool calls this plugin guards: ADR writes. `memory_store` into an `adr*` namespace; `agentdb_hierarchical-store` (which has no namespace
+ * field, so the entry is told apart by its `mem:ADR-NNN` key) and `agentdb_causal-edge` (by its `mem:ADR-NNN` ends), as the adr-create skill calls them.
+ */
 export function owns(tool: string, input: unknown): boolean {
   const parts = splitName(tool)
   const name = parts?.tool ?? tool
-  return (name === 'agentdb_hierarchical-store' || name === 'agentdb_causal-edge' || name === 'memory_store') && /adr/i.test(namespaceOf(input))
+  const adrNamespace = /adr/i.test(namespaceOf(input))
+  if (name === 'memory_store') return adrNamespace
+  if (name === 'agentdb_hierarchical-store') return adrNamespace || ADR_ID.test(field(input, 'key'))
+  if (name === 'agentdb_causal-edge') return adrNamespace || ADR_ID.test(field(input, 'sourceId')) || ADR_ID.test(field(input, 'targetId'))
+  return false
 }
 
 /** The reason a call is refused, or undefined when it may go. Never names or echoes the secret. */

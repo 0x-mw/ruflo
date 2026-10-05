@@ -1,5 +1,5 @@
-import { hasSecret } from './screen'
-import { bare, textsOf } from './tools'
+import { hasSecret, textsOf } from './screen'
+import { bare } from './tools'
 import type { ModOptions } from './options'
 
 /** The engine's tools are named `sublinear/<verb>` and surface as `sublinear_*` once an MCP server carries them. */

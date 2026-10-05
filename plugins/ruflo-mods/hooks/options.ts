@@ -11,6 +11,7 @@ export type ModOptions = {
   readonly statusLine: boolean
   readonly costBudgetUsd?: number
   readonly costHardStop: boolean
+  readonly toolHints: boolean
   readonly modTrust: TrustPolicy
   readonly modTrustAllow: ReadonlySet<string>
 }
@@ -35,6 +36,7 @@ export function readOptions(options: PluginOptions | undefined): ModOptions {
     statusLine: bool(o.statusLine, true),
     costBudgetUsd: budgetOf(o.costBudgetUsd),
     costHardStop: bool(o.costHardStop, false),
+    toolHints: bool(o.toolHints, false),
     modTrust: TRUST.includes(o.modTrust as TrustPolicy) ? (o.modTrust as TrustPolicy) : 'observe',
     modTrustAllow: names(o.modTrustAllow),
   }

@@ -1,7 +1,7 @@
 import { hasSecret } from './screen'
 
-/** A shell command that runs this plugin's scripts: they post the prompt to api.deepseek.com, a third party. */
-const RUNS_HARNESS = /ruflo-deepseek-harness\/scripts\/(?:chat|reason|_deepseek)\.mjs/
+/** A shell command that runs this plugin's scripts (from the repo, or from an installed copy under a version directory): they post the prompt to api.deepseek.com, a third party. */
+const RUNS_HARNESS = /ruflo-deepseek-harness\/(?:[\w.@-]+\/)*scripts\/(?:chat|reason|_deepseek)\.mjs/
 
 /** The reason a DeepSeek call is refused, or undefined when it may go. Never names or echoes the secret. */
 export function verdict(tool: string, input: unknown): string | undefined {

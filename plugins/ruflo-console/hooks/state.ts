@@ -295,7 +295,7 @@ export type State = {
   timers: Map<string, Timer>
   stats: { renders: number[]; refreshes: number[]; frames: number[] }
   /** Claude's control of the console (ADR-444): paused by the person, the call counts, and the log the dashboard shows. */
-  control: { paused: boolean; calls: number; turnCalls: number; log: ControlEntry[]; /** Until when Claude counts as driving (a tool call extends it): the console does not spend a second Claude turn on guidance meanwhile. */ drivingUntilMs: number }
+  control: { paused: boolean; calls: number; turnCalls: number; log: ControlEntry[]; /** Until when Claude counts as driving (a tool call extends it): the console does not spend a second Claude turn on guidance meanwhile. */ drivingUntilMs: number; /** True while one of Claude's tool calls is running: a person's "always allow" answer must not let Claude's call skip the level and confirm checks (ADR-444). */ viaModel: boolean }
 }
 
 export function newState(raw: PluginOptions | undefined): State {
@@ -363,7 +363,7 @@ export function newState(raw: PluginOptions | undefined): State {
     devtools: { fields: emptyFields(), tmux: 'unknown' },
     timers: new Map(),
     stats: { renders: [], refreshes: [], frames: [] },
-    control: { paused: false, calls: 0, turnCalls: 0, log: [], drivingUntilMs: 0 },
+    control: { paused: false, calls: 0, turnCalls: 0, log: [], drivingUntilMs: 0, viaModel: false },
   }
 }
 
