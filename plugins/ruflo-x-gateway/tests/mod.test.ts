@@ -89,6 +89,17 @@ describe('guard', () => {
     expect(await deny(() => $.tool.call(BAD))).toContain('done')
   })
 
+  test('x_federation_invite_mint is screened: a secret in its arguments is refused, a plain mint passes', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'done' }))
+    await $.session.start(START)
+    const tool = 'mcp__plugin_ruflo-core_ruflo__x_federation_invite_mint'
+    const out = await deny(() => $.tool.call({ tool, channel: 'pub:ops', note: `key ${ghp}` } as never))
+    expect(out).toContain('secret')
+    expect(out).not.toContain(ghp)
+    expect(await deny(() => $.tool.call({ tool, channel: 'pub:ops', note: 'for the ops team' } as never))).toContain('done')
+  })
+
   test('channel publish is screened too; roster and reads are not', async ($, on) => {
     world(on)
     on('tool.call', () => ({ result: 'done' }))

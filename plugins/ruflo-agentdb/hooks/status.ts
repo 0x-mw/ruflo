@@ -11,6 +11,10 @@ export type Stats = {
   errors: number
   lastMs?: number
   lastTool?: string
+  /** The MCP tool that answered last (agentdb_hierarchical-recall, memory_search, ...); `lastTool` is only its family. */
+  lastReader?: string
+  /** Why the last reader call failed (a permission refusal, a server error), short and without the query. */
+  lastError?: string
   recent: { atMs: number; source: string; score?: number; snippet: string }[]
 }
 

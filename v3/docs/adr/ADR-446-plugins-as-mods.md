@@ -2,7 +2,7 @@
 
 Status: Accepted (implemented in 39 plugins, each bumped one minor version)
 
-Date: 2026 10 05
+Date: 2026 10 04
 
 Builds on: ADR-404 (ruflo as a mod), ADR-445 (AgentDB as a mod)
 
@@ -22,7 +22,7 @@ Eight headless workers, each in its own git worktree and branch from main, each 
 
 ## 3. Consequences and follow-ups
 
-- Each mod carries its own copy of the small secret screen from ADR-445 (`screen.ts`): plugins install as separate directories, so there is nowhere shared to import from. A fix to the screen must be applied in each copy; the follow-up is a generator or a shared package that is vendored at release.
-- 39 more slash commands (`/…-mod`) and 39 small status files per project. The console does not list them yet.
+- Each mod carries its own copy of the small secret screen from ADR-445 (`screen.ts`): plugins install as separate directories, so there is nowhere shared to import from. A fix to the screen must be applied in each copy. Since PR #3711, `scripts/sync-mod-screen.mjs` regenerates the shared region of each copy from one source and the all-plugins smoke runs it with `--check`.
+- 39 more slash commands (`/…-mod`) and 39 small status files per project. The console lists them from ruflo-console 0.33.1 (PR #3707, a Mods section on the Room and a count on Overview).
 - The guards watch tool names by string; a tool renamed in the CLI silently stops being guarded. A fleet check that every watched name exists in the tool registry is a follow-up (a spot check found only prefixes and tools served by other MCP servers missing).
 - Workers shared `/tmp/modgen` and one overwrote another's generator; their generated output was unaffected, but the next fan-out should give each worker a private scratch directory.

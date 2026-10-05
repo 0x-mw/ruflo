@@ -34,6 +34,9 @@ const OWNED = new Set([
 const WRITERS = new Set([
   'memory_store',
   'session_save',
+  'session_import',
+  'memory_import',
+  'config_import',
   'hooks_session-end',
   'hooks_transfer',
 ])

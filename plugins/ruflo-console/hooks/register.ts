@@ -13,7 +13,7 @@ import { BAR_KEY, barView } from './views/bar'
 import { setBootChecks } from './boot-checks'
 import { buildOf, isOurCheckout, setBuild } from './build'
 import { runUpdateCheck } from './update-flow'
-import { announceModelTools, parseControlEnv, serveModelTools } from './model-tools'
+import { announceModelTools, confirmOf, levelOf, lowerOnly, parseControlEnv, serveModelTools } from './model-tools'
 import { loadAiPrefs, settingsOf } from './settings'
 import { contextSection, onPromptSubmit, onTurnComplete } from './mission-claude'
 import { parseMode, RECHECK_EVERY_MS, UPDATES_KEY } from './updates'
@@ -206,12 +206,16 @@ export const register: Register = (on, raw: PluginOptions) => {
     await control.refresh()
     control.autoOpen()
 
-    // Declare the console tools to the model when control is on: the saved setting, or this session's RUFLO_CONSOLE_CONTROL=<level>:<ask|auto>.
+    // Declare the console tools to the model when control is on: the saved setting, or this session's RUFLO_CONSOLE_CONTROL=<level>:<ask|auto>, which can only lower it.
     await loadAiPrefs(state, bound).catch(() => undefined)
 
     const forced = parseControlEnv(await (async () => $.env.get('RUFLO_CONSOLE_CONTROL'))().catch(() => undefined))
 
-    if (forced !== null) Object.assign(settingsOf(state).ai, { modelControl: forced.level, modelConfirm: forced.confirm })
+    // The override may only lower what the person saved (ADR-450 T12): a project's settings env must not raise Claude's control.
+    const ai = settingsOf(state).ai
+    const effective = lowerOnly({ level: levelOf(ai.modelControl), confirm: confirmOf(ai.modelConfirm) }, forced)
+
+    Object.assign(ai, { modelControl: effective.level, modelConfirm: effective.confirm })
     await announceModelTools(tool => $.tool.register(tool), state).catch(() => 0)
 
     return next(e)

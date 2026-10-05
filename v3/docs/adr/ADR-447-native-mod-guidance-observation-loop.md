@@ -1,8 +1,10 @@
 # ADR-447: Native mod guidance and observation loop
 
 Date: 2026-10-04
-Status: Proposed
+Status: Accepted (implemented in ruflo-mods 0.2.0 and the CLI guidance adapter, PR #3702)
 Scope: ruflo-mods and the Guidance Control Plane CLI adapter
+Builds on: ADR-404 (ruflo as a mod), ADR-445 (AgentDB as a mod), ADR-322A (evaluation and promotion)
+Followed by: ADR-449 (the evaluator and promotion contracts this ADR defers to), ADR-450 (threat model), ADR-451 (capability roadmap)
 
 ## Context
 

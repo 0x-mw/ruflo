@@ -10,6 +10,11 @@ export const MAX_ITEMS = 5
 export const MAX_ITEM_CHARS = 400
 export const MAX_TOTAL_CHARS = 1500
 export const MIN_PROMPT_CHARS = 12
+/**
+ * Below this a reported score is noise. Measured live (docs/validation/agentdb-recall-live-2026-10.md): memory_search puts a real match at 0.36 to 0.49
+ * and an unrelated prompt's best at 0.13 to 0.18; ruvector's default recall always returns its nearest few, scored -0.10 to 0.10 whether related or not.
+ */
+export const MIN_SCORE = 0.25
 
 /** A prompt worth looking memory up for: not a slash command or a shell line, and long enough to mean something. */
 export function worthRecalling(prompt: string): boolean {
@@ -56,7 +61,11 @@ function textOf(item: unknown): string | undefined {
   return undefined
 }
 
-const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : undefined)
+/** A finite number, or a numeric string (ruvector reports its score as "0.018"). */
+const num = (v: unknown) => {
+  const n = typeof v === 'number' ? v : typeof v === 'string' && v.trim() !== '' ? Number(v) : Number.NaN
+  return Number.isFinite(n) ? n : undefined
+}
 
 /** Parses an MCP result's text (JSON from the AgentDB tools; anything else is none) into candidate items. Never throws. */
 export function parse(text: string, source: string, nowMs: number): Item[] {
@@ -77,12 +86,13 @@ export function parse(text: string, source: string, nowMs: number): Item[] {
   return out
 }
 
-/** Screens parsed items as untrusted: an item with a secret or an injection phrase is dropped (counted), the rest are tidied and capped. */
+/** Screens parsed items as untrusted: an item scoring under MIN_SCORE is skipped, one with a secret or an injection phrase is dropped (counted), the rest are tidied and capped. */
 export function screen(items: readonly Item[], limit: number): Screened {
   const kept: Item[] = []
   let unsafe = 0
   let total = 0
   for (const item of items) {
+    if (item.score !== undefined && item.score < MIN_SCORE) continue
     const found = scan(item.text)
     if (found.secrets.length > 0 || found.injection.length > 0) {
       unsafe++
