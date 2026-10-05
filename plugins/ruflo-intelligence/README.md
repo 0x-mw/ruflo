@@ -127,7 +127,7 @@ Configure once via `mcp tool call hooks_intelligence -- '{"mode": "moe", "enable
 - `intelligence-route` — Route tasks using learned patterns; produces a `hooks_explain` rationale
 - `intelligence-transfer` — Publish/fetch patterns via IPFS (`hooks_transfer`)
 
-## As a mod (0.4.1)
+## As a mod (0.4.2)
 
 A function-hook mod ships beside the skills (ADR-445 pattern). Needs a Claude Code with mods (2.1.287+); older builds ignore it. No network, no process spawning: it only tightens calls to this plugin's own tools and reads through tools already connected.
 

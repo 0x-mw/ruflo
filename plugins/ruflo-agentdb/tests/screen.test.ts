@@ -4,7 +4,7 @@ import { verdict } from '../hooks/guard'
 import { readOptions } from '../hooks/options'
 import { cacheKey, frame, keywords, parse, screen as screenItems, worthRecalling } from '../hooks/recall'
 import { expandTruncated } from '../hooks/expand'
-import { hasSecret, scan, tidy } from '../hooks/screen'
+import { TRUNCATED, hasSecret, hasSecretIn, names, scan, textsOf, tidy, COMMON_SECRETS } from '../hooks/screen'
 import { isWriter, pickReaders, splitName } from '../hooks/tools'
 
 tier('user')
@@ -320,5 +320,43 @@ describe('tools and guard', () => {
   test('options default to recall off and guard on, and clamp', () => {
     expect(readOptions(undefined)).toMatchObject({ recall: false, guard: true, recallLimit: 3, recallDeadlineMs: 800, source: 'auto' })
     expect(readOptions({ recall: 'on', recallLimit: 99, recallDeadlineMs: 5, guard: 'off', source: 'bogus' })).toMatchObject({ recall: true, recallLimit: 5, recallDeadlineMs: 200, guard: false, source: 'auto' })
+  })
+})
+
+describe('truncation fails closed', () => {
+  const flagged = (input: unknown, limits?: Parameters<typeof textsOf>[1]) => textsOf(input, limits).includes(TRUNCATED)
+
+  test('a secret after the node budget is refused, not dropped', () => {
+    const list: unknown[] = Array.from({ length: 25_000 }, () => 'x')
+    list.push(aws)
+    expect(flagged(list)).toBe(true)
+    expect(textsOf(list).some(hasSecret)).toBe(true)
+    expect(verdict('mcp__x__memory_store', { value: list })).toMatch(/too large|secret/)
+  })
+
+  test('a wide object past the node budget is flagged', () => {
+    const wide: Record<string, unknown> = {}
+    for (let i = 0; i < 30_000; i++) wide[`field${i}`] = i
+    expect(flagged(wide)).toBe(true)
+  })
+
+  test('the character budget and a string past the per-string limit are flagged', () => {
+    expect(flagged(['a'.repeat(900), 'b'.repeat(900), 'c'], { chars: 1000 })).toBe(true)
+    expect(flagged({ value: 'z'.repeat(3000) }, { perString: 1000 })).toBe(true)
+  })
+
+  test('input inside every budget is not flagged, and a custom node budget flags only when something was dropped', () => {
+    expect(flagged({ a: 'one', b: ['two', 'three'] })).toBe(false)
+    expect(flagged(['a', 'b'], { nodes: 2 })).toBe(false)
+    expect(flagged(['a', 'b', 'c'], { nodes: 2 })).toBe(true)
+  })
+
+  test('the refusal names a finding, never echoes input', () => {
+    expect(names(COMMON_SECRETS, TRUNCATED)).toEqual(['input too large to screen'])
+    expect(hasSecretIn(COMMON_SECRETS, TRUNCATED)).toBe(true)
+    const list: unknown[] = Array.from({ length: 25_000 }, () => 'x')
+    list.push(ghp)
+    const msg = verdict('mcp__x__memory_store', { value: list }) ?? ''
+    expect(msg).not.toContain(ghp)
   })
 })

@@ -148,8 +148,15 @@ function matches(name: string, re: RegExp, text: string): boolean {
   return false
 }
 
+/**
+ * The text textsOf appends when it had to drop input (a node, character or per-string budget ran out). It is never matched against a rule:
+ * `names` reports it as a finding of its own, so every guard that asks "is there a secret in these texts" refuses what it could not read in full.
+ */
+export const TRUNCATED = 'ruflo-screen: input exceeded the screening budget'
+export const TRUNCATED_NAME = 'input too large to screen'
+
 /** Names of the rules that match `text` (already bare'd). A rule named 'key assignment' is judged by assignmentSecret, whatever its regex. */
-export const names = (rules: Rules, text: string) => rules.filter(([name, re]) => matches(name, re, text)).map(([name]) => name)
+export const names = (rules: Rules, text: string) => text === TRUNCATED ? [TRUNCATED_NAME] : rules.filter(([name, re]) => matches(name, re, text)).map(([name]) => name)
 
 export type Findings = { readonly secrets: readonly string[]; readonly injection: readonly string[] }
 
@@ -191,33 +198,46 @@ function windows(text: string, out: string[]): void {
  * breadth-first (siblings before depth, so a long list cannot hide a nested value). A string under an object key comes back as `key=value`,
  * so a secret-named key is judged with its value; a key whose value is not a string is returned bare. Strings longer than the screen window
  * come back as overlapping windows; one over `perString` keeps its head and tail. Work is bounded by `nodes` slots and `chars` characters.
+ * Anything dropped (slots or characters ran out, or a string lost its middle) is reported by a final TRUNCATED text, which `names` and
+ * `hasSecretIn` count as a finding, so the screen fails closed instead of passing what it did not read.
  */
 export function textsOf(input: unknown, limits: TextLimits = {}): string[] {
   const out: string[] = []
   let slots = limits.nodes ?? NODES
   let chars = limits.chars ?? CHARS
   const perString = limits.perString ?? PER_STRING
+  let truncated = false
   const take = (text: string): void => {
-    if (chars <= 0) return
+    if (chars <= 0) {
+      truncated = true
+      return
+    }
     if (text.length <= Math.min(perString, chars)) {
       chars -= text.length
       windows(text, out)
       return
     }
+    truncated = true
     const half = Math.floor(Math.min(perString, chars) / 2)
     chars -= 2 * half
     windows(text.slice(0, half), out)
     windows(text.slice(-half), out)
   }
   const queue: unknown[] = [input]
-  for (let head = 0; head < queue.length && chars > 0; head++) {
+  let head = 0
+  for (; head < queue.length && chars > 0; head++) {
     const node = queue[head]
     if (typeof node === 'string') take(node)
     else if (Array.isArray(node)) {
-      for (let i = 0; i < node.length && slots > 0; i++, slots--) if (i in node) queue.push(node[i])
+      let i = 0
+      for (; i < node.length && slots > 0; i++, slots--) if (i in node) queue.push(node[i])
+      if (i < node.length) truncated = true
     } else if (typeof node === 'object' && node !== null) {
       for (const k in node) {
-        if (slots-- <= 0) break
+        if (slots-- <= 0) {
+          truncated = true
+          break
+        }
         if (!Object.prototype.hasOwnProperty.call(node, k)) continue
         const v = (node as Record<string, unknown>)[k]
         if (typeof v === 'string') queue.push(k + '=' + v)
@@ -228,6 +248,8 @@ export function textsOf(input: unknown, limits: TextLimits = {}): string[] {
       }
     }
   }
+  if (queue.length > head) truncated = true
+  if (truncated) out.push(TRUNCATED)
   return out
 }
 // END SHARED SCREEN
