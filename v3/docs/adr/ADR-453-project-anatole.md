@@ -1,4 +1,4 @@
-# ADR 453: The agentic protector: an optional, learning watchdog for unattended agents
+# ADR 453: Project Anatole: an optional, learning watchdog for unattended agents
 
 Status: Proposed (default off; nothing here is built when this is merged)
 
@@ -22,7 +22,7 @@ An anti-virus for agents has the same two jobs as the desktop kind: known-bad si
 
 ## 2. Decision
 
-Add an **optional** plugin, `ruflo-protector`, a mod in the ADR-404 pattern, plus a **Protector** section in the console's Security & Doctor page for listing, running and editing it. It is not part of any default install.
+**Project Anatole** is the name of this feature, and of nothing else: the mod system, the console and the other plugins keep their names. Anatole is an **optional** plugin, `ruflo-protector`, a mod in the ADR-404 pattern, plus a **Project Anatole** section in the console's Security & Doctor page for listing, running and editing it. The technical identifiers below (`ruflo-protector`, `/protector`, `.claude-flow/protector-mod/`, rule ids `PR-###`) stay descriptive; "Project Anatole" is what a person sees. It is not part of any default install.
 
 1. **Two kinds of signal, never mixed up.** *Rules* are deterministic, mapped to OWASP, and the only thing that can ever block. *Anomalies* come from a learned baseline and can only notify, and only when corroborated by a risky action. A baseline can never turn a rule off or whitelist a rule's class.
 2. **Four modes, no automatic escalation to blocking.** `off`, `learn` (the default once installed: record the baseline, say nothing), `notify` (alert, never block), `enforce` (rules marked `block` deny, everything else still only notifies). The plugin may graduate `learn` to `notify` when the baseline is mature. It never enables `enforce` by itself.
@@ -133,9 +133,9 @@ Directory `.claude-flow/protector-mod/` (the `-mod` suffix is what the console's
 | `allow <fp>` | allow a fingerprint without an alert |
 | `reset-baseline` | forget the baseline and start learning again |
 
-## 9. The console: a Protector section in Security & Doctor
+## 9. The console: a Project Anatole section in Security & Doctor
 
-The Security & Doctor page (`secure` view) gets a collapsible **Protector** section, in the page's existing list / run / edit style:
+The Security & Doctor page (`secure` view) gets a collapsible **Project Anatole** section, in the page's existing list / run / edit style:
 
 - **Status row**: mode, baseline maturity as a bar ("learning 62%"), open alerts by severity, blocked count, `degraded` if set. When the plugin is not loaded, one line says how to install it, and nothing else shows.
 - **List**: one row per rule: id, OWASP refs, severity, current mode (a three-way chip: off · notify · block), hits, acked share. A rule that was auto-demoted says so.
