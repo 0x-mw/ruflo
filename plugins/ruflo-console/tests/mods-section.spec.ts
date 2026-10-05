@@ -68,6 +68,43 @@ describe('orderMods', () => {
   })
 })
 
+describe('readMods, a status.json that is not a regular file (ADR-450 T2)', () => {
+  // Observed on the live engine: stat follows a link and reports the target's size plus isLink; read follows it, even outside the project.
+  const kinds: Record<string, { kind: string; isLink: boolean }> = { 'ok-mod': { kind: 'file', isLink: false }, 'link-mod': { kind: 'file', isLink: true }, 'fifo-mod': { kind: 'other', isLink: false }, 'dir-mod': { kind: 'dir', isLink: false } }
+
+  it('never reads a link, a FIFO or a folder named status.json, and counts each as refused', async () => {
+    const fs = fakeFs({ 'ok-mod': status(), 'link-mod': status(), 'fifo-mod': status(), 'dir-mod': status() })
+    const stat = fs.stat
+
+    fs.stat = async path => ({ ...(await stat(path)), ...kinds[path.split('/').at(-2) ?? ''] })
+
+    const mods = await readMods(fs, new Map(), '/p')
+
+    expect(mods.rows.map(r => r.name)).toEqual(['ok'])
+    expect(mods.refused).toBe(3)
+    expect(fs.reads).toEqual(['/p/.claude-flow/ok-mod/status.json'])
+  })
+
+  it('still reads when the engine says nothing about the kind', async () => {
+    const fs = fakeFs({ 'ok-mod': status() })
+
+    expect((await readMods(fs, new Map(), '/p')).rows).toHaveLength(1)
+  })
+
+  it('drops a cached copy once the path turns into a link', async () => {
+    const fs = fakeFs({ 'ok-mod': status() })
+    const cache = new Map()
+
+    expect((await readMods(fs, cache, '/p')).rows).toHaveLength(1)
+
+    const stat = fs.stat
+
+    fs.stat = async path => ({ ...(await stat(path)), isLink: true })
+
+    expect(await readMods(fs, cache, '/p')).toMatchObject({ rows: [], refused: 1 })
+  })
+})
+
 describe('readMods', () => {
   it('reads only *-mod folders and skips a folder with no status file', async () => {
     const fs = fakeFs({ 'docs-mod': status({ blocked: 2 }), 'sparc-mod': status(), 'agentdb': status(), 'quiet-mod': null, 'Bad-Mod': status(), '..-mod': status() }, ['loose-mod'])

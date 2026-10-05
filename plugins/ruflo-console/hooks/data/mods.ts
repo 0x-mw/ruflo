@@ -112,12 +112,14 @@ export async function readMods(fs: ReaderFs, cache: ReadCache, cwd: string): Pro
 
   const names = entries.filter(entry => entry.kind !== 'file' && DIR.test(entry.name)).map(entry => entry.name).sort()
   const kept = names.slice(0, MODS_MAX_FILES)
-  const reads = await Promise.all(kept.map(async name => ({ name, read: await readBounded(fs, cache, under(cwd, `${ROOT}/${name}/status.json`), MODS_MAX_BYTES) })))
+  const reads = await Promise.all(kept.map(async name => ({ name, read: await readBounded(fs, cache, under(cwd, `${ROOT}/${name}/status.json`), MODS_MAX_BYTES, true) })))
   const rows: ModRow[] = []
   let refused = 0
 
   for (const { name, read } of reads) {
     if (read.text === null && read.reason === 'missing') continue
+
+    // a link, FIFO or folder named status.json (ADR-450 T2): counted as refused, never read
 
     const row = parseModStatus(name, read.text, 'mtimeMs' in read ? read.mtimeMs : null)
 
