@@ -8,10 +8,10 @@ import { allows, callTool, lowerOnly, parseControlEnv } from '../hooks/model-too
 import { setup } from './fixtures/control-setup'
 
 describe('what auto-confirm may never answer (ADR-450 T8)', () => {
-  const ENTRIES = { read: 'mission-open', write: 'mission-create', network: 'plugin-install', spend: 'hand-task', delete: 'mission-cancel' } as const
+  const ENTRIES = { read: 'mission-open', write: 'mission-create', network: 'x-publish', install: 'plugin-install', spend: 'hand-task', delete: 'mission-cancel' } as const
   const levels = ['read', 'write', 'manage', 'full'] as const
 
-  for (const kind of ['read', 'write', 'network', 'spend', 'delete'] as const) {
+  for (const kind of ['read', 'write', 'network', 'install', 'spend', 'delete'] as const) {
     for (const confirm of ['ask', 'auto'] as const) {
       for (const level of levels) {
         const refused = !allows(level, kind)
@@ -35,7 +35,7 @@ describe('what auto-confirm may never answer (ADR-450 T8)', () => {
   it('never confirms a network, spend or delete action in auto, however many times Claude asks', async () => {
     const { deps, calls } = setup('full', 'auto')
 
-    for (const id of ['plugin-install', 'hand-task', 'mission-cancel']) {
+    for (const id of ['x-publish', 'plugin-install', 'hand-task', 'mission-cancel']) {
       expect(await callTool('console_run', { id }, deps), id).toMatch(/^Waiting for the person to confirm/)
       deps.state.pending = null
     }
@@ -113,3 +113,57 @@ describe('the environment override may only lower control (ADR-450 T12)', () => 
   })
 })
 
+
+describe('session budget per action class and install as full (ADR-450 T8)', () => {
+  it('classes plugin and marketplace changes as install, which needs full and always asks', async () => {
+    const { classOf, allows, ALWAYS_ASK } = await import('../hooks/model-tools')
+    const make = (label: string, note?: string) => ({ label, args: [] as string[], expect: '', ...(note !== undefined && { note }) })
+
+    for (const label of ['install a plugin', 'add the ruflo marketplace to Claude Code', 'update the ruflo marketplace clone', 'claude plugin enable x']) {
+      expect(classOf(make(label)), label).toBe('install')
+    }
+    expect(allows('manage', 'install')).toBe(false)
+    expect(allows('full', 'install')).toBe(true)
+    expect(ALWAYS_ASK).toContain('install')
+  })
+
+  it('asks the person for a write action once the session budget is used, even in auto', async () => {
+    const { SESSION_BUDGET } = await import('../hooks/model-tools')
+    const { deps, calls, state } = setup('write', 'auto')
+
+    for (let i = 0; i < SESSION_BUDGET.write; i += 1) expect(await callTool('console_run', { id: 'mission-create' }, deps)).toMatch(/^(Done|Ran)/)
+    state.control.turnCalls = 0
+
+    const over = await callTool('console_run', { id: 'mission-create' }, deps)
+
+    expect(over).toMatch(/^Waiting for the person to confirm.*session budget of 20 auto-confirmed write actions is used up/)
+    expect(state.pending).not.toBeNull()
+    expect(calls.confirm).toBe(SESSION_BUDGET.write)
+  })
+
+  it('refuses a network action once its budget is used, so the person is not asked again and again', async () => {
+    const { SESSION_BUDGET } = await import('../hooks/model-tools')
+    const { deps, calls, state } = setup('manage', 'auto')
+
+    for (let i = 0; i < SESSION_BUDGET.network; i += 1) {
+      expect(await callTool('console_run', { id: 'x-publish' }, deps)).toMatch(/^Waiting/)
+      state.pending = null
+    }
+
+    const over = await callTool('console_run', { id: 'x-publish' }, deps)
+
+    expect(over).toMatch(/^Refused: the session budget for network actions \(5\) is used up/)
+    expect(state.pending).toBeNull()
+    expect(calls.cancel).toBe(1)
+    expect(state.control.used.network).toBe(SESSION_BUDGET.network)
+  })
+
+  it('counts each class on its own and not read actions', async () => {
+    const { deps, state } = setup('full', 'auto')
+
+    await callTool('console_run', { id: 'mission-open' }, deps)
+    await callTool('console_run', { id: 'mission-create' }, deps)
+    await callTool('console_run', { id: 'plugin-install' }, deps)
+    expect(state.control.used).toEqual({ write: 1, install: 1 })
+  })
+})
