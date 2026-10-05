@@ -92,9 +92,19 @@ digest, a UUID, "api key rotation ticket", prose about JWTs).
 - `ruflo-iot-cognitum`'s Bash-command path (it needs a `cognitum-iot` prefix the generic carriers do not produce); only its
   `memory_store` path is probed.
 
+### Budget probes (loop cap-r3, ranked improvement #3)
+
+Three probe classes were added to the corpus: `structured` (`{key:'api_key', value}`, a nested `{field, content}`, a `['token', value]` pair), and `budget`
+(a secret after 25 000 list nodes, and after 2.8 M characters). Result: **32 guards let a secret through past the
+25 000-node walker budget** (`over-node-cap-25000`); the shared `textsOf` drops the rest silently. Only `ruflo-agentdb` refuses oversize input
+(PR #3728). The structured and character-budget probes pass everywhere (a bare credential value is caught on its own; `bare()` keeps head and tail).
+Not fixed here: the root cause is the vendored shared region, which `scripts/sync-mod-screen.mjs` (reworked by PR #3731) regenerates in every plugin.
+The holes are recorded in the baseline so a new one still fails the smoke. Fix: make the shared `textsOf` report truncation and have each guard
+refuse on it, once, in the generator, then shrink the baseline.
+
 ## Gate
 
-`scripts/probe-mod-guards.known-holes.json` records the 820 current holes. `smoke-all-plugins.mjs` runs `--fast --known-holes` last, so a
+`scripts/probe-mod-guards.known-holes.json` records the current holes (32 `over-node-cap-25000` entries as of cap-r3). `smoke-all-plugins.mjs` runs `--fast --known-holes` last, so a
 **new** hole (a regression, or a new guard copied from the capped template) fails the smoke while this backlog does not. Fixed holes
 print as "known holes that now pass"; remove them from the baseline. Fix a root cause, rerun `--write-known-holes`, commit the shrink.
 

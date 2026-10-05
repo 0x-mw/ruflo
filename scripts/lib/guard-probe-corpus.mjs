@@ -85,6 +85,13 @@ export function evasionProbes(big) {
   add('url-encoded', 'encoding', 'advisory', s => '%' + s.charCodeAt(0).toString(16) + s.slice(1))
   add('fullwidth-confusable', 'confusable', 'advisory', s => fullwidth(s))
   add('cyrillic-confusable', 'confusable', 'advisory', s => homoglyph(s))
+  // Structured credentials: the name and the value sit in two strings, so a rule that needs them together never sees them.
+  add('pair-name-value', 'structured', 'must', s => ({ key: 'api_key', value: s }))
+  add('pair-name-content-nested', 'structured', 'must', s => ({ entries: [{ field: 'secret', content: s }] }))
+  add('pair-array', 'structured', 'must', s => ({ rows: [['token', s]] }))
+  // Budgets: past a walker's node or character cap the guard must refuse (fail closed) or still find the secret; it may not pass it.
+  add('over-node-cap-25000', 'budget', 'must', s => ({ list: [...Array.from({ length: 25_000 }, () => 1), s] }))
+  add('over-char-cap-3m', 'budget', 'must', s => ({ a: 'p'.repeat(1_400_000), b: 'p'.repeat(1_400_000), c: s }))
   add('huge-start', 'huge', 'must', s => pad(big, s, 'start'))
   add('huge-middle', 'huge', 'must', s => pad(big, s, 'middle'))
   add('huge-end', 'huge', 'must', s => pad(big, s, 'end'))
