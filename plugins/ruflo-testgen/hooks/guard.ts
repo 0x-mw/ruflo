@@ -1,15 +1,3 @@
-/** Every string in a tool's input, to a bounded depth and size: what the guard reads. */
-export function textsOf(input: unknown, budget = { left: 20_000 }, depth = 0): string[] {
-  if (budget.left <= 0 || depth > 6) return []
-  if (typeof input === 'string') {
-    budget.left -= input.length
-    return [input]
-  }
-  if (Array.isArray(input)) return input.slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  if (typeof input === 'object' && input !== null) return Object.values(input).slice(0, 200).flatMap(v => textsOf(v, budget, depth + 1))
-  return []
-}
-
 /** The tool's short name: `mcp__<server>__<tool>` to `<tool>`. */
 export const shortName = (name: string) => (name.startsWith('mcp__') && name.lastIndexOf('__') > 5 ? name.slice(name.lastIndexOf('__') + 2) : name)
 
