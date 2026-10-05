@@ -32,11 +32,12 @@ const MAX_LINE = 240
  */
 const ALWAYS = ['agent.spawn', 'command.run', 'engine.create', 'plugin.register', 'prompt.submit', 'session.end', 'session.measure', 'session.start', 'tool.call', 'tool.check', 'turn.complete'] as const
 
-export function registeredEvents(opts: Pick<ModOptions, 'toolHints' | 'agentTrim' | 'deliveryScreen'>): string[] {
+export function registeredEvents(opts: Pick<ModOptions, 'toolHints' | 'agentTrim' | 'deliveryScreen'> & Partial<Pick<ModOptions, 'compactCarry'>>): string[] {
   const names: string[] = [...ALWAYS]
   if (opts.toolHints) names.push('tool.describe')
   if (opts.agentTrim) names.push('agent.offer')
   if (opts.deliveryScreen) names.push('session.receive', 'session.send')
+  if (opts.compactCarry) names.push('session.compact')
   return names.sort()
 }
 
@@ -66,7 +67,7 @@ export function versionText(value: unknown): string | undefined {
   return typeof text === 'string' && /^[A-Za-z0-9._+-]{1,40}$/.test(text) ? text : undefined
 }
 
-/** The bounded status line `/ruflo-mods` shows. */
+/** The bounded status text the `probe:` row of `/ruflo-mods` shows (no label of its own: the report adds it). */
 export function probeLine(probe: ProbeState): string {
   if (!probe.enabled) return 'off (set the capabilityProbe option)'
   const names = [...probe.registered].sort()
@@ -74,6 +75,6 @@ export function probeLine(probe: ProbeState): string {
   const never = names.filter(n => !probe.fired.get(n))
   const engine = probe.version ? `engine ${probe.version}` : 'engine version not exposed'
   const tail = never.length ? ` · never fired: ${never.join(', ')}` : ''
-  const line = `probe: ${engine} · events fired ${fired}/${names.length}${tail}`
+  const line = `${engine} · events fired ${fired}/${names.length}${tail}`
   return line.length > MAX_LINE ? `${line.slice(0, MAX_LINE - 1)}…` : line
 }
