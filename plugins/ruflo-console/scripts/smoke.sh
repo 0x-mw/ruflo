@@ -81,13 +81,22 @@ step "13. marketplace lists ruflo-console"
 grep -q '"name": "ruflo-console"' "$REPO/.claude-plugin/marketplace.json" && ok || bad "missing marketplace entry"
 
 step "14. every pure spec passes under vitest"
-# On failure keep the failing specs' own lines on stderr: the fleet JSON report captures stderrTail, and this step failed in CI on branches that
-# did not touch the console with nothing to read. Found 2026-10-05: it was a load-induced timeout. Seven specs `await import(...)` a heavy module graph
-# inside the test, which takes about 1.4 s alone but passes vitest's default 5 s under the CPU contention of the parallel fleet smoke, so the
-# test timeout is raised for this run (a real hang still fails: 30 s is far above any measured run).
-if vitest_out=$(cd "$REPO" && npx vitest run plugins/ruflo-console/tests/ --exclude '**/*.test.ts' --testTimeout=30000 2>&1); then ok; else
-  bad "vitest specs failed"
-  printf '%s\n' "$vitest_out" | grep -E "FAIL|×|AssertionError|Error:|Timeout|timed out|Cannot find|Test Files|Tests " | head -25 >&2
+# On failure keep the failing specs' own lines on stderr: the fleet JSON report captures stderrTail.
+# History (2026-10-05): this step failed in CI on branches that did not touch the console. A local reproduction found one cause, a load-induced
+# timeout: seven specs `await import(...)` a heavy module graph inside the test (about 1.4 s alone, over vitest's default 5 s under the CPU
+# contention of the parallel fleet smoke), so the test timeout is raised to 30 s. The slower metaharness-less CI job still failed afterwards with
+# no detail in its log, so a failure is now run once more: a load-induced failure does not repeat, a real one does and still fails the step.
+# The first run's failing lines are always kept on stderr, so a retry that passes still leaves its evidence.
+run_vitest() { (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/ --exclude '**/*.test.ts' --testTimeout=30000 2>&1); }
+failing_lines() { printf '%s\n' "$1" | sed 's/\x1b\[[0-9;]*m//g' | grep -E "FAIL|×|AssertionError|Error:|Timeout|timed out|Cannot find|Test Files|Tests " | head -25; }
+if vitest_out=$(run_vitest); then ok; else
+  first_out="$vitest_out"
+  echo "step 14: first vitest run failed; the failing lines follow, then it runs once more" >&2
+  failing_lines "$first_out" >&2
+  if vitest_out=$(run_vitest); then ok; echo "step 14: passed on the second run (the first failure did not repeat)" >&2; else
+    bad "vitest specs failed twice: $(failing_lines "$vitest_out" | grep -m1 -E 'FAIL' | cut -c1-160)"
+    failing_lines "$vitest_out" >&2
+  fi
 fi
 
 step "15. the live no-spend e2e smoke exists, is executable and skips cleanly without RUFLO_E2E_LIVE"
