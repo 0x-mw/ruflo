@@ -1,3 +1,8 @@
+# ADR 430 (amendments): The main menu design, as it changed on 2026 10 03
+
+Status: Accepted (ships in ruflo-console 0.26.0)
+
+Companion to ADR 430 (the menu's accents, chips and badges); both files carry the number 430. Extends: ADR 407 (the cockpit). Superseded in part by: ADR 442 (the Plugins page sits in TOOLS, not NETWORK).
 
 ## Amendment (2026 10 03): narrow panes keep their styling, and the groups fold
 

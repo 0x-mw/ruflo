@@ -15,7 +15,7 @@ const ORIGIN = 'ruflo-agentdb'
 const BEGIN = '// BEGIN SHARED SCREEN'
 const END = '// END SHARED SCREEN'
 // Raw zero-width, bidi and line-separator characters must never sit in a regex literal (they are built from escapes).
-const RAW_INVISIBLE = new RegExp('[\\u2028\\u2029\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u2064\\ufeff]')
+const RAW_INVISIBLE = new RegExp('[\\u00ad\\u034f\\u061c\\u180b-\\u180e\\u2028\\u2029\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u206f\\ufe00-\\ufe0f\\ufeff]')
 
 /** Split into the text before the begin line, the region (begin line to end line inclusive), and the text after. */
 export function split(src) {

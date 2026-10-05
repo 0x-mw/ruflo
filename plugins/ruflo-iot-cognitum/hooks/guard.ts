@@ -1,5 +1,5 @@
-import { hasSecret } from './screen'
-import { bare, namespaceOf, textsOf } from './tools'
+import { hasSecret, textsOf } from './screen'
+import { bare, namespaceOf } from './tools'
 import type { ModOptions } from './options'
 
 const IOT_NS = /^iot-/i
