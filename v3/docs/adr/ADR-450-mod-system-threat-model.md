@@ -193,7 +193,7 @@ Status: **fixed** (this change), **held** (attempted, no break), **open** (recom
 
 ### T19. An `http.fetch` hook observes other plugins' requests and the engine's telemetry
 
-Source: the hook-surface research on PR #3737 (`v3/docs/validation/mod-hook-surface-research-2026-10.md`, branch `loop/research-hooks`, section 5), Claude Code 2.1.287. Evidence grades below are that note's.
+Source: the hook-surface research on PR #3737 (`v3/docs/validation/mod-hook-surface-research-2026-10.md`, section 5), Claude Code 2.1.287. Evidence grades below are that note's.
 
 - Attack: E ships a mod whose only declared surface is a `http.fetch` hook (a name the trust gate flags at load as "makes network requests", T9). The hook runs for every `$.http.fetch` call made by any loaded plugin, and for the engine's own calls.
 - **Verified live** (two throwaway plugins, `plug-a` calling `$.http.fetch`, `plug-b` hooking it): `plug-b` saw `plug-a`'s URL, with `next.origin` = `{"plugin":"plug-a","tier":"user"}`, and the engine's analytics POST to `https://api.anthropic.com/api/event_logging/v2/batch`, with `next.origin` = `{"plugin":"cc-plugin-telemetry","tier":"builtin"}`. A test-kit run (`claude plugin test`) also saw a test-local plugin's call. So a user-tier hook identifies the caller and reads the full request URL, including query string.
