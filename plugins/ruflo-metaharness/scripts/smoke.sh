@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Structural smoke test for ruflo-metaharness v0.2.0 (ADR-150 Phase 1).
+# Structural smoke test for ruflo-metaharness v0.2.1 (ADR-150 Phase 1).
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PASS=0
@@ -32,10 +32,10 @@ else
   bad "extraction-regex-rot: EXPECTED_TOOLS=$EXPECTED_TOOLS EXPECTED_SUBS=$EXPECTED_SUBS"
 fi
 
-step "1. plugin.json declares 0.2.0 with adr-150 keywords"
+step "1. plugin.json declares 0.2.1 with adr-150 keywords"
 v=$(grep -E '"version"' "$ROOT/.claude-plugin/plugin.json" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-if [[ "$v" != "0.2.0" ]]; then
-  bad "expected 0.2.0, got '$v'"
+if [[ "$v" != "0.2.1" ]]; then
+  bad "expected 0.2.1, got '$v'"
 else
   miss=""
   for k in ruflo metaharness harness scorecard genome mcp-scan threat-model router adr-150 adr-148 adr-149 optional-dependency graceful-degradation subprocess phase-1-mvp; do
@@ -1067,9 +1067,12 @@ grep -q "from './_harness.mjs'" "$F" 2>/dev/null || miss="$miss not-using-produc
 # Gate flag exposed
 grep -q -- "--max-mean-us" "$F" 2>/dev/null || miss="$miss no-gate-flag"
 # Runtime: bench produces sub-5μs results across all categories
-node "$F" --iters 10000 --max-mean-us 5 >/dev/null 2>&1 || miss="$miss runtime-fails-or-perf-blew-5us"
+# The median, not the mean: a scheduler pause on a loaded CI runner moves the mean and flaked this step in the fleet smoke.
+grep -q -- "--gate-stat" "$F" 2>/dev/null || miss="$miss no-gate-stat-flag"
+# On failure keep the bench's own output on stderr (the fleet JSON report captures stderrTail): the reason was invisible in CI before.
+bench_out=$(node "$F" --iters 10000 --max-mean-us 5 --gate-stat p50 2>&1) || { miss="$miss runtime-fails-or-perf-blew-5us"; printf '%s\n' "$bench_out" | tail -15 >&2; }
 # Runtime: gate trips on absurd ceiling
-if node "$F" --iters 10000 --max-mean-us 0.0001 >/dev/null 2>&1; then
+if node "$F" --iters 10000 --max-mean-us 0.0001 --gate-stat p50 >/dev/null 2>&1; then
   miss="$miss gate-failed-to-trip"
 fi
 [[ -z "$miss" ]] && ok || bad "$miss"

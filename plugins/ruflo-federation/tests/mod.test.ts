@@ -121,3 +121,16 @@ describe('/federation-mod', () => {
     expect(text).not.toContain('memory_store')
   })
 })
+
+describe('guard PII: timestamps are not card numbers', () => {
+  test('a 13-digit epoch-millisecond timestamp passes however its Luhn sum falls; a real card still does not', async ($, on) => {
+    world(on)
+    on('tool.call', () => ({ result: 'went through' }))
+    await $.session.start(START)
+    const publish = (body: string) => call({ tool: 'mcp__plugin_ruflo-core_ruflo__x_federation_publish', body })
+    // 1791154825171 passes the Luhn check; it starts with 1, which no card network issues.
+    expect(denied(await $.tool.call(publish('sent at 1791154825171')))).toContain('went through')
+    expect(denied(await $.tool.call(publish('card 4242424242424242')).then(r => r, (e: unknown) => String(e)))).toContain('personal data')
+    expect(denied(await $.tool.call(publish('amex 3782 822463 10005')).then(r => r, (e: unknown) => String(e)))).toContain('personal data')
+  })
+})
