@@ -4,7 +4,7 @@ Status: Accepted (implemented in ruflo-console 0.33.0; §3.2, the expiry event, 
 
 Date: 2026 10 04
 
-Scope: `plugins/ruflo-console`: new `hooks/views/room.ts`, `hooks/data/room.ts`, `hooks/room.ts`; edits to `hooks/state.ts` (`ViewId`, `VIEWS`, `Pending`), `hooks/views/pane.ts` (`BODIES`), `hooks/runner.ts` (`ask`), `hooks/palette.ts` (three new ids), `hooks/model-tools.ts` (`console_state` reads the new feed).
+Scope: `plugins/ruflo-console`: new `hooks/views/room.ts`, `hooks/data/room.ts`, `hooks/room.ts`; edits to `hooks/state.ts` (`ViewId`, `VIEWS`, `Pending`), `hooks/views/pane.ts` (`BODIES`) and `hooks/runner.ts` (`ask`). As built, `hooks/palette.ts` and `hooks/model-tools.ts` carry no room code: the three senders are wired in `hooks/room.ts`, and Claude reads the feed by opening the `room` page and calling `console_state`. The feed lives in memory, per console session.
 
 Builds on: ADR 407 (cockpit), ADR 416 (Timeline and Events — read-only, per-page), ADR 444 (Claude controls the console — the model tools and the pending-confirm contract this ADR extends).
 
@@ -81,4 +81,4 @@ An expired confirm must leave a trace. `confirm()` (`runner.ts:147-150`) gains o
 - **What the person said** is kept (at most 50) with the label its confirm showed; its state (waiting for your yes, sent, not sent: why, not confirmed) is derived from the pending action and the last outcome, never assumed.
 - **Limits that hold:** draft 500 chars, find text 80, feed 200 items after a merge of at most ~600, every text from every source passes `plain()` (control and bidi characters stripped, length cut), and nothing in the feed is an action: an instruction inside an event is only text. Measured: merging 300 events, 200 Claude actions and 50 sayings takes well under 5 ms (asserted in `tests/room.spec.ts`).
 - **Checked live:** a real Claude (haiku) opened the page through `console_open` and read its four sections through `console_state`.
-- **Tests:** `tests/room.spec.ts` (13), plus the page is covered by the dead-button sweep, the every-affordance-refused sweep, the guide, ask, nav, boot-log and self-check suites (kit suite 211/0, vitest 871).
+- **Tests:** `tests/room.spec.ts` (13), plus the page is covered by the dead-button sweep, the every-affordance-refused sweep, the guide, ask, nav, boot-log and self-check suites (kit suite 211/0, vitest 871 at the time; about 990 `it(`/`test(` calls in 103 files on 2026 10 05).
