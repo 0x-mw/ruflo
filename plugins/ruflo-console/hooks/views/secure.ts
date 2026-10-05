@@ -155,20 +155,29 @@ function pasteRows(ctx: Ctx): RenderElement[] {
   const rows: RenderElement[] = []
 
   if (ctx.kit.Input !== undefined) {
+    // In a round border, like the other views' fields (loops, missions, events): the field is the first thing the eye finds, and the buttons below act on it.
     rows.push(
-      ctx.kit.Input({
-        key: 'sec-text',
-        label: 'text',
-        placeholder: 'paste a prompt, a message or a plan: Enter checks it locally (it is passed as one argv value)',
-        value: memo.draft,
-        submitLabel: 'check',
-        onInput: value => {
-          memo.draft = value
-        },
-        onSubmit: value => {
-          memo.draft = value
-          void ctx.act.run('aid-check', value)
-        },
+      ctx.kit.Box({
+        key: 'sec-text-box',
+        borderStyle: 'round',
+        borderColor: THEME.info,
+        paddingX: 1,
+        children: [
+          ctx.kit.Input({
+            key: 'sec-text',
+            label: 'text',
+            placeholder: 'paste a prompt, a message or a plan: Enter checks it locally (it is passed as one argv value)',
+            value: memo.draft,
+            submitLabel: 'check',
+            onInput: value => {
+              memo.draft = value
+            },
+            onSubmit: value => {
+              memo.draft = value
+              void ctx.act.run('aid-check', value)
+            },
+          }),
+        ],
       }),
     )
   } else {
