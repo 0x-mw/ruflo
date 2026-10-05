@@ -8,11 +8,12 @@ const LEDGER = 'agentUse'
 
 /**
  * `agent.offer` (ADR-451 item 2): keeps agent types the project does not use
- * out of the model's listing and out of dispatch. Off unless `agentTrim` is
+ * out of the model's listing. Off unless `agentTrim` is
  * on. A type stays when it is built in, a pinned core role, named in
  * `agentTrimKeep`, used in the last 30 days (the `$.store` ledger, fed by
  * `agent.spawn`), or named in the current prompt. Tighten-only on what the
- * model sees; any failure offers the type (the hook is skipped).
+ * model sees (not a dispatch block: live, a hidden type still spawns by name; the listing is built before the first prompt in a headless session,
+ * so a prompt naming a type does not keep it there). Any failure offers the type (the hook is skipped).
  */
 export function registerAgents(on: On, state: ModState, options: ModOptions) {
   state.agentTrim.enabled = true
