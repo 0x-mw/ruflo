@@ -41,12 +41,17 @@ export function extras(input: unknown): { readonly pairs: string[]; readonly ove
   return { pairs, oversize: false }
 }
 
+export const SECRET_REFUSAL = 'ruflo-agentdb: this memory write holds what looks like a secret (a key, token or password). Store a reference to where it lives, not the value.'
+
+/** Whether `input` holds a secret, judged like a write but never refusing for size: the best-effort file layer fails open past the budgets. */
+export const holdsSecret = (input: unknown): boolean => textsOf(input).some(hasSecret) || extras(input).pairs.some(hasSecret)
+
 /** The reason a memory write is refused, or undefined when it may go. Never names or echoes the secret. */
 export function verdict(tool: string, input: unknown): string | undefined {
   if (!isWriter(tool)) return undefined
   const { pairs, oversize } = extras(input)
   if (oversize) return 'ruflo-agentdb: this memory write is too large to screen for secrets in full. Store it in smaller pieces.'
   return textsOf(input).some(hasSecret) || pairs.some(hasSecret)
-    ? 'ruflo-agentdb: this memory write holds what looks like a secret (a key, token or password). Store a reference to where it lives, not the value.'
+    ? SECRET_REFUSAL
     : undefined
 }
