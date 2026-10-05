@@ -12,8 +12,8 @@ const LEDGER = 'agentUse'
  * on. A type stays when it is built in, a pinned core role, named in
  * `agentTrimKeep`, used in the last 30 days (the `$.store` ledger, fed by
  * `agent.spawn`), or named in the current prompt. Tighten-only on what the
- * model sees (not a dispatch block: live, a hidden type still spawns by name; the listing is built before the first prompt in a headless session,
- * so a prompt naming a type does not keep it there). Any failure offers the type (the hook is skipped).
+ * model sees (measured live, 2026-10: a hidden type the prompt does NOT name is refused at dispatch, one the prompt names plainly is accepted; the
+ * listing is built before the first prompt in a headless session, so a prompt naming a type does not put it back in the listing there). Any failure offers the type (the hook is skipped).
  */
 export function registerAgents(on: On, state: ModState, options: ModOptions) {
   state.agentTrim.enabled = true

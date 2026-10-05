@@ -44,7 +44,7 @@ The ledger is `$.store`: `~/.claude/plugins/store/ruflo-mods_inline-<hash>.json`
 
 ### Two claims the live runs contradict (text corrected in 0.3.2; no behaviour changed)
 
-1. **A hidden type can still be dispatched.** With `agentTrim` on and `quokka-analyst` hidden, `Call the Agent tool ... subagent_type "quokka-analyst"` replied `ACCEPTED`, ran, and the ledger afterwards held `{"agentUse": {"quokka-analyst": 1791174198156}}`, so it is kept from then on. The option text said "listing and dispatch"; it is the listing only.
+1. **A hidden type can still be dispatched (CORRECTION 2026-10-05: only when the prompt names it; see `ruflo-mods-trim-measure-2026-10.md`, where an unnamed hidden type was refused).** With `agentTrim` on and `quokka-analyst` hidden, `Call the Agent tool ... subagent_type "quokka-analyst"` replied `ACCEPTED`, ran, and the ledger afterwards held `{"agentUse": {"quokka-analyst": 1791174198156}}`, so it is kept from then on. The option text said "listing and dispatch"; it is the listing only.
 2. **"Named in the prompt" does not keep a type in a headless session.** `Is quokka-analyst available? ... list` answered `No` and the type stayed hidden (3 hidden); a second experiment (`Say hi`, list, then a prompt naming it plus the list) hid it in both lists. The listing is built before the first prompt and not rebuilt, so `agent.offer` runs before `prompt.submit` can record the prompt. Not tested: an interactive session (it may rebuild the listing). Use `agentTrimKeep` to be sure.
 
 ## 3. /ruflo-mods
