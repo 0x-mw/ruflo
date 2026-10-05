@@ -84,6 +84,7 @@ Claude Code reads a plugin's options from `pluginConfigs["ruflo-mods@ruflo"].opt
 | `costBudgetUsd` | `0` (off) | Session budget for the ladder |
 | `costHardStop` | `false` | Refuse new subagents at 100% of budget |
 | `deliveryScreen` | `false` | In-process screen (ADR-451): drops peer or relay deliveries that carry injection phrasing, refuses outgoing messages that carry a secret shape. Never screens your own Remote Control prompts; names the rule, never the text |
+| `capabilityProbe` | `false` | Observability only (ADR-451 item 5): the `/ruflo-mods` report gains `probe: engine <version> · events fired n/m · never fired: ...`, and the heartbeat file lists the engine version and registered events. Reads no event payload; never denies, rewrites or delays; the version is shown as "not exposed" when the build does not answer `$.session.version()` |
 | `modTrust` | `observe` | `observe` / `refuse-risky` / `off`: the mod trust gate |
 | `modTrustAllow` | `` | Comma-separated plugin ids (`name@marketplace`, e.g. `ruflo-swarm@ruflo,ruflo-console@ruflo`) the gate never refuses |
 

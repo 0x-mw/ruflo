@@ -1,6 +1,7 @@
 import type { EngineInterface, On } from 'claude-code'
 import type { GuidanceHooks } from './guidance'
 
+import { versionText } from './probe'
 import { HANDSHAKE_MARKER, ownedEvents } from './ownership'
 import type { ModOptions } from './options'
 import { redraw, report, under, type ModState } from './state'
@@ -55,13 +56,14 @@ export function registerSession(on: On, state: ModState, options: ModOptions, gu
     state.owned = new Set(project ? ownedEvents(settings, await helperHonours($)) : [])
     await $.env.set('RUFLO_MODS_OWNS', state.owned.size ? [...state.owned].join(',') : undefined)
     state.statusLine = options.statusLine && !hasClassicStatusLine(settings)
+    if (state.probe.enabled) state.probe.version = versionText(await $.session.version().catch(() => undefined))
     guidance?.start()
     redraw(state)
     await $.command
       .register({ name: 'ruflo-mods', description: 'Same as /ruflo mods: what this session routed, recorded and tightened' })
       .catch(() => undefined)
     if (project) {
-      const heartbeat = { startedAt: new Date().toISOString(), owned: [...state.owned], statusLine: state.statusLine }
+      const heartbeat = { startedAt: new Date().toISOString(), owned: [...state.owned], statusLine: state.statusLine, ...(state.probe.enabled ? { engine: state.probe.version ?? null, events: [...state.probe.registered].sort() } : {}) }
       await $.fs.write(under(state, HEARTBEAT_PATH), `${JSON.stringify(heartbeat, null, 2)}\n`).catch(() => undefined)
     }
     return next(e)

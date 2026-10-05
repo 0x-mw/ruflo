@@ -9,6 +9,7 @@ import { createGuidance } from './guidance'
 import { registerLearn } from './learn'
 import { registerNoun } from './noun'
 import { readOptions } from './options'
+import { registerProbe } from './probe'
 import { registerRoute } from './route'
 import { registerSession } from './session'
 import { createState } from './state'
@@ -32,6 +33,7 @@ export const register: Register = (on, options) => {
   const guidance = createGuidance(state, opts)
 
   registerTrust(on, opts.modTrust, opts.modTrustAllow)
+  if (opts.capabilityProbe) registerProbe(on, state, opts)
   registerNoun(on, state)
   registerSession(on, state, opts, guidance)
   registerRoute(on, state, opts, guidance)

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Structural + security smoke for ruflo-mods v0.3.5 (ADR-404, ADR-447).
+# Structural + security smoke for ruflo-mods v0.3.6 (ADR-404, ADR-447).
 # Static only: CI has no Claude Code, so the hooks module's behaviour is held
 # by v3/@claude-flow/cli/__tests__/mods/*.test.ts and, where function hooks are
 # on, by `claude plugin test plugins/ruflo-mods`.
@@ -12,9 +12,9 @@ ok()   { printf "PASS\n"; PASS=$((PASS+1)); }
 bad()  { printf "FAIL: %s\n" "$1"; FAIL=$((FAIL+1)); }
 HOOKS="$ROOT/hooks"
 
-step "1. plugin.json declares ruflo-mods 0.3.5"
+step "1. plugin.json declares ruflo-mods 0.3.6"
 grep -q '"name": "ruflo-mods"' "$ROOT/.claude-plugin/plugin.json" \
-  && grep -q '"version": "0.3.5"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
+  && grep -q '"version": "0.3.6"' "$ROOT/.claude-plugin/plugin.json" && ok || bad "name/version"
 
 step "2. hooks.json names exactly one module and no classic hook commands"
 grep -q '"modules": \["./register.ts"\]' "$HOOKS/hooks.json" && ! grep -q '"command"' "$HOOKS/hooks.json" \
@@ -32,7 +32,7 @@ hits=$(grep -rnE '\$\.(http|process|model|mcp)\.' "$HOOKS" || true)
 
 step "5. only the documented events are hooked"
 events=$(grep -rhoE "on\('[a-z.*]+'" "$HOOKS" | sort -u | tr '\n' ' ')
-expected="on('agent.offer' on('agent.spawn' on('command.run' on('engine.create' on('plugin.register' on('prompt.submit' on('session.end' on('session.measure' on('session.receive' on('session.send' on('session.start' on('tool.call' on('tool.check' on('tool.describe' on('turn.complete' "
+expected="on('*' on('agent.offer' on('agent.spawn' on('command.run' on('engine.create' on('plugin.register' on('prompt.submit' on('session.end' on('session.measure' on('session.receive' on('session.send' on('session.start' on('tool.call' on('tool.check' on('tool.describe' on('turn.complete' "
 [[ "$events" == "$expected" ]] && ok || bad "got: $events"
 
 step "6. tool.check merges with stricter() (tighten-only)"
@@ -59,6 +59,14 @@ grep -q '"types": "./types/index.d.ts"' "$ROOT/.claude-plugin/plugin.json" \
 step "11. guidance observations cannot train or promote"
 hits=$(grep -rnE '(hooks_post-task|outcomeAccepted|applyPromotions|runCycle|optimize\(|events\.ndjson)' "$HOOKS/guidance" || true)
 [[ -z "$hits" ]] && grep -q 'learningEligible: false' "$HOOKS/guidance/observations.ts" && ok || bad "guidance must remain candidate-only"
+
+step "12. the capability probe is observability only and lists every event hooked"
+missing=""
+for ev in $(grep -rhoE "on\('[a-z.]+'" "$HOOKS" | sed -E "s/on\('(.*)'/\1/" | sort -u); do
+  grep -q "'$ev'" "$HOOKS/probe/index.ts" || missing="$missing $ev"
+done
+[[ -z "$missing" ]] && ! grep -nE "decision|deny|consumed|isDelivered|\\$\.(fs|env|ui)\." "$HOOKS/probe/index.ts" >/dev/null \
+  && ok || bad "probe event list missing:$missing, or the probe answers/writes"
 
 printf "\n%d passed, %d failed\n" "$PASS" "$FAIL"
 [[ $FAIL -eq 0 ]]

@@ -15,6 +15,7 @@ export type ModOptions = {
   readonly agentTrim: boolean
   readonly agentTrimKeep: ReadonlySet<string>
   readonly deliveryScreen: boolean
+  readonly capabilityProbe: boolean
   readonly modTrust: TrustPolicy
   readonly modTrustAllow: ReadonlySet<string>
 }
@@ -43,6 +44,7 @@ export function readOptions(options: PluginOptions | undefined): ModOptions {
     agentTrim: bool(o.agentTrim, false),
     agentTrimKeep: keepNames(o.agentTrimKeep),
     deliveryScreen: bool(o.deliveryScreen, false),
+    capabilityProbe: bool(o.capabilityProbe, false),
     modTrust: TRUST.includes(o.modTrust as TrustPolicy) ? (o.modTrust as TrustPolicy) : 'observe',
     modTrustAllow: names(o.modTrustAllow),
   }
