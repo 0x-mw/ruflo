@@ -87,8 +87,12 @@ test('corpus ids are unique and cover every required class', () => {
   const ids = [...evasionProbes(1000), ...stressProbes(1000)].map(p => p.id)
   assert.equal(new Set(ids).size, ids.length)
   const classes = new Set(evasionProbes(1000).map(p => p.cls))
-  for (const c of ['invisible', 'nesting', 'keys', 'json', 'encoding', 'confusable', 'huge', 'wide']) assert.ok(classes.has(c), c)
+  for (const c of ['invisible', 'nesting', 'keys', 'json', 'encoding', 'confusable', 'huge', 'wide', 'structured', 'budget']) assert.ok(classes.has(c), c)
   assert.ok(ids.includes('nest-obj-5000') && ids.includes('s-a') && ids.includes('s-pem-spaces'))
+  assert.ok(ids.includes('pair-name-value') && ids.includes('over-node-cap-25000') && ids.includes('over-char-cap-3m'))
+  const over = evasionProbes(1000).find(p => p.id === 'over-node-cap-25000').build('x')
+  assert.ok(over.list.length > 20_000 && over.list.at(-1) === 'x', 'the secret sits past the walker node budget')
+  assert.deepEqual(evasionProbes(1000).find(p => p.id === 'pair-name-value').build('x'), { key: 'api_key', value: 'x' })
   const deep = evasionProbes(1000).find(p => p.id === 'nest-obj-5000').build('x')
   let depth = 0
   for (let v = deep; typeof v === 'object'; v = v.k) depth++

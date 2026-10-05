@@ -1,1 +1,98 @@
-{}
+{
+ "ruflo-adr": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-agent": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-ai-team": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-aidefence": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-autopilot": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-bbs-federation": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-browser": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-daa": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-ddd": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-docs": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-federation": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-goals": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-graph-intelligence": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-intelligence": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-iot-cognitum": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-jujutsu": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-knowledge-graph": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-loop-workers": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-market-data": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-metaharness": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-migrations": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-music": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-neural-trader": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-observability": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-rag-memory": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-ruvector": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-ruvllm": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-rvf": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-security-audit": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-sparc": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-workflows": [
+  "over-node-cap-25000"
+ ],
+ "ruflo-x-gateway": [
+  "over-node-cap-25000"
+ ]
+}
