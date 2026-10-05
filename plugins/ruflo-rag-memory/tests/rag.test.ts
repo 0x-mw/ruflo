@@ -51,6 +51,18 @@ describe('guard', () => {
     expect(JSON.stringify(await $.tool.call(call('Bash', `echo ${SECRET}`)))).toContain('done')
   })
 
+  test('memory_import: bulk imports are screened like a write', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    for (const name of ["memory_import"]) {
+      const tool = `mcp__plugin_ruflo-core_ruflo__${name}`
+      const denied = JSON.stringify(await attempt($.tool.call({ tool, data: { entries: [{ note: `token ${SECRET}` }] } } as never)))
+      expect(denied).toContain('secret')
+      expect(denied).not.toContain('ghp_')
+      expect(JSON.stringify(await $.tool.call({ tool, data: { entries: [{ note: 'a plain note' }] } } as never))).toContain('done')
+    }
+  })
+
   test('guard: off lets the write through', { options: { guard: 'off' } }, async ($, on) => {
     const w = world(on)
     await $.session.start(START)

@@ -30,6 +30,8 @@ export type ModState = {
   budget: { level: BudgetLevel; usd?: number; limit?: number }
   /** `tool.describe` hints (ADR-451): whether the feature is on and which tools it described. */
   toolHints: { enabled: boolean; described: Set<string> }
+  /** `agent.offer` trim (ADR-451): whether it is on, the types it hid, and the latest prompt (lower case). */
+  agentTrim: { enabled: boolean; hidden: Set<string>; prompt: string; ledger?: Promise<Record<string, number>> }
   /** Other mods' status segments, by id (`$.ruflo.segment`). */
   segments: Map<string, string>
   /**
@@ -53,6 +55,7 @@ export function createState(): ModState {
     policy: 'none',
     budget: { level: 'OK' },
     toolHints: { enabled: false, described: new Set() },
+    agentTrim: { enabled: false, hidden: new Set(), prompt: '' },
     segments: new Map(),
     draw: () => undefined,
   }
@@ -136,6 +139,7 @@ export function report(s: ModState): string {
     `  policy:      ${s.policy}; ${s.tightened} call(s) tightened, ${s.observed} observed`,
     `  budget:      ${budget}`,
     `  tool hints:  ${s.toolHints.enabled ? `${s.toolHints.described.size} tool(s) described` : 'off (set the toolHints option)'}`,
+    `  agent trim:  ${s.agentTrim.enabled ? `${s.agentTrim.hidden.size} type(s) hidden` : 'off (set the agentTrim option)'}`,
     `  segments:    ${segments.join(', ') || 'none'}`,
     `  guidance:    ${s.guidance.status}; ${s.guidance.saved} unverified observation(s), ${s.guidance.pending.length} pending, ${s.guidance.dropped} dropped`,
   ].join('\n')

@@ -10,9 +10,9 @@ const field = (input: unknown, key: string): string => {
   return typeof v === 'string' ? v : ''
 }
 
-const PUBLISH = new Set(['x_federation_publish', 'x_federation_channel_publish'])
+const PUBLISH = new Set(['x_federation_publish', 'x_federation_channel_publish', 'x_federation_invite_mint'])
 
-/** The label of a federation publish, else undefined: the guard only watches calls that put content on the swarm. */
+/** The label of a federation publish, else undefined: the guard only watches calls that put content on the swarm or mint a credential for it. */
 export function watched(tool: string, _input: unknown): string | undefined {
   const t = shortName(tool)
   return PUBLISH.has(t) ? t.replace('x_federation_', '').replace('_', ' ') : undefined

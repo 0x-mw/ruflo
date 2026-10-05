@@ -1,7 +1,7 @@
 {
   "name": "ruflo-mods",
   "description": "ruflo as a Claude Code mod (function hooks, ADR-404): in-process prompt routing, edit learning signals, tighten-only tool checks from ruflo policy, the cost-tracker budget ladder, a mod trust gate for newly installed mods, and the $.ruflo noun other mods compose their status with. Opt-in and removable: the classic hook-handler hooks stay the default and take every event back whenever the mod is not loaded.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": {
     "name": "ruvnet",
     "url": "https://github.com/ruvnet"
@@ -53,6 +53,20 @@
       "description": "Add one short, static usage hint (restating the project's own CLAUDE.md) to the description of a few ruflo MCP tools, such as memory_search and swarm_init, so the model sees it at the tool. Appends text only, cached for the session. Off by default.",
       "required": false,
       "default": false
+    },
+    "agentTrim": {
+      "type": "boolean",
+      "title": "Hide unused agent types",
+      "description": "Keep agent types the project does not use out of the model's agent listing and dispatch, to save prompt tokens. Always kept: built-in agents, coder, reviewer, tester, planner, researcher, any type used in the last 30 days, any named in the prompt or in agentTrimKeep. Off by default.",
+      "required": false,
+      "default": false
+    },
+    "agentTrimKeep": {
+      "type": "string",
+      "title": "Agent types to never hide",
+      "description": "Comma-separated agent type names that agentTrim must keep offered.",
+      "required": false,
+      "default": ""
     },
     "modTrust": {
       "type": "string",
