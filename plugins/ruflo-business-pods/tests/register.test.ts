@@ -87,3 +87,14 @@ describe('status file and command', () => {
     expect((await $.command.run(slash('huh'))).text).toContain('/pods-mod status')
   })
 })
+
+describe('guard: credential locations are whole path segments', () => {
+  test('.env and .env.json are refused; a .environments directory is not', async ($, on) => {
+    world(on)
+    await $.session.start(START)
+    const route = (podTemplatePath: string) => attempt($.tool.call({ tool: T('route_backend'), podTemplatePath } as never))
+    expect(await route('pods/.env.json')).toContain('credentials')
+    expect(await route('pods/.env/pod.json')).toContain('credentials')
+    expect(await route('pods/.environments/pod.json')).toContain('stored')
+  })
+})

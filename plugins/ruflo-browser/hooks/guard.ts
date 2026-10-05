@@ -4,9 +4,9 @@ import { splitName } from './screen'
 export type Verdict = { readonly rule: string; readonly reason: string }
 
 // What reads a page's cookies or storage, and what can carry them off the page. Both in one script is exfiltration.
-const READS = /document\s*\.\s*cookie|\b(?:local|session)Storage\b|\bindexedDB\b|cookieStore/
-const SINKS = /\b(?:fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts)\b|new\s+Image\b|\.src\s*=|\blocation(?:\s*\.\s*(?:href|assign|replace))?\s*[=(]|window\s*\.\s*open\b/
-const METADATA = new Set(['169.254.169.254', 'metadata.google.internal', '[fd00:ec2::254]', 'metadata.azure.com'])
+const READS = /document\s*(?:\.\s*cookie|\[\s*['"`]cookie['"`]\s*\])|\b(?:local|session)Storage\b|\bindexedDB\b|cookieStore/
+const SINKS = /\b(?:fetch|XMLHttpRequest|sendBeacon|WebSocket|EventSource|importScripts)\b|new\s+Image\b|\.src\s*=(?!=)|\blocation(?:\s*\.\s*(?:href|assign|replace))?\s*(?:=(?!=)|\()|window\s*\.\s*open\b/
+const METADATA = new Set(['169.254.169.254', 'metadata.google.internal', '[fd00:ec2::254]', 'metadata.azure.com', '100.100.100.200'])
 const LOCAL = new Set(['localhost', '127.0.0.1', '[::1]'])
 const BAD_FLAGS = /^--(?:disable-web-security|remote-debugging-(?:port|address|pipe)|load-extension|disable-site-isolation-trials)\b/
 
@@ -23,7 +23,7 @@ export function badUrl(url: string, strict: boolean): string | undefined {
   }
   if (u.protocol !== 'http:' && u.protocol !== 'https:') return u.href === 'about:blank' ? undefined : 'uses a scheme other than http or https (file, javascript, data and chrome pages are refused)'
   if (u.username !== '' || u.password !== '') return 'carries credentials in the URL'
-  if (METADATA.has(u.hostname.toLowerCase())) return 'points at a cloud metadata service'
+  if (METADATA.has(u.hostname.toLowerCase().replace(/\.$/, ''))) return 'points at a cloud metadata service'
   if (strict && u.protocol === 'http:' && !LOCAL.has(u.hostname.toLowerCase())) return 'is plain http outside localhost'
   return undefined
 }
