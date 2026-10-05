@@ -82,8 +82,10 @@ grep -q '"name": "ruflo-console"' "$REPO/.claude-plugin/marketplace.json" && ok 
 
 step "14. every pure spec passes under vitest"
 # On failure keep the failing specs' own lines on stderr: the fleet JSON report captures stderrTail, and this step failed in CI on branches that
-# did not touch the console with nothing to read (a load-induced timeout, an order dependency, a missing module?).
-if vitest_out=$(cd "$REPO" && npx vitest run plugins/ruflo-console/tests/ --exclude '**/*.test.ts' 2>&1); then ok; else
+# did not touch the console with nothing to read. Found 2026-10-05: it was a load-induced timeout. Seven specs `await import(...)` a heavy module graph
+# inside the test, which takes about 1.4 s alone but passes vitest's default 5 s under the CPU contention of the parallel fleet smoke, so the
+# test timeout is raised for this run (a real hang still fails: 30 s is far above any measured run).
+if vitest_out=$(cd "$REPO" && npx vitest run plugins/ruflo-console/tests/ --exclude '**/*.test.ts' --testTimeout=30000 2>&1); then ok; else
   bad "vitest specs failed"
   printf '%s\n' "$vitest_out" | grep -E "FAIL|×|AssertionError|Error:|Timeout|timed out|Cannot find|Test Files|Tests " | head -25 >&2
 fi
