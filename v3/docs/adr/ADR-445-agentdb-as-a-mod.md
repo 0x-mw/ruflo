@@ -2,7 +2,7 @@
 
 Status: Accepted (implemented in ruflo-agentdb 0.4.0 and ruflo-console 0.31.0)
 
-Date: 2026 10 05
+Date: 2026 10 04
 
 Scope: `plugins/ruflo-agentdb` (new function-hook mod: `hooks/*.ts`, `scripts/bench.mjs`, `tests/`), `plugins/ruflo-console` (a status reader and an "AgentDB mod" section on the Memory page, a Help guide)
 
@@ -12,13 +12,13 @@ Builds on: ADR-404 (ruflo as a mod), ADR-444 (the model-tool and level pattern)
 
 `ruflo-agentdb` was skills and commands over the 15 `agentdb_*` MCP tools: a person (or Claude, when told) asks, the tools answer. The console's Memory Lab already drives them by hand. Nothing happened *automatically*, and nothing watched what Claude writes into memory. A mod can do both inside the session: bring relevant memory into a prompt without being asked, and refuse to let secrets be stored.
 
-## 2. Review of the packages (2026-10-05)
+## 2. Review of the packages (2026-10-04)
 
 | | `agentdb` | `ruvector` |
 |---|---|---|
 | Latest | 3.0.0-alpha.20 (2026-07-30), `latest` and `alpha` tags | 0.3.3 (2026-09-23) |
 | What ruflo uses | `^3.0.0-alpha.17`, which resolves to alpha.20 | CLI pins `^0.2.27`, which for a 0.x package **excludes 0.3**; the `ruflo-ruvector` plugin hard-codes `ruvector@0.2.25` in 117 places |
-| Useful to a mod | `query --synthesize-context`, `recall with-certificate` (retrieval with a causal-utility score and a **provenance certificate**), `store-pattern`, `route --prompt`, reflexion, skill and causal commands, `mcp start` | `hooks recall / remember / rag-context / suggest-context`, `reembed` (embedding provenance, ADR-210), an MCP server of 97 tools with a **default-deny policy** (`RUVECTOR_MCP_ALLOW`, `RUVECTOR_MCP_DENY`, `RUVECTOR_MCP_PROFILE=readonly`, ADR-256) |
+| Useful to a mod | `query --synthesize-context`, `recall with-certificate` (retrieval with a causal-utility score and a **provenance certificate**), `store-pattern`, `route --prompt`, reflexion, skill and causal commands, `mcp start` | `hooks recall / remember / rag-context / suggest-context`, `reembed` (embedding provenance, ruvector ADR-210), an MCP server of 97 tools with a **default-deny policy** (`RUVECTOR_MCP_ALLOW`, `RUVECTOR_MCP_DENY`, `RUVECTOR_MCP_PROFILE=readonly`, ruvector ADR-256) |
 | Kept out on purpose | `sync start-server` / `connect` (QUIC, network) | `brain` (a shared, network knowledge base), `edge`, `server`, `cluster` |
 
 Measured here (warm `npx`, five runs): `agentdb status` 0.48 to 0.56 s, `ruvector hooks recall` 0.41 to 0.47 s, against 22 ms for a bare Node start. A CLI call on every prompt costs about half a second; an already-connected MCP tool answers without the process start. **Decision: the mod calls the connected MCP tool in-process, and uses a CLI only as a deadline-bounded fallback.**
@@ -53,7 +53,7 @@ Settings are the plugin's `userConfig`, which the console's Settings page alread
 - Moving the ruflo CLI to `ruvector` 0.3.x.
 - Use of `recall with-certificate` provenance certificates in the frame (the CLI has it; whether a connected tool exposes it is UNVERIFIED).
 
-## 6. Result (2026-10-05)
+## 6. Result (2026-10-04)
 
 - Implemented as designed: `hooks/{options,screen,recall,tools,guard,command,status,register}.ts`, all under 120 lines; `claude plugin validate` lists the hooks (`session.start`, `prompt.submit`, `tool.call`, `command.run`) and only `$.clock`, `$.command`, `$.fs.write`, `$.mcp.call`, `$.session.root`, `$.tool.list` as calls: no `$.http`, no `$.process`.
 - **The mod reads memory with `$.mcp.call`** on the connected server (the name is split out of `$.tool.list()`), so it needs no CLI and is not blocked by a permission prompt; `hooks_recall` / `agentdb_hierarchical-recall` / `agentdb_pattern-search` take `query` and `topK` (checked against the tool schemas).
