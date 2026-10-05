@@ -4,6 +4,7 @@ import { DOCTOR_COMPONENTS, isSecureResult, SECURE, SECURE_TEXT, secMemo, SEVERI
 import { slot } from './attention'
 import { spinAt } from '../spinner'
 import { sentryRows } from './sentries'
+import { anatoleMeterLine, anatoleSection } from './anatole'
 import { ago, button, clip, col, type Ctx, row, rule, section, tagChip, text, THEME } from './common'
 import { frameResult } from './status-card'
 
@@ -261,9 +262,10 @@ export function secureView(ctx: Ctx): RenderElement {
       'sec-findings',
       'Findings',
       findings === null ? 'none measured yet' : `${SEVERITIES.map(level => `${findings.counts[level]} ${level}`).join(' · ')} · ${ago(findings.atMs, nowMs)}`,
-      findings === null ? meterRows(ctx) : [...meterRows(ctx), sendFindingsRow(ctx)],
+      [...meterRows(ctx), ...anatoleMeterRows(ctx), ...(findings === null ? [] : [sendFindingsRow(ctx)])],
       true,
     ),
+    ...anatoleSection(ctx),
     ...sentryRows(ctx),
     // Open: the text field lives here, and the checks below it read what is typed; folded, the field would be out of reach.
     ...section(ctx, 'sec-check', 'Check text', memo.draft === '' ? 'type or paste text, then run a check' : `${memo.draft.length} characters ready`, pasteRows(ctx), true),
@@ -284,3 +286,10 @@ export function secureView(ctx: Ctx): RenderElement {
 
 /** This view's result block alone: the pane asks for it to place under the row that was clicked. */
 export const secureResult = (ctx: Ctx): RenderElement[] => resultRows(ctx, isSecureResult)
+
+/** Open Project Anatole alerts by severity, labelled as the mod's report and kept apart from the scan's own counts. */
+function anatoleMeterRows(ctx: Ctx): RenderElement[] {
+  const line = anatoleMeterLine(ctx.state.snapshot?.anatole)
+
+  return line === null ? [] : [text(ctx, ` ${line}`, { color: THEME.warn })]
+}
