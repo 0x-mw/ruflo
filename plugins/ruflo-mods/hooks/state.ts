@@ -146,5 +146,7 @@ export function report(s: ModState): string {
     `  delivery:    ${s.delivery.enabled ? `${s.delivery.consumed} dropped, ${s.delivery.blocked} refused` : 'off (set the deliveryScreen option)'}`,
     `  segments:    ${segments.join(', ') || 'none'}`,
     `  guidance:    ${s.guidance.status}; ${s.guidance.saved} unverified observation(s), ${s.guidance.pending.length} pending, ${s.guidance.dropped} dropped`,
-  ].join('\n')
+  ]
+    .concat(s.guidance.idsDropped + (s.guidance.active?.idsDropped ?? 0) > 0 ? [`               ${s.guidance.idsDropped + (s.guidance.active?.idsDropped ?? 0)} tool id(s) past the 256 cap not counted`] : [])
+    .join('\n')
 }

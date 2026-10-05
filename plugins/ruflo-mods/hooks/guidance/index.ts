@@ -44,7 +44,7 @@ export function createGuidance(state: ModState, options: ModOptions): GuidanceHo
       if (read.kind !== 'ok') return undefined
       const selected = selectGuidance(text, read.value)
       if (options.guidanceLearning) {
-        s.active = { taskId: ++s.taskSeq, projection: read.value, ruleIds: options.guidanceContext ? selected.ids : [], checks: { allow: 0, ask: 0, deny: 0 }, tools: { ok: 0, error: 0, denied: 0 }, toolIds: new Set() }
+        s.active = { taskId: ++s.taskSeq, projection: read.value, ruleIds: options.guidanceContext ? selected.ids : [], checks: { allow: 0, ask: 0, deny: 0 }, tools: { ok: 0, error: 0, denied: 0 }, toolIds: new Set(), idsDropped: 0 }
       }
       return options.guidanceContext ? selected.context : undefined
     },
@@ -57,7 +57,8 @@ export function createGuidance(state: ModState, options: ModOptions): GuidanceHo
       try {
         const id = (event as { tool_use_id?: unknown }).tool_use_id
         if (typeof id === 'string') {
-          if (task.toolIds.has(id) || task.toolIds.size >= 256) return
+          if (task.toolIds.has(id)) return
+          if (task.toolIds.size >= 256) { task.idsDropped++; return }
           task.toolIds.add(id)
         }
         if (result.deny !== undefined) task.tools.denied++
