@@ -81,7 +81,12 @@ step "13. marketplace lists ruflo-console"
 grep -q '"name": "ruflo-console"' "$REPO/.claude-plugin/marketplace.json" && ok || bad "missing marketplace entry"
 
 step "14. every pure spec passes under vitest"
-if (cd "$REPO" && npx vitest run plugins/ruflo-console/tests/ --exclude '**/*.test.ts' >/dev/null 2>&1); then ok; else bad "vitest specs failed"; fi
+# On failure keep the failing specs' own lines on stderr: the fleet JSON report captures stderrTail, and this step failed in CI on branches that
+# did not touch the console with nothing to read (a load-induced timeout, an order dependency, a missing module?).
+if vitest_out=$(cd "$REPO" && npx vitest run plugins/ruflo-console/tests/ --exclude '**/*.test.ts' 2>&1); then ok; else
+  bad "vitest specs failed"
+  printf '%s\n' "$vitest_out" | grep -E "FAIL|×|AssertionError|Error:|Timeout|timed out|Cannot find|Test Files|Tests " | head -25 >&2
+fi
 
 step "15. the live no-spend e2e smoke exists, is executable and skips cleanly without RUFLO_E2E_LIVE"
 if [[ -x "$ROOT/scripts/e2e-smoke.sh" ]] && bash "$ROOT/scripts/e2e-smoke.sh" 2>&1 | grep -q '^SKIP'; then ok; else bad "e2e-smoke.sh"; fi
