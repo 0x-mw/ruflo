@@ -156,6 +156,22 @@ describe('live: kill-switch latency and TOCTOU', () => {
   })
 })
 
+describe('live: per-command permission', () => {
+  it('a verify command the person\'s rules deny is not run even when the class-level preflight allows Bash', async () => {
+    const r = rig()
+    const state = stateWith([task('r1', 'completed'), task('r2', 'pending'), task('r3', 'pending')])
+
+    started(r, [dangling()])
+    wireAutopilot(state, r.host, { toolCheck: async (_tool, input) => ({ decision: input === undefined ? 'allow' : 'deny' }) })
+    storeOf(state).bootMs = T0 - 1
+    ready(state, T0 + 1000)
+    await apTick(state, r.host, T0 + 1000)
+
+    expect(r.runs.some(a => a[0] === 'true')).toBe(false)
+    expect(journal(r).some(e => e.t === 'step.done')).toBe(false)
+  })
+})
+
 describe('live: double execution', () => {
   it('two sessions that both start the same step: neither hands it over', async () => {
     const r = rig()

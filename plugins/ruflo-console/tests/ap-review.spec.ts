@@ -5,6 +5,7 @@
  */
 import { describe, expect, it } from 'vitest'
 
+import { rotate } from '../hooks/ap-maint'
 import { apTick, refreshAutopilot, storeOf, stopNow, wireAutopilot } from '../hooks/ap-live'
 import { outcomesOf, propose, reversal, type Tunables, DEFAULTS } from '../hooks/data/ap-adapt'
 import { hashOf, type Envelope } from '../hooks/data/ap-envelope'
@@ -166,6 +167,32 @@ describe('the journal over a long run', () => {
     await refreshAutopilot(state, r.host, T0 + 3000)
     expect(storeOf(state).loop.phase).toBe('running')
     expect(storeOf(state).loop.startedAtMs).toBe(T0)
+  })
+})
+
+describe('rotation waits for the write chain', () => {
+  it('a write still in flight lands before the snapshot is taken: nothing is archived or replaced until the chain is free', async () => {
+    const r = rig()
+    const state = stateWith([])
+
+    started(r, [])
+    wireAutopilot(state, r.host)
+    await refreshAutopilot(state, r.host, T0 + 1000)
+
+    const store = storeOf(state)
+    let release: () => void = () => undefined
+
+    store.chain = new Promise<void>(resolve => { release = resolve })
+
+    const before = r.files.get(J)
+    const done = rotate(store, r.host, CWD, T0 + 5000)
+
+    await new Promise(resolve => setTimeout(resolve, 20))
+    expect([...r.files.keys()].some(name => name.startsWith(`${J}.`))).toBe(false)
+    expect(r.files.get(J)).toBe(before)
+    release()
+    await done
+    expect([...r.files.keys()].some(name => name.startsWith(`${J}.`))).toBe(true)
   })
 })
 
