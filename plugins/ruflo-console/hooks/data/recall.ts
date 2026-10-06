@@ -92,8 +92,23 @@ export function parseRanked(text: string | null): Ranked | null {
 
 export type Scored = { entry: RankedEntry; match: number; score: number }
 
-/** What the hook's getContext would surface for this prompt against these entries, best first; an empty list when nothing clears the threshold. */
+/** An entry's trigram set, built once per entry object: the render re-explains the picked prompt on every refresh (profiled: trigrams() was 70% of the time). */
+const gramsOf = new WeakMap<RankedEntry, Set<string>>()
+
+const entryGrams = (entry: RankedEntry): Set<string> => {
+  let grams = gramsOf.get(entry)
+
+  if (grams === undefined) gramsOf.set(entry, (grams = trigrams(entry.words)))
+
+  return grams
+}
+
+let lastExplain: { prompt: string; entries: readonly RankedEntry[]; out: Scored[] } | null = null
+
+/** What the hook's getContext would surface for this prompt against these entries, best first; an empty list when nothing clears the threshold. The last answer is kept for the same prompt over the same entries array (a new ranked parse is a new array). */
 export function explainPrompt(prompt: string, entries: readonly RankedEntry[]): Scored[] {
+  if (lastExplain !== null && lastExplain.prompt === prompt && lastExplain.entries === entries) return lastExplain.out
+
   const words = tokenize(prompt)
 
   if (words.length === 0) return []
@@ -102,13 +117,17 @@ export function explainPrompt(prompt: string, entries: readonly RankedEntry[]): 
   const out: Scored[] = []
 
   for (const entry of entries) {
-    const match = jaccard(grams, trigrams(entry.words))
+    const match = jaccard(grams, entryGrams(entry))
     const score = ALPHA * match + (1 - ALPHA) * entry.pageRank
 
     if (score >= MIN_SCORE) out.push({ entry, match, score })
   }
 
-  return out.sort((a, b) => b.score - a.score).slice(0, TOP_K)
+  const best = out.sort((a, b) => b.score - a.score).slice(0, TOP_K)
+
+  lastExplain = { prompt, entries, out: best }
+
+  return best
 }
 
 /** One session's last recall: only ids are recorded (the prompt and the scores are not). */
@@ -194,6 +213,8 @@ export const recallOf = (snapshot: object | null | undefined): RecallFacts | nul
 const status = (read: { text: string | null; reason?: string }): ReadStatus => (read.text !== null ? 'ok' : ((read.reason ?? 'missing') as ReadStatus))
 
 let lastRanked: { text: string; parsed: Ranked | null } | null = null
+let lastModels: { text: string; parsed: NeuralPattern[] | null } | null = null
+let lastOutcomes: { text: string; parsed: PastPrompt[] } | null = null
 
 /** Reads the four files (and stats the bank); never rejects. `fs.read` of a file over its cap is refused by readBounded. */
 export async function readRecall(fs: ReaderFs, cache: ReadCache, cwd: string): Promise<RecallFacts> {
@@ -215,11 +236,14 @@ export async function readRecall(fs: ReaderFs, cache: ReadCache, cwd: string): P
   // The ranked file is parsed again only when its text changed: the snapshot runs on a timer.
   if (ranked.text !== null && lastRanked?.text !== ranked.text) lastRanked = { text: ranked.text, parsed: parseRanked(ranked.text) }
 
+  if (models.text !== null && lastModels?.text !== models.text) lastModels = { text: models.text, parsed: parseNeuralStore(models.text) }
+  if (outcomes.text !== null && lastOutcomes?.text !== outcomes.text) lastOutcomes = { text: outcomes.text, parsed: parsePrompts(outcomes.text) }
+
   return {
     ranked: ranked.text === null ? null : (lastRanked?.parsed ?? null),
     sessions,
-    prompts: parsePrompts(outcomes.text),
-    neural: parseNeuralStore(models.text),
+    prompts: outcomes.text === null ? [] : (lastOutcomes?.parsed ?? []),
+    neural: models.text === null ? null : (lastModels?.parsed ?? null),
     reads: { ranked: status(ranked), sessions: listed === null ? 'missing' : 'ok', prompts: status(outcomes), neural: status(models), bank: bankStat === undefined ? 'missing' : (bankStat.size ?? 0) > READ_MAX ? 'too-large' : 'ok' },
   }
 }
