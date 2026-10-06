@@ -1,7 +1,7 @@
 /** The learning pipeline diagram and the router picture (ADR-455): staleness is a clock rule, nothing is drawn that was not read. */
 import { describe, expect, it } from 'vitest'
 
-import { candidatesFromLines, pipeStagesOf, routeModelOf, routeOwnerOf, stageNote, stageStateOf, STALE_AFTER_MS } from '../hooks/data/pipeline'
+import { candidatesFromLines, MAX_CANDIDATES, pipeStagesOf, routeModelOf, routeOwnerOf, stageNote, stageStateOf, STALE_AFTER_MS } from '../hooks/data/pipeline'
 import { pipelineDiagram, routePicture, routeRows } from '../hooks/gfx/pipeline'
 import { COLOR, type Grid } from '../hooks/gfx/raster'
 import { newState } from '../hooks/state'
@@ -81,6 +81,14 @@ describe('the route model', () => {
     ])
     expect(candidatesFromLines(['no json here'])).toEqual([])
     expect(candidatesFromLines(['→ x · 900%'])[0]?.confidence).toBe(1)
+  })
+
+  it('stops at the five the picture draws, keeping the pick and the first runner-ups in order', () => {
+    const lines = ['→ a · 90%', ...Array.from({ length: 10_000 }, (_, i) => `  or r${i} · 5%`)]
+    const found = candidatesFromLines(lines)
+
+    expect(found).toHaveLength(MAX_CANDIDATES)
+    expect(found.map(c => c.agent)).toEqual(['a', 'r0', 'r1', 'r2', 'r3'])
   })
 
   it('prefers a route query with candidates, else the mod pick, else says none', () => {

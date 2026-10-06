@@ -47,6 +47,9 @@ export function stageNote(stage: PipeStage): string {
   return stage.state === 'stale' ? `stale ${ageWords(stage.ageMs)}` : `${ageWords(stage.ageMs)} ago`
 }
 
+/** The route picture draws at most this many candidates, so the parser stops here: a long route query costs the same as a short one. */
+export const MAX_CANDIDATES = 5
+
 export type RouteOwner = 'mods' | 'classic' | 'unseated'
 export type RouteCandidate = { agent: string; /** 0..1, or null where the router printed none. */ confidence: number | null }
 export type RouteSource = 'mods' | 'router-query' | 'none'
@@ -70,7 +73,8 @@ export function candidatesFromLines(lines: readonly string[]): RouteCandidate[] 
 
   const out: RouteCandidate[] = [{ agent: first[1] as string, confidence: percent(first[2]) }]
 
-  for (const line of lines.slice(1)) {
+  for (let i = 1; i < lines.length && out.length < MAX_CANDIDATES; i++) {
+    const line = lines[i] as string
     const alt = /^\s+or (\S+)(?: · (\d{1,3})%)?/.exec(line)
 
     if (alt !== null) out.push({ agent: alt[1] as string, confidence: percent(alt[2]) })

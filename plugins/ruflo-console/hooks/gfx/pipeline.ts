@@ -3,7 +3,7 @@
  * functions of the models in data/pipeline.ts and a size; each returns a grid of exactly the size asked for. A stale stage
  * is drawn dim, an absent one dim with n/a: no colour here means a number the console did not read.
  */
-import { stageNote, type PipeStage, type RouteModel, type RouteOwner } from '../data/pipeline'
+import { MAX_CANDIDATES, stageNote, type PipeStage, type RouteModel, type RouteOwner } from '../data/pipeline'
 import { COLOR, Grid, ramp } from './raster'
 
 export const PIPELINE_ROWS = 5
@@ -45,14 +45,14 @@ const OWNER_WORDS: Record<RouteOwner, { text: string; color: number }> = {
 }
 
 /** Rows the route picture needs: the owner line, one per candidate (at most five), and the source line. */
-export const routeRows = (model: RouteModel): number => 2 + Math.max(1, Math.min(5, model.candidates.length))
+export const routeRows = (model: RouteModel): number => 2 + Math.max(1, Math.min(MAX_CANDIDATES, model.candidates.length))
 
 /** The last route: who owns routing, then each candidate with a confidence bar, the pick first and brightest. */
 export function routePicture(model: RouteModel, columns: number): Grid {
   const rows = routeRows(model)
   const grid = new Grid(columns, rows)
   const owner = OWNER_WORDS[model.owner]
-  const shown = model.candidates.slice(0, 5)
+  const shown = model.candidates.slice(0, MAX_CANDIDATES)
   const bar = Math.max(6, Math.min(24, columns - 34))
 
   grid.text(0, 0, `◆ ${owner.text}`, owner.color)
