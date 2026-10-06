@@ -29,6 +29,15 @@ export type Target = {
   ref: string
 }
 
+/** The one option this feature reads, checked the way ADR-462's guard options are: a non-string is the default (empty), and the text is capped. */
+export type ConvoOptions = { convoTargets: string }
+
+export const convoOptionsOf = (raw: unknown): ConvoOptions => {
+  const value = (typeof raw === 'object' && raw !== null ? (raw as Record<string, unknown>).convoTargets : undefined) as unknown
+
+  return { convoTargets: typeof value === 'string' ? value.slice(0, 2000) : '' }
+}
+
 export type Endpoint = { name: string; baseUrl: string; keyEnv: string; model: string }
 
 export type Config = { endpoints: Endpoint[]; rooms: string[]; channels: string[]; errors: string[] }

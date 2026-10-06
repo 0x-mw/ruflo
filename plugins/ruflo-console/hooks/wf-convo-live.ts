@@ -16,6 +16,7 @@ import { plain } from './data/parse'
 import type { WfRun } from './data/workflows'
 import type { Host } from './host'
 import { CLI_PREFIXES, type State } from './state'
+import { afterRead } from './wf-live'
 
 export type Live = { convo: Convo; draft: string; relayDraft: string; config: Config; peers: PeerRef[]; hasCodex: boolean; home: string | null; checkedAtMs: number; said: string | null; timers: Map<string, { cancel: () => void }> }
 
@@ -35,10 +36,21 @@ export function liveOf(state: State): Live {
   return held
 }
 
-/** The wiring: the host, and the option string that names the endpoints, rooms and channels (nothing secret: a key is a variable's name). */
+let isHooked = false
+
+/**
+ * The wiring: the host, and the option string that names the endpoints, rooms and channels (nothing secret: a key is a variable's name). The
+ * facts the target list depends on are read after each read of the run folders (`afterRead`, which runs only while the page is open), never
+ * from a render: a view calls nothing on the engine.
+ */
 export function wireConvo(state: State, host: Host, optionText?: string): void {
   hosts.set(state, host)
   if (optionText !== undefined) liveOf(state).config = parseConfig(optionText)
+
+  if (isHooked) return
+
+  isHooked = true
+  afterRead.push((s, _h, _before, _runs, nowMs) => void refreshFacts(s, nowMs))
 }
 
 export const hostOf = (state: State): Host | null => hosts.get(state) ?? null
@@ -112,6 +124,8 @@ export function sendSpec(state: State, targets: readonly Target[], body: string)
   if (deps === null) return { spec: null, why: 'the console is not wired to a host here' }
   if (targets.length === 0) return { spec: null, why: 'pick a target, or name one with @name' }
 
+  if (live.home === null && targets.some(target => target.transport === 'peer')) return { spec: null, why: 'the home folder is not known yet, so the federation helper cannot be located: nothing is sent to a peer' }
+
   const made = targets.map(target => ({ target, built: payloadOf(target, body, deps) }))
   const bad = made.find(entry => !entry.built.ok)
 
@@ -124,7 +138,7 @@ export function sendSpec(state: State, targets: readonly Target[], body: string)
     args: [],
     shows: shows.slice(0, 1800),
     expect: 'each target\'s answer, or why it did not answer, in its own thread',
-    declared: leaving.length > 0 ? 'network' : 'write',
+    declared: targets.some(target => target.cost === 'session-turn' || target.cost === 'metered' || target.cost === 'peer-session') ? 'spend' : leaving.length > 0 ? 'network' : 'write',
     note: `${leaving.length > 0 ? `LEAVES THIS MACHINE for ${leaving.map(target => `${target.id} (${target.leaves})`).join(', ')}. ` : 'Stays on this machine. '}${made.map(entry => (entry.built.ok ? `${entry.target.id}: ${entry.built.payload.note} Cost: ${entry.target.costText}.` : '')).join(' ')}`.slice(0, 900),
     timeoutMs: 600_000,
     run: async () => {

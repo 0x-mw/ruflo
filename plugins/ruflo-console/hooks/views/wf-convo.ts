@@ -14,7 +14,7 @@ import { fanOutOf } from '../data/wf-convo'
 import { parseMentions, type Target } from '../data/wf-targets'
 import type { Host } from '../host'
 import type { State } from '../state'
-import { hostOf, liveOf, refreshFacts, relaySpec, saveTranscript, sendSpec, stopWatch, targetsFor, watchSpec, wireConvo } from '../wf-convo-live'
+import { hostOf, liveOf, relaySpec, saveTranscript, sendSpec, stopWatch, targetsFor, watchSpec, wireConvo } from '../wf-convo-live'
 import { button, clip, col, kv, row, text, THEME, type Ctx } from './common'
 import { fold } from './wf-fold'
 import { registerSlot, type SlotEnv } from './wf-slots'
@@ -95,8 +95,6 @@ export function conversationRows(env: SlotEnv): RenderElement[] {
   const live = liveOf(state)
 
   if (hostOf(state) === null) return [text(ctx, 'The console is not wired to a host here: nothing can be sent.', { dimColor: true })]
-
-  void refreshFacts(state, env.nowMs)
 
   const targets = targetsFor(state, env.runs)
   const redraw = (): void => ctx.act.workflows.setUi({})

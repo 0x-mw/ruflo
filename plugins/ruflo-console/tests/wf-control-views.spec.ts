@@ -17,7 +17,7 @@ import { resetControl, stopSlotSpec, wireWfControl } from '../hooks/views/wf-con
 import { workflowsPage } from '../hooks/views/wf-page'
 import { slotsFor, type SlotEnv } from '../hooks/views/wf-slots'
 import { workflowsActions } from '../hooks/wf-actions'
-import { liveOf, resetConvo, saveTranscript, sendSpec, stopWatch, watchSpec } from '../hooks/wf-convo-live'
+import { liveOf, refreshFacts, resetConvo, saveTranscript, sendSpec, stopWatch, watchSpec } from '../hooks/wf-convo-live'
 import { targetsFor } from '../hooks/wf-convo-live'
 
 type El = { kind: string; props: Record<string, unknown> }
@@ -203,17 +203,20 @@ describe('the control tab', () => {
 describe('the Conversation board', () => {
   beforeEach(() => resetFolds())
 
+  let current: State | null = null
   const open = (config?: string): { ctx: Ctx; state: State; asked: ReturnType<typeof world>['asked']; f: Fake } => {
     const w = world()
     const f = fake()
 
     resetConvo(w.state)
     wireWfConvo(w.state, f.host, config)
+    current = w.state
 
     return { ctx: w.ctx, state: w.state, asked: w.asked, f }
   }
   const draw = (ctx: Ctx, run: WfRun = wfRun()): unknown => conversationRows(envOf(ctx, run))
-  const settle = async (): Promise<void> => void (await new Promise(resolve => setTimeout(resolve, 5)))
+  /** The facts are read after a read of the run folders (never from a render): this is what that hook runs. */
+  const settle = async (): Promise<void> => refreshFacts(current as State, 1_700_000_000_000)
 
   it('lists the targets with what leaves the machine, the cost class and how the reply arrives, once the facts are read', async () => {
     const { ctx, state } = open('bbs:ops; endpoint:a=https://a.example.com/v1|NONE|m1')
@@ -249,7 +252,7 @@ describe('the Conversation board', () => {
     expect(asked[0]?.spec?.shows).toContain('a: POST https://a.example.com/v1/chat/completions  Authorization: Bearer ‹from $KEY_A›')
     expect(asked[0]?.spec?.shows).toContain('"content":"what is raft?"')
     expect(asked[0]?.spec?.shows).not.toContain('key-value-1234567')
-    expect(asked[0]?.spec?.declared).toBe('network')
+    expect(asked[0]?.spec?.declared).toBe('spend')
     expect(asked[0]?.spec?.note).toMatch(/LEAVES THIS MACHINE for a \(internet\)/)
     expect(f.http).toHaveLength(0)
 
@@ -365,6 +368,24 @@ describe('the Conversation board', () => {
 
     await saveTranscript(state, { ...(target as object), id: 'nothing' } as never, (spec, why) => void saved.push({ spec, why }))
     expect(saved[1]).toMatchObject({ spec: null, why: expect.stringMatching(/nothing to save/) })
+  })
+
+  it('a render reads nothing from the host: the target list changes only after the facts hook ran', async () => {
+    const { ctx, state, f } = open()
+
+    draw(ctx)
+    expect(f.runs).toHaveLength(0)
+    expect(targetsFor(state, [wfRun()]).some(target => target.id === 'peer-zenbook')).toBe(false)
+    await settle()
+    expect(f.runs.map(call => call.argv[0])).toEqual(['which'])
+    expect(targetsFor(state, [wfRun()]).some(target => target.id === 'peer-zenbook')).toBe(true)
+  })
+
+  it('a peer send is refused while the home folder is unknown (argv is not a shell: ~ would be literal)', () => {
+    const { state } = open()
+    const peer = { id: 'peer-zenbook', label: 'peer zenbook', transport: 'peer', leaves: 'tailnet', leavesText: 'x', cost: 'peer-session', costText: 'x', arrival: 'immediate', arrivalText: 'x', ref: 'zenbook' } as never
+
+    expect(sendSpec(state, [peer], 'hello')).toMatchObject({ spec: null, why: expect.stringMatching(/home folder is not known/) })
   })
 
   it('asking no one, or asking with no host, is refused with the reason and no spec', () => {

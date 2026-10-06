@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 import type { HiveInfo } from '../hooks/data/parse'
 import { addMessage, applyFetch, compareOf, fanOutOf, fromBbs, fromChannel, lastAnswer, MAX_MSGS, MAX_THREADS, newConvo, pollParams, POLL_MAX, recordSend, relayBody, statsOf, threadOf, transcriptMarkdown, transcriptName, TRANSCRIPT_MAX } from '../hooks/data/wf-convo'
 import { chatBody, parseChat, payloadOf, sendTo, taskNote, type SendDeps } from '../hooks/data/wf-send'
-import { endpointsOf, isBaseUrl, MAX_FANOUT, OPENROUTER, parseConfig, parseMentions, peersOf, targetsOf, type Target } from '../hooks/data/wf-targets'
+import { convoOptionsOf, endpointsOf, isBaseUrl, MAX_FANOUT, OPENROUTER, parseConfig, parseMentions, peersOf, targetsOf, type Target } from '../hooks/data/wf-targets'
 
 /** Deliberately not shaped like any vendor key: only the explicit scrub of the named variable's value can mask it. */
 const KEY = 'k9x2-plain-42'
@@ -61,6 +61,13 @@ describe('the config option and the targets', () => {
     expect(isBaseUrl('http://127.0.0.1:8080/v1')).toBe(true)
     expect(isBaseUrl('http://box.tail1399ff.ts.net:11434/v1')).toBe(true)
     expect(isBaseUrl('http://evil.example.com/v1')).toBe(false)
+  })
+
+  it('the convoTargets option is a capped string, and anything else is empty', () => {
+    expect(convoOptionsOf({ convoTargets: 'bbs:ops' })).toEqual({ convoTargets: 'bbs:ops' })
+    expect(convoOptionsOf({ convoTargets: 5 })).toEqual({ convoTargets: '' })
+    expect(convoOptionsOf(undefined)).toEqual({ convoTargets: '' })
+    expect(convoOptionsOf({ convoTargets: 'x'.repeat(5000) }).convoTargets).toHaveLength(2000)
   })
 
   it('offers OpenRouter by default unless the person names their own, and reads peers from the helper\'s file', () => {
