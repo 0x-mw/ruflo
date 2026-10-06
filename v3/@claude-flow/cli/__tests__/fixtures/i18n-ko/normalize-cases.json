@@ -1,0 +1,172 @@
+{
+  "dict": {
+    "Initialized": "초기화했습니다",
+    "Agents": "에이전트",
+    "Overview": "개요",
+    "store": "저장",
+    "Done": "완료",
+    "Swarm Status": "스웜 상태",
+    "Select topology": "토폴로지 선택",
+    "MCP Servers": "MCP 서버",
+    "No MCP config found": "MCP 설정을 찾지 못했습니다",
+    "Failed to initialize: {0}": "초기화하지 못했습니다: {0}",
+    "Moved {0} into {1}": "{1}(으)로 {0}을(를) 옮겼습니다",
+    "Run {0} to start background workers": "백그라운드 워커를 시작하려면 {0}을(를) 실행하세요",
+    "{0} agents": "에이전트 {0}개",
+    "[default: {0}]": "[기본값: {0}]",
+    "{0} {1}": "X",
+    "Hi {0}": "X"
+  },
+  "cases": [
+    {
+      "id": "N1",
+      "in": "Initialized",
+      "out": "초기화했습니다",
+      "scope": "all"
+    },
+    {
+      "id": "N2",
+      "in": "  ✓ Initialized",
+      "out": "  ✓ 초기화했습니다",
+      "scope": "all"
+    },
+    {
+      "id": "N3",
+      "in": "Agents  ",
+      "out": "에이전트  ",
+      "scope": "all"
+    },
+    {
+      "id": "N4",
+      "in": "? Select topology",
+      "out": "? 토폴로지 선택",
+      "scope": "all"
+    },
+    {
+      "id": "N5",
+      "in": "▸ store",
+      "out": "▸ 저장",
+      "scope": "all"
+    },
+    {
+      "id": "N6",
+      "in": "Failed to initialize: disk full",
+      "out": "초기화하지 못했습니다: disk full",
+      "scope": "all"
+    },
+    {
+      "id": "N7",
+      "in": "Moved a into b",
+      "out": "b(으)로 a을(를) 옮겼습니다",
+      "scope": "all"
+    },
+    {
+      "id": "N8",
+      "in": "Run \u001b[36mruflo daemon start\u001b[0m to start background workers",
+      "out": "백그라운드 워커를 시작하려면 \u001b[36mruflo daemon start\u001b[0m을(를) 실행하세요",
+      "scope": "cli"
+    },
+    {
+      "id": "N9",
+      "in": "\u001b[1mSwarm Status\u001b[0m",
+      "out": "\u001b[1m스웜 상태\u001b[0m",
+      "scope": "cli"
+    },
+    {
+      "id": "N10",
+      "in": "MCP Servers: No MCP config found",
+      "out": "MCP 서버: MCP 설정을 찾지 못했습니다",
+      "scope": "all"
+    },
+    {
+      "id": "N11",
+      "in": "MCP Servers: some user value",
+      "out": "MCP 서버: some user value",
+      "scope": "all"
+    },
+    {
+      "id": "N12",
+      "in": "2: 🏠 Overview",
+      "out": "2: 🏠 개요",
+      "scope": "all"
+    },
+    {
+      "id": "N13",
+      "in": "Swarm Status\nunknown line\n  Done",
+      "out": "스웜 상태\nunknown line\n  완료",
+      "scope": "all"
+    },
+    {
+      "id": "N14",
+      "in": "스웜 상태\nDone",
+      "out": "스웜 상태\n완료",
+      "scope": "all"
+    },
+    {
+      "id": "N15",
+      "in": " [default: 5]",
+      "out": " [기본값: 5]",
+      "scope": "all"
+    },
+    {
+      "id": "N16",
+      "in": "{\"a\":1}",
+      "out": "{\"a\":1}",
+      "scope": "all"
+    },
+    {
+      "id": "N17",
+      "in": "[1, 2]",
+      "out": "[1, 2]",
+      "scope": "all"
+    },
+    {
+      "id": "N18",
+      "in": "a b",
+      "out": "a b",
+      "scope": "all"
+    },
+    {
+      "id": "N19",
+      "in": "Hi there",
+      "out": "Hi there",
+      "scope": "all"
+    },
+    {
+      "id": "N20",
+      "in": "5 agents",
+      "out": "에이전트 5개",
+      "scope": "all"
+    },
+    {
+      "id": "N21",
+      "in": "Selected 5 agents",
+      "out": "Selected 5 agents",
+      "scope": "all"
+    },
+    {
+      "id": "N22",
+      "in": "",
+      "out": "",
+      "scope": "all"
+    },
+    {
+      "id": "N23",
+      "in": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "out": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "scope": "all"
+    },
+    {
+      "id": "N24",
+      "in": "Unknown sentence",
+      "out": "Unknown sentence",
+      "scope": "all"
+    },
+    {
+      "id": "N25",
+      "in": "\ud800 broken",
+      "out": "\ud800 broken",
+      "scope": "all"
+    }
+  ]
+}

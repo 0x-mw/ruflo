@@ -1,0 +1,15 @@
+{
+  "schema": "ruflo-i18n-dict/1",
+  "locale": "ko",
+  "entries": {
+    "Initialized": "초기화했습니다",
+    "store": "저장",
+    "Done": "완료",
+    "No MCP config found": "MCP 설정을 찾지 못했습니다",
+    "Failed to initialize: {0}": "초기화하지 못했습니다: {0}",
+    "Moved {0} into {1}": "{1}(으)로 {0}을(를) 옮겼습니다",
+    "Run {0} to start background workers": "백그라운드 워커를 시작하려면 {0}을(를) 실행하세요",
+    "{0} {1}": "X",
+    "Hi {0}": "X"
+  }
+}

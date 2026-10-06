@@ -1,0 +1,14 @@
+{
+  "schema": "ruflo-i18n-dict/1",
+  "locale": "ko",
+  "entries": {
+    "Agents": "에이전트",
+    "Overview": "개요",
+    "Swarm Status": "스웜 상태",
+    "Select topology": "토폴로지 선택",
+    "MCP Servers": "MCP 서버",
+    "{0} agents": "에이전트 {0}개",
+    "[default: {0}]": "[기본값: {0}]",
+    "Show system status": "시스템 상태를 표시합니다"
+  }
+}
