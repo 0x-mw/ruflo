@@ -28,6 +28,7 @@ function slowFold(events: readonly JournalEvent[], base: LoopState = emptyLoop()
   for (const e of events) {
     switch (e.t) {
       case 'start':
+        s.starts += 1
         Object.assign(s, { phase: 'running', startedAtMs: e.at, envHash: e.envHash, revision: e.revision, anatole: e.anatole, reason: null, failures: 0, lastFailureAt: null })
         break
       case 'step.started':
