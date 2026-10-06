@@ -13,7 +13,7 @@ import { badgesOf } from '../menu-style'
 import { accentOfView, findPages, NAV_GROUPS, shownGroup } from '../nav-state'
 import { VIEWS, type ViewId } from '../state'
 import { CARD_COLUMNS } from './card'
-import { isBbs, THEME, type Ctx } from './common'
+import { isBbs, THEME, widthIn, type Ctx } from './common'
 
 type View = (typeof VIEWS)[number]
 
@@ -41,7 +41,10 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   // (On the main menu of a narrow card the chip says MENU, so it is not cut to "MAIN M…" beside the groups.)
   const nameOf = (view: View) => (view.id === 'menu' && inner < 72 ? 'Menu' : view.label)
   const openName = (view: View) => (isBbs() ? `[${view.key === '' ? '' : `${view.key}: `}${view.icon} ${nameOf(view).toUpperCase()}]` : `${view.key === '' ? '' : `${view.key}: `}${view.icon} ${nameOf(view)}`)
-  const cells = (view: View, form: string) => (view.id === open ? openName(view).length + 1 : (hasHotkey(view) && view.key !== '' ? 3 : 0) + spell(view, form).length + badgeText(view).length + 3)
+  // Widths are of what the kit will draw: on a marked kit the label as the dictionary spells it, by display columns (Korean letters and emoji count 2);
+  // otherwise the English length, as it always was.
+  const size = (text: string) => widthIn(ctx, text)
+  const cells = (view: View, form: string) => (view.id === open ? size(openName(view)) + 1 : (hasHotkey(view) && view.key !== '' ? 3 : 0) + size(` ${spell(view, form)}${badgeText(view)} `) + 1)
   const widest = (form: string) => Math.max(0, ...pages.map(ids => ids.reduce((sum, id) => sum + (find(id) === undefined ? 0 : cells(find(id) as View, form)), 0)))
   // auto: the richest form whose widest row fits the page; the others are the person's choice (Settings).
   const form = state.nav === 'auto' ? (['full', 'brief'].find(candidate => widest(candidate) <= inner) ?? 'icons') : state.nav
@@ -75,7 +78,7 @@ export function groupedTabs(ctx: Ctx, hasHotkey: (view: View) => boolean): Rende
   const menu = find('menu')
   // The group chips spell their icon only where the row has room; the search field shares their row only where it fits, else it has its own.
   const icons = inner >= 130
-  const chipCells = NAV_GROUPS.reduce((sum, group) => sum + group.title.length + (icons ? 5 : 3), 12)
+  const chipCells = NAV_GROUPS.reduce((sum, group) => sum + size(group.title) + (icons ? 5 : 3), 12)
   const isSearchInline = inner - chipCells >= 28
   const chips = NAV_GROUPS.map(group =>
     group.title === shown && found === null && !isMenuIdle

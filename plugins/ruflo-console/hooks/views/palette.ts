@@ -1,9 +1,19 @@
 import type { RenderElement } from 'claude-code'
 
 import { filterPalette, isUnavailable, paletteEntries, type PaletteEntry } from '../palette'
-import { button, clip, col, row, rule, tagChip, text, THEME, type Ctx } from './common'
+import { isLocalized, widthOf } from '../i18n/translate'
+import { button, clip, col, loc, row, rule, tagChip, text, THEME, type Ctx } from './common'
 
 export const PALETTE_ROWS = 12
+
+/** A match's button label, dot-led to `width` display columns: the label is translated first (then cut and padded), so a Korean line is not left English by the padding. Unmarked kit: as it was. */
+const dotted = (ctx: Ctx, label: string, width: number): string => {
+  if (!isLocalized(ctx.kit)) return ` ${clip(label, width - 1)}`.padEnd(width, '.')
+
+  const shown = ` ${clip(loc(ctx, label), width - 1, ctx)}`
+
+  return shown + '.'.repeat(Math.max(0, width - widthOf(shown)))
+}
 
 /** What pressing an entry does, as the tag it wears: a page to go to, a read that runs at once, a change that asks first, a command that takes text. */
 export function entryTag(entry: PaletteEntry): { text: string; color: string } {
@@ -76,7 +86,11 @@ export function paletteView(ctx: Ctx): RenderElement {
     const tag = entryTag(entry)
     const isFirst = i === 0
 
-    if (isGrouped && entry.group !== previous) rows.push(text(ctx, clip(`── ${entry.group} ${'─'.repeat(Math.max(0, ctx.columns - entry.group.length - 8))}`, ctx.columns - 2), { color: THEME.info, dimColor: true }))
+    if (isGrouped && entry.group !== previous) {
+      const group = loc(ctx, entry.group)
+
+      rows.push(text(ctx, clip(`── ${group} ${'─'.repeat(Math.max(0, ctx.columns - widthOf(group) - 8))}`, ctx.columns - 2), { color: THEME.info, dimColor: true }))
+    }
 
     previous = entry.group
     rows.push(
@@ -84,7 +98,7 @@ export function paletteView(ctx: Ctx): RenderElement {
         ctx,
         [
           text(ctx, isFirst ? ' ▶' : '  ', { bold: true, color: THEME.ok }),
-          ctx.kit.Button({ key: `pal-${entry.id}`, label: ` ${clip(entry.label, lead - 1)}`.padEnd(lead, '.'), plain: true, ...(isFirst && { variant: 'primary' as const }), onPress: () => ctx.act.paletteRun(entry.id) }),
+          ctx.kit.Button({ key: `pal-${entry.id}`, label: dotted(ctx, entry.label, lead), plain: true, ...(isFirst && { variant: 'primary' as const }), onPress: () => ctx.act.paletteRun(entry.id) }),
           tagChip(ctx, tag.text, tag.color),
           ...(isGrouped || ctx.columns < 80 ? [] : [text(ctx, `  ${entry.group}`, { dimColor: true })]),
         ],

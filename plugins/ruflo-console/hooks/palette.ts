@@ -27,6 +27,7 @@ import { VIEWS, type State, type ViewId } from './state'
 import { XRUV } from './xruv'
 import { VEC, vecSpec, vecWhy } from './vector'
 import { selection } from './views/select'
+import { t } from './i18n/translate'
 
 export type PaletteRun =
   | { kind: 'spec'; spec: ActionSpec | null; why: string }
@@ -198,7 +199,7 @@ export function paletteEntries(state: State, nowMs: number): PaletteEntry[] {
 }
 
 /** The entries matching `query`, best first; a text entry matches when the query starts with its keyword. */
-export function filterPalette(entries: readonly PaletteEntry[], query: string, context: 'all' | 'selection'): PaletteEntry[] {
+export function filterPalette(entries: readonly PaletteEntry[], query: string, context: 'all' | 'selection', isEnglishOnly = false): PaletteEntry[] {
   const words = query.trim()
   const keyword = words.split(/\s+/)[0]?.toLowerCase() ?? ''
   const scoped = context === 'selection' ? entries.filter(entry => entry.group === 'agent' || entry.group === 'claims') : entries
@@ -209,7 +210,11 @@ export function filterPalette(entries: readonly PaletteEntry[], query: string, c
 
   return scoped
     .flatMap(entry => {
-      const score = fuzzy(words, entry.label)
+      // The label as written and, in Korean, as shown: either one may be typed.
+      const shown = isEnglishOnly ? entry.label : t(entry.label)
+      const first = fuzzy(words, entry.label)
+      const second = shown === entry.label ? null : fuzzy(words, shown)
+      const score = first === null ? second : second === null ? first : Math.max(first, second)
 
       return score === null ? [] : [{ entry, score }]
     })

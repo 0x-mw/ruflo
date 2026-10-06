@@ -4,15 +4,26 @@ import { GROUP_BLURB, HELP_GROUPS, searchDocs, type Go, type HelpStep, type Help
 import { TOPICS, topicById } from '../help-topics'
 import { START_LABEL } from '../starts'
 import { VIEWS } from '../state'
-import { button, clip, col, row, rule, section, text, THEME, wrap, type Ctx } from './common'
+import { isLocalized, widthOf } from '../i18n/translate'
+import { button, clip, col, loc, row, rule, section, text, THEME, wrap, type Ctx } from './common'
+
+/** A button label led by dots to `width` display columns: the title is translated first, so the dots pad what is shown. Unmarked kit: `${title} `.padEnd, as it was. */
+const dotted = (ctx: Ctx, title: string, width: number): string => {
+  if (!isLocalized(ctx.kit)) return `${title} `.padEnd(width, '.')
+
+  const shown = `${loc(ctx, title)} `
+
+  return shown + '.'.repeat(Math.max(0, width - widthOf(shown)))
+}
 
 /** The words on a step's button: its own label, else what its target is. */
-export function goLabel(step: HelpStep): string {
+export function goLabel(step: HelpStep, ctx?: Ctx): string {
   if (step.label !== undefined) return `▸ ${step.label}`
 
   const go = step.go as Go
 
-  if ('view' in go) return `▸ open ${VIEWS.find(view => view.id === go.view)?.label ?? go.view}`
+  // On a marked kit the page's name is translated before the verb joins it (Korean puts the verb last), not the finished phrase.
+  if ('view' in go) return ctx !== undefined && isLocalized(ctx.kit) ? `▸ ${loc(ctx, VIEWS.find(view => view.id === go.view)?.label ?? go.view)} ${loc(ctx, 'open')}` : `▸ open ${VIEWS.find(view => view.id === go.view)?.label ?? go.view}`
   if ('start' in go) return `▸ ${START_LABEL[go.start]}`
 
   return '▸ run it'
@@ -23,12 +34,12 @@ function stepRows(ctx: Ctx, topic: HelpTopic, limit = topic.steps.length): Rende
   const width = Math.max(30, ctx.columns - 8)
 
   return topic.steps.slice(0, limit).flatMap((step, i) => {
-    const lines = wrap(step.text, width)
+    const lines = wrap(loc(ctx, step.text), width, ctx)
     const body = lines.map((line, n) => text(ctx, `${n === 0 ? ` ${String(i + 1).padStart(2)}. ` : '     '}${line}`, { color: THEME.head }))
 
     return step.go === undefined
       ? body
-      : [...body, row(ctx, [text(ctx, '     '), button(ctx, `help-go-${topic.id}-${i}`, goLabel(step), () => ctx.act.ruhelp.go(step.go as Go))], `help-step-${topic.id}-${i}`)]
+      : [...body, row(ctx, [text(ctx, '     '), button(ctx, `help-go-${topic.id}-${i}`, goLabel(step, ctx), () => ctx.act.ruhelp.go(step.go as Go))], `help-step-${topic.id}-${i}`)]
   })
 }
 
@@ -39,9 +50,9 @@ function guideRows(ctx: Ctx, topic: HelpTopic): RenderElement[] {
 
   return [
     rule(ctx, topic.title, topic.group),
-    ...wrap(topic.summary, width).map(line => text(ctx, ` ${line}`, { bold: true })),
+    ...wrap(loc(ctx, topic.summary), width, ctx).map(line => text(ctx, ` ${line}`, { bold: true })),
     ...stepRows(ctx, topic),
-    ...(topic.tips ?? []).flatMap(tip => wrap(tip, width).map((line, n) => text(ctx, `${n === 0 ? ' tip ' : '     '}${line}`, { color: THEME.info, dimColor: true }))),
+    ...(topic.tips ?? []).flatMap(tip => wrap(loc(ctx, tip), width, ctx).map((line, n) => text(ctx, `${n === 0 ? ' tip ' : '     '}${line}`, { color: THEME.info, dimColor: true }))),
     ...(related.length === 0 ? [] : [row(ctx, [text(ctx, ' next ', { dimColor: true }), ...related.map(entry => button(ctx, `help-rel-${entry.id}`, entry.title, () => ctx.act.ruhelp.open(entry.id)))], 'help-related')]),
   ]
 }
@@ -61,10 +72,10 @@ function answerRows(ctx: Ctx, query: string): RenderElement[] {
   return [
     rule(ctx, 'ruHelp', `${hits.length} guide${hits.length === 1 ? '' : 's'} · best match first`),
     text(ctx, ` ${best.title}`, { bold: true, color: THEME.ok }),
-    ...wrap(best.summary, width).map(line => text(ctx, ` ${line}`)),
+    ...wrap(loc(ctx, best.summary), width, ctx).map(line => text(ctx, ` ${line}`)),
     ...stepRows(ctx, best, 3),
     row(ctx, [text(ctx, ' '), button(ctx, `help-open-${best.id}`, best.steps.length > 3 ? `▸ the full guide (${best.steps.length} steps)` : '▸ open the guide', () => ctx.act.ruhelp.open(best.id), { primary: true })], 'help-best'),
-    ...(hits.length > 1 ? [text(ctx, ' also', { dimColor: true }), ...hits.slice(1).map(hit => row(ctx, [text(ctx, '  '), button(ctx, `help-hit-${hit.topic.id}`, `${hit.topic.title} `.padEnd(32, '.'), () => ctx.act.ruhelp.open(hit.topic.id)), text(ctx, ` ${clip(hit.topic.summary, Math.max(10, ctx.columns - 44))}`, { dimColor: true })], `help-hit-row-${hit.topic.id}`))] : []),
+    ...(hits.length > 1 ? [text(ctx, ' also', { dimColor: true }), ...hits.slice(1).map(hit => row(ctx, [text(ctx, '  '), button(ctx, `help-hit-${hit.topic.id}`, dotted(ctx, hit.topic.title, 32), () => ctx.act.ruhelp.open(hit.topic.id)), text(ctx, ` ${clip(loc(ctx, hit.topic.summary), Math.max(10, ctx.columns - 44), ctx)}`, { dimColor: true })], `help-hit-row-${hit.topic.id}`))] : []),
     ask,
   ]
 }
@@ -77,7 +88,7 @@ function indexRows(ctx: Ctx): RenderElement[] {
     ...['tour', 'setup', 'mission'].flatMap((id, i) => {
       const topic = topicById(id)
 
-      return topic === null ? [] : [row(ctx, [text(ctx, ` ${i + 1}. `, { bold: true, color: THEME.ok }), button(ctx, `help-start-${id}`, `${topic.title} `.padEnd(lead, '.'), () => ctx.act.ruhelp.open(id), i === 0 ? { primary: true } : {}), text(ctx, ` ${clip(topic.summary, Math.max(10, ctx.columns - lead - 12))}`, { dimColor: true })], `help-start-row-${id}`)]
+      return topic === null ? [] : [row(ctx, [text(ctx, ` ${i + 1}. `, { bold: true, color: THEME.ok }), button(ctx, `help-start-${id}`, dotted(ctx, topic.title, lead), () => ctx.act.ruhelp.open(id), i === 0 ? { primary: true } : {}), text(ctx, ` ${clip(loc(ctx, topic.summary), Math.max(10, ctx.columns - lead - 12), ctx)}`, { dimColor: true })], `help-start-row-${id}`)]
     }),
   ]
 
@@ -89,8 +100,8 @@ function indexRows(ctx: Ctx): RenderElement[] {
         ctx,
         `help-${group}`,
         group,
-        `${topics.length} · ${GROUP_BLURB[group]}`,
-        topics.map(topic => row(ctx, [text(ctx, '  '), button(ctx, `help-topic-${topic.id}`, `${topic.title} `.padEnd(lead, '.'), () => ctx.act.ruhelp.open(topic.id)), text(ctx, ` ${clip(topic.summary, Math.max(10, ctx.columns - lead - 8))}`, { dimColor: true })], `help-topic-row-${topic.id}`)),
+        `${topics.length} · ${loc(ctx, GROUP_BLURB[group])}`,
+        topics.map(topic => row(ctx, [text(ctx, '  '), button(ctx, `help-topic-${topic.id}`, dotted(ctx, topic.title, lead), () => ctx.act.ruhelp.open(topic.id)), text(ctx, ` ${clip(loc(ctx, topic.summary), Math.max(10, ctx.columns - lead - 8), ctx)}`, { dimColor: true })], `help-topic-row-${topic.id}`)),
         group === 'Start' || group === 'Work',
       ),
     )
