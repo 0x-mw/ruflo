@@ -91,6 +91,25 @@ function consolidateRows(ctx: Ctx): RenderElement[] {
   ]
 }
 
+/**
+ * The analysis is O(pairs) (up to PAIR_CAP, ~100 ms at the cap) and the view renders every frame, so it is computed once per
+ * probe result and per minute (the stale cutoff is the only thing the clock changes), never per frame.
+ */
+const reports = new WeakMap<HealthSample, { minute: number; report: HealthReport }>()
+
+export function reportFor(sample: HealthSample, nowMs: number): HealthReport {
+  const minute = Math.floor(nowMs / 60_000)
+  const cached = reports.get(sample)
+
+  if (cached !== undefined && cached.minute === minute) return cached.report
+
+  const report = analyseHealth(sample, nowMs)
+
+  reports.set(sample, { minute, report })
+
+  return report
+}
+
 /** The health section's rows, or one honest line when the probe has not answered. */
 export function healthRows(ctx: Ctx, now: () => number = () => ctx.nowMs): RenderElement[] {
   const result = ctx.state.probes.get(HEALTH_PROBE)
@@ -100,7 +119,7 @@ export function healthRows(ctx: Ctx, now: () => number = () => ctx.nowMs): Rende
 
   if (sample.entries.length === 0) return [text(ctx, ' no entries to analyse: store one, or import your Claude memories (IMPORT CLAUDE)', { dimColor: true })]
 
-  const report = analyseHealth(sample, now())
+  const report = reportFor(sample, now())
   const total = live<{ total?: number }>(ctx.state.probes.get('memory'))?.total
 
   return [

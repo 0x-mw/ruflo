@@ -157,3 +157,14 @@ describe('the analysis cost at the cap', () => {
     expect(ms).toBeLessThan(5000)
   })
 })
+
+describe('the per-frame cost', () => {
+  it('computes the report once per sample and minute, not once per render', async () => {
+    const { reportFor } = await import('../hooks/views/memory-health')
+    const sample = { listed: 2, entries: [e('a', 'x-y', 10, 0, 1), e('b', 'x-y', 10, 0, 2)] }
+
+    expect(reportFor(sample, NOW)).toBe(reportFor(sample, NOW + 1000))
+    expect(reportFor(sample, NOW + 120_000)).not.toBe(reportFor(sample, NOW))
+    expect(reportFor({ ...sample }, NOW)).not.toBe(reportFor(sample, NOW))
+  })
+})

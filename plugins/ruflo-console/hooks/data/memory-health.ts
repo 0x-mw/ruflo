@@ -99,10 +99,10 @@ const sizeClose = (a: number, b: number): boolean => Math.abs(a - b) <= SIZE_RAT
 export type PairKind = 'exact' | 'near' | null
 
 /** How two entries relate: the same normalised key and size (exact), similar key words and a close size (near), or not. */
-export function pairKind(a: HealthEntry, b: HealthEntry, tokensA: ReadonlySet<string>, tokensB: ReadonlySet<string>): PairKind {
+export function pairKind(a: HealthEntry, b: HealthEntry, tokensA: ReadonlySet<string>, tokensB: ReadonlySet<string>, normA: string = normaliseKey(a.key), normB: string = normaliseKey(b.key)): PairKind {
   if (a.namespace === b.namespace && a.key === b.key) return null
 
-  if (normaliseKey(a.key) === normaliseKey(b.key) && normaliseKey(a.key) !== '') return a.size === b.size ? 'exact' : 'near'
+  if (normA === normB && normA !== '') return a.size === b.size ? 'exact' : 'near'
 
   return sizeClose(a.size, b.size) && jaccard(tokensA, tokensB) >= NEAR_JACCARD ? 'near' : null
 }
@@ -145,7 +145,9 @@ function findClusters(entries: readonly HealthEntry[], pairCap: number): { clust
 
     return root
   }
+  // Per-entry work done once, not once per pair: the profile put the per-pair normaliseKey regex at the top of the cost.
   const tokens = entries.map(entry => keyTokens(entry.key))
+  const norms = entries.map(entry => normaliseKey(entry.key))
   let compared = 0
   let reached = n
   const pairKinds: { a: number; b: number; kind: 'exact' | 'near' }[] = []
@@ -163,7 +165,7 @@ function findClusters(entries: readonly HealthEntry[], pairCap: number): { clust
 
       const entryA = entries[i]
       const entryB = entries[j]
-      const kind = entryA === undefined || entryB === undefined ? null : pairKind(entryA, entryB, tokens[i] ?? new Set(), tokens[j] ?? new Set())
+      const kind = entryA === undefined || entryB === undefined ? null : pairKind(entryA, entryB, tokens[i] ?? new Set(), tokens[j] ?? new Set(), norms[i], norms[j])
 
       if (kind !== null) pairKinds.push({ a: i, b: j, kind })
     }
