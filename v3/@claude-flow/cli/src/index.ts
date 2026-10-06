@@ -19,6 +19,7 @@ import { dirname, join } from 'path';
 import type { Command, CommandContext, CommandResult, V3Config, CLIError } from './types.js';
 import { CommandParser, commandParser } from './parser.js';
 import { OutputFormatter, output } from './output.js';
+import { tr } from './i18n/index.js';
 import { commands, commandsByCategory, getCommandsByCategory, commandRegistry, getCommand, getCommandAsync, getCommandNames, getLazyCommandNames, hasCommand } from './commands/index.js';
 import { suggestCommand } from './suggest.js';
 import { runStartupUpdateCheck } from './update/index.js';
@@ -389,7 +390,7 @@ export class CLI {
   private async showHelp(): Promise<void> {
     this.output.writeln();
     this.output.writeln(this.output.bold(`${this.name} v${this.version}`));
-    this.output.writeln(this.output.dim(this.description));
+    this.output.writeln(this.output.dim(tr(this.description)));
     this.output.writeln();
 
     this.output.writeln(this.output.bold('USAGE:'));
@@ -404,7 +405,7 @@ export class CLI {
     for (const cmd of categories.primary) {
       if (cmd.hidden) continue;
       const name = cmd.name.padEnd(12);
-      this.output.writeln(`  ${this.output.highlight(name)} ${cmd.description}`);
+      this.output.writeln(`  ${this.output.highlight(name)} ${tr(cmd.description)}`);
     }
     this.output.writeln();
 
@@ -414,7 +415,7 @@ export class CLI {
       for (const cmd of categories.advanced) {
         if (cmd.hidden) continue;
         const name = cmd.name.padEnd(12);
-        this.output.writeln(`  ${this.output.highlight(name)} ${cmd.description}`);
+        this.output.writeln(`  ${this.output.highlight(name)} ${tr(cmd.description)}`);
       }
       this.output.writeln();
     }
@@ -425,7 +426,7 @@ export class CLI {
       for (const cmd of categories.utility) {
         if (cmd.hidden) continue;
         const name = cmd.name.padEnd(12);
-        this.output.writeln(`  ${this.output.highlight(name)} ${cmd.description}`);
+        this.output.writeln(`  ${this.output.highlight(name)} ${tr(cmd.description)}`);
       }
       this.output.writeln();
     }
@@ -436,7 +437,7 @@ export class CLI {
       for (const cmd of categories.analysis) {
         if (cmd.hidden) continue;
         const name = cmd.name.padEnd(12);
-        this.output.writeln(`  ${this.output.highlight(name)} ${cmd.description}`);
+        this.output.writeln(`  ${this.output.highlight(name)} ${tr(cmd.description)}`);
       }
       this.output.writeln();
     }
@@ -447,7 +448,7 @@ export class CLI {
       for (const cmd of categories.management) {
         if (cmd.hidden) continue;
         const name = cmd.name.padEnd(12);
-        this.output.writeln(`  ${this.output.highlight(name)} ${cmd.description}`);
+        this.output.writeln(`  ${this.output.highlight(name)} ${tr(cmd.description)}`);
       }
       this.output.writeln();
     }
@@ -455,7 +456,7 @@ export class CLI {
     this.output.writeln(this.output.bold('GLOBAL OPTIONS:'));
     for (const opt of this.parser.getGlobalOptions()) {
       const flags = opt.short ? `-${opt.short}, --${opt.name}` : `    --${opt.name}`;
-      this.output.writeln(`  ${flags.padEnd(25)} ${opt.description}`);
+      this.output.writeln(`  ${flags.padEnd(25)} ${tr(opt.description)}`);
     }
     this.output.writeln();
 
@@ -526,7 +527,7 @@ export class CLI {
 
     this.output.writeln();
     this.output.writeln(this.output.bold(`${this.name} ${titleParts.join(' ')}`));
-    this.output.writeln(current.description);
+    this.output.writeln(tr(current.description));
     this.output.writeln();
 
     // Subcommands
@@ -536,7 +537,7 @@ export class CLI {
         if (sub.hidden) continue;
         const name = sub.name.padEnd(15);
         const aliases = sub.aliases ? this.output.dim(` (${sub.aliases.join(', ')})`) : '';
-        this.output.writeln(`  ${this.output.highlight(name)} ${sub.description}${aliases}`);
+        this.output.writeln(`  ${this.output.highlight(name)} ${tr(sub.description)}${aliases}`);
       }
       this.output.writeln();
     }
@@ -548,7 +549,7 @@ export class CLI {
         const flags = opt.short ? `-${opt.short}, --${opt.name}` : `    --${opt.name}`;
         const required = opt.required ? this.output.error(' (required)') : '';
         const defaultVal = opt.default !== undefined ? this.output.dim(` [default: ${opt.default}]`) : '';
-        this.output.writeln(`  ${flags.padEnd(25)} ${opt.description}${required}${defaultVal}`);
+        this.output.writeln(`  ${flags.padEnd(25)} ${tr(opt.description)}${required}${defaultVal}`);
       }
       this.output.writeln();
     }
@@ -558,7 +559,7 @@ export class CLI {
       this.output.writeln(this.output.bold('EXAMPLES:'));
       for (const example of current.examples) {
         this.output.writeln(`  ${this.output.dim('$')} ${example.command}`);
-        this.output.writeln(`    ${this.output.dim(example.description)}`);
+        this.output.writeln(`    ${this.output.dim(tr(example.description))}`);
       }
       this.output.writeln();
     }
