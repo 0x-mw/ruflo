@@ -1,5 +1,6 @@
 import type { PluginOptions, Timer } from 'claude-code'
 import { guardOptionsOf, type GuardOptions } from './data/wf-alerts'
+import { convoOptionsOf, type ConvoOptions } from './data/wf-targets'
 
 import { emptyAuto, type AutoState } from './data/automate'
 import type { ProbeResult } from './data/cli'
@@ -97,7 +98,7 @@ export const CLI_PREFIXES = {
 
 export type CliChoice = keyof typeof CLI_PREFIXES
 
-export type Options = GuardOptions & {
+export type Options = GuardOptions & ConvoOptions & {
   cli: CliChoice
   /** How often the disk is re-read while the pane or band shows (seconds, 2-60). */
   refreshSeconds: number
@@ -135,6 +136,7 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
     look: value.look === 'plain' ? 'plain' : 'bbs',
     boot: value.boot !== false,
     ...guardOptionsOf(raw),
+    ...convoOptionsOf(raw),
   }
 }
 

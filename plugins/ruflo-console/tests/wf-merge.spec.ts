@@ -47,13 +47,13 @@ describe('registration', () => {
 })
 
 describe('after a read', () => {
-  it('adds its three hooks once however often it is wired', () => {
+  it('adds its four hooks once however often it is wired', () => {
     const state = newState({})
     const start = afterRead.length
 
     wireWorkflows(state, host)
     wireWorkflows(state, host)
-    expect(afterRead.length - start).toBe(3)
+    expect(afterRead.length - start).toBe(4)
   })
 
   it('runs each hook with the runs read, and a hook that throws costs only itself', async () => {

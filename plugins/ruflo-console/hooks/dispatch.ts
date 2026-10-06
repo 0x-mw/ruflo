@@ -16,6 +16,8 @@ import { missionAnswer } from './mission-text'
 import { xruvAnswer } from './xruv'
 import { barText } from './views/bar'
 import { viewText } from './views/pane'
+import { autopilotCommand } from './views/ap-panel'
+import { hostOf } from './ap-live'
 import { bandReply, noticesReply, quietReply, median, p95 } from './notices'
 
 /** The engine's words when a registered command reaches it with no hook answering (Claude Code 2.1.287). */
@@ -185,6 +187,11 @@ export async function dispatch(control: Controller, state: State, args: string, 
       control.host.invalidate()
 
       return { text: quietReply(state, Date.now(), intent.arg) }
+    case 'autopilot': {
+      const apHost = hostOf(state)
+
+      return { text: apHost === undefined ? 'autopilot is not wired into this console yet' : await autopilotCommand(state, apHost, intent.arg) }
+    }
     case 'commands':
       return { text: commandsText(await loadCatalog(control), intent.query) }
     case 'unknown':

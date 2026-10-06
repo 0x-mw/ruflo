@@ -24,6 +24,12 @@
     "timeline"
   ],
   "userConfig": {
+    "convoTargets": {
+      "type": "string",
+      "title": "Conversation targets",
+      "description": "endpoint:<name>=<base-url>|<KEY_ENV>|<model>; bbs:<room>; x:<channel>. Names of environment variables, never keys. Default empty: only OpenRouter (OPENROUTER_API_KEY) is offered.",
+      "default": ""
+    },
     "cli": {
       "type": "string",
       "title": "ruflo CLI",

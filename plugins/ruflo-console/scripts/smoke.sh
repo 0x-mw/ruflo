@@ -27,15 +27,16 @@ step "4. no import reaches outside the plugin folder"
 deep=$(grep -rnE "from ['\"](\.\./){3,}" "$HOOKS" || true)
 [[ -z "$deep" ]] && ok || bad "$deep"
 
-step "5. the module's one network call is the update check's GET (\$.http in register.ts fetchText, used by update-flow.ts alone), and \$ is touched in register.ts only"
+step "5. the module's network calls are two: the update check's GET (\$.http in register.ts fetchText, used by update-flow.ts alone) and the conversation bridge's send (ADR-465: host.httpSend, used by data/wf-send.ts and wf-convo-live.ts alone, behind a confirm card), and \$ is touched in register.ts only"
 # Code lines only: comments may name the calls they explain.
 http=$(grep -rnE '\$\.http\.' "$HOOKS" | grep -vE '^[^:]+:[0-9]+:\s*(\*|//|/\*)' || true)
 # Exactly one is allowed (ADR-429): it goes through the engine, so an administrator's policy can refuse it, and nothing but update-flow.ts calls fetchText.
-extra=$(printf '%s\n' "$http" | grep . | grep -vE '/register\.ts:[0-9]+: *const response = await \$\.http\.fetch\(url\)$' || true)
+extra=$(printf '%s\n' "$http" | grep . | grep -vE '/register\.ts:[0-9]+: *const response = await \$\.http\.fetch\(url(, init)?\)$' || true)
 count=$(printf '%s\n' "$http" | grep -c . || true)
+sends=$(grep -rlE '\bhttpSend\b' "$HOOKS" | grep -vE '/(host|register|data/wf-send|wf-convo-live)\.ts$' || true)
 users=$(grep -rlE '\bfetchText\b' "$HOOKS" | grep -vE '/(host|register|update-flow)\.ts$' || true)
 outside=$(grep -rnE '\$\.(fs|process|ui|clock|store|env|ruflo|tool|session|settings|command)\.' "$HOOKS" | grep -vE '^[^:]+:[0-9]+:\s*(\*|//|/\*)' | grep -v '/register.ts:' || true)
-[[ -z "$extra" && "$count" == "1" && -z "$users" && -z "$outside" ]] && ok || bad "http: $http fetchText used by: $users outside: $outside"
+[[ -z "$extra" && "$count" == "2" && -z "$users" && -z "$sends" && -z "$outside" ]] && ok || bad "http: $http fetchText used by: $users httpSend used by: $sends outside: $outside"
 
 step "6. never runs plugins list or verify (network); roster, registry, claims and sync are the network probes, all behind the federationNetwork option"
 cmds=$(grep -nE "args: \['(plugins|verify)'" "$HOOKS/data/cli.ts" || true)

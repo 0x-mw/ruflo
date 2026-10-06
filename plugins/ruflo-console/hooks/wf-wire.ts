@@ -15,7 +15,10 @@ import { afterRead } from './wf-live'
 import { syncSavedViews } from './wf-saved-live'
 import { recordRunEvents } from './views/wf-guide'
 import { setExportCostSource, setExportFs } from './views/wf-export'
+import { wireAutopilot } from './ap-live'
 import { wireWfAnatole } from './views/wf-anatole'
+import { wireWfControl } from './views/wf-control'
+import { wireWfConvo } from './views/wf-convo'
 import { wireWfTemplates } from './views/wf-templates'
 import { wireWfWorktrees } from './views/wf-worktrees'
 
@@ -39,6 +42,9 @@ export function wireWorkflows(state: State, host: Host): void {
   wireWfWorktrees(state, host)
   wireWfTemplates(state, host)
   wireWfAnatole(state, host)
+  wireWfControl(state, host)
+  wireWfConvo(state, host, state.options.convoTargets)
+  wireAutopilot(state, host, host.toolCheck === undefined ? {} : { toolCheck: (tool: string) => host.toolCheck!(tool, {}) })
 
   if (isWired) return
 
