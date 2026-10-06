@@ -17,7 +17,7 @@ views, and the only way to say something to a swarm is to leave the page. Two fa
 ruflo's verbs write records: `hive-mind broadcast` appends to the hive's shared memory (the last 100), `task_update`
 and `claims_handoff` edit store files, a consensus proposal binds no one. None of them interrupts a running agent; an agent
 sees a record only when it reads that store. Second, a Claude Code workflow agent has no ruflo record at all, and the
-console has no verb that stops or messages a running workflow.
+console has no verb of its own that stops or messages a running workflow. (Amended by ADR-465: it can call the engine's TaskStop and SendMessage through the host, labelled by how far each path is proven.)
 
 ## 2. Decision
 

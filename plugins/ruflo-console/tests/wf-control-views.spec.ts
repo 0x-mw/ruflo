@@ -17,7 +17,7 @@ import { resetControl, stopSlotSpec, wireWfControl } from '../hooks/views/wf-con
 import { workflowsPage } from '../hooks/views/wf-page'
 import { slotsFor, type SlotEnv } from '../hooks/views/wf-slots'
 import { workflowsActions } from '../hooks/wf-actions'
-import { liveOf, resetConvo, saveTranscript, stopWatch, watchSpec } from '../hooks/wf-convo-live'
+import { liveOf, resetConvo, saveTranscript, sendSpec, stopWatch, watchSpec } from '../hooks/wf-convo-live'
 import { targetsFor } from '../hooks/wf-convo-live'
 
 type El = { kind: string; props: Record<string, unknown> }
@@ -365,6 +365,13 @@ describe('the Conversation board', () => {
 
     await saveTranscript(state, { ...(target as object), id: 'nothing' } as never, (spec, why) => void saved.push({ spec, why }))
     expect(saved[1]).toMatchObject({ spec: null, why: expect.stringMatching(/nothing to save/) })
+  })
+
+  it('asking no one, or asking with no host, is refused with the reason and no spec', () => {
+    const { state } = open()
+
+    expect(sendSpec(state, [], 'hello')).toMatchObject({ spec: null, why: expect.stringMatching(/pick a target/) })
+    expect(sendSpec(newState({}), targetsFor(state, [wfRun()]), 'hello')).toMatchObject({ spec: null, why: expect.stringMatching(/not wired/) })
   })
 
   it('with no host wired, or no tool at all, the board says so instead of drawing dead buttons', () => {

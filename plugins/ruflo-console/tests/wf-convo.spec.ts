@@ -9,7 +9,8 @@ import { addMessage, applyFetch, compareOf, fanOutOf, fromBbs, fromChannel, last
 import { chatBody, parseChat, payloadOf, sendTo, taskNote, type SendDeps } from '../hooks/data/wf-send'
 import { endpointsOf, isBaseUrl, MAX_FANOUT, OPENROUTER, parseConfig, parseMentions, peersOf, targetsOf, type Target } from '../hooks/data/wf-targets'
 
-const KEY = 'sk-or-v1-0123456789abcdefSECRET'
+/** Deliberately not shaped like any vendor key: only the explicit scrub of the named variable's value can mask it. */
+const KEY = 'k9x2-plain-42'
 const hive = { topology: 'hierarchical-mesh', strategy: 'raft', queen: 'q', queenTerm: 1, workers: ['a1'], pending: [], history: [], broadcasts: [], memoryKeys: [] } as unknown as HiveInfo
 
 type Rec = { run: { argv: readonly string[]; timeoutMs: number; stdin?: string }[]; http: { url: string; init: { method: string; headers: Record<string, string>; body: string } }[]; tool: Record<string, unknown>[]; prompts: string[] }
