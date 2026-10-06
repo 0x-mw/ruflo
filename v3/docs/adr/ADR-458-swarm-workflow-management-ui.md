@@ -53,7 +53,7 @@ n/a. The cap and the number of unread transcripts are printed in the page.
 
 Actions: ruflo agents get `Stop agent` and `Spawn another <type>`, which are `stopAgent` and `spawnAgent` from `ops.ts` (fixed
 argv) handed to the existing confirm card through `hooks.ask`. A workflow agent gets `Open transcript`, which names its path
-(`hooks.show`). The console cannot stop a Claude Code workflow and the page says so.
+(`hooks.show`). The console cannot stop a Claude Code workflow and the page says so. (Amended by ADR-465: the control tab calls the engine's own TaskStop and SendMessage behind the confirm card and the engine's permission check, where that tab is switched on; the page says which.)
 
 No file in the console's existing registries is edited by this change; the wiring is in section 5.
 

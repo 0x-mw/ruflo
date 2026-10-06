@@ -3,8 +3,10 @@ import type { RenderElement } from 'claude-code'
 import type { ActionSpec } from '../actions'
 import { fmtElapsed, fmtTokens, modelName, currentPhase, shortId, type AgentState, type WfAgent, type WfPhase, type WfRun } from '../data/workflows'
 import { pick, type WfUi } from '../data/workflows-nav'
+import { CONTROL_TAB, controlLine } from '../data/wf-control'
 import { spawnAgent, stopAgent } from '../ops'
 import { button, clip, col, kv, row, rule, text, THEME, type Ctx } from './common'
+import { slotsFor } from './wf-slots'
 
 /** What the workflows view asks of the controller: a confirm-gated ruflo verb, or to name a transcript's path. */
 export type WorkflowsHooks = { ask: (spec: ActionSpec) => void; show: (path: string) => void }
@@ -112,7 +114,7 @@ function inspect(ctx: Ctx, run: WfRun, agent: WfAgent, hooks: WorkflowsHooks): R
     rows.push(row(ctx, [button(ctx, 'wf-open', 'Open transcript', () => hooks.show(path), { hotkey: 'o' })]))
   }
 
-  rows.push(text(ctx, run.kind === 'workflow' ? 'The console cannot stop a Claude Code workflow: stop it from Claude Code (its Workflows panel, or TaskStop).' : '', { dimColor: true }))
+  rows.push(text(ctx, run.kind === 'workflow' ? controlLine(slotsFor('tab').some(slot => slot.id === CONTROL_TAB)) : '', { dimColor: true }))
 
   return rows
 }

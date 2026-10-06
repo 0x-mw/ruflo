@@ -1,7 +1,7 @@
 /**
  * What the Workflows page's buttons call (ADR-464). Keys move the cursor through the pure reducer in data/workflows-nav;
  * the one write the page has, stopping or spawning a ruflo agent, goes through the runner's confirm card as a fixed argv.
- * Nothing here can stop or message a running Claude Code workflow: the console has no verb for it, so the page says so.
+ * Nothing in THIS file stops or messages a running Claude Code workflow: that is the control tab (views/wf-control.ts, ADR-465), which calls the engine's own tools through the host.
  */
 import type { ActionSpec } from './actions'
 import { walk, type WfKey, type WfUi } from './data/workflows-nav'

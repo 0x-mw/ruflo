@@ -309,14 +309,14 @@ describe('the page', () => {
     expect(words(pageOf(world.state, world.host).tree)).toMatch(/No workflow runs for this project/)
   })
 
-  it('says the console cannot stop or message a workflow, with no button for it', async () => {
+  it('says where a workflow is stopped while the control tab is not switched on, with no button for it', async () => {
     const world = worldOf(live())
 
     await refreshWorkflows(world.state, world.host, true, NOW)
 
     const { tree } = pageOf(world.state, world.host)
 
-    expect(words(tree)).toMatch(/Stop and message belong to Claude Code/)
+    expect(words(tree)).toMatch(/control tab/)
     expect(buttons(tree).some(el => /stop|message/i.test(String(el.props.label)))).toBe(false)
   })
 

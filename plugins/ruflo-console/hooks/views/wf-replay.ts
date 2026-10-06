@@ -5,7 +5,7 @@
  *
  *   import './wf-replay'
  *
- * The console reads runs; it cannot rewind or message one, so this replays what the files say happened and nothing else.
+ * The replay reads run files; it cannot rewind a run, so it replays what the files say happened and nothing else (stopping or messaging a live run is the control tab's, ADR-465, on the run itself).
  */
 import type { RenderElement } from 'claude-code'
 
@@ -122,7 +122,7 @@ export function replayBody(env: SlotEnv, run: WfRun): RenderElement[] {
     ...boardRows(ctx, board),
     ...(tl.untimed.length > 0 ? [text(ctx, ` ${tl.untimed.length} agent${tl.untimed.length === 1 ? '' : 's'} left off: no start time (or no span) in the run's files, so there is no moment to place ${tl.untimed.length === 1 ? 'it' : 'them'} at`, { color: THEME.warn })] : []),
     text(ctx, step >= n ? ' This is the run\'s real final board.' : ' Tokens show n/a until an agent ends: only its final figure is recorded. A running agent\'s time is measured to this step.', { dimColor: true }),
-    text(ctx, ' The console reads and replays the files; it cannot rewind, stop or message a Claude Code workflow.', { dimColor: true }),
+    text(ctx, ' This replay cannot rewind a run; stop or message one from its control tab.', { dimColor: true }),
   ]
 }
 

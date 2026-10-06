@@ -1,7 +1,7 @@
 /**
  * The Workflows page's guards (ADR-462): two spend ceilings and the person's own alert rules, as plain options and one pure
- * evaluator. A guard only SAYS: it returns alerts for the notice ring and never stops, pauses or messages anything (the console has no
- * verb for that; Claude Code's Workflows panel and TaskStop do).
+ * evaluator. A guard only SAYS: it returns alerts for the notice ring and never stops, pauses or messages anything (stopping is the
+ * control tab's action, ADR-465, and always the person's own confirmed press).
  *
  * Options (all optional; the defaults leave every guard off):
  *   wfBudgetRunUsd   number, 0 off, else 0.01 to 10000: one run's spend that raises a notice

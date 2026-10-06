@@ -139,13 +139,13 @@ describe('guideActions on a Claude Code workflow', () => {
     expect(actions.map(action => action.id)).toEqual(['memory', 'redirect'])
   })
 
-  it('the redirect only prepares text for the main session, and says the console cannot stop or message the run', async () => {
+  it('the redirect only prepares text for the main session, and says it is the prompt-box fallback for the control tab', async () => {
     const sent: string[] = []
     const redirect = byId(guideActions(input({ run: wfRun(), prepare: async text => void sent.push(text) })), 'redirect')
     const spec = redirect?.spec as ActionSpec
 
     expect(spec.args).toEqual([])
-    expect(spec.note).toMatch(/cannot stop or message a workflow/)
+    expect(spec.note).toMatch(/prompt-box fallback.*control tab/)
     expect(redirect?.kind).toBe('prompt-only')
     await spec.run?.()
     expect(sent).toHaveLength(1)
@@ -297,7 +297,7 @@ describe('the slots', () => {
     expect(words(slot('board', 'mission-run').render(envOf(ctx, wfRun())))).toMatch(/\d+ more lines are not drawn here/)
   })
 
-  it('the guide tab lists each action with what it sends and whether it acts, and says a workflow cannot be stopped from here', () => {
+  it('the guide tab lists each action with what it sends and whether it acts, and says where a workflow is stopped (the control tab, or Claude Code where it is not switched on)', () => {
     registerGuide()
 
     const { ctx } = world()
@@ -306,7 +306,7 @@ describe('the slots', () => {
 
     expect(flat(tree).some(el => el.kind === 'Input')).toBe(true)
     expect(text).toMatch(/guidance: none typed yet/)
-    expect(text).toMatch(/cannot be stopped or messaged from here/)
+    expect(text).toMatch(/control tab/)
   })
 
   it('draws on the real page: the boards under the run board, and the tabs once the inspector is open', () => {
