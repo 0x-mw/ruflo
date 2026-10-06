@@ -111,7 +111,7 @@ describe('the extras on the page', () => {
     expect(text).toContain('Workflow templates (dry run, then a confirmed launch)')
     expect(text).toContain('Project Anatole, per agent (reported by the mod)')
     expect(hotkeys(tree)).toEqual(expect.arrayContaining(['w', 't', 'c', 'g']))
-    expect(text).toContain('Stop and message belong to Claude Code')
+    expect(text).toContain('need the control tab, which is not switched on')
   })
 
   it('the page\'s read drives the worktree read once, never the process check, and a failing git is a line, not a crash', () => {

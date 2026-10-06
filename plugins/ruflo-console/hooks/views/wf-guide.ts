@@ -18,7 +18,8 @@ import type { Host } from '../host'
 import type { State } from '../state'
 import { isRunPath } from '../wf-actions'
 import { button, clip, col, kv, row, section, text, THEME, type Ctx } from './common'
-import { registerSlot, type Registered, type SlotEnv } from './wf-slots'
+import { CONTROL_TAB, controlLine } from '../data/wf-control'
+import { registerSlot, slotsFor, type Registered, type SlotEnv } from './wf-slots'
 
 const GLYPH: Record<NestKind, string> = { swarm: '◎', hive: '⬡', queen: '♛', worker: '●', claim: '⚑', task: '▪', note: '·' }
 /** The script review shows at most this many lines; the full text is what the launch prepares, and the page says how many it holds. */
@@ -102,7 +103,7 @@ export function launchSpec(state: State, draft: Extract<Draft, { ok: true }>, mi
     args: [],
     shows: `${draft.path}: ${draft.estimate.agents} agents in ${draft.estimate.levels} levels, ${draft.source.split('\n').length} lines, prepared in the prompt box`,
     expect: 'the script text in the prompt box (it is not sent)',
-    note: 'Starts nothing here: the text waits in your prompt box. When you press Enter, Claude writes the file and runs the workflow, and every agent bills as a subagent does. The console cannot stop it afterwards.',
+    note: 'Starts nothing here: the text waits in your prompt box. When you press Enter, Claude writes the file and runs the workflow, and every agent bills as a subagent does. It can be stopped afterwards with the control tab (the engine\'s TaskStop, where that tab is switched on) or from Claude Code\'s Workflows panel.',
     run: () => prepareIn(state, 'workflow script')(prompt),
   }
 }
@@ -152,7 +153,7 @@ function guideRows(ctx: Ctx, actions: readonly GuideAction[], run: WfRun): Rende
     if (action.acts !== '') rows.push(line(ctx, `   acts: ${action.acts}`, { dimColor: true }))
   }
 
-  rows.push(line(ctx, run.kind === 'workflow' ? 'A running Claude Code workflow cannot be stopped or messaged from here: the console only reads it. The note is found by a memory search; the redirect is text for the main session.' : 'ruflo agents are not interrupted by any of these: each writes a record that an agent sees when it reads that store.', { dimColor: true }))
+  rows.push(line(ctx, run.kind === 'workflow' ? `${controlLine(slotsFor('tab').some(slot => slot.id === CONTROL_TAB))} The note here is found by a memory search; the redirect here is text for the main session.` : 'ruflo agents are not interrupted by any of these: each writes a record that an agent sees when it reads that store.', { dimColor: true }))
 
   return rows
 }

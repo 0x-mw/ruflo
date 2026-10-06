@@ -50,6 +50,12 @@ export type ControlInput = {
   isRunPath: (path: string) => boolean
 }
 
+/** The id of the inspector tab this module registers (views/wf-control.ts); a page that says where Stop is done asks whether it exists. */
+export const CONTROL_TAB = 'control'
+
+/** The sentence a page says about stopping and messaging a workflow, true to whether the control tab is switched on. */
+export const controlLine = (isOn: boolean): string => (isOn ? 'Stop, message and redirect: the control tab calls the engine\'s own TaskStop and SendMessage, behind its permission check, after showing the exact call.' : 'Stop and message from this page need the control tab, which is not switched on in this build: use Claude Code\'s Workflows panel or TaskStop.')
+
 /** An id the engine hands out is letters, digits, dash and underscore; anything else is not passed to a tool. */
 export const ENGINE_ID = /^[A-Za-z0-9][A-Za-z0-9_-]{5,63}$/
 

@@ -2,6 +2,7 @@ import type { RenderElement } from 'claude-code'
 
 import { plain } from '../data/parse'
 import { cleanText } from '../data/wf-clean'
+import { CONTROL_TAB, controlLine } from '../data/wf-control'
 import { pick } from '../data/workflows-nav'
 import { workflowsModelOf } from '../wf-live'
 import { ago, button, clip, col, row, rule, text, THEME, type Ctx } from './common'
@@ -68,8 +69,8 @@ export function workflowsPage(ctx: Ctx): RenderElement {
 
     if (extras.length > 0) rows.push(row(ctx, extras, 'wf-extras'))
 
-    // The console reads workflow runs; it has no verb that stops or messages one, so this says where that is done instead of a dead button.
-    if (env.run.kind === 'workflow') rows.push(text(ctx, 'Stop and message belong to Claude Code (its Workflows panel, TaskStop): this page only reads the run.', { dimColor: true }))
+    // Stop and message are the control tab's (ADR-465) where it is registered; where it is not, this says where that is done instead of a dead button.
+    if (env.run.kind === 'workflow') rows.push(text(ctx, controlLine(slotsFor('tab').some(slot => slot.id === CONTROL_TAB)), { dimColor: true }))
   }
 
   if (env !== null && tabs.length > 0) {

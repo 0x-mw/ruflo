@@ -35,7 +35,7 @@ export type Config = { endpoints: Endpoint[]; rooms: string[]; channels: string[
 
 export const OPENROUTER: Endpoint = { name: 'openrouter', baseUrl: 'https://openrouter.ai/api/v1', keyEnv: 'OPENROUTER_API_KEY', model: 'openrouter/auto' }
 
-const NAME = /^[a-z][a-z0-9-]{1,23}$/
+const NAME = /^[a-z][a-z0-9-]{0,23}$/
 const ENV_NAME = /^[A-Z_][A-Z0-9_]{0,63}$/
 const ROOM = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/
 const CHANNEL = /^(pub:[a-z0-9][a-z0-9._-]{0,63}|prv:[0-9a-f]{16})$/

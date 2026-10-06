@@ -119,11 +119,11 @@ describe('replay', () => {
     expect(words(w.page())).toMatch(/64x/)
   })
 
-  it('says the console cannot rewind or message a run', () => {
+  it('says the replay cannot rewind a run, and that stopping or messaging is not done from it', () => {
     const w = world()
 
     press(w.page(), 'wf-replay-fold')
-    expect(words(w.page())).toMatch(/cannot rewind, stop or message a Claude Code workflow/)
+    expect(words(w.page())).toMatch(/cannot rewind a run; stop or message one from its control tab/)
   })
 
   it('has nothing to replay for the ruflo swarm, and says so', () => {

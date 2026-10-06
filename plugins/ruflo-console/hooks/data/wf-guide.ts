@@ -7,7 +7,7 @@
  * and no worker is interrupted; a task or claim edit changes a record an agent sees only when it reads the store; a consensus proposal
  * binds nobody; a memory note is found by whoever searches memory. So no action here makes a running agent do something, and the card
  * says so. Claude Code workflow agents have no ruflo record at all: the only honest paths are the memory note and a prepared prompt for
- * the main session (resume or redirect), and the console cannot stop or message a running workflow.
+ * the main session (resume or redirect), and stopping and messaging a running workflow are the control tab's real calls (data/wf-control.ts, ADR-465), not these.
  */
 import { handoffClaim, type ActionSpec } from '../actions'
 import { hiveBroadcast, hivePropose } from '../hive'
@@ -175,7 +175,7 @@ export function guideActions(input: GuideInput): GuideAction[] {
   if (input.run.kind === 'workflow') {
     const prompt = redirectText(input.run, input.agent, text, input.isRunPath)
 
-    add('redirect', 'prepare a redirect for the main session', 'prompt-only', prompt === null ? null : { label: 'prepare the redirect text in the main session\'s prompt box', args: [], shows: prompt.slice(0, 160), expect: 'the text in the prompt box (it is not sent)', note: 'Text only: it goes to the main Claude session, never to the running workflow. The console cannot stop or message a workflow; resuming applies to a stopped run.', run: () => input.prepare(prompt) }, 'Prepares text in your prompt box; you press Enter. The running workflow is not touched: stopping it is done in Claude Code\'s Workflows panel.', 'this run has no id the console can pass on')
+    add('redirect', 'prepare a redirect for the main session', 'prompt-only', prompt === null ? null : { label: 'prepare the redirect text in the main session\'s prompt box', args: [], shows: prompt.slice(0, 160), expect: 'the text in the prompt box (it is not sent)', note: 'Text only: it goes to the main Claude session, never to the running workflow. This route is the prompt-box fallback: the control tab\'s Redirect calls the engine\'s TaskStop first (where it is switched on), and resuming applies to a stopped run.', run: () => input.prepare(prompt) }, 'Prepares text in your prompt box; you press Enter. The running workflow is not touched by this text: the control tab\'s Stop (the engine\'s TaskStop) or Claude Code\'s Workflows panel stops it.', 'this run has no id the console can pass on')
   }
 
   return out

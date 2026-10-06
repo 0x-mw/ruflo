@@ -391,14 +391,14 @@ describe('view', () => {
     expect(out.join('\n')).toContain('1 Build')
   })
 
-  it('inspect shows the transcript path and open fires the hook; a workflow cannot be stopped from here', () => {
+  it('inspect shows the transcript path and open fires the hook; a workflow is stopped from the control tab where it is on, else Claude Code', () => {
     const shown: string[] = []
     const ui = { ...startOn(newWfUi(), live), column: 'agents' as const, isInspecting: true }
     const tree = workflowsView(ctxOf(110), model(), ui, { ask: () => undefined, show: path => shown.push(path) })
     const buttons = walkEls(tree).filter(n => n.kind === 'Button')
 
     expect(lines(tree).join('\n')).toContain('/d/agent-a1.jsonl')
-    expect(lines(tree).join('\n')).toContain('cannot stop a Claude Code workflow')
+    expect(lines(tree).join('\n')).toContain('need the control tab, which is not switched on')
     expect(buttons.map(b => b.props.label)).toEqual(['Open transcript'])
     ;(buttons[0]?.props.onPress as () => void)()
     expect(shown).toEqual(['/d/agent-a1.jsonl'])

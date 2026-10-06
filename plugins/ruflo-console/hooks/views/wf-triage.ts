@@ -2,7 +2,7 @@
  * Cost, triage and guards on the Workflows page (ADR-462), as three slots of views/wf-slots.ts: a Triage board section, a Cost board
  * section and a notice slot for the guards. Nothing here reads a disk: the figures come from the store `wf-cost-live.ts` fills, and a
  * section whose figures are not there says why instead of drawing a number. Cost is shown as `$` only where a price was found;
- * tokens without one read "no price". The console cannot stop or message a running workflow, so the page says where that is done.
+ * tokens without one read "no price". Stop and message are the control tab's (ADR-465), and the page says where that is done.
  */
 import type { RenderElement } from 'claude-code'
 
