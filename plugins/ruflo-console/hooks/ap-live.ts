@@ -22,8 +22,8 @@ import { checkPin, type Pin } from './data/ap-pin'
 import { loadPin, setPin } from './ap-pin-live'
 import { AUTOPILOT_DIR, ENVELOPE_FILE, KILL_FILE, open, type Envelope, type Sealed, type Spend } from './data/ap-envelope'
 import { anatoleFact, classifyTask, effectOf, killSeen, preflightAll, spendArgvs, spendOf, verifyPermission, type ToolCheck } from './data/ap-guard'
-import { appendArgv, encodeLine, JOURNAL_FILE, JOURNAL_MAX_BYTES, parseJournal, REFUSED_WHY, startedCount, touchArgv, type JournalEvent } from './data/ap-journal'
-import { digestText, emptyLoop, foldJournal, skipSet, tick, type EffectFact, type Facts, type LoopState, type TaskFact } from './data/ap-loop'
+import { appendArgv, encodeLine, JOURNAL_FILE, JOURNAL_MAX_BYTES, REFUSED_WHY, startedCount, touchArgv, type JournalEvent } from './data/ap-journal'
+import { digestText, emptyLoop, foldJournal, replayJournal, skipSet, tick, type EffectFact, type Facts, type LoopState, type TaskFact } from './data/ap-loop'
 import type { Preflight } from './data/ap-loop'
 import type { NoticeDraft } from './notices'
 
@@ -126,10 +126,10 @@ export async function refreshAutopilot(state: State, host: Host, nowMs: number =
       store.error = journal.reason === 'missing' ? null : `the journal was not read: ${journal.reason}`
       store.journalBytes = journal.reason === 'too-large' ? (journal.size ?? JOURNAL_MAX_BYTES) : 0
     } else {
-      const parsed = parseJournal(journal.text)
+      const replayed = replayJournal(journal.text)
 
-      store.loop = foldJournal(parsed.events)
-      store.badLines = parsed.bad
+      store.loop = replayed.loop
+      store.badLines = replayed.bad
       store.journalBytes = journal.text.length
       store.error = null
     }

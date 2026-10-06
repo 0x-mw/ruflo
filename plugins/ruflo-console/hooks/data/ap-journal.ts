@@ -147,8 +147,8 @@ const KEEP = new Set(['t', 'envHash', 'hash', 'prev', 'id', 'task', 'day', 'anat
 
 /** The line to append (with its newline). Free text is washed again here, so an event built from raw text is safe to write. */
 export function encodeLine(event: JournalEvent): string {
-  const clean = JSON.parse(JSON.stringify(event, (key, value: unknown) => (typeof value === 'string' && !KEEP.has(key) ? wash(value, 300) : value))) as JournalEvent
-  const line = JSON.stringify(clean)
+  // One pass: the replacer washes each string as it is written (a parse of the washed text back into an object, to stringify it again, produced the same bytes).
+  const line = JSON.stringify(event, (key, value: unknown) => (typeof value === 'string' && !KEEP.has(key) ? wash(value, 300) : value))
 
   return `${line.length > LINE_MAX ? JSON.stringify({ t: 'pause', at: event.at, reason: 'an event was too long to journal' }) : line}\n`
 }

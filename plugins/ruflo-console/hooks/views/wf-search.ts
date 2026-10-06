@@ -8,29 +8,39 @@
 import type { RenderElement } from 'claude-code'
 
 import { MAX_QUERY, flatHits, HIT_NAME, HIT_ORDER, MAX_SHOWN, MIN_QUERY, SCAN_CHARS, search, type Hit, type MissionTaskRef, type SearchResult } from '../data/wf-search'
-import { isBound, LOAD_BUDGET, loadRun, parsedOf } from '../data/wf-drill-io'
+import { isBound, LOAD_BUDGET, loadRun, parsedOf, textOf } from '../data/wf-drill-io'
 import { button, clip, col, row, text, THEME } from './common'
 import { drillOf, jumpTo, setQuery } from './wf-detail'
 import { registerSlot, type SlotEnv } from './wf-slots'
 
-const memo = new WeakMap<object, { query: string; sig: string; result: SearchResult }>()
+const memo = new WeakMap<object, { query: string; runs: number; tasks: number; texts: (string | null)[]; tails: boolean[]; result: SearchResult }>()
 
 const tasksOf = (env: SlotEnv): MissionTaskRef[] =>
   (env.ctx.state.snapshot?.missions?.missions ?? []).flatMap(mission => mission.plan.tasks.map(task => ({ mission: mission.objective, id: task.id, title: task.title, status: task.status }))).slice(0, 400)
 
-/** The search for this frame, kept while the query, the runs and what is parsed in memory are the same (a frame is drawn far more often than any of them changes). */
+/**
+ * The search for this frame, kept while the query, the runs and the transcript TEXT in memory are the same (a frame is drawn far more often than any of
+ * them changes). The text is compared by identity, agent by agent: the read cache hands back the very same string while a file is unchanged, so
+ * this is one pointer test each and nothing is parsed to find out that nothing changed. Parsing happens inside `search`, lazily, only as far as its scan cap goes.
+ */
 export function resultOf(env: SlotEnv, query: string): SearchResult {
+  // A query too short to search looks at nothing, so nothing is read or summed for it: the box is drawn on every frame, and most frames have no query.
+  if (query.trim().slice(0, MAX_QUERY).length < MIN_QUERY) return search({ runs: [], parsed: () => null }, query)
+
   const cache = env.ctx.state.cache
-  const parsed = env.runs.flatMap(run => run.phases.flatMap(phase => phase.agents)).map(agent => (agent.ruflo === undefined ? parsedOf(cache, agent) : null))
-  const sig = `${env.runs.length}:${parsed.map(p => p?.entries.length ?? -1).join(',')}:${tasksOf(env).length}`
-  const held = memo.get(env.ctx.state)
+  const agents = env.runs.flatMap(run => run.phases.flatMap(phase => phase.agents))
+  const held = agents.map(agent => (agent.ruflo === undefined ? textOf(cache, agent) : null))
+  const texts = held.map(entry => entry?.text ?? null)
+  const tails = held.map(entry => entry?.isTail === true)
+  const tasks = tasksOf(env)
+  const last = memo.get(env.ctx.state)
 
-  if (held !== undefined && held.query === query && held.sig === sig) return held.result
+  if (last !== undefined && last.query === query && last.runs === env.runs.length && last.tasks === tasks.length && last.texts.length === texts.length && texts.every((text, i) => text === last.texts[i] && tails[i] === last.tails[i])) return last.result
 
-  const byAgent = new Map(env.runs.flatMap(run => run.phases.flatMap(phase => phase.agents)).map((agent, i) => [agent, parsed[i] ?? null] as const))
-  const result = search({ runs: env.runs, parsed: agent => byAgent.get(agent) ?? null, tasks: tasksOf(env) }, query)
+  const index = new Map(agents.map((agent, i) => [agent, i] as const))
+  const result = search({ runs: env.runs, parsed: agent => (agent.ruflo === undefined ? parsedOf(cache, agent) : null), isHeld: agent => texts[index.get(agent) ?? -1] != null, tasks }, query)
 
-  memo.set(env.ctx.state, { query, sig, result })
+  memo.set(env.ctx.state, { query, runs: env.runs.length, tasks: tasks.length, texts, tails, result })
 
   return result
 }

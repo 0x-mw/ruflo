@@ -46,6 +46,23 @@ function factsOf(path: string, text: string, isTail: boolean): TranscriptFacts {
   return facts
 }
 
+/**
+ * What a tail-read transcript parsed to, by path, with the size and mtime the folder listing gave for the file. A transcript over the cap is
+ * tail-read, and a refresh used to read 400 KB again from every one of them (360 agents: ~144 MB a tick) only to find the same text. While the
+ * listing's size and mtime are unchanged the file is unchanged, as the read cache already assumes for whole files, so the facts are reused and the
+ * read is skipped. The text itself is not kept (only the few figures parsed from it), and a listing with no mtime is never trusted.
+ */
+const tailFacts = new Map<string, { size: number; mtimeMs: number; facts: TranscriptFacts }>()
+
+function rememberTail(path: string, size: number, mtimeMs: number | undefined, facts: TranscriptFacts): void {
+  if (mtimeMs === undefined) return
+
+  tailFacts.delete(path)
+  tailFacts.set(path, { size, mtimeMs, facts })
+
+  if (tailFacts.size > PARSED_MAX) tailFacts.delete(tailFacts.keys().next().value as string)
+}
+
 const safeList = (fs: ReaderFs, path: string) => fs.list(path).catch(() => [] as Awaited<ReturnType<ReaderFs['list']>>)
 
 export async function readWorkflowRuns(fs: WorkflowFs, cache: ReadCache, options: { configDir: string | null; cwd: string; nowMs: number; maxRuns?: number }): Promise<WorkflowRuns> {
@@ -77,21 +94,36 @@ export async function readWorkflowRuns(fs: WorkflowFs, cache: ReadCache, options
           agentIds.map(async agentId => {
             const path = under(dir, `agent-${agentId}.jsonl`)
             const meta = await text(under(dir, `agent-${agentId}.meta.json`), 20_000)
-            const size = entries.find(entry => entry.name === `agent-${agentId}.jsonl`)?.size ?? 0
+            const listed = entries.find(entry => entry.name === `agent-${agentId}.jsonl`)
+            const size = listed?.size ?? 0
             let transcript: string | null = null
             let isTail = false
+            let kept: TranscriptFacts | undefined
 
             if (record === null && size > 0) {
               if (size <= TRANSCRIPT_CAP) transcript = await text(path, TRANSCRIPT_CAP)
               else if (fs.readTail !== undefined) {
-                transcript = await fs.readTail(path, TAIL_BYTES).catch(() => null)
-                isTail = transcript !== null
+                const held = listed?.mtimeMs === undefined ? undefined : tailFacts.get(path)
+
+                if (held !== undefined && held.size === size && held.mtimeMs === listed?.mtimeMs) {
+                  // Unchanged since the last read: its figures stand in for the text, which buildRun only ever turns into these.
+                  kept = held.facts
+                  transcript = ''
+                  isTail = true
+                } else {
+                  transcript = await fs.readTail(path, TAIL_BYTES).catch(() => null)
+                  isTail = transcript !== null
+                }
               }
 
               if (transcript === null) skipped.push(path)
             }
 
-            return [agentId, { meta, transcript, isTail, path, ...(transcript !== null && { facts: factsOf(path, transcript, isTail) }) }] as const
+            const facts = kept ?? (transcript === null ? undefined : factsOf(path, transcript, isTail))
+
+            if (kept === undefined && isTail && facts !== undefined) rememberTail(path, size, listed?.mtimeMs, facts)
+
+            return [agentId, { meta, transcript, isTail, path, ...(facts !== undefined && { facts }) }] as const
           }),
         ),
       )
