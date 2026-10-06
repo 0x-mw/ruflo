@@ -162,10 +162,10 @@ export function appendEvents(state: State, host: Host, events: readonly JournalE
         return false
       }
 
-      // A file this console just wrote is no longer "missing" for the next read.
-      state.cache.delete(path)
+      state.cache.delete(path) // a file just written is no longer "missing" for the next read
       store.loop = foldJournal(events, store.loop)
       store.error = null
+      if (store.pin !== null && store.pin.stopped !== true && events.some(e => e.t === 'stop')) await setPin(store, host, state.cwd, { ...store.pin, stopped: true })
 
       return true
     } catch {
@@ -399,8 +399,10 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
     }
 
     if (wrote && decision.act !== null && mission !== null && picked !== null) {
-      // The kill switch and a second session are looked at again HERE, after every await since the tick began (a verify run can take minutes): a step is handed over only if no flag appeared and this journal holds exactly one start line for it.
-      const journalNow = await host.fs.read(pathOf(state, JOURNAL_FILE)).catch(() => null)
+      // Kill flag and a second session are looked at again HERE (a verify run can take minutes): hand over only if no flag appeared and the journal, read within its cap, holds exactly one start for this step.
+      const at = pathOf(state, JOURNAL_FILE)
+      const size = await host.fs.stat(at).catch(() => undefined)
+      const journalNow = size === undefined || size.isLink === true || (size.size ?? JOURNAL_MAX_BYTES + 1) > JOURNAL_MAX_BYTES ? null : await host.fs.read(at).catch(() => null)
 
       if ((await killSeen(host.fs, state.cwd)) || store.loop.phase === 'stopped' || store.loop.phase === 'paused') {
         await appendEvents(state, host, [{ t: 'step.failed', at: Date.now(), id: decision.act.id, why: 'stopped before the hand-over' }])
@@ -409,7 +411,7 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
       }
 
       if (journalNow === null || startedCount(journalNow, decision.act.id) !== 1) {
-        await appendEvents(state, host, [{ t: 'step.failed', at: Date.now(), id: decision.act.id, why: 'not handed over: another session started the same step' }])
+        await appendEvents(state, host, [{ t: 'step.failed', at: Date.now(), id: decision.act.id, why: 'not handed over: the journal is unreadable, over its cap or holds a second start of this step' }])
 
         return
       }

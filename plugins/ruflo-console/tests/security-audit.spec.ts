@@ -1,40 +1,23 @@
 /**
  * The security audit of the control plane, the bridge and the autopilot (ADR-465, ADR-466), adversarially: each case is an attack that
- * worked before its fix, and fails again if the fix is taken out. Pure cases first, then the live loop on an in-memory disk. Run with
+ * worked before its fix, and fails again if the fix is taken out. The pure cases; the live loop on an in-memory disk is security-audit-live.spec.ts. Run with
  *   npx vitest run plugins/ruflo-console/tests/security-audit.spec.ts --testTimeout=30000
  */
 import { describe, expect, it } from 'vitest'
 
-import { apTick, refreshAutopilot, storeOf, wireAutopilot } from '../hooks/ap-live'
+import { classAllowed, hashOf, isProtectedPath, pathAllowed, validateEnvelope, type Envelope } from '../hooks/data/ap-envelope'
 import { applyChange, DEFAULTS, GENESIS, promote, tunablesFrom, type Proposal } from '../hooks/data/ap-adapt'
-import { classAllowed, hashOf, isProtectedPath, pathAllowed, seal, validateEnvelope, type Envelope } from '../hooks/data/ap-envelope'
 import { anatoleFact, classifyTask, seen, verifyPermission } from '../hooks/data/ap-guard'
-import { encodeLine, JOURNAL_FILE, parseJournal, startedCount, wash, type JournalEvent, type Receipt } from '../hooks/data/ap-journal'
+import { encodeLine, parseJournal, startedCount, wash, type JournalEvent, type Receipt } from '../hooks/data/ap-journal'
 import { emptyLoop, foldJournal, tick, whyParked, type Facts } from '../hooks/data/ap-loop'
 import { checkPin } from '../hooks/data/ap-pin'
-import type { TaskRecord } from '../hooks/data/parse'
 import { cleanText } from '../hooks/data/wf-clean'
 import { addMessage, applyFetch, fromBbs, FETCH_MAX, lastAnswer, newConvo, recordSend, relayBody } from '../hooks/data/wf-convo'
 import { payloadOf, sendTo, type SendDeps } from '../hooks/data/wf-send'
 import { isBaseUrl, parseConfig, targetsOf, type Target } from '../hooks/data/wf-targets'
-import type { Host } from '../hooks/host'
-import { mcOf, type MissionRecord } from '../hooks/mission-control'
-import { newState, type State } from '../hooks/state'
-import { startSpec, draftOf } from '../hooks/views/ap-panel'
-import { resetSlots } from '../hooks/views/wf-slots'
-import type { Ctx, Kit } from '../hooks/views/common'
-import type { SlotEnv } from '../hooks/views/wf-slots'
-import '../hooks/views/wf-register'
+import { parseJournal as parseRunJournal } from '../hooks/data/workflows'
+import { CWD, E, ENV, KILL, T0 } from './fixtures/security-rig'
 
-void resetSlots
-
-const CWD = '/w'
-const T0 = Date.parse('2026-10-06T00:00:00.000Z')
-const AP = `${CWD}/.claude-flow/console/autopilot`
-const J = `${CWD}/${JOURNAL_FILE}`
-const E = `${AP}/envelope.json`
-const KILL = `${AP}/KILL`
-const ENV: Envelope = { name: 'night', toolClasses: ['edit', 'read', 'test'], paths: [CWD], repos: [], network: [], secretEnv: [], spend: { hourUsd: 2, dayUsd: 10, totalUsd: 40 }, concurrency: 4, maxDurationMs: 7 * 86_400_000, verify: [['true']], acceptWithoutAnatole: true }
 const GOOD = (over: Record<string, unknown> = {}): unknown => ({ ...ENV, ...over })
 const errsOf = (raw: unknown): string => { const c = validateEnvelope(raw); return c.ok ? '' : c.errors.join('\n') }
 
@@ -112,19 +95,6 @@ describe('Project Anatole: a forged, stale or failed-open status is not "on"', (
     expect(anatoleFact(facts(null, { modeOverride: 'enforce' }), T0)).toBe('absent')
     expect(anatoleFact(facts({ mode: 'off', updatedMs: T0 - 99 * 3_600_000, degraded: false }), T0)).toBe('off')
   })
-
-  it('a loop whose envelope does not accept running without Anatole pauses on a stale status, in a real tick', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'pending'), task('r2', 'pending'), task('r3', 'pending')], { mode: 'enforce', updatedMs: T0 - 30 * 3_600_000, degraded: false })
-
-    started(r, [], { ...ENV, acceptWithoutAnatole: false })
-    wireAutopilot(state, r.host)
-    storeOf(state).spend = { hourUsd: 0, dayUsd: 0, totalUsd: 0 }
-    storeOf(state).spendAtMs = T0 + 1000
-    await apTick(state, r.host, T0 + 1000)
-    expect(r.prompts).toEqual([])
-    expect(journal(r).at(-1)).toMatchObject({ t: 'pause' })
-  })
 })
 
 describe('the journal: a line cannot tune, replay or resurrect the loop', () => {
@@ -169,6 +139,19 @@ describe('the journal: a line cannot tune, replay or resurrect the loop', () => 
     expect(parseJournal(encodeLine({ t: 'stop', at: 1, reason: `ghp_${'a'.repeat(20)}⁠${'b'.repeat(20)}` })).events[0]).not.toMatchObject({ reason: expect.stringMatching(/b{5}/) })
   })
 
+  it('a result preview in a run journal masks a credential split by a zero-width character (the parse stage must not turn it into a space first)', () => {
+    const key = `sk-ant-api03-${'A'.repeat(14)}\u200b${'B'.repeat(14)}`
+    const line = JSON.stringify({ type: 'result', agentId: 'agent-1', result: `done ${key} end` })
+    const agent = parseRunJournal(line).agents[0]
+
+    expect(agent?.resultPreview).toBeDefined()
+    expect(agent?.resultPreview).not.toMatch(/B{5}/)
+
+    const label = parseRunJournal(JSON.stringify({ type: 'started', agentId: 'agent-2', label: `x ${key} y` })).agents[0]?.label ?? ''
+
+    expect(cleanText(label)).not.toMatch(/B{5}/)
+  })
+
   it('a step is handed over only when the journal holds exactly one start line for it', () => {
     const line = encodeLine({ t: 'step.started', at: 1, id: 's-abc', task: 't1', cls: 'edit', attempt: 1, deadline: 9, tier: 'mid' })
 
@@ -201,22 +184,6 @@ describe('crash-resume: a step that may have run is not retried on its own', () 
     const go = tick(answered, facts())
 
     expect(go.act?.attempt).toBe(2)
-  })
-})
-
-describe('the confirm card shows what it grants', () => {
-  it('lists every verify argv, the repos and the secret variable NAMES, not a count', () => {
-    const r = rig()
-    const state = stateWith([])
-
-    wireAutopilot(state, r.host)
-    draftOf(state).value = { ...ENV, verify: [['npx', 'vitest', 'run', 'tests/x.spec.ts']], repos: ['ruvnet/ruflo'], secretEnv: ['OPENROUTER_API_KEY'] } as never
-
-    const shows = startSpec(envOf(state, T0))?.shows ?? ''
-
-    expect(shows).toContain('npx vitest run tests/x.spec.ts')
-    expect(shows).toContain('ruvnet/ruflo')
-    expect(shows).toContain('OPENROUTER_API_KEY')
   })
 })
 
@@ -301,250 +268,3 @@ describe('the permission the console must not launder', () => {
   })
 })
 
-// ---------------------------------------------------------------- live: an in-memory disk and a fake host
-type Rig = { files: Map<string, string>; runs: string[][]; prompts: string[]; host: Host; onRun: { fn: ((argv: readonly string[]) => void) | null }; onAppend: { fn: ((text: string) => string) | null } }
-
-function rig(): Rig {
-  const files = new Map<string, string>()
-  const runs: string[][] = []
-  const prompts: string[] = []
-  const onRun: Rig['onRun'] = { fn: null }
-  const onAppend: Rig['onAppend'] = { fn: null }
-
-  const host = {
-    fs: {
-      read: async (p: string) => files.get(p) ?? Promise.reject(new Error('ENOENT')),
-      stat: async (p: string) => (files.has(p) ? { mtimeMs: 1, size: (files.get(p) as string).length, kind: 'file', isLink: false } : [...files.keys()].some(k => k.startsWith(`${p}/`)) ? { kind: 'dir', isLink: false } : Promise.reject(new Error('ENOENT'))),
-      list: async () => [],
-    },
-    run: async (argv: readonly string[], _t: number, stdin?: string) => {
-      runs.push([...argv])
-      onRun.fn?.(argv)
-
-      if (argv[0] === 'dd') {
-        const path = (argv.find(a => a.startsWith('of=')) as string).slice(3)
-        const add = argv.includes('oflag=append') && onAppend.fn !== null ? onAppend.fn(stdin ?? '') : (stdin ?? '')
-
-        files.set(path, argv.includes('oflag=append') ? `${files.get(path) ?? ''}${add}` : (stdin ?? ''))
-      } else if (argv[0] === 'install') files.set(argv.at(-1) as string, argv.includes('/dev/null') ? '' : (stdin ?? ''))
-      else if (argv[0] === 'rm') files.delete(argv.at(-1) as string)
-      else if (argv[0] === 'cp') files.set(argv.at(-1) as string, files.get(argv.at(-2) as string) ?? '')
-
-      return { exitCode: 0, stdout: '', stderr: '' }
-    },
-    invalidate: () => undefined,
-    toast: () => undefined,
-    every: () => ({ cancel: () => undefined }),
-    after: () => ({ cancel: () => undefined }),
-    storeSet: async () => undefined,
-    submitPrompt: async (t: string) => void prompts.push(t),
-  } as unknown as Host
-
-  return { files, runs, prompts, host, onRun, onAppend }
-}
-
-const task = (id: string, status: string): TaskRecord => ({ id, type: 'feature', description: '', status, assignedTo: [], tags: [] })
-
-const mission = (): MissionRecord => ({
-  id: 'msn_0123456789abcdef01234567', objective: 'tidy the parser', profile: 'feature', rigor: 'standard',
-  tasks: [
-    { id: 't1', title: 'Fix the parser bug', phase: 'S', agent: 'coder', requirement: 'tests pass', dependsOn: [], rufloTaskId: 'r1' },
-    { id: 't2', title: 'Update the changelog', phase: 'A', agent: 'coder', requirement: 'a line', dependsOn: [], rufloTaskId: 'r2' },
-    { id: 't3', title: 'Review the module', phase: 'P', agent: 'coder', requirement: 'a summary', dependsOn: [], rufloTaskId: 'r3' },
-  ],
-  acceptance: [], events: [], paused: false, cancelled: false, auto: false, createdAtMs: 1,
-})
-
-function stateWith(tasks: TaskRecord[], anatole: Record<string, unknown> = { mode: 'notify', updatedMs: T0, degraded: false }): State {
-  const state = newState({})
-
-  state.cwd = CWD
-  state.snapshot = { tasks, agents: [], claims: [], swarm: null, plugins: { missingFromClone: [], installed: [] }, alerts: [], anatole: { present: true, status: anatole, modeOverride: null, overrides: {}, alerts: [], refused: [], badAlerts: 0 } } as never
-  mcOf(state).missions.set('msn_0123456789abcdef01234567', mission())
-  mcOf(state).active = 'msn_0123456789abcdef01234567'
-
-  return state
-}
-
-function started(r: Rig, extra: JournalEvent[] = [], env: Envelope = ENV): void {
-  const sealed = seal(env, 1, T0)
-
-  r.files.set(E, JSON.stringify(sealed))
-  r.files.set(J, [{ t: 'start', at: T0, envHash: sealed.hash, revision: 1, anatole: 'on' } as JournalEvent, ...extra].map(encodeLine).join(''))
-}
-
-const journal = (r: Rig): JournalEvent[] => parseJournal(r.files.get(J) ?? '').events
-const kit = { Box: (props: Record<string, unknown>) => ({ kind: 'Box', props }), Text: (props: Record<string, unknown>) => ({ kind: 'Text', props }), Button: (props: Record<string, unknown>) => ({ kind: 'Button', props }) } as unknown as Kit
-const envOf = (state: State, nowMs: number): SlotEnv => ({ ctx: { kit, state, nowMs, columns: 120, pictures: new Map(), act: {} as never } as Ctx, runs: [], run: null, phase: null, agent: null, ui: {} as never, nowMs })
-const ready = (state: State, nowMs: number): void => { storeOf(state).spend = { hourUsd: 0, dayUsd: 0, totalUsd: 0 }; storeOf(state).spendAtMs = nowMs; storeOf(state).adaptAtMs = nowMs }
-const settle = async (state: State): Promise<void> => { while (storeOf(state).isTicking) await new Promise(resolve => setTimeout(resolve, 1)) }
-const dangling = (id = 's-dangling00001'): JournalEvent => ({ t: 'step.started', at: T0 + 10, id, task: 't1', cls: 'edit', attempt: 1, deadline: T0 + 1e9, tier: 'mid' })
-
-describe('live: tampering with the files the steps can write', () => {
-  it('an extra start line appended after a confirmed Start (a replay of the stop-then-start trick) stops the loop and hands nothing over', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'pending'), task('r2', 'pending'), task('r3', 'pending')])
-
-    wireAutopilot(state, r.host)
-    await startSpec(envOf(state, T0))?.run?.()
-    await settle(state)
-    expect(journal(r)[0]).toMatchObject({ t: 'start' })
-    expect(storeOf(state).pin).toMatchObject({ starts: 1 })
-
-    const first = journal(r)[0] as Extract<JournalEvent, { t: 'start' }>
-
-    r.files.set(J, `${r.files.get(J)}${encodeLine({ t: 'stop', at: Date.now(), reason: 'you' })}${encodeLine(first)}`)
-    state.cache.clear()
-    ready(state, Date.now())
-    await apTick(state, r.host, Date.now() + 1000)
-
-    expect(r.prompts).toEqual([])
-    expect(journal(r).at(-1)).toMatchObject({ t: 'stop', reason: expect.stringContaining('2 start lines') })
-  })
-
-  it('an envelope rewritten with a matching hash and a start line for it (the hash is not a MAC) is not the one the person approved', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'pending'), task('r2', 'pending'), task('r3', 'pending')])
-
-    wireAutopilot(state, r.host)
-    await startSpec(envOf(state, T0))?.run?.()
-    await settle(state)
-
-    const wider = seal({ ...ENV, concurrency: 8, spend: { hourUsd: 900, dayUsd: 900, totalUsd: 900 } }, 2, Date.now())
-
-    r.files.set(E, JSON.stringify(wider))
-    r.files.set(J, `${r.files.get(J)}${encodeLine({ t: 'start', at: Date.now(), envHash: wider.hash, revision: 2, anatole: 'on' })}`)
-    state.cache.clear()
-    ready(state, Date.now())
-    await apTick(state, r.host, Date.now() + 1000)
-
-    expect(r.prompts).toEqual([])
-    expect(journal(r).at(-1)).toMatchObject({ t: 'stop' })
-  })
-
-  it('a running journal with no recorded approval in a readable host store is stopped; an unreadable store adopts what is there and says nothing is lost', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'pending'), task('r2', 'pending'), task('r3', 'pending')])
-
-    started(r)
-    ;(r.host as { storeGet?: unknown }).storeGet = async () => undefined
-    wireAutopilot(state, r.host)
-    ready(state, T0 + 1000)
-    await apTick(state, r.host, T0 + 1000)
-    expect(r.prompts).toEqual([])
-    expect(journal(r).at(-1)).toMatchObject({ t: 'stop', reason: expect.stringContaining('no recorded approval') })
-
-    const r2 = rig()
-    const s2 = stateWith([task('r1', 'pending'), task('r2', 'pending'), task('r3', 'pending')])
-
-    started(r2)
-    wireAutopilot(s2, r2.host)
-    ready(s2, T0 + 1000)
-    await apTick(s2, r2.host, T0 + 1000)
-    expect(r2.prompts.length).toBe(1)
-  })
-})
-
-describe('live: kill-switch latency and TOCTOU', () => {
-  it('a kill flag that appears while the verify commands run (minutes) stops the hand-over of the next task in the same tick', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'completed'), task('r2', 'pending'), task('r3', 'pending')])
-
-    started(r, [dangling()])
-    wireAutopilot(state, r.host)
-    storeOf(state).bootMs = T0 - 1
-    ready(state, T0 + 1000)
-    r.onRun.fn = argv => { if (argv[0] === 'true') r.files.set(KILL, '') }
-    await apTick(state, r.host, T0 + 1000)
-
-    expect(r.runs.some(a => a[0] === 'true')).toBe(true)
-    expect(r.prompts).toEqual([])
-    expect(journal(r).some(e => e.t === 'step.failed' && e.why.includes('stopped before the hand-over'))).toBe(true)
-  })
-
-  it('a stop pressed while the tick is mid-flight is not outrun: the in-memory stop blocks the hand-over too', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'completed'), task('r2', 'pending'), task('r3', 'pending')])
-
-    started(r, [dangling()])
-    wireAutopilot(state, r.host)
-    storeOf(state).bootMs = T0 - 1
-    ready(state, T0 + 1000)
-    r.onRun.fn = argv => { if (argv[0] === 'true') storeOf(state).loop = foldJournal([{ t: 'stop', at: T0 + 500, reason: 'you pressed stop' }], storeOf(state).loop) }
-    await apTick(state, r.host, T0 + 1000)
-    expect(r.prompts).toEqual([])
-  })
-})
-
-describe('live: double execution', () => {
-  it('two sessions that both start the same step: neither hands it over', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'pending'), task('r2', 'pending'), task('r3', 'pending')])
-
-    started(r)
-    wireAutopilot(state, r.host)
-    ready(state, T0 + 1000)
-    // The other session's identical line lands in the same append window.
-    r.onAppend.fn = text => (text.includes('step.started') ? text + text : text)
-    await apTick(state, r.host, T0 + 1000)
-
-    expect(r.prompts).toEqual([])
-    expect(journal(r).some(e => e.t === 'step.failed' && e.why.includes('another session'))).toBe(true)
-  })
-
-  it('a step lost to a restart is not run again by the next tick: its task is parked with the question', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'pending'), task('r2', 'pending'), task('r3', 'pending')])
-
-    started(r, [dangling()])
-    wireAutopilot(state, r.host)
-    storeOf(state).bootMs = T0 + 100
-    ready(state, T0 + 1000)
-    await apTick(state, r.host, T0 + 1000)
-    ready(state, T0 + 600_000)
-    await apTick(state, r.host, T0 + 600_000)
-
-    expect(journal(r).some(e => e.t === 'parked' && e.question.includes('may have run'))).toBe(true)
-    expect(r.prompts.some(p => p.includes('Fix the parser bug'))).toBe(false)
-  })
-})
-
-describe('live: permission laundering', () => {
-  it('a verify command the engine would deny is never run by the console, and the step fails rather than counting as verified', async () => {
-    const r = rig()
-    const state = stateWith([task('r1', 'completed'), task('r2', 'pending'), task('r3', 'pending')])
-
-    started(r, [dangling()])
-    wireAutopilot(state, r.host, { toolCheck: async tool => ({ decision: tool === 'Bash' ? 'deny' : 'allow' }) })
-    storeOf(state).bootMs = T0 - 1
-    ready(state, T0 + 1000)
-    await apTick(state, r.host, T0 + 1000)
-
-    expect(r.runs.some(a => a[0] === 'true')).toBe(false)
-    expect(journal(r).some(e => e.t === 'step.failed' && e.id === 's-dangling00001')).toBe(true)
-    expect(journal(r).some(e => e.t === 'step.done')).toBe(false)
-  })
-})
-
-describe('live: the journal rotation cannot lose the old journal to a pre-made archive name', () => {
-  it('an archive that already exists stops the rotation: the long journal stays', async () => {
-    const r = rig()
-    const state = stateWith([])
-
-    started(r, Array.from({ length: 42_000 }, (_, i) => ({ t: 'beat', at: T0 + i }) as JournalEvent))
-    expect((r.files.get(J) as string).length).toBeGreaterThan(1_200_000)
-    expect((r.files.get(J) as string).length).toBeLessThan(1_500_000)
-
-    const now = T0 + 100_000_000
-    const stamp = new Date(now).toISOString().replace(/[^0-9]/g, '').slice(0, 14)
-
-    r.files.set(`${J}.${stamp}`, 'planted')
-    wireAutopilot(state, r.host)
-    ready(state, now)
-    await apTick(state, r.host, now)
-
-    expect((r.files.get(J) as string).length).toBeGreaterThan(1_200_000)
-    expect(r.files.get(`${J}.${stamp}`)).toBe('planted')
-    void refreshAutopilot
-  })
-})

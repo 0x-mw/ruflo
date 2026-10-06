@@ -7,7 +7,7 @@
  */
 import type { LoopState } from './ap-loop'
 
-export type Pin = { envHash: string; starts: number }
+export type Pin = { envHash: string; starts: number; /** True once a stop was journaled: a journal that then reads as running had its stop line deleted. */ stopped?: boolean }
 export type PinVerdict = { ok: true } | { ok: false; why: string }
 
 export const pinKey = (cwd: string): string => `autopilot-pin:${cwd.slice(0, 200)}`
@@ -18,7 +18,7 @@ export function parsePin(value: unknown): Pin | null {
 
   const r = value as Record<string, unknown>
 
-  return typeof r.envHash === 'string' && /^[0-9a-f]{64}$/.test(r.envHash) && typeof r.starts === 'number' && Number.isInteger(r.starts) && r.starts >= 0 && r.starts < 1_000_000 ? { envHash: r.envHash, starts: r.starts } : null
+  return typeof r.envHash === 'string' && /^[0-9a-f]{64}$/.test(r.envHash) && typeof r.starts === 'number' && Number.isInteger(r.starts) && r.starts >= 0 && r.starts < 1_000_000 ? { envHash: r.envHash, starts: r.starts, ...(r.stopped === true && { stopped: true }) } : null
 }
 
 /** Does the journal's fold agree with what the person approved? An idle loop (no start) has nothing to compare. */
@@ -26,6 +26,7 @@ export function checkPin(pin: Pin | null, loop: LoopState, isPending = false): P
   if (loop.phase === 'idle') return { ok: true }
   if (pin === null) return { ok: false, why: 'no recorded approval for this run: confirm Start again' }
   if (loop.envHash !== pin.envHash) return { ok: false, why: 'the journal names an envelope other than the one you approved: it was changed outside the console' }
+  if (pin.stopped === true && loop.phase !== 'stopped' && !isPending) return { ok: false, why: 'the journal reads as running, but a stop was recorded: its stop line was removed outside the console' }
   if (loop.starts !== pin.starts && !isPending) return { ok: false, why: `the journal holds ${loop.starts} start lines, you confirmed ${pin.starts}: one was added or removed outside the console` }
 
   return { ok: true }

@@ -29,7 +29,7 @@ export function plain(value: unknown, max = 200): string {
     return ''
   }
 
-  const cleaned = value.replace(ESCAPES, '').replace(HIDDEN, ' ').replace(/\s+/g, ' ').trim()
+  const cleaned = value.replace(ESCAPES, '').replace(INVISIBLE, '').replace(HIDDEN, ' ').replace(/\s+/g, ' ').trim()
 
   return cleaned.length <= max ? cleaned : `${cleaned.slice(0, Math.max(0, max - 1))}…`
 }

@@ -9,6 +9,7 @@
  * still reads as the lines it was; ids and paths are not masked (a 36 character session id would read as a key to the mask).
  */
 import { maskSecrets, jsonLines } from './workflows'
+import { INVISIBLE } from './parse'
 
 /** Characters kept per field (an input, an output, a message). The page shows how many of how many, never a silent cut. */
 export const FIELD_CAP = 6000
@@ -26,7 +27,7 @@ const HIDE = new RegExp('[\\u0000-\\u0008\\u000b-\\u001f\\u007f-\\u009f\\u00ad\\
 /** Washed text for a block: escapes and controls out (the newline stays), credentials masked, cut to `cap` characters with the original length kept. */
 export function cleanBlock(raw: string, cap = FIELD_CAP): Capped {
   // The mask runs over a little more than the cap, so a token that straddles the cut is masked whole before the cut is made.
-  const head = raw.slice(0, cap + 256).replace(ANSI, '').replace(/\r\n?/g, '\n').replace(/\t/g, '  ').replace(HIDE, ' ')
+  const head = raw.slice(0, cap + 256).replace(ANSI, '').replace(INVISIBLE, '').replace(/\r\n?/g, '\n').replace(/\t/g, '  ').replace(HIDE, ' ')
   const text = maskSecrets(head).slice(0, cap)
 
   return { text, total: raw.length, isCut: raw.length > cap }
