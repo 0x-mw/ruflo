@@ -47,7 +47,7 @@ const endpointOf = (target: Target, config: Config): Endpoint | undefined => end
 /** `task-12 the note`: the first word is the id, the rest the note. */
 export function taskNote(body: string): { id: string; note: string } | null {
   const [first = '', ...rest] = body.trim().split(/\s+/)
-  const id = idOf(first)
+  const id = /\d/.test(first) ? idOf(first) : null
   const note = rest.join(' ').trim()
 
   return id === null || note === '' ? null : { id, note }
@@ -65,7 +65,7 @@ export function payloadOf(target: Target, raw: string, deps: Pick<SendDeps, 'con
   if (!typed.ok) return typed
 
   const body = typed.text
-  const done = (shows: string, note: string): { ok: true; payload: Payload; body: string } => ({ ok: true, payload: { shows: tidy(shows, 700), note }, body })
+  const done = (shows: string, note: string): { ok: true; payload: Payload; body: string } => ({ ok: true, payload: { shows: shows.slice(0, 700), note }, body })
 
   switch (target.transport) {
     case 'prompt':

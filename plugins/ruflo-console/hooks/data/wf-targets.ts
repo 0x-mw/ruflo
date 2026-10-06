@@ -161,7 +161,7 @@ export function parseMentions(text: string, targets: readonly Target[]): Mention
     const found = targets.find(target => target.id === name)
 
     if (name === 'all') {
-      for (const target of targets.filter(held => held.leaves === 'machine' && ['send-message', 'hive', 'bbs'].includes(held.transport))) if (!picked.includes(target)) picked.push(target)
+      for (const target of targets.filter(held => held.leaves === 'machine' && ['send-message', 'hive', 'bbs'].includes(held.transport) && held.ref !== 'propose')) if (!picked.includes(target)) picked.push(target)
 
       continue
     }
