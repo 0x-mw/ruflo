@@ -1,0 +1,2 @@
+plugins/ruflo-cost-tracker/skills/cost-openrouter/SKILL.md
+plugins/ruflo-metaharness/skills/harness-threat-model/SKILL.md
