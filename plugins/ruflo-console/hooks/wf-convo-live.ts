@@ -6,7 +6,7 @@
  */
 import type { ActionSpec } from './actions'
 import { cleanText } from './data/wf-clean'
-import { addMessage, applyFetch, fromBbs, fromChannel, newConvo, pollParams, POLL_MAX, POLL_MS, recordSend, relayBody, lastAnswer, threadOf, transcriptMarkdown, transcriptName, type Convo } from './data/wf-convo'
+import { addMessage, applyFetch, FETCH_MAX, fromBbs, fromChannel, newConvo, pollParams, POLL_MAX, POLL_MS, recordSend, relayBody, lastAnswer, threadOf, transcriptMarkdown, transcriptName, type Convo } from './data/wf-convo'
 import { checkNoLinks, EXPORT_DIR, resolveExportPath } from './data/wf-file'
 import { exportSpec } from './data/wf-export'
 import { payloadOf, sendTo, type SendDeps, tidy } from './data/wf-send'
@@ -56,6 +56,8 @@ export function wireConvo(state: State, host: Host, optionText?: string): void {
 export const hostOf = (state: State): Host | null => hosts.get(state) ?? null
 
 const SAY_MAX = 200
+/** What the confirm card can show of one send; a payload longer than this is refused (see sendSpec). */
+export const CARD_MAX = 6000
 
 const say = (state: State, label: string, ok: boolean, detail: string): void => {
   state.outcome = { label, ok, verified: 'n/a', detail: tidy(plain(detail, SAY_MAX), SAY_MAX), atMs: Date.now() }
@@ -133,10 +135,13 @@ export function sendSpec(state: State, targets: readonly Target[], body: string)
 
   const leaving = targets.filter(target => target.leaves !== 'machine')
   const shows = made.map(entry => (entry.built.ok ? `${entry.target.id}: ${entry.built.payload.shows}` : '')).join('\n')
+
+  // The card must show EVERYTHING that is sent: a payload the card would cut is refused, never sent with its tail hidden.
+  if (shows.length > CARD_MAX) return { spec: null, why: `the payload is ${shows.length} characters and the confirm card shows ${CARD_MAX}: shorten the message or ask fewer targets, so nothing is sent that you could not read` }
   const spec: ActionSpec = {
     label: targets.length === 1 ? `ask ${targets[0]?.id ?? 'target'}` : `ask ${targets.length} targets at once (${targets.map(target => target.id).join(', ')})`,
     args: [],
-    shows: shows.slice(0, 1800),
+    shows,
     expect: 'each target\'s answer, or why it did not answer, in its own thread',
     declared: targets.some(target => target.cost === 'session-turn' || target.cost === 'metered' || target.cost === 'peer-session') ? 'spend' : leaving.length > 0 ? 'network' : 'write',
     note: `${leaving.length > 0 ? `LEAVES THIS MACHINE for ${leaving.map(target => `${target.id} (${target.leaves})`).join(', ')}. ` : 'Stays on this machine. '}${made.map(entry => (entry.built.ok ? `${entry.target.id}: ${entry.built.payload.note} Cost: ${entry.target.costText}.` : '')).join(' ')}`.slice(0, 900),
@@ -205,8 +210,8 @@ export function watchSpec(state: State, target: Target): { spec: ActionSpec | nu
 
           const out = await host.run([...CLI_PREFIXES[state.options.cli], 'mcp', 'exec', '-t', read.tool, '-p', JSON.stringify(read.params)], 30_000).catch(() => undefined)
 
-          if (out === undefined || out.exitCode !== 0 || jsonAfter(out.stdout) === null) {
-            addMessage(live.convo, target.id, { atMs: Date.now(), who: 'target', text: `the read failed: ${tidy(out?.stderr || 'no answer', 120)}`, state: 'error' })
+          if (out === undefined || out.exitCode !== 0 || out.stdout.length > FETCH_MAX || jsonAfter(out.stdout) === null) {
+            addMessage(live.convo, target.id, { atMs: Date.now(), who: 'target', text: `the read failed: ${out !== undefined && out.stdout.length > FETCH_MAX ? `the answer was over the ${FETCH_MAX} character cap and was not read` : tidy(out?.stderr || 'no answer', 120)}`, state: 'error' })
             thread.polls++
             if (thread.polls >= POLL_MAX) thread.isWatching = false
           } else applyFetch(live.convo, target.id, target.transport === 'bbs' ? fromBbs(out.stdout, Date.now()) : fromChannel(out.stdout, thread.cursor))

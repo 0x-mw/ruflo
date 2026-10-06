@@ -5,7 +5,7 @@
  * (escapes, control/bidi/tag characters, credential mask) BEFORE it is encoded, so nothing hostile or secret is ever stored, drawn
  * or exported. A line that does not validate is counted and dropped, never thrown on.
  */
-import { ESCAPES, HIDDEN } from './parse'
+import { ESCAPES, HIDDEN, INVISIBLE } from './parse'
 import { maskSecrets } from './workflows'
 import { AUTOPILOT_DIR } from './ap-envelope'
 
@@ -35,7 +35,7 @@ export type JournalEvent = { at: number } & (
 export type EventType = JournalEvent['t']
 
 /** Free text for the journal: escapes dropped, hidden characters spaced, credentials masked, capped. */
-export const wash = (value: string, max = 240): string => maskSecrets(value.replace(ESCAPES, '').replace(HIDDEN, ' ').replace(/\s+/g, ' ').trim()).slice(0, max)
+export const wash = (value: string, max = 240): string => maskSecrets(value.replace(ESCAPES, '').replace(INVISIBLE, '').replace(HIDDEN, ' ').replace(/\s+/g, ' ').trim()).slice(0, max)
 
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:@-]{0,95}$/
 
@@ -174,3 +174,6 @@ export const appendArgv = (path: string): readonly string[] => ['dd', `of=${path
 
 /** Fixed argv that creates a flag file (the kill switch) and its folder: GNU install -D from an empty stdin. */
 export const touchArgv = (path: string): readonly string[] => ['install', '-D', '-m', '600', '/dev/null', path]
+
+/** How many valid `step.started` lines for this step id the text holds. Two sessions that both picked a task each write one; a step is handed over only when it is exactly one. */
+export const startedCount = (text: string, stepId: string): number => parseJournal(text).events.filter(e => e.t === 'step.started' && e.id === stepId).length

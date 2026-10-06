@@ -4,11 +4,11 @@
  * the last tool, a result preview), so a token a prompt or a result carried can reach no cell, log line or notice.
  * Ids, paths and numbers are left alone: a session id is 36 characters of `[0-9a-f-]` and would read as a key to the mask.
  */
-import { ESCAPES, HIDDEN } from './parse'
+import { ESCAPES, HIDDEN, INVISIBLE } from './parse'
 import { maskSecrets, type WfAgent, type WfPhase, type WfRun } from './workflows'
 
 /** Free text for a cell or a notice: escape sequences are dropped whole, control, zero-width and bidi characters become spaces, credentials are masked. */
-export const cleanText = (value: string): string => maskSecrets(value.replace(ESCAPES, '').replace(HIDDEN, ' '))
+export const cleanText = (value: string): string => maskSecrets(value.replace(ESCAPES, '').replace(INVISIBLE, '').replace(HIDDEN, ' '))
 
 const opt = (value: string | undefined): string | undefined => (value === undefined ? undefined : cleanText(value))
 

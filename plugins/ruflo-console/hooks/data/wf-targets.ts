@@ -46,12 +46,29 @@ export const OPENROUTER: Endpoint = { name: 'openrouter', baseUrl: 'https://open
 
 const NAME = /^[a-z][a-z0-9-]{0,23}$/
 const ENV_NAME = /^[A-Z_][A-Z0-9_]{0,63}$/
+/** Variables that hold credentials for something other than a model endpoint: naming one would send it to whatever host the URL names. */
+const NOT_A_MODEL_KEY = /^(AWS_|GH_|GITHUB_|NPM_|SSH_|KUBE|DOCKER|GCLOUD|GOOGLE_APPLICATION|CLOUDFLARE_|FLY_|TAILSCALE_|NPM)|PASSWORD|PRIVATE|SECRET_ACCESS|PASSPHRASE|^HOME$|^PATH$/
 const ROOM = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/
 const CHANNEL = /^(pub:[a-z0-9][a-z0-9._-]{0,63}|prv:[0-9a-f]{16})$/
 const MODEL = /^[A-Za-z0-9][A-Za-z0-9._:/@+-]{0,80}$/
 export const HOST = /^[A-Za-z0-9][A-Za-z0-9._-]{0,62}$/
 
-/** True for an http(s) base URL with no credentials, query or fragment in it, and only https unless it is a local or tailnet address. */
+const isTailnetIp = (host: string): boolean => {
+  const m = /^100\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/.exec(host)
+
+  return m !== null && Number(m[1]) >= 64 && Number(m[1]) <= 127
+}
+
+/** Addresses a request must never be aimed at, whatever the scheme: link-local (the cloud metadata service), the unspecified address, multicast and every IPv6 literal but ::1 (an IPv4-mapped one reaches the same). */
+const forbiddenHost = (host: string): boolean => {
+  const h = host.toLowerCase().replace(/\.$/, '')
+
+  if (h.startsWith('[')) return h !== '[::1]'
+
+  return /^169\.254\./.test(h) || /^0\./.test(h) || /^(22[4-9]|23\d|24\d|25[0-5])\./.test(h) || h === 'metadata' || h === 'metadata.google.internal' || h.endsWith('.internal') || h.endsWith('.local') || h === 'instance-data'
+}
+
+/** True for an http(s) base URL with no credentials, query or fragment in it, not aimed at a link-local, metadata or IPv6-literal host, and only https unless it is this machine or the tailnet (100.64/10, *.ts.net, a bare MagicDNS name). */
 export function isBaseUrl(value: string): boolean {
   let url: URL
 
@@ -62,9 +79,11 @@ export function isBaseUrl(value: string): boolean {
   }
 
   if (url.username !== '' || url.password !== '' || url.search !== '' || url.hash !== '') return false
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') return false
+  if (forbiddenHost(url.hostname)) return false
   if (url.protocol === 'https:') return true
 
-  return url.protocol === 'http:' && /^(localhost|127\.0\.0\.1|\[::1\]|[a-z0-9-]+|100\.\d+\.\d+\.\d+|[a-z0-9.-]+\.ts\.net)$/i.test(url.hostname)
+  return /^(localhost|127\.0\.0\.1|\[::1\]|[a-z][a-z0-9-]*|[a-z0-9.-]+\.ts\.net)$/i.test(url.hostname) || isTailnetIp(url.hostname)
 }
 
 /** The option string as targets: each bad entry is dropped with a reason (never thrown), so one typo does not hide the rest. */
@@ -84,6 +103,7 @@ export function parseConfig(value: string | undefined): Config {
       if (eq < 0 || !NAME.test(name)) config.errors.push(`endpoint "${entry.slice(0, 30)}": the name is a lowercase word (endpoint:<name>=<base-url>|<KEY_ENV>|<model>)`)
       else if (!isBaseUrl(baseUrl)) config.errors.push(`endpoint ${name}: the base URL must be https (or http to a local or tailnet address), with no credentials, query or fragment`)
       else if (keyEnv !== 'NONE' && !ENV_NAME.test(keyEnv)) config.errors.push(`endpoint ${name}: the key is named by an environment variable (UPPER_SNAKE), or NONE; a key itself is never accepted here`)
+      else if (keyEnv !== 'NONE' && NOT_A_MODEL_KEY.test(keyEnv)) config.errors.push(`endpoint ${name}: ${keyEnv} is not a model key; an endpoint is only given the key of a model provider`)
       else if (!MODEL.test(model)) config.errors.push(`endpoint ${name}: no model named`)
       else if (config.endpoints.some(held => held.name === name)) config.errors.push(`endpoint ${name}: named twice`)
       else config.endpoints.push({ name, baseUrl: baseUrl.replace(/\/+$/, ''), keyEnv, model })

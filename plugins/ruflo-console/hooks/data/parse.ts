@@ -20,6 +20,9 @@ export const ESCAPES = new RegExp('\\u001b\\][^\\u0007\\u001b]*(?:\\u0007|\\u001
 // variation selectors, Hangul fillers and BOM: nothing a person could read, all of them fit for hiding or reordering text.
 export const HIDDEN = new RegExp('[\\u0000-\\u001f\\u007f-\\u009f\\u00ad\\u034f\\u061c\\u115f\\u1160\\u17b4\\u17b5\\u180b-\\u180f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u2064\\u2066-\\u2069\\u3164\\ufe00-\\ufe0d\\ufeff\\uffa0]|[\\u{e0000}-\\u{e0fff}]', 'gu')
 
+/** The zero-width and format characters that can split a credential or a keyword without being seen: removed (not spaced) before any mask or pattern runs. */
+export const INVISIBLE = new RegExp('[\\u00ad\\u034f\\u061c\\u115f\\u1160\\u17b4\\u17b5\\u180b-\\u180f\\u200b-\\u200f\\u202a-\\u202e\\u2060-\\u2064\\u2066-\\u2069\\u3164\\ufe00-\\ufe0f\\ufeff\\uffa0]|[\\u{e0000}-\\u{e0fff}]', 'gu')
+
 /** Plain printable text of at most `max` characters: no escape sequence, control, hidden or bidi-override character reaches the terminal. */
 export function plain(value: unknown, max = 200): string {
   if (typeof value !== 'string') {

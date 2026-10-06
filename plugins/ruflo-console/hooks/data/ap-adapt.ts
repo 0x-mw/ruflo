@@ -193,8 +193,10 @@ export const lastHash = (receipts: readonly Receipt[]): string => receipts.at(-1
 /** The tunables now: the defaults with each receipt applied in order, clamped to the envelope. A receipt that no longer applies is skipped (and is visible in the list). */
 export function tunablesFrom(receipts: readonly Receipt[], env: Envelope, base: Tunables = DEFAULTS): Tunables {
   let t = clampToEnvelope(base, env)
+  // Only the intact prefix of the chain counts: a forged or edited receipt (and everything after it) changes nothing, so a journal line cannot tune the loop.
+  const chain = verifyReceipts(receipts)
 
-  for (const r of receipts) t = clampToEnvelope(applyChange(t, { path: r.path, from: r.from, to: r.to }) ?? t, env)
+  for (const r of chain.ok ? receipts : receipts.slice(0, chain.badAt ?? 0)) t = clampToEnvelope(applyChange(t, { path: r.path, from: r.from, to: r.to }) ?? t, env)
 
   return t
 }

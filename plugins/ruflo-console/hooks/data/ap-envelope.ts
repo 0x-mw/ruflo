@@ -13,6 +13,42 @@ export type ToolClass = (typeof TOOL_CLASSES)[number]
 export const HARD_DENIES = ['publish', 'release', 'deploy', 'force-push', 'secret-access', 'delete-outside-worktree', 'envelope-edit'] as const
 export type HardDeny = (typeof HARD_DENIES)[number]
 
+/** Words that mean a hard deny. Matching is deliberately broad: a false match only parks a task for a question (and rejects a verify command). */
+export const DENY_PATTERNS: readonly [HardDeny, RegExp][] = [
+  ['publish', /\b(npm\s+publish|publish(es|ed|ing)?\b|pnpm\s+publish|cargo\s+publish|twine|docker\s+push)/i],
+  ['release', /\b(gh\s+release|git\s+tag\b.*push|cut\s+a\s+release|create\s+(a\s+)?release|release\s+notes?\s+and\s+tag)/i],
+  ['deploy', /\b(deploy(s|ed|ing)?\b|gcloud\s+run\s+deploy|firebase\s+deploy|kubectl\s+apply|terraform\s+apply)/i],
+  ['force-push', /(push\s+(--force|-f\b|--force-with-lease)|force[- ]push)/i],
+  ['secret-access', /\b(api[_ -]?key|secret|credential|password|private\s+key|\.env\b|gcloud\s+secrets|token)\b/i],
+  ['delete-outside-worktree', /\b(rm\s+-rf?\s+(\/|~|\$HOME)|delete\s+(the\s+)?(home|root|\/)|drop\s+database|mkfs|dd\s+of=\/dev)/i],
+  ['envelope-edit', /\b(autopilot\s+(envelope|scope|settings)|widen\s+(the\s+)?(envelope|scope)|raise\s+(the\s+)?(spend|budget)\s+(cap|ceiling)|grant\s+(itself|autopilot))|\.claude-flow\/(console\/autopilot|protector-mod)|autopilot\/(envelope|journal|kill)|protector-mod|\b(clear|remove|delete|rm|unset|touch)\b[^\n]{0,40}\bkill\s*(flag|switch|file)\b/i],
+]
+
+/** Folders the autopilot's own steps may never be pointed at: its envelope, journal and kill flag, and Project Anatole's status. A task or envelope that names one is refused, not trimmed. */
+export const PROTECTED_DIRS = ['.claude-flow/console', '.claude-flow/protector-mod'] as const
+export const isProtectedPath = (path: string): boolean => {
+  const flat = path.replace(/\/+/g, '/').replace(/\/\.\//g, '/')
+
+  return PROTECTED_DIRS.some(dir => flat.includes(dir)) || flat.endsWith('/.claude-flow') || flat.endsWith('/.claude-flow/')
+}
+
+/** Programs a verify command may not run: shells and wrappers (they turn an argv into a shell line), privilege and network tools, and destructive ones. */
+const VERIFY_BANNED = new Set(['sh', 'bash', 'zsh', 'dash', 'fish', 'ksh', 'csh', 'tcsh', 'env', 'xargs', 'sudo', 'doas', 'su', 'eval', 'exec', 'nohup', 'setsid', 'timeout', 'time', 'watch', 'rm', 'rmdir', 'dd', 'mkfs', 'shred', 'chmod', 'chown', 'mv', 'ln', 'curl', 'wget', 'nc', 'ncat', 'socat', 'ssh', 'scp', 'sftp', 'rsync', 'ftp', 'telnet', 'python', 'python3', 'perl', 'ruby', 'php', 'osascript', 'crontab', 'systemctl', 'kill', 'pkill', 'killall', 'tee', 'cp', 'install', 'truncate'])
+const hasCmdSubstitution = (part: string): boolean => /[`\n]|\$\(|;|&&|\|\||\|/.test(part)
+
+/** Why a verify argv is refused, or null. The program is its basename; a shell metacharacter in any part, a banned program or a hard-deny word refuses it. */
+export function verifyProblem(argv: readonly string[]): string | null {
+  const program = (argv[0] ?? '').split('/').at(-1)?.toLowerCase() ?? ''
+
+  if (VERIFY_BANNED.has(program)) return `"${program.slice(0, 20)}" is a shell, a wrapper or a destructive or network tool and cannot be a verify command`
+  if (argv.some(hasCmdSubstitution)) return 'a verify part holds a shell metacharacter (; | & ` $( newline): give a program and its arguments only'
+
+  const joined = argv.join(' ')
+  const denied = DENY_PATTERNS.find(([, pattern]) => pattern.test(joined))?.[0]
+
+  return denied === undefined ? null : `it names "${denied}", which can never be granted`
+}
+
 export const ENVELOPE_VERSION = 1
 export const MIN_DURATION_MS = 3_600_000
 export const MAX_DURATION_MS = 90 * 86_400_000
@@ -81,7 +117,10 @@ export function validateEnvelope(raw: unknown): Checked {
 
   if (paths === null || paths.length === 0) errors.push('paths: at least one absolute folder')
 
-  for (const path of paths ?? []) if (!path.startsWith('/') || path === '/' || path.length > 300 || BAD_CHARS.test(path) || path.split('/').includes('..') || path.includes('\\')) errors.push(`paths: "${path.slice(0, 40)}" is not an absolute folder below the root with no ..`)
+  for (const path of paths ?? []) {
+    if (!path.startsWith('/') || path === '/' || path.length > 300 || BAD_CHARS.test(path) || path.split('/').includes('..') || path.includes('\\')) errors.push(`paths: "${path.slice(0, 40)}" is not an absolute folder below the root with no ..`)
+    else if (isProtectedPath(path)) errors.push(`paths: "${path.slice(0, 40)}" is the autopilot's or Project Anatole's own folder: steps are never pointed at it`)
+  }
 
   const repos = strings(raw.repos, 20)
 
@@ -118,6 +157,12 @@ export function validateEnvelope(raw: unknown): Checked {
   const verify = raw.verify
 
   if (!Array.isArray(verify) || verify.length > 6 || !verify.every(argv => Array.isArray(argv) && argv.length >= 1 && argv.length <= 24 && argv.every(part => typeof part === 'string' && part.length <= 300 && !BAD_CHARS.test(part)))) errors.push('verify: up to 6 argv lists of plain strings (a program and its arguments, never a shell line)')
+
+  if (Array.isArray(verify) && errors.every(e => !e.startsWith('verify'))) for (const argv of verify as string[][]) {
+    const problem = verifyProblem(argv)
+
+    if (problem !== null) errors.push(`verify: ${problem}`)
+  }
 
   if (typeof raw.acceptWithoutAnatole !== 'boolean') errors.push('acceptWithoutAnatole: true or false')
 
@@ -264,7 +309,7 @@ export function widened(prev: Envelope, next: Envelope): string[] {
 }
 
 /** A path is inside the envelope when it is one of its folders or below one (compared at a folder boundary, so /a/bc is not inside /a/b). */
-export const pathAllowed = (envelope: Envelope, path: string): boolean => !path.split('/').includes('..') && envelope.paths.some(root => path === root || path.startsWith(`${root}/`))
+export const pathAllowed = (envelope: Envelope, path: string): boolean => !path.split('/').includes('..') && !isProtectedPath(path) && envelope.paths.some(root => path === root || path.startsWith(`${root}/`))
 
 export const hostAllowed = (envelope: Envelope, host: string): boolean => envelope.network.includes(host.toLowerCase())
 

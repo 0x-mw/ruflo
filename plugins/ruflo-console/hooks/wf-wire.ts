@@ -44,7 +44,7 @@ export function wireWorkflows(state: State, host: Host): void {
   wireWfAnatole(state, host)
   wireWfControl(state, host)
   wireWfConvo(state, host, state.options.convoTargets)
-  wireAutopilot(state, host, host.toolCheck === undefined ? {} : { toolCheck: (tool: string) => host.toolCheck!(tool, {}) })
+  wireAutopilot(state, host, host.toolCheck === undefined ? {} : { toolCheck: (tool: string, input?: unknown) => host.toolCheck!(tool, input ?? {}) })
 
   if (isWired) return
 
