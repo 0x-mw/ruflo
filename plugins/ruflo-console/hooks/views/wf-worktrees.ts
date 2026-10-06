@@ -113,7 +113,7 @@ export function boardRows(env: SlotEnv): RenderElement[] {
   if (hosts.get(ctx.state) === undefined) return [text(ctx, ' worktrees: not wired into this console yet (wireWfWorktrees)', { color: THEME.warn })]
 
   if (store.error !== null) rows.push(text(ctx, ` the last read failed (${clip(store.error, 80)})${store.read === null ? '' : ': showing the read before it'}`, { color: THEME.warn }))
-  if (store.read === null) return [...rows, text(ctx, store.isReading ? ' reading the worktrees…' : ' not read yet: it reads while this page is open, or press the read button (w)', { dimColor: true })]
+  if (store.read === null) return [...rows, text(ctx, store.isReading ? ' reading the worktrees…' : store.error === null ? ' not read yet: it reads while this page is open, or press the read button (w)' : ' press the read button (w) to try again', { dimColor: true })]
 
   const { read, check } = store
   const plan = planRemoval(read, check, nowMs)

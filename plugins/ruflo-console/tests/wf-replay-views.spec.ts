@@ -42,7 +42,7 @@ const press = (tree: unknown, key: string): void => {
   if (found === undefined) throw new Error(`no button ${key}`)
   ;(found.props.onPress as () => void)()
 }
-const inputOf = (tree: unknown): El | undefined => flat(tree).find(el => el.kind === 'Input')
+const inputOf = (tree: unknown): El | undefined => flat(tree).find(el => el.kind === 'Input' && el.props.label === 'path')
 const tick = (): Promise<void> => new Promise(resolve => setTimeout(resolve, 0))
 
 const NOW = T0 + 600_000
@@ -81,10 +81,11 @@ describe('registration', () => {
   it('adds four board slots after the board, takes no hotkey and no other kind of slot', () => {
     world().page()
 
-    expect(slotsFor('board').map(s => s.id)).toEqual(['replay', 'compare', 'export', 'saved'])
-    expect(slotsFor('key')).toHaveLength(0)
-    expect(slotsFor('action')).toHaveLength(0)
-    expect(slotsFor('tab')).toHaveLength(0)
+    expect(slotsFor('board').map(s => s.id).filter(id => ['replay', 'compare', 'export', 'saved'].includes(id))).toEqual(['replay', 'compare', 'export', 'saved'])
+
+    const ours = new Set(['replay', 'compare', 'export', 'saved'])
+
+    for (const kind of ['key', 'action', 'tab'] as const) expect(slotsFor(kind).filter(s => ours.has(s.id))).toHaveLength(0)
   })
 
   it('every slot is folded shut with a one-line summary until opened, and a narrow page still draws', () => {

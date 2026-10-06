@@ -373,8 +373,8 @@ describe('the slot registry', () => {
     expect(registerSlot({ kind: 'action', id: 'second', label: 'x', hotkey: 'm', why: 'w', spec: () => null })).toMatchObject({ ok: false, why: expect.stringContaining('taken by slot "first"') })
   })
 
-  it('keeps at most twelve slots of a kind, boards ordered by `order` then registration', () => {
-    for (let i = 0; i < 12; i += 1) expect(registerSlot(board(`b-${i}`, i === 5 ? 1 : undefined))).toEqual({ ok: true })
+  it('keeps at most twenty-four slots of a kind (twelve held too few for the merged features), boards ordered by `order` then registration', () => {
+    for (let i = 0; i < 24; i += 1) expect(registerSlot(board(`b-${i}`, i === 5 ? 1 : undefined))).toEqual({ ok: true })
 
     expect(registerSlot(board('b-last'))).toMatchObject({ ok: false })
     expect(slotsFor('board').map(slot => slot.id).slice(0, 3)).toEqual(['b-5', 'b-0', 'b-1'])

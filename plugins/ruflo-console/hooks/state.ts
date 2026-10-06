@@ -1,4 +1,5 @@
 import type { PluginOptions, Timer } from 'claude-code'
+import { guardOptionsOf, type GuardOptions } from './data/wf-alerts'
 
 import { emptyAuto, type AutoState } from './data/automate'
 import type { ProbeResult } from './data/cli'
@@ -96,7 +97,7 @@ export const CLI_PREFIXES = {
 
 export type CliChoice = keyof typeof CLI_PREFIXES
 
-export type Options = {
+export type Options = GuardOptions & {
   cli: CliChoice
   /** How often the disk is re-read while the pane or band shows (seconds, 2-60). */
   refreshSeconds: number
@@ -133,6 +134,7 @@ export function optionsOf(raw: PluginOptions | undefined): Options {
     federationNetwork: value.federationNetwork === true,
     look: value.look === 'plain' ? 'plain' : 'bbs',
     boot: value.boot !== false,
+    ...guardOptionsOf(raw),
   }
 }
 

@@ -42,7 +42,7 @@ export const RESERVED_KEYS: readonly string[] = ['p', 'x', 'r', 'h', 'y', 'n', '
 export const DETAIL_TAB = 'detail'
 
 const ID = /^[a-z][a-z0-9-]{1,31}$/
-const MAX_PER_KIND = 12
+const MAX_PER_KIND = 24
 
 const registry: Slot[] = []
 

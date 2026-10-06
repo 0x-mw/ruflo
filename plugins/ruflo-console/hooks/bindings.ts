@@ -19,6 +19,7 @@ import { saveAllowed } from './remember'
 import { pluginNames, settingsActions } from './settings'
 import { catalogOf } from './plugin-catalog'
 import { wireAnatole } from './anatole'
+import { wireWorkflows } from './wf-wire'
 import { devtoolsActions } from './devtools'
 import { HARNESSES, harnessSpec, isAutoAccept, isLive, newSession, send, whyNotRun } from './harness'
 import { helpActions } from './help-actions'
@@ -80,6 +81,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
   }
 
   wireAnatole(state, host)
+  wireWorkflows(state, host)
   const actions: Actions = {
     view: setView,
     remember: () => {

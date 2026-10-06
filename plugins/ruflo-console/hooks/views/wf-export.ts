@@ -30,7 +30,12 @@ export const setExportRoots = (scratchDir: string | null): void => void (scratch
 export const setExportCostSource = (source: (run: WfRun) => ExportCost | null): void => void (costOf = source)
 
 /** For tests. */
-export const resetExport = (): void => (said.clear(), (scratch = null), (fsOf = null), (costOf = () => null))
+export function resetExport(): void {
+  said.clear()
+  scratch = null
+  fsOf = null
+  costOf = () => null
+}
 
 export const rootsOf = (cwd: string): Roots => ({ cwd, scratch })
 export const defaultPathOf = (cwd: string, run: WfRun): string => `${cwd.replace(/\/+$/, '')}/${EXPORT_DIR}/${exportName(run)}`
@@ -70,7 +75,7 @@ export function exportBody(env: SlotEnv, run: WfRun, fs: StatFs | null): RenderE
 
   return [
     text(ctx, ` Writes a markdown summary: phases, agents, tokens, time, results (cost: n/a unless a source is wired). Credentials and control characters are masked.`, { dimColor: true }),
-    text(ctx, ` Allowed: under ${clip(roots.cwd, 40)}${roots.scratch === null ? '' : ` or ${clip(roots.scratch, 40)}`} · name ends in .md · no .. · never overwrites · you confirm first`, { dimColor: true }),
+    text(ctx, ` Allowed: under ${clip(roots.cwd, 40)}${roots.scratch === null || roots.scratch === undefined ? '' : ` or ${clip(roots.scratch, 40)}`} · name ends in .md · no .. · never overwrites · you confirm first`, { dimColor: true }),
     ctx.kit.Input === undefined ? text(ctx, ' This surface has no text field: use the default path button.', { dimColor: true }) : ctx.kit.Input({ key: 'wf-export-path', label: 'path', placeholder: `${EXPORT_DIR}/${exportName(run)}`, submitLabel: 'export', onSubmit: value => go(value) }),
     row(ctx, [button(ctx, 'wf-export-default', 'Export to the default path', () => go(defaultPathOf(ctx.state.cwd, run)))], 'wf-export-controls'),
     ...(note === undefined ? [] : [text(ctx, ` ${note.text}`, note.ok ? { color: THEME.ok } : { color: THEME.warn })]),

@@ -91,6 +91,24 @@
       "title": "Boot screen",
       "description": "With the bbs look, play a dial-up boot screen (modem connect, the RUFLO logo drawing in, every area of the console coming online in a log, a loading bar for the first ruflo reads) when the cockpit opens. At least 5.4 s, at most 8 s.",
       "default": true
+    },
+    "wfBudgetRunUsd": {
+      "type": "number",
+      "title": "Workflow budget per run (USD)",
+      "description": "The Workflows page flags a run whose measured cost passes this many dollars (0.01 to 10000; 0 turns the guard off). It only warns: the console cannot stop a running workflow.",
+      "default": 0
+    },
+    "wfBudgetDayUsd": {
+      "type": "number",
+      "title": "Workflow budget per day (USD)",
+      "description": "The Workflows page flags the day's measured workflow cost past this many dollars (0.01 to 10000; 0 turns the guard off). It only warns.",
+      "default": 0
+    },
+    "wfAlertRules": {
+      "type": "string",
+      "title": "Workflow alert rules",
+      "description": "Space-separated rules for the Workflows page: stuck>20m (no progress for 20 minutes), tokens>2M (agent context size), dirty (a worktree has uncommitted changes). Empty turns them all off.",
+      "default": ""
     }
   }
 }

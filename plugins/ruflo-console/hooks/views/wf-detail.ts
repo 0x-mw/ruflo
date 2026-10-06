@@ -248,7 +248,7 @@ const KEYS: readonly { verb: Verb; label: string; letters: string }[] = [
   { verb: 'out', label: '◂ back', letters: 'zq' },
   { verb: 'next', label: '▾ next', letters: 'mc' },
   { verb: 'prev', label: '▴ prev', letters: 'wa' },
-  { verb: 'sub', label: 'tab ▸', letters: 'tv' },
+  { verb: 'sub', label: 'tab ▸', letters: 'tqv' },
   { verb: 'follow', label: 'follow', letters: 'fs' },
   { verb: 'filter', label: 'level', letters: 'vy' },
   { verb: 'search', label: 'search', letters: 'sk0123456789' },

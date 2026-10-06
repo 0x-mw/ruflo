@@ -53,6 +53,7 @@ describe('the markdown', () => {
 
   it('names the file from the run, safely', () => {
     expect(exportName(runOf('wf_a', BASE, {}, '../../etc/pass wd'))).toBe('etc-pass-wd-wf_a.md')
+    expect(exportName(runOf('wf_a', BASE, {}, 'wf_a'))).toBe('wf_a.md')
   })
 })
 

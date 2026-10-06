@@ -96,4 +96,4 @@ export function exportSpec(path: string, markdown: string, label: string, hasDir
 }
 
 /** A file name for a run's summary: its name and id with anything unsafe turned into a dash. */
-export const exportName = (run: WfRun): string => `${`${run.name}-${run.id}`.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^[^A-Za-z0-9]+/, '').slice(0, 90) || 'run'}.md`
+export const exportName = (run: WfRun): string => `${(run.name === run.id ? run.id : `${run.name}-${run.id}`).replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^[^A-Za-z0-9]+/, '').slice(0, 90) || 'run'}.md`

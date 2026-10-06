@@ -16,6 +16,10 @@ import type { State } from './state'
 import { slotsFor } from './views/wf-slots'
 import type { WorkflowsModel } from './views/workflows'
 
+/** What runs after each successful read, registered once by hooks/wf-wire.ts (a module that needs this one cannot be imported here). */
+export type AfterRead = (state: State, host: Host, before: readonly WfRun[] | null, runs: readonly WfRun[], nowMs: number) => void | Promise<void>
+export const afterRead: AfterRead[] = []
+
 /** The notices one read raises: a workflow run that ended since the last read (finished, or failed), seen against each run's earlier state. */
 export function runNotices(prev: ReadonlyMap<string, string> | null, next: readonly WfRun[]): NoticeDraft[] {
   if (prev === null) return []
@@ -76,6 +80,14 @@ export async function refreshWorkflows(state: State, host: Host, force = false, 
         for (const draft of slot.between(before, runs, nowMs)) addNotice(state, { ...draft, text: cleanText(draft.text), key: `${slot.id}:${plain(draft.key, 40)}` }, nowMs)
       } catch {
         // A slot that throws raises nothing; the page still reads.
+      }
+    }
+
+    for (const hook of afterRead) {
+      try {
+        await hook(state, host, before, runs, nowMs)
+      } catch {
+        // A hook that throws loses its own work only.
       }
     }
   } catch (error) {
