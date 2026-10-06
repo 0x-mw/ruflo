@@ -419,14 +419,21 @@ const TEMPLATE_SECTIONS: Record<ClaudeMdTemplate, Array<(opts: InitOptions) => s
 
 // --- Public API ---
 
+function languageSection(): string {
+  return "## 언어\n\n- 사용자에게 하는 모든 응답·설명·요약·질문은 한국어로 작성한다.\n- 코드, 명령어, 파일 경로, 식별자, 로그·오류 원문, 도구 이름과 인자는 원문 그대로 둔다.\n- 커밋 메시지와 코드 주석은 저장소의 기존 언어 관례를 따른다.";
+}
+
 export function generateClaudeMd(options: InitOptions, template?: ClaudeMdTemplate): string {
   const tmpl = template ?? options.runtime.claudeMdTemplate ?? 'standard';
   const sections = TEMPLATE_SECTIONS[tmpl] ?? TEMPLATE_SECTIONS.standard;
 
   const header = `# Ruflo — Claude Code Configuration\n`;
-  const body = sections.map(fn => fn(options)).join('\n\n');
+  const body = [languageSection(), ...sections.map(fn => fn(options))].join('\n\n');
 
-  return `${header}\n${body}\n`;
+  return `${header}\n${body}\n`
+    .split('npx @claude-flow/cli@latest ').join('ruflo ')
+    .split('npx -y ruflo@latest ').join('ruflo ')
+    .split('npx ruflo@latest ').join('ruflo ');
 }
 
 export function generateMinimalClaudeMd(options: InitOptions): string {
