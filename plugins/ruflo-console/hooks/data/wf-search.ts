@@ -27,6 +27,11 @@ export type SearchInput = {
   runs: readonly WfRun[]
   /** The transcript of an agent as already parsed, or null where it has not been read. */
   parsed: (agent: WfAgent) => Parsed | null
+  /**
+   * Whether the agent's transcript is in memory, WITHOUT parsing it. Once the scan cap stops the scan the remaining agents are only counted, and
+   * counting must not cost a parse of each (a search over 360 large transcripts parsed all 360 to print two numbers). Absent: `parsed` is asked.
+   */
+  isHeld?: (agent: WfAgent) => boolean
   tasks?: readonly MissionTaskRef[]
 }
 
@@ -82,6 +87,13 @@ export function search(input: SearchInput, query: string): SearchResult {
         if (field !== undefined) add({ level: 'agent', title: agent.label, detail: `${run.name} · ${phase.title}${field === agent.label ? '' : ` · ${snippet(field, at(field), needle.length)}`}`, target: place })
 
         if (agent.ruflo !== undefined) continue
+
+        if (out.isCapped && input.isHeld !== undefined) {
+          if (input.isHeld(agent)) out.scanned += 1
+          else if (agent.transcriptPath !== undefined) out.unread += 1
+
+          continue
+        }
 
         const parsed = input.parsed(agent)
 

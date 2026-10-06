@@ -2,6 +2,8 @@
  * The autopilot's step machine (ADR-466 §2, §4, §5). Pure: `foldJournal(events)` is the whole state, `tick(state, facts)` answers what
  * to journal and whether to start one step. No I/O, no clock (the time is in `facts`), so every rule is testable and a crash can only
  * lose what was not journaled yet.
+ * The one thing held between calls is `replayJournal`'s last answer, keyed by the journal's text: a result is a pure function of that text, and
+ * `foldJournal` copies its base, so handing the same state out twice cannot be seen.
  *
  * The order of the checks in `tick` IS the safety property: the kill switch is looked at before anything else and a stopped loop never
  * acts again without an explicit `start` event; an in-flight step is settled (finished, timed out, or found lost) before any new one
@@ -9,7 +11,7 @@
  * and a task with a started or done step is never started again.
  */
 import { classAllowed, pathAllowed, sha256, type Envelope, type Spend } from './ap-envelope'
-import type { Anatole, JournalEvent, Receipt } from './ap-journal'
+import { parseJournal, type Anatole, type JournalEvent, type Receipt } from './ap-journal'
 
 export type Phase = 'idle' | 'running' | 'paused' | 'stopped'
 export type StepRec = { id: string; task: string; cls: string; attempt: number; startedAt: number; deadline: number; status: 'started' | 'done' | 'failed'; verified?: boolean; why?: string; tier: string; par?: number; endedAt?: number }
@@ -45,6 +47,22 @@ export const PAUSE_AT = 0.8
 /** The loop's state as the journal says it. `base` is a checkpoint to continue from. */
 export function foldJournal(events: readonly JournalEvent[], base: LoopState = emptyLoop()): LoopState {
   const s: LoopState = { ...base, steps: base.steps.map(step => ({ ...step })), parked: base.parked.map(p => ({ ...p })), receipts: [...base.receipts] }
+  // Indexes over what the loop below looks up on every event. A scan per event made a fold quadratic (100k events took 10.8 s; bench-autopilot.mjs):
+  // steps by id (ids are unique: a repeat is refused), the one unanswered park of an id, and parks by task in file order.
+  const stepById = new Map<string, StepRec>()
+  const openPark = new Map<string, ParkedRec>()
+  const parksByTask = new Map<string, ParkedRec[]>()
+  const indexPark = (p: ParkedRec): void => {
+    const list = parksByTask.get(p.task)
+
+    if (list === undefined) parksByTask.set(p.task, [p])
+    else list.push(p)
+
+    if (p.answer === undefined && !openPark.has(p.id)) openPark.set(p.id, p)
+  }
+
+  for (const step of s.steps) if (!stepById.has(step.id)) stepById.set(step.id, step)
+  for (const p of s.parked) indexPark(p)
 
   for (const e of events) {
     switch (e.t) {
@@ -53,18 +71,21 @@ export function foldJournal(events: readonly JournalEvent[], base: LoopState = e
         break
       case 'step.started':
         // A repeated id (a replayed line) changes nothing: one step per id.
-        if (!s.steps.some(step => step.id === e.id)) {
-          s.steps.push({ id: e.id, task: e.task, cls: e.cls, attempt: e.attempt, startedAt: e.at, deadline: e.deadline, status: 'started', tier: e.tier, ...(e.par !== undefined && { par: e.par }) })
+        if (!stepById.has(e.id)) {
+          const made: StepRec = { id: e.id, task: e.task, cls: e.cls, attempt: e.attempt, startedAt: e.at, deadline: e.deadline, status: 'started', tier: e.tier, ...(e.par !== undefined && { par: e.par }) }
 
-          const once = s.parked.find(p => p.task === e.task && p.answer === 'once' && p.isUsed !== true)
+          s.steps.push(made)
+          stepById.set(made.id, made)
+
+          const once = parksByTask.get(e.task)?.find(p => p.answer === 'once' && p.isUsed !== true)
 
           if (once !== undefined) once.isUsed = true
         }
         break
       case 'step.done': {
-        const step = s.steps.find(x => x.id === e.id && x.status === 'started')
+        const step = stepById.get(e.id)
 
-        if (step !== undefined) {
+        if (step !== undefined && step.status === 'started') {
           Object.assign(step, { status: 'done', verified: e.verified, endedAt: e.at })
           s.failures = 0
         }
@@ -72,9 +93,9 @@ export function foldJournal(events: readonly JournalEvent[], base: LoopState = e
       }
 
       case 'step.failed': {
-        const step = s.steps.find(x => x.id === e.id && x.status === 'started')
+        const step = stepById.get(e.id)
 
-        if (step !== undefined) {
+        if (step !== undefined && step.status === 'started') {
           Object.assign(step, { status: 'failed', why: e.why, endedAt: e.at })
           s.failures += 1
           s.lastFailureAt = e.at
@@ -83,12 +104,20 @@ export function foldJournal(events: readonly JournalEvent[], base: LoopState = e
       }
 
       case 'parked':
-        if (!s.parked.some(p => p.id === e.id && p.answer === undefined)) s.parked.push({ id: e.id, task: e.task, question: e.question, at: e.at })
+        if (!openPark.has(e.id)) {
+          const made: ParkedRec = { id: e.id, task: e.task, question: e.question, at: e.at }
+
+          s.parked.push(made)
+          indexPark(made)
+        }
         break
       case 'answered': {
-        const held = s.parked.find(p => p.id === e.id && p.answer === undefined)
+        const held = openPark.get(e.id)
 
-        if (held !== undefined) held.answer = e.answer
+        if (held !== undefined) {
+          held.answer = e.answer
+          openPark.delete(e.id)
+        }
         break
       }
 
@@ -114,6 +143,23 @@ export function foldJournal(events: readonly JournalEvent[], base: LoopState = e
   }
 
   return compactState(s)
+}
+
+let lastReplay: { text: string; loop: LoopState; bad: number } | null = null
+
+/**
+ * A journal's text as the loop it says, and how many of its lines were not events. The console re-reads the journal on every tick (every minute, for weeks) and
+ * the read cache hands back the SAME text while the file is unchanged, so the last answer is kept and a tick that finds nothing new replays nothing. The
+ * state is never mutated by a caller (foldJournal copies its base), so handing the same object out twice is safe.
+ */
+export function replayJournal(text: string): { loop: LoopState; bad: number } {
+  if (lastReplay !== null && lastReplay.text === text) return lastReplay
+
+  const parsed = parseJournal(text)
+
+  lastReplay = { text, loop: foldJournal(parsed.events), bad: parsed.bad }
+
+  return lastReplay
 }
 
 /** Old finished steps are forgotten so weeks of running stay small; started steps and unanswered parks are never dropped. */

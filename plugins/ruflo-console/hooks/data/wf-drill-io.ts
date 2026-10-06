@@ -37,6 +37,8 @@ export const isBound = (): boolean => bound !== null
 export function resetDrillIo(): void {
   bound = null
   parsedMemo.clear()
+  parsedChars = 0
+  parseCount = 0
   tails.clear()
   notes.clear()
   results.clear()
@@ -73,6 +75,36 @@ const hold = <V>(map: Map<string, V>, key: string, value: V, max = MAX_HELD): vo
 export const noteOf = (key: string): Note | undefined => notes.get(key)
 
 const parsedMemo = new Map<string, { src: string; isTail: boolean; parsed: Parsed }>()
+/**
+ * The parse memo is bounded by the text it holds, not by a count of files: a live project has 6 runs x 60 agents, and a memo of 24 entries was
+ * walked past by every frame that asked for all of them (the search panel does), so each draw parsed ~340 transcripts again (bench-workflows.mjs:
+ * 66 ms a frame). A parsed transcript is no bigger than its text, so this budget caps what the memo can keep; the oldest go first.
+ */
+export const PARSED_BUDGET_CHARS = 24_000_000
+const PARSED_MAX_ENTRIES = 1024
+let parsedChars = 0
+let parseCount = 0
+
+/** What the parse memo holds and how many parses it has done: what a test or a bench reads to prove a frame parsed nothing. */
+export const parsedStats = (): { entries: number; chars: number; parses: number } => ({ entries: parsedMemo.size, chars: parsedChars, parses: parseCount })
+
+function holdParsed(path: string, entry: { src: string; isTail: boolean; parsed: Parsed }): void {
+  const old = parsedMemo.get(path)
+
+  if (old !== undefined) parsedChars -= old.src.length
+
+  parsedMemo.delete(path)
+  parsedMemo.set(path, entry)
+  parsedChars += entry.src.length
+
+  for (const [key, held] of parsedMemo) {
+    if (key === path || (parsedChars <= PARSED_BUDGET_CHARS && parsedMemo.size <= PARSED_MAX_ENTRIES)) break
+
+    parsedMemo.delete(key)
+    parsedChars -= held.src.length
+  }
+}
+
 const tails = new Map<string, { text: string; size: number }>()
 
 export type Text = { text: string; isTail: boolean }
@@ -105,7 +137,9 @@ export function parsedOf(cache: ReadCache, agent: WfAgent): Parsed | null {
 
   const parsed = parseActivity(text.text, text.isTail)
 
-  hold(parsedMemo, path, { src: text.text, isTail: text.isTail, parsed })
+  parseCount += 1
+
+  holdParsed(path, { src: text.text, isTail: text.isTail, parsed })
 
   return parsed
 }
