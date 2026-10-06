@@ -7,9 +7,11 @@ import { actionsOf } from './bindings'
 import type { Catalog } from './data/catalog'
 import { PROBES, probeArgv, probeError, probeReady, type ProbeResult } from './data/cli'
 import { ALL_COST_PROBES as COST_PROBES } from './data/cost-probes'
+import { memmapProbe } from './data/memmap'
+import { memoryHealthProbe } from './data/memory-health'
 import { X_PROBES } from './data/xruv'
 import { diffEvents, record } from './data/events'
-import { agentName, announceChanges, factsOf } from './notices'
+import { agentName, announceChanges, factsOf, segmentOf } from './notices'
 import { plain } from './data/parse'
 import { readSnapshot } from './data/snapshot'
 import { markPicture } from './gfx/pictures'
@@ -28,12 +30,12 @@ import { BOOT_MIN_MS, CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, pus
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
 import { pulseDue } from './pulse'
+import { refreshWorkflows } from './wf-live'
 
 const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
 const MAX_PARALLEL_PROBES = 2
-/** The CLI probes and the x.ruv.io board's two network reads, one cadence and one option gate for all. */
-const ALL_PROBES = [...PROBES, ...X_PROBES, ...COST_PROBES]
+const ALL_PROBES = [...PROBES, ...X_PROBES, ...COST_PROBES, memmapProbe, memoryHealthProbe] // CLI probes, the x.ruv.io board's network reads, cost, the memory map's list: one cadence and option gate
 const BAR_FRESH_MS = 10_000
 const IDLE_REFRESH_MS = 30_000
 const TOOLS_RECOUNT_MS = 30_000
@@ -62,14 +64,6 @@ export type Controller = {
   catalog?: Promise<Catalog>
   /** Blits the band's mark while Claude works; the band calls it with its requestId. */
   markFrame: (requestId: string, isWorking: boolean) => void
-}
-
-/** With the band off, the console's words ride ruflo-mods' status line instead: claims and a stale marketplace only. */
-export function segmentOf(state: State): string | null {
-  const claims = state.snapshot?.claims ?? []
-  const parts = [claims.length > 0 ? `${claims.length} claims` : '', state.snapshot?.plugins.missingFromClone.length ? 'marketplace stale' : ''].filter(Boolean)
-
-  return parts.length === 0 ? null : parts.join(' · ')
 }
 
 export function createController(state: State, host: Host): Controller {
@@ -335,6 +329,7 @@ export function createController(state: State, host: Host): Controller {
         lastIdleMs = now
         void refresh().then(() => {
           void probe()
+          void refreshWorkflows(state, host)
           advance(state, host)
         })
       }
