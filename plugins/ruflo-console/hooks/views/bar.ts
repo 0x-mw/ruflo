@@ -13,6 +13,7 @@ import { agentLabels } from '../data/parse'
 import { secMemo } from '../secure'
 import type { State, ViewId } from '../state'
 import { sparkline } from '../memory-lines'
+import { visibleNotice, type Notice } from '../notices'
 import { ago, clip, type Kit } from './common'
 
 export const BAR_KEY = 'mark'
@@ -171,7 +172,7 @@ export function barText(state: State, nowMs: number = Date.now()): string {
  * names, so the text stays readable on the ground and a name the host does not know cannot make it refuse the whole band. (A
  * Button cannot be coloured: its label takes the theme's, which reads on a dark theme; on a light one it is dim on the dark ground.)
  */
-export const PANEL = { ground: '#1c1c1c', border: '#5f5faf', text: '#d0d0d0', dim: '#8a8a8a', attention: '#ffaf00', live: '#5fd75f' } as const
+export const PANEL = { ground: '#1c1c1c', border: '#5f5faf', text: '#d0d0d0', dim: '#8a8a8a', attention: '#ffaf00', live: '#5fd75f', bad: '#ff5f5f' } as const
 
 /** Links at the end of the standing row, each opening the console on that view: where to go next, whatever is happening. */
 export const BAND_LINKS: readonly { label: string; go: ViewId }[] = [
@@ -183,6 +184,24 @@ export const BAND_LINKS: readonly { label: string; go: ViewId }[] = [
   { label: 'Menu', go: 'menu' },
 ]
 
+/**
+ * The band's overall state, which colours its border so it reads from across the room: a notice that is bad (or Anatole blocking) is red,
+ * something that needs a person is amber, Claude at work is green, and a quiet band keeps its usual purple.
+ */
+export type BandTone = 'bad' | 'attention' | 'live' | 'idle'
+
+export function bandTone(parts: readonly BarPart[], notice: Notice | null): BandTone {
+  if (notice?.level === 'bad') return 'bad'
+  if (parts.some(part => part.tone === 'attention') || notice?.level === 'warn') return 'attention'
+  if (parts.some(part => part.tone === 'live')) return 'live'
+
+  return 'idle'
+}
+
+const BORDER: Record<BandTone, string> = { bad: PANEL.bad, attention: PANEL.attention, live: PANEL.live, idle: PANEL.border }
+const NOTICE_MARK = { ok: '✓', info: 'ℹ', warn: '⚠', bad: '✖' } as const
+const NOTICE_COLOR = { ok: PANEL.live, info: PANEL.text, warn: PANEL.attention, bad: PANEL.bad } as const
+
 const toneColor = (tone: BarPart['tone']): string => (tone === 'attention' ? PANEL.attention : tone === 'live' ? PANEL.live : PANEL.text)
 
 /**
@@ -191,9 +210,10 @@ const toneColor = (tone: BarPart['tone']): string => (tone === 'attention' ? PAN
  * then links to the main views. They are separate rows so a long mission title cannot push the standing facts out. Each part is a
  * link: a click opens the console on the view it is about. `onGo` opens the console there; `onOpen` opens it as it was.
  */
-export function barView(kit: Kit, state: State, columns: number, mark: RenderElement | null, onOpen: () => void, onGo?: (view: ViewId) => void): RenderElement {
+export function barView(kit: Kit, state: State, columns: number, mark: RenderElement | null, onOpen: () => void, onGo?: (view: ViewId) => void, onDismiss?: () => void): RenderElement {
   // A stale marketplace clone is one of the alerts, so it already turns the band's attention part on.
   const parts = barParts(state)
+  const notice = visibleNotice(state, Date.now())
   const inner = Math.max(16, columns - 4)
   const sep = (): RenderElement => kit.Text({ color: PANEL.dim, children: ' · ' })
 
@@ -243,12 +263,26 @@ export function barView(kit: Kit, state: State, columns: number, mark: RenderEle
     room -= link.label.length + (i === 0 ? 3 : 1)
   }
 
+  // An announcement, on its own row: what changed, a link to where it is, and a dismiss. It goes by itself after a short while.
+  const noticeRow = notice === null ? [] : [
+    kit.Box({
+      flexDirection: 'row',
+      children: [
+        kit.Text({ bold: true, color: NOTICE_COLOR[notice.level], children: `${NOTICE_MARK[notice.level]} ` }),
+        kit.Text({ color: NOTICE_COLOR[notice.level], wrap: 'truncate-end', children: clip(notice.text, Math.max(10, inner - 24)) }),
+        kit.Text({ children: '  ' }),
+        ...(notice.go !== undefined && onGo !== undefined ? [kit.Button({ key: 'band-notice-go', label: 'view', plain: true, onPress: () => onGo(notice.go as ViewId) })] : []),
+        ...(onDismiss !== undefined ? [kit.Text({ children: ' ' }), kit.Button({ key: 'band-notice-dismiss', label: '✕', plain: true, dimColor: true, onPress: onDismiss })] : []),
+      ],
+    }),
+  ]
+
   return kit.Box({
     flexDirection: 'column',
     borderStyle: 'round',
-    borderColor: PANEL.border,
+    borderColor: BORDER[bandTone(parts, notice)],
     backgroundColor: PANEL.ground,
     paddingX: 1,
-    children: [kit.Box({ flexDirection: 'row', children: first.children }), kit.Box({ flexDirection: 'row', children: second.children })],
+    children: [kit.Box({ flexDirection: 'row', children: first.children }), ...(state.bandCompact ? [] : [kit.Box({ flexDirection: 'row', children: second.children })]), ...noticeRow],
   })
 }
