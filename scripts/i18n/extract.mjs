@@ -267,6 +267,10 @@ function collectCliHelp() {
     walkTree(sf, (n) => {
       if (ts.isPropertyAssignment(n) && propNameOf(n) === 'description') {
         found.add(n.getStart(sf), lineOf(sf, n), 'description', altsOf(n.initializer, env), { scope: 'cli-help' });
+      } else if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+        ts.isPropertyAccessExpression(n.left) && n.left.name.text === 'description') {
+        // CLI 기본 설명: this.description = options.description || '…' (src/index.ts)
+        found.add(n.right.getStart(sf), lineOf(sf, n.right), 'this.description', altsOf(n.right, env), { scope: 'cli-help' });
       } else if (ts.isCallExpression(n) && fnParams.size) {
         const { name } = calleeInfo(n);
         if (name && fnParams.has(name)) {
