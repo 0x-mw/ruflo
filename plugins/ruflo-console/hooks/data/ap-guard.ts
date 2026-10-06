@@ -105,7 +105,7 @@ export function spendOf(out: { hour: string; day: string; total: string }): Spen
 export type ToolCheck = (tool: string, input?: unknown) => Promise<{ decision?: string } | string | undefined>
 
 /** The tool a class is checked through. A class whose representative tool the person's settings would block is parked, never tried. */
-export const PREFLIGHT_TOOL: Record<ToolClass, string> = { read: 'Read', test: 'Bash', edit: 'Edit', 'git-local': 'Bash', 'git-branch': 'Bash', spawn: 'Agent', mcp: 'mcp__claude-flow__task_update', network: 'WebFetch' }
+export const PREFLIGHT_TOOL: Record<ToolClass, string> = { read: 'Read', test: 'Bash', edit: 'Edit', 'git-local': 'Bash', 'git-branch': 'Bash', spawn: 'Agent', mcp: 'mcp__plugin_ruflo-core_ruflo__task_update', network: 'WebFetch' }
 
 export async function preflightAll(check: ToolCheck | undefined): Promise<Record<string, Preflight>> {
   const out: Record<string, Preflight> = {}
