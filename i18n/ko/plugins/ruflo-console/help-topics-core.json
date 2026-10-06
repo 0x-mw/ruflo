@@ -1,0 +1,1253 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/help-topics-core.ts",
+  "entries": [
+    {
+      "key": "Your first five minutes",
+      "ko": "처음 5분",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:7 title"
+      ]
+    },
+    {
+      "key": "what the console is, and the three things to know",
+      "ko": "콘솔이 무엇인지, 알아야 할 세 가지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:9 summary"
+      ]
+    },
+    {
+      "key": "The console is the ruflo cockpit inside Claude Code. Every page is a number or a letter key: 0 is the main menu.",
+      "ko": "콘솔은 Claude Code 안에 있는 ruflo 콕핏입니다. 모든 화면은 숫자나 문자 키로 열며, 0은 메인 메뉴입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:11 text"
+      ]
+    },
+    {
+      "key": "Open the main menu",
+      "ko": "메인 메뉴 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:11 label"
+      ]
+    },
+    {
+      "key": "Press p for the palette: type a few letters of anything you want to do, then Enter.",
+      "ko": "p를 눌러 팔레트를 여세요. 하려는 일의 글자 몇 개를 입력하고 Enter를 누르세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:12 text"
+      ]
+    },
+    {
+      "key": "Press ✦ (Ask Claude) on any page to send that page to Claude with a question. It asks first.",
+      "ko": "어느 화면에서든 ✦ (Claude에게 질문)을 누르면 그 화면을 질문과 함께 Claude에게 보냅니다. 먼저 확인을 요청합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:13 text"
+      ]
+    },
+    {
+      "key": "Anything that changes something asks y or n first and shows the exact command. Reads run at once.",
+      "ko": "무언가를 바꾸는 작업은 y 또는 n을 먼저 묻고 실제 명령어를 보여 줍니다. 읽기는 바로 실행됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:14 text"
+      ]
+    },
+    {
+      "key": "Press h on any page for the guide to that page. You are reading one now.",
+      "ko": "어느 화면에서든 h를 누르면 그 화면의 가이드가 열립니다. 지금 보고 있는 것이 그 가이드입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:15 text"
+      ]
+    },
+    {
+      "key": "Lost? Press 0 for the menu. Stuck on a prompt? Press n.",
+      "ko": "길을 잃었나요? 0을 눌러 메뉴로 가세요. 프롬프트에서 막혔나요? n을 누르세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:17 tips"
+      ]
+    },
+    {
+      "key": "Mouse works too: every key is also a button.",
+      "ko": "마우스도 쓸 수 있습니다. 모든 키는 버튼이기도 합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:17 tips"
+      ]
+    },
+    {
+      "key": "what is ruflo",
+      "ko": "ruflo란 무엇인가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:19 keywords",
+        "plugins/ruflo-console/hooks/help-topics-core.ts:35 keywords"
+      ]
+    },
+    {
+      "key": "How the pieces fit",
+      "ko": "구성 요소가 맞물리는 방식",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:23 title"
+      ]
+    },
+    {
+      "key": "model, skill, MCP and plugins: four things that are easy to confuse",
+      "ko": "모델, 스킬, MCP, 플러그인: 헷갈리기 쉬운 네 가지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:25 summary"
+      ]
+    },
+    {
+      "key": "The model (Claude, GPT, Grok…) does the thinking. ruflo is not a model: it is the machinery around the work.",
+      "ko": "모델(Claude, GPT, Grok…)이 생각을 합니다. ruflo는 모델이 아니라 작업을 둘러싼 장치입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:27 text"
+      ]
+    },
+    {
+      "key": "A skill is a playbook that teaches an agent how to approach a job. Installing one does not start a server or open your files.",
+      "ko": "스킬은 에이전트에게 작업에 접근하는 방법을 알려 주는 플레이북입니다. 스킬을 설치해도 서버가 시작되거나 파일이 열리지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:28 text"
+      ]
+    },
+    {
+      "key": "MCP is how an assistant finds and calls tools. When the ruflo MCP server is connected, the assistant can ask it for things like a health check or a memory search.",
+      "ko": "MCP는 어시스턴트가 도구를 찾아 호출하는 방식입니다. ruflo MCP 서버가 연결되면 어시스턴트가 상태 점검이나 메모리 검색 같은 것을 요청할 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:29 text"
+      ]
+    },
+    {
+      "key": "Plugins package more: skills, commands, agents and hooks that react to events. “I installed the skill” and “the MCP server is connected” are two different facts.",
+      "ko": "플러그인은 더 많은 것을 묶어 제공합니다. 스킬, 명령어, 에이전트, 이벤트에 반응하는 훅이 들어 있습니다. “스킬을 설치했다”와 “MCP 서버가 연결됐다”는 서로 다른 사실입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:30 text"
+      ]
+    },
+    {
+      "key": "Browse plugins",
+      "ko": "플러그인 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:30 label"
+      ]
+    },
+    {
+      "key": "A swarm is several focused agents sharing one goal. It helps when work can be divided; for a two-line edit, one agent is better.",
+      "ko": "스웜은 하나의 목표를 공유하는 전문화된 에이전트 여러 개입니다. 작업을 나눌 수 있을 때 도움이 되며, 두 줄짜리 수정에는 에이전트 하나가 낫습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:31 text"
+      ]
+    },
+    {
+      "key": "Start with one useful task and add more only when it earns its place.",
+      "ko": "쓸모 있는 작업 하나로 시작하고, 필요가 생길 때만 더 추가하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:33 tips"
+      ]
+    },
+    {
+      "key": "The full explainer is docs/ruflo-explained.md in the ruflo repository.",
+      "ko": "전체 설명서는 ruflo 저장소의 docs/ruflo-explained.md 입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:33 tips"
+      ]
+    },
+    {
+      "key": "Connect ruflo to your assistant",
+      "ko": "ruflo를 어시스턴트에 연결",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:39 title"
+      ]
+    },
+    {
+      "key": "Claude Code, Codex, Claude Desktop, ChatGPT or Grok: pick one path",
+      "ko": "Claude Code, Codex, Claude Desktop, ChatGPT, Grok: 경로 하나를 고르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:41 summary"
+      ]
+    },
+    {
+      "key": "Claude Code, packaged: run /plugin marketplace add ruvnet/ruflo, then /plugin install ruflo-core@ruflo. Add ruflo-swarm or ruflo-rag-memory when you need them.",
+      "ko": "Claude Code, 패키지 방식: /plugin marketplace add ruvnet/ruflo 를 실행한 뒤 /plugin install ruflo-core@ruflo 를 실행하세요. 필요하면 ruflo-swarm 이나 ruflo-rag-memory 를 추가하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:43 text"
+      ]
+    },
+    {
+      "key": "Check plugins",
+      "ko": "플러그인 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:43 label"
+      ]
+    },
+    {
+      "key": "Claude Code, direct: claude mcp add ruflo -- npx --yes ruflo mcp start, then claude mcp list. Choose one path; two copies of the server confuse tool discovery.",
+      "ko": "Claude Code, 직접 방식: claude mcp add ruflo -- npx --yes ruflo mcp start 를 실행한 뒤 claude mcp list 를 실행하세요. 경로는 하나만 고르세요. 서버가 둘이면 도구 탐색이 혼란스러워집니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:44 text"
+      ]
+    },
+    {
+      "key": "Codex: codex mcp add ruflo -- npx --yes ruflo mcp start, then codex mcp list. Or run npx ruflo init --codex in a disposable project first.",
+      "ko": "Codex: codex mcp add ruflo -- npx --yes ruflo mcp start 를 실행한 뒤 codex mcp list 를 실행하세요. 또는 먼저 버려도 되는 프로젝트에서 npx ruflo init --codex 를 실행하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:45 text"
+      ]
+    },
+    {
+      "key": "Claude Desktop has its own config: merge a ruflo entry (command npx, args --yes ruflo mcp start) into mcpServers, restart it, and check the tools appear.",
+      "ko": "Claude Desktop에는 자체 설정이 있습니다. ruflo 항목(command npx, args --yes ruflo mcp start)을 mcpServers 에 병합하고 재시작한 뒤 도구가 나타나는지 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:46 text"
+      ]
+    },
+    {
+      "key": "ChatGPT on the web needs a remote, authenticated MCP URL, not a local command. Never expose a local server to the internet without authentication.",
+      "ko": "웹의 ChatGPT에는 로컬 명령어가 아니라 인증이 적용된 원격 MCP URL이 필요합니다. 인증 없이 로컬 서버를 인터넷에 노출하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:47 text"
+      ]
+    },
+    {
+      "key": "Grok CLI: grok mcp add ruflo -- npx --yes ruflo mcp start, then grok mcp doctor ruflo.",
+      "ko": "Grok CLI: grok mcp add ruflo -- npx --yes ruflo mcp start 를 실행한 뒤 grok mcp doctor ruflo 를 실행하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:48 text"
+      ]
+    },
+    {
+      "key": "Pin a version (ruflo@x.y.z) if you want the same release every time.",
+      "ko": "매번 같은 릴리스를 쓰려면 버전(ruflo@x.y.z)을 고정하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:50 tips"
+      ]
+    },
+    {
+      "key": "Success is one real call that returns a result, not a config entry.",
+      "ko": "성공은 설정 항목이 있다는 것이 아니라 결과를 돌려주는 실제 호출 한 번입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:50 tips"
+      ]
+    },
+    {
+      "key": "Your first real task",
+      "ko": "첫 실제 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:56 title"
+      ]
+    },
+    {
+      "key": "a safe, bounded review, then one agreed change, with evidence",
+      "ko": "안전하고 범위가 정해진 리뷰, 그다음 합의한 변경 하나, 증거와 함께",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:58 summary"
+      ]
+    },
+    {
+      "key": "Use a small project with no secrets. Ask for a read-only review: summarise it, say how to run its tests, propose three independent review tasks. No edits, no installs, no deploy.",
+      "ko": "시크릿이 없는 작은 프로젝트를 사용하세요. 읽기 전용 리뷰를 요청하세요. 프로젝트를 요약하고, 테스트 실행 방법을 알려 주고, 독립적인 리뷰 작업 세 가지를 제안하게 하세요. 수정, 설치, 배포는 하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:60 text"
+      ]
+    },
+    {
+      "key": "Read the plan. Then approve one specific change with a clear acceptance test and a stopping point.",
+      "ko": "계획을 읽으세요. 그런 다음 분명한 인수 테스트와 멈출 지점이 있는 특정 변경 하나를 승인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:61 text"
+      ]
+    },
+    {
+      "key": "Open Missions",
+      "ko": "미션 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:61 label",
+        "plugins/ruflo-console/hooks/help-topics-core.ts:106 label",
+        "plugins/ruflo-console/hooks/help-topics-core.ts:123 label"
+      ]
+    },
+    {
+      "key": "Ask for the diff, the test results and the remaining risks. Stop before committing or deploying.",
+      "ko": "diff, 테스트 결과, 남은 위험을 요청하세요. 커밋이나 배포 전에 멈추세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:62 text"
+      ]
+    },
+    {
+      "key": "Run the same tests before and after. The deliverable is the change plus evidence, not a message saying done.",
+      "ko": "변경 전후에 같은 테스트를 실행하세요. 산출물은 “완료”라는 메시지가 아니라 변경과 증거입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:63 text"
+      ]
+    },
+    {
+      "key": "An agent saying “done” is not a test result.",
+      "ko": "에이전트의 “완료”라는 말은 테스트 결과가 아닙니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:65 tips"
+      ]
+    },
+    {
+      "key": "Easier to debug than switching on dozens of agents at once.",
+      "ko": "에이전트 수십 개를 한꺼번에 켜는 것보다 디버깅하기 쉽습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:65 tips"
+      ]
+    },
+    {
+      "key": "Keys and navigation",
+      "ko": "키와 이동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:71 title"
+      ]
+    },
+    {
+      "key": "every key that works on every page",
+      "ko": "모든 화면에서 쓸 수 있는 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:73 summary"
+      ]
+    },
+    {
+      "key": "0 main menu · 1 missions · 2 overview · 3 swarm · 4 claims · 5 federation · 6 plugins · 7 learning · 8 metaharness · 9 memory.",
+      "ko": "0 메인 메뉴 · 1 미션 · 2 개요 · 3 스웜 · 4 클레임 · 5 페더레이션 · 6 플러그인 · 7 학습 · 8 metaharness · 9 메모리.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:75 text"
+      ]
+    },
+    {
+      "key": "Letters reach the rest: b hive · c cost · g timeline · q approvals · e events · w x.ruv.io · i terminal · z skills · u security · f performance · a automation · l learning lab · v vector lab · t self-evolution · d dev tools · m plugin catalog · s settings.",
+      "ko": "나머지는 문자 키로 엽니다. b 하이브 · c 비용 · g 타임라인 · q 승인 · e 이벤트 · w x.ruv.io · i 터미널 · z 스킬 · u 보안 · f 성능 · a 자동화 · l 학습 랩 · v 벡터 랩 · t 자가 진화 · d 개발 도구 · m 플러그인 카탈로그 · s 설정.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:76 text"
+      ]
+    },
+    {
+      "key": "p palette · x actions for the selection · r refresh and replay the intro · h help · y / n confirm or cancel.",
+      "ko": "p 팔레트 · x 선택 항목의 동작 · r 새로고침 및 인트로 다시 재생 · h 도움말 · y / n 확인 또는 취소.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:77 text"
+      ]
+    },
+    {
+      "key": "j / k move the selection · d drill into an agent · b back · f filters the events page.",
+      "ko": "j / k 선택 이동 · d 에이전트 자세히 보기 · b 뒤로 · f 이벤트 화면 필터.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:78 text"
+      ]
+    },
+    {
+      "key": "On the main menu, type a key or a name in the prompt and press Enter. o logs off. Sandbox has no key: type sandbox, or find it under NETWORK in the nav.",
+      "ko": "메인 메뉴에서는 프롬프트에 키나 이름을 입력하고 Enter를 누르세요. o는 로그오프입니다. 샌드박스에는 키가 없습니다. sandbox 를 입력하거나 탐색 메뉴의 NETWORK 아래에서 찾으세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:79 text"
+      ]
+    },
+    {
+      "key": "In a text field, your keys type into the field.",
+      "ko": "텍스트 입력란에서는 누른 키가 입력란에 입력됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:81 tips"
+      ]
+    },
+    {
+      "key": "Set ruflo up in a project",
+      "ko": "프로젝트에 ruflo 설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:87 title"
+      ]
+    },
+    {
+      "key": "three steps from nothing to a working swarm",
+      "ko": "아무것도 없는 상태에서 동작하는 스웜까지 세 단계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:89 summary"
+      ]
+    },
+    {
+      "key": "Initialise ruflo here. This creates .claude-flow and the mods. It asks first.",
+      "ko": "여기에서 ruflo를 초기화하세요. .claude-flow 와 mods 가 생성됩니다. 먼저 확인을 요청합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:91 text"
+      ]
+    },
+    {
+      "key": "Start the daemon. It runs the background workers: map, audit, optimize, consolidate.",
+      "ko": "데몬을 시작하세요. 데몬이 백그라운드 워커(map, audit, optimize, consolidate)를 실행합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:92 text"
+      ]
+    },
+    {
+      "key": "Start a swarm: hierarchical, up to 8 agents.",
+      "ko": "스웜을 시작하세요. 계층형, 에이전트 최대 8개.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:93 text"
+      ]
+    },
+    {
+      "key": "Open the Overview to see what is running and what needs attention.",
+      "ko": "개요를 열어 무엇이 실행 중이고 무엇을 살펴봐야 하는지 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:94 text"
+      ]
+    },
+    {
+      "key": "Each step shows ✔ on its page once the disk has it, so you can leave and come back.",
+      "ko": "각 단계는 디스크에 반영되면 해당 화면에 ✔ 로 표시되므로 나갔다가 다시 와도 됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:96 tips"
+      ]
+    },
+    {
+      "key": "getting started",
+      "ko": "시작하기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:98 keywords"
+      ]
+    },
+    {
+      "key": "first time",
+      "ko": "처음 사용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:98 keywords"
+      ]
+    },
+    {
+      "key": "Run a mission",
+      "ko": "미션 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:102 title"
+      ]
+    },
+    {
+      "key": "give a goal; ruflo plans it, makes tasks, and Claude carries them out",
+      "ko": "목표를 주면 ruflo가 계획을 세워 작업을 만들고 Claude가 수행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:104 summary"
+      ]
+    },
+    {
+      "key": "Type your goal in one sentence in the goal field (on the main menu or Missions) and press Enter.",
+      "ko": "목표 입력란(메인 메뉴 또는 미션)에 목표를 한 문장으로 입력하고 Enter를 누르세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:106 text"
+      ]
+    },
+    {
+      "key": "Missions lists the tasks: ● done  ◐ running  ○ ready  · waiting on another  ✖ failed  ⊘ cancelled.",
+      "ko": "미션에 작업이 나열됩니다. ● 완료  ◐ 실행 중  ○ 준비됨  · 다른 작업 대기  ✖ 실패  ⊘ 취소됨.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:108 text"
+      ]
+    },
+    {
+      "key": "Hand the next task to Claude, or turn on auto-run to hand them out one after another.",
+      "ko": "다음 작업을 Claude에게 넘기거나, 자동 실행을 켜서 차례로 넘기게 하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:109 text"
+      ]
+    },
+    {
+      "key": "Pause or resume any time. Cancel stops the mission. Guide and aside ask Claude for help on it.",
+      "ko": "언제든 일시 중지하거나 재개할 수 있습니다. 취소하면 미션이 중지됩니다. 가이드와 곁가지 질문은 Claude에게 도움을 요청합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:110 text"
+      ]
+    },
+    {
+      "key": "Small, clear goals work best. “Add rate limiting to the login route” beats “improve the API”.",
+      "ko": "작고 분명한 목표가 가장 좋습니다. “API를 개선해”보다 “로그인 경로에 요청 제한을 추가해”가 낫습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:112 tips"
+      ]
+    },
+    {
+      "key": "Drive a mission with a loop",
+      "ko": "루프로 미션 진행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:118 title"
+      ]
+    },
+    {
+      "key": "a bounded /loop that checks, fixes and runs the gates until done",
+      "ko": "끝날 때까지 점검하고 수정하고 게이트를 실행하는 범위가 정해진 /loop",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:120 summary"
+      ]
+    },
+    {
+      "key": "Set the loop in Settings: the interval (5m by default), a worktree per writer, whether it may commit, push or publish (push and publish are off), and the most concurrent writers (6).",
+      "ko": "설정에서 루프를 지정하세요. 간격(기본 5m), 쓰기 주체마다 워크트리, 커밋·푸시·게시 허용 여부(푸시와 게시는 꺼짐), 동시 쓰기 주체 최대 수(6)입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:122 text"
+      ]
+    },
+    {
+      "key": "Open Settings",
+      "ko": "설정 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:122 label",
+        "plugins/ruflo-console/hooks/help-topics-more.ts:57 label"
+      ]
+    },
+    {
+      "key": "Enter your goal. The plan and Claude’s guidance now name the /loop line, each tick’s checklist, the gates, the finish condition and the stop rule.",
+      "ko": "목표를 입력하세요. 이제 계획과 Claude의 가이던스에 /loop 줄, 틱마다의 체크리스트, 게이트, 종료 조건, 중지 규칙이 명시됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:123 text"
+      ]
+    },
+    {
+      "key": "Each tick the loop checks progress, fixes what failed, runs the gates and repeats until every phase is green. Writers work at once, each in its own worktree; defaults are stated up front, so it does not stop to ask.",
+      "ko": "루프는 틱마다 진행 상황을 점검하고 실패한 것을 고치고 게이트를 실행하며, 모든 단계가 통과할 때까지 반복합니다. 쓰기 주체들은 각자의 워크트리에서 동시에 작업합니다. 기본값을 미리 정해 두므로 멈추고 묻지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:124 text"
+      ]
+    },
+    {
+      "key": "On a long mission open its Loop tab. Start puts the /loop line in your prompt box (you press Enter); the console counts ticks, shows the next one and the time left, and warns before the 7-day expiry. Re-arm prepares a fresh one.",
+      "ko": "긴 미션에서는 루프 탭을 여세요. 시작하면 /loop 줄이 프롬프트 입력창에 들어가고(Enter는 직접 누릅니다), 콘솔이 틱 수, 다음 틱, 남은 시간을 표시하며 7일 만료 전에 경고합니다. 재무장은 새 루프를 준비합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:125 text"
+      ]
+    },
+    {
+      "key": "Verify runs your own gate commands (Settings → Mission gates). Each asks first, runs without a shell, and its exit code is recorded as evidence.",
+      "ko": "검증은 직접 정한 게이트 명령어(설정 → 미션 게이트)를 실행합니다. 각각 먼저 확인을 요청하고, 셸 없이 실행하며, 종료 코드를 증거로 기록합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:126 text"
+      ]
+    },
+    {
+      "key": "Set a spend cap in Settings: auto-run pauses when the mission reaches it. Spend is a list-price estimate from the cost ledger.",
+      "ko": "설정에서 지출 상한을 정하세요. 미션이 상한에 도달하면 자동 실행이 일시 중지됩니다. 지출은 비용 원장의 정가 기준 추정치입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:127 text"
+      ]
+    },
+    {
+      "key": "Nothing leaves the mission branch unless you turned it on: no push, no release, no deploy.",
+      "ko": "직접 켜지 않는 한 미션 브랜치 밖으로 나가는 것은 없습니다. 푸시, 릴리스, 배포가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:128 text"
+      ]
+    },
+    {
+      "key": "A fix is checked by breaking it once: the test must fail, then pass again.",
+      "ko": "수정은 한 번 일부러 깨뜨려서 확인합니다. 테스트가 실패했다가 다시 통과해야 합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:130 tips"
+      ]
+    },
+    {
+      "key": "The active task rides in Claude’s prompt (Settings → Mission context) and changes only when the task does, so the cache stays warm.",
+      "ko": "활성 작업은 Claude의 프롬프트(설정 → 미션 컨텍스트)에 실려 가며 작업이 바뀔 때만 바뀌므로 캐시가 유지됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:130 tips"
+      ]
+    },
+    {
+      "key": "Start a swarm and spawn agents",
+      "ko": "스웜 시작과 에이전트 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:136 title"
+      ]
+    },
+    {
+      "key": "a team of agents with roles, working together",
+      "ko": "역할을 가진 에이전트 팀이 함께 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:138 summary"
+      ]
+    },
+    {
+      "key": "Start a swarm (needs ruflo initialised).",
+      "ko": "스웜을 시작하세요 (ruflo 초기화 필요).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:140 text"
+      ]
+    },
+    {
+      "key": "Spawn a coder: it writes the code.",
+      "ko": "코더를 생성하세요. 코드를 작성합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:141 text"
+      ]
+    },
+    {
+      "key": "Spawn a tester: it checks the work.",
+      "ko": "테스터를 생성하세요. 작업을 확인합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:142 text"
+      ]
+    },
+    {
+      "key": "Spawn a reviewer: it reviews the result.",
+      "ko": "리뷰어를 생성하세요. 결과를 리뷰합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:143 text"
+      ]
+    },
+    {
+      "key": "Open the Swarm page to see who is working, and the Timeline to see when.",
+      "ko": "스웜 화면에서 누가 작업 중인지, 타임라인에서 언제 했는지 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:144 text"
+      ]
+    },
+    {
+      "key": "Select an agent (j / k), then d, to see its task, claims, activity and logs.",
+      "ko": "에이전트를 선택(j / k)한 뒤 d를 누르면 작업, 클레임, 활동, 로그를 볼 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:146 tips"
+      ]
+    },
+    {
+      "key": "More roles are in the palette: type spawn.",
+      "ko": "더 많은 역할은 팔레트에 있습니다. spawn 을 입력하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:146 tips"
+      ]
+    },
+    {
+      "key": "Hive-mind: decisions by vote",
+      "ko": "하이브마인드: 투표로 결정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:152 title"
+      ]
+    },
+    {
+      "key": "a queen and workers who vote, so no single agent decides alone",
+      "ko": "퀸과 투표하는 워커들이 있어 에이전트 하나가 혼자 결정하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:154 summary"
+      ]
+    },
+    {
+      "key": "Start a hive-mind: a queen with raft consensus.",
+      "ko": "hive-mind(하이브마인드)를 시작하세요. raft 합의를 쓰는 퀸입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:156 text"
+      ]
+    },
+    {
+      "key": "Spawn three workers. They are the voters.",
+      "ko": "워커 세 개를 생성하세요. 이들이 투표자입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:157 text"
+      ]
+    },
+    {
+      "key": "On the Hive page, write a proposal and send it.",
+      "ko": "하이브 화면에서 제안을 작성해 보내세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:158 text"
+      ]
+    },
+    {
+      "key": "Cast votes on the Approvals page. Quorum decides.",
+      "ko": "승인 화면에서 투표하세요. 정족수가 결정합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:159 text"
+      ]
+    },
+    {
+      "key": "Raft tolerates up to half the workers failing; Byzantine mode tolerates under a third misbehaving.",
+      "ko": "Raft는 워커의 절반까지 실패해도 견디고, Byzantine 모드는 3분의 1 미만이 오동작해도 견딥니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:161 tips"
+      ]
+    },
+    {
+      "key": "Tasks and claims",
+      "ko": "작업과 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:167 title"
+      ]
+    },
+    {
+      "key": "one owner per task, so agents never do the same work twice",
+      "ko": "작업마다 소유자가 하나여서 에이전트가 같은 일을 두 번 하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:169 summary"
+      ]
+    },
+    {
+      "key": "Open Claims (key 4). Create a task: one line saying what must be done.",
+      "ko": "클레임(키 4)을 여세요. 작업을 생성하세요. 해야 할 일을 한 줄로 적습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:171 text"
+      ]
+    },
+    {
+      "key": "Claim it. A claim has one owner, so no one else works on it.",
+      "ko": "클레임하세요. 클레임에는 소유자가 하나뿐이므로 다른 에이전트는 그 작업을 하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:172 text"
+      ]
+    },
+    {
+      "key": "Done or stuck? Release it, hand it off to another agent, or steal one that is stealable.",
+      "ko": "끝났거나 막혔나요? 해제하거나 다른 에이전트에게 인계하거나, 가로챌 수 있는 클레임을 가로채세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:173 text"
+      ]
+    },
+    {
+      "key": "Every change asks y or n first and shows who gets what.",
+      "ko": "모든 변경은 y 또는 n을 먼저 묻고 누가 무엇을 받는지 보여 줍니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:174 text"
+      ]
+    },
+    {
+      "key": "Answer pending decisions",
+      "ko": "대기 중인 결정에 응답",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:181 title"
+      ]
+    },
+    {
+      "key": "votes, stealable claims, refused mods and budget asks in one place",
+      "ko": "투표, 가로챌 수 있는 클레임, 거부된 mod, 예산 요청을 한곳에서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:183 summary"
+      ]
+    },
+    {
+      "key": "Open Approvals (key q). Each row is a decision waiting for you.",
+      "ko": "승인(키 q)을 여세요. 각 행은 당신의 응답을 기다리는 결정입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:185 text"
+      ]
+    },
+    {
+      "key": "Select one (j / k) and read what it asks.",
+      "ko": "하나를 선택(j / k)하고 무엇을 묻는지 읽어 보세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:186 text"
+      ]
+    },
+    {
+      "key": "Press y to approve, n to refuse. Nothing happens until you do.",
+      "ko": "y를 눌러 승인하거나 n을 눌러 거부하세요. 누르기 전에는 아무 일도 일어나지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:187 text"
+      ]
+    },
+    {
+      "key": "The main menu shows a badge when something is waiting.",
+      "ko": "대기 중인 것이 있으면 메인 메뉴에 배지가 표시됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:189 tips"
+      ]
+    },
+    {
+      "key": "Automate with workflows and workers",
+      "ko": "워크플로와 워커로 자동화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:195 title"
+      ]
+    },
+    {
+      "key": "run work on a schedule or in the background, hands off",
+      "ko": "일정에 따라 또는 백그라운드에서 손대지 않고 작업 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:197 summary"
+      ]
+    },
+    {
+      "key": "Check the daemon is running: it hosts the 12 background workers.",
+      "ko": "데몬이 실행 중인지 확인하세요. 데몬이 백그라운드 워커 12개를 호스팅합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:199 text"
+      ]
+    },
+    {
+      "key": "Open Automation (key a). Dispatch a worker such as audit, optimize or testgaps.",
+      "ko": "자동화(키 a)를 여세요. audit, optimize, testgaps 같은 워커를 투입하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:200 text"
+      ]
+    },
+    {
+      "key": "List the workflows, or create one from a template.",
+      "ko": "워크플로 목록을 표시하거나 템플릿으로 새로 생성하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:201 text"
+      ]
+    },
+    {
+      "key": "Turn on autopilot to let ruflo pick the next step. Check it any time.",
+      "ko": "오토파일럿을 켜면 ruflo가 다음 단계를 고릅니다. 언제든 확인할 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:202 text"
+      ]
+    },
+    {
+      "key": "Use loops to repeat a task, or a sentry to find and fix bugs on a schedule.",
+      "ko": "루프로 작업을 반복하거나, 센트리로 일정에 따라 버그를 찾아 수정하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:203 text"
+      ]
+    },
+    {
+      "key": "Anything that changes something, or calls a model, asks first.",
+      "ko": "무언가를 바꾸거나 모델을 호출하는 작업은 먼저 확인을 요청합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:205 tips"
+      ]
+    },
+    {
+      "key": "The AI terminal",
+      "ko": "AI 터미널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:211 title"
+      ]
+    },
+    {
+      "key": "talk to claude -p or codex without leaving the console",
+      "ko": "콘솔을 떠나지 않고 claude -p 나 codex 와 대화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:213 summary"
+      ]
+    },
+    {
+      "key": "Open the Terminal (key i). The field takes your keys.",
+      "ko": "터미널(키 i)을 여세요. 입력란이 키 입력을 받습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:215 text"
+      ]
+    },
+    {
+      "key": "Type a message. The first one asks first, then Enter sends.",
+      "ko": "메시지를 입력하세요. 처음 한 번은 먼저 확인을 요청하고, 이후 Enter로 보냅니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:216 text"
+      ]
+    },
+    {
+      "key": "Switch with /claude, /codex or /swarm. /new starts over.",
+      "ko": "/claude, /codex, /swarm 으로 전환하세요. /new 는 새로 시작합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:217 text"
+      ]
+    },
+    {
+      "key": "Sessions remember the conversation per project. Tab to s stops, o opens a new one, z clears.",
+      "ko": "세션은 프로젝트별로 대화를 기억합니다. Tab으로 이동해 s는 중지, o는 새 세션 열기, z는 비우기입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:218 text"
+      ]
+    },
+    {
+      "key": "Watch what is happening",
+      "ko": "진행 상황 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:225 title"
+      ]
+    },
+    {
+      "key": "who is busy, what changed, and when",
+      "ko": "누가 바쁜지, 무엇이 바뀌었는지, 언제인지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:227 summary"
+      ]
+    },
+    {
+      "key": "Timeline (key g) shows each agent busy or idle over the last minutes.",
+      "ko": "타임라인(키 g)은 지난 몇 분 동안 각 에이전트가 작업 중이었는지 유휴였는지 보여 줍니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:229 text"
+      ]
+    },
+    {
+      "key": "Events (key e) lists every swarm, claim, memory and mod event as it happens.",
+      "ko": "이벤트(키 e)는 스웜, 클레임, 메모리, mod 이벤트를 발생하는 대로 모두 표시합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:230 text"
+      ]
+    },
+    {
+      "key": "Press f on Events to filter: swarm, claims, federation, learning, tools, mods, missions.",
+      "ko": "이벤트에서 f를 눌러 필터링하세요. swarm, claims, federation, learning, tools, mods, missions 입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:231 text"
+      ]
+    },
+    {
+      "key": "The band above the Claude prompt shows the live summary: tool activity, claims and cost.",
+      "ko": "Claude 프롬프트 위 띠가 실시간 요약(도구 활동, 클레임, 비용)을 보여 줍니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:232 text"
+      ]
+    },
+    {
+      "key": "Teach ruflo your repo",
+      "ko": "ruflo에 저장소 학습시키기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:239 title"
+      ]
+    },
+    {
+      "key": "Pretrain on this repo. It is local and shallow.",
+      "ko": "이 저장소로 사전 학습하세요. 로컬에서 가볍게 진행됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:243 text"
+      ]
+    },
+    {
+      "key": "Open Learning (key 7) to see the router’s picks and how they turned out.",
+      "ko": "학습(키 7)을 열어 라우터의 선택과 그 결과를 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:244 text"
+      ]
+    },
+    {
+      "key": "Open the Learning Lab (key l) to train patterns, watch the loss, and ask which agent fits a task.",
+      "ko": "학습 랩(키 l)을 열어 패턴을 학습시키고, 손실을 지켜보고, 작업에 맞는 에이전트를 물어보세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:245 text"
+      ]
+    },
+    {
+      "key": "It improves as outcomes are recorded: what worked and what did not.",
+      "ko": "결과(통한 것과 안 통한 것)가 기록될수록 좋아집니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:246 text"
+      ]
+    },
+    {
+      "key": "The pipeline is RETRIEVE, JUDGE, DISTILL, CONSOLIDATE. EWC++ stops it forgetting old lessons.",
+      "ko": "파이프라인은 RETRIEVE, JUDGE, DISTILL, CONSOLIDATE 로 이루어집니다. EWC++ 가 예전 교훈을 잊지 않게 합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:248 tips"
+      ]
+    },
+    {
+      "key": "Use memory",
+      "ko": "메모리 사용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:254 title"
+      ]
+    },
+    {
+      "key": "store things once, find them by meaning later",
+      "ko": "한 번 저장하고 나중에 의미로 찾기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:256 summary"
+      ]
+    },
+    {
+      "key": "See what is stored: entries, size, oldest and newest.",
+      "ko": "저장된 내용(항목 수, 크기, 가장 오래된 것과 최신 것)을 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:258 text"
+      ]
+    },
+    {
+      "key": "Check AgentDB is healthy and which controllers are on.",
+      "ko": "AgentDB가 정상인지, 어떤 컨트롤러가 켜져 있는지 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:259 text"
+      ]
+    },
+    {
+      "key": "Open the Memory Lab (key 9). Search by meaning, not exact words.",
+      "ko": "메모리 랩(키 9)을 여세요. 정확한 단어가 아니라 의미로 검색하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:260 text"
+      ]
+    },
+    {
+      "key": "Store a note with a key; delete it any time. Deletes ask first.",
+      "ko": "키와 함께 메모를 저장하세요. 언제든 삭제할 수 있으며 삭제는 먼저 확인을 요청합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:261 text"
+      ]
+    },
+    {
+      "key": "Search matches by meaning, so it finds related entries even when the words differ.",
+      "ko": "검색은 의미로 일치시키므로 단어가 달라도 관련 항목을 찾습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:263 tips"
+      ]
+    },
+    {
+      "key": "work with ruvector directly: stores, queries, the shared brain",
+      "ko": "ruvector를 직접 다루기: 저장소, 쿼리, 공유 브레인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:271 summary"
+      ]
+    },
+    {
+      "key": "Open the Vector Lab (key v).",
+      "ko": "벡터 랩(키 v)을 여세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:273 text"
+      ]
+    },
+    {
+      "key": "Browse the RVF stores and run a query against one.",
+      "ko": "RVF 저장소를 둘러보고 하나에 쿼리를 실행하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:274 text"
+      ]
+    },
+    {
+      "key": "Try rvlite for SQL, Cypher or SPARQL over a local file.",
+      "ko": "로컬 파일에 SQL, Cypher, SPARQL을 쓰려면 rvlite를 써 보세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:275 text"
+      ]
+    },
+    {
+      "key": "Anything that shares to the shared brain asks first.",
+      "ko": "공유 브레인에 공유하는 작업은 먼저 확인을 요청합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:276 text"
+      ]
+    },
+    {
+      "key": "Check your harness",
+      "ko": "하네스 점검",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:283 title",
+        "plugins/ruflo-console/hooks/views/steps.ts:73 title"
+      ]
+    },
+    {
+      "key": "how ready the project is for agents, and what to fix first",
+      "ko": "프로젝트가 에이전트에 얼마나 준비되었는지, 무엇부터 고쳐야 하는지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:285 summary"
+      ]
+    },
+    {
+      "key": "Score the harness: five readiness axes and the cost per run.",
+      "ko": "하네스에 점수를 매기세요. 준비도 다섯 축과 실행당 비용입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:287 text"
+      ]
+    },
+    {
+      "key": "Scan the MCP surface for security findings, by severity.",
+      "ko": "MCP 노출 범위를 스캔해 보안 지적을 심각도별로 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:288 text"
+      ]
+    },
+    {
+      "key": "See the audit trend: the newest audit against the one before.",
+      "ko": "감사 추이를 확인하세요. 최신 감사를 직전 감사와 비교합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:289 text"
+      ]
+    },
+    {
+      "key": "Open MetaHarness (key 8) for the lab that runs every verb.",
+      "ko": "모든 동사를 실행하는 랩인 MetaHarness(키 8)를 여세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:290 text"
+      ]
+    },
+    {
+      "key": "Self-evolution (governed)",
+      "ko": "자가 진화 (통제됨)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:297 title"
+      ]
+    },
+    {
+      "key": "Open Self-Evolution (key t).",
+      "ko": "자가 진화(키 t)를 여세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:301 text"
+      ]
+    },
+    {
+      "key": "Read the receipts: each evaluated candidate, with its evidence.",
+      "ko": "영수증을 읽으세요. 평가된 후보마다 증거가 붙어 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:302 text"
+      ]
+    },
+    {
+      "key": "Check the policy gate: what is allowed and what is not.",
+      "ko": "정책 게이트를 확인하세요. 무엇이 허용되고 무엇이 허용되지 않는지 나옵니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:303 text"
+      ]
+    },
+    {
+      "key": "Promote only what you trust, and only with a confirm. It cannot promote itself.",
+      "ko": "신뢰하는 것만, 그리고 확인을 거쳐서만 승격하세요. 스스로 승격할 수는 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:304 text"
+      ]
+    },
+    {
+      "key": "The ledger and the witness make every change traceable.",
+      "ko": "원장과 위트니스가 모든 변경을 추적할 수 있게 합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-topics-core.ts:306 tips"
+      ]
+    }
+  ],
+  "obsolete": []
+}

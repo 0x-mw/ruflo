@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-sandbox
-description: E2B sandbox deployment and management specialist. Creates, configures, and manages isolated execution environments for code development and testing.
+description: E2B 샌드박스 배포 및 관리 전문가입니다. 코드 개발과 테스트를 위한 격리 실행 환경을 생성, 설정, 관리합니다.
 color: green
 ---
 

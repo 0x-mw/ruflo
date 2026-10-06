@@ -1,0 +1,74 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/advisor.ts",
+  "entries": [
+    {
+      "key": "Opt into the co-pilot advisor tip (ADR-316)",
+      "ko": "코파일럿 어드바이저 팁에 동의합니다 (ADR-316)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:35 description"
+      ]
+    },
+    {
+      "key": "Skip the confirmation prompt",
+      "ko": "확인 프롬프트를 건너뜁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:37 description",
+        "src/commands/announcements.ts:128 description",
+        "src/commands/announcements.ts:239 description"
+      ]
+    },
+    {
+      "key": "Revoke advisor-tip consent and stop generating new tips",
+      "ko": "어드바이저 팁 동의를 철회하고 새 팁 생성을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:61 description"
+      ]
+    },
+    {
+      "key": "Show advisor-tip consent state and the current cached tip",
+      "ko": "어드바이저 팁 동의 상태와 현재 캐시된 팁을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:72 description"
+      ]
+    },
+    {
+      "key": "Fable co-pilot advisor tip in the statusline insight ticker (ADR-316)",
+      "ko": "상태 표시줄 인사이트 티커의 Fable 코파일럿 어드바이저 팁 (ADR-316)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:89 description"
+      ]
+    },
+    {
+      "key": "Opt into the co-pilot advisor tip",
+      "ko": "코파일럿 어드바이저 팁에 동의",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:92 description"
+      ]
+    },
+    {
+      "key": "Show consent state + current cached tip",
+      "ko": "동의 상태와 현재 캐시된 팁 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:93 description"
+      ]
+    },
+    {
+      "key": "Revoke consent and stop generating tips",
+      "ko": "동의를 철회하고 팁 생성 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/advisor.ts:94 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

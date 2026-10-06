@@ -1,0 +1,283 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/views/pane.tsx",
+  "entries": [
+    {
+      "key": "+{0} more agents (select with ◀ ▶)",
+      "ko": "+에이전트 {0}개 더 (◀ ▶ 로 선택)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:88 jsx"
+      ]
+    },
+    {
+      "key": "read",
+      "ko": "읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:105 jsx"
+      ]
+    },
+    {
+      "key": "write",
+      "ko": "쓰기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:107 jsx"
+      ]
+    },
+    {
+      "key": "No agents yet.",
+      "ko": "아직 에이전트가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:118 jsx"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} claim · {3} calls",
+      "ko": "{0} · {1} · 클레임 {2}개 · 호출 {3}회",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:123 const"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} claims · {3} calls",
+      "ko": "{0} · {1} · 클레임 {2}개 · 호출 {3}회",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:123 const"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} claims",
+      "ko": "{0} · {1} · 클레임 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:123 const"
+      ]
+    },
+    {
+      "key": "logs",
+      "ko": "로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:135 jsx",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:346 jsx"
+      ]
+    },
+    {
+      "key": "activity",
+      "ko": "활동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:135 jsx",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:346 jsx"
+      ]
+    },
+    {
+      "key": "hand off here",
+      "ko": "여기로 인계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:138 jsx"
+      ]
+    },
+    {
+      "key": "confirm",
+      "ko": "확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:157 jsx"
+      ]
+    },
+    {
+      "key": "cancel",
+      "ko": "취소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:158 jsx"
+      ]
+    },
+    {
+      "key": "seen on disk",
+      "ko": "디스크에서 확인됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:176 const"
+      ]
+    },
+    {
+      "key": "exited 0 but the disk does not show it",
+      "ko": "종료 코드 0이지만 디스크에 반영되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:176 const"
+      ]
+    },
+    {
+      "key": "pending {0} · claimed {1} · done {2} · failed {3}",
+      "ko": "대기 중 {0} · 클레임됨 {1} · 완료 {2} · 실패 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:185 const"
+      ]
+    },
+    {
+      "key": "pending {0} · claimed {1} · done {2}",
+      "ko": "대기 중 {0} · 클레임됨 {1} · 완료 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:185 const"
+      ]
+    },
+    {
+      "key": "Tasks",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:188 rule()",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:198 rule()"
+      ]
+    },
+    {
+      "key": "No tasks on disk.",
+      "ko": "디스크에 작업이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:188 jsx"
+      ]
+    },
+    {
+      "key": "task",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:205 jsx"
+      ]
+    },
+    {
+      "key": "task ▶",
+      "ko": "작업 ▶",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:206 jsx"
+      ]
+    },
+    {
+      "key": "offer for stealing",
+      "ko": "가로채기 허용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:207 jsx"
+      ]
+    },
+    {
+      "key": "Consensus",
+      "ko": "합의",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:228 rule()"
+      ]
+    },
+    {
+      "key": "{0} ({1}) for {2} · against {3}",
+      "ko": "{0} ({1}) 찬성 {2} · 반대 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:230 clip()"
+      ]
+    },
+    {
+      "key": "vote yes",
+      "ko": "찬성 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:237 jsx"
+      ]
+    },
+    {
+      "key": "vote no",
+      "ko": "반대 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:238 jsx"
+      ]
+    },
+    {
+      "key": "as —",
+      "ko": "투표자 —",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:239 clip()"
+      ]
+    },
+    {
+      "key": "close",
+      "ko": "닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:262 jsx"
+      ]
+    },
+    {
+      "key": "hide",
+      "ko": "숨김",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:276 jsx"
+      ]
+    },
+    {
+      "key": "put in prompt",
+      "ko": "프롬프트에 넣기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:298 jsx"
+      ]
+    },
+    {
+      "key": "No ruflo swarm on disk in this folder.",
+      "ko": "이 폴더의 디스크에 ruflo 스웜이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:313 jsx"
+      ]
+    },
+    {
+      "key": "tasks {0} pending · {1} claimed · {2} done",
+      "ko": "작업: 대기 중 {0} · 클레임됨 {1} · 완료 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:340 clip()"
+      ]
+    },
+    {
+      "key": "ruOS hosts",
+      "ko": "ruOS 호스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:383 rule()"
+      ]
+    },
+    {
+      "key": "Topology",
+      "ko": "토폴로지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:384 rule()"
+      ]
+    },
+    {
+      "key": "not on disk: {0}",
+      "ko": "디스크에 없음: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:387 clip()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: cost-session
-description: Per-message cost breakdown within a single session. The drill-down companion to cost-anomaly — when an outlier session is flagged, this surfaces the specific expensive messages so operators can see whether the cost came from output tokens, cache writes, or model escalations.
+description: 단일 세션 내 메시지별 비용 내역. cost-anomaly의 드릴다운 짝 기능 — 이상치 세션이 표시되면, 비용이 출력 토큰, 캐시 쓰기, 모델 상향 중 어디서 나왔는지 운영자가 볼 수 있도록 비싼 메시지를 구체적으로 드러냅니다.
 argument-hint: "[--session-id <id>] [--top 20] [--since <iso-ts>] [--format table|json]"
 allowed-tools: Bash
 ---

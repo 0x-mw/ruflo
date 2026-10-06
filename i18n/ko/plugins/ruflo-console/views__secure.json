@@ -1,0 +1,248 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/secure.ts",
+  "entries": [
+    {
+      "key": "$0 local read, runs at once · wr writes a file · net reaches the network: each of these asks, its cost on the confirm row",
+      "ko": "$0 로컬 읽기, 즉시 실행 · wr 파일 쓰기 · net 네트워크 접근: 이들은 각각 먼저 확인하며 비용은 확인 행에 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:21 const"
+      ]
+    },
+    {
+      "key": "← type text above first",
+      "ko": "← 먼저 위에 텍스트를 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:38 children"
+      ]
+    },
+    {
+      "key": "✦ send result to Claude",
+      "ko": "✦ 결과를 Claude에게",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:53 button()"
+      ]
+    },
+    {
+      "key": "Explain this result, then tell me what to fix, run or change next, with the exact ruflo command or setting.",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:53 ask()"
+      ]
+    },
+    {
+      "key": "quoted as data, secrets removed; asks first",
+      "ko": "데이터로 인용하며 비밀 값은 제거됩니다. 먼저 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:54 text()"
+      ]
+    },
+    {
+      "key": "Triage these security findings. Read the newest report in .claude/security-scans/ yourself (the counts here are only a summary), group the findings by root cause, separate real defects from false positives, and propose a fix for each real one with the exact change. Do not edit any file until I approve.",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:62 const"
+      ]
+    },
+    {
+      "key": "✦ send findings to Claude",
+      "ko": "✦ 발견을 Claude에게",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:69 button()"
+      ]
+    },
+    {
+      "key": "the counts go as quoted data; Claude reads the report itself and edits nothing until you approve",
+      "ko": "건수는 인용 데이터로 전달되며, Claude가 보고서를 직접 읽고 승인 전에는 아무것도 수정하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:70 text()"
+      ]
+    },
+    {
+      "key": "a scan, a channel/plan check or a paste check fills this meter with its findings by severity",
+      "ko": "스캔, 채널/계획 점검 또는 붙여넣기 점검을 하면 심각도별 발견이 이 미터에 채워집니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:130 text()"
+      ]
+    },
+    {
+      "key": "paste a prompt, a message or a plan: Enter checks it locally (it is passed as one argv value)",
+      "ko": "프롬프트, 메시지 또는 계획을 붙여넣으세요. Enter로 로컬에서 점검합니다 (argv 값 하나로 전달됨)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:171 placeholder"
+      ]
+    },
+    {
+      "key": "check",
+      "ko": "점검",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:173 submitLabel"
+      ]
+    },
+    {
+      "key": "this surface has no text field: /ruflo run aid-check <text> checks text headless",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다: /ruflo run aid-check <text> 로 텍스트를 헤드리스로 점검합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:186 text()"
+      ]
+    },
+    {
+      "key": "run takes the text in the field; policy-eval takes an action type (deploy, tool:Bash) and asks first",
+      "ko": "run은 입력란의 텍스트를 사용하고, policy-eval은 동작 유형(deploy, tool:Bash)을 받아 먼저 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:190 text()"
+      ]
+    },
+    {
+      "key": "$0  component:",
+      "ko": "$0  구성 요소:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:207 children"
+      ]
+    },
+    {
+      "key": "a component runs at once and locally; the full doctor asks first (its version check asks npm)",
+      "ko": "구성 요소는 로컬에서 즉시 실행되고, 전체 닥터는 먼저 확인합니다 (버전 확인은 npm에 요청)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:212 text()"
+      ]
+    },
+    {
+      "key": "VALIDATE",
+      "ko": "VALIDATE",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:252 naRow()"
+      ]
+    },
+    {
+      "key": "no `security validate` in the CLI: the check text field above is the input check",
+      "ko": "CLI에는 `security validate`가 없습니다: 위의 점검 텍스트 입력란이 입력 점검입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:252 naRow()"
+      ]
+    },
+    {
+      "key": "no `security report` in the CLI: a scan writes .claude/security-scans/<scan>.json",
+      "ko": "CLI에는 `security report`가 없습니다: 스캔 결과는 .claude/security-scans/<scan>.json에 기록됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:253 naRow()"
+      ]
+    },
+    {
+      "key": "Findings",
+      "ko": "발견",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:263 section()"
+      ]
+    },
+    {
+      "key": "none measured yet",
+      "ko": "아직 측정되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:264 section()"
+      ]
+    },
+    {
+      "key": "Check text",
+      "ko": "텍스트 점검",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:271 section()"
+      ]
+    },
+    {
+      "key": "type or paste text, then run a check",
+      "ko": "텍스트를 입력하거나 붙여넣은 뒤 점검을 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:271 section()"
+      ]
+    },
+    {
+      "key": "{0} characters ready",
+      "ko": "{0}자 준비됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:271 section()"
+      ]
+    },
+    {
+      "key": "Scan & inspect",
+      "ko": "스캔 및 검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:272 section()"
+      ]
+    },
+    {
+      "key": "{0} scanning",
+      "ko": "{0} 스캔 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:272 section()"
+      ]
+    },
+    {
+      "key": "scans are local; npm audit is the network",
+      "ko": "스캔은 로컬에서 실행되며, npm audit는 네트워크를 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:272 section()"
+      ]
+    },
+    {
+      "key": "Doctor",
+      "ko": "닥터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:276 section()"
+      ]
+    },
+    {
+      "key": "not run yet",
+      "ko": "아직 실행하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:277 section()"
+      ]
+    },
+    {
+      "key": "{0} · {1} failed · {2} warnings · {3}",
+      "ko": "{0} · 실패 {1} · 경고 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:277 section()"
+      ]
+    },
+    {
+      "key": "secure",
+      "ko": "보안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/secure.ts:284 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

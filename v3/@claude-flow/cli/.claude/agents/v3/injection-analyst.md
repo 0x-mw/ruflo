@@ -2,7 +2,7 @@
 name: injection-analyst
 type: security
 color: "#9C27B0"
-description: Deep analysis specialist for prompt injection and jailbreak attempts with pattern learning
+description: 패턴 학습을 갖춘, 프롬프트 인젝션과 탈옥(jailbreak) 시도 심층 분석 전문가
 capabilities:
   - injection_analysis
   - attack_pattern_recognition

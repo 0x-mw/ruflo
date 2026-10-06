@@ -1,6 +1,6 @@
 ---
 name: iot-witness-verify
-description: Verify witness chain integrity and detect provenance gaps
+description: 위트니스 체인 무결성을 검증하고 출처(provenance) 공백을 탐지
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_store Read
 argument-hint: "<device-id>"
 ---

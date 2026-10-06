@@ -1,0 +1,241 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/task.ts",
+  "entries": [
+    {
+      "key": "Create a new task",
+      "ko": "새 작업을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:72 description"
+      ]
+    },
+    {
+      "key": "Task type",
+      "ko": "작업 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:77 description"
+      ]
+    },
+    {
+      "key": "Assign to agent(s)",
+      "ko": "에이전트에게 할당합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:98 description"
+      ]
+    },
+    {
+      "key": "Parent task ID",
+      "ko": "상위 작업 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:108 description"
+      ]
+    },
+    {
+      "key": "Comma-separated task IDs that must complete first",
+      "ko": "먼저 완료되어야 하는 작업 ID (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:113 description"
+      ]
+    },
+    {
+      "key": "List tasks",
+      "ko": "작업 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:232 description"
+      ]
+    },
+    {
+      "key": "Filter by task type",
+      "ko": "작업 유형으로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:244 description"
+      ]
+    },
+    {
+      "key": "Filter by priority",
+      "ko": "우선순위로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:250 description"
+      ]
+    },
+    {
+      "key": "Filter by assigned agent",
+      "ko": "할당된 에이전트로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:256 description"
+      ]
+    },
+    {
+      "key": "Maximum number of tasks to show",
+      "ko": "표시할 최대 작업 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:262 description"
+      ]
+    },
+    {
+      "key": "Show all tasks including completed",
+      "ko": "완료된 작업을 포함해 모든 작업을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:268 description"
+      ]
+    },
+    {
+      "key": "Get task status and details",
+      "ko": "작업 상태와 세부 정보를 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:354 description"
+      ]
+    },
+    {
+      "key": "Task ID",
+      "ko": "작업 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:358 description"
+      ]
+    },
+    {
+      "key": "Include execution logs",
+      "ko": "실행 로그를 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:363 description"
+      ]
+    },
+    {
+      "key": "Cancel a running task",
+      "ko": "실행 중인 작업을 취소합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:519 description"
+      ]
+    },
+    {
+      "key": "Force cancel without confirmation",
+      "ko": "확인 없이 강제로 취소합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:524 description"
+      ]
+    },
+    {
+      "key": "Cancellation reason",
+      "ko": "취소 사유",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:531 description"
+      ]
+    },
+    {
+      "key": "Assign a task to agent(s)",
+      "ko": "작업을 에이전트에게 할당합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:591 description"
+      ]
+    },
+    {
+      "key": "Agent ID(s) to assign (comma-separated)",
+      "ko": "할당할 에이전트 ID (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:596 description"
+      ]
+    },
+    {
+      "key": "Remove current assignment",
+      "ko": "현재 할당을 제거합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:601 description"
+      ]
+    },
+    {
+      "key": "Retry a failed task",
+      "ko": "실패한 작업을 재시도합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:709 description",
+        "src/commands/task.ts:772 description"
+      ]
+    },
+    {
+      "key": "Reset task state completely",
+      "ko": "작업 상태를 완전히 재설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:713 description"
+      ]
+    },
+    {
+      "key": "Task management commands",
+      "ko": "작업 관리 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:762 description"
+      ]
+    },
+    {
+      "key": "Create a task",
+      "ko": "작업을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:766 description"
+      ]
+    },
+    {
+      "key": "List pending/running tasks",
+      "ko": "대기 중/실행 중인 작업 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:767 description"
+      ]
+    },
+    {
+      "key": "List all tasks",
+      "ko": "모든 작업 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:768 description"
+      ]
+    },
+    {
+      "key": "Get task details",
+      "ko": "작업 세부 정보를 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:769 description"
+      ]
+    },
+    {
+      "key": "Cancel a task",
+      "ko": "작업을 취소합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:770 description"
+      ]
+    },
+    {
+      "key": "Assign task to agent",
+      "ko": "작업을 에이전트에게 할당합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:771 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

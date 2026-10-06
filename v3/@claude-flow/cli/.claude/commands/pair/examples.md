@@ -1,3 +1,7 @@
+---
+description: 페어 프로그래밍 예시
+---
+
 # Pair Programming Examples
 
 Real-world examples and scenarios for pair programming sessions.

@@ -1,6 +1,6 @@
 ---
 name: agentic-payments
-description: Multi-agent payment authorization specialist for autonomous AI commerce with cryptographic verification and Byzantine consensus
+description: 암호화 검증과 Byzantine 합의를 갖춘, 자율 AI 상거래용 멀티 에이전트 결제 승인 전문가
 color: purple
 ---
 

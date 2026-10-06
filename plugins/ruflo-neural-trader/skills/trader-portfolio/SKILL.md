@@ -1,6 +1,6 @@
 ---
 name: trader-portfolio
-description: Optimize portfolio allocation using npx neural-trader mean-variance engine with risk constraints and rebalancing plan
+description: 위험 제약과 리밸런싱 계획을 갖춘 npx neural-trader 평균-분산 엔진으로 포트폴리오 배분을 최적화
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__neural_predict mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search
 argument-hint: "[--risk-target NUMBER]"
 ---

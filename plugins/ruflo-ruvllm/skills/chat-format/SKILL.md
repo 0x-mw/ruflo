@@ -1,6 +1,6 @@
 ---
 name: chat-format
-description: Format prompts for different LLM providers with chat templates and HNSW-powered context retrieval
+description: 채팅 템플릿과 HNSW 기반 컨텍스트 검색으로 서로 다른 LLM 프로바이더에 맞게 프롬프트를 포맷
 argument-hint: "<prompt> [--provider anthropic|openai|gemini|ollama|cohere]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__ruvllm_chat_format mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_create mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_add mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_route mcp__plugin_ruflo-core_ruflo__ruvllm_status Bash
 ---

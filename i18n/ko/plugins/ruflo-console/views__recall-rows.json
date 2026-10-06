@@ -1,0 +1,296 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/recall-rows.ts",
+  "entries": [
+    {
+      "key": "{0}. {1}  (no longer in the ranked file)",
+      "ko": "{0}. {1}  (순위 파일에 더 이상 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:33 text()"
+      ]
+    },
+    {
+      "key": "{0}. rank {1}  {2}  [{3} · conf n/a · pr {4} · {5}x]",
+      "ko": "{0}. 순위 {1}  {2}  [{3} · conf n/a · pr {4} · {5}x]",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:33 text()"
+      ]
+    },
+    {
+      "key": "{0}. rank {1}  {2}  [{3} · conf {4} · pr {5} · {6}x]",
+      "ko": "{0}. 순위 {1}  {2}  [{3} · conf {4} · pr {5} · {6}x]",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:33 text()"
+      ]
+    },
+    {
+      "key": "{0}. rank {1}  {2}  [n/a · conf n/a · pr {3} · {4}x]",
+      "ko": "{0}. 순위 {1}  {2}  [n/a · conf n/a · pr {3} · {4}x]",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:33 text()"
+      ]
+    },
+    {
+      "key": "{0}. rank {1}  {2}  [n/a · conf {3} · pr {4} · {5}x]",
+      "ko": "{0}. 순위 {1}  {2}  [n/a · conf {3} · pr {4} · {5}x]",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:33 text()"
+      ]
+    },
+    {
+      "key": "the recall probe is not wired into this snapshot",
+      "ko": "이 스냅샷에는 회상 프로브가 연결되어 있지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:47 const"
+      ]
+    },
+    {
+      "key": ".claude-flow/data/ranked-context.json is {0}",
+      "ko": ".claude-flow/data/ranked-context.json 상태: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:47 const"
+      ]
+    },
+    {
+      "key": "nothing to recall from: {0}. The hook builds that file when it consolidates (hooks intelligence).",
+      "ko": "회상할 대상이 없습니다: {0}. 훅이 통합할 때 그 파일을 만듭니다 (hooks intelligence).",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:49 text()"
+      ]
+    },
+    {
+      "key": "ranked file",
+      "ko": "순위 파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:52 kv()"
+      ]
+    },
+    {
+      "key": "{0} entries · ranked {1}",
+      "ko": "항목 {0}개 · 순위 매김 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:52 kv()"
+      ]
+    },
+    {
+      "key": "The hook logs neither the prompt nor its scores. Recorded: each session’s last recall (ids). Below that, a re-score.",
+      "ko": "훅은 프롬프트도 점수도 기록하지 않습니다. 기록되는 것은 세션별 마지막 회상(ID)뿐이며, 그 아래에 다시 계산한 점수가 표시됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:53 text()"
+      ]
+    },
+    {
+      "key": "no session file has a lastMatchedPatterns: no recall is recorded yet",
+      "ko": "lastMatchedPatterns가 있는 세션 파일이 없습니다: 기록된 회상이 아직 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:55 text()"
+      ]
+    },
+    {
+      "key": "recorded recall · session {0} · {1} pattern",
+      "ko": "기록된 회상 · 세션 {0} · 패턴 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:58 text()"
+      ]
+    },
+    {
+      "key": "recorded recall · session {0} · {1} pattern (ids only)",
+      "ko": "기록된 회상 · 세션 {0} · 패턴 {1}개 (ID만)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:58 text()"
+      ]
+    },
+    {
+      "key": "recorded recall · session {0} · {1} patterns",
+      "ko": "기록된 회상 · 세션 {0} · 패턴 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:58 text()"
+      ]
+    },
+    {
+      "key": "recorded recall · session {0} · {1} patterns (ids only)",
+      "ko": "기록된 회상 · 세션 {0} · 패턴 {1}개 (ID만)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:58 text()"
+      ]
+    },
+    {
+      "key": "explain a prompt (what would surface now: recomputed, not what surfaced then)",
+      "ko": "프롬프트 설명 (지금 떠오를 항목: 그때 떠오른 것이 아니라 다시 계산한 결과)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:62 text()"
+      ]
+    },
+    {
+      "key": "no past prompts: routing-outcomes.json holds no task text; type one below",
+      "ko": "지난 프롬프트가 없습니다: routing-outcomes.json에 작업 텍스트가 없습니다. 아래에 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:64 text()"
+      ]
+    },
+    {
+      "key": "no past prompts: .claude-flow/routing-outcomes.json is {0}; type one below",
+      "ko": "지난 프롬프트가 없습니다: .claude-flow/routing-outcomes.json 상태: {0}. 아래에 입력하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:64 text()"
+      ]
+    },
+    {
+      "key": "prompt",
+      "ko": "프롬프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:70 label"
+      ]
+    },
+    {
+      "key": "any prompt, to see which memories it would pull",
+      "ko": "아무 프롬프트나 입력하면 어떤 메모리를 불러올지 볼 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:70 placeholder"
+      ]
+    },
+    {
+      "key": "explain",
+      "ko": "설명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:70 submitLabel"
+      ]
+    },
+    {
+      "key": "nothing clears the hook’s 0.05 threshold: it would surface no memory for this prompt",
+      "ko": "훅의 임계값 0.05를 넘는 항목이 없습니다: 이 프롬프트에는 메모리가 떠오르지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:79 text()"
+      ]
+    },
+    {
+      "key": "{0}. {1} {2} = 0.6·match {3} + 0.4·pr {4}  {5}",
+      "ko": "{0}. {1} {2} = 0.6·match {3} + 0.4·pr {4}  {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:82 text()"
+      ]
+    },
+    {
+      "key": "clear",
+      "ko": "지우기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:84 button()"
+      ]
+    },
+    {
+      "key": "no pattern table: .claude-flow/neural/models.json is {0}",
+      "ko": "패턴 표가 없습니다: .claude-flow/neural/models.json 상태: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:99 text()"
+      ]
+    },
+    {
+      "key": "no pattern table: .claude-flow/neural/models.json is not read (the recall probe is not wired)",
+      "ko": "패턴 표가 없습니다: .claude-flow/neural/models.json을 읽지 않았습니다 (회상 프로브가 연결되지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:99 text()"
+      ]
+    },
+    {
+      "key": "columns: only what models.json records (age, uses, verdict at creation); rank and last-used time are not recorded there",
+      "ko": "열: models.json에 기록된 것(경과 시간, 사용 횟수, 생성 시 판정)만 표시합니다. 순위와 마지막 사용 시각은 거기에 기록되지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:104 text()"
+      ]
+    },
+    {
+      "key": "▲ promote",
+      "ko": "▲ 승격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:118 label"
+      ]
+    },
+    {
+      "key": "prune",
+      "ko": "정리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:119 label"
+      ]
+    },
+    {
+      "key": "+ {0} more in the file",
+      "ko": "+ 파일에 {0}개 더 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:125 text()"
+      ]
+    },
+    {
+      "key": "the neural store holds no patterns",
+      "ko": "뉴럴 저장소에 패턴이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:126 text()"
+      ]
+    },
+    {
+      "key": "{0} of {1} never used",
+      "ko": "{1}개 중 {0}개 미사용",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:128 text()"
+      ]
+    },
+    {
+      "key": "prune the never-used",
+      "ko": "미사용 패턴 정리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:128 label"
+      ]
+    },
+    {
+      "key": "the ReasoningBank (neural/patterns.json) is over the 2 MB read cap: it is not read, and no per-pattern verb acts on it",
+      "ko": "ReasoningBank(neural/patterns.json)가 읽기 한도 2 MB를 넘어 읽지 않으며, 패턴별 동작도 적용되지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:130 text()"
+      ]
+    },
+    {
+      "key": "the ReasoningBank (neural/patterns.json) is a separate store; no per-pattern verb acts on it",
+      "ko": "ReasoningBank(neural/patterns.json)는 별도 저장소이며, 패턴별 동작이 적용되지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/recall-rows.ts:130 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

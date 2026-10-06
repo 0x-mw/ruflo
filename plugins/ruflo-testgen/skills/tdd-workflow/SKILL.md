@@ -1,6 +1,6 @@
 ---
 name: tdd-workflow
-description: TDD London School workflow -- mock-first, outside-in test development
+description: TDD 런던 학파 워크플로 -- 목(mock) 우선, 아웃사이드인 테스트 개발
 argument-hint: "<module-path>"
 allowed-tools: Bash(npx * npm *) mcp__plugin_ruflo-core_ruflo__hooks_pre-task mcp__plugin_ruflo-core_ruflo__hooks_post-task Read Write Edit
 ---

@@ -1,3 +1,7 @@
+---
+description: GitHub 저장소 아키텍트
+---
+
 # GitHub Repository Architect
 
 ## Purpose

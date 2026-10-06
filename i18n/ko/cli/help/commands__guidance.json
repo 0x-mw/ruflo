@@ -1,0 +1,429 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/guidance.ts",
+  "entries": [
+    {
+      "key": "Compile CLAUDE.md into a policy bundle (constitution + shards + manifest)",
+      "ko": "CLAUDE.md를 정책 번들(헌장 + 샤드 + 매니페스트)로 컴파일합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:24 description"
+      ]
+    },
+    {
+      "key": "Root guidance file path",
+      "ko": "루트 가이던스 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:26 description",
+        "src/commands/guidance.ts:123 description",
+        "src/commands/guidance.ts:368 description"
+      ]
+    },
+    {
+      "key": "Local guidance overlay file path",
+      "ko": "로컬 가이던스 오버레이 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:27 description"
+      ]
+    },
+    {
+      "key": "Output directory for compiled bundle",
+      "ko": "컴파일된 번들의 출력 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:28 description"
+      ]
+    },
+    {
+      "key": "Export bounded advisory guidance for the native mod",
+      "ko": "네이티브 mod용 제한된 권고 가이던스를 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:29 description"
+      ]
+    },
+    {
+      "key": "Immutable source commit SHA for the mod projection",
+      "ko": "mod 프로젝션의 불변 소스 커밋 SHA",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:30 description"
+      ]
+    },
+    {
+      "key": "Compile default CLAUDE.md",
+      "ko": "기본 CLAUDE.md 컴파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:34 description"
+      ]
+    },
+    {
+      "key": "Compile with local overlay",
+      "ko": "로컬 오버레이와 함께 컴파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:35 description"
+      ]
+    },
+    {
+      "key": "Output compiled bundle as JSON",
+      "ko": "컴파일된 번들을 JSON으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:36 description"
+      ]
+    },
+    {
+      "key": "Retrieve task-relevant guidance shards for a given task description",
+      "ko": "주어진 작업 설명에 관련된 가이던스 샤드를 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:120 description"
+      ]
+    },
+    {
+      "key": "Task description",
+      "ko": "작업 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:122 description",
+        "src/commands/hive-mind.ts:957 description",
+        "src/commands/hooks.ts:751 description"
+      ]
+    },
+    {
+      "key": "Local overlay file path",
+      "ko": "로컬 오버레이 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:124 description",
+        "src/commands/guidance.ts:369 description"
+      ]
+    },
+    {
+      "key": "Maximum number of shards to retrieve",
+      "ko": "조회할 최대 샤드 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:125 description"
+      ]
+    },
+    {
+      "key": "Override detected intent",
+      "ko": "감지된 의도 재정의",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:126 description"
+      ]
+    },
+    {
+      "key": "Retrieve guidance for a security task",
+      "ko": "보안 작업용 가이던스 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:130 description"
+      ]
+    },
+    {
+      "key": "Retrieve top 3 shards for testing",
+      "ko": "테스트용 상위 3개 샤드 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:131 description"
+      ]
+    },
+    {
+      "key": "Evaluate enforcement gates against a command or content",
+      "ko": "명령 또는 콘텐츠에 대해 강제 게이트를 평가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:217 description"
+      ]
+    },
+    {
+      "key": "Command to evaluate",
+      "ko": "평가할 명령",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:219 description"
+      ]
+    },
+    {
+      "key": "Content to check for secrets",
+      "ko": "시크릿 여부를 확인할 콘텐츠",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:220 description"
+      ]
+    },
+    {
+      "key": "Tool name to check against allowlist",
+      "ko": "허용 목록과 대조할 도구 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:221 description"
+      ]
+    },
+    {
+      "key": "Check if a command is destructive",
+      "ko": "명령이 파괴적인지 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:225 description"
+      ]
+    },
+    {
+      "key": "Check content for secrets",
+      "ko": "콘텐츠의 시크릿 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:226 description"
+      ]
+    },
+    {
+      "key": "Show guidance control plane status and metrics",
+      "ko": "가이던스 컨트롤 플레인 상태와 메트릭을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:309 description"
+      ]
+    },
+    {
+      "key": "Analyze and optimize a CLAUDE.md file for structure, coverage, and enforceability",
+      "ko": "CLAUDE.md 파일의 구조, 커버리지, 강제 가능성을 분석하고 최적화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:366 description"
+      ]
+    },
+    {
+      "key": "Apply optimizations to the file",
+      "ko": "파일에 최적화 적용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:370 description"
+      ]
+    },
+    {
+      "key": "Target context size: compact, standard, full",
+      "ko": "목표 컨텍스트 크기: compact, standard, full",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:371 description"
+      ]
+    },
+    {
+      "key": "Target composite score (0-100)",
+      "ko": "목표 종합 점수 (0-100)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:372 description"
+      ]
+    },
+    {
+      "key": "Maximum optimization iterations",
+      "ko": "최대 최적화 반복 횟수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:373 description"
+      ]
+    },
+    {
+      "key": "Analyze current CLAUDE.md and show suggestions",
+      "ko": "현재 CLAUDE.md를 분석하고 제안 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:377 description"
+      ]
+    },
+    {
+      "key": "Apply optimizations to CLAUDE.md",
+      "ko": "CLAUDE.md에 최적화 적용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:378 description"
+      ]
+    },
+    {
+      "key": "Optimize for compact context window",
+      "ko": "컴팩트 컨텍스트 창에 맞게 최적화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:379 description"
+      ]
+    },
+    {
+      "key": "Optimize until score reaches 95",
+      "ko": "점수가 95에 도달할 때까지 최적화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:380 description"
+      ]
+    },
+    {
+      "key": "Run A/B behavioral comparison between two CLAUDE.md versions",
+      "ko": "두 CLAUDE.md 버전 간 A/B 행동 비교를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:484 description"
+      ]
+    },
+    {
+      "key": "Path to Config A (baseline CLAUDE.md). Defaults to no guidance.",
+      "ko": "설정 A(기준 CLAUDE.md) 경로. 기본값은 가이던스 없음입니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:486 description"
+      ]
+    },
+    {
+      "key": "Path to Config B (candidate CLAUDE.md)",
+      "ko": "설정 B(후보 CLAUDE.md) 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:487 description"
+      ]
+    },
+    {
+      "key": "Path to custom task JSON file (array of ABTask objects)",
+      "ko": "사용자 지정 작업 JSON 파일 경로 (ABTask 객체 배열)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:488 description"
+      ]
+    },
+    {
+      "key": "Working directory for test execution",
+      "ko": "테스트 실행용 작업 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:489 description"
+      ]
+    },
+    {
+      "key": "Run default A/B test (no guidance vs ./CLAUDE.md)",
+      "ko": "기본 A/B 테스트 실행 (가이던스 없음 vs ./CLAUDE.md)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:493 description"
+      ]
+    },
+    {
+      "key": "Compare two CLAUDE.md versions",
+      "ko": "두 CLAUDE.md 버전 비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:494 description"
+      ]
+    },
+    {
+      "key": "Run with custom test tasks",
+      "ko": "사용자 지정 테스트 작업으로 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:495 description"
+      ]
+    },
+    {
+      "key": "Output full report as JSON",
+      "ko": "전체 보고서를 JSON으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:496 description"
+      ]
+    },
+    {
+      "key": "Review unverified native mod observations without training or promotion",
+      "ko": "학습이나 승격 없이 검증되지 않은 네이티브 mod 관찰 결과를 리뷰합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:604 description"
+      ]
+    },
+    {
+      "key": "Observation directory",
+      "ko": "관찰 결과 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:606 description"
+      ]
+    },
+    {
+      "key": "Filter to one exported guidance bundle digest",
+      "ko": "내보낸 가이던스 번들 다이제스트 하나로 필터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:607 description"
+      ]
+    },
+    {
+      "key": "Output candidate report as JSON",
+      "ko": "후보 보고서를 JSON으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:608 description"
+      ]
+    },
+    {
+      "key": "Guidance Control Plane - compile, retrieve, enforce, and optimize guidance rules",
+      "ko": "가이던스 컨트롤 플레인 - 가이던스 규칙을 컴파일, 조회, 강제, 최적화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:627 description"
+      ]
+    },
+    {
+      "key": "Compile CLAUDE.md into policy bundle",
+      "ko": "CLAUDE.md를 정책 번들로 컴파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:640 description"
+      ]
+    },
+    {
+      "key": "Retrieve relevant guidance",
+      "ko": "관련 가이던스 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:641 description"
+      ]
+    },
+    {
+      "key": "Check enforcement gates",
+      "ko": "강제 게이트 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:642 description"
+      ]
+    },
+    {
+      "key": "Show control plane status",
+      "ko": "컨트롤 플레인 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:643 description"
+      ]
+    },
+    {
+      "key": "Analyze and optimize CLAUDE.md",
+      "ko": "CLAUDE.md 분석 및 최적화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:644 description"
+      ]
+    },
+    {
+      "key": "Run A/B behavioral comparison",
+      "ko": "A/B 행동 비교 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/guidance.ts:645 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

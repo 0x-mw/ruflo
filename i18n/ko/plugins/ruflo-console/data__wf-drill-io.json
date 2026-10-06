@@ -1,0 +1,115 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-drill-io.ts",
+  "entries": [
+    {
+      "key": "that path is outside Claude Code's projects folder, so it is not read",
+      "ko": "해당 경로는 Claude Code의 projects 폴더 밖이므로 읽지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:155 why"
+      ]
+    },
+    {
+      "key": "{0} MB: only the last {1} KB is read",
+      "ko": "{0}MB: 마지막 {1}KB만 읽습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:172 why"
+      ]
+    },
+    {
+      "key": "a large file: only the last {0} KB is read",
+      "ko": "큰 파일: 마지막 {0}KB만 읽습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:172 why"
+      ]
+    },
+    {
+      "key": "{0} MB is over the {1} MB read cap and this host cannot read a tail",
+      "ko": "{0}MB는 읽기 상한 {1}MB를 넘고 이 호스트는 끝부분만 읽을 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:173 why"
+      ]
+    },
+    {
+      "key": "the file is gone",
+      "ko": "파일이 없어졌습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:173 why"
+      ]
+    },
+    {
+      "key": "the host refused the read",
+      "ko": "호스트가 읽기를 거부했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:173 why",
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:248 why"
+      ]
+    },
+    {
+      "key": "the read was refused",
+      "ko": "읽기가 거부되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:175 why",
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:254 why",
+        "plugins/ruflo-console/hooks/data/wf-worktrees.ts:288 expr"
+      ]
+    },
+    {
+      "key": "the run folder is outside Claude Code's projects folder, so its journal is not read",
+      "ko": "실행 폴더가 Claude Code의 projects 폴더 밖이므로 저널을 읽지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:237 why"
+      ]
+    },
+    {
+      "key": "the journal is over the {0} MB read cap",
+      "ko": "저널이 읽기 상한 {0}MB를 넘었습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:248 why"
+      ]
+    },
+    {
+      "key": "the journal is gone",
+      "ko": "저널이 없어졌습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:248 why"
+      ]
+    },
+    {
+      "key": "the worktree is not inside this project's folder, so it is not read",
+      "ko": "워크트리가 이 프로젝트 폴더 안에 있지 않으므로 읽지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:300 why"
+      ]
+    },
+    {
+      "key": "the worktree folder no longer exists",
+      "ko": "워크트리 폴더가 더 이상 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:312 why"
+      ]
+    },
+    {
+      "key": "the probe was refused",
+      "ko": "점검이 거부되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:323 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

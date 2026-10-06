@@ -1,0 +1,309 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-send.ts",
+  "entries": [
+    {
+      "key": "to Claude in this session, as a visible prompt: \"{0}\"",
+      "ko": "이 세션의 Claude에게 보이는 프롬프트로 전송: \"{0}\"",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:72 done()"
+      ]
+    },
+    {
+      "key": "Starts a turn of this session (billed as any turn is). Its answer is the next turn in the transcript.",
+      "ko": "이 세션의 턴을 하나 시작합니다 (다른 턴과 똑같이 과금됩니다). 응답은 대화 기록의 다음 턴으로 나타납니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:72 done()"
+      ]
+    },
+    {
+      "key": "The engine queues it for the agent's next tool round; delivery and effect are not verified.",
+      "ko": "엔진이 에이전트의 다음 도구 라운드에 전달되도록 대기열에 넣습니다. 전달과 효과는 검증되지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:74 done()"
+      ]
+    },
+    {
+      "key": "there is no hive-mind to write to",
+      "ko": "쓸 하이브마인드(hive-mind)가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:76 why"
+      ]
+    },
+    {
+      "key": "a proposal is not possible now (raft allows one open proposal per term) or the text cannot be passed",
+      "ko": "지금은 제안할 수 없거나(raft는 임기당 열린 제안을 하나만 허용합니다) 텍스트를 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:81 why"
+      ]
+    },
+    {
+      "key": "Opens a proposal the workers vote on. A pass binds no agent to do anything.",
+      "ko": "워커가 투표하는 제안을 엽니다. 통과해도 어떤 에이전트에게도 실행 의무가 생기지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:81 done()"
+      ]
+    },
+    {
+      "key": "Appended to the hive shared memory (the last 100). No worker is interrupted.",
+      "ko": "하이브 공유 메모리(최근 100개)에 추가했습니다. 방해받는 워커는 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:84 done()"
+      ]
+    },
+    {
+      "key": "start with the task id, then the note: @task task-12 what the agent should know",
+      "ko": "작업 ID로 시작하고 이어서 메모를 쓰세요: @task task-12 에이전트가 알아야 할 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:89 why"
+      ]
+    },
+    {
+      "key": "Writes the task record's result; an agent sees it only when it reads the task.",
+      "ko": "작업 기록의 결과에 씁니다. 에이전트는 작업을 읽을 때만 이를 봅니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:89 done()"
+      ]
+    },
+    {
+      "key": "Appended to the room log; peers get it where the room syncs.",
+      "ko": "룸 로그에 추가했습니다. 룸이 동기화되는 곳의 피어가 받습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:92 done()"
+      ]
+    },
+    {
+      "key": "Status",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:94 msgType",
+        "plugins/ruflo-console/hooks/data/wf-send.ts:177 msgType",
+        "plugins/ruflo-console/hooks/views/anatole.ts:147 subhead()"
+      ]
+    },
+    {
+      "key": "Encrypted under the channel key. Signed with your key. Never put secrets in it.",
+      "ko": "채널 키로 암호화되며 내 키로 서명됩니다. 비밀 정보는 넣지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:94 done()"
+      ]
+    },
+    {
+      "key": "PUBLIC: anyone on the relay can read it. Signed with your key. Never put secrets in it.",
+      "ko": "공개: 릴레이의 누구나 읽을 수 있습니다. 내 키로 서명됩니다. 비밀 정보는 넣지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:94 done()"
+      ]
+    },
+    {
+      "key": "Runs `claude -p` on {0} with that machine's own permissions and files; the helper blocks destructive prompts and audits the dispatch.",
+      "ko": "{0}에서 해당 머신 자체의 권한과 파일로 `claude -p`를 실행합니다. 헬퍼가 파괴적인 프롬프트를 차단하고 전달을 감사합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:96 done()"
+      ]
+    },
+    {
+      "key": "codex exec -s read-only --skip-git-repo-check --ephemeral -C {0} -  (prompt on stdin: {1})",
+      "ko": "codex exec -s read-only --skip-git-repo-check --ephemeral -C {0} -  (stdin의 프롬프트: {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:98 done()"
+      ]
+    },
+    {
+      "key": "Read-only sandbox: Codex can read files here and cannot write them. Its answer is the final message.",
+      "ko": "읽기 전용 샌드박스: Codex는 여기 파일을 읽을 수 있지만 쓸 수 없습니다. 응답은 마지막 메시지입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:98 done()"
+      ]
+    },
+    {
+      "key": "no endpoint named {0}",
+      "ko": "이름이 {0}인 엔드포인트가 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:102 why",
+        "plugins/ruflo-console/hooks/data/wf-send.ts:192 err()"
+      ]
+    },
+    {
+      "key": "POST {0}/chat/completions",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:102 done()"
+      ]
+    },
+    {
+      "key": "POST {0}/chat/completions  Authorization: Bearer ‹from ${1}›",
+      "ko": "POST {0}/chat/completions  Authorization: Bearer ‹from ${1}›",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:102 done()"
+      ]
+    },
+    {
+      "key": "The key is read from the named variable, sent in one header and never shown or stored. Metered by the provider.",
+      "ko": "키는 지정한 변수에서 읽어 헤더 하나로 보내며, 표시하거나 저장하지 않습니다. 프로바이더가 사용량을 계량합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:102 done()"
+      ]
+    },
+    {
+      "key": "the endpoint did not answer with JSON",
+      "ko": "엔드포인트가 JSON으로 응답하지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:121 err()"
+      ]
+    },
+    {
+      "key": "the endpoint refused: {0}",
+      "ko": "엔드포인트가 거부했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:126 err()"
+      ]
+    },
+    {
+      "key": "the endpoint answered without a message",
+      "ko": "엔드포인트가 메시지 없이 응답했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:126 err()"
+      ]
+    },
+    {
+      "key": "submitted as a visible prompt; the answer is the next turn in the transcript",
+      "ko": "보이는 프롬프트로 제출했습니다. 응답은 대화 기록의 다음 턴으로 나타납니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:148 text"
+      ]
+    },
+    {
+      "key": "the engine's permission check refused SendMessage: nothing was sent",
+      "ko": "엔진의 권한 확인이 SendMessage를 거부했습니다: 전송된 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:150 err()"
+      ]
+    },
+    {
+      "key": "{0} (queued is not delivered)",
+      "ko": "{0} (대기열에 들어간 것이 전달된 것은 아닙니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:154 text"
+      ]
+    },
+    {
+      "key": "a proposal is not possible now",
+      "ko": "지금은 제안할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:160 err()"
+      ]
+    },
+    {
+      "key": "the proposal was opened; the workers vote on it",
+      "ko": "제안을 열었습니다. 워커가 투표합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:164 text"
+      ]
+    },
+    {
+      "key": "no task id",
+      "ko": "작업 ID가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:172 err()"
+      ]
+    },
+    {
+      "key": "the peer answered nothing (exit {0})",
+      "ko": "피어가 응답하지 않았습니다 (종료 코드 {0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:181 err()"
+      ]
+    },
+    {
+      "key": "codex answered nothing (exit {0})",
+      "ko": "codex가 응답하지 않았습니다 (종료 코드 {0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:187 err()"
+      ]
+    },
+    {
+      "key": "this host cannot send an HTTP request",
+      "ko": "이 호스트는 HTTP 요청을 보낼 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:193 err()"
+      ]
+    },
+    {
+      "key": "${0} is not set in the environment Claude Code runs in: nothing was sent",
+      "ko": "Claude Code가 실행되는 환경에 ${0}이(가) 설정되어 있지 않습니다: 전송된 것이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:202 err()"
+      ]
+    },
+    {
+      "key": "POST",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:205 method"
+      ]
+    },
+    {
+      "key": "Bearer {0}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:205 authorization"
+      ]
+    },
+    {
+      "key": "refused",
+      "ko": "거부됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:205 text",
+        "plugins/ruflo-console/hooks/skills.ts:150 detail",
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:32 kv()"
+      ]
+    },
+    {
+      "key": "the request failed: {0}",
+      "ko": "요청에 실패했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-send.ts:207 err()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

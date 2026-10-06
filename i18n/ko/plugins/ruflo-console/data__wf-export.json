@@ -1,0 +1,184 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-export.ts",
+  "entries": [
+    {
+      "key": "| Agent | State | Model | Tokens | Time | Tools |",
+      "ko": "| 에이전트(Agent) | 상태(State) | 모델(Model) | 토큰(Tokens) | 시간(Time) | 도구(Tools) |",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:26 return"
+      ]
+    },
+    {
+      "key": "# Workflow run: {0}",
+      "ko": "# 워크플로 실행: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:35 const"
+      ]
+    },
+    {
+      "key": "Exported {0} from the ruflo console. Read-only: nothing here changes the run.",
+      "ko": "{0}에 ruflo 콘솔에서 내보냈습니다. 읽기 전용: 여기 있는 어떤 것도 실행을 바꾸지 않습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:37 const"
+      ]
+    },
+    {
+      "key": "| Started | {0} |",
+      "ko": "| 시작 | {0} |",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:43 const"
+      ]
+    },
+    {
+      "key": "| Duration | {0} |",
+      "ko": "| 소요 시간 | {0} |",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:44 const"
+      ]
+    },
+    {
+      "key": "| Agents | {0} ({1} done, {2} failed, {3} running) |",
+      "ko": "| 에이전트 | {0} (완료 {1}, 실패 {2}, 실행 중 {3}) |",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:45 const"
+      ]
+    },
+    {
+      "key": "| Tokens | n/a |",
+      "ko": "| 토큰(Tokens) | 해당 없음(n/a) |",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:46 const"
+      ]
+    },
+    {
+      "key": "| Tokens | {0} (the sum of each agent's context at its latest request) |",
+      "ko": "| 토큰 | {0} (각 에이전트의 최근 요청 시점 컨텍스트 합계) |",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:46 const"
+      ]
+    },
+    {
+      "key": "| Cost | n/a (no cost source for this run) |",
+      "ko": "| 비용(Cost) | 해당 없음(n/a) (이 실행에는 비용 출처가 없음) |",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:47 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} done, {2} failed",
+      "ko": "{0}/{1} 완료, {2} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:52 push()"
+      ]
+    },
+    {
+      "key": "{0}/{1} done, {2} failed · {3}",
+      "ko": "{0}/{1} 완료, {2} 실패 · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:52 push()"
+      ]
+    },
+    {
+      "key": "No agent started in this phase.",
+      "ko": "이 단계에서 시작된 에이전트가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:53 push()"
+      ]
+    },
+    {
+      "key": "## Results",
+      "ko": "## 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:59 push()"
+      ]
+    },
+    {
+      "key": "Results are the first 160 characters of what each agent reported, with anything shaped like a key or token masked.",
+      "ko": "결과는 각 에이전트가 보고한 내용의 처음 160자이며, 키나 토큰처럼 보이는 것은 가립니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:63 push()"
+      ]
+    },
+    {
+      "key": "## Provenance",
+      "ko": "## 출처(provenance)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:66 push()"
+      ]
+    },
+    {
+      "key": "Figures are from the run record Claude Code wrote when the run finished.",
+      "ko": "수치는 실행이 끝났을 때 Claude Code가 기록한 실행 기록에서 가져왔습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:66 push()"
+      ]
+    },
+    {
+      "key": "Figures are derived from the journal and transcripts of a run that has no finished record; they can still move.",
+      "ko": "수치는 완료된 기록이 없는 실행의 저널과 대화 기록에서 도출한 것이며, 아직 바뀔 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:66 push()"
+      ]
+    },
+    {
+      "key": "Cut here: this summary is capped at {0} kB. The run itself is unchanged.",
+      "ko": "여기서 잘림: 이 요약은 {0}kB로 제한됩니다. 실행 자체는 바뀌지 않았습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:79 return"
+      ]
+    },
+    {
+      "key": "write run summary: {0}",
+      "ko": "실행 요약 쓰기: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:85 label"
+      ]
+    },
+    {
+      "key": "a new file at {0}",
+      "ko": "{0}에 새 파일",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:89 expect"
+      ]
+    },
+    {
+      "key": "write {0} ({1} bytes; never overwrites)",
+      "ko": "{0} 쓰기 ({1}바이트, 덮어쓰지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:91 shows"
+      ]
+    },
+    {
+      "key": "writes one new markdown file inside the project or the scratchpad; a file that already exists makes it fail instead of replacing it (a missing folder is made with GNU install, which macOS lacks)",
+      "ko": "프로젝트 또는 스크래치패드 안에 새 마크다운 파일 하나를 씁니다. 이미 있는 파일은 교체하지 않고 실패합니다 (없는 폴더는 GNU install로 만들며, macOS에는 없습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-export.ts:92 note"
+      ]
+    }
+  ],
+  "obsolete": []
+}

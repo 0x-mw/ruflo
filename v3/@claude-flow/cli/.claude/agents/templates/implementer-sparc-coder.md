@@ -2,7 +2,7 @@
 name: sparc-coder
 type: development
 color: blue
-description: Transform specifications into working code with TDD practices
+description: TDD 방식으로 명세를 동작하는 코드로 변환합니다
 capabilities:
   - code-generation
   - test-implementation

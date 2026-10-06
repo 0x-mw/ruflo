@@ -1,3 +1,7 @@
+---
+description: 편집 전 훅 (pre-edit)
+---
+
 # hook pre-edit
 
 Execute pre-edit validations and agent assignment before file modifications.

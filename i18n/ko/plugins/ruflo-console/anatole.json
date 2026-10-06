@@ -1,0 +1,503 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/anatole.ts",
+  "entries": [
+    {
+      "key": "secret leaves the machine",
+      "ko": "비밀 값이 컴퓨터 밖으로 유출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:18 title"
+      ]
+    },
+    {
+      "key": "LLM02",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:18 owasp",
+        "plugins/ruflo-console/hooks/anatole.ts:21 owasp",
+        "plugins/ruflo-console/hooks/anatole.ts:25 owasp"
+      ]
+    },
+    {
+      "key": "remote code piped into an interpreter",
+      "ko": "원격 코드를 인터프리터로 파이프 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:19 title"
+      ]
+    },
+    {
+      "key": "LLM06",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:19 owasp",
+        "plugins/ruflo-console/hooks/anatole.ts:20 owasp",
+        "plugins/ruflo-console/hooks/anatole.ts:23 owasp"
+      ]
+    },
+    {
+      "key": "persistence or self-modification",
+      "ko": "지속성 확보 또는 자기 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:20 title"
+      ]
+    },
+    {
+      "key": "credential store read, then egress",
+      "ko": "자격 증명 저장소 읽기 후 외부 전송",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:21 title"
+      ]
+    },
+    {
+      "key": "risky action in a tainted turn",
+      "ko": "오염된 턴의 위험한 행동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:22 title"
+      ]
+    },
+    {
+      "key": "LLM01",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:22 owasp",
+        "plugins/ruflo-console/hooks/anatole.ts:27 owasp"
+      ]
+    },
+    {
+      "key": "destructive operation",
+      "ko": "파괴적 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:23 title"
+      ]
+    },
+    {
+      "key": "unbounded consumption",
+      "ko": "무제한 소비",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:24 title"
+      ]
+    },
+    {
+      "key": "LLM10",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:24 owasp"
+      ]
+    },
+    {
+      "key": "unseen host carrying a body",
+      "ko": "처음 보는 호스트로 본문 전송",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:25 title"
+      ]
+    },
+    {
+      "key": "files outside the known areas",
+      "ko": "알려진 영역 밖의 파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:26 title"
+      ]
+    },
+    {
+      "key": "instruction override in an agent message",
+      "ko": "에이전트 메시지 속 지시 덮어쓰기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:27 title"
+      ]
+    },
+    {
+      "key": "agent spawn that escalates",
+      "ko": "권한을 높이는 에이전트 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:28 title"
+      ]
+    },
+    {
+      "key": "unfamiliar dependency source",
+      "ko": "낯선 의존성 출처",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:29 title"
+      ]
+    },
+    {
+      "key": "LLM03",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:29 owasp"
+      ]
+    },
+    {
+      "key": "system prompt sent to a network sink",
+      "ko": "시스템 프롬프트를 네트워크로 전송",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:30 title"
+      ]
+    },
+    {
+      "key": "LLM07",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:30 owasp"
+      ]
+    },
+    {
+      "key": "Project Anatole is not installed: claude plugin install ruflo-protector@ruflo",
+      "ko": "Project Anatole이 설치되지 않았습니다: claude plugin install ruflo-protector@ruflo",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:44 const"
+      ]
+    },
+    {
+      "key": "reported by the mod, unauthenticated: any process can write these files",
+      "ko": "mod가 보고한 값이며 인증되지 않았습니다: 어떤 프로세스든 이 파일에 쓸 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:45 const"
+      ]
+    },
+    {
+      "key": "open the console first",
+      "ko": "먼저 콘솔을 여세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:56 const",
+        "plugins/ruflo-console/hooks/ask-palette.ts:9 const"
+      ]
+    },
+    {
+      "key": "the mod returned no text: its answer is in the conversation; this page reads the files it wrote",
+      "ko": "mod가 텍스트를 반환하지 않았습니다. 답은 대화에 있고, 이 화면은 mod가 쓴 파일을 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:84 const"
+      ]
+    },
+    {
+      "key": "sent /protector {0}; the page reads the result from the mod's files",
+      "ko": "/protector {0}을 보냈습니다. 화면은 mod의 파일에서 결과를 읽습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:87 detail"
+      ]
+    },
+    {
+      "key": "/protector {0} did not run: {1}",
+      "ko": "/protector {0}을 실행하지 못했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:91 lines",
+        "plugins/ruflo-console/hooks/anatole.ts:92 detail"
+      ]
+    },
+    {
+      "key": "is the ruflo-protector plugin loaded? /reload-plugins",
+      "ko": "ruflo-protector 플러그인이 로드되었나요? /reload-plugins",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:91 lines"
+      ]
+    },
+    {
+      "key": "Effect: the mod changes only its own settings under .claude-flow/protector-mod/; tool calls are not touched until enforce",
+      "ko": "효과: mod는 .claude-flow/protector-mod/ 아래의 자체 설정만 바꿉니다. enforce 전에는 도구 호출을 건드리지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:101 const"
+      ]
+    },
+    {
+      "key": "Anatole run: scan the Claude configuration",
+      "ko": "Anatole 실행: Claude 설정 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:103 label"
+      ]
+    },
+    {
+      "key": "findings in the Result panel",
+      "ko": "결과 패널의 발견 사항",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:103 expect"
+      ]
+    },
+    {
+      "key": "Effect: reads the event ring and this project’s Claude configuration; changes nothing",
+      "ko": "효과: 이벤트 링과 이 프로젝트의 Claude 설정을 읽으며 아무것도 바꾸지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:103 note"
+      ]
+    },
+    {
+      "key": "Anatole replay: what would have fired",
+      "ko": "Anatole 리플레이: 발동했을 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:104 label"
+      ]
+    },
+    {
+      "key": "alerts that would have fired, in the Result panel",
+      "ko": "결과 패널에 표시되는, 발동했을 경고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:104 expect"
+      ]
+    },
+    {
+      "key": "Effect: re-scores the recorded events against the current rules; changes nothing",
+      "ko": "효과: 기록된 이벤트를 현재 규칙으로 다시 평가하며 아무것도 바꾸지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:104 note"
+      ]
+    },
+    {
+      "key": "Anatole mode enforce: rules marked block will deny tool calls",
+      "ko": "Anatole 모드 enforce: block으로 표시된 규칙이 도구 호출을 거부합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:110 label"
+      ]
+    },
+    {
+      "key": "Anatole mode {0}",
+      "ko": "Anatole 모드 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:110 label"
+      ]
+    },
+    {
+      "key": "mode {0} in status.json",
+      "ko": "status.json의 모드 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:112 expect"
+      ]
+    },
+    {
+      "key": "Effect: a tool call that matches a rule set to block is denied; replay first to check for false positives",
+      "ko": "효과: block으로 설정된 규칙에 일치하는 도구 호출은 거부됩니다. 오탐을 확인하려면 먼저 리플레이하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:115 note"
+      ]
+    },
+    {
+      "key": "Anatole rule {0} {1}",
+      "ko": "Anatole 규칙 {0} {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:119 label"
+      ]
+    },
+    {
+      "key": "{0} {1} in rules.json",
+      "ko": "rules.json의 {0} {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:119 expect"
+      ]
+    },
+    {
+      "key": "Anatole ack {0}: mark it a false positive",
+      "ko": "Anatole ack {0}: 오탐으로 표시",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:120 label"
+      ]
+    },
+    {
+      "key": "the alert acked",
+      "ko": "확인(ack) 처리된 경고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:120 expect"
+      ]
+    },
+    {
+      "key": "Effect: marks the alert a false positive and teaches the baseline; the rule’s acked share rises",
+      "ko": "효과: 경고를 오탐으로 표시하고 기준선을 학습시킵니다. 규칙의 ack 비율이 올라갑니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:120 note"
+      ]
+    },
+    {
+      "key": "Anatole allow {0}",
+      "ko": "Anatole 허용 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:121 label"
+      ]
+    },
+    {
+      "key": "the fingerprint in allow.json",
+      "ko": "allow.json의 핑거프린트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:121 expect"
+      ]
+    },
+    {
+      "key": "Effect: this shape no longer raises an alert; a hard rule class is never allowed by it",
+      "ko": "효과: 이 형태는 더 이상 경고를 발생시키지 않습니다. 강제 규칙 계열은 이것으로 허용되지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:121 note"
+      ]
+    },
+    {
+      "key": "Anatole reset-baseline: forget what is normal",
+      "ko": "Anatole reset-baseline: 정상 기준 잊기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:122 label"
+      ]
+    },
+    {
+      "key": "baseline back to learning",
+      "ko": "기준선이 다시 학습 상태로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:122 expect"
+      ]
+    },
+    {
+      "key": "Effect: deletes the learned baseline; anomaly alerts stop until it matures again",
+      "ko": "효과: 학습한 기준선을 삭제합니다. 다시 충분히 학습될 때까지 이상 경고가 중단됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:122 note"
+      ]
+    },
+    {
+      "key": "Project Anatole: run (scan the Claude configuration)",
+      "ko": "Project Anatole: 실행 (Claude 설정 스캔)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:140 spec()"
+      ]
+    },
+    {
+      "key": "Project Anatole: replay (what would have fired)",
+      "ko": "Project Anatole: 리플레이 (발동했을 항목)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:141 spec()"
+      ]
+    },
+    {
+      "key": "anatole-mode off|learn|notify|enforce: set the Project Anatole mode (asks first)",
+      "ko": "anatole-mode off|learn|notify|enforce: Project Anatole 모드를 설정합니다 (먼저 묻습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:142 text()"
+      ]
+    },
+    {
+      "key": "type anatole-mode off, learn, notify or enforce",
+      "ko": "anatole-mode 뒤에 off, learn, notify, enforce 중 하나를 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:142 text()"
+      ]
+    },
+    {
+      "key": "anatole-rule PR-### off|notify|block: set one rule’s mode (asks first)",
+      "ko": "anatole-rule PR-### off|notify|block: 규칙 하나의 모드를 설정합니다 (먼저 묻습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:143 text()"
+      ]
+    },
+    {
+      "key": "type anatole-rule PR-002 off, notify or block",
+      "ko": "anatole-rule PR-002 뒤에 off, notify, block 중 하나를 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:143 text()"
+      ]
+    },
+    {
+      "key": "anatole-ack <alert id>: mark an alert a false positive (asks first)",
+      "ko": "anatole-ack <alert id>: 경고를 오탐으로 표시합니다 (먼저 묻습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:144 text()"
+      ]
+    },
+    {
+      "key": "type anatole-ack and an alert id",
+      "ko": "anatole-ack 뒤에 경고 ID를 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:144 text()"
+      ]
+    },
+    {
+      "key": "anatole-allow <12-hex fingerprint>: allow a shape without an alert (asks first)",
+      "ko": "anatole-allow <12-hex fingerprint>: 경고 없이 해당 형태를 허용합니다 (먼저 묻습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:145 text()"
+      ]
+    },
+    {
+      "key": "type anatole-allow and a 12-character fingerprint",
+      "ko": "anatole-allow 뒤에 12자 핑거프린트를 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:145 text()"
+      ]
+    },
+    {
+      "key": "Project Anatole: reset the baseline (asks first; deletes what it learned)",
+      "ko": "Project Anatole: 기준선 재설정 (먼저 묻습니다. 학습한 내용을 삭제합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:146 spec()"
+      ]
+    },
+    {
+      "key": "ack alert {0} ({1})",
+      "ko": "경고 {0} 확인(ack) ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:148 spec()"
+      ]
+    },
+    {
+      "key": "allow fingerprint {0} ({1})",
+      "ko": "핑거프린트 {0} 허용 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/anatole.ts:148 spec()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

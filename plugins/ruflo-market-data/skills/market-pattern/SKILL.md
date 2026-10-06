@@ -1,6 +1,6 @@
 ---
 name: market-pattern
-description: Detect and classify candlestick patterns from ingested OHLCV data
+description: 수집된 OHLCV 데이터에서 캔들스틱 패턴을 탐지하고 분류
 argument-hint: "<symbol> [--period 1D]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_route Bash
 ---

@@ -1,6 +1,6 @@
 ---
 name: ruflo-sparc
-description: SPARC methodology commands — initialize, track, advance, and report on Specification-Pseudocode-Architecture-Refinement-Completion workflows
+description: SPARC 방법론 명령 — Specification-Pseudocode-Architecture-Refinement-Completion 워크플로를 초기화, 추적, 진행, 보고
 ---
 $ARGUMENTS
 

@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/model/members.ts",
+  "entries": [
+    {
+      "key": "queen",
+      "ko": "퀸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/members.ts:192 label"
+      ]
+    },
+    {
+      "key": "term ?",
+      "ko": "임기 ?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/members.ts:192 word"
+      ]
+    },
+    {
+      "key": "subagent …{0}",
+      "ko": "서브에이전트 …{0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/members.ts:231 label"
+      ]
+    },
+    {
+      "key": "turn running",
+      "ko": "턴 실행 중",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/members.ts:235 word"
+      ]
+    }
+  ],
+  "obsolete": []
+}

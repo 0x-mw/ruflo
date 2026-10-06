@@ -1,6 +1,6 @@
 ---
 name: code-review-swarm
-description: Deploy specialized AI agents to perform comprehensive, intelligent code reviews that go beyond traditional static analysis
+description: 기존 정적 분석을 넘어서는 종합적이고 지능적인 코드 리뷰를 수행하도록 전문 AI 에이전트를 배치합니다
 type: development
 color: blue
 capabilities:

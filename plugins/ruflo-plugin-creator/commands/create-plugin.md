@@ -1,6 +1,6 @@
 ---
 name: create-plugin
-description: Scaffold a new Claude Code plugin interactively
+description: 새 Claude Code 플러그인을 대화형으로 스캐폴딩
 ---
 
 Create a new Claude Code plugin:

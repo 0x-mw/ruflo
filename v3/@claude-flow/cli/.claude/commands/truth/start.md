@@ -1,3 +1,7 @@
+---
+description: 📊 진실 명령어
+---
+
 # 📊 Truth Command
 
 View truth scores and reliability metrics for your codebase and agent tasks.

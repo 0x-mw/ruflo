@@ -1,0 +1,289 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/workflows.ts",
+  "entries": [
+    {
+      "key": "{0} busy · {1} idle · {2} stopped · {3} failed",
+      "ko": "{0} 작업 중 · {1} 유휴 · {2} 중지됨 · {3} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:38 const"
+      ]
+    },
+    {
+      "key": "{0} running · {1} done · {2} failed",
+      "ko": "{0} 실행 중 · {1} 완료 · {2} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:38 const"
+      ]
+    },
+    {
+      "key": "{0} agents · {1} · {2}",
+      "ko": "에이전트 {0}개 · {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:45 text()"
+      ]
+    },
+    {
+      "key": "{0}   [ ] switch run",
+      "ko": "{0}   [ ] 실행 전환",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:46 text()"
+      ]
+    },
+    {
+      "key": "health / tasks",
+      "ko": "상태/작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:91 kv()"
+      ]
+    },
+    {
+      "key": "n/a · {0} tasks",
+      "ko": "해당 없음 · 작업 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:91 kv()"
+      ]
+    },
+    {
+      "key": "n/a · n/a tasks",
+      "ko": "해당 없음 · 작업 해당 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:91 kv()"
+      ]
+    },
+    {
+      "key": "{0}% · n/a tasks",
+      "ko": "{0}% · 작업 해당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:91 kv()"
+      ]
+    },
+    {
+      "key": "model / tokens",
+      "ko": "모델/토큰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:92 kv()"
+      ]
+    },
+    {
+      "key": "n/a (ruflo records neither per agent)",
+      "ko": "해당 없음 (ruflo는 에이전트별로 기록하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:92 kv()"
+      ]
+    },
+    {
+      "key": "Stop agent",
+      "ko": "에이전트 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:95 button()"
+      ]
+    },
+    {
+      "key": "Spawn another {0}",
+      "ko": "{0} 하나 더 생성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:96 button()"
+      ]
+    },
+    {
+      "key": "model",
+      "ko": "모델",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:103 kv()"
+      ]
+    },
+    {
+      "key": "tokens",
+      "ko": "토큰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:104 kv()"
+      ]
+    },
+    {
+      "key": "{0} context tokens of its latest request (tail of the transcript only: a floor)",
+      "ko": "최근 요청의 컨텍스트 토큰 {0} (대화 기록 끝부분만 계산: 하한)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:104 kv()"
+      ]
+    },
+    {
+      "key": "{0} context tokens of its latest request",
+      "ko": "최근 요청의 컨텍스트 토큰 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:104 kv()"
+      ]
+    },
+    {
+      "key": "elapsed",
+      "ko": "경과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "{0} · started {1}Z",
+      "ko": "{0} · 시작 {1}Z",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "worktree",
+      "ko": "워크트리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:106 kv()"
+      ]
+    },
+    {
+      "key": "yes",
+      "ko": "있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:106 kv()"
+      ]
+    },
+    {
+      "key": "result: {0}",
+      "ko": "결과: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:108 text()"
+      ]
+    },
+    {
+      "key": "transcript",
+      "ko": "대화 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:110 kv()",
+        "plugins/ruflo-console/hooks/wf-actions.ts:56 label"
+      ]
+    },
+    {
+      "key": "Open transcript",
+      "ko": "대화 기록 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:114 button()"
+      ]
+    },
+    {
+      "key": "{0} runs · j/k move · b/l column · d inspect",
+      "ko": "{0} 실행 · j/k 이동 · b/l 열 · d 검사",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:128 rule()"
+      ]
+    },
+    {
+      "key": "reading workflow runs…",
+      "ko": "워크플로 실행을 읽는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:130 text()"
+      ]
+    },
+    {
+      "key": "No Claude Code config directory is known here, so no workflow runs can be read.",
+      "ko": "Claude Code 설정 디렉터리를 알 수 없어 워크플로 실행을 읽을 수 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:135 text()"
+      ]
+    },
+    {
+      "key": "No workflow runs for this project under {0}, and no ruflo swarm yet.",
+      "ko": "{0} 아래에 이 프로젝트의 워크플로 실행이 없고 ruflo 스웜도 아직 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:135 text()"
+      ]
+    },
+    {
+      "key": "Claude Code writes a run folder when a Workflow script starts; ruflo agents appear once a swarm exists.",
+      "ko": "Claude Code는 Workflow 스크립트가 시작될 때 실행 폴더를 만들며, ruflo 에이전트는 스웜이 생기면 나타납니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:136 text()"
+      ]
+    },
+    {
+      "key": "This run has no agents yet.",
+      "ko": "이 실행에는 아직 에이전트가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:161 text()"
+      ]
+    },
+    {
+      "key": "+{0} more (j/k scrolls to them)",
+      "ko": "+{0}개 더 (j/k로 스크롤)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:172 text()"
+      ]
+    },
+    {
+      "key": "Figures are from the run record Claude Code wrote when it finished.",
+      "ko": "수치는 Claude Code가 끝날 때 기록한 실행 기록에서 가져왔습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:178 text()"
+      ]
+    },
+    {
+      "key": "Figures are derived from the journal and transcripts (read up to {0} each; {1} larger left unread, their tokens n/a); ≥ marks a floor.",
+      "ko": "수치는 저널과 대화 기록에서 계산했습니다 (각각 최대 {0}까지 읽음, 더 큰 {1}개는 읽지 않아 토큰 해당 없음). ≥는 하한을 뜻합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:178 text()"
+      ]
+    },
+    {
+      "key": "Figures are derived from the journal and transcripts (read up to {0} each); ≥ marks a floor.",
+      "ko": "수치는 저널과 대화 기록에서 계산했습니다 (각각 최대 {0}까지 읽음). ≥는 하한을 뜻합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:178 text()"
+      ]
+    },
+    {
+      "key": "+{0} older runs not shown",
+      "ko": "+이전 실행 {0}개는 표시하지 않음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:181 text()"
+      ]
+    },
+    {
+      "key": "{0} · d inspects the agent · u/i switches run",
+      "ko": "{0} · d로 에이전트 검사 · u/i로 실행 전환",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/workflows.ts:182 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

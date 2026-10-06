@@ -1,6 +1,6 @@
 ---
 name: "AgentDB Learning Plugins"
-description: "Create and train AI learning plugins with AgentDB's 9 reinforcement learning algorithms. Includes Decision Transformer, Q-Learning, SARSA, Actor-Critic, and more. Use when building self-learning agents, implementing RL, or optimizing agent behavior through experience."
+description: "AgentDB의 강화 학습 알고리즘 9종으로 AI 학습 플러그인을 만들고 학습시킵니다. Decision Transformer, Q-Learning, SARSA, Actor-Critic 등을 포함합니다. 자가 학습 에이전트(self-learning agents)를 만들거나, 강화 학습(RL)을 구현하거나, 경험을 통해 에이전트 동작을 최적화할 때 사용합니다."
 ---
 
 # AgentDB Learning Plugins

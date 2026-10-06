@@ -1,6 +1,6 @@
 ---
 name: adr-verify
-description: Read back adr-patterns + adr-edges namespaces, surface dangling refs / supersede cycles / status mismatches; exit 1 on cycles
+description: adr-patterns + adr-edges 네임스페이스를 다시 읽어 끊긴 참조 / 대체 순환 / 상태 불일치를 찾아냅니다. 순환이 있으면 exit 1
 argument-hint: ""
 allowed-tools: Bash mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_retrieve
 ---

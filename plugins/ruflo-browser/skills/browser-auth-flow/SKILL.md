@@ -1,6 +1,6 @@
 ---
 name: browser-auth-flow
-description: Probe a site's authentication flow for redirect leaks, missing CSRF, weak session cookies, and OAuth misconfiguration; produces an auth findings.md
+description: 사이트 인증 흐름에서 리다이렉트 누수, 누락된 CSRF, 취약한 세션 쿠키, OAuth 설정 오류를 점검하고, 인증 findings.md를 생성
 argument-hint: "<login-url> [--credentials <handle>] [--probes csrf,redirect,cookie,oauth]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__browser_fill mcp__plugin_ruflo-core_ruflo__browser_type mcp__plugin_ruflo-core_ruflo__browser_click mcp__plugin_ruflo-core_ruflo__browser_wait mcp__plugin_ruflo-core_ruflo__browser_eval mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__browser_get-url mcp__plugin_ruflo-core_ruflo__aidefence_has_pii mcp__plugin_ruflo-core_ruflo__aidefence_scan Bash Read Write
 ---

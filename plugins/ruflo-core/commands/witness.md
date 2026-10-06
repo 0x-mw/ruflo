@@ -1,6 +1,6 @@
 ---
 name: witness
-description: Manage and verify a cryptographically-signed fix manifest with temporal history (ADR-103)
+description: 시간 이력이 있는, 암호학적으로 서명된 수정 매니페스트를 관리하고 검증(ADR-103)
 argument-hint: "init|regen|verify|history|regressions [--manifest <path>] [--history <path>]"
 ---
 

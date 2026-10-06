@@ -1,6 +1,6 @@
 ---
 name: nested-queen-researcher
-description: Tier-2 recursive researcher — nested-researcher's role with HNSW pattern retrieval, AIDefence-gated web content, hive-mind consensus on which followups to pursue, and full trajectory recording
+description: "2티어 재귀 리서처 — HNSW 패턴 검색, AIDefence 검문을 거친 웹 콘텐츠, 후속 조사 선택에 대한 하이브마인드(hive-mind) 합의, 전체 궤적 기록을 갖춘 nested-researcher의 역할"
 model: sonnet
 tools:
   - Task

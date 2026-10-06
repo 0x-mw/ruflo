@@ -1,0 +1,104 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/research-section.ts",
+  "entries": [
+    {
+      "key": "{0} · {1} finding · {2}",
+      "ko": "{0} · 발견 {1}건 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:14 text()"
+      ]
+    },
+    {
+      "key": "{0} · {1} finding · {2} · unscreened",
+      "ko": "{0} · 발견 {1}건 · {2} · 미검사",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:14 text()"
+      ]
+    },
+    {
+      "key": "{0} · {1} findings · {2}",
+      "ko": "{0} · 발견 {1}건 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:14 text()"
+      ]
+    },
+    {
+      "key": "{0} · {1} findings · {2} · unscreened",
+      "ko": "{0} · 발견 {1}건 · {2} · 미검사",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:14 text()"
+      ]
+    },
+    {
+      "key": "High {0} · Medium {1} · Low {2} · spend {3}",
+      "ko": "높음 {0} · 중간 {1} · 낮음 {2} · 지출 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:15 text()"
+      ]
+    },
+    {
+      "key": "deep-researcher records",
+      "ko": "deep-researcher 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:23 rule()"
+      ]
+    },
+    {
+      "key": "newest {0} · local",
+      "ko": "최신 {0} · 로컬",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:23 rule()"
+      ]
+    },
+    {
+      "key": "n/a — {0} {1}; needs {2} or newer",
+      "ko": "n/a — {0} {1}; {2} 이상 필요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:29 text()"
+      ]
+    },
+    {
+      "key": "Plugin Catalog: {0}",
+      "ko": "플러그인 카탈로그: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:30 button()"
+      ]
+    },
+    {
+      "key": "records: {0}, {1}",
+      "ko": "기록: {0}, {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:37 text()"
+      ]
+    },
+    {
+      "key": "No research records yet.",
+      "ko": "조사 기록이 아직 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:40 text()"
+      ]
+    },
+    {
+      "key": "Read-only. Nothing is started here.",
+      "ko": "읽기 전용입니다. 여기서는 아무것도 시작하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-section.ts:42 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

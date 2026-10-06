@@ -1,3 +1,7 @@
+---
+description: 학습 명령어
+---
+
 # Training Commands
 
 Commands for training operations in Claude Flow.

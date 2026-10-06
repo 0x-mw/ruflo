@@ -1,0 +1,114 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-page.ts",
+  "entries": [
+    {
+      "key": "slot {0} failed: {1}",
+      "ko": "슬롯 {0} 실패: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:18 text()"
+      ]
+    },
+    {
+      "key": "◂ phases",
+      "ko": "◂ 단계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:37 button()"
+      ]
+    },
+    {
+      "key": "agents ▸",
+      "ko": "에이전트 ▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:38 button()"
+      ]
+    },
+    {
+      "key": "◂ run",
+      "ko": "◂ 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:39 button()"
+      ]
+    },
+    {
+      "key": "run ▸",
+      "ko": "실행 ▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:40 button()"
+      ]
+    },
+    {
+      "key": "Close inspector",
+      "ko": "검사기 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:41 button()"
+      ]
+    },
+    {
+      "key": "Inspect",
+      "ko": "검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:41 button()",
+        "plugins/ruflo-console/hooks/views/workflows.ts:83 rule()"
+      ]
+    },
+    {
+      "key": "tabs",
+      "ko": "탭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:77 text()"
+      ]
+    },
+    {
+      "key": "● detail",
+      "ko": "● 상세",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:77 button()"
+      ]
+    },
+    {
+      "key": "○ detail",
+      "ko": "○ 상세",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:77 button()"
+      ]
+    },
+    {
+      "key": "the last read failed ({0}): showing the read before it",
+      "ko": "마지막 읽기에 실패했습니다 ({0}). 그 이전에 읽은 내용을 표시합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:88 text()",
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:115 text()"
+      ]
+    },
+    {
+      "key": "read when this page opens, then on each refresh while it stays open",
+      "ko": "이 화면을 열 때 읽고, 열려 있는 동안 새로고침할 때마다 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:89 text()"
+      ]
+    },
+    {
+      "key": "read {0} · re-read on each refresh while this page is open, never while it is closed",
+      "ko": "{0}에 읽음 · 이 화면이 열려 있는 동안 새로고침할 때마다 다시 읽고, 닫혀 있으면 읽지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-page.ts:89 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

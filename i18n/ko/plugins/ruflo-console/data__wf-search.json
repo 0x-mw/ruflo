@@ -1,0 +1,77 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-search.ts",
+  "entries": [
+    {
+      "key": "Runs",
+      "ko": "실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:14 run",
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:14 runs"
+      ]
+    },
+    {
+      "key": "Phases",
+      "ko": "단계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:14 phase",
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:14 phases",
+        "plugins/ruflo-console/hooks/views/workflows.ts:150 rule()"
+      ]
+    },
+    {
+      "key": "Agents",
+      "ko": "에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:14 agent",
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:14 agents",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:20 label"
+      ]
+    },
+    {
+      "key": "Transcript text",
+      "ko": "대화 기록 텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:14 text"
+      ]
+    },
+    {
+      "key": "Mission tasks",
+      "ko": "미션 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:14 mission"
+      ]
+    },
+    {
+      "key": "workflow · {0} · {1} agents",
+      "ko": "워크플로 · {0} · 에이전트 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:78 detail"
+      ]
+    },
+    {
+      "key": "{0} · output of {1}",
+      "ko": "{0} · {1}의 출력",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:126 detail"
+      ]
+    },
+    {
+      "key": "{0} · {1} · on the Missions page",
+      "ko": "{0} · {1} · 미션 화면",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-search.ts:140 detail"
+      ]
+    }
+  ],
+  "obsolete": []
+}

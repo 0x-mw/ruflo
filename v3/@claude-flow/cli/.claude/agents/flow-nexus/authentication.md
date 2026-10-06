@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-auth
-description: Flow Nexus authentication and user management specialist. Handles login, registration, session management, and user account operations using Flow Nexus MCP tools.
+description: Flow Nexus 인증 및 사용자 관리 전문가입니다. Flow Nexus MCP 도구로 로그인, 등록, 세션 관리, 사용자 계정 작업을 처리합니다.
 color: blue
 ---
 

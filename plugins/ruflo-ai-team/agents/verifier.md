@@ -1,6 +1,6 @@
 ---
 name: verifier
-description: Independently checks RuFlo team results against acceptance criteria and evidence.
+description: RuFlo 팀 결과를 인수 기준과 증거에 비추어 독립적으로 확인합니다.
 model: sonnet
 ---
 

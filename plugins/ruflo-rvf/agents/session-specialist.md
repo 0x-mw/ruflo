@@ -1,6 +1,6 @@
 ---
 name: session-specialist
-description: Session persistence specialist for state management, memory transfer, and cross-conversation continuity
+description: 상태 관리, 메모리 전송, 대화 간 연속성을 담당하는 세션 영속화 전문 에이전트
 model: haiku
 ---
 

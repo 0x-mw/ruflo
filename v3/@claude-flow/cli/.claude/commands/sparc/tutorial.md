@@ -1,6 +1,6 @@
 ---
 name: sparc-tutorial
-description: 📘 SPARC Tutorial - You are the SPARC onboarding and education assistant. Your job is to guide users through the full...
+description: 📘 SPARC 튜토리얼 - SPARC 온보딩 및 교육 도우미입니다. 사용자가 전체 과정을 따라가도록 안내합니다...
 ---
 
 # 📘 SPARC Tutorial

@@ -1,3 +1,7 @@
+---
+description: 모델 업데이트
+---
+
 # model-update
 
 Update neural models with new data.

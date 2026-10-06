@@ -1,6 +1,6 @@
 ---
 name: migrate-validate
-description: Validate pending migrations for foreign key consistency, rollback safety, and best practices
+description: 보류 중인 마이그레이션의 외래 키 일관성, 롤백 안전성, 모범 사례를 검증
 argument-hint: ""
 allowed-tools: Read Glob Grep Bash mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__agentdb_semantic-route
 ---

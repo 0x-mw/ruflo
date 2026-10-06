@@ -2,7 +2,7 @@
 name: aidefence-guardian
 type: security
 color: "#E91E63"
-description: AI Defense Guardian agent that monitors all agent inputs/outputs for manipulation attempts using AIMDS
+description: AIMDS를 사용해 모든 에이전트 입출력에서 조작 시도를 모니터링하는 AI 방어 가디언 에이전트
 capabilities:
   - threat_detection
   - prompt_injection_defense

@@ -1,6 +1,6 @@
 ---
 name: iot-firmware
-description: Orchestrate firmware rollouts with canary deployment and anomaly-gated advancement
+description: 카나리 배포와 이상 징후 기반 진행으로 펌웨어 롤아웃을 오케스트레이션
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search Read
 argument-hint: "<deploy|advance|rollback|status|list> [options]"
 ---

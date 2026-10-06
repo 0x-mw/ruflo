@@ -1,0 +1,248 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/skills-more.ts",
+  "entries": [
+    {
+      "key": "Install to",
+      "ko": "설치 위치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:15 rule()"
+      ]
+    },
+    {
+      "key": "add → {0} · the CLI’s default agents",
+      "ko": "add → {0} · CLI의 기본 에이전트",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:15 rule()"
+      ]
+    },
+    {
+      "key": "(●) project: this repo",
+      "ko": "(●) 프로젝트: 이 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:20 plainButton()"
+      ]
+    },
+    {
+      "key": "( ) project: this repo",
+      "ko": "( ) 프로젝트: 이 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:20 plainButton()"
+      ]
+    },
+    {
+      "key": "(●) global: every project",
+      "ko": "(●) 전역: 모든 프로젝트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:21 plainButton()"
+      ]
+    },
+    {
+      "key": "( ) global: every project",
+      "ko": "( ) 전역: 모든 프로젝트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:21 plainButton()"
+      ]
+    },
+    {
+      "key": "none ticked: the CLI picks the agents it detects · update all and sync use the same choice",
+      "ko": "선택된 것이 없음: CLI가 감지한 에이전트를 고릅니다 · 전체 업데이트와 동기화도 같은 선택을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:34 text()"
+      ]
+    },
+    {
+      "key": "Preview",
+      "ko": "미리보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:47 rule()"
+      ]
+    },
+    {
+      "key": "reading {0}…",
+      "ko": "{0}을(를) 읽는 중…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:47 rule()"
+      ]
+    },
+    {
+      "key": "local read · {0}",
+      "ko": "로컬 읽기 · {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:47 rule()"
+      ]
+    },
+    {
+      "key": "add --list · nothing installed · {0}",
+      "ko": "add --list · 설치된 것 없음 · {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:47 rule()"
+      ]
+    },
+    {
+      "key": "fetching {0} for the AI terminal (npx -y skills use)…",
+      "ko": "AI 터미널용 {0}을(를) 가져오는 중 (npx -y skills use)…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:49 text()"
+      ]
+    },
+    {
+      "key": "… {0} more lines",
+      "ko": "… {0}줄 더 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:63 text()"
+      ]
+    },
+    {
+      "key": "For this project",
+      "ko": "이 프로젝트용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "not scanned · local reads only",
+      "ko": "스캔하지 않음 · 로컬 읽기만",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "scanned {0}",
+      "ko": "스캔함 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "package.json, Cargo.toml, pyproject.toml, go.mod, .claude/skills, .agents/skills and .claude/agents: read here, nothing sent",
+      "ko": "package.json, Cargo.toml, pyproject.toml, go.mod, .claude/skills, .agents/skills, .claude/agents를 여기서 읽으며 아무것도 전송하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:77 text()"
+      ]
+    },
+    {
+      "key": "stack n/a (no manifest at the root)",
+      "ko": "스택 n/a (루트에 매니페스트 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:85 text()"
+      ]
+    },
+    {
+      "key": "no skills under .claude/skills or .agents/skills · {0} agent files read",
+      "ko": ".claude/skills 또는 .agents/skills 아래에 스킬이 없습니다 · 에이전트 파일 {0}개 읽음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:90 text()"
+      ]
+    },
+    {
+      "key": "skills your ruflo agents use · {0} local · {1} agent files read",
+      "ko": "ruflo 에이전트가 쓰는 스킬 · 로컬 {0} · 에이전트 파일 {1}개 읽음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:91 text()"
+      ]
+    },
+    {
+      "key": "{0} ({1}) ← no agent names it",
+      "ko": "{0} ({1}) ← 이 스킬을 지정한 에이전트 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:94 text()"
+      ]
+    },
+    {
+      "key": "the named skill",
+      "ko": "지정된 스킬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:109 text()"
+      ]
+    },
+    {
+      "key": "write with claude",
+      "ko": "Claude로 작성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:110 plainButton()"
+      ]
+    },
+    {
+      "key": "{0}/SKILL.md · checked {1}",
+      "ko": "{0}/SKILL.md · 확인함 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:116 text()"
+      ]
+    },
+    {
+      "key": "Maintain",
+      "ko": "유지 관리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:128 rule()"
+      ]
+    },
+    {
+      "key": "each asks first · network and writes named on the confirm row",
+      "ko": "각각 먼저 확인 · 네트워크 접근과 쓰기는 확인 행에 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:128 rule()"
+      ]
+    },
+    {
+      "key": "update all ({0})",
+      "ko": "전체 업데이트 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:130 button()"
+      ]
+    },
+    {
+      "key": "restore from skills-lock.json",
+      "ko": "skills-lock.json에서 복원",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:131 button()"
+      ]
+    },
+    {
+      "key": "sync from node_modules",
+      "ko": "node_modules에서 동기화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:132 button()"
+      ]
+    },
+    {
+      "key": "restore and sync are the CLI’s experimental_install and experimental_sync",
+      "ko": "복원과 동기화는 CLI의 experimental_install, experimental_sync입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills-more.ts:134 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

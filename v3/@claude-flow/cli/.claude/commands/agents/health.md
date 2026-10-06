@@ -1,6 +1,6 @@
 ---
 name: health
-description: Show agent health and metrics
+description: 에이전트 상태와 메트릭을 표시합니다
 type: command
 ---
 

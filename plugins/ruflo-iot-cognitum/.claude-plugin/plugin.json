@@ -1,6 +1,6 @@
 {
   "name": "ruflo-iot-cognitum",
-  "description": "IoT device lifecycle, telemetry anomaly detection, fleet management, and witness chain verification for Cognitum Seed hardware",
+  "description": "Cognitum Seed 하드웨어를 위한 IoT 기기 수명 주기, 텔레메트리 이상 탐지, 플릿 관리, 위트니스 체인 검증",
   "version": "0.3.2",
   "author": {
     "name": "ruvnet",
@@ -29,8 +29,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Write guard",
-      "description": "Refuse writes and commands on this plugin's own tools that hold a key, token or password.",
+      "title": "쓰기 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 자체 도구에 대한 쓰기와 명령을 거부합니다.",
       "required": false,
       "default": "on",
       "options": [
@@ -40,8 +40,8 @@
     },
     "confirmDestructive": {
       "type": "string",
-      "title": "Confirm destructive IoT commands",
-      "description": "Refuse cognitum-iot fleet delete and device delete/remove/revoke unless the command carries --confirm or COGNITUM_IOT_CONFIRM=1.",
+      "title": "파괴적 IoT 명령 확인",
+      "description": "명령에 --confirm 또는 COGNITUM_IOT_CONFIRM=1이 없으면 cognitum-iot fleet delete와 device delete/remove/revoke를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

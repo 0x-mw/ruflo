@@ -1,6 +1,6 @@
 ---
 name: status
-description: Show detailed status of an agent
+description: 에이전트의 상세 상태를 표시합니다
 type: command
 ---
 

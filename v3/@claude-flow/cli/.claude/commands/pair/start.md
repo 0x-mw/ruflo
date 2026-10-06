@@ -1,3 +1,7 @@
+---
+description: 페어 프로그래밍 시작 (--start)
+---
+
 # pair --start
 
 Start a new pair programming session with AI assistance.

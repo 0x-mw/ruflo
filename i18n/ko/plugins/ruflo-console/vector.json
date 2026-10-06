@@ -1,0 +1,1527 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/vector.ts",
+  "entries": [
+    {
+      "key": "Brain",
+      "ko": "브레인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:41 title"
+      ]
+    },
+    {
+      "key": "pi.ruv.io · shared · every call asks first",
+      "ko": "pi.ruv.io · 공유 · 모든 호출 전에 먼저 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:41 right"
+      ]
+    },
+    {
+      "key": "RVF containers",
+      "ko": "RVF 컨테이너",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:42 title"
+      ]
+    },
+    {
+      "key": "local .rvf stores · reads run at once",
+      "ko": "로컬 .rvf 저장소 · 읽기는 바로 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:42 right"
+      ]
+    },
+    {
+      "key": "SQL / Graph",
+      "ko": "SQL / 그래프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:43 title"
+      ]
+    },
+    {
+      "key": "rvlite · MCP-only · handed to the AI terminal",
+      "ko": "rvlite · MCP 전용 · AI 터미널에 전달",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:43 right"
+      ]
+    },
+    {
+      "key": "Decompile",
+      "ko": "디컴파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:44 title"
+      ]
+    },
+    {
+      "key": "a file runs at once · a package asks (npm)",
+      "ko": "파일은 바로 실행 · 패키지는 먼저 확인 (npm)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:44 right"
+      ]
+    },
+    {
+      "key": "Workers",
+      "ko": "워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:45 title",
+        "plugins/ruflo-console/hooks/views/automate.ts:98 rule()",
+        "plugins/ruflo-console/hooks/views/hive.ts:201 rule()"
+      ]
+    },
+    {
+      "key": "Edge",
+      "ko": "엣지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:46 title"
+      ]
+    },
+    {
+      "key": "edge-net genesis node · asks first",
+      "ko": "edge-net 제네시스 노드 · 먼저 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:46 right"
+      ]
+    },
+    {
+      "key": "Hooks intel",
+      "ko": "훅 인텔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:47 title"
+      ]
+    },
+    {
+      "key": "Identity",
+      "ko": "아이덴티티",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:48 title",
+        "plugins/ruflo-console/hooks/views/xruv.ts:76 rule()"
+      ]
+    },
+    {
+      "key": "pi key · never shown",
+      "ko": "pi 키 · 표시하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:48 right"
+      ]
+    },
+    {
+      "key": "reaches pi.ruv.io (the shared brain); needs @ruvector/pi-brain beside ruvector",
+      "ko": "pi.ruv.io(공유 브레인)에 접속합니다. ruvector 옆에 @ruvector/pi-brain이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:51 const"
+      ]
+    },
+    {
+      "key": "PUBLISHES to pi.ruv.io under your pi identity: other agents see it; {0}",
+      "ko": "내 pi 아이덴티티로 pi.ruv.io에 게시합니다. 다른 에이전트가 볼 수 있습니다. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:52 const"
+      ]
+    },
+    {
+      "key": "reaches the edge-net genesis node (Cloud Run, us-central1)",
+      "ko": "edge-net 제네시스 노드(Cloud Run, us-central1)에 접속합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:53 const"
+      ]
+    },
+    {
+      "key": "reaches the npm registry: every workers verb runs npx agentic-flow@alpha",
+      "ko": "npm 레지스트리에 접속합니다. 모든 workers 동사가 npx agentic-flow@alpha를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:54 const"
+      ]
+    },
+    {
+      "key": "1-200 characters of plain text, not starting with -",
+      "ko": "일반 텍스트 1~200자이며 -로 시작할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:55 const"
+      ]
+    },
+    {
+      "key": "a memory id: letters, digits, . _ : -",
+      "ko": "메모리 ID: 영문자, 숫자, . _ : -",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:56 const"
+      ]
+    },
+    {
+      "key": "a project-relative .rvf path (no .., no leading / or -)",
+      "ko": "프로젝트 기준 상대 .rvf 경로 (.. 불가, 맨 앞 / 나 - 불가)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:57 const"
+      ]
+    },
+    {
+      "key": ".rvf",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:65 relPathOf()",
+        "plugins/ruflo-console/hooks/vector.ts:94 relPathOf()"
+      ]
+    },
+    {
+      "key": "memories, contributors, quality, drift",
+      "ko": "메모리, 기여자, 품질, 드리프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:73 about"
+      ]
+    },
+    {
+      "key": "brain status: the shared brain’s health",
+      "ko": "brain status: 공유 브레인의 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:73 label"
+      ]
+    },
+    {
+      "key": "RECENT",
+      "ko": "최근",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:74 name"
+      ]
+    },
+    {
+      "key": "the newest 20 shared memories",
+      "ko": "최신 공유 메모리 20개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:74 about"
+      ]
+    },
+    {
+      "key": "brain list: the newest 20 memories",
+      "ko": "brain list: 최신 메모리 20개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:74 label"
+      ]
+    },
+    {
+      "key": "semantic search of the field’s words",
+      "ko": "입력란의 단어로 시맨틱 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:75 about"
+      ]
+    },
+    {
+      "key": "brain search: the field’s words",
+      "ko": "brain search: 입력란의 단어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:75 label"
+      ]
+    },
+    {
+      "key": "GET",
+      "ko": "조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:76 name"
+      ]
+    },
+    {
+      "key": "one memory by the id in the field, with provenance",
+      "ko": "입력란의 ID로 메모리 하나를 출처(provenance)와 함께 조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:76 about"
+      ]
+    },
+    {
+      "key": "brain get: the memory with that id",
+      "ko": "brain get: 해당 ID의 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:76 label"
+      ]
+    },
+    {
+      "key": "knowledge drift, for the domain in the field or all",
+      "ko": "입력란의 도메인 또는 전체의 지식 드리프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:77 about"
+      ]
+    },
+    {
+      "key": "brain drift: for the field’s domain, or all",
+      "ko": "brain drift: 입력란의 도메인 또는 전체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:77 label"
+      ]
+    },
+    {
+      "key": "a domain word, or nothing",
+      "ko": "도메인 단어 또는 비워 둠",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:77 rule",
+        "plugins/ruflo-console/hooks/vector.ts:78 rule"
+      ]
+    },
+    {
+      "key": "PARTITION",
+      "ko": "파티션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:78 name"
+      ]
+    },
+    {
+      "key": "knowledge topology, for the domain or all",
+      "ko": "도메인 또는 전체의 지식 토폴로지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:78 about"
+      ]
+    },
+    {
+      "key": "brain partition: the topology of a domain, or all",
+      "ko": "brain partition: 도메인 또는 전체의 토폴로지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:78 label"
+      ]
+    },
+    {
+      "key": "VOTE UP",
+      "ko": "추천",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:79 name"
+      ]
+    },
+    {
+      "key": "up-vote the memory whose id is in the field",
+      "ko": "입력란의 ID에 해당하는 메모리에 추천 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:79 about"
+      ]
+    },
+    {
+      "key": "brain vote up on that memory",
+      "ko": "해당 메모리에 brain vote up",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:79 label"
+      ]
+    },
+    {
+      "key": "VOTE DOWN",
+      "ko": "비추천",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:80 name"
+      ]
+    },
+    {
+      "key": "down-vote the memory whose id is in the field",
+      "ko": "입력란의 ID에 해당하는 메모리에 비추천 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:80 about"
+      ]
+    },
+    {
+      "key": "brain vote down on that memory",
+      "ko": "해당 메모리에 brain vote down",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:80 label"
+      ]
+    },
+    {
+      "key": "`title :: content` as a pattern memory",
+      "ko": "`title :: content` 형식의 패턴 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:81 about"
+      ]
+    },
+    {
+      "key": "brain share: publish the field as a pattern",
+      "ko": "brain share: 입력란을 패턴으로 게시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:81 label"
+      ]
+    },
+    {
+      "key": "title :: content, each plain text",
+      "ko": "title :: content, 각각 일반 텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:81 rule"
+      ]
+    },
+    {
+      "key": "TRANSFER",
+      "ko": "전이",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:82 name"
+      ]
+    },
+    {
+      "key": "`source target`: move knowledge between domains",
+      "ko": "`source target`: 도메인 간 지식 이동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:82 about"
+      ]
+    },
+    {
+      "key": "brain transfer between the two domains",
+      "ko": "두 도메인 간 brain transfer",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:82 label"
+      ]
+    },
+    {
+      "key": "two domain words: source target",
+      "ko": "도메인 단어 두 개: source target",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:82 rule"
+      ]
+    },
+    {
+      "key": "SYNC PULL",
+      "ko": "동기 받기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:83 name"
+      ]
+    },
+    {
+      "key": "pull the shared LoRA weights here",
+      "ko": "공유 LoRA 가중치를 여기로 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:83 about"
+      ]
+    },
+    {
+      "key": "brain sync pull: fetch the shared LoRA weights",
+      "ko": "brain sync pull: 공유 LoRA 가중치 가져오기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:83 label"
+      ]
+    },
+    {
+      "key": "{0}; writes the pulled weights locally",
+      "ko": "{0}. 가져온 가중치를 로컬에 씁니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:83 note"
+      ]
+    },
+    {
+      "key": "SYNC PUSH",
+      "ko": "동기 올리기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:84 name"
+      ]
+    },
+    {
+      "key": "push this machine’s LoRA weights up",
+      "ko": "이 컴퓨터의 LoRA 가중치를 올립니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:84 about"
+      ]
+    },
+    {
+      "key": "brain sync push: upload the local LoRA weights",
+      "ko": "brain sync push: 로컬 LoRA 가중치 업로드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:84 label"
+      ]
+    },
+    {
+      "key": "delete a memory you contributed, by id",
+      "ko": "내가 기여한 메모리를 ID로 삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:85 about"
+      ]
+    },
+    {
+      "key": "brain delete: the memory with that id",
+      "ko": "brain delete: 해당 ID의 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:85 label"
+      ]
+    },
+    {
+      "key": "DELETES it from pi.ruv.io for everyone; it cannot be undone; {0}",
+      "ko": "모든 사용자에게서 pi.ruv.io의 해당 항목을 삭제합니다. 되돌릴 수 없습니다. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:85 note"
+      ]
+    },
+    {
+      "key": "EXAMPLES",
+      "ko": "예제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:88 name"
+      ]
+    },
+    {
+      "key": "the 45 example stores and their sizes",
+      "ko": "예제 저장소 45개와 그 크기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:88 about"
+      ]
+    },
+    {
+      "key": "rvf examples: the example store catalog",
+      "ko": "rvf examples: 예제 저장소 카탈로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:88 label"
+      ]
+    },
+    {
+      "key": "vectors, segments, epoch, dead space",
+      "ko": "벡터, 세그먼트, 에폭, 유휴 공간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:89 about"
+      ]
+    },
+    {
+      "key": "rvf status of the store",
+      "ko": "저장소의 rvf status",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:89 label"
+      ]
+    },
+    {
+      "key": "SEGMENTS",
+      "ko": "세그먼트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:90 name"
+      ]
+    },
+    {
+      "key": "every segment in the file",
+      "ko": "파일의 모든 세그먼트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:90 about"
+      ]
+    },
+    {
+      "key": "rvf segments of the store",
+      "ko": "저장소의 rvf segments",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:90 label"
+      ]
+    },
+    {
+      "key": "QUERY",
+      "ko": "쿼리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:91 name"
+      ]
+    },
+    {
+      "key": "the 10 nearest to the vector in the second field",
+      "ko": "두 번째 입력란의 벡터에 가장 가까운 10개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:91 about"
+      ]
+    },
+    {
+      "key": "rvf query: the 10 nearest neighbours",
+      "ko": "rvf query: 가장 가까운 이웃 10개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:91 label"
+      ]
+    },
+    {
+      "key": "{0}, then a vector: numbers separated by commas",
+      "ko": "{0} 다음에 벡터: 쉼표로 구분한 숫자",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:91 rule"
+      ]
+    },
+    {
+      "key": "reads; ruvector quarantines (renames) a corrupt id sidecar it meets",
+      "ko": "읽기 전용입니다. 손상된 ID 사이드카를 만나면 ruvector가 격리(이름 변경)합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:91 note"
+      ]
+    },
+    {
+      "key": "CREATE",
+      "ko": "생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:92 name",
+        "plugins/ruflo-console/hooks/xruv.ts:315 name"
+      ]
+    },
+    {
+      "key": "a new cosine store, dimension from the second field (384)",
+      "ko": "두 번째 입력란의 차원(384)으로 새 코사인 저장소 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:92 about"
+      ]
+    },
+    {
+      "key": "rvf create: a new cosine store",
+      "ko": "rvf create: 새 코사인 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:92 label"
+      ]
+    },
+    {
+      "key": "{0}, then a dimension 1-4096 (or nothing: 384)",
+      "ko": "{0} 다음에 차원 1~4096 (비우면 384)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:92 rule"
+      ]
+    },
+    {
+      "key": "writes the .rvf file and its id sidecar in this project",
+      "ko": "이 프로젝트에 .rvf 파일과 ID 사이드카를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:92 note"
+      ]
+    },
+    {
+      "key": "INGEST",
+      "ko": "수집",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:93 name"
+      ]
+    },
+    {
+      "key": "vectors from the JSON file in the second field",
+      "ko": "두 번째 입력란의 JSON 파일에서 벡터 수집",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:93 about"
+      ]
+    },
+    {
+      "key": "rvf ingest: vectors from a JSON file",
+      "ko": "rvf ingest: JSON 파일의 벡터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:93 label"
+      ]
+    },
+    {
+      "key": "{0}, then a project-relative .json of [{id, vector}]",
+      "ko": "{0} 다음에 [{id, vector}] 형식의 프로젝트 기준 상대 .json 경로",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:93 rule"
+      ]
+    },
+    {
+      "key": ".json",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:93 relPathOf()"
+      ]
+    },
+    {
+      "key": "writes: appends the vectors to the store",
+      "ko": "쓰기: 저장소에 벡터를 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:93 note"
+      ]
+    },
+    {
+      "key": "DERIVE",
+      "ko": "파생",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:94 name"
+      ]
+    },
+    {
+      "key": "a child store at the second field’s path, with lineage",
+      "ko": "두 번째 입력란 경로에 계보를 가진 하위 저장소 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:94 about"
+      ]
+    },
+    {
+      "key": "rvf derive: a child store with lineage",
+      "ko": "rvf derive: 계보를 가진 하위 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:94 label"
+      ]
+    },
+    {
+      "key": "{0}, then the child .rvf path",
+      "ko": "{0} 다음에 하위 .rvf 경로",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:94 rule"
+      ]
+    },
+    {
+      "key": "writes a new .rvf file in this project",
+      "ko": "이 프로젝트에 새 .rvf 파일을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:94 note"
+      ]
+    },
+    {
+      "key": "COMPACT",
+      "ko": "압축",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:95 name"
+      ]
+    },
+    {
+      "key": "reclaim the space of deleted vectors",
+      "ko": "삭제된 벡터가 차지한 공간 회수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:95 about"
+      ]
+    },
+    {
+      "key": "rvf compact: reclaim deleted space",
+      "ko": "rvf compact: 삭제된 공간 회수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:95 label"
+      ]
+    },
+    {
+      "key": "rewrites the store in place",
+      "ko": "저장소를 제자리에서 다시 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:95 note"
+      ]
+    },
+    {
+      "key": "delete vectors by id",
+      "ko": "ID로 벡터 삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:96 about"
+      ]
+    },
+    {
+      "key": "rvf delete vectors by id",
+      "ko": "ID로 rvf delete",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:96 label"
+      ]
+    },
+    {
+      "key": "n/a: rvf_delete is an MCP tool of the ruvector server with no CLI verb, and ruflo’s MCP has no rvf tool",
+      "ko": "해당 없음: rvf_delete는 ruvector 서버의 MCP 도구이며 CLI 동사가 없고, ruflo의 MCP에는 rvf 도구가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:96 na"
+      ]
+    },
+    {
+      "key": "SQL",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:99 name"
+      ]
+    },
+    {
+      "key": "rvlite_sql over the rvlite database",
+      "ko": "rvlite 데이터베이스에 대한 rvlite_sql",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:99 about"
+      ]
+    },
+    {
+      "key": "rvlite SQL query",
+      "ko": "rvlite SQL 쿼리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:99 label"
+      ]
+    },
+    {
+      "key": "n/a as argv: rvlite_sql is MCP-only (ruvector’s CLI and rvlite 0.2.6’s have no sql verb); ▸ ask hands it to the AI terminal",
+      "ko": "argv로는 해당 없음: rvlite_sql은 MCP 전용입니다 (ruvector CLI와 rvlite 0.2.6에는 sql 동사가 없음). ▸ 질문을 누르면 AI 터미널에 전달합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:99 na"
+      ]
+    },
+    {
+      "key": "CYPHER",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:100 name"
+      ]
+    },
+    {
+      "key": "rvlite_cypher over the property graph",
+      "ko": "프로퍼티 그래프에 대한 rvlite_cypher",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:100 about"
+      ]
+    },
+    {
+      "key": "rvlite Cypher query",
+      "ko": "rvlite Cypher 쿼리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:100 label"
+      ]
+    },
+    {
+      "key": "n/a as argv: rvlite_cypher is MCP-only; ▸ ask hands it to the AI terminal",
+      "ko": "argv로는 해당 없음: rvlite_cypher는 MCP 전용입니다. ▸ 질문을 누르면 AI 터미널에 전달합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:100 na"
+      ]
+    },
+    {
+      "key": "SPARQL",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:101 name"
+      ]
+    },
+    {
+      "key": "rvlite_sparql over the RDF triples",
+      "ko": "RDF 트리플에 대한 rvlite_sparql",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:101 about"
+      ]
+    },
+    {
+      "key": "rvlite SPARQL query",
+      "ko": "rvlite SPARQL 쿼리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:101 label"
+      ]
+    },
+    {
+      "key": "n/a as argv: rvlite_sparql is MCP-only; ▸ ask hands it to the AI terminal",
+      "ko": "argv로는 해당 없음: rvlite_sparql은 MCP 전용입니다. ▸ 질문을 누르면 AI 터미널에 전달합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:101 na"
+      ]
+    },
+    {
+      "key": "FILE",
+      "ko": "파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:104 name"
+      ]
+    },
+    {
+      "key": "a local ./file.js into modules, with its witness root",
+      "ko": "로컬 ./file.js를 모듈로 분해하고 위트니스 루트를 함께 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:104 about"
+      ]
+    },
+    {
+      "key": "decompile the local file",
+      "ko": "로컬 파일 디컴파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:104 label"
+      ]
+    },
+    {
+      "key": "a project-relative ./file.js, .mjs or .cjs",
+      "ko": "프로젝트 기준 상대 ./file.js, .mjs 또는 .cjs 경로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:104 rule"
+      ]
+    },
+    {
+      "key": "PACKAGE",
+      "ko": "패키지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:105 name"
+      ]
+    },
+    {
+      "key": "an npm package (name or name@version), with witness",
+      "ko": "npm 패키지(name 또는 name@version)를 위트니스와 함께 디컴파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:105 about"
+      ]
+    },
+    {
+      "key": "decompile the npm package",
+      "ko": "npm 패키지 디컴파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:105 label"
+      ]
+    },
+    {
+      "key": "an npm package name, optionally @version",
+      "ko": "npm 패키지 이름, 필요하면 @version 추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:105 rule"
+      ]
+    },
+    {
+      "key": "reaches the npm registry: downloads the package tarball; writes nothing here (--json)",
+      "ko": "npm 레지스트리에 접속해 패키지 tarball을 내려받습니다. 여기에는 아무것도 쓰지 않습니다 (--json)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:105 note"
+      ]
+    },
+    {
+      "key": "WITNESS",
+      "ko": "위트니스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:106 name"
+      ]
+    },
+    {
+      "key": "verify a witness chain, search decompiled code",
+      "ko": "위트니스 체인 검증, 디컴파일된 코드 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:106 about"
+      ]
+    },
+    {
+      "key": "decompile witness / search",
+      "ko": "decompile witness / search",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:106 label"
+      ]
+    },
+    {
+      "key": "n/a: decompile_witness and decompile_search are MCP-only; the decompile result above carries the witness root and chain length",
+      "ko": "해당 없음: decompile_witness와 decompile_search는 MCP 전용입니다. 위의 디컴파일 결과에 위트니스 루트와 체인 길이가 들어 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:106 na"
+      ]
+    },
+    {
+      "key": "PRESETS",
+      "ko": "프리셋",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:109 name"
+      ]
+    },
+    {
+      "key": "quick-scan, deep-analysis, security-scan…",
+      "ko": "quick-scan, deep-analysis, security-scan…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:109 about"
+      ]
+    },
+    {
+      "key": "workers presets",
+      "ko": "workers presets",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:109 label"
+      ]
+    },
+    {
+      "key": "TRIGGERS",
+      "ko": "트리거",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:110 name"
+      ]
+    },
+    {
+      "key": "the keywords that start a worker",
+      "ko": "워커를 시작하는 키워드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:110 about"
+      ]
+    },
+    {
+      "key": "workers triggers",
+      "ko": "workers triggers",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:110 label"
+      ]
+    },
+    {
+      "key": "the worker dashboard",
+      "ko": "워커 대시보드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:111 about"
+      ]
+    },
+    {
+      "key": "workers status",
+      "ko": "workers status",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:111 label"
+      ]
+    },
+    {
+      "key": "RESULTS",
+      "ko": "결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:112 name"
+      ]
+    },
+    {
+      "key": "what the workers found",
+      "ko": "워커가 찾아낸 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:112 about"
+      ]
+    },
+    {
+      "key": "workers results",
+      "ko": "workers results",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:112 label"
+      ]
+    },
+    {
+      "key": "the last 24 hours of work",
+      "ko": "최근 24시간의 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:113 about"
+      ]
+    },
+    {
+      "key": "workers stats (24h)",
+      "ko": "workers stats (24h)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:113 label"
+      ]
+    },
+    {
+      "key": "DISPATCH",
+      "ko": "파견",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:114 name"
+      ]
+    },
+    {
+      "key": "start a background analysis of the field’s words",
+      "ko": "입력란의 단어에 대한 백그라운드 분석 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:114 about"
+      ]
+    },
+    {
+      "key": "workers dispatch: analyse the field’s words",
+      "ko": "workers dispatch: 입력란의 단어 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:114 label"
+      ]
+    },
+    {
+      "key": "MAY COST MONEY: the worker may call models; {0}",
+      "ko": "비용이 발생할 수 있음: 워커가 모델을 호출할 수 있습니다. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:114 note"
+      ]
+    },
+    {
+      "key": "nodes, active nodes, rUv supply, phase",
+      "ko": "노드, 활성 노드, rUv 공급량, 단계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:117 about"
+      ]
+    },
+    {
+      "key": "edge status",
+      "ko": "edge status",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:117 label"
+      ]
+    },
+    {
+      "key": "BALANCE",
+      "ko": "잔액",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:118 name"
+      ]
+    },
+    {
+      "key": "the rUv balance of your pi identity",
+      "ko": "내 pi 아이덴티티의 rUv 잔액",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:118 about"
+      ]
+    },
+    {
+      "key": "edge balance of your identity",
+      "ko": "내 아이덴티티의 edge balance",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:118 label"
+      ]
+    },
+    {
+      "key": "{0}; sends your pi key as the node id when PI is set",
+      "ko": "{0}. PI가 설정되어 있으면 pi 키를 노드 ID로 전송합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:118 note"
+      ]
+    },
+    {
+      "key": "TASKS",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:119 name"
+      ]
+    },
+    {
+      "key": "distributed compute tasks on offer",
+      "ko": "제공 중인 분산 컴퓨팅 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:119 about"
+      ]
+    },
+    {
+      "key": "edge tasks",
+      "ko": "edge tasks",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:119 label"
+      ]
+    },
+    {
+      "key": "JOIN",
+      "ko": "가입",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:120 name",
+        "plugins/ruflo-console/hooks/xruv.ts:245 name"
+      ]
+    },
+    {
+      "key": "how to join: the CLI prints the dashboard address",
+      "ko": "가입 방법: CLI가 대시보드 주소를 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:120 about"
+      ]
+    },
+    {
+      "key": "edge join: how to join as a node",
+      "ko": "edge join: 노드로 가입하는 방법",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:120 label"
+      ]
+    },
+    {
+      "key": "DASHBOARD",
+      "ko": "대시보드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:121 name"
+      ]
+    },
+    {
+      "key": "open the edge-net dashboard",
+      "ko": "edge-net 대시보드 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:121 about"
+      ]
+    },
+    {
+      "key": "edge dashboard",
+      "ko": "edge dashboard",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:121 label"
+      ]
+    },
+    {
+      "key": "n/a: it opens a browser (xdg-open); edge join prints the same address",
+      "ko": "해당 없음: 브라우저를 엽니다 (xdg-open). edge join이 같은 주소를 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:121 na"
+      ]
+    },
+    {
+      "key": "patterns, memories, trajectories, errors",
+      "ko": "패턴, 메모리, 궤적, 오류",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:124 about"
+      ]
+    },
+    {
+      "key": "hooks stats: ruvector’s intelligence",
+      "ko": "hooks stats: ruvector의 인텔리전스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:124 label"
+      ]
+    },
+    {
+      "key": "the best algorithm, updates and reward",
+      "ko": "최적 알고리즘, 업데이트, 보상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:125 about"
+      ]
+    },
+    {
+      "key": "hooks learning-stats",
+      "ko": "hooks learning-stats",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:125 label"
+      ]
+    },
+    {
+      "key": "ROUTE",
+      "ko": "라우팅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:126 name"
+      ]
+    },
+    {
+      "key": "which agent the field’s task should go to",
+      "ko": "입력란의 작업을 맡길 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:126 about"
+      ]
+    },
+    {
+      "key": "hooks route: an agent for the task",
+      "ko": "hooks route: 작업에 맞는 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:126 label"
+      ]
+    },
+    {
+      "key": "the five memories nearest the field’s words",
+      "ko": "입력란의 단어와 가장 가까운 메모리 5개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:127 about"
+      ]
+    },
+    {
+      "key": "hooks recall: the nearest memories",
+      "ko": "hooks recall: 가장 가까운 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:127 label"
+      ]
+    },
+    {
+      "key": "RAG CONTEXT",
+      "ko": "RAG 컨텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:128 name"
+      ]
+    },
+    {
+      "key": "context for the field’s words, reranked",
+      "ko": "입력란의 단어에 대한 컨텍스트 (재순위화)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:128 about"
+      ]
+    },
+    {
+      "key": "hooks rag-context for the words",
+      "ko": "단어에 대한 hooks rag-context",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:128 label"
+      ]
+    },
+    {
+      "key": "REMEMBER",
+      "ko": "기억",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:129 name"
+      ]
+    },
+    {
+      "key": "store the field’s words as a memory",
+      "ko": "입력란의 단어를 메모리로 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:129 about"
+      ]
+    },
+    {
+      "key": "hooks remember: store the words",
+      "ko": "hooks remember: 단어 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:129 label"
+      ]
+    },
+    {
+      "key": "writes one memory to .ruvector/intelligence.json",
+      "ko": ".ruvector/intelligence.json에 메모리 하나를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:129 note"
+      ]
+    },
+    {
+      "key": "SHOW",
+      "ko": "표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:132 name"
+      ]
+    },
+    {
+      "key": "your pseudonym and where the key lives (never the key)",
+      "ko": "내 가명과 키가 있는 위치 (키 자체는 표시하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:132 about"
+      ]
+    },
+    {
+      "key": "identity show: your pseudonym",
+      "ko": "identity show: 내 가명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:132 label"
+      ]
+    },
+    {
+      "key": "a new pi key saved to ~/.ruvector/pi-key, once there is none",
+      "ko": "키가 없을 때 새 pi 키를 ~/.ruvector/pi-key에 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:137 about"
+      ]
+    },
+    {
+      "key": "identity generate: a new pi key, saved",
+      "ko": "identity generate: 새 pi 키 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:138 label"
+      ]
+    },
+    {
+      "key": "run ▸ SHOW first: generate --save overwrites ~/.ruvector/pi-key, so it waits until show finds no key",
+      "ko": "먼저 ▸ 표시를 실행하세요. generate --save는 ~/.ruvector/pi-key를 덮어쓰므로 show가 키를 찾지 못할 때까지 기다립니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:141 expr"
+      ]
+    },
+    {
+      "key": "writes a new secret to ~/.ruvector/pi-key (mode 600); only its pseudonym is shown",
+      "ko": "~/.ruvector/pi-key(모드 600)에 새 비밀 키를 씁니다. 가명만 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:142 note"
+      ]
+    },
+    {
+      "key": "its output in the Vector Lab",
+      "ko": "벡터 랩에 표시되는 출력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:173 expect"
+      ]
+    },
+    {
+      "key": "its result in the Vector Lab; {0}",
+      "ko": "벡터 랩에 표시되는 결과. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:173 expect"
+      ]
+    },
+    {
+      "key": "its result in the Vector Lab",
+      "ko": "벡터 랩에 표시되는 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:173 expect"
+      ]
+    },
+    {
+      "key": "Use the ruvector MCP tool rvlite_{0} to run this SQL query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:195 return"
+      ]
+    },
+    {
+      "key": "Use the ruvector MCP tool rvlite_{0} to run this SQL query and show the rows as a table (read-only): {1}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:195 return"
+      ]
+    },
+    {
+      "key": "Use the ruvector MCP tool rvlite_{0} to run this Cypher query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:195 return"
+      ]
+    },
+    {
+      "key": "Use the ruvector MCP tool rvlite_{0} to run this Cypher query and show the rows as a table (read-only): {1}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:195 return"
+      ]
+    },
+    {
+      "key": "Use the ruvector MCP tool rvlite_{0} to run this SPARQL query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:195 return"
+      ]
+    },
+    {
+      "key": "Use the ruvector MCP tool rvlite_{0} to run this SPARQL query and show the rows as a table (read-only): {1}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:195 return"
+      ]
+    },
+    {
+      "key": "no vector entry {0}",
+      "ko": "벡터 항목 {0}이(가) 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:214 ask()"
+      ]
+    },
+    {
+      "key": "rvlite {0}: type a query of 1-500 characters",
+      "ko": "rvlite {0}: 1~500자의 쿼리를 입력하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/vector.ts:219 ask()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

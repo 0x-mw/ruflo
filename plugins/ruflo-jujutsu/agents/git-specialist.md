@@ -1,6 +1,6 @@
 ---
 name: git-specialist
-description: Git workflow specialist for diff analysis, risk assessment, and PR management
+description: diff 분석, 위험 평가, PR 관리를 담당하는 Git 워크플로 전문 에이전트
 model: sonnet
 ---
 

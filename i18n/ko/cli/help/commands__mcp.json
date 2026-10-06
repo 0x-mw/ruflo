@@ -1,0 +1,467 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/mcp.ts",
+  "entries": [
+    {
+      "key": "Start MCP server",
+      "ko": "MCP 서버 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:56 description",
+        "src/commands/mcp.ts:857 description"
+      ]
+    },
+    {
+      "key": "Server port",
+      "ko": "서버 포트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:61 description"
+      ]
+    },
+    {
+      "key": "Server host",
+      "ko": "서버 호스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:68 description"
+      ]
+    },
+    {
+      "key": "Transport type (stdio, http, websocket)",
+      "ko": "전송 유형 (stdio, http, websocket)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:75 description"
+      ]
+    },
+    {
+      "key": "Tools to advertise (comma-separated categories, prefixes, exact names, or \"all\")",
+      "ko": "노출할 도구 (쉼표로 구분한 카테고리, 접두사, 정확한 이름 또는 \"all\")",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:82 description"
+      ]
+    },
+    {
+      "key": "HTTP request timeout in milliseconds (default 30000; env RUFLO_MCP_REQUEST_TIMEOUT_MS)",
+      "ko": "HTTP 요청 타임아웃(밀리초, 기본값 30000, 환경변수 RUFLO_MCP_REQUEST_TIMEOUT_MS)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:87 description"
+      ]
+    },
+    {
+      "key": "Run as background daemon",
+      "ko": "백그라운드 데몬으로 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:93 description"
+      ]
+    },
+    {
+      "key": "Force restart (kill existing server first)",
+      "ko": "강제 재시작 (기존 서버를 먼저 종료)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:100 description"
+      ]
+    },
+    {
+      "key": "Start with defaults (stdio)",
+      "ko": "기본값으로 시작 (stdio)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:106 description"
+      ]
+    },
+    {
+      "key": "Start HTTP server",
+      "ko": "HTTP 서버 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:107 description"
+      ]
+    },
+    {
+      "key": "Allow slower cold-start HTTP tools",
+      "ko": "콜드 스타트가 느린 HTTP 도구 허용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:108 description"
+      ]
+    },
+    {
+      "key": "Start as daemon",
+      "ko": "데몬으로 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:109 description"
+      ]
+    },
+    {
+      "key": "Force restart (kill existing)",
+      "ko": "강제 재시작 (기존 서버 종료)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:110 description"
+      ]
+    },
+    {
+      "key": "Stop MCP server",
+      "ko": "MCP 서버 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:302 description"
+      ]
+    },
+    {
+      "key": "Show MCP server status",
+      "ko": "MCP 서버 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:360 description"
+      ]
+    },
+    {
+      "key": "List available MCP tools",
+      "ko": "사용 가능한 MCP 도구 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:460 description"
+      ]
+    },
+    {
+      "key": "Show only enabled tools",
+      "ko": "활성화된 도구만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:471 description"
+      ]
+    },
+    {
+      "key": "Terminate an agent",
+      "ko": "에이전트 종료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:499 description"
+      ]
+    },
+    {
+      "key": "Get agent status",
+      "ko": "에이전트 상태 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:500 description"
+      ]
+    },
+    {
+      "key": "Initialize swarm topology",
+      "ko": "스웜 토폴로지 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:503 description"
+      ]
+    },
+    {
+      "key": "Get swarm status",
+      "ko": "스웜 상태 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:504 description"
+      ]
+    },
+    {
+      "key": "Scale swarm size",
+      "ko": "스웜 크기 확장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:505 description"
+      ]
+    },
+    {
+      "key": "Store in memory",
+      "ko": "메모리에 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:508 description"
+      ]
+    },
+    {
+      "key": "Search memory",
+      "ko": "메모리 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:509 description",
+        "src/commands/memory.ts:2236 description"
+      ]
+    },
+    {
+      "key": "List memory entries",
+      "ko": "메모리 항목 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:510 description",
+        "src/commands/memory.ts:810 description"
+      ]
+    },
+    {
+      "key": "Load configuration",
+      "ko": "설정 불러오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:513 description"
+      ]
+    },
+    {
+      "key": "Save configuration",
+      "ko": "설정 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:514 description"
+      ]
+    },
+    {
+      "key": "Validate configuration",
+      "ko": "설정 검증",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:515 description"
+      ]
+    },
+    {
+      "key": "Pre-edit hook",
+      "ko": "편집 전 훅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:518 description"
+      ]
+    },
+    {
+      "key": "Post-edit hook",
+      "ko": "편집 후 훅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:519 description"
+      ]
+    },
+    {
+      "key": "Pre-command hook",
+      "ko": "명령 실행 전 훅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:520 description"
+      ]
+    },
+    {
+      "key": "Post-command hook",
+      "ko": "명령 실행 후 훅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:521 description"
+      ]
+    },
+    {
+      "key": "Route task to agent",
+      "ko": "작업을 에이전트로 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:522 description"
+      ]
+    },
+    {
+      "key": "Explain routing",
+      "ko": "라우팅 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:523 description"
+      ]
+    },
+    {
+      "key": "Pretrain from repo",
+      "ko": "저장소로 사전 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:524 description"
+      ]
+    },
+    {
+      "key": "Learning metrics",
+      "ko": "학습 메트릭",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:525 description"
+      ]
+    },
+    {
+      "key": "List hooks",
+      "ko": "훅 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:526 description"
+      ]
+    },
+    {
+      "key": "System information",
+      "ko": "시스템 정보",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:529 description"
+      ]
+    },
+    {
+      "key": "Health status",
+      "ko": "상태 점검 결과",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:530 description"
+      ]
+    },
+    {
+      "key": "Server metrics",
+      "ko": "서버 메트릭",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:531 description"
+      ]
+    },
+    {
+      "key": "Enable or disable MCP tools",
+      "ko": "MCP 도구 활성화 또는 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:576 description"
+      ]
+    },
+    {
+      "key": "Enable tools",
+      "ko": "도구 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:581 description"
+      ]
+    },
+    {
+      "key": "Disable tools",
+      "ko": "도구 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:587 description"
+      ]
+    },
+    {
+      "key": "Execute an MCP tool",
+      "ko": "MCP 도구 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:619 description"
+      ]
+    },
+    {
+      "key": "Tool name",
+      "ko": "도구 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:624 description"
+      ]
+    },
+    {
+      "key": "Tool parameters (JSON)",
+      "ko": "도구 매개변수 (JSON)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:631 description"
+      ]
+    },
+    {
+      "key": "Execute tool",
+      "ko": "도구 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:636 description"
+      ]
+    },
+    {
+      "key": "Check MCP server health",
+      "ko": "MCP 서버 상태 점검",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:699 description"
+      ]
+    },
+    {
+      "key": "Show MCP server logs",
+      "ko": "MCP 서버 로그 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:746 description"
+      ]
+    },
+    {
+      "key": "Filter by log level",
+      "ko": "로그 수준으로 필터링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:764 description"
+      ]
+    },
+    {
+      "key": "Restart MCP server",
+      "ko": "MCP 서버 재시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:810 description"
+      ]
+    },
+    {
+      "key": "Force restart without graceful shutdown",
+      "ko": "정상 종료 없이 강제 재시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:815 description"
+      ]
+    },
+    {
+      "key": "MCP server management",
+      "ko": "MCP 서버 관리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:843 description"
+      ]
+    },
+    {
+      "key": "Start HTTP server on port 8080",
+      "ko": "포트 8080에서 HTTP 서버 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:858 description"
+      ]
+    },
+    {
+      "key": "Show server status",
+      "ko": "서버 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:859 description"
+      ]
+    },
+    {
+      "key": "List tools",
+      "ko": "도구 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:860 description"
+      ]
+    },
+    {
+      "key": "Stop the server",
+      "ko": "서버 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:861 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

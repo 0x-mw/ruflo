@@ -1,0 +1,291 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/plugin-catalog.ts",
+  "entries": [
+    {
+      "key": "install",
+      "ko": "설치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:14 label"
+      ]
+    },
+    {
+      "key": "MOD",
+      "ko": "MOD",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:18 expr"
+      ]
+    },
+    {
+      "key": "installed and enabled",
+      "ko": "설치됨, 활성화됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:58 const"
+      ]
+    },
+    {
+      "key": "installed, disabled",
+      "ko": "설치됨, 비활성화됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:58 const"
+      ]
+    },
+    {
+      "key": "version",
+      "ko": "버전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:61 kv()"
+      ]
+    },
+    {
+      "key": "{0} (installed {1})",
+      "ko": "{0} (설치됨 {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:61 kv()"
+      ]
+    },
+    {
+      "key": "{0} (installed ?)",
+      "ko": "{0} (설치됨 ?)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:61 kv()"
+      ]
+    },
+    {
+      "key": "n/a (installed {0})",
+      "ko": "n/a (설치됨 {0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:61 kv()"
+      ]
+    },
+    {
+      "key": "n/a (installed ?)",
+      "ko": "n/a (설치됨 ?)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:61 kv()"
+      ]
+    },
+    {
+      "key": "related",
+      "ko": "관련",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:71 text()"
+      ]
+    },
+    {
+      "key": "{0}: its commands (Launch)",
+      "ko": "{0}: 이 플러그인의 명령 (실행)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:71 button()"
+      ]
+    },
+    {
+      "key": "Plugins: setup health",
+      "ko": "플러그인: 설정 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:71 button()"
+      ]
+    },
+    {
+      "key": "MOD: function hooks run in the engine once this plugin is loaded (trust it like code you run)",
+      "ko": "MOD: 이 플러그인을 로드하면 엔진에서 함수 훅이 실행됩니다 (직접 실행하는 코드처럼 신뢰하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:74 text()"
+      ]
+    },
+    {
+      "key": "MCP: ships an .mcp.json: its servers start with the plugin",
+      "ko": "MCP: .mcp.json을 포함하며, 해당 서버가 플러그인과 함께 시작됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:75 text()"
+      ]
+    },
+    {
+      "key": "{0} · first 12 shown",
+      "ko": "{0} · 처음 12개 표시",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:80 section()"
+      ]
+    },
+    {
+      "key": "Commands",
+      "ko": "명령",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:85 group()"
+      ]
+    },
+    {
+      "key": "reading the marketplace clone…",
+      "ko": "마켓플레이스 클론을 읽는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:110 rule()"
+      ]
+    },
+    {
+      "key": "read the catalog",
+      "ko": "카탈로그 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:110 button()"
+      ]
+    },
+    {
+      "key": "catalog",
+      "ko": "카탈로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:110 col()",
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:169 col()"
+      ]
+    },
+    {
+      "key": "{0} plugins · {1} installed · {2} enabled",
+      "ko": "플러그인 {0}개 · 설치 {1} · 활성화 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:121 rule()"
+      ]
+    },
+    {
+      "key": "{0} skills · {1} agents · {2} commands · {3} MCP · {4} mods · ■ enabled □ installed · not installed",
+      "ko": "스킬 {0} · 에이전트 {1} · 명령 {2} · MCP {3} · mod {4} · ■ 활성화 □ 설치됨 · 미설치",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:122 text()"
+      ]
+    },
+    {
+      "key": "marketplace not added",
+      "ko": "마켓플레이스가 추가되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:131 text()"
+      ]
+    },
+    {
+      "key": "clone pulled {0} · STALE",
+      "ko": "클론 갱신 {0} · STALE",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:131 text()"
+      ]
+    },
+    {
+      "key": "clone pulled {0}",
+      "ko": "클론 갱신 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:131 text()"
+      ]
+    },
+    {
+      "key": "◂ Plugins: health",
+      "ko": "◂ 플러그인: 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:132 button()"
+      ]
+    },
+    {
+      "key": "↻ update marketplace",
+      "ko": "↻ 마켓 갱신",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:133 button()"
+      ]
+    },
+    {
+      "key": "filter: from the palette (p): catalog filters need a surface with text fields",
+      "ko": "필터: 팔레트(p)에서 설정하세요. 카탈로그 필터는 텍스트 입력란이 있는 화면이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:150 text()"
+      ]
+    },
+    {
+      "key": "filter",
+      "ko": "필터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:151 label",
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:151 submitLabel"
+      ]
+    },
+    {
+      "key": "a name, a skill, an agent or a word from a description: Enter filters",
+      "ko": "이름, 스킬, 에이전트 또는 설명 속 단어를 입력하고 Enter로 필터링하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:151 placeholder"
+      ]
+    },
+    {
+      "key": "{0} shown · page {1} of {2} · filter “{3}”",
+      "ko": "{0}개 표시 · {1}/{2} 쪽 · 필터 “{3}”",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:161 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · page {1} of {2}",
+      "ko": "{0}개 표시 · {1}/{2} 쪽",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:161 rule()"
+      ]
+    },
+    {
+      "key": "nothing matches this mode and filter",
+      "ko": "이 모드와 필터에 맞는 항목이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:163 text()"
+      ]
+    },
+    {
+      "key": "◂ prev",
+      "ko": "◂ 이전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:166 button()"
+      ]
+    },
+    {
+      "key": "next ▸",
+      "ko": "다음 ▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:166 button()"
+      ]
+    },
+    {
+      "key": "↻ read again",
+      "ko": "↻ 다시 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:166 button()",
+        "plugins/ruflo-console/hooks/views/settings.ts:312 button()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

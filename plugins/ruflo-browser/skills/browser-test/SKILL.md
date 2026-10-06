@@ -1,6 +1,6 @@
 ---
 name: browser-test
-description: UI test recipe -- composes browser-record (capture) + browser-replay (verify) so every test produces a replayable RVF artifact, not an ephemeral run
+description: UI 테스트 레시피 -- browser-record(캡처)와 browser-replay(검증)를 조합해, 모든 테스트가 일회성 실행이 아니라 재생 가능한 RVF 산출물을 만들게 함
 argument-hint: "<url> [--screenshot] [--against <prior-session-id>]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_click mcp__plugin_ruflo-core_ruflo__browser_fill mcp__plugin_ruflo-core_ruflo__browser_type mcp__plugin_ruflo-core_ruflo__browser_press mcp__plugin_ruflo-core_ruflo__browser_check mcp__plugin_ruflo-core_ruflo__browser_uncheck mcp__plugin_ruflo-core_ruflo__browser_select mcp__plugin_ruflo-core_ruflo__browser_hover mcp__plugin_ruflo-core_ruflo__browser_wait mcp__plugin_ruflo-core_ruflo__browser_screenshot mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__browser_get-text mcp__plugin_ruflo-core_ruflo__browser_get-title mcp__plugin_ruflo-core_ruflo__browser_get-url mcp__plugin_ruflo-core_ruflo__browser_get-value mcp__plugin_ruflo-core_ruflo__browser_eval mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__browser_session-list mcp__plugin_ruflo-core_ruflo__aidefence_is_safe Bash Read Write
 ---

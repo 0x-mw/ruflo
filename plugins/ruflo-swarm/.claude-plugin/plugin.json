@@ -1,6 +1,6 @@
 {
   "name": "ruflo-swarm",
-  "description": "Agent teams, swarm coordination, Monitor streams, and worktree isolation — wraps 4 swarm_* + 8 agent_* MCP tools (12 total) plus 6 topologies (hierarchical / mesh / hierarchical-mesh / ring / star / adaptive). With Claude Code function hooks on (early access), a live swarm pane: agent tiles lit by reads and writes, topology, task and claims board, cost, router pick and hive-mind votes, with buttons that act through the ruflo CLI",
+  "description": "에이전트 팀, 스웜 조율, Monitor 스트림, 워크트리 격리 — swarm_* 4개 + agent_* 8개 MCP 도구(총 12개)와 토폴로지 6종(hierarchical / mesh / hierarchical-mesh / ring / star / adaptive)을 감쌉니다. Claude Code 함수 훅을 켜면(얼리 액세스) 실시간 스웜 패널을 제공합니다: 읽기와 쓰기로 불이 켜지는 에이전트 타일, 토폴로지, 작업과 클레임 보드, 비용, 라우터 선택, 하이브마인드(hive-mind) 투표, ruflo CLI를 통해 동작하는 버튼",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -25,8 +25,8 @@
   "userConfig": {
     "panel": {
       "type": "string",
-      "title": "Swarm pane",
-      "description": "command (default) opens the pane only with /ruflo swarm pane (or its alias /ruflo-swarm-pane, or /ruflo-swarm:watch); auto also opens it when a ruflo swarm is on disk and the layout docks panes (ruflo-console's cockpit is the pane that opens by itself now); off never opens it.",
+      "title": "스웜 패널",
+      "description": "command(기본값)는 /ruflo swarm pane(또는 별칭 /ruflo-swarm-pane, /ruflo-swarm:watch)으로만 패널을 엽니다. auto는 디스크에 ruflo 스웜이 있고 레이아웃이 패널을 도킹할 때도 엽니다(이제 스스로 열리는 패널은 ruflo-console의 콕핏입니다). off는 절대 열지 않습니다.",
       "default": "command",
       "options": [
         "auto",
@@ -37,7 +37,7 @@
     "cli": {
       "type": "string",
       "title": "ruflo CLI",
-      "description": "How the pane's buttons reach ruflo. npx-offline (default) uses the locally cached @claude-flow/cli and never touches the network; npx may download it; ruflo and claude-flow use a global install.",
+      "description": "패널의 버튼이 ruflo에 접근하는 방식입니다. npx-offline(기본값)은 로컬에 캐시된 @claude-flow/cli를 사용하며 네트워크에 접근하지 않고, npx는 다운로드할 수 있으며, ruflo와 claude-flow는 전역 설치를 사용합니다.",
       "default": "npx-offline",
       "options": [
         "npx-offline",
@@ -48,20 +48,20 @@
     },
     "routeThreshold": {
       "type": "number",
-      "title": "Router confidence threshold",
-      "description": "A router pick under this confidence (0 to 1) is shown as below threshold, with its score, rather than as a match.",
+      "title": "라우터 신뢰도 임계값",
+      "description": "이 신뢰도(0~1) 미만의 라우터 선택은 일치로 표시하지 않고 점수와 함께 임계값 미만으로 표시합니다.",
       "default": 0.5
     },
     "injectSpawnContext": {
       "type": "boolean",
-      "title": "Swarm note in subagent prompts",
-      "description": "Append a short note naming the ruflo swarm (id, topology, strategy, read from disk) to the prompt of each subagent Claude Code spawns.",
+      "title": "서브에이전트 프롬프트의 스웜 메모",
+      "description": "Claude Code가 생성하는 각 서브에이전트의 프롬프트에 ruflo 스웜(디스크에서 읽은 ID, 토폴로지, 전략)을 명시한 짧은 메모를 덧붙입니다.",
       "default": false
     },
     "audit": {
       "type": "boolean",
-      "title": "Audit trail",
-      "description": "Record a bounded trail of engine events (event and tool names, agent ids, times; never prompts, arguments or results) into ruflo memory namespace ruflo-swarm-audit every 30 seconds.",
+      "title": "감사 추적",
+      "description": "엔진 이벤트(이벤트와 도구 이름, 에이전트 ID, 시각이며 프롬프트, 인자, 결과는 제외)의 제한된 기록을 30초마다 ruflo 메모리 네임스페이스 ruflo-swarm-audit에 남깁니다.",
       "default": false
     }
   }

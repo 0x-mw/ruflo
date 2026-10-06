@@ -1,6 +1,6 @@
 ---
 name: trader-backtest
-description: Run a historical backtest using npx neural-trader with Rust/NAPI engine (8-19x faster) and walk-forward validation; Ed25519-sign the result for paper→live tamper evidence (ADR-126 Phase 4)
+description: Rust/NAPI 엔진(8~19배 빠름)과 워크포워드 검증을 갖춘 npx neural-trader로 과거 데이터 백테스트를 실행하고, paper→live 변조 증거를 위해 결과에 Ed25519 서명(ADR-126 4단계)
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_delete mcp__plugin_ruflo-core_ruflo__neural_train mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store
 argument-hint: "<strategy-name> --symbol <TICKER> [--period 2020-2024]"
 ---

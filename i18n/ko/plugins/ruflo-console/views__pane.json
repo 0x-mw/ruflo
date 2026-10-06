@@ -1,0 +1,218 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/pane.ts",
+  "entries": [
+    {
+      "key": "{0} · /ruflo help",
+      "ko": "{0} · /ruflo help",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:110 text()"
+      ]
+    },
+    {
+      "key": "░▒▓ NAV ░▒▓",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:149 children"
+      ]
+    },
+    {
+      "key": "NAV",
+      "ko": "NAV",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:149 children"
+      ]
+    },
+    {
+      "key": "one agent's role, task, claims, activity and logs · b goes back to {0}",
+      "ko": "에이전트 하나의 역할, 작업, 클레임, 활동, 로그 · b로 {0}(으)로 돌아갑니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:174 const"
+      ]
+    },
+    {
+      "key": "about",
+      "ko": "정보",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:182 row()",
+        "plugins/ruflo-console/hooks/views/pane.ts:188 row()"
+      ]
+    },
+    {
+      "key": "confirm needed: {0} — y yes · n cancel (under what you clicked)",
+      "ko": "확인 필요: {0} — y 예 · n 취소 (클릭한 항목 아래)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:197 text()"
+      ]
+    },
+    {
+      "key": "confirm needed: {0} — y yes · n cancel",
+      "ko": "확인 필요: {0} — y 예 · n 취소",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:197 text()"
+      ]
+    },
+    {
+      "key": "[DIALING…]",
+      "ko": "[연결 중…]",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:210 const"
+      ]
+    },
+    {
+      "key": "[LINK OK] ▸ sync {0}",
+      "ko": "[연결됨] ▸ 동기화 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:210 const"
+      ]
+    },
+    {
+      "key": "keys on",
+      "ko": "키 켜짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:211 const"
+      ]
+    },
+    {
+      "key": "keys off: click the pane (or /ruflo …)",
+      "ko": "키 꺼짐: 패널을 클릭하세요 (또는 /ruflo …)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:211 const"
+      ]
+    },
+    {
+      "key": "✦ Ask Claude",
+      "ko": "✦ Claude에게 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:220 full"
+      ]
+    },
+    {
+      "key": "Refresh",
+      "ko": "새로고침",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:222 full"
+      ]
+    },
+    {
+      "key": "Close",
+      "ko": "닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:224 full"
+      ]
+    },
+    {
+      "key": "keys off",
+      "ko": "키 꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:232 const"
+      ]
+    },
+    {
+      "key": "footer",
+      "ko": "푸터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:256 col()"
+      ]
+    },
+    {
+      "key": "RUFLO",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:274 children"
+      ]
+    },
+    {
+      "key": "AGENTS WELCOME.",
+      "ko": "에이전트 환영.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:276 clip()"
+      ]
+    },
+    {
+      "key": "welcome",
+      "ko": "환영",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:277 row()"
+      ]
+    },
+    {
+      "key": "NETWORKS:",
+      "ko": "네트워크:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:285 children"
+      ]
+    },
+    {
+      "key": "boot",
+      "ko": "부팅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:372 col()",
+        "plugins/ruflo-console/hooks/views/pane.ts:373 col()"
+      ]
+    },
+    {
+      "key": "RUFLO AGENT SWARM CONSOLE · loading…",
+      "ko": "RUFLO 에이전트 스웜 콘솔 · 불러오는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:373 text()"
+      ]
+    },
+    {
+      "key": "body",
+      "ko": "본문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:410 col()"
+      ]
+    },
+    {
+      "key": "Box",
+      "ko": "상자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:451 element()"
+      ]
+    },
+    {
+      "key": "Text",
+      "ko": "텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:451 element()"
+      ]
+    },
+    {
+      "key": "Button",
+      "ko": "버튼",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/pane.ts:451 element()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

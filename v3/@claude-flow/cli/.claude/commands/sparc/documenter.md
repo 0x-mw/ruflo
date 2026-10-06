@@ -1,3 +1,7 @@
+---
+description: SPARC 문서화 모드
+---
+
 # SPARC Documenter Mode
 
 ## Purpose

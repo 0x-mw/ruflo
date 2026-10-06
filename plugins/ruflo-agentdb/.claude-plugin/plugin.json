@@ -1,6 +1,6 @@
 {
   "name": "ruflo-agentdb",
-  "description": "Substrate plugin for Ruflo memory: AgentDB controller bridge (15 agentdb_* MCP tools), RuVector ONNX embeddings (10 embeddings_* tools incl. RaBitQ 32x quantization), and WASM HNSW pattern router (3 ruvllm_hnsw_* tools). As a mod (ADR-445): opt-in safe recall into the prompt, a write guard that keeps secrets out of memory, /agentdb, and a status file the console shows",
+  "description": "Ruflo 메모리의 기반 플러그인: AgentDB 컨트롤러 브리지(agentdb_* MCP 도구 15개), RuVector ONNX 임베딩(RaBitQ 32배 양자화를 포함한 embeddings_* 도구 10개), WASM HNSW 패턴 라우터(ruvllm_hnsw_* 도구 3개). mod(ADR-445)로서 프롬프트에 안전하게 메모리를 불러오는 옵트인 기능, 비밀이 메모리에 들어가지 않게 하는 쓰기 가드, /agentdb, 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.4.7",
   "author": {
     "name": "ruvnet",
@@ -28,8 +28,8 @@
   "userConfig": {
     "recall": {
       "type": "string",
-      "title": "Recall into prompts",
-      "description": "Attach the best few matching memories to each prompt as retrieved data. Off by default: it adds tokens to every prompt.",
+      "title": "프롬프트에 메모리 불러오기",
+      "description": "일치하는 메모리 중 가장 좋은 몇 개를 조회된 데이터로 각 프롬프트에 첨부합니다. 기본값은 꺼짐: 모든 프롬프트에 토큰이 추가됩니다.",
       "required": false,
       "default": "off",
       "options": [
@@ -39,22 +39,22 @@
     },
     "recallLimit": {
       "type": "number",
-      "title": "Memories per prompt",
-      "description": "How many memories to attach, 1 to 5.",
+      "title": "프롬프트당 메모리 수",
+      "description": "첨부할 메모리 개수(1~5)입니다.",
       "required": false,
       "default": 3
     },
     "recallDeadlineMs": {
       "type": "number",
-      "title": "Recall deadline (ms)",
-      "description": "Give up and send the prompt without memory after this long, 200 to 3000.",
+      "title": "불러오기 제한 시간(ms)",
+      "description": "이 시간(200~3000)이 지나면 포기하고 메모리 없이 프롬프트를 보냅니다.",
       "required": false,
       "default": 800
     },
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse memory writes that hold a key, token or password.",
+      "title": "비밀 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 메모리 쓰기를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [
@@ -64,8 +64,8 @@
     },
     "source": {
       "type": "string",
-      "title": "Memory source",
-      "description": "Which connected tool to read: auto (AgentDB, then ruvector), agentdb, ruvector, or none.",
+      "title": "메모리 소스",
+      "description": "읽어 올 연결된 도구: auto(AgentDB, 그다음 ruvector), agentdb, ruvector, none 중 하나입니다.",
       "required": false,
       "default": "auto",
       "options": [

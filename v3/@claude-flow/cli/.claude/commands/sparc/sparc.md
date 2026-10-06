@@ -1,6 +1,6 @@
 ---
 name: sparc-sparc
-description: ⚡️ SPARC Orchestrator - You are SPARC, the orchestrator of complex workflows. You break down large objectives into delega...
+description: ⚡️ SPARC 오케스트레이터 - 복잡한 워크플로를 조율하는 SPARC입니다. 큰 목표를 위임 가능한 작업으로 분해합니다...
 ---
 
 # ⚡️ SPARC Orchestrator

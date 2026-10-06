@@ -1,0 +1,80 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/agntcy/publish.ts",
+  "entries": [
+    {
+      "key": "missing or empty required field \"name\"",
+      "ko": "필수 필드 \"name\" 이(가) 없거나 비어 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:60 errors.push"
+      ]
+    },
+    {
+      "key": "missing or empty required field \"version\"",
+      "ko": "필수 필드 \"version\" 이(가) 없거나 비어 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:63 errors.push"
+      ]
+    },
+    {
+      "key": "No OASF agent record found at \"{0}\". Run the metaharness ADR-240 build step first, or pass --manifest <path>.",
+      "ko": "\"{0}\"에 OASF 에이전트 레코드가 없습니다. 먼저 metaharness ADR-240 빌드 단계를 실행하거나 --manifest <path> 를 지정하세요.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:100 printError"
+      ]
+    },
+    {
+      "key": "\"{0}\" is not valid JSON: {1}",
+      "ko": "\"{0}\" 은(는) 올바른 JSON이 아닙니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:111 printError"
+      ]
+    },
+    {
+      "key": "\"{0}\" is not a valid OASF agent record:",
+      "ko": "\"{0}\" 은(는) 올바른 OASF 에이전트 레코드가 아닙니다:",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:118 printError"
+      ]
+    },
+    {
+      "key": "Validated OASF record at \"{0}\" locally (name={1}, version={2}); publish to the Directory was skipped.",
+      "ko": "\"{0}\"의 OASF 레코드를 로컬에서 검증했습니다 (name={1}, version={2}). 디렉터리 게시는 건너뛰었습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:132 printInfo"
+      ]
+    },
+    {
+      "key": "Published agent record to {0}.",
+      "ko": "에이전트 레코드를 게시했습니다: {0}.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:150 printSuccess"
+      ]
+    },
+    {
+      "key": "Published agent record.",
+      "ko": "에이전트 레코드를 게시했습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:150 printSuccess"
+      ]
+    },
+    {
+      "key": "Directory publish failed: {0}",
+      "ko": "디렉터리에 게시하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:154 printError"
+      ]
+    }
+  ],
+  "obsolete": []
+}

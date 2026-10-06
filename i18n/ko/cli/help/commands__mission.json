@@ -1,0 +1,120 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/mission.ts",
+  "entries": [
+    {
+      "key": "ADR-406 mission control: create, plan, get, events, action (shared runtime with the mission_* MCP tools)",
+      "ko": "ADR-406 미션 컨트롤: create, plan, get, events, action (mission_* MCP 도구와 같은 런타임 공유)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:78 description"
+      ]
+    },
+    {
+      "key": "create: mission objective",
+      "ko": "create: 미션 목표",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:80 description"
+      ]
+    },
+    {
+      "key": "Mission id (msn_…)",
+      "ko": "미션 ID (msn_…)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:81 description"
+      ]
+    },
+    {
+      "key": "Idempotency key; reuse only to retry the same request",
+      "ko": "멱등성 키. 같은 요청을 재시도할 때만 재사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:82 description"
+      ]
+    },
+    {
+      "key": "Revision the request was prepared against",
+      "ko": "요청이 준비된 기준 리비전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:83 description"
+      ]
+    },
+    {
+      "key": "plan: JSON file with { tasks, acceptance, budget, scope }",
+      "ko": "plan: { tasks, acceptance, budget, scope }가 담긴 JSON 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:84 description"
+      ]
+    },
+    {
+      "key": "events: cursor (last sequence seen)",
+      "ko": "events: 커서 (마지막으로 본 시퀀스)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:85 description"
+      ]
+    },
+    {
+      "key": "events: page size (max 500)",
+      "ko": "events: 페이지 크기 (최대 500)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:86 description"
+      ]
+    },
+    {
+      "key": "action: requestAuthorization | pause | cancel | admit | resume",
+      "ko": "action: requestAuthorization | pause | cancel | admit | resume",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:87 description"
+      ]
+    },
+    {
+      "key": "action: reason",
+      "ko": "action: 사유",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:88 description"
+      ]
+    },
+    {
+      "key": "Project root (default: cwd)",
+      "ko": "프로젝트 루트 (기본값: cwd)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:89 description"
+      ]
+    },
+    {
+      "key": "Create a draft mission",
+      "ko": "초안 미션 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:92 description"
+      ]
+    },
+    {
+      "key": "Submit a plan",
+      "ko": "계획 제출",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:93 description"
+      ]
+    },
+    {
+      "key": "Read events from a cursor",
+      "ko": "커서부터 이벤트 읽기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mission.ts:94 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

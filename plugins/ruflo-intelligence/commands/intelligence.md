@@ -1,6 +1,6 @@
 ---
 name: intelligence
-description: Intelligence dashboard -- stats, metrics, model routing, routing rationale on demand
+description: 인텔리전스 대시보드 -- 통계, 메트릭, 모델 라우팅, 요청 시 라우팅 근거 표시
 ---
 
 Show the intelligence system dashboard:

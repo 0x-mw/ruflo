@@ -1,0 +1,128 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/ap-adapt.ts",
+  "entries": [
+    {
+      "key": "{0} steps fail {1} at {2}",
+      "ko": "스텝의 {0}이(가) {2}에서 {1} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:123 reason"
+      ]
+    },
+    {
+      "key": "{0} steps are clean at {1} ({2} of them)",
+      "ko": "스텝의 {0}이(가) {1}에서 정상 ({2}개)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:124 reason"
+      ]
+    },
+    {
+      "key": "{0} of steps fail at parallelism {1}",
+      "ko": "병렬도 {1}에서 스텝의 {0} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:129 reason"
+      ]
+    },
+    {
+      "key": "steps are clean at parallelism {0} ({1} of them)",
+      "ko": "병렬도 {0}에서 스텝이 정상 ({1}개)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:130 reason"
+      ]
+    },
+    {
+      "key": "{0} of retried steps succeed",
+      "ko": "재시도한 스텝의 {0} 성공",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:134 reason"
+      ]
+    },
+    {
+      "key": "{0} settled steps on the current setting, {1} needed",
+      "ko": "현재 설정에서 확정된 스텝 {0}개, 필요 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:147 evidence"
+      ]
+    },
+    {
+      "key": "{0} steps replayed: {1} of retries succeed",
+      "ko": "스텝 {0}개 리플레이: 재시도의 {1} 성공",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:154 evidence"
+      ]
+    },
+    {
+      "key": "{0} steps replayed: {1} fail",
+      "ko": "스텝 {0}개 리플레이: {1} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:154 evidence"
+      ]
+    },
+    {
+      "key": "{0} steps replayed: not enough of a problem ({1} fail)",
+      "ko": "스텝 {0}개 리플레이: 문제로 보기엔 부족함 ({1} 실패)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:154 evidence"
+      ]
+    },
+    {
+      "key": "{0} steps replayed: {1} fail on the current setting; enters a trial and is reverted if the new setting does worse",
+      "ko": "스텝 {0}개 리플레이: 현재 설정에서 {1} 실패. 시험에 들어가며 새 설정이 더 나쁘면 되돌립니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:157 evidence"
+      ]
+    },
+    {
+      "key": "{0} steps replayed: {1} fail, not clean enough to try less caution",
+      "ko": "스텝 {0}개 리플레이: {1} 실패. 신중함을 낮춰 시도하기엔 충분히 깨끗하지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:157 evidence"
+      ]
+    },
+    {
+      "key": "not promoted: {0} ({1})",
+      "ko": "승격하지 않음: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:167 why"
+      ]
+    },
+    {
+      "key": "not promoted: that is not a tunable or the value is out of range",
+      "ko": "승격하지 않음: 조정 가능한 항목이 아니거나 값이 범위를 벗어났습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:171 why"
+      ]
+    },
+    {
+      "key": "not promoted: the result would sit outside the envelope or a range",
+      "ko": "승격하지 않음: 결과가 엔벨로프나 범위를 벗어납니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:175 why"
+      ]
+    },
+    {
+      "key": "revert {0}",
+      "ko": "{0} 되돌리기",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-adapt.ts:210 reason"
+      ]
+    }
+  ],
+  "obsolete": []
+}

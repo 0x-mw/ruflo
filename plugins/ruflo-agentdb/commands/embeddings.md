@@ -1,6 +1,6 @@
 ---
 name: embeddings
-description: RuVector embedding engine status and operations -- ONNX, HNSW, RaBitQ quantization
+description: RuVector 임베딩 엔진 상태와 작업 -- ONNX, HNSW, RaBitQ 양자화
 ---
 
 Embedding engine commands:

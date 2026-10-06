@@ -1,3 +1,7 @@
+---
+description: 분석 명령어
+---
+
 # Analysis Commands
 
 Commands for analysis operations in Claude Flow.

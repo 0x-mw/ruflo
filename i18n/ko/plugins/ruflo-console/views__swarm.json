@@ -1,0 +1,192 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/swarm.ts",
+  "entries": [
+    {
+      "key": "No swarm here yet: start a hierarchical one, then spawn agents into it.",
+      "ko": "아직 스웜이 없습니다. 계층형 스웜을 시작한 뒤 에이전트를 생성하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:25 starts()"
+      ]
+    },
+    {
+      "key": "topology",
+      "ko": "토폴로지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "{0} (hive-mind)",
+      "ko": "{0} (하이브마인드, hive-mind)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "n/a (hive-mind)",
+      "ko": "n/a (하이브마인드, hive-mind)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "graph needs a terminal: {0} agents",
+      "ko": "그래프는 터미널이 필요합니다: 에이전트 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:31 picture()"
+      ]
+    },
+    {
+      "key": "leader · ◉ busy (a dot runs to it while it works) · ● idle · grey stopped · a white flash = an event about that agent",
+      "ko": "리더 · ◉ 작업 중(작업하는 동안 점이 달려옵니다) · ● 대기 · 회색 중지 · 흰색 깜빡임 = 해당 에이전트의 이벤트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:32 text()"
+      ]
+    },
+    {
+      "key": "{0} · j/k pick · d open · x actions",
+      "ko": "{0} · j/k 선택 · d 열기 · x 동작",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:33 rule()"
+      ]
+    },
+    {
+      "key": "{0} {1} {2} tasks {3} · health n/a · #{4}",
+      "ko": "{0} {1} {2} 작업 {3} · 상태 n/a · #{4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "{0} {1} {2} tasks {3} · health {4}% · #{5}",
+      "ko": "{0} {1} {2} 작업 {3} · 상태 {4}% · #{5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "{0} {1} {2} tasks n/a · health n/a · #{3}",
+      "ko": "{0} {1} {2} 작업 n/a · 상태 n/a · #{3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "{0} {1} {2} tasks n/a · health {3}% · #{4}",
+      "ko": "{0} {1} {2} 작업 n/a · 상태 {3}% · #{4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "{0} {1} tasks {2} · health n/a · #{3}",
+      "ko": "{0} {1} 작업 {2} · 상태 n/a · #{3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "{0} {1} tasks {2} · health {3}% · #{4}",
+      "ko": "{0} {1} 작업 {2} · 상태 {3}% · #{4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "{0} {1} tasks n/a · health n/a · #{2}",
+      "ko": "{0} {1} 작업 n/a · 상태 n/a · #{2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "{0} {1} tasks n/a · health {2}% · #{3}",
+      "ko": "{0} {1} 작업 n/a · 상태 {2}% · #{3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:49 clip()"
+      ]
+    },
+    {
+      "key": "+{0} more (j/k walks all of them)",
+      "ko": "+{0}개 더 있음 (j/k로 모두 이동)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:55 text()"
+      ]
+    },
+    {
+      "key": "Open agent",
+      "ko": "에이전트 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:58 button()"
+      ]
+    },
+    {
+      "key": "Hive-mind",
+      "ko": "하이브마인드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:61 rule()"
+      ]
+    },
+    {
+      "key": "consensus · queen {0}",
+      "ko": "합의 · 퀸 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:61 rule()"
+      ]
+    },
+    {
+      "key": "No hive-mind yet: queen-led consensus for the swarm.",
+      "ko": "아직 하이브마인드(hive-mind)가 없습니다: 스웜을 위한 퀸 주도 합의입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:65 starts()"
+      ]
+    },
+    {
+      "key": "{0} workers · {1} open · {2} decided · {3} broadcasts",
+      "ko": "워커 {0} · 진행 중 {1} · 결정됨 {2} · 브로드캐스트 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:69 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} ({1}) {2} · for {3} · against {4} · {5}",
+      "ko": "◇ {0} ({1}) {2} · 찬성 {3} · 반대 {4} · {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:70 text()"
+      ]
+    },
+    {
+      "key": "open hive",
+      "ko": "하이브 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/swarm.ts:73 button()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

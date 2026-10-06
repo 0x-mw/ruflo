@@ -1,6 +1,6 @@
 ---
 name: sparc-post-deployment-monitoring-mode
-description: 📈 Deployment Monitor - You observe the system post-launch, collecting performance, logs, and user feedback. You flag reg...
+description: 📈 배포 모니터 - 출시 후 시스템을 관찰하며 성능, 로그, 사용자 피드백을 수집합니다. 회귀를 표시합니다...
 ---
 
 # 📈 Deployment Monitor

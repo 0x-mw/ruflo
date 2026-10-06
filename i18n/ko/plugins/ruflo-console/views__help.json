@@ -1,0 +1,178 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/help.ts",
+  "entries": [
+    {
+      "key": "run it",
+      "ko": "실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:18 return"
+      ]
+    },
+    {
+      "key": "✦ ask Claude with these docs (starts a turn, asks first)",
+      "ko": "✦ 이 문서로 Claude 에게 질문 (턴을 시작하며 먼저 확인)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:53 button()"
+      ]
+    },
+    {
+      "key": "no guide matches",
+      "ko": "일치하는 가이드가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:56 rule()"
+      ]
+    },
+    {
+      "key": "I could not find a guide for that. Try fewer or different words, or ask Claude.",
+      "ko": "해당 가이드를 찾지 못했습니다. 단어를 줄이거나 바꿔 보거나 Claude 에게 질문하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:56 text()"
+      ]
+    },
+    {
+      "key": "{0} guide · best match first",
+      "ko": "가이드 {0}개 · 일치도 높은 순",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:62 rule()"
+      ]
+    },
+    {
+      "key": "{0} guides · best match first",
+      "ko": "가이드 {0}개 · 일치도 높은 순",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:62 rule()"
+      ]
+    },
+    {
+      "key": "the full guide ({0} steps)",
+      "ko": "전체 가이드 ({0}단계)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:66 button()"
+      ]
+    },
+    {
+      "key": "open the guide",
+      "ko": "가이드 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:66 button()"
+      ]
+    },
+    {
+      "key": "also",
+      "ko": "함께 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:67 text()"
+      ]
+    },
+    {
+      "key": "Start here",
+      "ko": "여기서 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:76 rule()"
+      ]
+    },
+    {
+      "key": "new to ruflo? read these three, in order",
+      "ko": "ruflo 가 처음이세요? 이 세 가지를 순서대로 읽으세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:76 rule()"
+      ]
+    },
+    {
+      "key": "Help",
+      "ko": "도움말",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:112 rule()",
+        "plugins/ruflo-console/hooks/views/menu.ts:55 label",
+        "plugins/ruflo-console/hooks/views/pane.ts:223 full"
+      ]
+    },
+    {
+      "key": "ruHelp · {0} guides",
+      "ko": "ruHelp · 가이드 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:112 rule()"
+      ]
+    },
+    {
+      "key": "this surface has no text field: /ruflo help, or press ✦ Ask Claude on any page",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다. /ruflo help 를 쓰거나 아무 페이지에서 ✦ Claude에게 질문 을 누르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:116 text()"
+      ]
+    },
+    {
+      "key": "ruHelp ›",
+      "ko": "ruHelp ›",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:119 label"
+      ]
+    },
+    {
+      "key": "ask anything: how do I start a swarm? set a budget? what is a claim?",
+      "ko": "무엇이든 질문하세요: 스웜은 어떻게 시작하나요? 예산은 어떻게 설정하나요? 클레임이란 무엇인가요?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:120 placeholder"
+      ]
+    },
+    {
+      "key": "◂ all guides",
+      "ko": "◂ 전체 가이드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:135 button()"
+      ]
+    },
+    {
+      "key": "Close help",
+      "ko": "도움말 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:137 button()"
+      ]
+    },
+    {
+      "key": "More",
+      "ko": "더 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:138 rule()"
+      ]
+    },
+    {
+      "key": "the full explainer: docs/ruflo-explained.md in the ruflo repository (github.com/ruvnet/ruflo) · bugs: github.com/ruvnet/ruflo/issues",
+      "ko": "전체 설명: ruflo 저장소의 docs/ruflo-explained.md (github.com/ruvnet/ruflo) · 버그: github.com/ruvnet/ruflo/issues",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:139 text()"
+      ]
+    },
+    {
+      "key": "✦ Ask Claude on any page sends that page with a question · /ruflo commands lists every command",
+      "ko": "✦ Claude에게 질문 은 현재 페이지와 질문을 함께 보냅니다 · /ruflo commands 는 모든 명령을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/help.ts:140 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

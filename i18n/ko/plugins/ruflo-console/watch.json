@@ -1,0 +1,32 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/watch.ts",
+  "entries": [
+    {
+      "key": "5 min",
+      "ko": "5분",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/watch.ts:11 label"
+      ]
+    },
+    {
+      "key": "15 min",
+      "ko": "15분",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/watch.ts:12 label"
+      ]
+    },
+    {
+      "key": "60 min",
+      "ko": "60분",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/watch.ts:13 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

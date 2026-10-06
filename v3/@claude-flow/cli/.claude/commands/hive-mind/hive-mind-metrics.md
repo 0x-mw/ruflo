@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 메트릭
+---
+
 # hive-mind-metrics
 
 Command documentation for hive-mind-metrics in category hive-mind.

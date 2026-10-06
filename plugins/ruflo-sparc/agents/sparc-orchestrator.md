@@ -1,6 +1,6 @@
 ---
 name: sparc-orchestrator
-description: Orchestrates the 5-phase SPARC methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with quality gates between each phase, spawning specialized agents per phase
+description: 단계마다 품질 게이트를 두고 단계별 전문 에이전트를 생성하며 5단계 SPARC 방법론(명세, 의사코드, 아키텍처, 개선, 완료)을 오케스트레이션
 model: sonnet
 ---
 

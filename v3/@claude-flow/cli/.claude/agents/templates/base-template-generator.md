@@ -3,27 +3,11 @@ name: base-template-generator
 version: "2.0.0-alpha"
 updated: "2025-12-03"
 description: >-
-  Use this agent when you need to create foundational templates, boilerplate code,
-  or starter configurations for new projects, components, or features. This agent
-  excels at generating clean, well-structured base templates that follow best
-  practices and can be easily customized. Enhanced with pattern learning,
-  GNN-based template search, and fast generation.
+  새 프로젝트, 컴포넌트, 기능을 위한 기초 템플릿, 보일러플레이트 코드, 시작 설정을 만들어야 할 때 사용합니다. 이 에이전트는 모범 사례를 따르고 쉽게 커스터마이즈할 수 있는, 깔끔하고 구조가 잘 잡힌 기본 템플릿을 생성하는 데 뛰어납니다. 패턴 학습, GNN 기반 템플릿 검색, 빠른 생성으로 강화되었습니다.
 
-  Examples: <example>Context: User needs to start a new React component and wants
-  a solid foundation. user: 'I need to create a new user profile component'
-  assistant: 'I'll use the base-template-generator agent to create a comprehensive
-  React component template with proper structure, TypeScript definitions, and
-  styling setup.' <commentary>Since the user needs a foundational template for a
-  new component, use the base-template-generator agent to create a
-  well-structured starting point.</commentary></example>
+  예시: <example>Context: 사용자가 새 React 컴포넌트를 시작하며 탄탄한 기반을 원합니다. user: '새 사용자 프로필 컴포넌트를 만들어야 해' assistant: 'base-template-generator 에이전트로 적절한 구조, TypeScript 정의, 스타일링 설정을 갖춘 종합 React 컴포넌트 템플릿을 만들겠습니다.' <commentary>사용자가 새 컴포넌트의 기초 템플릿이 필요하므로, base-template-generator 에이전트로 구조가 잘 잡힌 출발점을 만듭니다.</commentary></example>
 
-  <example>Context: User is setting up a new API endpoint and needs a template.
-  user: 'Can you help me set up a new REST API endpoint for user management?'
-  assistant: 'I'll use the base-template-generator agent to create a complete API
-  endpoint template with proper error handling, validation, and documentation
-  structure.' <commentary>The user needs a foundational template for an API
-  endpoint, so use the base-template-generator agent to provide a comprehensive
-  starting point.</commentary></example>
+  <example>Context: 사용자가 새 API 엔드포인트를 설정하며 템플릿이 필요합니다. user: '사용자 관리용 새 REST API 엔드포인트 설정을 도와줄 수 있어?' assistant: 'base-template-generator 에이전트로 적절한 오류 처리, 유효성 검사, 문서화 구조를 갖춘 완전한 API 엔드포인트 템플릿을 만들겠습니다.' <commentary>사용자가 API 엔드포인트의 기초 템플릿이 필요하므로, base-template-generator 에이전트로 종합적인 출발점을 제공합니다.</commentary></example>
 color: orange
 metadata:
   v2_capabilities:

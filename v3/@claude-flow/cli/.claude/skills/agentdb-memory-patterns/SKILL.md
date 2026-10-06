@@ -1,6 +1,6 @@
 ---
 name: "AgentDB Memory Patterns"
-description: "Implement persistent memory patterns for AI agents using AgentDB. Includes session memory, long-term storage, pattern learning, and context management. Use when building stateful agents, chat systems, or intelligent assistants."
+description: "AgentDB로 AI 에이전트용 영속 메모리 패턴을 구현합니다. 세션 메모리, 장기 저장소, 패턴 학습, 컨텍스트 관리를 포함합니다. 상태를 가진 에이전트(stateful agents), 채팅 시스템, 지능형 어시스턴트를 만들 때 사용합니다."
 ---
 
 # AgentDB Memory Patterns

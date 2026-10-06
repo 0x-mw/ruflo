@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/updates.ts",
+  "entries": [
+    {
+      "key": "Update now",
+      "ko": "지금 업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/updates.ts:35 now"
+      ]
+    },
+    {
+      "key": "Always auto-update",
+      "ko": "항상 자동 업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/updates.ts:35 always"
+      ]
+    },
+    {
+      "key": "Not now",
+      "ko": "나중에",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/updates.ts:35 later"
+      ]
+    },
+    {
+      "key": "\"{0}\" installs every new minor or patch version published there without asking (a new major version always asks). You can turn it off in Settings.",
+      "ko": "\"{0}\"에 게시되는 새 마이너·패치 버전을 묻지 않고 모두 설치합니다 (새 메이저 버전은 항상 묻습니다). 설정에서 끌 수 있습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/updates.ts:98 const"
+      ]
+    },
+    {
+      "key": "It runs claude plugin marketplace update, then claude plugin update, and takes effect after you restart Claude Code or run /reload-plugins.",
+      "ko": "claude plugin marketplace update를 실행한 뒤 claude plugin update를 실행하며, Claude Code를 다시 시작하거나 /reload-plugins를 실행하면 적용됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/updates.ts:99 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

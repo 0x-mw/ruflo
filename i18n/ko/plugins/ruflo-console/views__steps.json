@@ -1,0 +1,519 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/steps.ts",
+  "entries": [
+    {
+      "key": "Set ruflo up here",
+      "ko": "여기에 ruflo 설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:21 title"
+      ]
+    },
+    {
+      "key": "Initialise ruflo in this project",
+      "ko": "이 프로젝트에서 ruflo 초기화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:23 label",
+        "plugins/ruflo-console/hooks/views/steps.ts:31 label",
+        "plugins/ruflo-console/hooks/views/steps.ts:42 label"
+      ]
+    },
+    {
+      "key": "creates .claude-flow and the mods",
+      "ko": ".claude-flow와 mod를 만듭니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:23 why",
+        "plugins/ruflo-console/hooks/views/steps.ts:31 why",
+        "plugins/ruflo-console/hooks/views/steps.ts:42 why"
+      ]
+    },
+    {
+      "key": "Start the daemon",
+      "ko": "데몬 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:24 label",
+        "plugins/ruflo-console/hooks/views/steps.ts:59 label"
+      ]
+    },
+    {
+      "key": "background workers: map, audit, optimize, consolidate",
+      "ko": "백그라운드 워커: map, audit, optimize, consolidate",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:24 why"
+      ]
+    },
+    {
+      "key": "Start a swarm",
+      "ko": "스웜 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:25 label",
+        "plugins/ruflo-console/hooks/views/steps.ts:32 label"
+      ]
+    },
+    {
+      "key": "hierarchical, up to 8 agents",
+      "ko": "계층형, 에이전트 최대 8개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:25 why"
+      ]
+    },
+    {
+      "key": "Get a swarm going",
+      "ko": "스웜 가동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:29 title"
+      ]
+    },
+    {
+      "key": "hierarchical, specialized, up to 8 agents",
+      "ko": "계층형, 전문 전략, 에이전트 최대 8개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:32 why"
+      ]
+    },
+    {
+      "key": "Spawn a coder",
+      "ko": "코더 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:33 label"
+      ]
+    },
+    {
+      "key": "writes the code",
+      "ko": "코드를 작성합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:33 why"
+      ]
+    },
+    {
+      "key": "Spawn a tester",
+      "ko": "테스터 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:34 label"
+      ]
+    },
+    {
+      "key": "checks it",
+      "ko": "점검합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:34 why"
+      ]
+    },
+    {
+      "key": "Spawn a reviewer",
+      "ko": "리뷰어 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:35 label"
+      ]
+    },
+    {
+      "key": "reviews it",
+      "ko": "검토합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:35 why"
+      ]
+    },
+    {
+      "key": "Watch them work",
+      "ko": "작업 지켜보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:36 label"
+      ]
+    },
+    {
+      "key": "who is busy, and when",
+      "ko": "누가 언제 바쁜지 보여 줍니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:36 why"
+      ]
+    },
+    {
+      "key": "Start a hive-mind",
+      "ko": "하이브마인드(hive-mind) 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:40 title",
+        "plugins/ruflo-console/hooks/views/steps.ts:43 label"
+      ]
+    },
+    {
+      "key": "a queen and raft consensus",
+      "ko": "퀸과 raft 합의",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:43 why"
+      ]
+    },
+    {
+      "key": "Spawn three workers",
+      "ko": "워커 3개 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:44 label"
+      ]
+    },
+    {
+      "key": "the voters",
+      "ko": "투표자입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:44 why"
+      ]
+    },
+    {
+      "key": "Propose a decision",
+      "ko": "결정 제안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:45 label"
+      ]
+    },
+    {
+      "key": "the workers vote on it",
+      "ko": "워커가 투표합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:45 why"
+      ]
+    },
+    {
+      "key": "Cast votes",
+      "ko": "투표하기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:46 label"
+      ]
+    },
+    {
+      "key": "every vote and ask, in one place",
+      "ko": "모든 투표와 확인 요청을 한곳에서 봅니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:46 why"
+      ]
+    },
+    {
+      "key": "Put work on the board",
+      "ko": "보드에 작업 올리기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:50 title"
+      ]
+    },
+    {
+      "key": "Create a task",
+      "ko": "작업 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:52 label"
+      ]
+    },
+    {
+      "key": "one line says what must be done",
+      "ko": "해야 할 일을 한 줄로 적습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:52 why"
+      ]
+    },
+    {
+      "key": "Claim it",
+      "ko": "클레임하기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:53 label"
+      ]
+    },
+    {
+      "key": "one owner per task, with a time limit",
+      "ko": "작업당 소유자 한 명, 시간 제한 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:53 why"
+      ]
+    },
+    {
+      "key": "Teach ruflo this repo",
+      "ko": "ruflo에 이 저장소 학습시키기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:57 title"
+      ]
+    },
+    {
+      "key": "its workers do the learning",
+      "ko": "워커가 학습을 수행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:59 why"
+      ]
+    },
+    {
+      "key": "Pretrain on this repo",
+      "ko": "이 저장소로 사전 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:60 label"
+      ]
+    },
+    {
+      "key": "seeds the patterns the router uses",
+      "ko": "라우터가 쓰는 패턴을 심습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:60 why"
+      ]
+    },
+    {
+      "key": "Open the Learning Lab",
+      "ko": "학습 랩 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:61 label"
+      ]
+    },
+    {
+      "key": "train, predict, search and store patterns",
+      "ko": "패턴을 학습, 예측, 검색, 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:61 why"
+      ]
+    },
+    {
+      "key": "registers your own key (it asks first)",
+      "ko": "내 키를 등록합니다 (먼저 확인)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:67 why"
+      ]
+    },
+    {
+      "key": "Read the public announcements",
+      "ko": "공개 공지 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:68 label"
+      ]
+    },
+    {
+      "key": "pub:announce, signed by the swarm",
+      "ko": "pub:announce, 스웜이 서명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:68 why"
+      ]
+    },
+    {
+      "key": "Open the x.ruv.io board",
+      "ko": "x.ruv.io 보드 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:69 label"
+      ]
+    },
+    {
+      "key": "registry, roster, work claims, AgentBBS",
+      "ko": "레지스트리, 명단, 작업 클레임, AgentBBS",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:69 why"
+      ]
+    },
+    {
+      "key": "Score the harness",
+      "ko": "하네스 점수 매기기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:75 label"
+      ]
+    },
+    {
+      "key": "five readiness axes and the cost per run",
+      "ko": "준비도 5개 축과 실행당 비용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:75 why"
+      ]
+    },
+    {
+      "key": "Scan the MCP surface",
+      "ko": "MCP 표면 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:76 label"
+      ]
+    },
+    {
+      "key": "static findings, by severity",
+      "ko": "정적 분석 결과를 심각도별로 보여 줍니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:76 why"
+      ]
+    },
+    {
+      "key": "See the audit trend",
+      "ko": "감사 추이 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:77 label"
+      ]
+    },
+    {
+      "key": "the newest audit against the one before",
+      "ko": "최신 감사를 직전 감사와 비교합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:77 why"
+      ]
+    },
+    {
+      "key": "Look at your memory",
+      "ko": "메모리 살펴보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:81 title"
+      ]
+    },
+    {
+      "key": "See what is stored",
+      "ko": "저장된 내용 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:83 label"
+      ]
+    },
+    {
+      "key": "entries, storage, oldest and newest",
+      "ko": "항목, 저장소, 가장 오래된 것과 최신",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:83 why"
+      ]
+    },
+    {
+      "key": "Check AgentDB health",
+      "ko": "AgentDB 상태 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:84 label"
+      ]
+    },
+    {
+      "key": "which controllers are on",
+      "ko": "켜진 컨트롤러를 보여 줍니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:84 why"
+      ]
+    },
+    {
+      "key": "Browse and search below",
+      "ko": "아래에서 탐색 및 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:85 label"
+      ]
+    },
+    {
+      "key": "view, store and delete entries",
+      "ko": "항목을 보고, 저장하고, 삭제합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:85 why"
+      ]
+    },
+    {
+      "key": "Get the ruflo plugins",
+      "ko": "ruflo 플러그인 받기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:89 title"
+      ]
+    },
+    {
+      "key": "Add the ruflo marketplace",
+      "ko": "ruflo 마켓플레이스 추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:91 label"
+      ]
+    },
+    {
+      "key": "so Claude Code can install its plugins",
+      "ko": "Claude Code가 플러그인을 설치할 수 있게 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:91 why"
+      ]
+    },
+    {
+      "key": "Install a ruflo plugin",
+      "ko": "ruflo 플러그인 설치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:92 label"
+      ]
+    },
+    {
+      "key": "pick one below, or in the Plugin Catalog",
+      "ko": "아래에서 고르거나 플러그인 카탈로그에서 고르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:92 why"
+      ]
+    },
+    {
+      "key": "do this",
+      "ko": "실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:132 label"
+      ]
+    },
+    {
+      "key": "Start here: {0}",
+      "ko": "여기서 시작: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:138 section()"
+      ]
+    },
+    {
+      "key": "{0} of {1} done",
+      "ko": "{1}개 중 {0}개 완료",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:138 section()"
+      ]
+    },
+    {
+      "key": "{0} steps, in order",
+      "ko": "스텝 {0}개, 순서대로",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/steps.ts:138 section()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

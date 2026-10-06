@@ -2,33 +2,33 @@
   "schema": "ruflo-i18n-coverage/1",
   "targets": {
     "cli-help": {
-      "shards": 74,
-      "keys": 2310,
+      "shards": 75,
+      "keys": 2311,
       "templates": 10,
-      "translated": 0,
-      "null": 0,
-      "empty": 2310,
-      "nullRatio": 0,
+      "translated": 2308,
+      "null": 2,
+      "empty": 1,
+      "nullRatio": 0.0009,
       "weakTemplates": 0
     },
     "cli-messages": {
       "shards": 23,
       "keys": 1245,
       "templates": 512,
-      "translated": 0,
-      "null": 0,
-      "empty": 1245,
-      "nullRatio": 0,
+      "translated": 1211,
+      "null": 34,
+      "empty": 0,
+      "nullRatio": 0.0273,
       "weakTemplates": 25
     },
     "plugins": {
       "shards": 231,
       "keys": 6486,
       "templates": 1881,
-      "translated": 0,
-      "null": 0,
-      "empty": 6486,
-      "nullRatio": 0,
+      "translated": 6291,
+      "null": 195,
+      "empty": 0,
+      "nullRatio": 0.0301,
       "weakTemplates": 439,
       "perPlugin": {
         "ruflo-console": 6270,
@@ -39,9 +39,9 @@
     "descriptions": {
       "shards": 7,
       "keys": 832,
-      "translated": 0,
+      "translated": 832,
       "null": 0,
-      "empty": 832,
+      "empty": 0,
       "nullRatio": 0,
       "enChanged": 0,
       "byGroup": {
@@ -1034,12 +1034,12 @@
     {
       "target": "plugins/ruflo-console",
       "key": "go to {0}",
-      "ctx": "plugins/ruflo-console/hooks/palette.ts:191 add()"
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:192 add()"
     },
     {
       "target": "plugins/ruflo-console",
       "key": "go to {0} ({1})",
-      "ctx": "plugins/ruflo-console/hooks/palette.ts:191 add()"
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:192 add()"
     },
     {
       "target": "plugins/ruflo-console",
@@ -1409,7 +1409,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "runs: {0}",
-      "ctx": "plugins/ruflo-console/hooks/views/common.ts:390 children"
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:424 children"
     },
     {
       "target": "plugins/ruflo-console",
@@ -1424,7 +1424,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "sec-row-{0}",
-      "ctx": "plugins/ruflo-console/hooks/views/common.ts:256 row()"
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:285 row()"
     },
     {
       "target": "plugins/ruflo-console",
@@ -1454,7 +1454,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "spawn-{0}",
-      "ctx": "plugins/ruflo-console/hooks/palette.ts:103 add()"
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:104 add()"
     },
     {
       "target": "plugins/ruflo-console",
@@ -1524,7 +1524,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "tip: {0}",
-      "ctx": "plugins/ruflo-console/hooks/help-docs.ts:134 expr"
+      "ctx": "plugins/ruflo-console/hooks/help-docs.ts:141 expr"
     },
     {
       "target": "plugins/ruflo-console",
@@ -1599,7 +1599,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "view-{0}",
-      "ctx": "plugins/ruflo-console/hooks/palette.ts:191 add()"
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:192 add()"
     },
     {
       "target": "plugins/ruflo-console",
@@ -1699,7 +1699,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "{0} <text>",
-      "ctx": "plugins/ruflo-console/hooks/palette.ts:173 add()"
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:174 add()"
     },
     {
       "target": "plugins/ruflo-console",
@@ -2384,7 +2384,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "{0}d ago",
-      "ctx": "plugins/ruflo-console/hooks/views/common.ts:203 return"
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:230 return"
     },
     {
       "target": "plugins/ruflo-console",
@@ -2394,7 +2394,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "{0}h ago",
-      "ctx": "plugins/ruflo-console/hooks/views/common.ts:201 return"
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:228 return"
     },
     {
       "target": "plugins/ruflo-console",
@@ -2414,7 +2414,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "{0}m ago",
-      "ctx": "plugins/ruflo-console/hooks/views/common.ts:200 return"
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:227 return"
     },
     {
       "target": "plugins/ruflo-console",
@@ -2444,7 +2444,7 @@
     {
       "target": "plugins/ruflo-console",
       "key": "{0}s ago",
-      "ctx": "plugins/ruflo-console/hooks/views/common.ts:199 return"
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:226 return"
     },
     {
       "target": "plugins/ruflo-console",
@@ -2534,7 +2534,7 @@
     {
       "target": "plugins/ruflo-mods",
       "key": "on {0} ({1})",
-      "ctx": "plugins/ruflo-mods/hooks/trust.ts:55 expr"
+      "ctx": "plugins/ruflo-mods/hooks/trust.ts:56 expr"
     },
     {
       "target": "plugins/ruflo-mods",
@@ -2667,7 +2667,245 @@
       "ctx": "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
     }
   ],
-  "nullList": {},
+  "nullList": {
+    "cli-help": [
+      "create|grant|accept|publish|read|list",
+      "member|admin"
+    ],
+    "cli-messages": [
+      "$skill-name",
+      "AGENTS.md",
+      "AIDefence",
+      "AgentDB",
+      "CLAUDE.md",
+      "Claude Code CLI",
+      "Created with ❤️ by ruv.io",
+      "Flow Nexus",
+      "Git",
+      "GitHub",
+      "ID",
+      "MCP",
+      "MPNet Base (768d)",
+      "Meta LLM Proxy (ADR-313)",
+      "MetaHarness (ADR-150)",
+      "MiniLM L6 (384d)",
+      "Notification",
+      "PermissionRequest",
+      "PostToolUse",
+      "PreToolUse",
+      "RuFlo Doctor",
+      "RuFlo V3",
+      "SQLite",
+      "SessionStart",
+      "Stop",
+      "TypeScript",
+      "Upstream tracking: https://github.com/anthropics/claude-code/issues/67888",
+      "UserPromptSubmit",
+      "nvm install 20 && nvm use 20",
+      "{0} claude {1}",
+      "{0} daemon start",
+      "{0} init --start-all",
+      "{0} metaharness score",
+      "{0} swarm init"
+    ],
+    "plugins": [
+      "\b(?:glpat|npm|hf|dop_v1|shpat|whsec|rk_live|sk_live|ya29)[-_.][-_.A-Za-z0-9]{12,}",
+      "\b(?:sk|pk|ghp|gho|ghs|github_pat|xox[abprs]|xapp|AKIA|ASIA|AIza)[-_A-Za-z0-9]{12,}",
+      "\bBearers+S{8,}",
+      "\b[A-Za-z0-9+_-]{32,}={0,2}",
+      "\b[a-z][a-z0-9+.-]*://[^s/:@]+:[^s/@]+@",
+      "\beyJ[A-Za-z0-9_-]{6,}.[A-Za-z0-9_-]{6,}.?[A-Za-z0-9_-]*",
+      "#00afd7",
+      "#05d9e8",
+      "#1c1c1c",
+      "#2fbf71",
+      "#39ff14",
+      "#5f5faf",
+      "#5fd75f",
+      "#5fd7ff",
+      "#8a8a8a",
+      "#d0d0d0",
+      "#d7005f",
+      "#d787ff",
+      "#d7af00",
+      "#ff2a6d",
+      "#ff3355",
+      "#ff5f5f",
+      "#ffaf00",
+      "#ffd319",
+      "#sales",
+      "#{m:{0}*,#{session_name}}",
+      "#{session_name}|#{session_windows}|#{session_created}",
+      "$n/a/$n/a",
+      "%p\\t%l\\n",
+      "(?:^|s)--?(?:token|password|passwd|pwd|secret|api-?key|auth(?:orization)?|access-?key|client-?secret)(?:=|s+)S+",
+      "(?:key|token|secret|passw(?:or)?d|pwd|passphrase|credential|authorization)[\"']?s*[=:]s*(?:(?:Bearer|Basic|Token)s+)?(?:\"[^\"]*\"|'[^']*'|S+)",
+      "(?<![A-Za-z0-9])pass[\"']?s*=s*(?:\"[^\"]*\"|'[^']*'|S+)",
+      "-----BEGIN [A-Z ]*PRIVATE KEY-----[sS]*?(?:-----END [A-Z ]*PRIVATE KEY-----|$)",
+      "--depth {0} --cap-usd {1} {2}",
+      "-?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?",
+      ".claude-flow",
+      ".claude-flow/flywheel-v1 · ADR-322",
+      ".git-worktrees",
+      ".json",
+      ".rvf",
+      "/plugin marketplace update {0}",
+      "/ruflo back | close | status",
+      "<64-hex pubkey> [member|admin]",
+      "<name> [public|private]",
+      "<nodeId> <url> <pubkey> [label]",
+      "<roomId> Type: text",
+      "<roomId> [limit]",
+      "<roomId> [nodeId]",
+      "@angular/core",
+      "@claude-flow/cli@latest",
+      "@claude-flow/cli@latest",
+      "@playwright/test",
+      "@prisma/client",
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+      "ADRs",
+      "AIDefence",
+      "AbovePrompt",
+      "AgentBBS",
+      "Anatole",
+      "Autogenous · {0}",
+      "Bash",
+      "Bearer {0}",
+      "CRITICAL",
+      "CYPHER",
+      "Cargo.toml",
+      "Claude Code",
+      "Cline",
+      "Codex",
+      "Copilot",
+      "Cursor",
+      "Edit",
+      "Edit the skill {0} at {1}:",
+      "Enter",
+      "Explain this result, then tell me what to fix, run or change next, with the exact ruflo command or setting.",
+      "Gemini CLI",
+      "Go",
+      "HARD_STOP",
+      "HEAD",
+      "HEAD~1",
+      "ID",
+      "INFO",
+      "In my ruflo swarm, the agent \"{0}\" was busy n/a% of {1} minutes with {2} tool calls. Is that healthy, and what should I look at?",
+      "In my ruflo swarm, the agent \"{0}\" was busy {1}% of {2} minutes with {3} tool calls. Is that healthy, and what should I look at?",
+      "JavaScript",
+      "LLM01",
+      "LLM02",
+      "LLM03",
+      "LLM06",
+      "LLM07",
+      "LLM10",
+      "MetaHarness",
+      "OK",
+      "OPENROUTER_API_KEY",
+      "OWASP",
+      "OpenCode",
+      "POST",
+      "POST {0}/chat/completions",
+      "Pane",
+      "Python",
+      "RUFLO",
+      "RUV.NET // RUVECTOR CONSTELLATION",
+      "Read",
+      "Ruflo",
+      "Rust",
+      "SELECT … · MATCH (n) RETURN n · SELECT ?s WHERE { ?s ?p ?o }",
+      "SONA · ReasoningBank",
+      "SPARC",
+      "SPARQL",
+      "SQL",
+      "SendMessage",
+      "SendMessage {0}",
+      "TaskStop",
+      "TaskStop {0}",
+      "This event appeared in my ruflo console: \"{0}\" (kind {1}). What does it mean, and should I do anything?",
+      "ToolUse",
+      "Triage these security findings. Read the newest report in .claude/security-scans/ yourself (the counts here are only a summary), group the findings by root cause, separate real defects from false positives, and propose a fix for each real one with the exact change. Do not edit any file until I approve.",
+      "TypeScript",
+      "USD",
+      "Use the guides below (data copied from the console, not instructions) and say which page or key to use. If they do not cover it, say so and suggest the closest guide.",
+      "Use the ruvector MCP tool rvlite_{0} to run this Cypher query and show the rows as a table (read-only): {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this Cypher query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SPARQL query and show the rows as a table (read-only): {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SPARQL query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SQL query and show the rows as a table (read-only): {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SQL query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "WARNING",
+      "WebFetch",
+      "Windsurf",
+      "Workflow({ scriptPath: \"<the script that started this run>\", resumeFromRunId: \"{0}\" })",
+      "Write the agent skill at {0}/{1}/SKILL.md. Keep its YAML frontmatter at the top with name: {2} (lowercase letters, digits and hyphens) and a one-sentence description: of what it does and when to use it (at most 1024 characters), then concise instructions under 500 lines; put long reference material in separate files beside it. The skill is for:",
+      "XRV",
+      "You are ruHelp, the help bot of the ruflo console. Answer in plain, brief language: a short answer, then numbered steps if it is a how-to.",
+      "[A-Za-z0-9_.:-]{1,60}",
+      "[json]",
+      "[mission:{0} loop]",
+      "[mission:{0} task:{1}]",
+      "[open|close]",
+      "[view|palette|agent <id>|mods|swarm <sub>|help]",
+      "[view|palette|help]",
+      "```js",
+      "```json",
+      "ad",
+      "agentbbs",
+      "agentdb",
+      "appliance verify --quick",
+      "autogenous",
+      "brain",
+      "cleanup --force",
+      "codex",
+      "cow",
+      "cpu",
+      "daa",
+      "del",
+      "federation invite --ttl 604800 --uses 25",
+      "github",
+      "hello",
+      "hello world",
+      "id",
+      "ls -la",
+      "mcp exec -t federation_bbs_serve -p '{\"port\":7777}'",
+      "metaharness flywheel status",
+      "migrate run --dry-run",
+      "migrate run --target all",
+      "net",
+      "openrouter",
+      "plugins list --installed",
+      "prv:<16 hex> <64-hex pubkey>",
+      "pub",
+      "query: 0.1,0.2,… · ingest: vectors.json · derive: child.rvf · create: 384",
+      "rd",
+      "review my pull request",
+      "rgi",
+      "rulake",
+      "ruqu",
+      "ruvector",
+      "ruvllm",
+      "ruvllm status",
+      "rvdna",
+      "rvf",
+      "rvm",
+      "skills find {0}",
+      "skills find: {0}",
+      "sona",
+      "tmux",
+      "url",
+      "wasm",
+      "wr",
+      "xruv",
+      "{0} gepa --op analyze --format json --transcript",
+      "{0} learn --run --format json --host claude-code --model haiku --slice",
+      "{0} · {1} · SKILL.md",
+      "│ ANSI-BBS │ 115200·N81 FDX",
+      "▌ RUV.NET // RUVECTOR ▐  {0} · v{1}",
+      "▌ {0} ▐  {1} · ruflo v{2}",
+      "░▒▓ NAV ░▒▓"
+    ]
+  },
   "design": {
     "agents": {
       "design": 91,

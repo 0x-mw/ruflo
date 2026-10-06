@@ -1,0 +1,265 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/session.ts",
+  "entries": [
+    {
+      "key": "List all sessions",
+      "ko": "모든 세션 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:83 description",
+        "src/commands/session.ts:993 description"
+      ]
+    },
+    {
+      "key": "Show only active sessions",
+      "ko": "활성 세션만 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:88 description"
+      ]
+    },
+    {
+      "key": "Include archived sessions",
+      "ko": "보관된 세션도 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:94 description"
+      ]
+    },
+    {
+      "key": "Maximum sessions to show",
+      "ko": "표시할 최대 세션 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:101 description"
+      ]
+    },
+    {
+      "key": "Save current session state",
+      "ko": "현재 세션 상태를 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:186 description"
+      ]
+    },
+    {
+      "key": "Session name",
+      "ko": "세션 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:191 description"
+      ]
+    },
+    {
+      "key": "Session description",
+      "ko": "세션 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:197 description"
+      ]
+    },
+    {
+      "key": "Include memory state in session",
+      "ko": "세션에 메모리 상태를 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:202 description"
+      ]
+    },
+    {
+      "key": "Include agent state in session",
+      "ko": "세션에 에이전트 상태를 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:208 description"
+      ]
+    },
+    {
+      "key": "Include task state in session",
+      "ko": "세션에 작업 상태를 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:214 description"
+      ]
+    },
+    {
+      "key": "Restore a saved session",
+      "ko": "저장된 세션을 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:327 description"
+      ]
+    },
+    {
+      "key": "Overwrite current state without confirmation",
+      "ko": "확인 없이 현재 상태를 덮어씁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:332 description"
+      ]
+    },
+    {
+      "key": "Only restore memory state",
+      "ko": "메모리 상태만 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:338 description"
+      ]
+    },
+    {
+      "key": "Only restore agent state",
+      "ko": "에이전트 상태만 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:344 description"
+      ]
+    },
+    {
+      "key": "Only restore task state",
+      "ko": "작업 상태만 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:350 description"
+      ]
+    },
+    {
+      "key": "Delete a saved session",
+      "ko": "저장된 세션을 삭제합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:519 description"
+      ]
+    },
+    {
+      "key": "Export a saved session to a file. Usage: session export <session-id> [-o file] (or --latest)",
+      "ko": "저장된 세션을 파일로 내보냅니다. 사용법: session export <session-id> [-o file] (또는 --latest)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:585 description"
+      ]
+    },
+    {
+      "key": "Export the most recently saved session when no session id is given",
+      "ko": "세션 ID를 지정하지 않으면 가장 최근에 저장된 세션을 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:595 description"
+      ]
+    },
+    {
+      "key": "Include memory data",
+      "ko": "메모리 데이터를 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:609 description"
+      ]
+    },
+    {
+      "key": "Compress output",
+      "ko": "출력을 압축합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:615 description"
+      ]
+    },
+    {
+      "key": "Import a session from a file written by session export. Usage: session import <file> [--name n] [--activate]",
+      "ko": "session export로 작성된 파일에서 세션을 가져옵니다. 사용법: session import <file> [--name n] [--activate]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:736 description"
+      ]
+    },
+    {
+      "key": "Session name for imported session",
+      "ko": "가져온 세션의 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:741 description"
+      ]
+    },
+    {
+      "key": "Activate session after import",
+      "ko": "가져온 뒤 세션을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:746 description"
+      ]
+    },
+    {
+      "key": "Show current active session",
+      "ko": "현재 활성 세션을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:861 description"
+      ]
+    },
+    {
+      "key": "Session management commands",
+      "ko": "세션 관리 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:981 description"
+      ]
+    },
+    {
+      "key": "Save current session",
+      "ko": "현재 세션을 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:994 description"
+      ]
+    },
+    {
+      "key": "Restore a session",
+      "ko": "세션을 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:995 description"
+      ]
+    },
+    {
+      "key": "Delete a session",
+      "ko": "세션을 삭제합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:996 description"
+      ]
+    },
+    {
+      "key": "Export a session to file",
+      "ko": "세션을 파일로 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:997 description"
+      ]
+    },
+    {
+      "key": "Export the most recently saved session",
+      "ko": "가장 최근에 저장된 세션을 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:998 description"
+      ]
+    },
+    {
+      "key": "Import session from file",
+      "ko": "파일에서 세션을 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:999 description"
+      ]
+    },
+    {
+      "key": "Show current session",
+      "ko": "현재 세션을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:1000 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

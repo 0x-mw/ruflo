@@ -1,6 +1,6 @@
 ---
 name: ruvllm
-description: RuVLLM status -- model configuration, MicroLoRA adapters, and provider availability
+description: RuVLLM 상태 -- 모델 설정, MicroLoRA 어댑터, 프로바이더 사용 가능 여부
 ---
 
 Show RuVLLM status:

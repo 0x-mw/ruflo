@@ -1,0 +1,26 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/attention.ts",
+  "entries": [
+    {
+      "key": "{0} · on disk: {1}",
+      "ko": "{0} · 디스크에 있음: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/attention.ts:126 text()",
+        "plugins/ruflo-console/hooks/views/pane.ts:201 text()"
+      ]
+    },
+    {
+      "key": "{0} · not on disk yet: {1}",
+      "ko": "{0} · 아직 디스크에 없음: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/attention.ts:126 text()",
+        "plugins/ruflo-console/hooks/views/pane.ts:201 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

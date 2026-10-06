@@ -1,0 +1,176 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/skill-md.ts",
+  "entries": [
+    {
+      "key": "{0} characters: over the {1} cap",
+      "ko": "{0}자: 상한 {1}자 초과",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:51 problems"
+      ]
+    },
+    {
+      "key": "no frontmatter: the file must start with a --- line",
+      "ko": "프런트매터가 없습니다: 파일은 --- 줄로 시작해야 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:55 problems"
+      ]
+    },
+    {
+      "key": "the frontmatter is never closed with a --- line",
+      "ko": "프런트매터가 --- 줄로 닫히지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:59 problems"
+      ]
+    },
+    {
+      "key": "name: missing",
+      "ko": "name: 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:65 push()"
+      ]
+    },
+    {
+      "key": "name: {0} characters, at most {1}",
+      "ko": "name: {0}자, 최대 {1}자",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:66 push()"
+      ]
+    },
+    {
+      "key": "name: lowercase letters, digits and single hyphens only",
+      "ko": "name: 영문 소문자, 숫자, 하이픈 하나씩만 가능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:67 push()"
+      ]
+    },
+    {
+      "key": "name \"{0}\" differs from its folder \"{1}\"",
+      "ko": "name \"{0}\"이(가) 폴더 \"{1}\"과(와) 다릅니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:68 push()"
+      ]
+    },
+    {
+      "key": "description: missing (the CLI skips a skill without one)",
+      "ko": "description: 없음 (CLI는 description이 없는 스킬을 건너뜁니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:70 push()"
+      ]
+    },
+    {
+      "key": "description: {0} characters, at most {1}",
+      "ko": "description: {0}자, 최대 {1}자",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:71 push()"
+      ]
+    },
+    {
+      "key": "no instructions after the frontmatter",
+      "ko": "프런트매터 뒤에 지침이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:73 push()"
+      ]
+    },
+    {
+      "key": "{0} lines: keep SKILL.md under {1} and move detail to other files",
+      "ko": "{0}줄: SKILL.md는 {1}줄 이하로 유지하고 세부 내용은 다른 파일로 옮기세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:74 push()"
+      ]
+    },
+    {
+      "key": "not valid",
+      "ko": "유효하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:87 expr"
+      ]
+    },
+    {
+      "key": "description: {0}",
+      "ko": "description: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:88 expr"
+      ]
+    },
+    {
+      "key": "@angular/core",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:102 const"
+      ]
+    },
+    {
+      "key": "@prisma/client",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:106 const"
+      ]
+    },
+    {
+      "key": "@playwright/test",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:109 const"
+      ]
+    },
+    {
+      "key": "TypeScript",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:152 push()"
+      ]
+    },
+    {
+      "key": "JavaScript",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:152 push()"
+      ]
+    },
+    {
+      "key": "Rust",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:159 push()"
+      ]
+    },
+    {
+      "key": "Python",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:167 push()"
+      ]
+    },
+    {
+      "key": "Go",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skill-md.ts:175 push()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

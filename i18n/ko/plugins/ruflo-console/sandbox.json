@@ -1,0 +1,416 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/sandbox.ts",
+  "entries": [
+    {
+      "key": "tmux sandboxes",
+      "ko": "tmux 샌드박스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:18 title",
+        "plugins/ruflo-console/hooks/views/sandbox.ts:30 section()"
+      ]
+    },
+    {
+      "key": "throwaway shells · ruflo-sb-* only",
+      "ko": "일회용 셸 · ruflo-sb-*만 해당",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:18 right"
+      ]
+    },
+    {
+      "key": "RVM · resource and effect boundary",
+      "ko": "RVM · 자원·효과 경계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:19 title",
+        "plugins/ruflo-console/hooks/views/sandbox.ts:32 section()"
+      ]
+    },
+    {
+      "key": "information · this console never changes it",
+      "ko": "정보 · 이 콘솔은 바꾸지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:19 right"
+      ]
+    },
+    {
+      "key": "a tmux session is a separate shell that runs as you: a place to work apart, not a security boundary",
+      "ko": "tmux 세션은 사용자 권한으로 실행되는 별도의 셸입니다. 따로 작업하는 공간일 뿐 보안 경계가 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:24 const",
+        "plugins/ruflo-console/hooks/views/sandbox.ts:24 const"
+      ]
+    },
+    {
+      "key": "tmux refused",
+      "ko": "tmux가 거부했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:26 expr",
+        "plugins/ruflo-console/hooks/sandbox.ts:32 return"
+      ]
+    },
+    {
+      "key": "no sandbox sessions yet: NEW starts one",
+      "ko": "아직 샌드박스 세션이 없습니다: 새로 만들기로 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:32 return"
+      ]
+    },
+    {
+      "key": "no sandbox sessions yet (tmux has no server running): NEW starts one",
+      "ko": "아직 샌드박스 세션이 없습니다(tmux 서버가 실행 중이 아님): 새로 만들기로 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:32 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} window · started {2}Z",
+      "ko": "{0} · 창 {1}개 · 시작 {2}Z",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:37 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} window",
+      "ko": "{0} · 창 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:37 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} windows · started {2}Z",
+      "ko": "{0} · 창 {1}개 · 시작 {2}Z",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:37 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} windows",
+      "ko": "{0} · 창 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:37 return"
+      ]
+    },
+    {
+      "key": "no such sandbox: LIST shows the ones that exist",
+      "ko": "해당 샌드박스가 없습니다: 목록에서 있는 것을 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:43 return"
+      ]
+    },
+    {
+      "key": "(the pane is empty)",
+      "ko": "(창이 비어 있습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:49 return"
+      ]
+    },
+    {
+      "key": "tmux",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:55 group",
+        "plugins/ruflo-console/hooks/sandbox.ts:56 group",
+        "plugins/ruflo-console/hooks/sandbox.ts:57 group"
+      ]
+    },
+    {
+      "key": "the ruflo-sb-* sessions on this machine",
+      "ko": "이 컴퓨터의 ruflo-sb-* 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:55 about"
+      ]
+    },
+    {
+      "key": "list tmux sandbox sessions",
+      "ko": "tmux 샌드박스 세션 목록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:55 label"
+      ]
+    },
+    {
+      "key": "#{session_name}|#{session_windows}|#{session_created}",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:55 expr"
+      ]
+    },
+    {
+      "key": "#{m:{0}*,#{session_name}}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:55 expr"
+      ]
+    },
+    {
+      "key": "NEW",
+      "ko": "새로 만들기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:56 name"
+      ]
+    },
+    {
+      "key": "a detached session ruflo-sb-<name> running your shell",
+      "ko": "셸을 실행하는 분리된 세션 ruflo-sb-<name>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:56 about"
+      ]
+    },
+    {
+      "key": "start a tmux sandbox session",
+      "ko": "tmux 샌드박스 세션 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:56 label"
+      ]
+    },
+    {
+      "key": "session started: SEND types into it",
+      "ko": "세션을 시작했습니다: 전송으로 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:56 done()"
+      ]
+    },
+    {
+      "key": "starts a tmux session; {0}",
+      "ko": "tmux 세션을 시작합니다. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:56 note"
+      ]
+    },
+    {
+      "key": "SEND",
+      "ko": "전송",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:57 name"
+      ]
+    },
+    {
+      "key": "type the line into that session and press Enter",
+      "ko": "그 세션에 한 줄을 입력하고 Enter를 누릅니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:57 about"
+      ]
+    },
+    {
+      "key": "type a command into the tmux sandbox",
+      "ko": "tmux 샌드박스에 명령 입력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:57 label"
+      ]
+    },
+    {
+      "key": "Enter",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:57 expr"
+      ]
+    },
+    {
+      "key": "typed, Enter pressed: CAPTURE shows what it did",
+      "ko": "입력하고 Enter를 눌렀습니다: 캡처로 결과를 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:57 done()"
+      ]
+    },
+    {
+      "key": "SHELL COMMAND: runs in that session, as you",
+      "ko": "셸 명령: 그 세션에서 사용자 권한으로 실행됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:57 note"
+      ]
+    },
+    {
+      "key": "CAPTURE",
+      "ko": "캡처",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:58 name"
+      ]
+    },
+    {
+      "key": "the last 40 lines on that session’s screen",
+      "ko": "그 세션 화면의 마지막 40줄",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:58 about"
+      ]
+    },
+    {
+      "key": "capture the tmux sandbox screen",
+      "ko": "tmux 샌드박스 화면 캡처",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:58 label"
+      ]
+    },
+    {
+      "key": "KILL",
+      "ko": "종료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:59 name"
+      ]
+    },
+    {
+      "key": "end that session and everything running in it",
+      "ko": "그 세션과 그 안에서 실행 중인 모든 것을 끝냅니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:59 about"
+      ]
+    },
+    {
+      "key": "kill the tmux sandbox session",
+      "ko": "tmux 샌드박스 세션 종료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:59 label"
+      ]
+    },
+    {
+      "key": "session ended",
+      "ko": "세션을 종료했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:59 done()"
+      ]
+    },
+    {
+      "key": "DELETES the session and what it runs",
+      "ko": "세션과 실행 중인 것을 삭제합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:59 note"
+      ]
+    },
+    {
+      "key": "rvm",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:61 group",
+        "plugins/ruflo-console/hooks/sandbox.ts:62 group",
+        "plugins/ruflo-console/hooks/sandbox.ts:63 group"
+      ]
+    },
+    {
+      "key": "n/a: no rvm command to read",
+      "ko": "해당 없음: 읽을 rvm 명령이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:61 about"
+      ]
+    },
+    {
+      "key": "rvm status",
+      "ko": "rvm status",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:61 label"
+      ]
+    },
+    {
+      "key": "CEILINGS",
+      "ko": "상한",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:62 name"
+      ]
+    },
+    {
+      "key": "n/a: resource ceilings are enforced by RVM, not shown here",
+      "ko": "해당 없음: 자원 상한은 RVM이 적용하며 여기에는 표시하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:62 about"
+      ]
+    },
+    {
+      "key": "rvm resource ceilings",
+      "ko": "rvm 자원 상한",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:62 label"
+      ]
+    },
+    {
+      "key": "AUTHORITY",
+      "ko": "권한",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:63 name"
+      ]
+    },
+    {
+      "key": "n/a: the console never grants or widens authority",
+      "ko": "해당 없음: 콘솔은 권한을 부여하거나 넓히지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:63 about"
+      ]
+    },
+    {
+      "key": "rvm authority",
+      "ko": "rvm 권한",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:63 label"
+      ]
+    },
+    {
+      "key": "RVM is the privileged effect and resource-ceiling boundary: it decides what code may do and how much it may use.",
+      "ko": "RVM은 권한이 있는 효과와 자원 상한의 경계입니다: 코드가 무엇을 할 수 있고 얼마나 쓸 수 있는지를 결정합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:68 const"
+      ]
+    },
+    {
+      "key": "Advisory code (planners, admission decisions) carries authority: none and cannot widen a ceiling (ADR-398, ADR-400).",
+      "ko": "자문용 코드(플래너, 승인 결정)는 authority: none이며 상한을 넓힐 수 없습니다 (ADR-398, ADR-400).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:69 const"
+      ]
+    },
+    {
+      "key": "Git subprocesses and sandboxes stay inside RVM and the OS boundary (ADR-399). This console never changes RVM.",
+      "ko": "Git 하위 프로세스와 샌드박스는 RVM과 OS 경계 안에 머뭅니다 (ADR-399). 이 콘솔은 RVM을 바꾸지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/sandbox.ts:70 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

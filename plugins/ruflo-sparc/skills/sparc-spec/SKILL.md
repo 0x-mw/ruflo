@@ -1,6 +1,6 @@
 ---
 name: sparc-spec
-description: Run the SPARC Specification phase — gather requirements, define acceptance criteria, identify constraints, and store the spec in memory
+description: SPARC 명세 단계를 실행 — 요구사항 수집, 인수 기준 정의, 제약 식별, 메모리에 명세 저장
 argument-hint: "<feature-description>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__task_create mcp__plugin_ruflo-core_ruflo__task_update mcp__plugin_ruflo-core_ruflo__task_complete mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-start mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-step mcp__plugin_ruflo-core_ruflo__neural_predict Bash Read Edit
 ---

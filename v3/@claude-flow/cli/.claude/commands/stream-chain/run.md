@@ -1,3 +1,7 @@
+---
+description: stream-chain 실행
+---
+
 # stream-chain run
 
 Execute a custom stream chain with your own prompts.

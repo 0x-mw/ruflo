@@ -1,6 +1,6 @@
 ---
 name: kg-extract
-description: Extract entities and relations from source files to build a knowledge graph
+description: 소스 파일에서 엔티티와 관계를 추출해 지식 그래프를 구축
 argument-hint: "<path>"
 allowed-tools: Read Glob Grep mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-store mcp__plugin_ruflo-core_ruflo__agentdb_causal-edge mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__embeddings_generate Bash
 ---

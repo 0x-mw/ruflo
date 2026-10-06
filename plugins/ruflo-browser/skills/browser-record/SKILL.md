@@ -1,6 +1,6 @@
 ---
 name: browser-record
-description: Open a named, traced browser session into an RVF cognitive container with a ruvector trajectory recording every action
+description: 모든 동작을 기록하는 ruvector 궤적과 함께, 이름이 붙고 추적되는 브라우저 세션을 RVF 인지 컨테이너로 엽니다
 argument-hint: "<url-or-task> [--with-dom] [--viewport WxH]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__browser_session-list mcp__plugin_ruflo-core_ruflo__browser_screenshot mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__browser_wait mcp__plugin_ruflo-core_ruflo__aidefence_has_pii mcp__plugin_ruflo-core_ruflo__aidefence_scan Bash Read Write
 ---

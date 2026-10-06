@@ -1,0 +1,194 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/common.ts",
+  "entries": [
+    {
+      "key": "#ff2a6d",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:150 head"
+      ]
+    },
+    {
+      "key": "#39ff14",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:150 ok"
+      ]
+    },
+    {
+      "key": "#ff3355",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:150 bad"
+      ]
+    },
+    {
+      "key": "#ffd319",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:150 warn"
+      ]
+    },
+    {
+      "key": "#05d9e8",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:150 info",
+        "plugins/ruflo-console/hooks/views/pane.ts:109 chip()"
+      ]
+    },
+    {
+      "key": "#2fbf71",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:151 const"
+      ]
+    },
+    {
+      "key": "{0}: this surface has no text field (/ruflo run {1} <text>)",
+      "ko": "{0}: 이 화면에는 텍스트 입력란이 없습니다 (/ruflo run {1} <text>)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:347 text()"
+      ]
+    },
+    {
+      "key": "{0}: asking the ruflo CLI…",
+      "ko": "{0}: ruflo CLI 에 요청하는 중...",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:365 text"
+      ]
+    },
+    {
+      "key": "{0}: not asked yet",
+      "ko": "{0}: 아직 요청하지 않음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:365 text"
+      ]
+    },
+    {
+      "key": "{0}: {1} (last good {2}, not shown as live)",
+      "ko": "{0}: {1} (마지막 정상 {2}, 실시간으로 표시하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:369 text"
+      ]
+    },
+    {
+      "key": "{0}: ruflo CLI, {1}",
+      "ko": "{0}: ruflo CLI, {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:372 text"
+      ]
+    },
+    {
+      "key": "An ask is waiting on {0}: {1}",
+      "ko": "{0} 에서 확인 요청이 기다리고 있습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:400 text()"
+      ]
+    },
+    {
+      "key": "Go there",
+      "ko": "이동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:401 button()"
+      ]
+    },
+    {
+      "key": "Cancel (n)",
+      "ko": "취소 (n)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:402 button()",
+        "plugins/ruflo-console/hooks/views/common.ts:431 button()"
+      ]
+    },
+    {
+      "key": "confirm",
+      "ko": "확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:404 row()"
+      ]
+    },
+    {
+      "key": "CONFIRM NEEDED",
+      "ko": "확인 필요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:420 children"
+      ]
+    },
+    {
+      "key": "click Yes or press y",
+      "ko": "예를 누르거나 y 를 누르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:420 children"
+      ]
+    },
+    {
+      "key": "Confirm: {0}?",
+      "ko": "확인: {0}?",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:422 text()"
+      ]
+    },
+    {
+      "key": "runs: ruflo {0}",
+      "ko": "실행: ruflo {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:424 children"
+      ]
+    },
+    {
+      "key": "Effect: {0}",
+      "ko": "영향: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:425 children"
+      ]
+    },
+    {
+      "key": "Yes, run it (y)",
+      "ko": "예, 실행합니다 (y)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:430 button()"
+      ]
+    },
+    {
+      "key": "Always allow “{0}”",
+      "ko": "“{0}” 항상 허용",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:433 button()"
+      ]
+    },
+    {
+      "key": "Always accept AI turns",
+      "ko": "AI 턴 항상 수락",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/common.ts:435 button()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: adr-index
-description: Build or rebuild the ADR index + dependency graph by running scripts/import.mjs (handles v3-style and plugin-style ADR formats; one Bash call vs hundreds of MCP round-trips)
+description: scripts/import.mjs를 실행해 ADR 인덱스와 의존성 그래프를 만들거나 다시 만듭니다(v3 스타일과 플러그인 스타일 ADR 형식을 모두 처리하며, 수백 번의 MCP 왕복 대신 Bash 호출 한 번으로 처리)
 argument-hint: ""
 allowed-tools: Bash mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_search
 ---

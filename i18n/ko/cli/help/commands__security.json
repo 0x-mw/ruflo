@@ -1,0 +1,721 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/security.ts",
+  "entries": [
+    {
+      "key": "Run security scan on target (code, dependencies)",
+      "ko": "대상(code, dependencies)에 대한 보안 스캔을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:95 description"
+      ]
+    },
+    {
+      "key": "Target path or URL to scan",
+      "ko": "스캔할 대상 경로 또는 URL",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:97 description"
+      ]
+    },
+    {
+      "key": "Scan depth: quick, standard, deep",
+      "ko": "스캔 깊이: quick, standard, deep",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:98 description"
+      ]
+    },
+    {
+      "key": "Scan type: code, deps, all",
+      "ko": "스캔 유형: code, deps, all",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:99 description"
+      ]
+    },
+    {
+      "key": "Output format: text, json, sarif",
+      "ko": "출력 형식: text, json, sarif",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:100 description"
+      ]
+    },
+    {
+      "key": "Auto-fix vulnerabilities where possible",
+      "ko": "가능한 경우 취약점을 자동으로 수정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:101 description"
+      ]
+    },
+    {
+      "key": "Scan source directory",
+      "ko": "소스 디렉터리를 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:104 description"
+      ]
+    },
+    {
+      "key": "Deep scan with auto-fix",
+      "ko": "자동 수정과 함께 정밀 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:105 description"
+      ]
+    },
+    {
+      "key": "Check and manage CVE vulnerabilities",
+      "ko": "CVE 취약점을 확인하고 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:442 description"
+      ]
+    },
+    {
+      "key": "Check specific CVE ID",
+      "ko": "특정 CVE ID를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:444 description"
+      ]
+    },
+    {
+      "key": "List all known CVEs",
+      "ko": "알려진 모든 CVE 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:445 description"
+      ]
+    },
+    {
+      "key": "Filter by severity: critical, high, medium, low",
+      "ko": "심각도로 필터링: critical, high, medium, low",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:446 description"
+      ]
+    },
+    {
+      "key": "List all CVEs",
+      "ko": "모든 CVE 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:449 description"
+      ]
+    },
+    {
+      "key": "Check specific CVE",
+      "ko": "특정 CVE를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:450 description"
+      ]
+    },
+    {
+      "key": "Threat modeling and analysis",
+      "ko": "위협 모델링 및 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:543 description"
+      ]
+    },
+    {
+      "key": "Threat model: stride, dread, pasta",
+      "ko": "위협 모델: stride, dread, pasta",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:545 description"
+      ]
+    },
+    {
+      "key": "Analysis scope",
+      "ko": "분석 범위",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:546 description"
+      ]
+    },
+    {
+      "key": "Export format: json, md, html",
+      "ko": "내보내기 형식: json, md, html",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:547 description"
+      ]
+    },
+    {
+      "key": "Run STRIDE analysis",
+      "ko": "STRIDE 분석을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:550 description"
+      ]
+    },
+    {
+      "key": "Export as markdown",
+      "ko": "마크다운으로 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:551 description"
+      ]
+    },
+    {
+      "key": "HTTP endpoint without auth middleware",
+      "ko": "인증 미들웨어가 없는 HTTP 엔드포인트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:578 description"
+      ]
+    },
+    {
+      "key": "eval() usage — arbitrary code execution risk",
+      "ko": "eval() 사용 — 임의 코드 실행 위험",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:581 description"
+      ]
+    },
+    {
+      "key": "execSync() usage — command injection risk",
+      "ko": "execSync() 사용 — 명령 인젝션 위험",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:582 description"
+      ]
+    },
+    {
+      "key": "exec() with template literal — injection risk",
+      "ko": "템플릿 리터럴과 함께 쓴 exec() — 인젝션 위험",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:583 description"
+      ]
+    },
+    {
+      "key": "child_process exec import — review for injection",
+      "ko": "child_process exec 임포트 — 인젝션 여부를 리뷰하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:584 description"
+      ]
+    },
+    {
+      "key": "new Function() — dynamic code execution risk",
+      "ko": "new Function() — 동적 코드 실행 위험",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:585 description"
+      ]
+    },
+    {
+      "key": "Hardcoded credential or secret",
+      "ko": "하드코딩된 자격 증명 또는 시크릿",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:591 description"
+      ]
+    },
+    {
+      "key": "AWS Access Key ID detected",
+      "ko": "AWS Access Key ID를 감지했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:592 description"
+      ]
+    },
+    {
+      "key": "GitHub token detected",
+      "ko": "GitHub 토큰을 감지했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:593 description"
+      ]
+    },
+    {
+      "key": "Private key detected",
+      "ko": "개인 키를 감지했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:594 description"
+      ]
+    },
+    {
+      "key": "Non-localhost HTTP URL — should use HTTPS",
+      "ko": "localhost가 아닌 HTTP URL — HTTPS를 사용해야 합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:595 description"
+      ]
+    },
+    {
+      "key": "Express detected — verify rate-limiting is configured",
+      "ko": "Express를 감지했습니다 — 속도 제한이 설정되어 있는지 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:598 description"
+      ]
+    },
+    {
+      "key": "Fastify detected — verify rate-limiting is configured",
+      "ko": "Fastify를 감지했습니다 — 속도 제한이 설정되어 있는지 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:599 description"
+      ]
+    },
+    {
+      "key": "Unsanitized JSON.parse from request — validate input",
+      "ko": "요청에서 정제하지 않은 JSON.parse — 입력을 검증하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:602 description"
+      ]
+    },
+    {
+      "key": "__proto__ access — prototype pollution risk",
+      "ko": "__proto__ 접근 — 프로토타입 오염 위험",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:603 description"
+      ]
+    },
+    {
+      "key": "Object.assign from request — prototype pollution risk",
+      "ko": "요청에서 가져온 Object.assign — 프로토타입 오염 위험",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:604 description"
+      ]
+    },
+    {
+      "key": ".env file tracked in git — secrets may be exposed",
+      "ko": ".env 파일이 git에서 추적됨 — 시크릿이 노출될 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:617 description"
+      ]
+    },
+    {
+      "key": "No helmet/lusca security headers middleware",
+      "ko": "helmet/lusca 보안 헤더 미들웨어가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:688 description"
+      ]
+    },
+    {
+      "key": "No CORS middleware detected",
+      "ko": "CORS 미들웨어를 감지하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:691 description"
+      ]
+    },
+    {
+      "key": "No rate-limiting middleware detected",
+      "ko": "속도 제한 미들웨어를 감지하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:694 description"
+      ]
+    },
+    {
+      "key": "Can an attacker impersonate a user or service?",
+      "ko": "공격자가 사용자나 서비스를 사칭할 수 있습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:713 description"
+      ]
+    },
+    {
+      "key": "Can data or code be modified without detection?",
+      "ko": "탐지되지 않고 데이터나 코드를 변조할 수 있습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:714 description"
+      ]
+    },
+    {
+      "key": "Can actions be performed without accountability?",
+      "ko": "책임 추적 없이 행동을 수행할 수 있습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:715 description"
+      ]
+    },
+    {
+      "key": "Can sensitive data leak to unauthorized parties?",
+      "ko": "민감한 데이터가 권한 없는 대상에게 유출될 수 있습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:716 description"
+      ]
+    },
+    {
+      "key": "Can service availability be degraded?",
+      "ko": "서비스 가용성을 떨어뜨릴 수 있습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:717 description"
+      ]
+    },
+    {
+      "key": "Can privileges be escalated beyond granted level?",
+      "ko": "부여된 수준을 넘어 권한을 상승시킬 수 있습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:718 description"
+      ]
+    },
+    {
+      "key": "Security audit logging and compliance",
+      "ko": "보안 감사 로깅 및 규정 준수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:791 description"
+      ]
+    },
+    {
+      "key": "Action: log, list, export, clear",
+      "ko": "동작: log, list, export, clear",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:793 description"
+      ]
+    },
+    {
+      "key": "Number of entries to show",
+      "ko": "표시할 항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:794 description"
+      ]
+    },
+    {
+      "key": "Filter by event type",
+      "ko": "이벤트 유형으로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:795 description"
+      ]
+    },
+    {
+      "key": "List audit logs",
+      "ko": "감사 로그 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:798 description"
+      ]
+    },
+    {
+      "key": "Export audit trail",
+      "ko": "감사 추적을 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:799 description"
+      ]
+    },
+    {
+      "key": "Detect and manage secrets in codebase",
+      "ko": "코드베이스의 시크릿을 감지하고 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:864 description"
+      ]
+    },
+    {
+      "key": "Action: scan, list, rotate",
+      "ko": "동작: scan, list, rotate",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:866 description"
+      ]
+    },
+    {
+      "key": "Path to scan",
+      "ko": "스캔할 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:867 description"
+      ]
+    },
+    {
+      "key": "Patterns to ignore",
+      "ko": "무시할 패턴",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:868 description"
+      ]
+    },
+    {
+      "key": "Scan for secrets",
+      "ko": "시크릿을 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:871 description"
+      ]
+    },
+    {
+      "key": "Rotate compromised secrets",
+      "ko": "유출된 시크릿을 교체합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:872 description"
+      ]
+    },
+    {
+      "key": "AI manipulation defense - detect prompt injection, jailbreaks, and PII",
+      "ko": "AI 조작 방어 - 프롬프트 인젝션, 탈옥, PII를 감지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1032 description"
+      ]
+    },
+    {
+      "key": "Input text to scan for threats",
+      "ko": "위협을 스캔할 입력 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1034 description"
+      ]
+    },
+    {
+      "key": "File to scan for threats",
+      "ko": "위협을 스캔할 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1035 description"
+      ]
+    },
+    {
+      "key": "Quick scan (faster, less detailed)",
+      "ko": "빠른 스캔 (더 빠르지만 덜 상세함)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1036 description"
+      ]
+    },
+    {
+      "key": "Enable learning mode",
+      "ko": "학습 모드를 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1037 description"
+      ]
+    },
+    {
+      "key": "Show detection statistics",
+      "ko": "감지 통계를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1038 description",
+        "src/commands/security.ts:1044 description"
+      ]
+    },
+    {
+      "key": "Scan text for threats",
+      "ko": "텍스트의 위협을 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1042 description"
+      ]
+    },
+    {
+      "key": "Scan file for threats",
+      "ko": "파일의 위협을 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1043 description"
+      ]
+    },
+    {
+      "key": "Scan registered MCP tool descriptions for cross-tool prompt-injection signatures (dream-cycle #2783)",
+      "ko": "등록된 MCP 도구 설명에서 도구 간 프롬프트 인젝션 시그니처를 스캔합니다 (dream-cycle #2783)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1194 description"
+      ]
+    },
+    {
+      "key": "Minimum shared-substring length to flag (default: 20 chars)",
+      "ko": "표시할 최소 공통 부분 문자열 길이 (기본값: 20자)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1196 description"
+      ]
+    },
+    {
+      "key": "Show top N suspects (default: 20)",
+      "ko": "상위 N개 의심 항목을 표시합니다 (기본값: 20)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1197 description"
+      ]
+    },
+    {
+      "key": "Path to a JSON file of {name, description}[] to scan (default: scan the CLI's own registered MCP tools)",
+      "ko": "스캔할 {name, description}[] JSON 파일 경로 (기본값: CLI 자체에 등록된 MCP 도구 스캔)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1198 description"
+      ]
+    },
+    {
+      "key": "Scan the CLI's own registered MCP tool descriptions",
+      "ko": "CLI 자체에 등록된 MCP 도구 설명을 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1201 description"
+      ]
+    },
+    {
+      "key": "Scan a third-party MCP registry",
+      "ko": "서드파티 MCP 레지스트리를 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1202 description"
+      ]
+    },
+    {
+      "key": "Scan an inter-agent message for injection payloads (ChannelGuard, dream-cycle #2783)",
+      "ko": "에이전트 간 메시지에서 인젝션 페이로드를 스캔합니다 (ChannelGuard, dream-cycle #2783)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1286 description"
+      ]
+    },
+    {
+      "key": "Message text to scan (or use --message-file)",
+      "ko": "스캔할 메시지 텍스트 (또는 --message-file 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1288 description"
+      ]
+    },
+    {
+      "key": "Path to a file whose contents will be scanned",
+      "ko": "내용을 스캔할 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1289 description"
+      ]
+    },
+    {
+      "key": "Minimum length before flagging base64/hex as encoded-payload (default 80)",
+      "ko": "base64/hex를 인코딩된 페이로드로 표시하는 최소 길이 (기본값 80)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1290 description"
+      ]
+    },
+    {
+      "key": "Scan an inline message",
+      "ko": "인라인 메시지를 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1293 description"
+      ]
+    },
+    {
+      "key": "Scan a file from an agent inbox",
+      "ko": "에이전트 받은편지함의 파일을 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1294 description"
+      ]
+    },
+    {
+      "key": "Scan an agent-emitted plan for injected steps (PlanFlip gate, dream-cycle #2752)",
+      "ko": "에이전트가 내놓은 계획에서 주입된 스텝을 스캔합니다 (PlanFlip 게이트, dream-cycle #2752)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1371 description"
+      ]
+    },
+    {
+      "key": "Plan text to scan",
+      "ko": "스캔할 계획 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1373 description"
+      ]
+    },
+    {
+      "key": "Path to a plan file (markdown, txt, json) whose content will be scanned",
+      "ko": "내용을 스캔할 계획 파일(markdown, txt, json) 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1374 description"
+      ]
+    },
+    {
+      "key": "Exit 2 on ANY finding (default: only high-severity findings gate)",
+      "ko": "발견 항목이 하나라도 있으면 2로 종료합니다 (기본값: 심각도 높음 항목만 게이트)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1375 description"
+      ]
+    },
+    {
+      "key": "Scan a written plan file",
+      "ko": "작성된 계획 파일을 스캔합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1378 description"
+      ]
+    },
+    {
+      "key": "Detect an injected step",
+      "ko": "주입된 스텝을 감지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1379 description"
+      ]
+    },
+    {
+      "key": "Security scanning, CVE detection, threat modeling, AI defense",
+      "ko": "보안 스캔, CVE 감지, 위협 모델링, AI 방어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1448 description"
+      ]
+    },
+    {
+      "key": "Run security scan",
+      "ko": "보안 스캔을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1451 description"
+      ]
+    },
+    {
+      "key": "List known CVEs",
+      "ko": "알려진 CVE 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1452 description"
+      ]
+    },
+    {
+      "key": "Run threat analysis",
+      "ko": "위협 분석을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1453 description"
+      ]
+    },
+    {
+      "key": "Scan MCP tool descriptions for cross-tool injection (dream-cycle #2783)",
+      "ko": "MCP 도구 설명에서 도구 간 인젝션을 스캔합니다 (dream-cycle #2783)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/security.ts:1454 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

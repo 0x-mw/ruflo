@@ -1,0 +1,57 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/progress.ts",
+  "entries": [
+    {
+      "key": "Check current progress (default)",
+      "ko": "현재 진행 상황을 확인합니다 (기본값)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/progress.ts:23 description"
+      ]
+    },
+    {
+      "key": "Calculate and persist progress",
+      "ko": "진행 상황을 계산하고 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/progress.ts:103 description"
+      ]
+    },
+    {
+      "key": "Watch for progress changes",
+      "ko": "진행 상황 변경을 감시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/progress.ts:176 description"
+      ]
+    },
+    {
+      "key": "Update interval in milliseconds",
+      "ko": "업데이트 간격(밀리초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/progress.ts:181 description"
+      ]
+    },
+    {
+      "key": "Check V3 implementation progress",
+      "ko": "V3 구현 진행 상황을 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/progress.ts:229 description"
+      ]
+    },
+    {
+      "key": "Sync and persist progress",
+      "ko": "진행 상황을 동기화하고 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/progress.ts:248 description",
+        "src/commands/progress.ts:271 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

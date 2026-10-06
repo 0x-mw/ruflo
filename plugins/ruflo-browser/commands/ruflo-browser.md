@@ -1,6 +1,6 @@
 ---
 name: ruflo-browser
-description: Browser session lifecycle dispatcher -- ls/show/replay/export/fork/purge/doctor over RVF-backed session containers
+description: 브라우저 세션 수명 주기 디스패처 -- RVF 기반 세션 컨테이너에 대한 ls/show/replay/export/fork/purge/doctor
 ---
 
 $ARGUMENTS

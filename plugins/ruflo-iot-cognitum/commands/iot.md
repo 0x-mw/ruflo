@@ -1,6 +1,6 @@
 ---
 name: iot
-description: Manage Cognitum Seed IoT devices, fleets, firmware, and telemetry
+description: Cognitum Seed IoT 기기, 플릿, 펌웨어, 텔레메트리를 관리
 ---
 $ARGUMENTS
 Manage IoT Cognitum Seed devices. Parse subcommand from $ARGUMENTS.

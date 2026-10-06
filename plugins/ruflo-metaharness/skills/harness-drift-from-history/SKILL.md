@@ -1,6 +1,6 @@
 ---
 name: harness-drift-from-history
-description: One-command drift detection. Composes audit-list + oia-audit + audit-trend into a single primitive — finds the most recent audit in `metaharness-audit` namespace, runs a fresh audit against the current repo, diffs them via ADR-152 §3.1 similarity, and alerts when structural distance crosses `--threshold`. Iter 53 of ADR-150 deep integration.
+description: 명령 한 번으로 드리프트를 탐지합니다. audit-list + oia-audit + audit-trend를 하나의 기본 단위로 조합해 `metaharness-audit` 네임스페이스에서 가장 최근 감사를 찾고, 현재 저장소에 대해 새 감사를 실행하고, ADR-152 §3.1 유사도로 비교하며, 구조적 거리가 `--threshold`를 넘으면 경고합니다. ADR-150 심층 통합의 Iter 53.
 argument-hint: "[--path .] [--baseline-since 7d] [--threshold 0.95] [--dry-run] [--format json|table]"
 allowed-tools: Bash
 ---

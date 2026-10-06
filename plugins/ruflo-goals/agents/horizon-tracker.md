@@ -1,6 +1,6 @@
 ---
 name: horizon-tracker
-description: Long-horizon objective tracker that persists progress across sessions with milestone checkpoints, drift detection, and adaptive timeline management
+description: 마일스톤 체크포인트, 드리프트 탐지, 적응형 일정 관리로 세션 간 진행 상황을 영속화하는 장기 목표 추적 에이전트
 model: sonnet
 ---
 

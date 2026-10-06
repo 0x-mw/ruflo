@@ -1,3 +1,7 @@
+---
+description: SPARC 스웜 코디네이터 모드
+---
+
 # SPARC Swarm Coordinator Mode
 
 ## Purpose

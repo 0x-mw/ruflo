@@ -1,3 +1,7 @@
+---
+description: GitHub PR 관리자
+---
+
 # GitHub PR Manager
 
 ## Purpose

@@ -1,6 +1,6 @@
 ---
 name: harness-mcp-scan
-description: Static security scan of a harness's declared MCP surface via `harness mcp-scan <path>`. Reads `.mcp/servers.json` + `.harness/claims.json`. Pure-read, no dispatch. Exits 1 on findings at or above `--fail-on` severity.
+description: "`harness mcp-scan <path>`로 하네스가 선언한 MCP 영역을 정적 보안 스캔합니다. `.mcp/servers.json` + `.harness/claims.json`을 읽습니다. 읽기 전용이며 디스패치는 없습니다. `--fail-on` 심각도 이상의 발견 사항이 있으면 exit 1로 끝납니다."
 argument-hint: "[--path .] [--fail-on low|medium|high] [--format table|json]"
 allowed-tools: Bash
 ---

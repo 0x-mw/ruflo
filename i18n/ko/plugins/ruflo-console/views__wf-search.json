@@ -1,0 +1,112 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-search.ts",
+  "entries": [
+    {
+      "key": "Search needs a text field, which this surface does not have.",
+      "ko": "검색에는 텍스트 입력란이 필요하지만 이 화면에는 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:62 text()"
+      ]
+    },
+    {
+      "key": "{0}+ characters: a run, label, tool call, transcript text or mission task",
+      "ko": "{0}자 이상: 실행, 라벨, 도구 호출, 대화 기록 텍스트 또는 미션 작업",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:67 placeholder"
+      ]
+    },
+    {
+      "key": "Type to search every level at once; Enter jumps to the first hit.",
+      "ko": "입력하면 모든 수준을 한 번에 검색하며, Enter를 누르면 첫 결과로 이동합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:76 text()"
+      ]
+    },
+    {
+      "key": "Type at least {0} characters.",
+      "ko": "{0}자 이상 입력하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:76 text()"
+      ]
+    },
+    {
+      "key": "No match for \"{0}\".",
+      "ko": "\"{0}\"와 일치하는 항목이 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:80 text()"
+      ]
+    },
+    {
+      "key": "{0} matches · Enter in the field goes to none with a place",
+      "ko": "일치 {0}건 · 입력란에서 Enter를 눌러도 이동할 위치가 있는 항목이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:80 text()"
+      ]
+    },
+    {
+      "key": "{0} matches · Enter in the field goes to the first",
+      "ko": "일치 {0}건 · 입력란에서 Enter를 누르면 첫 항목으로 이동합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:80 text()"
+      ]
+    },
+    {
+      "key": "{0} ({1}, first {2} shown)",
+      "ko": "{0} ({1}, 처음 {2}건 표시)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:87 text()"
+      ]
+    },
+    {
+      "key": "looked through {0} agents' transcripts ({1} characters of {2} cap) · the cap stopped the scan",
+      "ko": "에이전트 {0}개의 대화 기록을 검색했습니다 ({2} 한도 중 {1}자) · 한도에 도달해 스캔을 멈췄습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:91 text()"
+      ]
+    },
+    {
+      "key": "looked through {0} agents' transcripts ({1} characters of {2} cap)",
+      "ko": "에이전트 {0}개의 대화 기록을 검색했습니다 ({2} 한도 중 {1}자)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:91 text()"
+      ]
+    },
+    {
+      "key": "{0} agents' transcripts are not in memory, so they were not searched",
+      "ko": "에이전트 {0}개의 대화 기록이 메모리에 없어 검색하지 않았습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:93 text()"
+      ]
+    },
+    {
+      "key": "Read this run's transcripts (up to {0} MB in all)",
+      "ko": "이 실행의 대화 기록 읽기 (총 최대 {0} MB)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:98 button()"
+      ]
+    },
+    {
+      "key": "Reading them on demand needs the drill bound to the host (ADR-459).",
+      "ko": "필요할 때 읽으려면 자세히 보기가 호스트에 연결되어 있어야 합니다 (ADR-459).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-search.ts:98 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

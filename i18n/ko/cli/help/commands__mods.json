@@ -1,0 +1,168 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/mods.ts",
+  "entries": [
+    {
+      "key": "Project root (default: current directory)",
+      "ko": "프로젝트 루트 (기본값: 현재 디렉터리)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:47 description"
+      ]
+    },
+    {
+      "key": "Enable the ruflo mod plugins (ruflo-mods, ruflo-swarm, ruflo-console) for this project; classic hooks stay as fallback",
+      "ko": "이 프로젝트에서 ruflo mod 플러그인(ruflo-mods, ruflo-swarm, ruflo-console) 활성화. 기존 훅은 대체 수단으로 유지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:51 description"
+      ]
+    },
+    {
+      "key": "local (.claude/settings.local.json, default) | project (.claude/settings.json)",
+      "ko": "local (.claude/settings.local.json, 기본값) | project (.claude/settings.json)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:54 description"
+      ]
+    },
+    {
+      "key": "Show the settings that would be written and the claude commands that would run",
+      "ko": "기록될 설정과 실행될 claude 명령 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:55 description"
+      ]
+    },
+    {
+      "key": "Refresh the ruflo marketplace and run `claude plugin install` (--no-plugin-install to only write settings)",
+      "ko": "ruflo 마켓플레이스를 새로고침하고 `claude plugin install` 실행 (설정만 기록하려면 --no-plugin-install)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:56 description"
+      ]
+    },
+    {
+      "key": "Exit 1 when a required plugin could not be made loadable",
+      "ko": "필수 플러그인을 로드할 수 없으면 종료 코드 1로 종료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:57 description"
+      ]
+    },
+    {
+      "key": "github (ruvnet/ruflo, default) | local (a ruflo checkout as a directory marketplace: plugins load live from it)",
+      "ko": "github (ruvnet/ruflo, 기본값) | local (디렉터리 마켓플레이스로 쓰는 ruflo 체크아웃: 플러그인을 그곳에서 실시간 로드)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:58 description"
+      ]
+    },
+    {
+      "key": "With --source local: the ruflo checkout (default: the project root)",
+      "ko": "--source local과 함께: ruflo 체크아웃 (기본값: 프로젝트 루트)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:59 description"
+      ]
+    },
+    {
+      "key": "Remove what `ruflo mods install` added, and claude plugin uninstall what it installed (classic hooks take every event back)",
+      "ko": "`ruflo mods install`이 추가한 항목을 제거하고 설치한 항목은 claude plugin uninstall로 제거 (모든 이벤트를 기존 훅이 다시 맡음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:97 description"
+      ]
+    },
+    {
+      "key": "Show what would be removed",
+      "ko": "제거될 항목 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:98 description"
+      ]
+    },
+    {
+      "key": "Rewrite the Claude Code policy projection from .claude-flow/policy/state.json",
+      "ko": ".claude-flow/policy/state.json에서 Claude Code 정책 프로젝션 다시 쓰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:142 description"
+      ]
+    },
+    {
+      "key": "Show whether the mod is enabled, can load, and what it owns",
+      "ko": "mod의 활성화 여부, 로드 가능 여부, 소유 항목 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:150 findingsCommand()"
+      ]
+    },
+    {
+      "key": "Run ruflo as a Claude Code mod (function hooks, early access, ADR-404)",
+      "ko": "ruflo를 Claude Code mod로 실행합니다 (함수 훅, 얼리 액세스, ADR-404)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:154 description"
+      ]
+    },
+    {
+      "key": "Check the mod path; exits 1 only on a failure",
+      "ko": "mod 경로를 점검합니다. 실패할 때만 종료 코드 1",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:159 findingsCommand()"
+      ]
+    },
+    {
+      "key": "Enable the mod plugins for this checkout (settings.local.json) and install them with claude",
+      "ko": "이 체크아웃에서 mod 플러그인을 활성화(settings.local.json)하고 claude로 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:163 description"
+      ]
+    },
+    {
+      "key": "Same, in the committed settings.json (what ruflo init does)",
+      "ko": "같은 작업을 커밋되는 settings.json에서 수행 (ruflo init이 하는 방식)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:164 description"
+      ]
+    },
+    {
+      "key": "Only write settings; run no claude command",
+      "ko": "설정만 기록하고 claude 명령은 실행하지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:165 description"
+      ]
+    },
+    {
+      "key": "Dogfood: load the mods live from this ruflo checkout (directory marketplace)",
+      "ko": "도그푸딩: 이 ruflo 체크아웃에서 mod를 실시간 로드 (디렉터리 마켓플레이스)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:166 description"
+      ]
+    },
+    {
+      "key": "Marketplace fresh? Plugins loadable? Function hooks on? Refused by policy?",
+      "ko": "마켓플레이스가 최신인가? 플러그인을 로드할 수 있는가? 함수 훅이 켜져 있는가? 정책이 거부했는가?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:167 description"
+      ]
+    },
+    {
+      "key": "Remove only what install added",
+      "ko": "설치가 추가한 항목만 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mods.ts:168 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

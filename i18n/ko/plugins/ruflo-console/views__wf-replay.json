@@ -1,0 +1,176 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-replay.ts",
+  "entries": [
+    {
+      "key": "{0} {1}  {2}/{3} · {4} running",
+      "ko": "{0} {1}  {2}/{3} · {4} 실행 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:79 text()"
+      ]
+    },
+    {
+      "key": "+{0} more rows not drawn (the export holds all of them)",
+      "ko": "+{0}개 행은 표시하지 않음 (내보내기에는 모두 포함)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:94 text()"
+      ]
+    },
+    {
+      "key": "step {0}/{1} · {2} of {3} · {4}x · ▶ playing",
+      "ko": "스텝 {0}/{1} · {3} 중 {2} · {4}x · ▶ 재생 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:117 text()"
+      ]
+    },
+    {
+      "key": "step {0}/{1} · {2} of {3} · {4}x · ■ at the end",
+      "ko": "스텝 {0}/{1} · {3} 중 {2} · {4}x · ■ 끝",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:117 text()"
+      ]
+    },
+    {
+      "key": "step {0}/{1} · {2} of {3} · {4}x · ⏸ paused",
+      "ko": "스텝 {0}/{1} · {3} 중 {2} · {4}x · ⏸ 일시 중지됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:117 text()"
+      ]
+    },
+    {
+      "key": "◂◂ phase",
+      "ko": "◂◂ 단계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:120 button()"
+      ]
+    },
+    {
+      "key": "◂ step",
+      "ko": "◂ 스텝",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:120 button()"
+      ]
+    },
+    {
+      "key": "play",
+      "ko": "재생",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:120 button()"
+      ]
+    },
+    {
+      "key": "step ▸",
+      "ko": "스텝 ▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:120 button()"
+      ]
+    },
+    {
+      "key": "phase ▸▸",
+      "ko": "단계 ▸▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:120 button()"
+      ]
+    },
+    {
+      "key": "speed",
+      "ko": "속도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:121 text()"
+      ]
+    },
+    {
+      "key": "{0} agent left off: no start time (or no span) in the run's files, so there is no moment to place it at",
+      "ko": "에이전트 {0}개 제외: 실행 파일에 시작 시각(또는 구간)이 없어 배치할 시점이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:123 text()"
+      ]
+    },
+    {
+      "key": "{0} agent left off: no start time (or no span) in the run's files, so there is no moment to place them at",
+      "ko": "에이전트 {0}개 제외: 실행 파일에 시작 시각(또는 구간)이 없어 배치할 시점이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:123 text()"
+      ]
+    },
+    {
+      "key": "{0} agents left off: no start time (or no span) in the run's files, so there is no moment to place it at",
+      "ko": "에이전트 {0}개 제외: 실행 파일에 시작 시각(또는 구간)이 없어 배치할 시점이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:123 text()"
+      ]
+    },
+    {
+      "key": "{0} agents left off: no start time (or no span) in the run's files, so there is no moment to place them at",
+      "ko": "에이전트 {0}개 제외: 실행 파일에 시작 시각(또는 구간)이 없어 배치할 시점이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:123 text()"
+      ]
+    },
+    {
+      "key": "This is the run's real final board.",
+      "ko": "이것이 이 실행의 실제 최종 보드입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:124 text()"
+      ]
+    },
+    {
+      "key": "Tokens show n/a until an agent ends: only its final figure is recorded. A running agent's time is measured to this step.",
+      "ko": "에이전트가 끝나기 전에는 토큰이 해당 없음으로 표시됩니다. 최종 수치만 기록되기 때문입니다. 실행 중인 에이전트의 시간은 이 스텝까지 계산합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:124 text()"
+      ]
+    },
+    {
+      "key": "This replay cannot rewind a run; stop or message one from its control tab.",
+      "ko": "이 재생으로는 실행을 되돌릴 수 없습니다. 중지하거나 메시지를 보내려면 제어 탭을 사용하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:125 text()"
+      ]
+    },
+    {
+      "key": "Replay",
+      "ko": "재생",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:132 title"
+      ]
+    },
+    {
+      "key": "Replay is for Claude Code workflow runs: the ruflo swarm is a live roster with no history to step through.",
+      "ko": "재생은 Claude Code 워크플로 실행용입니다. ruflo 스웜은 넘겨볼 이력이 없는 실시간 명단입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:138 text()"
+      ]
+    },
+    {
+      "key": "{0} moments in {1}: scrub back and forth, jump by phase, play at up to {2}x",
+      "ko": "{1} 동안 {0}개 시점: 앞뒤로 훑거나 단계 단위로 건너뛰고, 최대 {2}x로 재생할 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-replay.ts:142 fold()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

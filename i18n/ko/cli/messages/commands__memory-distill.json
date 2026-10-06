@@ -1,0 +1,236 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/memory-distill.ts",
+  "entries": [
+    {
+      "key": "--judge fable requires --budget-usd > 0 (ADR-172 cost-bounded advisor path). Refusing to run the LLM judge against a $0 budget.",
+      "ko": "--judge fable 에는 --budget-usd > 0 이 필요합니다 (ADR-172 비용 제한 어드바이저 경로). 예산이 $0 인 상태로는 LLM 판정기를 실행하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:166 printError"
+      ]
+    },
+    {
+      "key": "Memory Distillation (ADR-174)",
+      "ko": "메모리 증류 (ADR-174)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:175 bold",
+        "src/commands/memory-distill.ts:422 bold"
+      ]
+    },
+    {
+      "key": "DRY RUN — no writes will be made",
+      "ko": "예행 실행 — 아무것도 기록하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:177 warning"
+      ]
+    },
+    {
+      "key": "Distilling memory_entries...",
+      "ko": "memory_entries 를 증류하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:179 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Distillation failed",
+      "ko": "증류하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:198 spinner.fail"
+      ]
+    },
+    {
+      "key": "Distillation skipped",
+      "ko": "증류를 건너뛰었습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:204 spinner.succeed"
+      ]
+    },
+    {
+      "key": "skipped: {0}",
+      "ko": "건너뜀: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-distill.ts:205 warning"
+      ]
+    },
+    {
+      "key": "Dry-run complete",
+      "ko": "예행 실행을 마쳤습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:209 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Distillation complete",
+      "ko": "증류를 마쳤습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:209 spinner.succeed"
+      ]
+    },
+    {
+      "key": "By Provenance",
+      "ko": "출처별",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:234 bold"
+      ]
+    },
+    {
+      "key": "Memory Distillation Status",
+      "ko": "메모리 증류 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:258 bold"
+      ]
+    },
+    {
+      "key": "No memory DB found at {0}",
+      "ko": "메모리 DB가 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-distill.ts:262 warning"
+      ]
+    },
+    {
+      "key": "better-sqlite3 native module unavailable — cannot read distillation state.",
+      "ko": "better-sqlite3 네이티브 모듈을 사용할 수 없어 증류 상태를 읽을 수 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:274 warning"
+      ]
+    },
+    {
+      "key": "Failed to open {0}: {1}",
+      "ko": "{0} 을(를) 열지 못했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-distill.ts:282 printError"
+      ]
+    },
+    {
+      "key": "Table",
+      "ko": "테이블",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:321 printTable.header",
+        "src/commands/memory.ts:2010 printTable.header"
+      ]
+    },
+    {
+      "key": "Rows",
+      "ko": "행 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:322 printTable.header"
+      ]
+    },
+    {
+      "key": "Promote gate (ADR-171)",
+      "ko": "승격 게이트 (ADR-171)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:328 bold"
+      ]
+    },
+    {
+      "key": "promoted: {0}   proxy (never promoted): {1}   total patterns: {2}",
+      "ko": "승격됨: {0}   프록시(승격된 적 없음): {1}   전체 패턴: {2}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-distill.ts:330 writeln"
+      ]
+    },
+    {
+      "key": "distill_state cursor",
+      "ko": "distill_state 커서",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:335 bold"
+      ]
+    },
+    {
+      "key": "Namespace",
+      "ko": "네임스페이스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:338 printTable.header",
+        "src/commands/memory.ts:788 printTable.header",
+        "src/commands/memory.ts:877 printTable.header"
+      ]
+    },
+    {
+      "key": "Last Rowid",
+      "ko": "마지막 Rowid",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:339 printTable.header"
+      ]
+    },
+    {
+      "key": "Last Run",
+      "ko": "마지막 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:340 printTable.header"
+      ]
+    },
+    {
+      "key": "No distill_state cursor rows yet (run `memory distill run` first).",
+      "ko": "distill_state 커서 행이 아직 없습니다 (먼저 `memory distill run` 을 실행하세요).",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:350 dim"
+      ]
+    },
+    {
+      "key": "Target tables not present — agentdb schema not initialised, or distillation never run.",
+      "ko": "대상 테이블이 없습니다 — agentdb 스키마가 초기화되지 않았거나 증류를 한 번도 실행하지 않았습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:355 dim"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow memory distill <run|status|config> [options]",
+      "ko": "사용법: claude-flow memory distill <run|status|config> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:423 writeln"
+      ]
+    },
+    {
+      "key": "{0}     - Distill memory_entries into the structured intelligence tables",
+      "ko": "{0}     - memory_entries 를 구조화된 인텔리전스 테이블로 증류",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-distill.ts:426 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Report target table counts, cursor, and promote-gate breakdown",
+      "ko": "{0}  - 대상 테이블 개수, 커서, 승격 게이트 내역 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-distill.ts:427 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Print the effective resolved config as JSON",
+      "ko": "{0}  - 최종 적용된 설정을 JSON으로 출력",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-distill.ts:428 printList"
+      ]
+    }
+  ],
+  "obsolete": []
+}

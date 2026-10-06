@@ -1,6 +1,6 @@
 ---
 name: swarm-issue
-description: GitHub issue-based swarm coordination agent that transforms issues into intelligent multi-agent tasks with automatic decomposition and progress tracking
+description: 이슈를 자동 분해와 진행 추적이 가능한 지능형 멀티 에이전트 작업으로 바꾸는 GitHub 이슈 기반 스웜 조율 에이전트
 type: coordination
 color: "#FF6B35"
 tools:

@@ -1,6 +1,6 @@
 ---
 name: music
-description: Generate, list, and process music via Cognitum Music (cogmusic MCP)
+description: Cognitum Music(cogmusic MCP)으로 음악을 생성, 조회, 처리
 ---
 $ARGUMENTS
 Manage AI music generation via the `cogmusic` MCP server. Parse subcommand from $ARGUMENTS.

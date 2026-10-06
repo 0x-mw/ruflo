@@ -1,6 +1,6 @@
 {
   "name": "ruflo-mods",
-  "description": "ruflo as a Claude Code mod (function hooks, ADR-404): in-process prompt routing, edit learning signals, tighten-only tool checks from ruflo policy, the cost-tracker budget ladder, a mod trust gate for newly installed mods, and the $.ruflo noun other mods compose their status with. Opt-in and removable: the classic hook-handler hooks stay the default and take every event back whenever the mod is not loaded.",
+  "description": "Claude Code mod(함수 훅, ADR-404)로 구현한 ruflo: 인프로세스 프롬프트 라우팅, 편집 학습 신호, ruflo 정책 기반의 강화 전용 도구 검사, cost-tracker 예산 단계, 새로 설치된 mod를 위한 mod 신뢰 게이트, 다른 mod가 자신의 상태를 조합하는 데 쓰는 $.ruflo 명사. 옵트인이며 제거 가능: mod가 로드되지 않을 때마다 기존 hook-handler 훅이 기본값으로 유지되며 모든 이벤트를 다시 맡습니다.",
   "version": "0.3.14",
   "author": {
     "name": "ruvnet",
@@ -21,85 +21,85 @@
   "userConfig": {
     "routeContext": {
       "type": "boolean",
-      "title": "Ranked memory with routes",
-      "description": "Add the ranked-memory block (.claude-flow/data/ranked-context.json) to each prompt's routing context, as the classic route hook does.",
+      "title": "라우트와 함께 순위 메모리",
+      "description": "기존 라우트 훅처럼, 순위가 매겨진 메모리 블록(.claude-flow/data/ranked-context.json)을 각 프롬프트의 라우팅 컨텍스트에 추가합니다.",
       "required": false,
       "default": true
     },
     "statusLine": {
       "type": "boolean",
-      "title": "ruflo status line",
-      "description": "Show a one-line ruflo status under the prompt. Never shown where the ruflo statusLine helper is already configured.",
+      "title": "ruflo 상태 줄",
+      "description": "프롬프트 아래에 한 줄짜리 ruflo 상태를 표시합니다. ruflo statusLine 헬퍼가 이미 설정된 곳에서는 표시하지 않습니다.",
       "required": false,
       "default": true
     },
     "costBudgetUsd": {
       "type": "number",
-      "title": "Session budget (USD)",
-      "description": "Apply the cost-tracker budget ladder (50/75/90/100%) to this session's live cost. 0 turns it off.",
+      "title": "세션 예산(USD)",
+      "description": "cost-tracker 예산 단계(50/75/90/100%)를 이 세션의 실시간 비용에 적용합니다. 0이면 끕니다.",
       "required": false,
       "default": 0
     },
     "costHardStop": {
       "type": "boolean",
-      "title": "Halt agents at 100% of budget",
-      "description": "At 100% of the session budget, refuse new subagent spawns.",
+      "title": "예산 100%에서 에이전트 중단",
+      "description": "세션 예산의 100%에 도달하면 새 서브에이전트 생성을 거부합니다.",
       "required": false,
       "default": false
     },
     "toolHints": {
       "type": "boolean",
-      "title": "Usage hints on ruflo tools",
-      "description": "Add one short, static usage hint (restating the project's own CLAUDE.md) to the description of a few ruflo MCP tools, such as memory_search and swarm_init, so the model sees it at the tool. Appends text only, cached for the session. Off by default.",
+      "title": "ruflo 도구 사용 힌트",
+      "description": "memory_search, swarm_init 같은 일부 ruflo MCP 도구의 설명에 프로젝트 자체 CLAUDE.md를 되풀이하는 짧은 정적 사용 힌트를 하나 추가해, 모델이 도구에서 바로 보게 합니다. 텍스트만 덧붙이며 세션 동안 캐시됩니다. 기본값은 꺼짐.",
       "required": false,
       "default": false
     },
     "agentTrim": {
       "type": "boolean",
-      "title": "Hide unused agent types",
-      "description": "Keep agent types the project does not use out of the model's agent listing, to save prompt tokens (measured about 4,000 fewer per request with 59 of 69 types hidden). A hidden type the prompt does not name is also refused when spawned. Always kept: built-in agents, coder, reviewer, tester, planner, researcher, any type used in the last 30 days, any in agentTrimKeep. A type named in the prompt can still be spawned, but in a headless session it is not added back to the listing: use agentTrimKeep to keep one reliably. Off by default.",
+      "title": "사용하지 않는 에이전트 유형 숨기기",
+      "description": "프롬프트 토큰을 아끼기 위해 프로젝트가 쓰지 않는 에이전트 유형을 모델의 에이전트 목록에서 숨깁니다(69개 유형 중 59개를 숨겼을 때 요청당 약 4,000토큰 감소 측정). 프롬프트가 지정하지 않은 숨겨진 유형은 생성 시에도 거부됩니다. 항상 유지: 내장 에이전트, coder, reviewer, tester, planner, researcher, 최근 30일간 사용한 모든 유형, agentTrimKeep에 있는 모든 유형. 프롬프트에 이름이 지정된 유형은 여전히 생성할 수 있지만 헤드리스 세션에서는 목록에 다시 추가되지 않으므로, 확실히 유지하려면 agentTrimKeep을 사용하세요. 기본값은 꺼짐.",
       "required": false,
       "default": false
     },
     "agentTrimKeep": {
       "type": "string",
-      "title": "Agent types to never hide",
-      "description": "Comma-separated agent type names that agentTrim must keep offered.",
+      "title": "숨기지 않을 에이전트 유형",
+      "description": "agentTrim이 계속 제공해야 하는 에이전트 유형 이름(쉼표로 구분)입니다.",
       "required": false,
       "default": ""
     },
     "deliveryScreen": {
       "type": "boolean",
-      "title": "Screen peer deliveries and outgoing messages",
-      "description": "Drop a delivery from a peer, relay or webhook that carries prompt-injection phrasing, and refuse to send a message to another agent that carries a secret shape (key, token) or a US social security number. In-process pattern screen: no network, no model. Tighten-only; your own Remote Control prompts are never screened. Off by default.",
+      "title": "피어 전달물과 나가는 메시지 검사",
+      "description": "프롬프트 인젝션 문구가 들어 있는 피어, 릴레이, 웹훅의 전달물을 버리고, 비밀 형태(키, 토큰) 또는 미국 사회 보장 번호가 들어 있는 다른 에이전트 대상 메시지 전송을 거부합니다. 인프로세스 패턴 검사: 네트워크도 모델도 쓰지 않습니다. 강화 전용이며, 사용자의 Remote Control 프롬프트는 검사하지 않습니다. 기본값은 꺼짐.",
       "required": false,
       "default": false
     },
     "compactCarry": {
       "type": "boolean",
-      "title": "Carry swarm and claims state through compaction",
-      "description": "When the conversation is compacted, tell the summary to keep one short block (600 characters at most): the live swarm id, its topology word and agent count, the ids and status of open claims, the last route agent, and the budget and policy words. Built only from validated ids and fixed words, never prompt text, tool inputs, paths or file contents; nothing is carried when no swarm or claim is open, or when the block fails a secret or injection screen. Appended to what you typed after /compact. Off by default.",
+      "title": "압축 시 스웜과 클레임 상태 유지",
+      "description": "대화가 압축될 때 요약에 짧은 블록 하나(최대 600자)를 유지하도록 지시합니다: 활성 스웜 ID, 토폴로지 단어와 에이전트 수, 열린 클레임의 ID와 상태, 마지막 라우트 에이전트, 예산 및 정책 단어. 검증된 ID와 고정된 단어로만 만들며 프롬프트 텍스트, 도구 입력, 경로, 파일 내용은 쓰지 않습니다. 열린 스웜이나 클레임이 없거나 블록이 비밀 또는 인젝션 검사에 걸리면 아무것도 전달하지 않습니다. /compact 뒤에 입력한 내용에 덧붙입니다. 기본값은 꺼짐.",
       "required": false,
       "default": false
     },
     "capabilityProbe": {
       "type": "boolean",
-      "title": "Capability probe",
-      "description": "Record the engine version and which of this mod's events actually fired, and show it as one line in /ruflo-mods (probe: engine ... · events fired n/m · never fired: ...). Observability only: never denies, rewrites or delays anything. Off by default.",
+      "title": "기능 프로브",
+      "description": "엔진 버전과 이 mod의 이벤트 중 실제로 발생한 것을 기록하고, /ruflo-mods에 한 줄로 표시합니다(probe: engine ... · events fired n/m · never fired: ...). 관측 전용: 아무것도 거부, 재작성, 지연하지 않습니다. 기본값은 꺼짐.",
       "required": false,
       "default": false
     },
     "sessionRollup": {
       "type": "boolean",
-      "title": "Session rollup ledger",
-      "description": "At session end, append one record of counters (tools called, routed, tightened, denied, agent spawns, cost rung, probe count) to a capped user-global ledger (last 50 sessions, under 32 KB) and show the last few in /ruflo-mods. Never stores prompt text, tool inputs, paths or file contents. Observability only: never denies, rewrites or delays anything. Off by default.",
+      "title": "세션 집계 원장",
+      "description": "세션 종료 시 카운터(호출된 도구, 라우팅됨, 강화됨, 거부됨, 에이전트 생성, 비용 단계, 프로브 횟수) 한 건을 상한이 있는 사용자 전역 원장(최근 50개 세션, 32KB 미만)에 추가하고, 최근 몇 건을 /ruflo-mods에 표시합니다. 프롬프트 텍스트, 도구 입력, 경로, 파일 내용은 저장하지 않습니다. 관측 전용: 아무것도 거부, 재작성, 지연하지 않습니다. 기본값은 꺼짐.",
       "required": false,
       "default": false
     },
     "modTrust": {
       "type": "string",
-      "title": "Mod trust gate",
-      "description": "How ruflo treats a hooks module installed or hot-reloaded after it (a mod Claude wrote, say). \"observe\" (default): name what it can do (host commands, network, environment, file writes, tool verdicts) in the transcript. \"refuse-risky\": refuse user-tier mods that can do any of those, unless listed in modTrustAllow. \"off\": do not watch.",
+      "title": "mod 신뢰 게이트",
+      "description": "ruflo가 이후에 설치되거나 핫 리로드된 훅 모듈(예: Claude가 작성한 mod)을 다루는 방식입니다. \"observe\"(기본값): 할 수 있는 일(호스트 명령, 네트워크, 환경, 파일 쓰기, 도구 판정)을 대화 기록에 명시합니다. \"refuse-risky\": 그중 하나라도 할 수 있는 사용자 티어 mod를 modTrustAllow에 없으면 거부합니다. \"off\": 감시하지 않습니다.",
       "required": false,
       "default": "observe",
       "options": [
@@ -110,22 +110,22 @@
     },
     "modTrustAllow": {
       "type": "string",
-      "title": "Trusted mods (plugin ids)",
-      "description": "Comma-separated plugin ids as Claude Code keys them, name@marketplace (e.g. ruflo-swarm@ruflo,ruflo-console@ruflo), that the trust gate never refuses. Matched on where the plugin was installed from, not on the name it gives itself.",
+      "title": "신뢰하는 mod(플러그인 ID)",
+      "description": "Claude Code가 키로 쓰는 name@marketplace 형태의 플러그인 ID(예: ruflo-swarm@ruflo,ruflo-console@ruflo)를 쉼표로 구분한 목록이며, 신뢰 게이트가 거부하지 않습니다. 플러그인이 스스로 붙인 이름이 아니라 설치된 출처를 기준으로 일치시킵니다.",
       "required": false,
       "default": ""
     },
     "guidanceContext": {
       "type": "boolean",
-      "title": "Advisory task guidance",
-      "description": "Read a bounded compiler projection and attach screened lexical excerpts to prompts. Guidance cannot authorize tool calls.",
+      "title": "참고용 작업 가이던스",
+      "description": "범위가 정해진 컴파일러 투영을 읽고 검사를 거친 어휘 발췌를 프롬프트에 첨부합니다. 가이던스는 도구 호출을 승인할 수 없습니다.",
       "required": false,
       "default": false
     },
     "guidanceLearning": {
       "type": "boolean",
-      "title": "Unverified guidance observations",
-      "description": "Record versioned rule IDs and activity counters in a separate candidate queue. Does not record task success, train or promote guidance.",
+      "title": "미검증 가이던스 관찰",
+      "description": "버전이 붙은 규칙 ID와 활동 카운터를 별도의 후보 큐에 기록합니다. 작업 성공을 기록하거나, 가이던스를 학습시키거나 승격하지 않습니다.",
       "required": false,
       "default": false
     }

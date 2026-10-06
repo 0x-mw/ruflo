@@ -1,3 +1,7 @@
+---
+description: stream-chain 파이프라인
+---
+
 # stream-chain pipeline
 
 Execute predefined pipelines for common development workflows.

@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-export.ts",
+  "entries": [
+    {
+      "key": "the host's file reader is not wired to this page, so a path cannot be checked: nothing is written",
+      "ko": "호스트의 파일 읽기가 이 화면에 연결되지 않아 경로를 확인할 수 없습니다. 아무것도 쓰지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:50 text"
+      ]
+    },
+    {
+      "key": "that summary cannot be written",
+      "ko": "이 요약은 쓸 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:60 ask()"
+      ]
+    },
+    {
+      "key": "asked: confirm below to write {0}",
+      "ko": "확인 요청: 아래에서 확인하면 {0}을(를) 씁니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:62 text"
+      ]
+    },
+    {
+      "key": "Writes a markdown summary: phases, agents, tokens, time, results (cost: n/a unless a source is wired). Credentials and control characters are masked.",
+      "ko": "마크다운 요약을 씁니다: 단계, 에이전트, 토큰, 시간, 결과 (비용은 출처가 연결되지 않으면 해당 없음). 자격 증명과 제어 문자는 가려집니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:77 text()"
+      ]
+    },
+    {
+      "key": "Allowed: under {0} · name ends in .md · no .. · never overwrites · you confirm first",
+      "ko": "허용: {0} 아래 · 이름은 .md로 끝남 · .. 불가 · 덮어쓰지 않음 · 먼저 확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:78 text()"
+      ]
+    },
+    {
+      "key": "Allowed: under {0} or {1} · name ends in .md · no .. · never overwrites · you confirm first",
+      "ko": "허용: {0} 또는 {1} 아래 · 이름은 .md로 끝남 · .. 불가 · 덮어쓰지 않음 · 먼저 확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:78 text()"
+      ]
+    },
+    {
+      "key": "This surface has no text field: use the default path button.",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다. 기본 경로 버튼을 사용하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:79 text()"
+      ]
+    },
+    {
+      "key": "Export to the default path",
+      "ko": "기본 경로로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:80 button()"
+      ]
+    },
+    {
+      "key": "Export run summary",
+      "ko": "실행 요약 내보내기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:88 title"
+      ]
+    },
+    {
+      "key": "Export is for Claude Code workflow runs.",
+      "ko": "내보내기는 Claude Code 워크플로 실행용입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:94 text()"
+      ]
+    },
+    {
+      "key": "{0}/{1} (default)",
+      "ko": "{0}/{1} (기본값)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-export.ts:96 fold()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

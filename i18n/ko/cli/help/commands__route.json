@@ -1,0 +1,384 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/route.ts",
+  "entries": [
+    {
+      "key": "Implements features and writes code",
+      "ko": "기능을 구현하고 코드를 작성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:39 description"
+      ]
+    },
+    {
+      "key": "Creates tests and validates functionality",
+      "ko": "테스트를 작성하고 기능을 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:40 description"
+      ]
+    },
+    {
+      "key": "Reviews code quality and security",
+      "ko": "코드 품질과 보안을 리뷰합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:41 description"
+      ]
+    },
+    {
+      "key": "Designs system architecture",
+      "ko": "시스템 아키텍처를 설계합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:42 description"
+      ]
+    },
+    {
+      "key": "Researches requirements and patterns",
+      "ko": "요구사항과 패턴을 조사합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:43 description"
+      ]
+    },
+    {
+      "key": "Optimizes performance and efficiency",
+      "ko": "성능과 효율을 최적화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:44 description"
+      ]
+    },
+    {
+      "key": "Debugs issues and fixes bugs",
+      "ko": "문제를 디버깅하고 버그를 수정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:45 description"
+      ]
+    },
+    {
+      "key": "Creates and updates documentation",
+      "ko": "문서를 작성하고 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:46 description"
+      ]
+    },
+    {
+      "key": "Route a task to the optimal agent using Q-Learning",
+      "ko": "Q-Learning으로 작업을 최적의 에이전트에 라우팅합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:83 description"
+      ]
+    },
+    {
+      "key": "Use Q-Learning for agent selection (default: true)",
+      "ko": "에이전트 선택에 Q-Learning을 사용합니다 (기본값: true)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:88 description"
+      ]
+    },
+    {
+      "key": "Force specific agent (bypasses Q-Learning)",
+      "ko": "특정 에이전트를 강제로 지정합니다 (Q-Learning 우회)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:95 description"
+      ]
+    },
+    {
+      "key": "Enable exploration (random selection chance)",
+      "ko": "탐색을 활성화합니다 (무작위 선택 확률)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:101 description"
+      ]
+    },
+    {
+      "key": "Output in JSON format",
+      "ko": "JSON 형식으로 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:108 description",
+        "src/commands/route.ts:256 description",
+        "src/commands/route.ts:315 description"
+      ]
+    },
+    {
+      "key": "Route task to best agent",
+      "ko": "작업을 최적의 에이전트에 라우팅합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:114 description",
+        "src/commands/route.ts:854 description"
+      ]
+    },
+    {
+      "key": "Use Q-Learning routing",
+      "ko": "Q-Learning 라우팅을 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:115 description",
+        "src/commands/route.ts:855 description"
+      ]
+    },
+    {
+      "key": "Force specific agent",
+      "ko": "특정 에이전트를 강제로 지정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:116 description",
+        "src/commands/route.ts:849 description",
+        "src/commands/route.ts:856 description"
+      ]
+    },
+    {
+      "key": "List all available agent types for routing",
+      "ko": "라우팅에 사용할 수 있는 모든 에이전트 유형을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:251 description"
+      ]
+    },
+    {
+      "key": "List agents as JSON",
+      "ko": "에이전트 목록을 JSON으로 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:263 description"
+      ]
+    },
+    {
+      "key": "Show Q-Learning router statistics",
+      "ko": "Q-Learning 라우터 통계를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:310 description"
+      ]
+    },
+    {
+      "key": "Show routing statistics",
+      "ko": "라우팅 통계를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:321 description",
+        "src/commands/route.ts:858 description"
+      ]
+    },
+    {
+      "key": "Provide feedback on a routing decision",
+      "ko": "라우팅 결정에 대한 피드백을 제공합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:382 description"
+      ]
+    },
+    {
+      "key": "Task description (context for learning)",
+      "ko": "작업 설명 (학습용 문맥)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:387 description"
+      ]
+    },
+    {
+      "key": "Agent that was used",
+      "ko": "사용된 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:394 description"
+      ]
+    },
+    {
+      "key": "Reward value (-1 to 1, where 1 is best)",
+      "ko": "보상 값 (-1~1, 1이 최상)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:401 description"
+      ]
+    },
+    {
+      "key": "Next task description (for multi-step learning)",
+      "ko": "다음 작업 설명 (다단계 학습용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:408 description"
+      ]
+    },
+    {
+      "key": "Positive feedback",
+      "ko": "긍정 피드백",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:413 description"
+      ]
+    },
+    {
+      "key": "Negative feedback",
+      "ko": "부정 피드백",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:414 description"
+      ]
+    },
+    {
+      "key": "Reset the Q-Learning router state",
+      "ko": "Q-Learning 라우터 상태를 재설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:475 description"
+      ]
+    },
+    {
+      "key": "Force reset without confirmation",
+      "ko": "확인 없이 강제로 재설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:480 description"
+      ]
+    },
+    {
+      "key": "Reset router state",
+      "ko": "라우터 상태를 재설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:486 description"
+      ]
+    },
+    {
+      "key": "Force reset",
+      "ko": "강제로 재설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:487 description"
+      ]
+    },
+    {
+      "key": "Export Q-table for persistence",
+      "ko": "영속화를 위해 Q-table을 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:516 description"
+      ]
+    },
+    {
+      "key": "Output file path (outputs to stdout if not specified)",
+      "ko": "출력 파일 경로 (지정하지 않으면 stdout으로 출력)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:521 description"
+      ]
+    },
+    {
+      "key": "Export Q-table to stdout",
+      "ko": "Q-table을 stdout으로 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:526 description"
+      ]
+    },
+    {
+      "key": "Import Q-table from file",
+      "ko": "파일에서 Q-table을 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:554 description",
+        "src/commands/route.ts:565 description"
+      ]
+    },
+    {
+      "key": "Route tasks based on test coverage analysis (ADR-017)",
+      "ko": "테스트 커버리지 분석을 기반으로 작업을 라우팅합니다 (ADR-017)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:601 description"
+      ]
+    },
+    {
+      "key": "Path to analyze for coverage",
+      "ko": "커버리지를 분석할 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:606 description"
+      ]
+    },
+    {
+      "key": "Get suggestions for improving coverage",
+      "ko": "커버리지 개선 제안을 받습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:619 description"
+      ]
+    },
+    {
+      "key": "List coverage gaps with agent assignments",
+      "ko": "에이전트 할당과 함께 커버리지 공백 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:626 description"
+      ]
+    },
+    {
+      "key": "Analyze coverage and suggest routing",
+      "ko": "커버리지를 분석하고 라우팅을 제안합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:639 description"
+      ]
+    },
+    {
+      "key": "Get improvement suggestions",
+      "ko": "개선 제안을 받습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:640 description"
+      ]
+    },
+    {
+      "key": "List coverage gaps by agent",
+      "ko": "에이전트별 커버리지 공백 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:641 description"
+      ]
+    },
+    {
+      "key": "Analyze specific path with threshold",
+      "ko": "임계값을 적용해 특정 경로를 분석합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:642 description"
+      ]
+    },
+    {
+      "key": "Intelligent task-to-agent routing using Q-Learning",
+      "ko": "Q-Learning을 사용한 지능형 작업-에이전트 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:827 description"
+      ]
+    },
+    {
+      "key": "Use Q-Learning for agent selection",
+      "ko": "에이전트 선택에 Q-Learning을 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:842 description"
+      ]
+    },
+    {
+      "key": "List available agents",
+      "ko": "사용 가능한 에이전트 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/route.ts:857 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

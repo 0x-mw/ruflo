@@ -1,6 +1,6 @@
 ---
 name: autopilot-status
-description: Quick autopilot progress summary with task completion stats
+description: 작업 완료 통계를 포함한 오토파일럿 진행 상황 간단 요약
 ---
 $ARGUMENTS
 Show autopilot progress. Calls `autopilot_status` and `autopilot_progress` via MCP.

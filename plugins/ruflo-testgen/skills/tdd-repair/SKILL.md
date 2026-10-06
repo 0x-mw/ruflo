@@ -1,6 +1,6 @@
 ---
 name: tdd-repair
-description: Test-Driven Repair — given a failing test, spawn a bounded headless `claude -p` (Read/Edit/Bash only) that makes the test pass without modifying it. Modeled on agent-harness-generator's ADR-175 Test-Driven Repair mode. Bounded cost via --max-budget-usd, bounded capability via --allowedTools. Closes the loop the TDD plugins didn't — we generate tests, this fixes the code to satisfy them.
+description: 테스트 주도 수정(Test-Driven Repair) — 실패하는 테스트가 주어지면 테스트를 수정하지 않고 통과시키는, 범위가 제한된 헤드리스 `claude -p`(Read/Edit/Bash만)를 생성합니다. agent-harness-generator의 ADR-175 Test-Driven Repair 모드를 본뜬 것입니다. --max-budget-usd로 비용을, --allowedTools로 기능을 제한합니다. TDD 플러그인들이 닫지 못한 루프를 닫습니다 — 테스트는 생성하고, 이 스킬은 그 테스트를 만족하도록 코드를 고칩니다.
 argument-hint: "--repo <path> --test <path> --test-command <cmd> [--max-attempts 1] [--budget 5.00] [--model haiku] [--confirm]"
 allowed-tools: Bash
 ---

@@ -1,6 +1,6 @@
 {
   "name": "ruflo-ddd",
-  "description": "Domain-Driven Design scaffolding — bounded contexts, aggregate roots, domain events, value objects, repositories, and anti-corruption layers; navigable domain graph stored in AgentDB",
+  "description": "도메인 주도 설계 스캐폴딩 — 바운디드 컨텍스트, 애그리게이트 루트, 도메인 이벤트, 값 객체, 리포지토리, 부패 방지 계층, AgentDB에 저장된 탐색 가능한 도메인 그래프",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -26,8 +26,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse domain-model memory writes that hold a key, token or password. On by default; it only ever tightens.",
+      "title": "비밀 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 도메인 모델 메모리 쓰기를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
       "required": false,
       "default": "on",
       "options": [

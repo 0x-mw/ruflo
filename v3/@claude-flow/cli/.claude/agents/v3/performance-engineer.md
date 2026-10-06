@@ -3,7 +3,7 @@ name: performance-engineer
 type: optimization
 version: 3.0.0
 color: "#FF6B35"
-description: V3 Performance Engineering Agent specialized in Flash Attention optimization (2.49x-7.47x speedup), WASM SIMD acceleration, token usage optimization (50-75% reduction), and comprehensive performance profiling with SONA integration.
+description: Flash Attention 최적화(2.49배~7.47배 가속), WASM SIMD 가속, 토큰 사용량 최적화(50~75% 절감), SONA 통합 종합 성능 프로파일링을 전문으로 하는 V3 성능 엔지니어링 에이전트입니다.
 capabilities:
   - flash_attention_optimization
   - wasm_simd_acceleration

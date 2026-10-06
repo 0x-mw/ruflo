@@ -1,0 +1,121 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-skills.ts",
+  "entries": [
+    {
+      "key": "Plan with Claude",
+      "ko": "Claude와 계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:18 title"
+      ]
+    },
+    {
+      "key": "a GOAP plan with precondition analysis, cost optimisation and adaptive replanning, made and executed by Claude",
+      "ko": "전제 조건 분석, 비용 최적화, 적응형 재계획을 갖춘 GOAP 계획을 Claude가 만들고 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:18 about"
+      ]
+    },
+    {
+      "key": "<goal>",
+      "ko": "<목표>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:18 hint"
+      ]
+    },
+    {
+      "key": "Track across sessions",
+      "ko": "세션 간 추적",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:19 title"
+      ]
+    },
+    {
+      "key": "a long-horizon objective with milestone checkpoints, progress that persists, and drift detection",
+      "ko": "마일스톤 체크포인트, 유지되는 진행 상황, 드리프트 감지를 갖춘 장기 목표입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:19 about"
+      ]
+    },
+    {
+      "key": "<objective>",
+      "ko": "<목표>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:19 hint"
+      ]
+    },
+    {
+      "key": "Research first",
+      "ko": "먼저 조사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:20 title"
+      ]
+    },
+    {
+      "key": "multi-phase research over the web, memory and patterns, synthesised into findings",
+      "ko": "웹, 메모리, 패턴을 대상으로 한 다단계 조사를 종합해 결과로 정리합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:20 about"
+      ]
+    },
+    {
+      "key": "<topic>",
+      "ko": "<주제>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:20 hint",
+        "plugins/ruflo-console/hooks/mission-skills.ts:21 hint"
+      ]
+    },
+    {
+      "key": "Synthesise findings",
+      "ko": "결과 종합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:21 title"
+      ]
+    },
+    {
+      "key": "a report from what memory already holds, with evidence grading and contradictions resolved",
+      "ko": "메모리에 이미 있는 내용으로 증거 등급을 매기고 모순을 해소한 보고서입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:21 about"
+      ]
+    },
+    {
+      "key": "Build a dossier",
+      "ko": "자료집 만들기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:22 title"
+      ]
+    },
+    {
+      "key": "a graph of facts on a seed entity, fanned out across web, memory, code, ADRs and git",
+      "ko": "시드 엔터티를 중심으로 웹, 메모리, 코드, ADR, git 전반으로 넓혀 만든 사실 그래프입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:22 about"
+      ]
+    },
+    {
+      "key": "<seed>",
+      "ko": "<시드>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-skills.ts:22 hint"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: workflow-run
-description: Run a workflow — drive an MCP workflow lifecycle (execute/pause/resume/cancel) or invoke + resume a native .claude/workflows/*.js orchestration via the Workflow tool
+description: 워크플로를 실행 — MCP 워크플로 수명 주기(execute/pause/resume/cancel)를 구동하거나, Workflow 도구로 네이티브 .claude/workflows/*.js 오케스트레이션을 호출하고 재개
 argument-hint: "<workflow-id-or-name>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__workflow_execute mcp__plugin_ruflo-core_ruflo__workflow_run mcp__plugin_ruflo-core_ruflo__workflow_pause mcp__plugin_ruflo-core_ruflo__workflow_resume mcp__plugin_ruflo-core_ruflo__workflow_cancel mcp__plugin_ruflo-core_ruflo__workflow_status Workflow Read Bash
 ---

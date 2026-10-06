@@ -1,6 +1,6 @@
 ---
 name: browser
-description: Web browser automation with AI-optimized snapshots for claude-flow agents
+description: claude-flow 에이전트를 위한, AI에 최적화된 스냅샷 기반 웹 브라우저 자동화
 version: 1.0.0
 triggers:
   - /browser

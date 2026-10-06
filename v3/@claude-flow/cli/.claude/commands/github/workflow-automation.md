@@ -1,3 +1,7 @@
+---
+description: 워크플로 자동화 - GitHub Actions 통합
+---
+
 # Workflow Automation - GitHub Actions Integration
 
 ## Overview

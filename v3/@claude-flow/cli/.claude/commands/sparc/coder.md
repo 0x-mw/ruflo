@@ -1,3 +1,7 @@
+---
+description: SPARC 코더 모드
+---
+
 # SPARC Coder Mode
 
 ## Purpose

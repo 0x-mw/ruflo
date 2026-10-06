@@ -1,6 +1,6 @@
 {
   "name": "ruflo-business-pods",
-  "description": "ADR-164 Phase 2 — business-domain pod templates for the federated business autopilot. Ships the sales pod template (templates/sales.json) and a single-tick runner (scripts/pod-tick.mjs) that pre-flights templates via business_pod_validate, reserves budget through a file-based stub ledger (atomic SQLite tracker is Phase 3 per ADR-164.1), resolves each agent role against ruflo's agent registry, constructs dry-run prompts, and posts an envelope summary to the room via federation_bbs_publish. Dry-run by default — --live is reserved for Phase 3 Managed-Agent + claude-p wiring. As a mod (ADR-445 pattern): a tighten-only tool guard, a local slash command, and a status file the console shows.",
+  "description": "ADR-164 2단계 — 연합형 비즈니스 오토파일럿을 위한 비즈니스 도메인 팟 템플릿. 영업 팟 템플릿(templates/sales.json)과 단일 틱 실행기(scripts/pod-tick.mjs)를 제공하며, 실행기는 business_pod_validate로 템플릿을 사전 점검하고, 파일 기반 스텁 원장으로 예산을 확보하고(원자적 SQLite 추적기는 ADR-164.1의 3단계), 각 에이전트 역할을 ruflo의 에이전트 레지스트리와 대조해 확정하고, 드라이런 프롬프트를 구성하고, federation_bbs_publish로 룸에 엔벨로프 요약을 게시합니다. 기본은 드라이런이며 --live는 3단계 Managed-Agent + claude-p 연동을 위해 예약되어 있습니다. mod(ADR-445 패턴)로서 강화 전용 도구 가드, 로컬 슬래시 명령, 콘솔이 보여 주는 상태 파일을 제공합니다.",
   "version": "0.2.3",
   "author": {
     "name": "ruvnet",
@@ -28,8 +28,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Tool guard",
-      "description": "Refuse clearly harmful calls to this plugin's tools (tighten-only: it can only deny, never allow).",
+      "title": "도구 가드",
+      "description": "이 플러그인 도구에 대한 명백히 해로운 호출을 거부합니다(강화 전용: 거부만 가능하며 허용은 하지 않음).",
       "required": false,
       "default": "on",
       "options": [

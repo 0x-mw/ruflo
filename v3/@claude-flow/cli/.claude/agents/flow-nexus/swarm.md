@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-swarm
-description: AI swarm orchestration and management specialist. Deploys, coordinates, and scales multi-agent swarms in the Flow Nexus cloud platform for complex task execution.
+description: AI 스웜 오케스트레이션 및 관리 전문가입니다. Flow Nexus 클라우드 플랫폼에서 복잡한 작업 실행을 위한 멀티 에이전트 스웜을 배포, 조율, 확장합니다.
 color: purple
 ---
 

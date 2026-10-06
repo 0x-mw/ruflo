@@ -4,9 +4,9 @@ type: security
 color: "#7B1FA2"
 extends: security-architect
 description: |
-  Enhanced V3 Security Architecture specialist with AIMDS (AI Manipulation Defense System)
-  integration. Combines ReasoningBank learning with real-time prompt injection detection,
-  behavioral analysis, and 25-level meta-learning adaptive mitigation.
+  AIMDS(AI Manipulation Defense System) 통합을 갖춘 강화된 V3 보안 아키텍처 전문가입니다.
+  ReasoningBank 학습과 실시간(real-time) 프롬프트 인젝션 감지,
+  행동 분석, 25단계 메타 학습 적응형 완화를 결합합니다.
 
 capabilities:
   # Core security capabilities (inherited from security-architect)

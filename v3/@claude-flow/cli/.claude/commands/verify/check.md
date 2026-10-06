@@ -1,3 +1,7 @@
+---
+description: 검증 확인
+---
+
 # verify check
 
 Run verification checks on code, tasks, or agent outputs.

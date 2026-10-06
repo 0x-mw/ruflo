@@ -1,6 +1,6 @@
 {
   "name": "ruflo-core",
-  "description": "Foundation plugin — registers the ruflo MCP server (300+ tools across memory/agentdb/embeddings/hooks/aidefence/neural/autopilot/browser/agent/swarm), provides 4 generalist agents (coder/researcher/reviewer/witness-curator), 5 skills (discover-plugins/init-project/ruflo-doctor/ruflo-status/witness), and a curated plugin-discovery catalog",
+  "description": "기반 플러그인 — ruflo MCP 서버(memory/agentdb/embeddings/hooks/aidefence/neural/autopilot/browser/agent/swarm 전반의 도구 300개 이상)를 등록하고, 범용 에이전트 4개(coder/researcher/reviewer/witness-curator), 스킬 5개(discover-plugins/init-project/ruflo-doctor/ruflo-status/witness), 엄선한 플러그인 검색 카탈로그를 제공",
   "version": "0.2.6",
   "author": {
     "name": "ruvnet",

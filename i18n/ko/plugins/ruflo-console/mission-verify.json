@@ -1,0 +1,193 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-verify.ts",
+  "entries": [
+    {
+      "key": "longer than {0} characters",
+      "ko": "{0}자를 넘습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:36 return"
+      ]
+    },
+    {
+      "key": "contains a control character",
+      "ko": "제어 문자가 들어 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:37 return"
+      ]
+    },
+    {
+      "key": "contains shell syntax (; | & > < ` $( ): a gate is a command and its words, run without a shell",
+      "ko": "셸 구문(; | & > < ` $( )이 들어 있습니다: 게이트는 명령과 그 단어로 이루어지며 셸 없이 실행됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:38 return"
+      ]
+    },
+    {
+      "key": "has two spaces in a row: words are split on single spaces",
+      "ko": "공백이 연속 두 개입니다: 단어는 공백 하나를 기준으로 나뉩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:39 return"
+      ]
+    },
+    {
+      "key": "starts with “-”: the first word must be the program",
+      "ko": "“-”로 시작합니다: 첫 단어는 프로그램이어야 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:40 return"
+      ]
+    },
+    {
+      "key": "the same command is already a gate",
+      "ko": "같은 명령이 이미 게이트로 등록되어 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:68 why"
+      ]
+    },
+    {
+      "key": "only the first {0} gates are kept",
+      "ko": "처음 {0}개의 게이트만 유지됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:69 why"
+      ]
+    },
+    {
+      "key": "Runs your own command in this project’s directory, without a shell. What it does (files, network, time) is up to the command; its exit code and a short output summary are recorded as evidence on the mission.",
+      "ko": "이 프로젝트의 디렉터리에서 사용자가 정한 명령을 셸 없이 실행합니다. 파일·네트워크·소요 시간은 명령에 달려 있으며, 종료 코드와 짧은 출력 요약이 미션의 증거로 기록됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:83 note"
+      ]
+    },
+    {
+      "key": "run gate: {0}",
+      "ko": "게이트 실행: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:85 label"
+      ]
+    },
+    {
+      "key": "its exit code and output summary are recorded as evidence on the task",
+      "ko": "종료 코드와 출력 요약이 작업의 증거로 기록됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:89 expect"
+      ]
+    },
+    {
+      "key": "no output",
+      "ko": "출력 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:102 const"
+      ]
+    },
+    {
+      "key": "{0} line of output",
+      "ko": "출력 {0}줄",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:102 const"
+      ]
+    },
+    {
+      "key": "{0} lines of output",
+      "ko": "출력 {0}줄",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:102 const"
+      ]
+    },
+    {
+      "key": "no exit code (it did not finish)",
+      "ko": "종료 코드 없음 (끝나지 않았습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:103 const"
+      ]
+    },
+    {
+      "key": "no gates are set: nothing was checked",
+      "ko": "게이트가 없습니다: 확인한 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:124 detail"
+      ]
+    },
+    {
+      "key": "no gate has run for this task",
+      "ko": "이 작업에서 실행한 게이트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:141 detail"
+      ]
+    },
+    {
+      "key": "{0} of {1} gates failed on their latest run",
+      "ko": "게이트 {1}개 중 {0}개가 최근 실행에서 실패했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:147 detail"
+      ]
+    },
+    {
+      "key": "{0} of {1} gates passed on their latest run",
+      "ko": "게이트 {1}개 중 {0}개가 최근 실행에서 통과했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:148 detail"
+      ]
+    },
+    {
+      "key": "{0} of {1} gates passed; {2} has not run or gave no exit code",
+      "ko": "게이트 {1}개 중 {0}개 통과, 미실행 또는 종료 코드 없음: {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:150 detail"
+      ]
+    },
+    {
+      "key": "{0} of {1} gates passed; {2} have not run or gave no exit code",
+      "ko": "게이트 {1}개 중 {0}개 통과, 미실행 또는 종료 코드 없음: {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:150 detail"
+      ]
+    },
+    {
+      "key": "Mission gates",
+      "ko": "미션 게이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:157 title",
+        "plugins/ruflo-console/hooks/views/settings.ts:166 one()"
+      ]
+    },
+    {
+      "key": "your own check commands, up to 4 lines (one per line, or separated by \\n), each a program and its words, such as “npm test”; run without a shell, so no ; | & > < ` $( and no leading “-”. Each run asks first. None set: a task cannot be verified",
+      "ko": "직접 정한 확인 명령, 최대 4줄(한 줄에 하나, 또는 \\n으로 구분)이며 각각 “npm test”처럼 프로그램과 그 단어로 씁니다. 셸 없이 실행하므로 ; | & > < ` $( 와 맨 앞의 “-”는 쓸 수 없습니다. 실행할 때마다 먼저 확인합니다. 설정하지 않으면 작업을 검증할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:158 description"
+      ]
+    },
+    {
+      "key": "loop gates verify test lint build check command evidence",
+      "ko": "루프 게이트 검증 테스트 린트 빌드 확인 명령 증거 loop gates verify test lint build check command evidence",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-verify.ts:159 extra"
+      ]
+    }
+  ],
+  "obsolete": []
+}

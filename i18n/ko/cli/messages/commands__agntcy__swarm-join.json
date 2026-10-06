@@ -1,0 +1,56 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/agntcy/swarm-join.ts",
+  "entries": [
+    {
+      "key": "Namespace is required. Usage: ruflo swarm join <namespace> (e.g. cognitum/research/security)",
+      "ko": "네임스페이스가 필요합니다. 사용법: ruflo swarm join <namespace> (예: cognitum/research/security)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:62 printError"
+      ]
+    },
+    {
+      "key": "Invalid namespace \"{0}\": {1}",
+      "ko": "올바르지 않은 네임스페이스 \"{0}\": {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:68 printError"
+      ]
+    },
+    {
+      "key": "Namespace \"{0}\" was not joined via SLIM. Local swarm/hive-mind coordination (swarm_init / hive-mind_* MCP tools) remains available and unaffected.",
+      "ko": "네임스페이스 \"{0}\" 은(는) SLIM으로 참여하지 않았습니다. 로컬 스웜/하이브마인드 조율(swarm_init / hive-mind_* MCP 도구)은 그대로 사용할 수 있습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:77 printInfo"
+      ]
+    },
+    {
+      "key": "Joined SLIM group \"{0}\" ({1} members).",
+      "ko": "SLIM 그룹 \"{0}\"에 참여했습니다 (멤버 {1}명).",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:93 printSuccess"
+      ]
+    },
+    {
+      "key": "Joined SLIM group \"{0}\".",
+      "ko": "SLIM 그룹 \"{0}\"에 참여했습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:93 printSuccess"
+      ]
+    },
+    {
+      "key": "SLIM group join failed: {0}",
+      "ko": "SLIM 그룹에 참여하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:98 printError"
+      ]
+    }
+  ],
+  "obsolete": []
+}

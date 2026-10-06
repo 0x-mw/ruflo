@@ -1,6 +1,6 @@
 ---
 name: claude-flow-help
-description: Show Claude-Flow commands and usage
+description: Claude-Flow 명령어와 사용법을 표시합니다
 ---
 
 # Claude-Flow Commands

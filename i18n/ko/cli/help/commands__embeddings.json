@@ -1,0 +1,904 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/embeddings.ts",
+  "entries": [
+    {
+      "key": "Generate embeddings for text",
+      "ko": "텍스트의 임베딩을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:31 description"
+      ]
+    },
+    {
+      "key": "Text to embed",
+      "ko": "임베딩할 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:33 description"
+      ]
+    },
+    {
+      "key": "Provider: openai, transformers, agentic-flow, local",
+      "ko": "프로바이더: openai, transformers, agentic-flow, local",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:34 description"
+      ]
+    },
+    {
+      "key": "Output format: json, array, preview",
+      "ko": "출력 형식: json, array, preview",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:36 description"
+      ]
+    },
+    {
+      "key": "Generate embedding",
+      "ko": "임베딩 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:39 description",
+        "src/commands/embeddings.ts:1808 description"
+      ]
+    },
+    {
+      "key": "Semantic similarity search",
+      "ko": "시맨틱 유사도 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:113 description"
+      ]
+    },
+    {
+      "key": "Namespace to search",
+      "ko": "검색할 네임스페이스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:116 description"
+      ]
+    },
+    {
+      "key": "Max results",
+      "ko": "최대 결과 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:117 description"
+      ]
+    },
+    {
+      "key": "Similarity threshold (0-1)",
+      "ko": "유사도 임계값 (0-1)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:118 description",
+        "src/commands/memory.ts:448 description"
+      ]
+    },
+    {
+      "key": "Database path",
+      "ko": "데이터베이스 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:119 description",
+        "src/commands/embeddings.ts:444 description",
+        "src/commands/memory.ts:1854 description"
+      ]
+    },
+    {
+      "key": "Search for similar",
+      "ko": "유사 항목 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:122 description"
+      ]
+    },
+    {
+      "key": "Limit results",
+      "ko": "결과 수 제한",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:123 description"
+      ]
+    },
+    {
+      "key": "Compare similarity between texts",
+      "ko": "텍스트 간 유사도를 비교합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:344 description"
+      ]
+    },
+    {
+      "key": "First text",
+      "ko": "첫 번째 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:346 description"
+      ]
+    },
+    {
+      "key": "Second text",
+      "ko": "두 번째 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:347 description"
+      ]
+    },
+    {
+      "key": "Metric: cosine, euclidean, dot",
+      "ko": "지표: cosine, euclidean, dot",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:348 description"
+      ]
+    },
+    {
+      "key": "Compare texts",
+      "ko": "텍스트 비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:351 description"
+      ]
+    },
+    {
+      "key": "Manage embedding collections (namespaces)",
+      "ko": "임베딩 컬렉션(네임스페이스)을 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:440 description"
+      ]
+    },
+    {
+      "key": "Action: list, stats",
+      "ko": "동작: list, stats",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:442 description"
+      ]
+    },
+    {
+      "key": "Namespace name",
+      "ko": "네임스페이스 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:443 description"
+      ]
+    },
+    {
+      "key": "List collections",
+      "ko": "컬렉션 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:447 description"
+      ]
+    },
+    {
+      "key": "Show detailed stats",
+      "ko": "상세 통계 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:448 description"
+      ]
+    },
+    {
+      "key": "Manage HNSW indexes",
+      "ko": "HNSW 인덱스를 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:558 description"
+      ]
+    },
+    {
+      "key": "Action: build, rebuild, status, optimize",
+      "ko": "동작: build, rebuild, status, optimize",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:560 description"
+      ]
+    },
+    {
+      "key": "Collection/namespace label (informational; HNSW is a single global index across all namespaces). Omit to build for all namespaces (#1947 RC2).",
+      "ko": "컬렉션/네임스페이스 라벨(참고용이며 HNSW는 모든 네임스페이스를 아우르는 단일 전역 인덱스입니다). 생략하면 모든 네임스페이스를 대상으로 빌드합니다 (#1947 RC2).",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:561 description"
+      ]
+    },
+    {
+      "key": "HNSW ef_construction parameter",
+      "ko": "HNSW ef_construction 매개변수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:562 description"
+      ]
+    },
+    {
+      "key": "HNSW M parameter",
+      "ko": "HNSW M 매개변수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:563 description",
+        "src/commands/memory.ts:1308 description"
+      ]
+    },
+    {
+      "key": "Show index status",
+      "ko": "인덱스 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:566 description"
+      ]
+    },
+    {
+      "key": "Build index from all namespaces",
+      "ko": "모든 네임스페이스로 인덱스 빌드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:567 description"
+      ]
+    },
+    {
+      "key": "Rebuild (label as `project`)",
+      "ko": "재빌드 (라벨: `project`)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:568 description"
+      ]
+    },
+    {
+      "key": "Initialize embedding subsystem with ONNX model and hyperbolic config",
+      "ko": "ONNX 모델과 쌍곡 설정으로 임베딩 하위 시스템을 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:717 description"
+      ]
+    },
+    {
+      "key": "ONNX model ID",
+      "ko": "ONNX 모델 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:719 description"
+      ]
+    },
+    {
+      "key": "Enable hyperbolic (Poincaré ball) embeddings",
+      "ko": "쌍곡(푸앵카레 볼) 임베딩을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:720 description"
+      ]
+    },
+    {
+      "key": "Poincaré ball curvature (use --curvature=-1 for negative)",
+      "ko": "푸앵카레 볼 곡률 (음수는 --curvature=-1 형식으로 지정)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:721 description"
+      ]
+    },
+    {
+      "key": "Download model during init",
+      "ko": "초기화 중 모델 다운로드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:722 description"
+      ]
+    },
+    {
+      "key": "LRU cache entries",
+      "ko": "LRU 캐시 항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:723 description"
+      ]
+    },
+    {
+      "key": "Initialize with defaults",
+      "ko": "기본값으로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:727 description"
+      ]
+    },
+    {
+      "key": "Use higher quality model",
+      "ko": "고품질 모델 사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:728 description"
+      ]
+    },
+    {
+      "key": "Euclidean only",
+      "ko": "유클리드만 사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:729 description"
+      ]
+    },
+    {
+      "key": "Custom curvature (use = for negative)",
+      "ko": "사용자 지정 곡률 (음수는 = 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:730 description"
+      ]
+    },
+    {
+      "key": "Overwrite existing config",
+      "ko": "기존 설정 덮어쓰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:731 description"
+      ]
+    },
+    {
+      "key": "List available embedding providers",
+      "ko": "사용 가능한 임베딩 프로바이더 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:910 description"
+      ]
+    },
+    {
+      "key": "List providers",
+      "ko": "프로바이더 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:913 description"
+      ]
+    },
+    {
+      "key": "Chunk text for embedding with overlap",
+      "ko": "임베딩용 텍스트를 겹치게 청크로 나눕니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:947 description"
+      ]
+    },
+    {
+      "key": "Text to chunk",
+      "ko": "청크로 나눌 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:949 description"
+      ]
+    },
+    {
+      "key": "Max chunk size in chars",
+      "ko": "청크 최대 크기(문자 수)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:950 description"
+      ]
+    },
+    {
+      "key": "Overlap between chunks",
+      "ko": "청크 간 겹침",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:951 description"
+      ]
+    },
+    {
+      "key": "Strategy: character, sentence, paragraph, token",
+      "ko": "전략: character, sentence, paragraph, token",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:952 description"
+      ]
+    },
+    {
+      "key": "File to chunk (instead of text)",
+      "ko": "청크로 나눌 파일 (텍스트 대신)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:953 description"
+      ]
+    },
+    {
+      "key": "Chunk with 256 char limit",
+      "ko": "256자 제한으로 청크 분할",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:956 description"
+      ]
+    },
+    {
+      "key": "Chunk file by paragraph",
+      "ko": "파일을 단락 단위로 청크 분할",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:957 description"
+      ]
+    },
+    {
+      "key": "Normalize embedding vectors",
+      "ko": "임베딩 벡터를 정규화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1011 description"
+      ]
+    },
+    {
+      "key": "Type: l2, l1, minmax, zscore",
+      "ko": "유형: l2, l1, minmax, zscore",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1013 description"
+      ]
+    },
+    {
+      "key": "Input embedding (JSON array)",
+      "ko": "입력 임베딩 (JSON 배열)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1014 description"
+      ]
+    },
+    {
+      "key": "Check if already normalized",
+      "ko": "이미 정규화되었는지 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1015 description"
+      ]
+    },
+    {
+      "key": "L2 normalize",
+      "ko": "L2 정규화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1018 description"
+      ]
+    },
+    {
+      "key": "Check if normalized",
+      "ko": "정규화 여부 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1019 description"
+      ]
+    },
+    {
+      "key": "Hyperbolic embedding operations (Poincaré ball)",
+      "ko": "쌍곡 임베딩 연산을 수행합니다 (푸앵카레 볼)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1054 description"
+      ]
+    },
+    {
+      "key": "Action: convert, distance, centroid",
+      "ko": "동작: convert, distance, centroid",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1056 description"
+      ]
+    },
+    {
+      "key": "Hyperbolic curvature",
+      "ko": "쌍곡 곡률",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1057 description"
+      ]
+    },
+    {
+      "key": "Input embedding(s) JSON",
+      "ko": "입력 임베딩 JSON",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1058 description"
+      ]
+    },
+    {
+      "key": "Convert to Poincaré",
+      "ko": "푸앵카레로 변환",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1061 description"
+      ]
+    },
+    {
+      "key": "Compute hyperbolic distance",
+      "ko": "쌍곡 거리 계산",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1062 description"
+      ]
+    },
+    {
+      "key": "Neural substrate features (RuVector integration)",
+      "ko": "뉴럴 서브스트레이트 기능 (RuVector 통합)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1168 description"
+      ]
+    },
+    {
+      "key": "Feature: drift, memory, swarm, coherence, all",
+      "ko": "기능: drift, memory, swarm, coherence, all",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1170 description"
+      ]
+    },
+    {
+      "key": "Initialize neural substrate with RuVector",
+      "ko": "RuVector로 뉴럴 서브스트레이트를 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1171 description"
+      ]
+    },
+    {
+      "key": "Semantic drift detection threshold",
+      "ko": "시맨틱 드리프트 감지 임계값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1172 description"
+      ]
+    },
+    {
+      "key": "Memory decay rate (hippocampal dynamics)",
+      "ko": "메모리 감쇠율 (해마 역학)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1173 description"
+      ]
+    },
+    {
+      "key": "Memory consolidation interval (ms)",
+      "ko": "메모리 통합 간격 (ms)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1174 description"
+      ]
+    },
+    {
+      "key": "Initialize RuVector substrate",
+      "ko": "RuVector 서브스트레이트 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1177 description"
+      ]
+    },
+    {
+      "key": "Semantic drift detection",
+      "ko": "시맨틱 드리프트 감지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1178 description"
+      ]
+    },
+    {
+      "key": "Memory physics (hippocampal)",
+      "ko": "메모리 물리학 (해마)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1179 description"
+      ]
+    },
+    {
+      "key": "Safety & alignment monitoring",
+      "ko": "안전 및 정렬 모니터링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1180 description"
+      ]
+    },
+    {
+      "key": "Custom drift threshold",
+      "ko": "사용자 지정 드리프트 임계값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1181 description"
+      ]
+    },
+    {
+      "key": "Monitor semantic movement (threshold: {0})",
+      "ko": "시맨틱 이동 모니터링 (임계값: {0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/embeddings.ts:1260 description"
+      ]
+    },
+    {
+      "key": "Hippocampal dynamics (decay: {0})",
+      "ko": "해마 역학 (감쇠: {0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/embeddings.ts:1265 description"
+      ]
+    },
+    {
+      "key": "Agent state through geometry",
+      "ko": "기하로 본 에이전트 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1270 description"
+      ]
+    },
+    {
+      "key": "Multi-agent embedding coordination",
+      "ko": "멀티 에이전트 임베딩 조율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1275 description"
+      ]
+    },
+    {
+      "key": "Safety & alignment detection",
+      "ko": "안전 및 정렬 감지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1280 description"
+      ]
+    },
+    {
+      "key": "Self-Optimizing Neural Architecture (<0.05ms)",
+      "ko": "자가 최적화 뉴럴 아키텍처 (<0.05ms)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1297 description"
+      ]
+    },
+    {
+      "key": "2.49x-7.47x attention speedup",
+      "ko": "어텐션 2.49x-7.47x 속도 향상",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1302 description"
+      ]
+    },
+    {
+      "key": "Elastic Weight Consolidation (anti-forgetting)",
+      "ko": "Elastic Weight Consolidation (망각 방지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1307 description"
+      ]
+    },
+    {
+      "key": "Poincaré ball for hierarchy preservation",
+      "ko": "계층 구조 보존을 위한 푸앵카레 볼",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1312 description"
+      ]
+    },
+    {
+      "key": "List and download embedding models",
+      "ko": "임베딩 모델을 나열하고 다운로드합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1334 description"
+      ]
+    },
+    {
+      "key": "Model ID to download",
+      "ko": "다운로드할 모델 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1336 description"
+      ]
+    },
+    {
+      "key": "List available models",
+      "ko": "사용 가능한 모델 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1337 description"
+      ]
+    },
+    {
+      "key": "List models",
+      "ko": "모델 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1340 description"
+      ]
+    },
+    {
+      "key": "Download model",
+      "ko": "모델 다운로드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1341 description"
+      ]
+    },
+    {
+      "key": "Manage embedding cache",
+      "ko": "임베딩 캐시를 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1412 description"
+      ]
+    },
+    {
+      "key": "Action: stats, clear, persist",
+      "ko": "동작: stats, clear, persist",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1414 description"
+      ]
+    },
+    {
+      "key": "SQLite database path",
+      "ko": "SQLite 데이터베이스 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1415 description"
+      ]
+    },
+    {
+      "key": "Show cache stats",
+      "ko": "캐시 통계 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1418 description"
+      ]
+    },
+    {
+      "key": "Clear cache",
+      "ko": "캐시 비우기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1419 description"
+      ]
+    },
+    {
+      "key": "Preload embedding model for faster subsequent operations",
+      "ko": "이후 작업을 빠르게 하도록 임베딩 모델을 미리 로드합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1544 description"
+      ]
+    },
+    {
+      "key": "Run warmup in background daemon",
+      "ko": "백그라운드 데몬에서 워밍업 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1546 description"
+      ]
+    },
+    {
+      "key": "Run test embedding after warmup",
+      "ko": "워밍업 후 테스트 임베딩 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1547 description"
+      ]
+    },
+    {
+      "key": "Preload model with test",
+      "ko": "테스트와 함께 모델 미리 로드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1550 description"
+      ]
+    },
+    {
+      "key": "Background warmup",
+      "ko": "백그라운드 워밍업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1551 description"
+      ]
+    },
+    {
+      "key": "Run embedding performance benchmarks",
+      "ko": "임베딩 성능 벤치마크를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1631 description"
+      ]
+    },
+    {
+      "key": "Number of iterations",
+      "ko": "반복 횟수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1633 description",
+        "src/commands/neural.ts:1744 description",
+        "src/commands/performance.ts:20 description"
+      ]
+    },
+    {
+      "key": "Batch size for batch test",
+      "ko": "배치 테스트용 배치 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1634 description"
+      ]
+    },
+    {
+      "key": "Run full benchmark suite",
+      "ko": "전체 벤치마크 스위트 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1635 description"
+      ]
+    },
+    {
+      "key": "Quick benchmark",
+      "ko": "빠른 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1638 description"
+      ]
+    },
+    {
+      "key": "Full benchmark",
+      "ko": "전체 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1639 description"
+      ]
+    },
+    {
+      "key": "Vector embeddings, semantic search, similarity operations",
+      "ko": "벡터 임베딩, 시맨틱 검색, 유사도 연산",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1786 description"
+      ]
+    },
+    {
+      "key": "Initialize ONNX embedding system",
+      "ko": "ONNX 임베딩 시스템 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1806 description"
+      ]
+    },
+    {
+      "key": "Init with larger model",
+      "ko": "더 큰 모델로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1807 description"
+      ]
+    },
+    {
+      "key": "Semantic search",
+      "ko": "시맨틱 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1809 description",
+        "src/commands/memory.ts:503 description"
+      ]
+    },
+    {
+      "key": "Chunk document",
+      "ko": "문서 청크 분할",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1810 description"
+      ]
+    },
+    {
+      "key": "Hyperbolic space",
+      "ko": "쌍곡 공간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1811 description"
+      ]
+    },
+    {
+      "key": "Neural substrate",
+      "ko": "뉴럴 서브스트레이트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/embeddings.ts:1812 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: "AgentDB Vector Search"
-description: "Implement semantic vector search with AgentDB for intelligent document retrieval, similarity matching, and context-aware querying. Use when building RAG systems, semantic search engines, or intelligent knowledge bases."
+description: "AgentDB로 시맨틱 벡터 검색(semantic vector search)을 구현해 지능형 문서 검색, 유사도 매칭, 컨텍스트 인지형 쿼리를 제공합니다. RAG 시스템, 시맨틱 검색 엔진, 지능형 지식 베이스를 만들 때 사용합니다."
 ---
 
 # AgentDB Vector Search

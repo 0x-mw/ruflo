@@ -1,6 +1,6 @@
 ---
 name: witness
-description: Sign, verify, and track fix-marker regressions over time using a deterministic Ed25519 witness manifest. Works in any project — clone the toolkit, run init, register fixes, regen on each release.
+description: 결정적 Ed25519 위트니스 매니페스트로 수정 마커 회귀를 서명, 검증, 시간에 따라 추적합니다. 어떤 프로젝트에서도 동작하며, 툴킷을 클론하고 init을 실행하고 수정 사항을 등록한 뒤 릴리스마다 재생성합니다.
 argument-hint: "init|regen|verify|history [...]"
 allowed-tools: Bash(node *), Read, Write, Edit
 ---

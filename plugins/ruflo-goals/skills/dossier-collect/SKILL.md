@@ -1,6 +1,6 @@
 ---
 name: dossier-collect
-description: Build a graph-structured dossier on a seed entity via parallel fan-out + recursive expansion across web, memory, knowledge-graph, codebase, ADR index, and git intel
+description: 웹, 메모리, 지식 그래프, 코드베이스, ADR 인덱스, git 인텔리전스 전반에 대한 병렬 팬아웃 + 재귀 확장으로 시드 엔티티에 대한 그래프 구조 자료(dossier)를 구축
 argument-hint: "<seed> [--max-depth N] [--max-breadth N] [--sources s1,s2] [--budget-usd N] [--exact]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_search_unified mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-recall mcp__plugin_ruflo-core_ruflo__embeddings_search mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-search mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-store mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-start mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-step mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-end mcp__plugin_ruflo-core_ruflo__task_create Bash WebSearch WebFetch Read Write Grep Glob
 ---

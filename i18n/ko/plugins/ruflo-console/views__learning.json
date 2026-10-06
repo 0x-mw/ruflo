@@ -1,0 +1,404 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/learning.ts",
+  "entries": [
+    {
+      "key": "SONA / MoE pattern learning",
+      "ko": "SONA / MoE 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:27 help"
+      ]
+    },
+    {
+      "key": "hooks that learn from your edits and routes",
+      "ko": "수정 내용과 라우팅에서 학습하는 훅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:28 help"
+      ]
+    },
+    {
+      "key": "Settings & configuration",
+      "ko": "설정 & 구성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:37 section()"
+      ]
+    },
+    {
+      "key": "{0} · each change asks first",
+      "ko": "{0} · 변경할 때마다 먼저 확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:38 section()"
+      ]
+    },
+    {
+      "key": "n/a (open Settings to read it)",
+      "ko": "정보 없음 (설정을 열어 읽으세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:47 children"
+      ]
+    },
+    {
+      "key": "● on",
+      "ko": "● 켜짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:48 label"
+      ]
+    },
+    {
+      "key": "○ off",
+      "ko": "○ 꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:49 label"
+      ]
+    },
+    {
+      "key": "every other setting is in Settings (s): the router, memory and swarm keys, the AI preferences",
+      "ko": "그 외 모든 설정은 설정(s)에 있습니다: 라우터, 메모리, 스웜 키, AI 환경설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:55 text()"
+      ]
+    },
+    {
+      "key": "Self-learning actions",
+      "ko": "자가 학습 동작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:63 section()"
+      ]
+    },
+    {
+      "key": "train, pretrain, consolidate, teach a pattern, route: the answer opens under the button",
+      "ko": "학습, 사전 학습, 통합, 패턴 가르치기, 라우팅: 결과가 버튼 아래에 열립니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:63 section()"
+      ]
+    },
+    {
+      "key": "route: {0} owns routing · {1}",
+      "ko": "라우팅: {0} 이(가) 라우팅 담당 · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:85 const"
+      ]
+    },
+    {
+      "key": "route: {0} owns routing · no route recorded",
+      "ko": "라우팅: {0} 이(가) 라우팅 담당 · 기록된 라우팅 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:85 const"
+      ]
+    },
+    {
+      "key": "last pick",
+      "ko": "마지막 선택",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:91 kv()"
+      ]
+    },
+    {
+      "key": "{0} {1} · keyword match · {2} (a prior, not a calibrated probability)",
+      "ko": "{0} {1} · 키워드 일치 · {2} (보정된 확률이 아닌 사전 추정값)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:93 kv()"
+      ]
+    },
+    {
+      "key": "{0} {1} · no match, default · {2} (a prior, not a calibrated probability)",
+      "ko": "{0} {1} · 일치 없음, 기본값 · {2} (보정된 확률이 아닌 사전 추정값)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:93 kv()"
+      ]
+    },
+    {
+      "key": "n/a — ruflo-mods not seated, so no in-process route",
+      "ko": "사용 불가 — ruflo-mods 가 설치되지 않아 프로세스 내 라우팅이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:95 kv()"
+      ]
+    },
+    {
+      "key": "n/a — in this project the classic hook-handler owns routing, so ruflo-mods stands down and records no picks (see /ruflo-mods)",
+      "ko": "사용 불가 — 이 프로젝트에서는 기존 hook-handler 가 라우팅을 담당하므로 ruflo-mods 는 물러나 선택을 기록하지 않습니다 (/ruflo-mods 참고)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:97 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no prompt routed yet this session",
+      "ko": "사용 불가 — 이번 세션에서 라우팅된 프롬프트가 아직 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:98 kv()"
+      ]
+    },
+    {
+      "key": "routed outcomes",
+      "ko": "라우팅 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:102 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no routing-outcomes.json",
+      "ko": "사용 불가 — routing-outcomes.json 이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:104 kv()"
+      ]
+    },
+    {
+      "key": "{0}/{1} succeeded ({2} success rate, N={3}) · last {4} · nothing recorded since",
+      "ko": "{1}건 중 {0}건 성공 (성공률 {2}, N={3}) · 마지막 {4} · 이후 기록 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "{0}/{1} succeeded ({2} success rate, N={3}) · last {4}",
+      "ko": "{1}건 중 {0}건 성공 (성공률 {2}, N={3}) · 마지막 {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "running success rate over {0} outcomes",
+      "ko": "결과 {0}건에 걸친 누적 성공률",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:109 picture()"
+      ]
+    },
+    {
+      "key": "running success rate of routed tasks, oldest left (router accuracy over N outcomes); new outcomes draw in",
+      "ko": "라우팅된 작업의 누적 성공률, 오래된 것이 왼쪽 (N건에 걸친 라우터 정확도). 새 결과가 계속 추가됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:110 text()"
+      ]
+    },
+    {
+      "key": "model router",
+      "ko": "모델 라우터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:113 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no .swarm/model-router-state.json",
+      "ko": "사용 불가 — .swarm/model-router-state.json 이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:115 kv()"
+      ]
+    },
+    {
+      "key": "{0} decisions · {1} · avg confidence n/a · {2}",
+      "ko": "결정 {0}건 · {1} · 평균 신뢰도 없음 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:116 kv()"
+      ]
+    },
+    {
+      "key": "{0} decisions · {1} · avg confidence {2} · {3}",
+      "ko": "결정 {0}건 · {1} · 평균 신뢰도 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:116 kv()"
+      ]
+    },
+    {
+      "key": "{0} decisions · none · avg confidence n/a · {1}",
+      "ko": "결정 {0}건 · 없음 · 평균 신뢰도 없음 · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:116 kv()"
+      ]
+    },
+    {
+      "key": "{0} decisions · none · avg confidence {1} · {2}",
+      "ko": "결정 {0}건 · 없음 · 평균 신뢰도 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:116 kv()"
+      ]
+    },
+    {
+      "key": "a stage dims when its source has gained nothing for 24h; CONSOLIDATE has no timestamp, so its age is n/a",
+      "ko": "소스가 24h(24시간) 동안 늘지 않으면 단계가 흐려집니다. CONSOLIDATE 에는 타임스탬프가 없어 경과 시간을 알 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:122 text()"
+      ]
+    },
+    {
+      "key": "patterns since load: {0}",
+      "ko": "로드 후 패턴: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:123 picture()"
+      ]
+    },
+    {
+      "key": "patterns since load: n/a",
+      "ko": "로드 후 패턴: 정보 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:123 picture()"
+      ]
+    },
+    {
+      "key": "trajectories",
+      "ko": "궤적",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:126 kv()",
+        "plugins/ruflo-console/hooks/views/neural.ts:17 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no .claude-flow/neural/stats.json",
+      "ko": "사용 불가 — .claude-flow/neural/stats.json 이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:126 kv()"
+      ]
+    },
+    {
+      "key": "patterns learned",
+      "ko": "학습한 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:127 kv()",
+        "plugins/ruflo-console/hooks/views/neural.ts:18 kv()"
+      ]
+    },
+    {
+      "key": "signals",
+      "ko": "신호",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:128 kv()",
+        "plugins/ruflo-console/hooks/views/neural.ts:19 kv()"
+      ]
+    },
+    {
+      "key": "last learned",
+      "ko": "마지막 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:129 kv()"
+      ]
+    },
+    {
+      "key": "SONA patterns",
+      "ko": "SONA 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:130 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no .swarm/sona-patterns.json",
+      "ko": "사용 불가 — .swarm/sona-patterns.json 이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:130 kv()"
+      ]
+    },
+    {
+      "key": "live engine",
+      "ko": "라이브 엔진",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:133 kv()"
+      ]
+    },
+    {
+      "key": "{0} trajectories · {1} patterns · MoE {2} decisions · EWC {3} consolidations · neural router {4}",
+      "ko": "궤적 {0}개 · 패턴 {1}개 · MoE 결정 {2}건 · EWC 통합 {3}회 · 뉴럴 라우터 {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:136 kv()"
+      ]
+    },
+    {
+      "key": "{0} trajectories · {1} patterns · MoE {2} decisions · EWC {3} consolidations · neural router n/a",
+      "ko": "궤적 {0}개 · 패턴 {1}개 · MoE 결정 {2}건 · EWC 통합 {3}회 · 뉴럴 라우터 정보 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:136 kv()"
+      ]
+    },
+    {
+      "key": "live engine: hooks_intelligence_stats in a fresh CLI process, so in-memory counters start at zero there",
+      "ko": "라이브 엔진: 새 CLI 프로세스에서 실행한 hooks_intelligence_stats 이므로 메모리 내 카운터는 0 에서 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:138 text()"
+      ]
+    },
+    {
+      "key": "Router",
+      "ko": "라우터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:141 section()",
+        "plugins/ruflo-console/hooks/views/neural.ts:111 section()"
+      ]
+    },
+    {
+      "key": "RETRIEVE → JUDGE → DISTILL → CONSOLIDATE",
+      "ko": "검색 → 판정 → 증류 → 통합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:142 section()"
+      ]
+    },
+    {
+      "key": "SONA · ReasoningBank",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:143 section()"
+      ]
+    },
+    {
+      "key": "Nothing learned yet in this project.",
+      "ko": "이 프로젝트에서 아직 학습한 것이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:147 starts()"
+      ]
+    },
+    {
+      "key": "learning",
+      "ko": "학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning.ts:149 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

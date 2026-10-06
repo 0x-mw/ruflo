@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/hive-chamber.ts",
+  "entries": [
+    {
+      "key": "{0} for · {1} against · need {2} of {3}",
+      "ko": "찬성 {0} · 반대 {1} · 필요 {2}/{3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-chamber.ts:89 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

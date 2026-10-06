@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/runner.ts",
+  "entries": [
+    {
+      "key": "the ruflo CLI answered:",
+      "ko": "ruflo CLI 응답:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/runner.ts:86 say()"
+      ]
+    },
+    {
+      "key": "the command answered ok; expected {0}",
+      "ko": "명령이 정상 응답했지만 예상 값은 {0}입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/runner.ts:101 detail"
+      ]
+    },
+    {
+      "key": "nothing to do",
+      "ko": "할 일이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/runner.ts:125 say()"
+      ]
+    },
+    {
+      "key": "{0} (remembered: not asked)",
+      "ko": "{0} (기억함: 묻지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/runner.ts:141 label"
+      ]
+    },
+    {
+      "key": "the confirm came more than 30 s after the ask; ask again",
+      "ko": "확인이 요청 후 30 s를 넘겨 도착했습니다. 다시 요청하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/runner.ts:162 say()"
+      ]
+    },
+    {
+      "key": "confirm for \"{0}\" came {1}s after the ask and was not run ({2}s window)",
+      "ko": "\"{0}\"의 확인이 요청 {1}s 뒤에 도착해 실행하지 않았습니다 (제한 {2}s)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/runner.ts:164 text"
+      ]
+    },
+    {
+      "key": "type \"{0} <text>\"; text may not start with -",
+      "ko": "\"{0} <text>\"를 입력하세요. text는 -로 시작할 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/runner.ts:189 ask()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

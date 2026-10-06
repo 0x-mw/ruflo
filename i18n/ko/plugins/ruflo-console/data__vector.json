@@ -1,0 +1,56 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/vector.ts",
+  "entries": [
+    {
+      "key": "-?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/vector.ts:40 const"
+      ]
+    },
+    {
+      "key": "‹redacted›",
+      "ko": "‹가림›",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/vector.ts:132 expr"
+      ]
+    },
+    {
+      "key": "identity generate printed no pseudonym",
+      "ko": "identity generate가 가명을 출력하지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/vector.ts:140 redact()"
+      ]
+    },
+    {
+      "key": "pseudonym {0}",
+      "ko": "가명 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/vector.ts:142 return"
+      ]
+    },
+    {
+      "key": "key saved to {0} (not shown: it is the secret)",
+      "ko": "키를 {0}에 저장했습니다 (비밀이므로 표시하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/vector.ts:142 return"
+      ]
+    },
+    {
+      "key": "key saved to ~/.ruvector/pi-key (not shown: it is the secret)",
+      "ko": "키를 ~/.ruvector/pi-key에 저장했습니다 (비밀이므로 표시하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/vector.ts:142 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

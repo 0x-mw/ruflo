@@ -1,6 +1,6 @@
 ---
 name: observe-trace
-description: Trace agent execution by collecting spans and building a trace tree for a task
+description: 스팬을 수집하고 작업의 트레이스 트리를 만들어 에이전트 실행을 추적
 argument-hint: "<task-id>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__agentdb_semantic-route mcp__plugin_ruflo-core_ruflo__agentdb_context-synthesize mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search Bash
 ---

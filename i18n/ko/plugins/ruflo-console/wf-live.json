@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/wf-live.ts",
+  "entries": [
+    {
+      "key": "workflow {0} finished: {1}/{2} agents",
+      "ko": "워크플로 {0} 완료: 에이전트 {1}/{2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-live.ts:33 text"
+      ]
+    },
+    {
+      "key": "workflow {0} failed: {1} of {2} agents",
+      "ko": "워크플로 {0} 실패: 에이전트 {2}개 중 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-live.ts:34 text"
+      ]
+    }
+  ],
+  "obsolete": []
+}

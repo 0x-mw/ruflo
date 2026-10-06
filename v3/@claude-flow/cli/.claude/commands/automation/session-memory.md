@@ -1,3 +1,7 @@
+---
+description: 세션 간 메모리
+---
+
 # Cross-Session Memory
 
 ## Purpose

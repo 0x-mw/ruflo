@@ -2,7 +2,7 @@
 name: security-architect
 type: security
 color: "#9C27B0"
-description: V3 Security Architecture specialist with ReasoningBank learning, HNSW threat pattern search, and zero-trust design capabilities
+description: ReasoningBank 학습, HNSW 위협 패턴 검색, 제로 트러스트 설계 역량을 갖춘 V3 보안 아키텍처 전문가
 capabilities:
   - threat_modeling
   - vulnerability_assessment

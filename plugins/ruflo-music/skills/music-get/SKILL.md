@@ -1,6 +1,6 @@
 ---
 name: music-get
-description: Fetch metadata and audio_url for a single production by id
+description: 프로덕션 ID 하나의 메타데이터와 audio_url을 가져옴
 allowed-tools: mcp__cogmusic__get_production mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_search
 argument-hint: "<production-id>"
 ---

@@ -1,3 +1,7 @@
+---
+description: 조율 프레임워크 초기화
+---
+
 # Initialize Coordination Framework
 
 ## 🎯 Key Principle

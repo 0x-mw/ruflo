@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/parser.ts",
+  "entries": [
+    {
+      "key": "Show help information",
+      "ko": "도움말을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/parser.ts:46 description"
+      ]
+    },
+    {
+      "key": "Show version number",
+      "ko": "버전 번호를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/parser.ts:53 description"
+      ]
+    },
+    {
+      "key": "Enable verbose output",
+      "ko": "자세한 출력을 켭니다",
+      "kind": "text",
+      "ctx": [
+        "src/parser.ts:60 description"
+      ]
+    },
+    {
+      "key": "Suppress non-essential output",
+      "ko": "필수가 아닌 출력을 숨깁니다",
+      "kind": "text",
+      "ctx": [
+        "src/parser.ts:67 description"
+      ]
+    },
+    {
+      "key": "Path to configuration file",
+      "ko": "설정 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/parser.ts:74 description"
+      ]
+    },
+    {
+      "key": "Disable colored output",
+      "ko": "색상 출력을 끕니다",
+      "kind": "text",
+      "ctx": [
+        "src/parser.ts:89 description"
+      ]
+    },
+    {
+      "key": "Enable interactive mode",
+      "ko": "대화형 모드를 켭니다",
+      "kind": "text",
+      "ctx": [
+        "src/parser.ts:96 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

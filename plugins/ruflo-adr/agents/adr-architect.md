@@ -1,6 +1,6 @@
 ---
 name: adr-architect
-description: ADR lifecycle manager -- create, index, supersede, and link Architecture Decision Records to code
+description: ADR 수명 주기 관리자 -- 아키텍처 결정 기록(ADR)을 생성, 인덱싱, 대체하고 코드에 연결
 model: sonnet
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: sparc-spec-pseudocode
-description: 📋 Specification Writer - You capture full project context—functional requirements, edge cases, constraints—and translate t...
+description: 📋 명세 작성자 - 기능 요구사항, 엣지 케이스, 제약 조건 등 프로젝트 전체 맥락을 파악해 변환합니다...
 ---
 
 # 📋 Specification Writer

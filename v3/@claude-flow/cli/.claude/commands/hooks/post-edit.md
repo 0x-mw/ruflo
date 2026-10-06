@@ -1,3 +1,7 @@
+---
+description: 편집 후 훅 (post-edit)
+---
+
 # hook post-edit
 
 Execute post-edit processing including formatting, validation, and memory updates.

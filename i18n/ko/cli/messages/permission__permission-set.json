@@ -1,0 +1,32 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/permission/permission-set.ts",
+  "entries": [
+    {
+      "key": "role must be a non-empty string",
+      "ko": "role은 비어 있지 않은 문자열이어야 합니다",
+      "kind": "text",
+      "ctx": [
+        "src/permission/permission-set.ts:151 errors.push"
+      ]
+    },
+    {
+      "key": "{0} must be an array",
+      "ko": "{0}은(는) 배열이어야 합니다",
+      "kind": "template",
+      "ctx": [
+        "src/permission/permission-set.ts:160 errors.push"
+      ]
+    },
+    {
+      "key": "{0} must contain only strings",
+      "ko": "{0}은(는) 문자열만 포함해야 합니다",
+      "kind": "template",
+      "ctx": [
+        "src/permission/permission-set.ts:161 errors.push"
+      ]
+    }
+  ],
+  "obsolete": []
+}

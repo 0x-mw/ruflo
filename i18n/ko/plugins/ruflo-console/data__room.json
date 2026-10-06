@@ -1,0 +1,67 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/room.ts",
+  "entries": [
+    {
+      "key": "broadcast to the hive",
+      "ko": "하이브에 브로드캐스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/room.ts:16 broadcast",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:157 add()"
+      ]
+    },
+    {
+      "key": "aside to Claude",
+      "ko": "Claude에게 귓속말",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/room.ts:16 mission-aside"
+      ]
+    },
+    {
+      "key": "guide Claude",
+      "ko": "Claude 안내",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/room.ts:16 mission-guide",
+        "plugins/ruflo-console/hooks/mission-palette.ts:35 local()",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:204 box()"
+      ]
+    },
+    {
+      "key": "waiting for your yes",
+      "ko": "승인을 기다리는 중",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/room.ts:33 text"
+      ]
+    },
+    {
+      "key": "sent",
+      "ko": "전송됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/room.ts:34 text"
+      ]
+    },
+    {
+      "key": "not sent: {0}",
+      "ko": "전송하지 못함: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/room.ts:34 text"
+      ]
+    },
+    {
+      "key": "not confirmed",
+      "ko": "확인되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/room.ts:36 text"
+      ]
+    }
+  ],
+  "obsolete": []
+}

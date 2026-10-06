@@ -1,3 +1,7 @@
+---
+description: 작업 후 훅 (post-task)
+---
+
 # hook post-task
 
 Execute post-task cleanup, performance analysis, and memory storage.

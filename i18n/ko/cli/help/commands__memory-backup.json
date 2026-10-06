@@ -1,0 +1,80 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/memory-backup.ts",
+  "entries": [
+    {
+      "key": "Snapshot the vector-memory DB (.swarm/memory.db) — WAL-safe, rotated, optional GCS offsite",
+      "ko": "벡터 메모리 DB(.swarm/memory.db) 스냅샷 생성 — WAL 안전, 순환 보관, 선택적 GCS 오프사이트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:14 description"
+      ]
+    },
+    {
+      "key": "Source DB (default: .swarm/memory.db)",
+      "ko": "원본 DB (기본값: .swarm/memory.db)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:16 description"
+      ]
+    },
+    {
+      "key": "Destination dir (default: .swarm/backups)",
+      "ko": "대상 디렉터리 (기본값: .swarm/backups)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:17 description"
+      ]
+    },
+    {
+      "key": "Rotation — keep the newest N snapshots (default 7)",
+      "ko": "순환 보관 — 최신 스냅샷 N개 유지 (기본값 7)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:18 description"
+      ]
+    },
+    {
+      "key": "Also upload the snapshot to a gs://bucket/prefix (offsite)",
+      "ko": "스냅샷을 gs://bucket/prefix(오프사이트)에도 업로드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:19 description"
+      ]
+    },
+    {
+      "key": "Verbose logging",
+      "ko": "상세 로그 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:20 description"
+      ]
+    },
+    {
+      "key": "Snapshot to .swarm/backups, keep last 7",
+      "ko": "스냅샷을 .swarm/backups에 저장하고 최근 7개 유지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:23 description"
+      ]
+    },
+    {
+      "key": "Keep a month of nightly snapshots",
+      "ko": "야간 스냅샷을 한 달치 유지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:24 description"
+      ]
+    },
+    {
+      "key": "Also upload offsite to GCS",
+      "ko": "GCS 오프사이트에도 업로드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:25 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

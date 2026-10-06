@@ -2,7 +2,7 @@
 name: specification
 type: analyst
 color: blue
-description: SPARC Specification phase specialist for requirements analysis with self-learning
+description: 자가 학습을 갖춘 요구사항 분석용 SPARC 명세(Specification) 단계 전문가
 capabilities:
   - requirements_gathering
   - constraint_analysis

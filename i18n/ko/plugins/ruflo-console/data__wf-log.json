@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-log.ts",
+  "entries": [
+    {
+      "key": "{0} {1} (no result in the part read)",
+      "ko": "{0} {1} (읽은 구간에 결과 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-log.ts:30 expr"
+      ]
+    },
+    {
+      "key": "{0} {1} (failed)",
+      "ko": "{0} {1} (실패)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-log.ts:30 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

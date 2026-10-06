@@ -1,7 +1,7 @@
 ---
 name: sparc-methodology
 description: |
-  SPARC (Specification, Pseudocode, Architecture, Refinement, Completion) comprehensive development methodology with multi-agent orchestration
+  멀티 에이전트 오케스트레이션을 갖춘 SPARC(명세, 의사코드, 아키텍처, 정제, 완료) 종합 개발 방법론
 ---
 
 # SPARC Methodology - Comprehensive Development Framework

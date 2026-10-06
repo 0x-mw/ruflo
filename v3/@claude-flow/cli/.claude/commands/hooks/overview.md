@@ -1,3 +1,7 @@
+---
+description: claude-flow용 Claude Code 훅
+---
+
 # Claude Code Hooks for claude-flow
 
 ## Purpose

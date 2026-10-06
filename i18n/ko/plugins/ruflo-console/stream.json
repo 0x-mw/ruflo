@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/stream.ts",
+  "entries": [
+    {
+      "key": "thinking: {0}",
+      "ko": "생각 중: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/stream.ts:74 line()"
+      ]
+    },
+    {
+      "key": "change {0}",
+      "ko": "변경 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/stream.ts:88 line()"
+      ]
+    },
+    {
+      "key": "turn failed",
+      "ko": "턴 실패",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/stream.ts:119 clip()"
+      ]
+    },
+    {
+      "key": "tool error",
+      "ko": "도구 오류",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/stream.ts:175 clip()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

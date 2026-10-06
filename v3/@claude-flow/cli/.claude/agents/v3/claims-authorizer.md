@@ -3,7 +3,7 @@ name: claims-authorizer
 type: security
 color: "#F44336"
 version: "3.0.0"
-description: V3 Claims-based authorization specialist implementing ADR-010 for fine-grained access control across swarm agents and MCP tools
+description: 스웜 에이전트와 MCP 도구 전반의 세밀한 접근 제어를 위해 ADR-010을 구현하는 V3 클레임 기반 권한 부여 전문가
 capabilities:
   - claims_evaluation
   - permission_granting

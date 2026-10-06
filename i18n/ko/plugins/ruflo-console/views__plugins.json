@@ -1,0 +1,281 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/plugins.ts",
+  "entries": [
+    {
+      "key": "Marketplace",
+      "ko": "마켓플레이스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:18 rule()"
+      ]
+    },
+    {
+      "key": "reading plugin records…",
+      "ko": "플러그인 기록을 읽는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:21 text()"
+      ]
+    },
+    {
+      "key": "n/a — neither CLAUDE_CONFIG_DIR nor HOME is readable to this mod, so the plugin records cannot be found",
+      "ko": "n/a — 이 mod가 CLAUDE_CONFIG_DIR와 HOME 모두 읽을 수 없어 플러그인 기록을 찾을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:27 text()"
+      ]
+    },
+    {
+      "key": "n/a — no known_marketplaces.json",
+      "ko": "n/a — known_marketplaces.json이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "not added yet",
+      "ko": "아직 추가되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "The ruflo marketplace is not added to Claude Code, so its plugins cannot be installed or updated.",
+      "ko": "ruflo 마켓플레이스가 Claude Code에 추가되지 않아 플러그인을 설치하거나 업데이트할 수 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:30 starts()"
+      ]
+    },
+    {
+      "key": "pulled {0} · auto-update on · lists {1} plugins",
+      "ko": "갱신 {0} · 자동 업데이트 켬 · 플러그인 {1}개 등재",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:34 kv()"
+      ]
+    },
+    {
+      "key": "pulled {0} · auto-update on · lists n/a plugins",
+      "ko": "갱신 {0} · 자동 업데이트 켬 · 플러그인 n/a개 등재",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:34 kv()"
+      ]
+    },
+    {
+      "key": "pulled {0} · auto-update off · lists {1} plugins",
+      "ko": "갱신 {0} · 자동 업데이트 끔 · 플러그인 {1}개 등재",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:34 kv()"
+      ]
+    },
+    {
+      "key": "pulled {0} · auto-update off · lists n/a plugins",
+      "ko": "갱신 {0} · 자동 업데이트 끔 · 플러그인 n/a개 등재",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:34 kv()"
+      ]
+    },
+    {
+      "key": "STALE: the clone does not list {0} — run /plugin marketplace update {1}",
+      "ko": "STALE: 클론에 {0}이(가) 없습니다 — /plugin marketplace update {1} 을 실행하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:37 text()"
+      ]
+    },
+    {
+      "key": "n/a — the clone's marketplace.json is not readable, so freshness is unknown",
+      "ko": "n/a — 클론의 marketplace.json을 읽을 수 없어 최신 여부를 알 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:39 text()"
+      ]
+    },
+    {
+      "key": "current: lists {0}",
+      "ko": "최신: {0} 등재",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:41 text()"
+      ]
+    },
+    {
+      "key": "update the marketplace (the clone is stale)",
+      "ko": "마켓플레이스 업데이트 (클론이 오래됨)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:48 button()"
+      ]
+    },
+    {
+      "key": "update the marketplace",
+      "ko": "마켓플레이스 업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:48 button()"
+      ]
+    },
+    {
+      "key": "Installed",
+      "ko": "설치됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:54 rule()",
+        "plugins/ruflo-console/hooks/views/skills.ts:30 rule()"
+      ]
+    },
+    {
+      "key": "{0} ruflo · {1} enabled · {2} total",
+      "ko": "ruflo {0} · 활성화 {1} · 전체 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:54 rule()"
+      ]
+    },
+    {
+      "key": "{0} ruflo plugins installed",
+      "ko": "ruflo 플러그인 {0}개 설치됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:56 picture()"
+      ]
+    },
+    {
+      "key": "columns: I installed · E enabled · C listed by the marketplace clone · M mod loaded here — ■ yes (green) / no (red), · unknown",
+      "ko": "열: I 설치됨 · E 활성화 · C 마켓플레이스 클론 등재 · M 여기에 mod 로드됨 — ■ 예(초록) / 아니오(빨강), · 알 수 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:57 text()"
+      ]
+    },
+    {
+      "key": "installed but gone from the clone: {0}",
+      "ko": "설치됐지만 클론에서 사라짐: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:61 text()"
+      ]
+    },
+    {
+      "key": "Installed plugins",
+      "ko": "설치된 플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:70 section()"
+      ]
+    },
+    {
+      "key": "{0} · open one in the catalog",
+      "ko": "{0} · 카탈로그에서 열기",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:71 section()"
+      ]
+    },
+    {
+      "key": "Available to install",
+      "ko": "설치 가능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:97 section()"
+      ]
+    },
+    {
+      "key": "{0} in the marketplace",
+      "ko": "마켓플레이스에 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:97 section()"
+      ]
+    },
+    {
+      "key": "install it there",
+      "ko": "그곳에서 설치하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:98 text()"
+      ]
+    },
+    {
+      "key": "+{0} more in the Plugin Catalog",
+      "ko": "플러그인 카탈로그에 +{0}개 더 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:99 text()"
+      ]
+    },
+    {
+      "key": "loaded (you are reading it)",
+      "ko": "로드됨 (지금 보고 있는 화면)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "seated ($.ruflo answers)",
+      "ko": "장착됨 ($.ruflo 응답)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:106 kv()"
+      ]
+    },
+    {
+      "key": "not seated in this session",
+      "ko": "이 세션에 장착되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:106 kv()"
+      ]
+    },
+    {
+      "key": "loaded · {0} · {1}",
+      "ko": "로드됨 · {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:109 kv()"
+      ]
+    },
+    {
+      "key": "REFUSED: {0} · {1} · {2}",
+      "ko": "REFUSED: {0} · {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:109 kv()"
+      ]
+    },
+    {
+      "key": "REFUSED: no reason given · {0} · {1}",
+      "ko": "REFUSED: 사유 없음 · {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:109 kv()"
+      ]
+    },
+    {
+      "key": "open the Plugin Catalog: every ruflo plugin, mod and skill",
+      "ko": "플러그인 카탈로그 열기: 모든 ruflo 플러그인, mod, 스킬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:112 button()"
+      ]
+    },
+    {
+      "key": "mods list: those registered after the console loaded (the engine admits earlier ones unseen)",
+      "ko": "mods 목록: 콘솔 로드 이후 등록된 것 (그 이전 것은 엔진이 보이지 않게 받아들입니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/plugins.ts:113 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

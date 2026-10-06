@@ -1,0 +1,168 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/screen.ts",
+  "entries": [
+    {
+      "key": "private key",
+      "ko": "개인 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:13 const"
+      ]
+    },
+    {
+      "key": "aws access key",
+      "ko": "AWS 액세스 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:14 const"
+      ]
+    },
+    {
+      "key": "github token",
+      "ko": "GitHub 토큰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:15 const"
+      ]
+    },
+    {
+      "key": "slack token",
+      "ko": "Slack 토큰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:16 const"
+      ]
+    },
+    {
+      "key": "slack webhook",
+      "ko": "Slack 웹훅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:17 const"
+      ]
+    },
+    {
+      "key": "google api key",
+      "ko": "Google API 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:18 const"
+      ]
+    },
+    {
+      "key": "anthropic or openai key",
+      "ko": "Anthropic 또는 OpenAI 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:19 const"
+      ]
+    },
+    {
+      "key": "stripe key",
+      "ko": "Stripe 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:20 const"
+      ]
+    },
+    {
+      "key": "huggingface token",
+      "ko": "Hugging Face 토큰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:22 const"
+      ]
+    },
+    {
+      "key": "sendgrid key",
+      "ko": "SendGrid 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:23 const"
+      ]
+    },
+    {
+      "key": "twilio key",
+      "ko": "Twilio 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:24 const"
+      ]
+    },
+    {
+      "key": "bearer token",
+      "ko": "Bearer 토큰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:26 const"
+      ]
+    },
+    {
+      "key": "database url with credentials",
+      "ko": "자격 증명이 든 데이터베이스 URL",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:27 const"
+      ]
+    },
+    {
+      "key": "override instructions",
+      "ko": "지시 덮어쓰기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:31 const"
+      ]
+    },
+    {
+      "key": "role reassignment",
+      "ko": "역할 재지정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:32 const"
+      ]
+    },
+    {
+      "key": "new instructions",
+      "ko": "새 지시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:33 const"
+      ]
+    },
+    {
+      "key": "fake role tags",
+      "ko": "가짜 역할 태그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:34 const"
+      ]
+    },
+    {
+      "key": "shell pipe",
+      "ko": "셸 파이프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:37 const"
+      ]
+    },
+    {
+      "key": "input too large to screen",
+      "ko": "검사하기에는 입력이 너무 큽니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:154 const"
+      ]
+    },
+    {
+      "key": "key assignment",
+      "ko": "키 대입",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/screen.ts:257 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

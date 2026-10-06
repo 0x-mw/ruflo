@@ -1,0 +1,796 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/evolve.ts",
+  "entries": [
+    {
+      "key": "Loop",
+      "ko": "루프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:45 rule()",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:22 label"
+      ]
+    },
+    {
+      "key": "observe → propose → evaluate → verify → promote → reverse",
+      "ko": "관찰 → 제안 → 평가 → 검증 → 승격 → 되돌리기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:45 rule()"
+      ]
+    },
+    {
+      "key": "signed · {0} · {1} → {2} · {3}",
+      "ko": "서명됨 · {0} · {1} → {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:59 clip()"
+      ]
+    },
+    {
+      "key": "signed · unregistered · {0} → {1} · {2}",
+      "ko": "서명됨 · 미등록 · {0} → {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:59 clip()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · {0} · {1} → {2} · {3}",
+      "ko": "서명 없음 · {0} · {1} → {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:59 clip()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · unregistered · {0} → {1} · {2}",
+      "ko": "서명 없음 · 미등록 · {0} → {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:59 clip()"
+      ]
+    },
+    {
+      "key": "Ledger & receipts",
+      "ko": "원장 & 영수증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:68 rule()"
+      ]
+    },
+    {
+      "key": ".claude-flow/flywheel-v1 · ADR-322",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:68 rule()"
+      ]
+    },
+    {
+      "key": "n/a: not verified yet (▸ LEDGER checks it)",
+      "ko": "정보 없음: 아직 검증하지 않음 (▸ LEDGER 가 확인합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:71 kv()"
+      ]
+    },
+    {
+      "key": "VALID · {0} commits · head {1} · {2}",
+      "ko": "유효 · 커밋 {0}개 · 헤드 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:71 kv()"
+      ]
+    },
+    {
+      "key": "INVALID · {0} commits · head {1} · {2}",
+      "ko": "무효 · 커밋 {0}개 · 헤드 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:71 kv()"
+      ]
+    },
+    {
+      "key": "champion",
+      "ko": "챔피언",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:74 kv()",
+        "plugins/ruflo-console/hooks/views/metaharness.ts:41 kv()"
+      ]
+    },
+    {
+      "key": "n/a: no transaction-state.json",
+      "ko": "정보 없음: transaction-state.json 이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:74 kv()"
+      ]
+    },
+    {
+      "key": "{0} · serving epoch {1} · served {2}",
+      "ko": "{0} · 서빙 에폭 {1} · 서빙 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:74 kv()"
+      ]
+    },
+    {
+      "key": "{0} · serving epoch n/a · served {1}",
+      "ko": "{0} · 서빙 에폭 없음 · 서빙 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:74 kv()"
+      ]
+    },
+    {
+      "key": "receipts: n/a (no receipts folder): ▸ FLYWHEEL RUN in the MetaHarness lab evaluates candidates into receipts",
+      "ko": "영수증: 정보 없음 (receipts 폴더 없음): MetaHarness 랩의 ▸ FLYWHEEL RUN 이 후보를 평가해 영수증으로 만듭니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:78 text()"
+      ]
+    },
+    {
+      "key": "receipts: none yet",
+      "ko": "영수증: 아직 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:79 text()"
+      ]
+    },
+    {
+      "key": "receipts: {0} newest (of more) · {1} accepted · {2} unsigned",
+      "ko": "영수증: 최신 {0}개 (더 있음) · 수락 {1} · 서명 없음 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:80 text()"
+      ]
+    },
+    {
+      "key": "receipts: {0} newest · {1} accepted · {2} unsigned",
+      "ko": "영수증: 최신 {0}개 · 수락 {1} · 서명 없음 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:80 text()"
+      ]
+    },
+    {
+      "key": "per-receipt signature check: n/a here, ruflo runs it only inside promote · autogenous verifier: n/a (a library, nothing built)",
+      "ko": "영수증별 서명 검사: 여기서는 사용 불가, ruflo 는 promote 안에서만 실행합니다 · autogenous 검증기: 사용 불가 (라이브러리이며 빌드된 것 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:85 text()"
+      ]
+    },
+    {
+      "key": "{0} root champion",
+      "ko": "{0} 루트 챔피언",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:96 children"
+      ]
+    },
+    {
+      "key": "{0} {1} champion",
+      "ko": "{0} {1} 챔피언",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:96 children"
+      ]
+    },
+    {
+      "key": "Lineage",
+      "ko": "계보",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:104 rule()"
+      ]
+    },
+    {
+      "key": "champion · ● promoted · ◌ accepted, waiting · ✗ rejected",
+      "ko": "챔피언 · ● 승격됨 · ◌ 수락됨, 대기 중 · ✗ 거부됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:104 rule()"
+      ]
+    },
+    {
+      "key": "flywheel-v1 (promotion commits and receipts):",
+      "ko": "flywheel-v1 (승격 커밋과 영수증):",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:106 text()"
+      ]
+    },
+    {
+      "key": "n/a: no flywheel-v1 files",
+      "ko": "정보 없음: flywheel-v1 파일이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:107 text()"
+      ]
+    },
+    {
+      "key": "n/a: no promotions or receipts yet (the ledger is at genesis)",
+      "ko": "정보 없음: 승격이나 영수증이 아직 없습니다 (원장이 초기 상태입니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:107 text()"
+      ]
+    },
+    {
+      "key": "generations (.claude-flow/flywheel, each bundle’s parent):",
+      "ko": "세대 (.claude-flow/flywheel, 각 번들의 부모):",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:110 text()"
+      ]
+    },
+    {
+      "key": "n/a: no generation-N.json bundles",
+      "ko": "정보 없음: generation-N.json 번들이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:111 text()"
+      ]
+    },
+    {
+      "key": "Policies",
+      "ko": "정책",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:122 rule()"
+      ]
+    },
+    {
+      "key": "harness-active-policy.json · ADR-324 gate",
+      "ko": "harness-active-policy.json · ADR-324 게이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:122 rule()"
+      ]
+    },
+    {
+      "key": "active policy",
+      "ko": "활성 정책",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:124 kv()",
+        "plugins/ruflo-console/hooks/views/metaharness.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "n/a: no .claude-flow/harness-active-policy.json",
+      "ko": "정보 없음: .claude-flow/harness-active-policy.json 이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:124 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} · applied {3}",
+      "ko": "{0} · {1} · {2} · 적용 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:124 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} · layer n/a · applied {2}",
+      "ko": "{0} · {1} · 레이어 없음 · 적용 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:124 kv()"
+      ]
+    },
+    {
+      "key": "{0} · tier n/a · {1} · applied {2}",
+      "ko": "{0} · 티어 없음 · {1} · 적용 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:124 kv()"
+      ]
+    },
+    {
+      "key": "{0} · tier n/a · layer n/a · applied {1}",
+      "ko": "{0} · 티어 없음 · 레이어 없음 · 적용 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:124 kv()"
+      ]
+    },
+    {
+      "key": "rollback",
+      "ko": "롤백",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:125 kv()"
+      ]
+    },
+    {
+      "key": "rolled back to {0}",
+      "ko": "{0}(으)로 롤백됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:125 kv()"
+      ]
+    },
+    {
+      "key": "armed: previous {0} (the generations loop rolls back on a regression; no CLI verb)",
+      "ko": "준비됨: 이전 {0} (세대 루프가 회귀 시 롤백하며 CLI 동사는 없습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:125 kv()"
+      ]
+    },
+    {
+      "key": "no previous pointer",
+      "ko": "이전 포인터 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:125 kv()"
+      ]
+    },
+    {
+      "key": "policy engine",
+      "ko": "정책 엔진",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:126 kv()"
+      ]
+    },
+    {
+      "key": "n/a: not asked yet (▸ POLICY)",
+      "ko": "정보 없음: 아직 요청하지 않음 (▸ POLICY)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:126 kv()"
+      ]
+    },
+    {
+      "key": "mode {0} · {1} rules · {2} approvals · {3} receipts · ledger verifies",
+      "ko": "모드 {0} · 규칙 {1}개 · 승인 {2}건 · 영수증 {3}개 · 원장 검증됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:126 kv()"
+      ]
+    },
+    {
+      "key": "mode {0} · {1} rules · {2} approvals · {3} receipts · ledger DOES NOT VERIFY",
+      "ko": "모드 {0} · 규칙 {1}개 · 승인 {2}건 · 영수증 {3}개 · 원장 검증 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:126 kv()"
+      ]
+    },
+    {
+      "key": "promote gate",
+      "ko": "승격 게이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:127 kv()"
+      ]
+    },
+    {
+      "key": "n/a: not asked yet (▸ GATE CHECK about receipt {0})",
+      "ko": "정보 없음: 아직 요청하지 않음 (영수증 {0} 에 대한 ▸ GATE CHECK)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:127 kv()"
+      ]
+    },
+    {
+      "key": "n/a: not asked yet (▸ GATE CHECK)",
+      "ko": "정보 없음: 아직 요청하지 않음 (▸ GATE CHECK)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:127 kv()"
+      ]
+    },
+    {
+      "key": "{0} in {1} mode · {2} · {3}",
+      "ko": "{1} 모드의 {0} · {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:127 kv()"
+      ]
+    },
+    {
+      "key": "{0} in {1} mode · no reason given · {2}",
+      "ko": "{1} 모드의 {0} · 사유 없음 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:127 kv()"
+      ]
+    },
+    {
+      "key": "policy_status / policy_evaluate are the same engine; the CLI verbs are used because mcp exec adds a ledger receipt per call",
+      "ko": "policy_status / policy_evaluate 는 같은 엔진입니다. mcp exec 는 호출마다 원장 영수증을 추가하므로 CLI 동사를 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:129 text()"
+      ]
+    },
+    {
+      "key": "not verified yet",
+      "ko": "아직 검증하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:136 const"
+      ]
+    },
+    {
+      "key": "signature valid · {0} pass · {1} drift · {2} regressed · {3} missing · {4}",
+      "ko": "서명 유효 · 통과 {0} · 드리프트 {1} · 회귀 {2} · 누락 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:136 const"
+      ]
+    },
+    {
+      "key": "SIGNATURE FAILS · {0} pass · {1} drift · {2} regressed · {3} missing · {4}",
+      "ko": "서명 실패 · 통과 {0} · 드리프트 {1} · 회귀 {2} · 누락 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:136 const"
+      ]
+    },
+    {
+      "key": "signed · {0} fixes · {1} @ {2} · issued {3} · {4}",
+      "ko": "서명됨 · 수정 {0}건 · {1} @ {2} · 발급 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "signed · {0} fixes · {1} @ n/a · issued {2} · {3}",
+      "ko": "서명됨 · 수정 {0}건 · {1} @ 없음 · 발급 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "signed · {0} fixes · n/a @ {1} · issued {2} · {3}",
+      "ko": "서명됨 · 수정 {0}건 · 없음 @ {1} · 발급 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "signed · {0} fixes · n/a @ n/a · issued {1} · {2}",
+      "ko": "서명됨 · 수정 {0}건 · 없음 @ 없음 · 발급 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "signed · n/a fixes · {0} @ {1} · issued {2} · {3}",
+      "ko": "서명됨 · 수정 없음 · {0} @ {1} · 발급 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "signed · n/a fixes · {0} @ n/a · issued {1} · {2}",
+      "ko": "서명됨 · 수정 없음 · {0} @ 없음 · 발급 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "signed · n/a fixes · n/a @ {0} · issued {1} · {2}",
+      "ko": "서명됨 · 수정 없음 · 없음 @ {0} · 발급 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "signed · n/a fixes · n/a @ n/a · issued {0} · {1}",
+      "ko": "서명됨 · 수정 없음 · 없음 @ 없음 · 발급 {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · {0} fixes · {1} @ {2} · issued {3} · {4}",
+      "ko": "서명 없음 · 수정 {0}건 · {1} @ {2} · 발급 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · {0} fixes · {1} @ n/a · issued {2} · {3}",
+      "ko": "서명 없음 · 수정 {0}건 · {1} @ 없음 · 발급 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · {0} fixes · n/a @ {1} · issued {2} · {3}",
+      "ko": "서명 없음 · 수정 {0}건 · 없음 @ {1} · 발급 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · {0} fixes · n/a @ n/a · issued {1} · {2}",
+      "ko": "서명 없음 · 수정 {0}건 · 없음 @ 없음 · 발급 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · n/a fixes · {0} @ {1} · issued {2} · {3}",
+      "ko": "서명 없음 · 수정 없음 · {0} @ {1} · 발급 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · n/a fixes · {0} @ n/a · issued {1} · {2}",
+      "ko": "서명 없음 · 수정 없음 · {0} @ 없음 · 발급 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · n/a fixes · n/a @ {0} · issued {1} · {2}",
+      "ko": "서명 없음 · 수정 없음 · 없음 @ {0} · 발급 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "UNSIGNED · n/a fixes · n/a @ n/a · issued {0} · {1}",
+      "ko": "서명 없음 · 수정 없음 · 없음 @ 없음 · 발급 {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:139 kv()"
+      ]
+    },
+    {
+      "key": "Witness",
+      "ko": "위트니스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:144 rule()"
+      ]
+    },
+    {
+      "key": "verification/<os>/manifest.md.json · ADR-103 · read-only",
+      "ko": "verification/<os>/manifest.md.json · ADR-103 · 읽기 전용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:144 rule()"
+      ]
+    },
+    {
+      "key": "n/a: no signed witness manifest in this project (verification/<os>/manifest.md.json)",
+      "ko": "정보 없음: 이 프로젝트에 서명된 위트니스 매니페스트가 없습니다 (verification/<os>/manifest.md.json)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:146 text()"
+      ]
+    },
+    {
+      "key": "each fix is checked against the installed @claude-flow/cli; a manifest from another OS may drift here",
+      "ko": "각 수정은 설치된 @claude-flow/cli 와 대조해 확인합니다. 다른 OS 의 매니페스트는 여기서 어긋날 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:151 text()"
+      ]
+    },
+    {
+      "key": "ask about rGi",
+      "ko": "rGi 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:158 button()"
+      ]
+    },
+    {
+      "key": "ask about Autogenous",
+      "ko": "Autogenous 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:158 button()"
+      ]
+    },
+    {
+      "key": "What runs where",
+      "ko": "실행 위치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:161 rule()"
+      ]
+    },
+    {
+      "key": "integrated here · only linked",
+      "ko": "여기에 통합됨 · 링크만 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:161 rule()"
+      ]
+    },
+    {
+      "key": "Autogenous · {0}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:162 text()"
+      ]
+    },
+    {
+      "key": "integrated: the receipt format. ruflo writes ruflo.flywheel-receipt/v1, the schema autogenous’s radio-moe exports and verifies;",
+      "ko": "통합됨: 영수증 형식. ruflo 는 autogenous 의 radio-moe 가 내보내고 검증하는 스키마인 ruflo.flywheel-receipt/v1 을 기록합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:163 text()"
+      ]
+    },
+    {
+      "key": "fractional policy values are decimal strings so its stricter verifier accepts them (ruvnet/autogenous#15).",
+      "ko": "소수 정책 값은 더 엄격한 검증기가 받아들이도록 십진 문자열로 기록합니다 (ruvnet/autogenous#15).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:164 text()"
+      ]
+    },
+    {
+      "key": "linked only: its verifier (crates/verifier, verifyExportedReceipt) is a library with no binary or build here: n/a;",
+      "ko": "링크만 됨: 검증기(crates/verifier, verifyExportedReceipt)는 라이브러리이며 여기에는 바이너리나 빌드가 없습니다: 사용 불가;",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:165 text()"
+      ]
+    },
+    {
+      "key": "autogenous-service (HTTP :8080, /v1/agl/admit, /v1/promote) is not built or running here; AGL/AAP are its protocols.",
+      "ko": "autogenous-service (HTTP :8080, /v1/agl/admit, /v1/promote)는 여기서 빌드되거나 실행 중이지 않습니다. AGL/AAP 는 이 서비스의 프로토콜입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:166 text()"
+      ]
+    },
+    {
+      "key": "autogenous",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:167 ask()"
+      ]
+    },
+    {
+      "key": "linked only: a perpetual runtime (observe → plan → admit → execute → record) holding the enduring cognitive policies;",
+      "ko": "링크만 됨: 지속되는 인지 정책을 담은 상시 런타임 (관찰 → 계획 → 허가 → 실행 → 기록);",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:169 text()"
+      ]
+    },
+    {
+      "key": "its state is SQLite .rgi/runtime.db: present here (never opened); its CLI needs a checkout: none here, so n/a.",
+      "ko": "상태는 SQLite .rgi/runtime.db 에 있습니다: 여기에 있음 (열어 본 적 없음). CLI 는 체크아웃이 필요한데 여기에는 없으므로 사용 불가입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:170 text()"
+      ]
+    },
+    {
+      "key": "its state is SQLite .rgi/runtime.db: not in this project; its CLI needs a checkout: none here, so n/a.",
+      "ko": "상태는 SQLite .rgi/runtime.db 에 있습니다: 이 프로젝트에는 없음. CLI 는 체크아웃이 필요한데 여기에는 없으므로 사용 불가입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:170 text()"
+      ]
+    },
+    {
+      "key": "rgi",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:172 ask()"
+      ]
+    },
+    {
+      "key": "ask types a read-only research prompt into the AI terminal (claude); Enter twice sends it, nothing opens a browser",
+      "ko": "질문은 읽기 전용 조사 프롬프트를 AI 터미널(claude)에 입력합니다. Enter 를 두 번 누르면 전송되며 브라우저는 열리지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:173 text()"
+      ]
+    },
+    {
+      "key": "run a check: a $0 read answers here at once; ▸ ask shows its command and runs after you confirm (y)",
+      "ko": "점검 실행: $0 읽기는 바로 여기에 응답하고, ▸ 질문은 명령을 표시한 뒤 확인(y)하면 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:185 text()"
+      ]
+    },
+    {
+      "key": "reading the flywheel files…",
+      "ko": "플라이휠 파일을 읽는 중...",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:208 const"
+      ]
+    },
+    {
+      "key": "files read {0}",
+      "ko": "읽은 파일 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:208 const"
+      ]
+    },
+    {
+      "key": "Reread",
+      "ko": "다시 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:213 button()"
+      ]
+    },
+    {
+      "key": "MetaHarness lab: run candidates",
+      "ko": "MetaHarness 랩: 후보 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:213 button()"
+      ]
+    },
+    {
+      "key": "Promote",
+      "ko": "승격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:221 rule()",
+        "plugins/ruflo-console/hooks/views/mh-lab.ts:103 section()"
+      ]
+    },
+    {
+      "key": "a person’s act · never from this pane",
+      "ko": "사람이 하는 일 · 이 패널에서는 하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:221 rule()"
+      ]
+    },
+    {
+      "key": "The flywheel, Darwin and MetaHarness propose and evaluate; none may promote itself (ADR-322). Review the receipt, then run:",
+      "ko": "플라이휠, Darwin, MetaHarness 는 제안과 평가만 하며 스스로 승격할 수 없습니다 (ADR-322). 영수증을 검토한 뒤 다음을 실행하세요:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:222 text()"
+      ]
+    },
+    {
+      "key": "It needs an approved Ed25519 public key and --confirm, and it passes the policy gate (▸ GATE CHECK asks that gate first).",
+      "ko": "승인된 Ed25519 공개 키와 --confirm 이 필요하며 정책 게이트를 통과해야 합니다 (▸ GATE CHECK 가 먼저 그 게이트에 확인합니다).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/evolve.ts:224 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

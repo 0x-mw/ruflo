@@ -1,0 +1,226 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/notices.ts",
+  "entries": [
+    {
+      "key": "{0} waiting (q)",
+      "ko": "대기 중 {0} (q)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:53 text"
+      ]
+    },
+    {
+      "key": "new approval",
+      "ko": "새 승인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:53 plural()"
+      ]
+    },
+    {
+      "key": "new alert",
+      "ko": "새 경고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:54 plural()"
+      ]
+    },
+    {
+      "key": "mission finished: {0}/{1} tasks",
+      "ko": "미션 완료: 작업 {0}/{1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:57 text"
+      ]
+    },
+    {
+      "key": "Anatole blocked {0}",
+      "ko": "Anatole 차단: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:61 text"
+      ]
+    },
+    {
+      "key": "Anatole blocked {0} · {1}",
+      "ko": "Anatole 차단: {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:61 text"
+      ]
+    },
+    {
+      "key": "Anatole: a new critical alert",
+      "ko": "Anatole: 새 치명 경고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:62 text"
+      ]
+    },
+    {
+      "key": "Anatole is degraded: {0}",
+      "ko": "Anatole 성능 저하: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:63 text"
+      ]
+    },
+    {
+      "key": "no notices to clear",
+      "ko": "지울 알림이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:114 return"
+      ]
+    },
+    {
+      "key": "cleared {0}",
+      "ko": "{0} 지웠습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:114 return"
+      ]
+    },
+    {
+      "key": "no notices yet: the band raises one when approvals or alerts arrive, a mission finishes, a long turn ends, or Anatole blocks a call",
+      "ko": "아직 알림이 없습니다: 승인이나 경고가 도착하거나, 미션이 끝나거나, 긴 턴이 끝나거나, Anatole이 호출을 차단하면 밴드가 알림을 띄웁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:121 return"
+      ]
+    },
+    {
+      "key": "notices (newest first; quiet for {0} more):",
+      "ko": "알림 (최신순, 조용 모드 {0} 남음):",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:125 expr"
+      ]
+    },
+    {
+      "key": "notices (newest first):",
+      "ko": "알림 (최신순):",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:125 expr"
+      ]
+    },
+    {
+      "key": "{0} {1} · {2} ago · /ruflo {3}",
+      "ko": "{0} {1} · {2} 전 · /ruflo {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:125 expr"
+      ]
+    },
+    {
+      "key": "notices are on again",
+      "ko": "알림을 다시 켰습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:135 return"
+      ]
+    },
+    {
+      "key": "notices are quiet for {0} more (/ruflo quiet off)",
+      "ko": "알림이 {0} 더 조용합니다 (/ruflo quiet off)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:138 return"
+      ]
+    },
+    {
+      "key": "notices are on (/ruflo quiet <minutes> silences the band's notice row)",
+      "ko": "알림이 켜져 있습니다 (/ruflo quiet <minutes>로 밴드의 알림 행을 조용하게 합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:138 return"
+      ]
+    },
+    {
+      "key": "quiet takes a number of minutes from 1 to 1440, or off",
+      "ko": "quiet에는 1~1440 사이의 분 수 또는 off를 지정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:142 return"
+      ]
+    },
+    {
+      "key": "notices are quiet for {0}m: they are still recorded (/ruflo notices lists them)",
+      "ko": "알림이 {0}분 동안 조용합니다: 기록은 계속됩니다 (/ruflo notices로 확인)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:146 return"
+      ]
+    },
+    {
+      "key": "band takes auto, on, off, compact, full or reset",
+      "ko": "band에는 auto, on, off, compact, full, reset 중 하나를 지정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:159 return"
+      ]
+    },
+    {
+      "key": "band: {0} · compact (one row)",
+      "ko": "밴드: {0} · compact (한 줄)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:161 return"
+      ]
+    },
+    {
+      "key": "band: {0} · full (two rows)",
+      "ko": "밴드: {0} · full (두 줄)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:161 return"
+      ]
+    },
+    {
+      "key": "band: {0} (the plugin option) · compact (one row)",
+      "ko": "밴드: {0} (플러그인 옵션) · compact (한 줄)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:161 return"
+      ]
+    },
+    {
+      "key": "band: {0} (the plugin option) · full (two rows)",
+      "ko": "밴드: {0} (플러그인 옵션) · full (두 줄)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:161 return"
+      ]
+    },
+    {
+      "key": "subagent {0}",
+      "ko": "서브에이전트 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:171 return"
+      ]
+    },
+    {
+      "key": "{0} claims",
+      "ko": "클레임 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:182 expr",
+        "plugins/ruflo-console/hooks/views/bar.ts:144 text",
+        "plugins/ruflo-console/hooks/views/bar.ts:144 compact"
+      ]
+    },
+    {
+      "key": "marketplace stale",
+      "ko": "마켓플레이스 오래됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/notices.ts:182 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

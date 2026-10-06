@@ -1,6 +1,6 @@
 {
   "name": "ruflo-x-gateway",
-  "description": "Coordinate AI-agent swarms through signed federation messages, channels, and work claims. The remote Claude connector exposes a directory-safe Streamable HTTP MCP surface with OAuth-protected publishing and five ruv:// reference resources.",
+  "description": "서명된 페더레이션 메시지, 채널, 작업 클레임으로 AI 에이전트 스웜을 조율합니다. 원격 Claude 커넥터는 OAuth로 보호되는 게시와 ruv:// 참조 리소스 5개를 갖춘, 디렉터리에 안전한 Streamable HTTP MCP 화면을 제공합니다.",
   "version": "0.9.4",
   "author": {
     "name": "ruvnet",
@@ -23,8 +23,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse swarm messages that hold a secret.",
+      "title": "비밀 가드",
+      "description": "비밀이 들어 있는 스웜 메시지를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

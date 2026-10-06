@@ -1,0 +1,117 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/control.ts",
+  "entries": [
+    {
+      "key": "Claude control",
+      "ko": "Claude 제어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:24 rule()",
+        "plugins/ruflo-console/hooks/views/control.ts:27 rule()",
+        "plugins/ruflo-console/hooks/views/settings.ts:163 one()"
+      ]
+    },
+    {
+      "key": "Claude cannot drive the console. Turn it on in",
+      "ko": "Claude 가 콘솔을 조작할 수 없습니다. 다음에서 켜세요:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:24 text()"
+      ]
+    },
+    {
+      "key": "Settings → Claude control (read, write, manage, full).",
+      "ko": "설정 → Claude 제어 (read, write, manage, full).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:24 text()"
+      ]
+    },
+    {
+      "key": "taken back",
+      "ko": "회수됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:27 rule()"
+      ]
+    },
+    {
+      "key": "level",
+      "ko": "수준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:29 kv()",
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:253 label",
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:85 button()"
+      ]
+    },
+    {
+      "key": "{0} · confirms itself",
+      "ko": "{0} · 자체 확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "{0} · waits for your Yes",
+      "ko": "{0} · 사용자의 예 대기",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "this session",
+      "ko": "이번 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:30 kv()",
+        "plugins/ruflo-console/hooks/views/cost.ts:62 rule()"
+      ]
+    },
+    {
+      "key": "{0} action · {1}/{2} this turn",
+      "ko": "동작 {0}회 · 이번 턴 {1}/{2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "{0} actions · {1}/{2} this turn",
+      "ko": "동작 {0}회 · 이번 턴 {1}/{2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "Give control back",
+      "ko": "제어권 돌려주기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:31 button()"
+      ]
+    },
+    {
+      "key": "Take back control",
+      "ko": "제어권 회수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:31 button()"
+      ]
+    },
+    {
+      "key": "Nothing yet: Claude has not used the console.",
+      "ko": "아직 없습니다. Claude 가 콘솔을 사용하지 않았습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/control.ts:37 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

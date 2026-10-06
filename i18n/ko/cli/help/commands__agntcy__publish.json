@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/agntcy/publish.ts",
+  "entries": [
+    {
+      "key": "Publish the AGNTCY-identified, OASF-described agent record to the configured Directory (ADR-380 §2)",
+      "ko": "AGNTCY로 식별되고 OASF로 기술된 에이전트 레코드를 설정된 디렉터리에 게시합니다 (ADR-380 §2)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:77 description"
+      ]
+    },
+    {
+      "key": "Path to the OASF agent record produced by metaharness (ADR-240)",
+      "ko": "metaharness가 만든 OASF 에이전트 레코드 경로 (ADR-240)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:82 description"
+      ]
+    },
+    {
+      "key": "Publish the local OASF agent record to the AGNTCY Directory",
+      "ko": "로컬 OASF 에이전트 레코드를 AGNTCY 디렉터리에 게시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:88 description"
+      ]
+    },
+    {
+      "key": "Publish a specific manifest",
+      "ko": "특정 매니페스트 게시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:89 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

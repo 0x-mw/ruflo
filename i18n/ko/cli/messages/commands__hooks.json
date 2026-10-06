@@ -1,0 +1,329 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/hooks.ts",
+  "entries": [
+    {
+      "key": "Self-Learning Hooks System",
+      "ko": "자가 학습 훅 시스템",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5711 bold"
+      ]
+    },
+    {
+      "key": "Intelligent workflow automation with pattern learning and adaptive routing",
+      "ko": "패턴 학습과 적응형 라우팅을 갖춘 지능형 워크플로 자동화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5713 writeln"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow hooks <subcommand> [options]",
+      "ko": "사용법: claude-flow hooks <subcommand> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5715 writeln"
+      ]
+    },
+    {
+      "key": "{0}        - Get context before editing files",
+      "ko": "{0}        - 파일 편집 전에 컨텍스트 가져오기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5719 printList"
+      ]
+    },
+    {
+      "key": "{0}       - Record editing outcomes for learning",
+      "ko": "{0}       - 학습을 위해 편집 결과 기록",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5720 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Assess risk before executing commands",
+      "ko": "{0}     - 명령 실행 전에 위험 평가",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5721 printList"
+      ]
+    },
+    {
+      "key": "{0}    - Record command execution outcomes",
+      "ko": "{0}    - 명령 실행 결과 기록",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5722 printList"
+      ]
+    },
+    {
+      "key": "{0}        - Record task start and get agent suggestions",
+      "ko": "{0}        - 작업 시작을 기록하고 에이전트 추천 받기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5723 printList"
+      ]
+    },
+    {
+      "key": "{0}       - Record task completion for learning",
+      "ko": "{0}       - 학습을 위해 작업 완료 기록",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5724 printList"
+      ]
+    },
+    {
+      "key": "{0}     - End current session and persist state",
+      "ko": "{0}     - 현재 세션을 종료하고 상태 저장",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5725 printList"
+      ]
+    },
+    {
+      "key": "{0} - Restore a previous session",
+      "ko": "{0} - 이전 세션 복원",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5726 printList"
+      ]
+    },
+    {
+      "key": "{0}           - Route tasks to optimal agents",
+      "ko": "{0}           - 작업을 최적의 에이전트로 라우팅",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5727 printList"
+      ]
+    },
+    {
+      "key": "{0}         - Explain routing decisions",
+      "ko": "{0}         - 라우팅 결정 근거 설명",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5728 printList"
+      ]
+    },
+    {
+      "key": "{0}        - Bootstrap intelligence from repository",
+      "ko": "{0}        - 저장소에서 인텔리전스 초기 구축",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5729 printList"
+      ]
+    },
+    {
+      "key": "{0}    - Generate optimized agent configs",
+      "ko": "{0}    - 최적화된 에이전트 설정 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5730 printList"
+      ]
+    },
+    {
+      "key": "{0}         - View learning metrics dashboard",
+      "ko": "{0}         - 학습 지표 대시보드 보기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5731 printList"
+      ]
+    },
+    {
+      "key": "{0}        - Transfer patterns from another project",
+      "ko": "{0}        - 다른 프로젝트에서 패턴 가져오기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5732 printList"
+      ]
+    },
+    {
+      "key": "{0}            - List all registered hooks",
+      "ko": "{0}            - 등록된 훅 전체 목록 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5733 printList"
+      ]
+    },
+    {
+      "key": "{0}          - Background worker management (12 workers)",
+      "ko": "{0}          - 백그라운드 워커 관리 (워커 12개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5734 printList"
+      ]
+    },
+    {
+      "key": "{0}        - Check V3 implementation progress",
+      "ko": "{0}        - V3 구현 진행 상황 확인",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5735 printList"
+      ]
+    },
+    {
+      "key": "{0}      - Generate dynamic statusline display",
+      "ko": "{0}      - 동적 상태 표시줄 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5736 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Route tasks based on coverage gaps (ruvector)",
+      "ko": "{0}  - 커버리지 공백에 따라 작업 라우팅 (ruvector)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5737 printList"
+      ]
+    },
+    {
+      "key": "{0}- Suggest coverage improvements",
+      "ko": "{0}- 커버리지 개선안 제안",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5738 printList"
+      ]
+    },
+    {
+      "key": "{0}   - List all coverage gaps with agents",
+      "ko": "{0}   - 에이전트와 함께 커버리지 공백 전체 목록 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5739 printList"
+      ]
+    },
+    {
+      "key": "{0} - Token optimization (agentic-flow integration)",
+      "ko": "{0} - 토큰 최적화 (agentic-flow 연동)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5740 printList"
+      ]
+    },
+    {
+      "key": "{0}    - Route to optimal model (haiku/sonnet/opus)",
+      "ko": "{0}    - 최적의 모델로 라우팅 (haiku/sonnet/opus)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5741 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Record model routing outcome",
+      "ko": "{0}  - 모델 라우팅 결과 기록",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5742 printList"
+      ]
+    },
+    {
+      "key": "{0}    - View model routing statistics",
+      "ko": "{0}    - 모델 라우팅 통계 보기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5743 printList"
+      ]
+    },
+    {
+      "key": "Agent Teams:",
+      "ko": "에이전트 팀:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5745 bold"
+      ]
+    },
+    {
+      "key": "{0}  - Handle idle teammate (auto-assign tasks)",
+      "ko": "{0}  - 유휴 팀원 처리 (작업 자동 할당)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5746 printList"
+      ]
+    },
+    {
+      "key": "{0} - Handle task completion (train patterns)",
+      "ko": "{0} - 작업 완료 처리 (패턴 학습)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/hooks.ts:5747 printList"
+      ]
+    },
+    {
+      "key": "Run \"claude-flow hooks <subcommand> --help\" for subcommand help",
+      "ko": "하위 명령 도움말은 \"claude-flow hooks <subcommand> --help\" 를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5750 writeln"
+      ]
+    },
+    {
+      "key": "V3 Features:",
+      "ko": "V3 기능:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5752 bold"
+      ]
+    },
+    {
+      "key": "ReasoningBank adaptive learning",
+      "ko": "ReasoningBank 적응형 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5754 printList"
+      ]
+    },
+    {
+      "key": "Flash Attention (2.49x-7.47x speedup)",
+      "ko": "Flash Attention (2.49x-7.47x 속도 향상)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5755 printList",
+        "src/index.ts:467 printList"
+      ]
+    },
+    {
+      "key": "AgentDB integration (150x faster search)",
+      "ko": "AgentDB 연동 (검색 150배 빠름)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5756 printList"
+      ]
+    },
+    {
+      "key": "84.8% SWE-Bench solve rate",
+      "ko": "SWE-Bench 해결률 84.8%",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5757 printList"
+      ]
+    },
+    {
+      "key": "32.3% token reduction",
+      "ko": "토큰 32.3% 절감",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5758 printList"
+      ]
+    },
+    {
+      "key": "2.8-4.4x speed improvement",
+      "ko": "속도 2.8-4.4배 향상",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5759 printList"
+      ]
+    },
+    {
+      "key": "Agent Teams integration (auto task assignment)",
+      "ko": "에이전트 팀 연동 (작업 자동 할당)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5760 printList"
+      ]
+    }
+  ],
+  "obsolete": []
+}

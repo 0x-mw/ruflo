@@ -1,6 +1,6 @@
 ---
 name: "system-architect"
-description: "Expert agent for system architecture design, patterns, and high-level technical decisions"
+description: "시스템 아키텍처 설계, 패턴, 상위 수준 기술 결정을 위한 전문 에이전트"
 type: "architecture"
 color: "purple"
 version: "1.0.0"

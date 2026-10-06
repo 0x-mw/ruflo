@@ -1,0 +1,462 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/plugins.ts",
+  "entries": [
+    {
+      "key": "List installed and available plugins from IPFS registry",
+      "ko": "IPFS 레지스트리의 설치된 플러그인과 사용 가능한 플러그인 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:29 description"
+      ]
+    },
+    {
+      "key": "Show only installed plugins",
+      "ko": "설치된 플러그인만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:31 description"
+      ]
+    },
+    {
+      "key": "Show available plugins from registry",
+      "ko": "레지스트리의 사용 가능한 플러그인 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:32 description"
+      ]
+    },
+    {
+      "key": "Filter by plugin type",
+      "ko": "플러그인 유형으로 필터링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:34 description",
+        "src/commands/plugins.ts:782 description"
+      ]
+    },
+    {
+      "key": "Show only official plugins",
+      "ko": "공식 플러그인만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:35 description"
+      ]
+    },
+    {
+      "key": "Show featured plugins",
+      "ko": "추천 플러그인 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:36 description"
+      ]
+    },
+    {
+      "key": "Registry to use (default: claude-flow-official)",
+      "ko": "사용할 레지스트리 (기본값: claude-flow-official)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:37 description"
+      ]
+    },
+    {
+      "key": "List all plugins from registry",
+      "ko": "레지스트리의 모든 플러그인 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:40 description"
+      ]
+    },
+    {
+      "key": "List installed only",
+      "ko": "설치된 것만 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:41 description"
+      ]
+    },
+    {
+      "key": "List official plugins",
+      "ko": "공식 플러그인 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:42 description"
+      ]
+    },
+    {
+      "key": "List security plugins",
+      "ko": "보안 플러그인 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:43 description"
+      ]
+    },
+    {
+      "key": "Install a plugin from IPFS registry or local path",
+      "ko": "IPFS 레지스트리 또는 로컬 경로에서 플러그인 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:212 description"
+      ]
+    },
+    {
+      "key": "Plugin name or path",
+      "ko": "플러그인 이름 또는 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:214 description"
+      ]
+    },
+    {
+      "key": "Specific version to install",
+      "ko": "설치할 특정 버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:215 description"
+      ]
+    },
+    {
+      "key": "Install globally",
+      "ko": "전역으로 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:216 description"
+      ]
+    },
+    {
+      "key": "Install as dev dependency",
+      "ko": "개발 의존성으로 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:217 description"
+      ]
+    },
+    {
+      "key": "Verify before registering (default: true). Registry installs must match the registry sha256 checksum. Hooks and commands are withheld from a plugin that declares trustLevel \"untrusted\"/\"unverified\" or permissions beyond the default set ({0}) unless --trust is given. --no-verify skips all of this.",
+      "ko": "등록 전에 검증 (기본값: true). 레지스트리 설치는 레지스트리의 sha256 체크섬과 일치해야 합니다. trustLevel이 \"untrusted\"/\"unverified\"이거나 기본 권한({0})을 넘는 권한을 선언한 플러그인은 --trust를 주지 않으면 훅과 명령이 보류됩니다. --no-verify는 이 모든 검사를 건너뜁니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/plugins.ts:221 description"
+      ]
+    },
+    {
+      "key": "Register hooks and commands even if the plugin is untrusted or declares elevated permissions",
+      "ko": "플러그인이 신뢰되지 않거나 상승된 권한을 선언해도 훅과 명령 등록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:228 description"
+      ]
+    },
+    {
+      "key": "Registry to use",
+      "ko": "사용할 레지스트리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:229 description",
+        "src/commands/plugins.ts:495 description",
+        "src/commands/plugins.ts:785 description"
+      ]
+    },
+    {
+      "key": "Install plugin from IPFS",
+      "ko": "IPFS에서 플러그인 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:232 description"
+      ]
+    },
+    {
+      "key": "Install local plugin",
+      "ko": "로컬 플러그인 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:233 description"
+      ]
+    },
+    {
+      "key": "Install a local plugin that declares elevated permissions, registering its hooks",
+      "ko": "상승된 권한을 선언한 로컬 플러그인을 설치하고 훅 등록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:234 description"
+      ]
+    },
+    {
+      "key": "Uninstall a plugin",
+      "ko": "플러그인 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:367 description"
+      ]
+    },
+    {
+      "key": "Plugin name",
+      "ko": "플러그인 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:369 description",
+        "src/commands/plugins.ts:424 description",
+        "src/commands/plugins.ts:494 description"
+      ]
+    },
+    {
+      "key": "Force uninstall without confirmation",
+      "ko": "확인 없이 강제로 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:370 description"
+      ]
+    },
+    {
+      "key": "Uninstall plugin",
+      "ko": "플러그인 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:373 description"
+      ]
+    },
+    {
+      "key": "Enable or disable a plugin",
+      "ko": "플러그인 활성화 또는 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:422 description"
+      ]
+    },
+    {
+      "key": "Enable the plugin",
+      "ko": "플러그인 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:425 description"
+      ]
+    },
+    {
+      "key": "Disable the plugin",
+      "ko": "플러그인 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:426 description"
+      ]
+    },
+    {
+      "key": "Enable plugin",
+      "ko": "플러그인 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:429 description"
+      ]
+    },
+    {
+      "key": "Disable plugin",
+      "ko": "플러그인 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:430 description"
+      ]
+    },
+    {
+      "key": "Show detailed plugin information from IPFS registry",
+      "ko": "IPFS 레지스트리의 플러그인 상세 정보 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:492 description"
+      ]
+    },
+    {
+      "key": "Show plugin info",
+      "ko": "플러그인 정보 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:498 description"
+      ]
+    },
+    {
+      "key": "Scaffold a new plugin project",
+      "ko": "새 플러그인 프로젝트 스캐폴드 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:660 description"
+      ]
+    },
+    {
+      "key": "Template: basic, advanced, hooks",
+      "ko": "템플릿: basic, advanced, hooks",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:663 description"
+      ]
+    },
+    {
+      "key": "Output path",
+      "ko": "출력 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:664 description",
+        "src/commands/transfer-store.ts:211 description"
+      ]
+    },
+    {
+      "key": "Create basic plugin",
+      "ko": "기본 플러그인 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:667 description"
+      ]
+    },
+    {
+      "key": "Create hooks plugin",
+      "ko": "훅 플러그인 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:668 description"
+      ]
+    },
+    {
+      "key": "Upgrade an installed plugin to a newer version",
+      "ko": "설치된 플러그인을 최신 버전으로 업그레이드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:720 description"
+      ]
+    },
+    {
+      "key": "Target version (default: latest)",
+      "ko": "대상 버전 (기본값: latest)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:723 description"
+      ]
+    },
+    {
+      "key": "Upgrade to latest",
+      "ko": "최신 버전으로 업그레이드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:726 description"
+      ]
+    },
+    {
+      "key": "Upgrade to specific version",
+      "ko": "특정 버전으로 업그레이드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:727 description"
+      ]
+    },
+    {
+      "key": "Search plugins in the IPFS registry",
+      "ko": "IPFS 레지스트리에서 플러그인 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:778 description"
+      ]
+    },
+    {
+      "key": "Show only verified plugins",
+      "ko": "검증된 플러그인만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:783 description"
+      ]
+    },
+    {
+      "key": "Search for neural plugins",
+      "ko": "뉴럴 플러그인 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:788 description"
+      ]
+    },
+    {
+      "key": "Search verified security plugins",
+      "ko": "검증된 보안 플러그인 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:789 description"
+      ]
+    },
+    {
+      "key": "Rate a plugin (1-5 stars)",
+      "ko": "플러그인 평가 (별 1~5개)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:882 description"
+      ]
+    },
+    {
+      "key": "Plugin name to rate",
+      "ko": "평가할 플러그인 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:884 description"
+      ]
+    },
+    {
+      "key": "Rating (1-5)",
+      "ko": "평점 (1-5)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:885 description"
+      ]
+    },
+    {
+      "key": "Rate 5 stars",
+      "ko": "별 5개로 평가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:888 description"
+      ]
+    },
+    {
+      "key": "Rate 4 stars",
+      "ko": "별 4개로 평가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:889 description"
+      ]
+    },
+    {
+      "key": "Plugin management with IPFS-based decentralized registry",
+      "ko": "IPFS 기반 분산 레지스트리로 플러그인 관리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:933 description"
+      ]
+    },
+    {
+      "key": "List plugins from IPFS registry",
+      "ko": "IPFS 레지스트리의 플러그인 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:936 description"
+      ]
+    },
+    {
+      "key": "Search for plugins",
+      "ko": "플러그인 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:937 description"
+      ]
+    },
+    {
+      "key": "Install from IPFS",
+      "ko": "IPFS에서 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:938 description"
+      ]
+    },
+    {
+      "key": "Create new plugin",
+      "ko": "새 플러그인 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/plugins.ts:939 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

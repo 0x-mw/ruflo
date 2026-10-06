@@ -1,6 +1,6 @@
 ---
 name: cost-projection
-description: Forward-looking spend extrapolation. Computes a USD-per-day rate from the recent measurement window, projects to 7d/30d/90d/365d horizons, and surfaces "days until budget exhausted" when a budget is configured. Predictive counterpart to `cost-budget-check` (reactive).
+description: 미래 지향 지출 외삽. 최근 측정 구간에서 일일 USD 비율을 계산해 7d/30d/90d/365d(7일/30일/90일/365일) 기간으로 투영하고, 예산이 설정되어 있으면 "예산 소진까지 남은 일수"("days until budget exhausted")를 보여 줍니다. `cost-budget-check`(사후 대응)의 예측형 짝 기능.
 argument-hint: "[--window 7d] [--horizons 7d,30d,90d,365d] [--format table|json]"
 allowed-tools: Bash
 ---

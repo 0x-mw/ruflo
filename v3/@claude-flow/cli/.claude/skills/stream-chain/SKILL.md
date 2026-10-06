@@ -1,6 +1,6 @@
 ---
 name: stream-chain
-description: Stream-JSON chaining for multi-agent pipelines, data transformation, and sequential workflows
+description: 멀티 에이전트 파이프라인, 데이터 변환, 순차 워크플로를 위한 Stream-JSON 체이닝
 ---
 
 # Stream-Chain Skill

@@ -1,6 +1,6 @@
 {
   "name": "ruflo-market-data",
-  "description": "Market data ingestion — feed normalization, OHLCV vectorization, and HNSW-indexed pattern matching. As a mod (ADR-445): keeps credentials and credentialed feed URLs out of market memory, /market-mod, and a status file the console shows",
+  "description": "시장 데이터 수집 — 피드 정규화, OHLCV 벡터화, HNSW 인덱스 기반 패턴 매칭. mod(ADR-445)로서 자격 증명과 자격 증명이 포함된 피드 URL이 시장 메모리에 들어가지 않게 하고, /market-mod와 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -24,8 +24,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Guard",
-      "description": "Refuse tool calls that are clearly harmful in this plugin's domain (see README, As a mod).",
+      "title": "가드",
+      "description": "이 플러그인 영역에서 명백히 해로운 도구 호출을 거부합니다(README의 'As a mod' 참조).",
       "required": false,
       "default": "on",
       "options": [

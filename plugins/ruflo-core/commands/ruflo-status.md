@@ -1,6 +1,6 @@
 ---
 name: ruflo-status
-description: Show Ruflo system health, MCP server status, and active agents
+description: Ruflo 시스템 상태, MCP 서버 상태, 활성 에이전트를 표시
 ---
 $ARGUMENTS
 Run diagnostics and show system status.

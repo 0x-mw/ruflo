@@ -1,0 +1,32 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-activity.ts",
+  "entries": [
+    {
+      "key": "[image]",
+      "ko": "[이미지]",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-activity.ts:103 return"
+      ]
+    },
+    {
+      "key": "(a result whose call is before the part read)",
+      "ko": "(호출이 읽은 구간보다 앞에 있는 결과)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-activity.ts:180 message()"
+      ]
+    },
+    {
+      "key": "(empty)",
+      "ko": "(비어 있음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-activity.ts:182 cleanBlock()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

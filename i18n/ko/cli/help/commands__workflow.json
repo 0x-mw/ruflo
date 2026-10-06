@@ -1,0 +1,225 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/workflow.ts",
+  "entries": [
+    {
+      "key": "Execute a workflow",
+      "ko": "워크플로를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:26 description"
+      ]
+    },
+    {
+      "key": "Workflow template",
+      "ko": "워크플로 템플릿",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:31 description"
+      ]
+    },
+    {
+      "key": "Workflow definition file (YAML/JSON)",
+      "ko": "워크플로 정의 파일 (YAML/JSON)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:38 description"
+      ]
+    },
+    {
+      "key": "Maximum agents to spawn",
+      "ko": "생성할 최대 에이전트 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:56 description"
+      ]
+    },
+    {
+      "key": "Workflow timeout in minutes",
+      "ko": "워크플로 제한 시간(분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:62 description"
+      ]
+    },
+    {
+      "key": "Validate without executing",
+      "ko": "실행하지 않고 검증만 합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:69 description"
+      ]
+    },
+    {
+      "key": "Run development workflow",
+      "ko": "개발 워크플로를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:75 description"
+      ]
+    },
+    {
+      "key": "Run from file",
+      "ko": "파일에서 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:76 description"
+      ]
+    },
+    {
+      "key": "Validate SPARC workflow",
+      "ko": "SPARC 워크플로를 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:77 description"
+      ]
+    },
+    {
+      "key": "Validate a workflow definition",
+      "ko": "워크플로 정의를 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:198 description"
+      ]
+    },
+    {
+      "key": "Workflow definition file",
+      "ko": "워크플로 정의 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:203 description"
+      ]
+    },
+    {
+      "key": "Strict validation mode",
+      "ko": "엄격 검증 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:210 description"
+      ]
+    },
+    {
+      "key": "Validate workflow file",
+      "ko": "워크플로 파일을 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:216 description"
+      ]
+    },
+    {
+      "key": "Strict validation",
+      "ko": "엄격 검증",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:217 description"
+      ]
+    },
+    {
+      "key": "List workflows",
+      "ko": "워크플로 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:306 description",
+        "src/commands/workflow.ts:656 description"
+      ]
+    },
+    {
+      "key": "Show workflow status",
+      "ko": "워크플로 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:386 description"
+      ]
+    },
+    {
+      "key": "Stop a running workflow",
+      "ko": "실행 중인 워크플로를 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:472 description"
+      ]
+    },
+    {
+      "key": "Manage workflow templates",
+      "ko": "워크플로 템플릿을 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:530 description"
+      ]
+    },
+    {
+      "key": "List available templates",
+      "ko": "사용 가능한 템플릿 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:534 description"
+      ]
+    },
+    {
+      "key": "Show template details",
+      "ko": "템플릿 상세 정보를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:559 description"
+      ]
+    },
+    {
+      "key": "Create a new template from workflow",
+      "ko": "워크플로로 새 템플릿을 만듭니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:609 description"
+      ]
+    },
+    {
+      "key": "Template name",
+      "ko": "템플릿 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:611 description"
+      ]
+    },
+    {
+      "key": "Workflow ID to save as template",
+      "ko": "템플릿으로 저장할 워크플로 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:612 description"
+      ]
+    },
+    {
+      "key": "Workflow file to save as template",
+      "ko": "템플릿으로 저장할 워크플로 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:613 description"
+      ]
+    },
+    {
+      "key": "Workflow execution and management",
+      "ko": "워크플로 실행 및 관리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:650 description"
+      ]
+    },
+    {
+      "key": "Run workflow",
+      "ko": "워크플로 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:654 description"
+      ]
+    },
+    {
+      "key": "Validate workflow",
+      "ko": "워크플로 검증",
+      "kind": "text",
+      "ctx": [
+        "src/commands/workflow.ts:655 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-fold.ts",
+  "entries": [
+    {
+      "key": "▾ close",
+      "ko": "▾ 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-fold.ts:24 button()"
+      ]
+    },
+    {
+      "key": "open",
+      "ko": "열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-fold.ts:25 button()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

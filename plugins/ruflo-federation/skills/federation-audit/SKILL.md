@@ -1,6 +1,6 @@
 ---
 name: federation-audit
-description: Query federation audit logs with compliance filtering
+description: 규정 준수 필터링으로 페더레이션 감사 로그를 쿼리
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_search Read Grep
 argument-hint: "[--compliance hipaa|soc2|gdpr] [--since DATE] [--severity critical|error|warn|info]"
 ---

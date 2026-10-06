@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/hive-strip.ts",
+  "entries": [
+    {
+      "key": "f n/a",
+      "ko": "f 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-strip.ts:55 text()"
+      ]
+    },
+    {
+      "key": "no bound",
+      "ko": "한도 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-strip.ts:57 text()"
+      ]
+    },
+    {
+      "key": "TERMS",
+      "ko": "임기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-strip.ts:85 text()"
+      ]
+    },
+    {
+      "key": "last write",
+      "ko": "마지막 쓰기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-strip.ts:106 const"
+      ]
+    },
+    {
+      "key": "PHEROMONES {0}",
+      "ko": "페로몬 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-strip.ts:130 text()"
+      ]
+    },
+    {
+      "key": "no broadcasts in the shared memory yet",
+      "ko": "공유 메모리에 브로드캐스트가 아직 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-strip.ts:133 text()"
+      ]
+    },
+    {
+      "key": "no shared-memory keys",
+      "ko": "공유 메모리 키 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/hive-strip.ts:148 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 {
   "name": "ruflo-deepseek-harness",
-  "description": "DeepSeek model harness for ruflo — agents, commands, scripts, and skills for running and evaluating DeepSeek-backed workflows within the ruflo swarm.",
+  "description": "ruflo용 DeepSeek 모델 하네스(harness) — ruflo 스웜 안에서 DeepSeek 기반 워크플로를 실행하고 평가하기 위한 에이전트, 명령, 스크립트, 스킬",
   "version": "0.2.3",
   "author": {
     "name": "ruvnet",
@@ -22,8 +22,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse prompts sent to the DeepSeek API that hold a key, token or password. On by default; it only ever tightens.",
+      "title": "비밀 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는, DeepSeek API로 보내는 프롬프트를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
       "required": false,
       "default": "on",
       "options": [

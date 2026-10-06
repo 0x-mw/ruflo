@@ -1,6 +1,6 @@
 ---
 name: cost-benchmark
-description: Run the corpus benchmark — booster locally, optional Gemini/Sonnet/Opus baselines — and persist a verifiable measured-vs-claimed table
+description: 코퍼스 벤치마크 실행 — 로컬 booster, 선택적 Gemini/Sonnet/Opus 기준선 — 하고 검증 가능한 실측-vs-주장 표를 영속화
 argument-hint: "[--llm] [--anthropic]"
 allowed-tools: Bash
 ---

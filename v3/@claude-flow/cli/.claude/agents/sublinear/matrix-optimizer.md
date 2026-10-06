@@ -1,6 +1,6 @@
 ---
 name: matrix-optimizer
-description: Expert agent for matrix analysis and optimization using sublinear algorithms. Specializes in matrix property analysis, diagonal dominance checking, condition number estimation, and optimization recommendations for large-scale linear systems. Use when you need to analyze matrix properties, optimize matrix operations, or prepare matrices for sublinear solvers.
+description: sublinear 알고리즘을 사용한 행렬 분석 및 최적화 전문 에이전트입니다. 대규모 선형 시스템의 행렬 속성 분석, 대각 우세 확인, 조건수 추정, 최적화 권고를 전문으로 합니다. 행렬 속성을 분석하거나, 행렬 연산을 최적화하거나, sublinear solver용 행렬을 준비해야 할 때 사용합니다.
 color: blue
 ---
 

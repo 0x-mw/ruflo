@@ -1,0 +1,472 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/init.ts",
+  "entries": [
+    {
+      "key": "Interactive setup wizard for comprehensive configuration",
+      "ko": "전체 설정을 위한 대화형 설정 마법사",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:971 description"
+      ]
+    },
+    {
+      "key": "Check if RuFlo is initialized",
+      "ko": "RuFlo 초기화 여부를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1272 description"
+      ]
+    },
+    {
+      "key": "Initialize only skills",
+      "ko": "스킬만 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1311 description"
+      ]
+    },
+    {
+      "key": "Install all skills",
+      "ko": "모든 스킬 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1313 description"
+      ]
+    },
+    {
+      "key": "Install core skills",
+      "ko": "핵심 스킬 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1314 description"
+      ]
+    },
+    {
+      "key": "Install AgentDB skills",
+      "ko": "AgentDB 스킬 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1315 description"
+      ]
+    },
+    {
+      "key": "Install GitHub skills",
+      "ko": "GitHub 스킬 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1316 description"
+      ]
+    },
+    {
+      "key": "Install V3 skills",
+      "ko": "V3 스킬 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1317 description"
+      ]
+    },
+    {
+      "key": "Initialize only hooks configuration",
+      "ko": "훅 설정만 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1377 description"
+      ]
+    },
+    {
+      "key": "Enable all hooks",
+      "ko": "모든 훅 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1379 description"
+      ]
+    },
+    {
+      "key": "Enable only essential hooks",
+      "ko": "필수 훅만 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1380 description"
+      ]
+    },
+    {
+      "key": "Update statusline and helpers while preserving existing data",
+      "ko": "기존 데이터를 유지한 채 상태 표시줄과 헬퍼를 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1453 description"
+      ]
+    },
+    {
+      "key": "Show detailed output",
+      "ko": "상세 출력 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1458 description"
+      ]
+    },
+    {
+      "key": "Add any new skills, agents, and commands that are missing",
+      "ko": "누락된 새 스킬, 에이전트, 명령어를 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1465 description"
+      ]
+    },
+    {
+      "key": "Merge new settings (Agent Teams, hooks, ruflo mods) into existing settings.json",
+      "ko": "새 설정(Agent Teams, 훅, ruflo mod)을 기존 settings.json에 병합합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1472 description"
+      ]
+    },
+    {
+      "key": "Merge the ruflo mod plugins into .claude/settings.json and install them (also implied by --add-missing and --settings; --no-mods to skip)",
+      "ko": "ruflo mod 플러그인을 .claude/settings.json에 병합하고 설치합니다 (--add-missing, --settings에도 포함되며, 건너뛰려면 --no-mods)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1479 description"
+      ]
+    },
+    {
+      "key": "With mods: run claude plugin install (--no-plugin-install to merge settings only)",
+      "ko": "mod 사용 시 claude plugin install 실행 (설정 병합만 하려면 --no-plugin-install)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1484 description"
+      ]
+    },
+    {
+      "key": "Initialize RuFlo in the current directory",
+      "ko": "현재 디렉터리에서 RuFlo를 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1649 description"
+      ]
+    },
+    {
+      "key": "Create minimal configuration",
+      "ko": "최소 설정 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1662 description"
+      ]
+    },
+    {
+      "key": "Create full configuration with all components",
+      "ko": "모든 구성 요소를 포함한 전체 설정 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1668 description"
+      ]
+    },
+    {
+      "key": "Register auth-gated cloud MCP servers (ruv-swarm, flow-nexus) in .mcp.json (only relevant with --full)",
+      "ko": "인증이 필요한 클라우드 MCP 서버(ruv-swarm, flow-nexus)를 .mcp.json에 등록 (--full과 함께 쓸 때만 해당)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1678 description"
+      ]
+    },
+    {
+      "key": "Skip .claude/ directory creation (runtime only)",
+      "ko": ".claude/ 디렉터리 생성 건너뛰기 (런타임만)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1684 description"
+      ]
+    },
+    {
+      "key": "Skip the post-init Cognitum capability enrollment prompt",
+      "ko": "초기화 후 Cognitum 기능 등록 프롬프트 건너뛰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1691 description"
+      ]
+    },
+    {
+      "key": "Only create .claude/ directory (skip runtime)",
+      "ko": ".claude/ 디렉터리만 생성 (런타임 건너뛰기)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1697 description"
+      ]
+    },
+    {
+      "key": "Skip the ~/.claude/CLAUDE.md \"Ruflo Integration\" pointer block (#1744)",
+      "ko": "~/.claude/CLAUDE.md의 \"Ruflo Integration\" 포인터 블록 건너뛰기 (#1744)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1703 description"
+      ]
+    },
+    {
+      "key": "Auto-start daemon, memory, and swarm after init",
+      "ko": "초기화 후 데몬, 메모리, 스웜 자동 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1709 description"
+      ]
+    },
+    {
+      "key": "Auto-start daemon after init",
+      "ko": "초기화 후 데몬 자동 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1715 description"
+      ]
+    },
+    {
+      "key": "Enable the ruflo mod plugins in .claude/settings.json (default on; --no-mods to skip); classic hooks stay as fallback",
+      "ko": ".claude/settings.json에서 ruflo mod 플러그인 활성화 (기본값 켜짐, 건너뛰려면 --no-mods). 기존 훅은 대체 수단으로 유지됩니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1722 description"
+      ]
+    },
+    {
+      "key": "With mods: refresh the ruflo marketplace and claude plugin install the mods (--no-plugin-install to write settings only)",
+      "ko": "mod 사용 시 ruflo 마켓플레이스를 새로고침하고 claude plugin install로 mod 설치 (설정만 기록하려면 --no-plugin-install)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1728 description"
+      ]
+    },
+    {
+      "key": "Initialize ONNX embedding subsystem with hyperbolic support",
+      "ko": "쌍곡 지원과 함께 ONNX 임베딩 하위 시스템을 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1734 description"
+      ]
+    },
+    {
+      "key": "ONNX embedding model to use",
+      "ko": "사용할 ONNX 임베딩 모델",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1740 description"
+      ]
+    },
+    {
+      "key": "Initialize for OpenAI Codex CLI (creates AGENTS.md, .agents/)",
+      "ko": "OpenAI Codex CLI용으로 초기화 (AGENTS.md, .agents/ 생성)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1747 description"
+      ]
+    },
+    {
+      "key": "Initialize for both Claude Code and OpenAI Codex",
+      "ko": "Claude Code와 OpenAI Codex 모두를 위해 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1753 description"
+      ]
+    },
+    {
+      "key": "Skip auto-detecting the OpenAI Codex CLI and configuring its MCP server + skills",
+      "ko": "OpenAI Codex CLI 자동 감지와 MCP 서버 + 스킬 설정 건너뛰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1759 description"
+      ]
+    },
+    {
+      "key": "Skip the post-init `npx skills add ruvnet/ruflo` registration (also honored via RUFLO_NO_SKILLS_SH=1)",
+      "ko": "초기화 후 `npx skills add ruvnet/ruflo` 등록 건너뛰기 (RUFLO_NO_SKILLS_SH=1로도 지정 가능)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1765 description"
+      ]
+    },
+    {
+      "key": "Install all agent categories (ADR-128: default is ~24 substrate agents; this restores the full set of ~89)",
+      "ko": "모든 에이전트 범주 설치 (ADR-128: 기본값은 기반 에이전트 ~24개이며, 이 옵션은 전체 ~89개를 복원)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1771 description"
+      ]
+    },
+    {
+      "key": "Initialize with default configuration",
+      "ko": "기본 설정으로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1777 description"
+      ]
+    },
+    {
+      "key": "Initialize and start daemon, memory, swarm",
+      "ko": "초기화 후 데몬, 메모리, 스웜 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1778 description"
+      ]
+    },
+    {
+      "key": "Initialize and start daemon only",
+      "ko": "초기화 후 데몬만 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1779 description"
+      ]
+    },
+    {
+      "key": "Initialize with minimal configuration",
+      "ko": "최소 설정으로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1780 description"
+      ]
+    },
+    {
+      "key": "Initialize with all components",
+      "ko": "모든 구성 요소로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1781 description"
+      ]
+    },
+    {
+      "key": "Reinitialize and overwrite existing config",
+      "ko": "재초기화하고 기존 설정 덮어쓰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1782 description"
+      ]
+    },
+    {
+      "key": "Only create Claude Code integration",
+      "ko": "Claude Code 통합만 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1783 description"
+      ]
+    },
+    {
+      "key": "Only create V3 runtime",
+      "ko": "V3 런타임만 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1784 description"
+      ]
+    },
+    {
+      "key": "Interactive setup wizard",
+      "ko": "대화형 설정 마법사",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1785 description"
+      ]
+    },
+    {
+      "key": "Initialize with ONNX embeddings",
+      "ko": "ONNX 임베딩으로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1786 description"
+      ]
+    },
+    {
+      "key": "Use larger embedding model",
+      "ko": "더 큰 임베딩 모델 사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1787 description"
+      ]
+    },
+    {
+      "key": "Install all available skills",
+      "ko": "사용 가능한 모든 스킬 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1788 description"
+      ]
+    },
+    {
+      "key": "Create minimal hooks configuration",
+      "ko": "최소 훅 설정 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1789 description"
+      ]
+    },
+    {
+      "key": "Update helpers while preserving data",
+      "ko": "데이터를 유지한 채 헬퍼 업데이트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1790 description"
+      ]
+    },
+    {
+      "key": "Update helpers and merge new settings (Agent Teams)",
+      "ko": "헬퍼를 업데이트하고 새 설정(Agent Teams) 병합",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1791 description"
+      ]
+    },
+    {
+      "key": "Show detailed upgrade info",
+      "ko": "상세 업그레이드 정보 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1792 description"
+      ]
+    },
+    {
+      "key": "Initialize for OpenAI Codex (AGENTS.md)",
+      "ko": "OpenAI Codex용으로 초기화 (AGENTS.md)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1793 description"
+      ]
+    },
+    {
+      "key": "Codex init with all canonical packaged skills",
+      "ko": "패키지된 모든 정식 스킬로 Codex 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1794 description"
+      ]
+    },
+    {
+      "key": "Initialize for both Claude Code and Codex",
+      "ko": "Claude Code와 Codex 모두를 위해 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1795 description"
+      ]
+    },
+    {
+      "key": "Skip auto-configuring OpenAI Codex even if it is installed",
+      "ko": "OpenAI Codex가 설치되어 있어도 자동 설정 건너뛰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1796 description"
+      ]
+    },
+    {
+      "key": "Skip the post-init skills.sh registration",
+      "ko": "초기화 후 skills.sh 등록 건너뛰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1797 description"
+      ]
+    },
+    {
+      "key": "Install all agent categories (~89 agents; ADR-128 opt-in)",
+      "ko": "모든 에이전트 범주 설치 (~89개 에이전트, ADR-128 선택 사항)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1798 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

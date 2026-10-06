@@ -1,0 +1,190 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/claims.ts",
+  "entries": [
+    {
+      "key": "{0} active · {1} stealable · {2} handoff",
+      "ko": "진행 {0} · 가로채기 가능 {1} · 인계 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:21 rule()"
+      ]
+    },
+    {
+      "key": "reading ruflo state…",
+      "ko": "ruflo 상태를 읽는 중...",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:24 text()",
+        "plugins/ruflo-console/hooks/views/hive.ts:350 text()",
+        "plugins/ruflo-console/hooks/views/swarm.ts:22 text()"
+      ]
+    },
+    {
+      "key": "claims.json is too large to read here",
+      "ko": "claims.json 이 너무 커서 여기서 읽을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:28 text()"
+      ]
+    },
+    {
+      "key": "No claims on disk (.claude-flow/claims/claims.json).",
+      "ko": "디스크에 클레임이 없습니다 (.claude-flow/claims/claims.json).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:28 text()"
+      ]
+    },
+    {
+      "key": "{0} open tasks",
+      "ko": "열린 작업 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:29 picture()"
+      ]
+    },
+    {
+      "key": "lanes: open → claimed → working → done, and stealable · ╰─▶ a pending handoff",
+      "ko": "레인: 열림 → 클레임됨 → 작업 중 → 완료, 그리고 가로채기 가능 · ╰─▶ 대기 중인 인계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:32 text()"
+      ]
+    },
+    {
+      "key": "ring: TTL left where expiresAt is set, else age filling over 24 h (no claims tool sets a TTL today)",
+      "ko": "링: expiresAt 이 있으면 남은 TTL, 없으면 24시간 동안 차오르는 경과 시간 (현재 TTL 을 설정하는 클레임 도구는 없습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:33 text()"
+      ]
+    },
+    {
+      "key": "No agents to claim for.",
+      "ko": "클레임할 에이전트가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:51 starts()"
+      ]
+    },
+    {
+      "key": "a task to put on the board, e.g. add OAuth login to the API",
+      "ko": "보드에 올릴 작업, 예: add OAuth login to the API",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:52 startField()"
+      ]
+    },
+    {
+      "key": "Act",
+      "ko": "동작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:54 rule()"
+      ]
+    },
+    {
+      "key": "picked claim {0} · agent {1} ({2})",
+      "ko": "선택한 클레임 {0} · 에이전트 {1} ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:55 text()"
+      ]
+    },
+    {
+      "key": "picked claim {0} · agent n/a — no agents on disk",
+      "ko": "선택한 클레임 {0} · 에이전트 없음 — 디스크에 에이전트가 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:55 text()"
+      ]
+    },
+    {
+      "key": "picked claim n/a · agent {0} ({1})",
+      "ko": "선택한 클레임 없음 · 에이전트 {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:55 text()"
+      ]
+    },
+    {
+      "key": "picked claim n/a · agent n/a — no agents on disk",
+      "ko": "선택한 클레임 없음 · 에이전트 없음 — 디스크에 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:55 text()"
+      ]
+    },
+    {
+      "key": "open task n/a — every task is claimed",
+      "ko": "열린 작업 없음 — 모든 작업이 클레임되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:56 text()"
+      ]
+    },
+    {
+      "key": "open task {0}: {1}",
+      "ko": "열린 작업 {0}: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:56 text()"
+      ]
+    },
+    {
+      "key": "prev",
+      "ko": "이전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:61 button()",
+        "plugins/ruflo-console/hooks/views/hive.ts:250 button()",
+        "plugins/ruflo-console/hooks/views/manage.ts:83 button()"
+      ]
+    },
+    {
+      "key": "next",
+      "ko": "다음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:62 button()",
+        "plugins/ruflo-console/hooks/views/help.ts:45 text()",
+        "plugins/ruflo-console/hooks/views/hive.ts:250 button()"
+      ]
+    },
+    {
+      "key": "Claim task",
+      "ko": "작업 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:69 button()"
+      ]
+    },
+    {
+      "key": "Release",
+      "ko": "해제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:70 button()"
+      ]
+    },
+    {
+      "key": "Hand off",
+      "ko": "인계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:71 button()"
+      ]
+    },
+    {
+      "key": "Steal",
+      "ko": "가로채기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/claims.ts:72 button()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

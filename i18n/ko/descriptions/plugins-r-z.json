@@ -1,0 +1,590 @@
+{
+  "plugin:ruflo-rag-memory": {
+    "en": "RuVector memory with HNSW search, AgentDB, and semantic retrieval. As a mod (ADR-445): a write guard that keeps secrets out of memory, /rag-mod, and a status file the console shows",
+    "ko": "HNSW 검색, AgentDB, 시맨틱 검색을 갖춘 RuVector 메모리. mod(ADR-445)로서 비밀이 메모리에 들어가지 않게 하는 쓰기 가드, /rag-mod, 콘솔이 보여 주는 상태 파일을 제공",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-rag-memory#userConfig.guard.description": {
+    "en": "Refuse calls to this plugin's write tools that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 쓰기 도구 호출을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-rag-memory#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ruos": {
+    "en": "Run ruflo swarm agents on your own ruOS cloud desktops via the tenant-authenticated fleet MCP or per-tenant SSH; optional and removable (ADR-405)",
+    "ko": "테넌트 인증 플릿 MCP 또는 테넌트별 SSH를 통해 본인의 ruOS 클라우드 데스크톱에서 ruflo 스웜 에이전트를 실행합니다. 선택적이며 제거 가능(ADR-405)",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ruvector": {
+    "en": "Self-learning vector database via npx ruvector@0.2.25 — HNSW, adaptive LoRA embeddings, code-graph clustering, hooks routing, brain/SONA, 103 MCP tools. As a mod (ADR-445): a write guard that keeps secrets out of the vector store and shared brain, /ruvector-mod, and a status file the console shows",
+    "ko": "npx ruvector@0.2.25를 통한 자가 학습 벡터 데이터베이스 — HNSW, 적응형 LoRA 임베딩, 코드 그래프 클러스터링, 훅 라우팅, brain/SONA, MCP 도구 103개. mod(ADR-445)로서 비밀이 벡터 저장소와 공유 brain에 들어가지 않게 하는 쓰기 가드, /ruvector-mod, 콘솔이 보여 주는 상태 파일을 제공",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ruvector#userConfig.guard.description": {
+    "en": "Refuse calls to this plugin's write tools that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 쓰기 도구 호출을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ruvector#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ruvllm": {
+    "en": "RuVLLM local inference with chat formatting (Claude/GPT/Gemini/Ollama/Cohere), model configuration, MicroLoRA fine-tuning, and SONA real-time adaptation. As a mod (ADR-445): a guard that keeps secrets out of adapters and the pattern router, /ruvllm-mod, and a status file the console shows",
+    "ko": "채팅 포맷팅(Claude/GPT/Gemini/Ollama/Cohere), 모델 설정, MicroLoRA 파인튜닝, SONA 실시간(real-time) 적응을 갖춘 RuVLLM 로컬 추론. mod(ADR-445)로서 비밀이 어댑터와 패턴 라우터에 들어가지 않게 하는 가드, /ruvllm-mod, 콘솔이 보여 주는 상태 파일을 제공",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ruvllm#userConfig.guard.description": {
+    "en": "Refuse calls to this plugin's write tools that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 쓰기 도구 호출을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ruvllm#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-rvf": {
+    "en": "RVF format for portable agent memory, session persistence, and cross-platform transfer. As a mod (ADR-445): a write guard that keeps secrets out of memory, sessions and transfers, /rvf-mod, and a status file the console shows",
+    "ko": "이식 가능한 에이전트 메모리, 세션 영속화, 플랫폼 간 전송을 위한 RVF 형식. mod(ADR-445)로서 비밀이 메모리, 세션, 전송에 들어가지 않게 하는 쓰기 가드, /rvf-mod, 콘솔이 보여 주는 상태 파일을 제공",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-rvf#userConfig.guard.description": {
+    "en": "Refuse calls to this plugin's write tools that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 쓰기 도구 호출을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-rvf#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-security-audit": {
+    "en": "Security review, dependency scanning, policy gates, and CVE monitoring",
+    "ko": "보안 리뷰, 의존성 스캔, 정책 게이트, CVE 모니터링",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-security-audit#userConfig.guard.description": {
+    "en": "Refuse audit findings that quote a live secret into memory.",
+    "ko": "실제 비밀을 메모리에 인용하는 감사 결과를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-security-audit#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-sparc": {
+    "en": "SPARC methodology — Specification, Pseudocode, Architecture, Refinement, Completion phases with gate checks",
+    "ko": "SPARC 방법론 — 게이트 검사를 갖춘 명세(Specification), 의사코드(Pseudocode), 아키텍처(Architecture), 개선(Refinement), 완료(Completion) 단계",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-sparc#userConfig.guard.description": {
+    "en": "Refuse specs and phase artifacts that hold a secret in sparc namespaces.",
+    "ko": "sparc 네임스페이스에 비밀이 들어 있는 명세와 단계 산출물을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-sparc#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm": {
+    "en": "Agent teams, swarm coordination, Monitor streams, and worktree isolation — wraps 4 swarm_* + 8 agent_* MCP tools (12 total) plus 6 topologies (hierarchical / mesh / hierarchical-mesh / ring / star / adaptive). With Claude Code function hooks on (early access), a live swarm pane: agent tiles lit by reads and writes, topology, task and claims board, cost, router pick and hive-mind votes, with buttons that act through the ruflo CLI",
+    "ko": "에이전트 팀, 스웜 조율, Monitor 스트림, 워크트리 격리 — swarm_* 4개 + agent_* 8개 MCP 도구(총 12개)와 토폴로지 6종(hierarchical / mesh / hierarchical-mesh / ring / star / adaptive)을 감쌉니다. Claude Code 함수 훅을 켜면(얼리 액세스) 실시간 스웜 패널을 제공합니다: 읽기와 쓰기로 불이 켜지는 에이전트 타일, 토폴로지, 작업과 클레임 보드, 비용, 라우터 선택, 하이브마인드(hive-mind) 투표, ruflo CLI를 통해 동작하는 버튼",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.audit.description": {
+    "en": "Record a bounded trail of engine events (event and tool names, agent ids, times; never prompts, arguments or results) into ruflo memory namespace ruflo-swarm-audit every 30 seconds.",
+    "ko": "엔진 이벤트(이벤트와 도구 이름, 에이전트 ID, 시각이며 프롬프트, 인자, 결과는 제외)의 제한된 기록을 30초마다 ruflo 메모리 네임스페이스 ruflo-swarm-audit에 남깁니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.audit.title": {
+    "en": "Audit trail",
+    "ko": "감사 추적",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.cli.description": {
+    "en": "How the pane's buttons reach ruflo. npx-offline (default) uses the locally cached @claude-flow/cli and never touches the network; npx may download it; ruflo and claude-flow use a global install.",
+    "ko": "패널의 버튼이 ruflo에 접근하는 방식입니다. npx-offline(기본값)은 로컬에 캐시된 @claude-flow/cli를 사용하며 네트워크에 접근하지 않고, npx는 다운로드할 수 있으며, ruflo와 claude-flow는 전역 설치를 사용합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.cli.title": {
+    "en": "ruflo CLI",
+    "ko": "ruflo CLI",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.injectSpawnContext.description": {
+    "en": "Append a short note naming the ruflo swarm (id, topology, strategy, read from disk) to the prompt of each subagent Claude Code spawns.",
+    "ko": "Claude Code가 생성하는 각 서브에이전트의 프롬프트에 ruflo 스웜(디스크에서 읽은 ID, 토폴로지, 전략)을 명시한 짧은 메모를 덧붙입니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.injectSpawnContext.title": {
+    "en": "Swarm note in subagent prompts",
+    "ko": "서브에이전트 프롬프트의 스웜 메모",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.panel.description": {
+    "en": "command (default) opens the pane only with /ruflo swarm pane (or its alias /ruflo-swarm-pane, or /ruflo-swarm:watch); auto also opens it when a ruflo swarm is on disk and the layout docks panes (ruflo-console's cockpit is the pane that opens by itself now); off never opens it.",
+    "ko": "command(기본값)는 /ruflo swarm pane(또는 별칭 /ruflo-swarm-pane, /ruflo-swarm:watch)으로만 패널을 엽니다. auto는 디스크에 ruflo 스웜이 있고 레이아웃이 패널을 도킹할 때도 엽니다(이제 스스로 열리는 패널은 ruflo-console의 콕핏입니다). off는 절대 열지 않습니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.panel.title": {
+    "en": "Swarm pane",
+    "ko": "스웜 패널",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.routeThreshold.description": {
+    "en": "A router pick under this confidence (0 to 1) is shown as below threshold, with its score, rather than as a match.",
+    "ko": "이 신뢰도(0~1) 미만의 라우터 선택은 일치로 표시하지 않고 점수와 함께 임계값 미만으로 표시합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-swarm#userConfig.routeThreshold.title": {
+    "en": "Router confidence threshold",
+    "ko": "라우터 신뢰도 임계값",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-testgen": {
+    "en": "Test gap detection, coverage analysis, and automated test generation — drives the testgaps background worker via hooks_worker-dispatch; SPARC Refinement-phase canonical owner",
+    "ko": "테스트 공백 탐지, 커버리지 분석, 자동 테스트 생성 — hooks_worker-dispatch를 통해 testgaps 백그라운드 워커를 구동하며, SPARC 개선 단계의 표준 담당",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-workflows": {
+    "en": "Workflow automation across two surfaces: the 10 workflow_* MCP tools (create/run/execute/status/list/pause/resume/cancel/delete/template) with full state-machine lifecycle (created → running ↔ paused → completed/cancelled), and native Claude Code Workflow JS orchestration (.claude/workflows/*.js — agent/parallel/pipeline/phase fan-out). Includes GAIA benchmark component for Princeton HAL leaderboard submissions.",
+    "ko": "두 가지 영역에 걸친 워크플로 자동화: 전체 상태 머신 수명 주기(created → running ↔ paused → completed/cancelled)를 갖춘 workflow_* MCP 도구 10개(create/run/execute/status/list/pause/resume/cancel/delete/template), 그리고 네이티브 Claude Code Workflow JS 오케스트레이션(.claude/workflows/*.js — agent/parallel/pipeline/phase 팬아웃). Princeton HAL 리더보드 제출용 GAIA 벤치마크 구성 요소를 포함합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-workflows#userConfig.guard.description": {
+    "en": "Refuse workflow definitions and run records that hold a secret, and workflow deletes that name no single id.",
+    "ko": "비밀이 들어 있는 워크플로 정의와 실행 기록, 그리고 단일 ID를 지정하지 않은 워크플로 삭제를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-workflows#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-x-gateway": {
+    "en": "Coordinate AI-agent swarms through signed federation messages, channels, and work claims. The remote Claude connector exposes a directory-safe Streamable HTTP MCP surface with OAuth-protected publishing and five ruv:// reference resources.",
+    "ko": "서명된 페더레이션 메시지, 채널, 작업 클레임으로 AI 에이전트 스웜을 조율합니다. 원격 Claude 커넥터는 OAuth로 보호되는 게시와 ruv:// 참조 리소스 5개를 갖춘, 디렉터리에 안전한 Streamable HTTP MCP 화면을 제공합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-x-gateway#userConfig.guard.description": {
+    "en": "Refuse swarm messages that hold a secret.",
+    "ko": "비밀이 들어 있는 스웜 메시지를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-x-gateway#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugins/ruflo-rag-memory/agents/memory-specialist.md": {
+    "en": "SOTA RAG memory specialist — hybrid search (sparse+dense), Graph RAG multi-hop retrieval, MMR diversity reranking, smart consolidation, ruvector integration",
+    "ko": "최신 수준(SOTA) RAG 메모리 전문 에이전트 — 하이브리드 검색(sparse+dense), Graph RAG 다중 홉 검색, MMR 다양성 재순위화, 스마트 통합, ruvector 통합",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rag-memory/commands/recall.md": {
+    "en": "Quick semantic recall — searches all memory namespaces with MMR diversity and recency weighting",
+    "ko": "빠른 시맨틱 조회 — MMR 다양성과 최신성 가중치로 모든 메모리 네임스페이스를 검색",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rag-memory/commands/ruflo-memory.md": {
+    "en": "SOTA memory CRUD — store, search (hybrid/graph-rag/dense), retrieve, list, consolidate",
+    "ko": "최신 수준(SOTA) 메모리 CRUD — 저장, 검색(hybrid/graph-rag/dense), 조회, 목록, 통합",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rag-memory/skills/memory-bridge/SKILL.md": {
+    "en": "Bridge Claude Code auto-memory into AgentDB with ONNX embeddings, deduplicate, and enable unified cross-project search",
+    "ko": "Claude Code 자동 메모리를 ONNX 임베딩으로 AgentDB에 연결하고, 중복을 제거하며, 프로젝트 간 통합 검색을 활성화",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rag-memory/skills/memory-search/SKILL.md": {
+    "en": "SOTA semantic search — hybrid (sparse+dense), Graph RAG multi-hop, MMR diversity reranking, recency weighting",
+    "ko": "최신 수준(SOTA) 시맨틱 검색 — 하이브리드(sparse+dense), Graph RAG 다중 홉(multi-hop), MMR 다양성 재순위화, 최신성 가중치",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruos/agents/ruos-host-operator.md": {
+    "en": "Places ruflo swarm agents on the user's own ruOS desktops, streams their output into swarm state, and hands finished work back for review — fleet MCP or per-tenant SSH only",
+    "ko": "사용자 본인의 ruOS 데스크톱에 ruflo 스웜 에이전트를 배치하고, 출력을 스웜 상태로 스트리밍하며, 끝난 작업을 리뷰용으로 인계 — 플릿 MCP 또는 테넌트별 SSH만 사용",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruos/commands/deploy.md": {
+    "en": "Read-only deploy hand-off after a swarm finishes on a ruOS desktop — report what would ship, never push",
+    "ko": "ruOS 데스크톱에서 스웜이 끝난 뒤의 읽기 전용 배포 인계 — 배포될 내용을 보고하며 절대 푸시하지 않음",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruos/commands/hosts.md": {
+    "en": "List your ruOS desktops as ruflo swarm hosts — state, liveness, and which ruflo agents run on each",
+    "ko": "본인의 ruOS 데스크톱을 ruflo 스웜 호스트로 나열 — 상태, 활성 여부, 각 호스트에서 실행 중인 ruflo 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruos/commands/run.md": {
+    "en": "Run a ruflo agent (claude -p) on one of your ruOS desktops and stream its output into the swarm",
+    "ko": "본인의 ruOS 데스크톱 중 하나에서 ruflo 에이전트(claude -p)를 실행하고 출력을 스웜으로 스트리밍",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruos/commands/view.md": {
+    "en": "Watch the ruOS desktop a ruflo agent is running on — delegates to ruOS's own viewer",
+    "ko": "ruflo 에이전트가 실행 중인 ruOS 데스크톱을 관찰 — ruOS 자체 뷰어에 위임",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruos/skills/ruos-host-run/SKILL.md": {
+    "en": "Run a ruflo swarm agent on the user's own ruOS cloud desktop through the tenant-authenticated fleet MCP, stream its output, and record it in ruflo's swarm state. Use when the user wants an agent to run on a ruOS desktop, asks to \"run this on my ruOS desktop\", or places a swarm agent on a remote ruOS host.",
+    "ko": "테넌트 인증 플릿 MCP를 통해 사용자 본인의 ruOS 클라우드 데스크톱에서 ruflo 스웜 에이전트를 실행하고, 출력을 스트리밍하며, ruflo의 스웜 상태에 기록합니다. 사용자가 ruOS 데스크톱에서 에이전트를 실행하려 하거나, \"내 ruOS 데스크톱에서 이거 실행해\"(\"run this on my ruOS desktop\")라고 하거나, 스웜 에이전트를 원격 ruOS 호스트에 배치할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvector/agents/vector-engineer.md": {
+    "en": "Vector operations specialist using npx ruvector@0.2.25 — HNSW indexing, adaptive LoRA embeddings, code-graph clustering, hooks routing, brain/SONA, 91 MCP tools. Use when the task involves generating/storing embeddings, semantic vector search, RVF cognitive containers, GNN clustering, or hyperbolic (Poincare) hierarchical embeddings.",
+    "ko": "npx ruvector@0.2.25를 사용하는 벡터 작업 전문 에이전트 — HNSW 인덱싱, 적응형 LoRA 임베딩, 코드 그래프 클러스터링, 훅 라우팅, brain/SONA, MCP 도구 91개. 임베딩 생성/저장, 시맨틱 벡터 검색, RVF 인지 컨테이너, GNN 클러스터링, 쌍곡선(Poincare) 계층 임베딩이 필요한 작업에 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvector/commands/vector.md": {
+    "en": "RuVector operations via npx ruvector@0.2.25 — embedding, search, RVF cognitive containers, GNN, attention, hooks, brain, sona, edge, identity",
+    "ko": "npx ruvector@0.2.25를 통한 RuVector 작업 — 임베딩, 검색, RVF 인지 컨테이너, GNN, 어텐션, 훅, brain, sona, edge, identity",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvector/skills/vector-cluster/SKILL.md": {
+    "en": "Cluster code by graph community detection via npx ruvector@0.2.25 hooks graph-cluster (spectral / Louvain)",
+    "ko": "npx ruvector@0.2.25 hooks graph-cluster(spectral / Louvain)로 그래프 커뮤니티 탐지에 따라 코드를 클러스터링",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvector/skills/vector-embed/SKILL.md": {
+    "en": "Generate embeddings via npx ruvector@0.2.25 embed text (ONNX all-MiniLM-L6-v2, 384-dim), normalize, and store in HNSW index",
+    "ko": "npx ruvector@0.2.25 embed text(ONNX all-MiniLM-L6-v2, 384차원)로 임베딩을 생성하고, 정규화하고, HNSW 인덱스에 저장",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvector/skills/vector-hyperbolic/SKILL.md": {
+    "en": "Embed hierarchical data via npx ruvector@0.2.25 embed text and project into the Poincare ball in user code (no --model poincare flag in 0.2.25)",
+    "ko": "npx ruvector@0.2.25 embed text로 계층 데이터를 임베딩하고 사용자 코드에서 푸앵카레 볼(Poincare ball)에 투영(0.2.25에는 --model poincare 플래그 없음)",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvector/skills/vector-setup/SKILL.md": {
+    "en": "First-run setup for ruvector@0.2.25 — installs ONNX/Brain/SONA add-ons, registers the MCP server, and verifies the install via `doctor`",
+    "ko": "ruvector@0.2.25 최초 실행 설정 — ONNX/Brain/SONA 애드온을 설치하고, MCP 서버를 등록하고, `doctor`로 설치를 검증",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvllm/agents/llm-specialist.md": {
+    "en": "RuVLLM specialist for local inference configuration, MicroLoRA fine-tuning, and multi-provider routing",
+    "ko": "로컬 추론 설정, MicroLoRA 파인튜닝, 다중 프로바이더 라우팅을 담당하는 RuVLLM 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvllm/commands/ruvllm.md": {
+    "en": "RuVLLM status -- model configuration, MicroLoRA adapters, and provider availability",
+    "ko": "RuVLLM 상태 -- 모델 설정, MicroLoRA 어댑터, 프로바이더 사용 가능 여부",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvllm/skills/chat-format/SKILL.md": {
+    "en": "Format prompts for different LLM providers with chat templates and HNSW-powered context retrieval",
+    "ko": "채팅 템플릿과 HNSW 기반 컨텍스트 검색으로 서로 다른 LLM 프로바이더에 맞게 프롬프트를 포맷",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ruvllm/skills/llm-config/SKILL.md": {
+    "en": "Configure RuVLLM local inference with model selection, MicroLoRA fine-tuning, and SONA adaptation",
+    "ko": "모델 선택, MicroLoRA 파인튜닝, SONA 적응으로 RuVLLM 로컬 추론을 설정",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rvf/agents/session-specialist.md": {
+    "en": "Session persistence specialist for state management, memory transfer, and cross-conversation continuity",
+    "ko": "상태 관리, 메모리 전송, 대화 간 연속성을 담당하는 세션 영속화 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rvf/commands/rvf.md": {
+    "en": "RVF memory management -- list entries, show stats, manage sessions",
+    "ko": "RVF 메모리 관리 -- 항목 목록 조회, 통계 표시, 세션 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rvf/skills/rvf-manage/SKILL.md": {
+    "en": "Manage RVF (Ruflo Vector Format) files for portable agent memory and cross-platform transfer",
+    "ko": "이식 가능한 에이전트 메모리와 플랫폼 간 전송을 위해 RVF(Ruflo Vector Format) 파일을 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-rvf/skills/session-persist/SKILL.md": {
+    "en": "Persist and restore agent sessions across conversations with state snapshots",
+    "ko": "상태 스냅샷으로 대화 간에 에이전트 세션을 영속화하고 복원",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-security-audit/agents/security-auditor.md": {
+    "en": "Specialized agent for security auditing and vulnerability remediation",
+    "ko": "보안 감사와 취약점 수정을 담당하는 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-security-audit/commands/audit.md": {
+    "en": "Run a security audit on the project",
+    "ko": "프로젝트에 대해 보안 감사를 실행",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-security-audit/skills/dependency-check/SKILL.md": {
+    "en": "Scan project dependencies for known vulnerabilities and CVEs. Use when auditing third-party packages, before releases, after `npm install`/lockfile changes, or when investigating reported CVE advisories.",
+    "ko": "프로젝트 의존성에서 알려진 취약점과 CVE를 스캔합니다. 서드파티 패키지를 감사할 때, 릴리스 전에, `npm install`/lockfile 변경 후, 보고된 CVE 권고를 조사할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-security-audit/skills/security-scan/SKILL.md": {
+    "en": "Run full security scans on the codebase using Ruflo security tools. Use when reviewing PRs for security regressions, auditing auth/input-handling code, before production deploys, or when the user asks for a security check at quick/standard/deep depth.",
+    "ko": "Ruflo 보안 도구로 코드베이스 전체 보안 스캔을 실행합니다. PR에서 보안 회귀를 리뷰할 때, 인증/입력 처리 코드를 감사할 때, 프로덕션 배포 전에, 사용자가 quick/standard/deep 깊이의 보안 점검을 요청할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-sparc/agents/sparc-orchestrator.md": {
+    "en": "Orchestrates the 5-phase SPARC methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with quality gates between each phase, spawning specialized agents per phase",
+    "ko": "단계마다 품질 게이트를 두고 단계별 전문 에이전트를 생성하며 5단계 SPARC 방법론(명세, 의사코드, 아키텍처, 개선, 완료)을 오케스트레이션",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-sparc/commands/ruflo-sparc.md": {
+    "en": "SPARC methodology commands — initialize, track, advance, and report on Specification-Pseudocode-Architecture-Refinement-Completion workflows",
+    "ko": "SPARC 방법론 명령 — Specification-Pseudocode-Architecture-Refinement-Completion 워크플로를 초기화, 추적, 진행, 보고",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-sparc/skills/sparc-implement/SKILL.md": {
+    "en": "Run the SPARC Pseudocode and Architecture phases (2 and 3) — write algorithm pseudocode, design module boundaries and API contracts, then implement",
+    "ko": "SPARC 의사코드 및 아키텍처 단계(2, 3단계)를 실행 — 알고리즘 의사코드를 작성하고, 모듈 경계와 API 계약을 설계한 뒤 구현",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-sparc/skills/sparc-refine/SKILL.md": {
+    "en": "Run the SPARC Refinement and Completion phases — review code, improve test coverage, validate against specification, and generate documentation",
+    "ko": "SPARC 개선 및 완료 단계를 실행 — 코드 리뷰, 테스트 커버리지 향상, 명세 대비 검증, 문서 생성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-sparc/skills/sparc-spec/SKILL.md": {
+    "en": "Run the SPARC Specification phase — gather requirements, define acceptance criteria, identify constraints, and store the spec in memory",
+    "ko": "SPARC 명세 단계를 실행 — 요구사항 수집, 인수 기준 정의, 제약 식별, 메모리에 명세 저장",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-swarm/agents/architect.md": {
+    "en": "System architect for designing implementation approaches, API contracts, and module boundaries",
+    "ko": "구현 접근 방식, API 계약, 모듈 경계를 설계하는 시스템 아키텍트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-swarm/agents/coordinator.md": {
+    "en": "Swarm coordinator that manages agent lifecycle, task assignment, and anti-drift enforcement",
+    "ko": "에이전트 수명 주기, 작업 배정, 드리프트 방지 강제를 관리하는 스웜 코디네이터",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-swarm/commands/swarm.md": {
+    "en": "Initialize, monitor, and manage multi-agent swarms",
+    "ko": "멀티 에이전트 스웜을 초기화, 모니터링, 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-swarm/commands/watch.md": {
+    "en": "Live-stream swarm events and agent activity in real time",
+    "ko": "스웜 이벤트와 에이전트 활동을 실시간으로 라이브 스트리밍",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-swarm/skills/monitor-stream/SKILL.md": {
+    "en": "Stream live swarm events using the Monitor tool for real-time observability",
+    "ko": "실시간(real-time) 관측을 위해 Monitor 도구로 라이브 스웜 이벤트를 스트리밍",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-swarm/skills/swarm-init/SKILL.md": {
+    "en": "Initialize a multi-agent swarm with anti-drift configuration. Use when starting a complex multi-file task that needs 3+ coordinated agents (feature implementation, refactor across modules, security audit). Skip for single-file edits or quick questions.",
+    "ko": "드리프트 방지 설정으로 멀티 에이전트 스웜을 초기화합니다. 3개 이상의 조율된 에이전트가 필요한 복잡한 다중 파일 작업(기능 구현, 모듈 간 리팩터링, 보안 감사)을 시작할 때 사용합니다. 단일 파일 편집이나 간단한 질문에는 사용하지 않습니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-testgen/agents/tester.md": {
+    "en": "Specialized testing agent -- writes comprehensive tests using TDD London School",
+    "ko": "테스트 전문 에이전트 -- TDD 런던 학파로 포괄적인 테스트를 작성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-testgen/commands/testgen.md": {
+    "en": "Generate tests for a file or module using coverage analysis and TDD patterns",
+    "ko": "커버리지 분석과 TDD 패턴으로 파일 또는 모듈의 테스트를 생성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-testgen/skills/tdd-repair/SKILL.md": {
+    "en": "Test-Driven Repair — given a failing test, spawn a bounded headless `claude -p` (Read/Edit/Bash only) that makes the test pass without modifying it. Modeled on agent-harness-generator's ADR-175 Test-Driven Repair mode. Bounded cost via --max-budget-usd, bounded capability via --allowedTools. Closes the loop the TDD plugins didn't — we generate tests, this fixes the code to satisfy them.",
+    "ko": "테스트 주도 수정(Test-Driven Repair) — 실패하는 테스트가 주어지면 테스트를 수정하지 않고 통과시키는, 범위가 제한된 헤드리스 `claude -p`(Read/Edit/Bash만)를 생성합니다. agent-harness-generator의 ADR-175 Test-Driven Repair 모드를 본뜬 것입니다. --max-budget-usd로 비용을, --allowedTools로 기능을 제한합니다. TDD 플러그인들이 닫지 못한 루프를 닫습니다 — 테스트는 생성하고, 이 스킬은 그 테스트를 만족하도록 코드를 고칩니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-testgen/skills/tdd-workflow/SKILL.md": {
+    "en": "TDD London School workflow -- mock-first, outside-in test development",
+    "ko": "TDD 런던 학파 워크플로 -- 목(mock) 우선, 아웃사이드인 테스트 개발",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-testgen/skills/test-gaps/SKILL.md": {
+    "en": "Detect missing test coverage and generate test suggestions. Use when the user asks about coverage gaps, untested code, or what tests to write next; also after adding a feature to find what still needs tests.",
+    "ko": "누락된 테스트 커버리지를 탐지하고 테스트 제안을 생성합니다. 사용자가 커버리지 공백, 테스트되지 않은 코드, 다음에 작성할 테스트를 물을 때 사용하며, 기능을 추가한 뒤 아직 테스트가 필요한 부분을 찾을 때도 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/agents/gaia-benchmark-runner.md": {
+    "en": "Specialized agent for executing GAIA benchmark runs, monitoring progress, and analyzing results",
+    "ko": "GAIA 벤치마크 실행, 진행 상황 모니터링, 결과 분석을 담당하는 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/agents/gaia-submission-coordinator.md": {
+    "en": "Specialized agent for packaging, signing, and coordinating HAL leaderboard submission of GAIA benchmark results",
+    "ko": "GAIA 벤치마크 결과의 HAL 리더보드 제출을 패키징, 서명, 조율하는 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/agents/workflow-specialist.md": {
+    "en": "Workflow automation specialist for creating, executing, and managing multi-step processes",
+    "ko": "다단계 프로세스를 생성, 실행, 관리하는 워크플로 자동화 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/gaia-cost.md": {
+    "en": "Report cumulative GAIA API spend and project cost for planned configurations",
+    "ko": "누적 GAIA API 지출을 보고하고 계획된 구성의 비용을 예측",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/gaia-history.md": {
+    "en": "Show measured benchmark runs stored across sessions in the gaia-runs memory namespace",
+    "ko": "gaia-runs 메모리 네임스페이스에 세션 간 저장된 실측 벤치마크 실행을 표시",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/gaia-leaderboard.md": {
+    "en": "Fetch and display current HAL GAIA leaderboard scores and our positioning",
+    "ko": "현재 HAL GAIA 리더보드 점수와 우리의 위치를 가져와 표시",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/gaia-run.md": {
+    "en": "Execute a GAIA benchmark run — shells out to gaia-bench run, streams progress, and writes JSON results",
+    "ko": "GAIA 벤치마크 실행 — gaia-bench run을 셸로 호출하고, 진행 상황을 스트리밍하며, JSON 결과를 기록",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/gaia-submit.md": {
+    "en": "Package GAIA results into an Ed25519-signed, HAL-compatible submission archive",
+    "ko": "GAIA 결과를 Ed25519 서명된 HAL 호환 제출 아카이브로 패키징",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/gaia-validate.md": {
+    "en": "Pre-submit validation — TypeScript clean, dataset accessible, all required env keys present",
+    "ko": "제출 전 검증 — TypeScript 오류 없음, 데이터셋 접근 가능, 필요한 환경 변수 키 모두 존재",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/gaia.md": {
+    "en": "GAIA benchmark dispatcher — run, submit, validate, and track leaderboard scores against the Princeton HAL benchmark",
+    "ko": "GAIA 벤치마크 디스패처 — Princeton HAL 벤치마크 대비 리더보드 점수를 실행, 제출, 검증, 추적",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/commands/workflow.md": {
+    "en": "Workflow management -- list MCP workflows + templates and native .claude/workflows/*.js scripts",
+    "ko": "워크플로 관리 -- MCP 워크플로와 템플릿, 네이티브 .claude/workflows/*.js 스크립트를 나열",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/skills/gaia-architecture-comparison/SKILL.md": {
+    "en": "Side-by-side comparison of ruflo vs HAL vs other GAIA harnesses — capability gaps, design decisions, and improvement roadmap",
+    "ko": "ruflo 대 HAL 대 다른 GAIA 하네스의 나란히 비교 — 기능 격차, 설계 결정, 개선 로드맵",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/skills/gaia-debugging/SKILL.md": {
+    "en": "Diagnose why a GAIA question failed — extract trace, classify failure mode, and propose a fix. Use when a GAIA benchmark run reports a failed/incorrect task_id and you need to root-cause it before resubmitting.",
+    "ko": "GAIA 질문이 실패한 이유를 진단 — 트레이스를 추출하고, 실패 모드를 분류하고, 수정안을 제안합니다. GAIA 벤치마크 실행이 실패/오답인 task_id를 보고했고 다시 제출하기 전에 근본 원인을 찾아야 할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/skills/gaia-submission/SKILL.md": {
+    "en": "Walk through a complete GAIA benchmark→submit flow — from key resolution through HAL-compatible package generation",
+    "ko": "키 확인부터 HAL 호환 패키지 생성까지 GAIA 벤치마크→제출 전체 흐름을 안내",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/skills/workflow-create/SKILL.md": {
+    "en": "Author a workflow — either an MCP workflow template (persisted, lifecycle) or a native .claude/workflows/*.js orchestration script (agent/parallel/pipeline fan-out)",
+    "ko": "워크플로를 작성 — MCP 워크플로 템플릿(영속, 수명 주기) 또는 네이티브 .claude/workflows/*.js 오케스트레이션 스크립트(agent/parallel/pipeline 팬아웃) 중 하나",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-workflows/skills/workflow-run/SKILL.md": {
+    "en": "Run a workflow — drive an MCP workflow lifecycle (execute/pause/resume/cancel) or invoke + resume a native .claude/workflows/*.js orchestration via the Workflow tool",
+    "ko": "워크플로를 실행 — MCP 워크플로 수명 주기(execute/pause/resume/cancel)를 구동하거나, Workflow 도구로 네이티브 .claude/workflows/*.js 오케스트레이션을 호출하고 재개",
+    "synth": false,
+    "style": "plain"
+  }
+}

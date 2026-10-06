@@ -1,0 +1,522 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/xruv.ts",
+  "entries": [
+    {
+      "key": "rd",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:13 text"
+      ]
+    },
+    {
+      "key": "ad",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:13 text"
+      ]
+    },
+    {
+      "key": "fetch",
+      "ko": "가져오기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:27 label",
+        "plugins/ruflo-console/hooks/views/xruv.ts:68 submitLabel"
+      ]
+    },
+    {
+      "key": "from the palette (p): {0} <{1}>",
+      "ko": "팔레트 (p)에서: {0} <{1}>",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:66 text()"
+      ]
+    },
+    {
+      "key": "from the palette (p): {0} <>",
+      "ko": "팔레트 (p)에서: {0} <>",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:66 text()"
+      ]
+    },
+    {
+      "key": "your own key · the file is never read",
+      "ko": "내 키 · 파일은 읽지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:76 rule()"
+      ]
+    },
+    {
+      "key": "present: ~/.ruflo/nostr.key (never read here)",
+      "ko": "있음: ~/.ruflo/nostr.key (여기서는 읽지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:80 const"
+      ]
+    },
+    {
+      "key": "nostr key",
+      "ko": "nostr 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:82 kv()"
+      ]
+    },
+    {
+      "key": "none yet: JOIN makes ~/.ruflo/nostr.key",
+      "ko": "아직 없음: JOIN이 ~/.ruflo/nostr.key를 만듭니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:82 kv()"
+      ]
+    },
+    {
+      "key": "pubkey",
+      "ko": "공개 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:83 kv()"
+      ]
+    },
+    {
+      "key": "n/a — named by the next JOIN, ACCEPT or PUBLISH result",
+      "ko": "해당 없음 — 다음 JOIN, ACCEPT 또는 PUBLISH 결과에 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:83 kv()"
+      ]
+    },
+    {
+      "key": "registration",
+      "ko": "등록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:84 kv()"
+      ]
+    },
+    {
+      "key": "n/a — open or closed is in the registry (▸ fetch below)",
+      "ko": "해당 없음 — 열림/닫힘은 레지스트리에 있습니다 (아래 ▸ 가져오기)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:84 kv()"
+      ]
+    },
+    {
+      "key": "open · {0} · JOIN checks membership first and registers only if needed",
+      "ko": "열림 · {0} · JOIN은 멤버십을 먼저 확인하고 필요할 때만 등록합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:84 kv()"
+      ]
+    },
+    {
+      "key": "open · JOIN checks membership first and registers only if needed",
+      "ko": "열림 · JOIN은 멤버십을 먼저 확인하고 필요할 때만 등록합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:84 kv()"
+      ]
+    },
+    {
+      "key": "closed · {0} · JOIN checks membership first and registers only if needed",
+      "ko": "닫힘 · {0} · JOIN은 멤버십을 먼저 확인하고 필요할 때만 등록합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:84 kv()"
+      ]
+    },
+    {
+      "key": "closed · JOIN checks membership first and registers only if needed",
+      "ko": "닫힘 · JOIN은 멤버십을 먼저 확인하고 필요할 때만 등록합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:84 kv()"
+      ]
+    },
+    {
+      "key": "invite code v2.… (optional, private): Enter asks to join with it",
+      "ko": "초대 코드 v2.… (선택, 비공개): Enter를 누르면 이 코드로 가입을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:88 field()"
+      ]
+    },
+    {
+      "key": "… {0} more: ▸ fetch shows them all below",
+      "ko": "… {0}개 더: ▸ 가져오기를 누르면 아래에 모두 표시합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:109 text()"
+      ]
+    },
+    {
+      "key": "Live",
+      "ko": "실시간(live)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:118 rule()"
+      ]
+    },
+    {
+      "key": "federationNetwork on · refreshed every few minutes",
+      "ko": "federationNetwork 켜짐 · 몇 분마다 새로고침",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:118 rule()"
+      ]
+    },
+    {
+      "key": "network off · ▸ fetch asks the relay once",
+      "ko": "네트워크 꺼짐 · ▸ 가져오기는 릴레이에 한 번 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:118 rule()"
+      ]
+    },
+    {
+      "key": "The registry and the swarm are on x.ruv.io. Turn on federationNetwork in /config (ruflo-console) to keep them live,",
+      "ko": "레지스트리와 스웜은 x.ruv.io에 있습니다. 실시간으로 유지하려면 /config (ruflo-console)에서 federationNetwork를 켜세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:121 text()"
+      ]
+    },
+    {
+      "key": "or press ▸ fetch: that one click asks once. Nothing on the network is asked unless you do one of these.",
+      "ko": "또는 ▸ 가져오기를 누르면 한 번만 요청합니다. 둘 중 하나를 하지 않으면 네트워크에는 아무것도 요청하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:122 text()"
+      ]
+    },
+    {
+      "key": "relay {0} · tag #{1} · gateway {2}…",
+      "ko": "릴레이 {0} · 태그 #{1} · 게이트웨이 {2}…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "relay {0} · tag #{1} · gateway n/a…",
+      "ko": "릴레이 {0} · 태그 #{1} · 게이트웨이 해당 없음…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "relay {0} · gateway {1}…",
+      "ko": "릴레이 {0} · 게이트웨이 {1}…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "relay {0} · gateway n/a…",
+      "ko": "릴레이 {0} · 게이트웨이 해당 없음…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "relay n/a · tag #{0} · gateway {1}…",
+      "ko": "릴레이 해당 없음 · 태그 #{0} · 게이트웨이 {1}…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "relay n/a · tag #{0} · gateway n/a…",
+      "ko": "릴레이 해당 없음 · 태그 #{0} · 게이트웨이 해당 없음…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "relay n/a · gateway {0}…",
+      "ko": "릴레이 해당 없음 · 게이트웨이 {0}…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "relay n/a · gateway n/a…",
+      "ko": "릴레이 해당 없음 · 게이트웨이 해당 없음…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:132 const"
+      ]
+    },
+    {
+      "key": "nobody announcing on {0} ({1})",
+      "ko": "{0}에서 공지하는 사람이 없습니다 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:137 const"
+      ]
+    },
+    {
+      "key": "nobody announcing on the relay ({0})",
+      "ko": "릴레이에서 공지하는 사람이 없습니다 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:137 const"
+      ]
+    },
+    {
+      "key": "{0} on · third-party text, not vetted · {1}",
+      "ko": "{0} 켜짐 · 제3자 텍스트, 검증되지 않음 · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:137 const"
+      ]
+    },
+    {
+      "key": "no open claims on the board",
+      "ko": "보드에 열린 클레임이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:142 const",
+        "plugins/ruflo-console/hooks/xruv.ts:159 push()"
+      ]
+    },
+    {
+      "key": "no swarm messages in the last hour",
+      "ko": "최근 1시간 동안 스웜 메시지가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:147 const"
+      ]
+    },
+    {
+      "key": "list is local · read, publish, grant reach the relay",
+      "ko": "목록은 로컬입니다 · read, publish, grant는 릴레이에 전달됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:160 rule()"
+      ]
+    },
+    {
+      "key": "read",
+      "ko": "읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:161 label"
+      ]
+    },
+    {
+      "key": "# {0} {1} private · {2}",
+      "ko": "# {0} {1} 비공개 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:165 label"
+      ]
+    },
+    {
+      "key": "# {0} {1} public  · {2}",
+      "ko": "# {0} {1} 공개  · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:165 label"
+      ]
+    },
+    {
+      "key": "no channel keys held here yet",
+      "ko": "여기에 보관된 채널 키가 아직 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:168 text()"
+      ]
+    },
+    {
+      "key": "{0} (or a name): Enter reads it",
+      "ko": "{0} (또는 이름): Enter를 누르면 읽습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:177 x-read"
+      ]
+    },
+    {
+      "key": "{0} Status: online — signed with your key, Enter asks",
+      "ko": "{0} Status: online — 내 키로 서명하며 Enter를 누르면 확인을 요청합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:178 x-publish"
+      ]
+    },
+    {
+      "key": "my-room public | my-room private — Enter asks",
+      "ko": "my-room public | my-room private — Enter를 누르면 확인을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:179 x-create"
+      ]
+    },
+    {
+      "key": "prv:<16 hex> <64-hex pubkey> — Enter asks",
+      "ko": "prv:<16 hex> <64-hex pubkey> — Enter를 누르면 확인을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:180 x-grant"
+      ]
+    },
+    {
+      "key": "Admin",
+      "ko": "관리자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:194 rule()"
+      ]
+    },
+    {
+      "key": "RUFLO_X_ADMIN_TOKEN is set · acts as the gateway · asks first",
+      "ko": "RUFLO_X_ADMIN_TOKEN 설정됨 · 게이트웨이로 동작 · 먼저 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:194 rule()"
+      ]
+    },
+    {
+      "key": "admin token: set it in the environment to enable",
+      "ko": "관리자 토큰: 활성화하려면 환경 변수에 설정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:194 rule()"
+      ]
+    },
+    {
+      "key": "Status: maintenance at 18:00 — signed as the gateway, Enter asks",
+      "ko": "Status: maintenance at 18:00 — 게이트웨이로 서명하며 Enter를 누르면 확인을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:198 field()"
+      ]
+    },
+    {
+      "key": "<64-hex pubkey> [member|admin] — no revoke tool, Enter asks",
+      "ko": "<64-hex pubkey> [member|admin] — 취소 도구 없음, Enter를 누르면 확인을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:198 field()"
+      ]
+    },
+    {
+      "key": "These sign as the x.ruv.io gateway: start Claude Code with RUFLO_X_ADMIN_TOKEN set to use them (it is never shown or passed as an argument).",
+      "ko": "이 동작은 x.ruv.io 게이트웨이로 서명합니다. 사용하려면 RUFLO_X_ADMIN_TOKEN을 설정한 상태로 Claude Code를 시작하세요 (토큰은 표시되거나 인자로 전달되지 않습니다).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:201 text()"
+      ]
+    },
+    {
+      "key": "AgentBBS",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:208 rule()"
+      ]
+    },
+    {
+      "key": "rooms · envelopes · pinned peers · federation_bbs_* tools",
+      "ko": "룸 · 엔벨로프 · 고정된 피어 · federation_bbs_* 도구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:208 rule()"
+      ]
+    },
+    {
+      "key": "#sales — Enter asks",
+      "ko": "#sales — Enter를 누르면 확인을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:210 x-bbs-register"
+      ]
+    },
+    {
+      "key": "<roomId> Status: build green — Enter asks",
+      "ko": "<roomId> Status: build green — Enter를 누르면 확인을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:211 x-bbs-publish"
+      ]
+    },
+    {
+      "key": "<roomId> 20 — Enter reads it",
+      "ko": "<roomId> 20 — Enter를 누르면 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:212 x-bbs-watch"
+      ]
+    },
+    {
+      "key": "<16-hex node id> http://100.x.y.z:7777 <64-hex key> — Enter asks",
+      "ko": "<16-hex node id> http://100.x.y.z:7777 <64-hex key> — Enter를 누르면 확인을 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:213 x-bbs-peer-add"
+      ]
+    },
+    {
+      "key": "<roomId> [nodeId] — Enter asks (network)",
+      "ko": "<roomId> [nodeId] — Enter를 누르면 확인을 요청합니다 (네트워크)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:214 x-bbs-sync"
+      ]
+    },
+    {
+      "key": "No join-as-human row: it mints a bearer token, which the console never shows. Use the terminal for it.",
+      "ko": "사람으로 가입하는 줄은 없습니다. 콘솔이 절대 표시하지 않는 베어러 토큰을 발급하기 때문입니다. 터미널을 사용하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:222 text()"
+      ]
+    },
+    {
+      "key": "fetch shows its answer here at once; a write shows here after you confirm (y)",
+      "ko": "가져오기는 응답을 바로 여기에 표시하고, 쓰기는 확인 (y) 후에 여기에 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:245 text()"
+      ]
+    },
+    {
+      "key": "Main menu",
+      "ko": "메인 메뉴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:281 rule()"
+      ]
+    },
+    {
+      "key": "rd reads at once · wr asks first (y) and says what it sends · ad signs as the gateway (admin token)",
+      "ko": "rd는 바로 읽고 · wr은 먼저 확인 (y)을 요청하며 전송 내용을 알려주고 · ad는 게이트웨이로 서명합니다 (관리자 토큰)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:282 text()"
+      ]
+    },
+    {
+      "key": "xruv",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/xruv.ts:292 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Advanced git workflows with branch management, conflict resolution, and PR lifecycle
+description: 브랜치 관리, 충돌 해결, PR 수명 주기를 포함한 고급 git 워크플로
 argument-hint: "<branch|pr|merge|rebase> [options]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__analyze_diff mcp__plugin_ruflo-core_ruflo__analyze_diff-risk mcp__plugin_ruflo-core_ruflo__analyze_diff-stats mcp__plugin_ruflo-core_ruflo__github_pr_manage mcp__plugin_ruflo-core_ruflo__github_repo_analyze mcp__plugin_ruflo-core_ruflo__github_metrics Bash
 ---

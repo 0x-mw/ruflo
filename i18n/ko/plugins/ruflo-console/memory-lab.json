@@ -1,0 +1,1121 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/memory-lab.ts",
+  "entries": [
+    {
+      "key": "Lab · memory",
+      "ko": "랩 · 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:45 title"
+      ]
+    },
+    {
+      "key": "stats, health, search, browse · $0 reads run at once",
+      "ko": "통계, 상태, 검색, 둘러보기 · $0 읽기는 바로 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:45 right"
+      ]
+    },
+    {
+      "key": "Lab · AgentDB",
+      "ko": "랩 · AgentDB",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:46 title"
+      ]
+    },
+    {
+      "key": "patterns, tiers, causal graph · reads at once, writes ask",
+      "ko": "패턴, 티어, 인과 그래프 · 읽기는 바로, 쓰기는 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:46 right"
+      ]
+    },
+    {
+      "key": "Lab · embeddings",
+      "ko": "랩 · 임베딩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:47 title"
+      ]
+    },
+    {
+      "key": "vectors and RaBitQ · may fetch the model once: asks",
+      "ko": "벡터와 RaBitQ · 모델을 한 번 가져올 수 있음: 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:47 right"
+      ]
+    },
+    {
+      "key": "Lab · maintain",
+      "ko": "랩 · 유지보수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:48 title"
+      ]
+    },
+    {
+      "key": "import, export, migrate, cleanup · each asks first",
+      "ko": "가져오기, 내보내기, 마이그레이션, 정리 · 모두 먼저 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:48 right"
+      ]
+    },
+    {
+      "key": "text: 1-300 printable characters, not starting with -",
+      "ko": "텍스트: 출력 가능한 문자 1-300자, -로 시작할 수 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:108 text"
+      ]
+    },
+    {
+      "key": "one node id: letters, digits, . _ : / @ -, no spaces",
+      "ko": "노드 id 하나: 문자, 숫자, . _ : / @ - 사용 가능, 공백 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:109 node"
+      ]
+    },
+    {
+      "key": "two texts split by |, e.g. jwt refresh | token rotation",
+      "ko": "| 로 나눈 텍스트 두 개, 예: jwt refresh | token rotation",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:110 pair"
+      ]
+    },
+    {
+      "key": "<source> <relation> <target>, e.g. auth-bug causes login-fail",
+      "ko": "<source> <relation> <target>, 예: auth-bug causes login-fail",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:111 edge"
+      ]
+    },
+    {
+      "key": "<namespace> <key>, e.g. auth jwt/refresh",
+      "ko": "<namespace> <key>, 예: auth jwt/refresh",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:112 entry"
+      ]
+    },
+    {
+      "key": "<namespace> <key> <value…> (value up to 2000 characters), e.g. notes alpha the quick brown fox",
+      "ko": "<namespace> <key> <value…> (값은 최대 2000자), 예: notes alpha the quick brown fox",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:113 kv"
+      ]
+    },
+    {
+      "key": "$0, but may download the all-MiniLM-L6-v2 model from Hugging Face the first time (network), then cached",
+      "ko": "$0, 다만 처음에는 Hugging Face에서 all-MiniLM-L6-v2 모델을 내려받을 수 있음 (네트워크), 이후 캐시됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:128 const"
+      ]
+    },
+    {
+      "key": "inspect",
+      "ko": "조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:133 group",
+        "plugins/ruflo-console/hooks/memory-lab.ts:134 group",
+        "plugins/ruflo-console/hooks/memory-lab.ts:135 group"
+      ]
+    },
+    {
+      "key": "entries, storage, oldest and newest, the unread store",
+      "ko": "항목, 저장 공간, 가장 오래된 항목과 최신 항목, 읽지 않은 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:133 about"
+      ]
+    },
+    {
+      "key": "memory stats: entries, storage, oldest and newest",
+      "ko": "memory stats: 항목, 저장 공간, 가장 오래된 항목과 최신 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:133 label"
+      ]
+    },
+    {
+      "key": "DETAILED",
+      "ko": "상세",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:134 name"
+      ]
+    },
+    {
+      "key": "entries per namespace, backend, index",
+      "ko": "네임스페이스별 항목, 백엔드, 인덱스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:134 about"
+      ]
+    },
+    {
+      "key": "memory detailed stats: per namespace and index",
+      "ko": "memory detailed stats: 네임스페이스별, 인덱스별",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:134 label"
+      ]
+    },
+    {
+      "key": "BRIDGE",
+      "ko": "브리지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:135 name"
+      ]
+    },
+    {
+      "key": "Claude Code memory files beside AgentDB entries",
+      "ko": "AgentDB 항목 옆에 놓은 Claude Code 메모리 파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:135 about"
+      ]
+    },
+    {
+      "key": "memory bridge status: Claude memories beside AgentDB",
+      "ko": "memory bridge status: AgentDB 옆의 Claude 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:135 label"
+      ]
+    },
+    {
+      "key": "HEALTH",
+      "ko": "상태 점검",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:136 name"
+      ]
+    },
+    {
+      "key": "AgentDB available, each controller on or off",
+      "ko": "AgentDB 사용 가능 여부와 컨트롤러별 켜짐/꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:136 about"
+      ]
+    },
+    {
+      "key": "AgentDB health: each controller on or off",
+      "ko": "AgentDB health: 컨트롤러별 켜짐/꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:136 label"
+      ]
+    },
+    {
+      "key": "CONTROLLERS",
+      "ko": "컨트롤러",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:137 name"
+      ]
+    },
+    {
+      "key": "the controller registry and their levels",
+      "ko": "컨트롤러 레지스트리와 수준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:137 about"
+      ]
+    },
+    {
+      "key": "AgentDB controllers: the registry and levels",
+      "ko": "AgentDB controllers: 레지스트리와 수준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:137 label"
+      ]
+    },
+    {
+      "key": "LIST",
+      "ko": "목록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:138 name",
+        "plugins/ruflo-console/hooks/sandbox.ts:55 name",
+        "plugins/ruflo-console/hooks/xruv.ts:273 name"
+      ]
+    },
+    {
+      "key": "the newest 50 entries (in the picked namespace)",
+      "ko": "최신 항목 50개 (선택한 네임스페이스 기준)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:138 about"
+      ]
+    },
+    {
+      "key": "memory list: the newest 50 entries",
+      "ko": "memory list: 최신 항목 50개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:138 label"
+      ]
+    },
+    {
+      "key": "semantic search of the memory store",
+      "ko": "메모리 저장소 시맨틱 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:139 about"
+      ]
+    },
+    {
+      "key": "memory search <query>: semantic search",
+      "ko": "memory search <query>: 시맨틱 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:139 label"
+      ]
+    },
+    {
+      "key": "UNIFIED",
+      "ko": "통합 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:140 name"
+      ]
+    },
+    {
+      "key": "one search over Claude memories, AgentDB and patterns",
+      "ko": "Claude 메모리, AgentDB, 패턴을 한 번에 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:140 about"
+      ]
+    },
+    {
+      "key": "unified search <query>: Claude + AgentDB + patterns",
+      "ko": "unified search <query>: Claude + AgentDB + 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:140 label"
+      ]
+    },
+    {
+      "key": "RETRIEVE",
+      "ko": "조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:141 name",
+        "plugins/ruflo-console/hooks/views/frames.ts:71 name"
+      ]
+    },
+    {
+      "key": "one entry’s whole value: <namespace> <key>",
+      "ko": "항목 하나의 전체 값: <namespace> <key>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:141 about"
+      ]
+    },
+    {
+      "key": "retrieve <namespace> <key>: one entry’s value",
+      "ko": "retrieve <namespace> <key>: 항목 하나의 값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:141 label"
+      ]
+    },
+    {
+      "key": "COMPRESS",
+      "ko": "압축",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:142 name"
+      ]
+    },
+    {
+      "key": "sizes before and after; this build rewrites nothing",
+      "ko": "압축 전후 크기; 이 빌드는 아무것도 다시 쓰지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:142 about"
+      ]
+    },
+    {
+      "key": "memory compress: the size report (rewrites nothing)",
+      "ko": "memory compress: 크기 보고서 (아무것도 다시 쓰지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:142 label"
+      ]
+    },
+    {
+      "key": "how many TTL-expired entries a cleanup would delete",
+      "ko": "정리하면 삭제될 TTL 만료 항목 수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:143 about"
+      ]
+    },
+    {
+      "key": "cleanup dry run: expired entries a cleanup would delete",
+      "ko": "cleanup dry run: 정리하면 삭제될 만료 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:143 label"
+      ]
+    },
+    {
+      "key": "PATTERN SEARCH",
+      "ko": "패턴 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:146 name"
+      ]
+    },
+    {
+      "key": "the ReasoningBank patterns nearest the text",
+      "ko": "텍스트와 가장 가까운 ReasoningBank 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:146 about"
+      ]
+    },
+    {
+      "key": "pattern search <text>: nearest ReasoningBank patterns",
+      "ko": "pattern search <text>: 가장 가까운 ReasoningBank 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:146 label"
+      ]
+    },
+    {
+      "key": "RECALL",
+      "ko": "회상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:147 name",
+        "plugins/ruflo-console/hooks/vector.ts:127 name"
+      ]
+    },
+    {
+      "key": "hierarchical recall across working/episodic/semantic",
+      "ko": "working/episodic/semantic 티어에 걸친 계층형 회상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:147 about"
+      ]
+    },
+    {
+      "key": "hierarchical recall <text>: across the three tiers",
+      "ko": "hierarchical recall <text>: 세 티어 전체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:147 label"
+      ]
+    },
+    {
+      "key": "GRAPH",
+      "ko": "그래프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:148 name"
+      ]
+    },
+    {
+      "key": "the causal graph two hops out from a node id",
+      "ko": "노드 id에서 두 단계 떨어진 인과 그래프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:148 about"
+      ]
+    },
+    {
+      "key": "graph query <node>: k-hop, depth 2",
+      "ko": "graph query <node>: k-hop, 깊이 2",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:148 label"
+      ]
+    },
+    {
+      "key": "SYNTHESIZE",
+      "ko": "종합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:149 name"
+      ]
+    },
+    {
+      "key": "a context brief assembled from the stored memories nearest the text",
+      "ko": "텍스트와 가장 가까운 저장된 메모리로 엮은 컨텍스트 요약",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:149 about"
+      ]
+    },
+    {
+      "key": "synthesize context <text>: a brief from the nearest memories",
+      "ko": "synthesize context <text>: 가장 가까운 메모리로 만든 요약",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:149 label"
+      ]
+    },
+    {
+      "key": "INTENT ROUTE",
+      "ko": "의도 라우팅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:150 name"
+      ]
+    },
+    {
+      "key": "which intent route the text falls under (AgentDB SemanticRouter)",
+      "ko": "텍스트가 속하는 의도 경로 (AgentDB SemanticRouter)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:150 about"
+      ]
+    },
+    {
+      "key": "intent route <text>: classify with the SemanticRouter",
+      "ko": "intent route <text>: SemanticRouter로 분류",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:150 label"
+      ]
+    },
+    {
+      "key": "PATHFINDER",
+      "ko": "경로 탐색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:151 name"
+      ]
+    },
+    {
+      "key": "ranked graph paths from a node toward a question (personalized PageRank)",
+      "ko": "노드에서 질문 방향으로 순위를 매긴 그래프 경로 (개인화 PageRank)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:151 about"
+      ]
+    },
+    {
+      "key": "pathfinder <node> | <question>: ranked paths, depth 3",
+      "ko": "pathfinder <node> | <question>: 순위별 경로, 깊이 3",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:151 label"
+      ]
+    },
+    {
+      "key": "PATTERN STORE",
+      "ko": "패턴 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:152 name"
+      ]
+    },
+    {
+      "key": "save the text as a ReasoningBank pattern",
+      "ko": "텍스트를 ReasoningBank 패턴으로 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:152 about"
+      ]
+    },
+    {
+      "key": "pattern store <text>: save a ReasoningBank pattern",
+      "ko": "pattern store <text>: ReasoningBank 패턴 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:152 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes one pattern to AgentDB",
+      "ko": "$0, 로컬: AgentDB에 패턴 하나를 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:152 note"
+      ]
+    },
+    {
+      "key": "TIER STORE",
+      "ko": "티어 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:153 name"
+      ]
+    },
+    {
+      "key": "the store fields into the working tier",
+      "ko": "저장 필드를 작업 티어에 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:153 about"
+      ]
+    },
+    {
+      "key": "hierarchical store <namespace> <key> <value>: working tier",
+      "ko": "hierarchical store <namespace> <key> <value>: 작업 티어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:153 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes one entry to the working tier (the namespace is not used by this tool)",
+      "ko": "$0, 로컬: 작업 티어에 항목 하나를 기록 (이 도구는 네임스페이스를 쓰지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:153 note"
+      ]
+    },
+    {
+      "key": "CAUSAL EDGE",
+      "ko": "인과 엣지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:154 name"
+      ]
+    },
+    {
+      "key": "link two nodes: <source> <relation> <target>",
+      "ko": "두 노드 연결: <source> <relation> <target>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:154 about"
+      ]
+    },
+    {
+      "key": "causal edge <source> <relation> <target>: link two nodes",
+      "ko": "causal edge <source> <relation> <target>: 두 노드 연결",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:154 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes one edge to the AgentDB causal graph",
+      "ko": "$0, 로컬: AgentDB 인과 그래프에 엣지 하나를 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:154 note"
+      ]
+    },
+    {
+      "key": "CONSOLIDATE",
+      "ko": "병합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:155 name",
+        "plugins/ruflo-console/hooks/views/frames.ts:74 name"
+      ]
+    },
+    {
+      "key": "merge and promote memories across tiers",
+      "ko": "티어 사이에서 메모리를 병합하고 승격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:155 about"
+      ]
+    },
+    {
+      "key": "AgentDB consolidate: merge and promote across tiers",
+      "ko": "AgentDB consolidate: 티어 사이 병합 및 승격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:155 label"
+      ]
+    },
+    {
+      "key": "$0, local: may merge, promote or prune stored memories (answers unsupported when the controller is a stub)",
+      "ko": "$0, 로컬: 저장된 메모리를 병합, 승격 또는 정리할 수 있음 (컨트롤러가 스텁이면 지원 안 함으로 응답)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:155 note"
+      ]
+    },
+    {
+      "key": "embeddings",
+      "ko": "임베딩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:158 group",
+        "plugins/ruflo-console/hooks/memory-lab.ts:159 group",
+        "plugins/ruflo-console/hooks/memory-lab.ts:160 group"
+      ]
+    },
+    {
+      "key": "model, dimensions, cache; embeds a probe text",
+      "ko": "모델, 차원, 캐시; 확인용 텍스트를 임베딩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:158 about"
+      ]
+    },
+    {
+      "key": "embeddings status: model, dimensions, cache",
+      "ko": "embeddings status: 모델, 차원, 캐시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:158 label"
+      ]
+    },
+    {
+      "key": "GENERATE",
+      "ko": "생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:159 name",
+        "plugins/ruflo-console/hooks/vector.ts:136 name"
+      ]
+    },
+    {
+      "key": "the vector for the text: dimensions and head",
+      "ko": "텍스트의 벡터: 차원과 앞부분",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:159 about"
+      ]
+    },
+    {
+      "key": "embed <text>: generate its vector",
+      "ko": "embed <text>: 벡터 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:159 label"
+      ]
+    },
+    {
+      "key": "COMPARE",
+      "ko": "비교",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:160 name"
+      ]
+    },
+    {
+      "key": "cosine similarity of two texts: a | b",
+      "ko": "두 텍스트의 코사인 유사도: a | b",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:160 about"
+      ]
+    },
+    {
+      "key": "compare <a> | <b>: cosine similarity",
+      "ko": "compare <a> | <b>: 코사인 유사도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:160 label"
+      ]
+    },
+    {
+      "key": "VECTOR SEARCH",
+      "ko": "벡터 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:161 name"
+      ]
+    },
+    {
+      "key": "nearest stored vectors to the text",
+      "ko": "텍스트와 가장 가까운 저장 벡터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:161 about"
+      ]
+    },
+    {
+      "key": "vector search <text>: nearest stored vectors",
+      "ko": "vector search <text>: 가장 가까운 저장 벡터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:161 label"
+      ]
+    },
+    {
+      "key": "RABITQ STATUS",
+      "ko": "RABITQ 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:162 name"
+      ]
+    },
+    {
+      "key": "is the 1-bit index built, its size and ratio",
+      "ko": "1비트 인덱스 빌드 여부, 크기와 비율",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:162 about"
+      ]
+    },
+    {
+      "key": "RaBitQ status: built, vectors, compression",
+      "ko": "RaBitQ status: 빌드 여부, 벡터, 압축률",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:162 label"
+      ]
+    },
+    {
+      "key": "RABITQ SEARCH",
+      "ko": "RABITQ 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:163 name"
+      ]
+    },
+    {
+      "key": "the 1-bit index’s nearest entries to the text",
+      "ko": "1비트 인덱스에서 텍스트와 가장 가까운 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:163 about"
+      ]
+    },
+    {
+      "key": "RaBitQ search <text>: nearest in the 1-bit index",
+      "ko": "RaBitQ search <text>: 1비트 인덱스에서 가장 가까운 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:163 label"
+      ]
+    },
+    {
+      "key": "RABITQ BUILD",
+      "ko": "RABITQ 빌드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:164 name"
+      ]
+    },
+    {
+      "key": "quantize the stored vectors into the 1-bit index",
+      "ko": "저장 벡터를 1비트 인덱스로 양자화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:164 about"
+      ]
+    },
+    {
+      "key": "RaBitQ build: quantize the stored vectors",
+      "ko": "RaBitQ build: 저장 벡터 양자화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:164 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes .swarm/rabitq.meta.json; the index itself stays in memory",
+      "ko": "$0, 로컬: .swarm/rabitq.meta.json 을 기록; 인덱스 자체는 메모리에 유지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:164 note"
+      ]
+    },
+    {
+      "key": "INIT",
+      "ko": "초기화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:165 name"
+      ]
+    },
+    {
+      "key": "write the embeddings config (MiniLM, hyperbolic)",
+      "ko": "임베딩 설정을 기록 (MiniLM, hyperbolic)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:165 about"
+      ]
+    },
+    {
+      "key": "embeddings init: write .claude-flow/embeddings.json",
+      "ko": "embeddings init: .claude-flow/embeddings.json 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:165 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes .claude-flow/embeddings.json and .claude-flow/models/; refuses if a config exists",
+      "ko": "$0, 로컬: .claude-flow/embeddings.json 과 .claude-flow/models/ 를 기록; 설정이 이미 있으면 거부",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:165 note"
+      ]
+    },
+    {
+      "key": "maintain",
+      "ko": "유지보수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:168 group",
+        "plugins/ruflo-console/hooks/memory-lab.ts:169 group",
+        "plugins/ruflo-console/hooks/memory-lab.ts:170 group"
+      ]
+    },
+    {
+      "key": "STORE",
+      "ko": "저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:168 name"
+      ]
+    },
+    {
+      "key": "the store fields: <namespace> <key> <value>",
+      "ko": "저장 필드: <namespace> <key> <value>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:168 about"
+      ]
+    },
+    {
+      "key": "store <namespace> <key> <value>: save one entry",
+      "ko": "store <namespace> <key> <value>: 항목 하나 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:168 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes (or replaces) one entry and its embedding; r re-lists the browse list",
+      "ko": "$0, 로컬: 항목 하나와 그 임베딩을 기록(또는 교체); r 로 둘러보기 목록을 다시 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:168 note"
+      ]
+    },
+    {
+      "key": "IMPORT CLAUDE",
+      "ko": "CLAUDE 가져오기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:169 name"
+      ]
+    },
+    {
+      "key": "this project’s Claude Code memories into AgentDB",
+      "ko": "이 프로젝트의 Claude Code 메모리를 AgentDB로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:169 about"
+      ]
+    },
+    {
+      "key": "import Claude memories: this project into AgentDB",
+      "ko": "import Claude memories: 이 프로젝트를 AgentDB로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:169 label"
+      ]
+    },
+    {
+      "key": "$0, local: reads this project’s ~/.claude/projects/<hash>/memory/*.md, writes one entry per section to namespace claude-memories",
+      "ko": "$0, 로컬: 이 프로젝트의 ~/.claude/projects/<hash>/memory/*.md 를 읽어 섹션마다 항목 하나를 네임스페이스 claude-memories 에 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:169 note"
+      ]
+    },
+    {
+      "key": "IMPORT ALL",
+      "ko": "전체 가져오기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:170 name"
+      ]
+    },
+    {
+      "key": "every project’s Claude Code memories into AgentDB",
+      "ko": "모든 프로젝트의 Claude Code 메모리를 AgentDB로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:170 about"
+      ]
+    },
+    {
+      "key": "import Claude memories from every project",
+      "ko": "import Claude memories: 모든 프로젝트에서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:170 label"
+      ]
+    },
+    {
+      "key": "$0, local: reads every ~/.claude/projects/*/memory/*.md, writes one entry per section to namespace claude-memories",
+      "ko": "$0, 로컬: 모든 ~/.claude/projects/*/memory/*.md 를 읽어 섹션마다 항목 하나를 네임스페이스 claude-memories 에 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:170 note"
+      ]
+    },
+    {
+      "key": "EXPORT",
+      "ko": "내보내기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:171 name"
+      ]
+    },
+    {
+      "key": "every entry as JSON to {0}",
+      "ko": "모든 항목을 JSON으로 내보내기: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:171 about"
+      ]
+    },
+    {
+      "key": "memory export: every entry to {0}",
+      "ko": "memory export: 모든 항목을 {0} 로",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:171 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes (overwrites) {0}",
+      "ko": "$0, 로컬: {0} 을 기록(덮어쓰기)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:171 note"
+      ]
+    },
+    {
+      "key": "the legacy JSON store into the sql.js store, once",
+      "ko": "기존 JSON 저장소를 sql.js 저장소로 한 번 가져오기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:172 about"
+      ]
+    },
+    {
+      "key": "memory migrate: the legacy JSON store into sql.js",
+      "ko": "memory migrate: 기존 JSON 저장소를 sql.js 로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:172 label"
+      ]
+    },
+    {
+      "key": "$0, local: imports the legacy JSON store once; a marker file stops a second run",
+      "ko": "$0, 로컬: 기존 JSON 저장소를 한 번 가져옴; 표식 파일이 두 번째 실행을 막음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:172 note"
+      ]
+    },
+    {
+      "key": "DELETE",
+      "ko": "삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:173 name",
+        "plugins/ruflo-console/hooks/vector.ts:85 name",
+        "plugins/ruflo-console/hooks/vector.ts:96 name"
+      ]
+    },
+    {
+      "key": "one entry for good: <namespace> <key>",
+      "ko": "항목 하나를 완전히 삭제: <namespace> <key>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:173 about"
+      ]
+    },
+    {
+      "key": "delete <namespace> <key>: remove one entry for good",
+      "ko": "delete <namespace> <key>: 항목 하나를 완전히 제거",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:173 label"
+      ]
+    },
+    {
+      "key": "DELETES FOR GOOD: the entry and its AgentDB mirror; there is no undo",
+      "ko": "완전히 삭제합니다: 항목과 AgentDB 사본이 사라지며 되돌릴 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:173 note"
+      ]
+    },
+    {
+      "key": "delete every entry whose TTL has expired",
+      "ko": "TTL이 만료된 모든 항목을 삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:174 about"
+      ]
+    },
+    {
+      "key": "memory cleanup: delete every TTL-expired entry",
+      "ko": "memory cleanup: TTL 만료 항목을 모두 삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:174 label"
+      ]
+    },
+    {
+      "key": "DELETES FOR GOOD: every entry whose TTL has expired; run CLEANUP PLAN first to see how many",
+      "ko": "완전히 삭제합니다: TTL이 만료된 모든 항목; 먼저 정리 계획을 실행해 개수를 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:174 note"
+      ]
+    },
+    {
+      "key": "its output in the lab",
+      "ko": "랩에 출력 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:193 expect",
+        "plugins/ruflo-console/hooks/mh-lab.ts:96 expect"
+      ]
+    },
+    {
+      "key": "its result in the lab; {0}",
+      "ko": "랩에 결과 표시; {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:193 expect",
+        "plugins/ruflo-console/hooks/mh-lab.ts:96 expect"
+      ]
+    },
+    {
+      "key": "its result in the lab",
+      "ko": "랩에 결과 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:193 expect",
+        "plugins/ruflo-console/hooks/mh-lab.ts:96 expect"
+      ]
+    },
+    {
+      "key": "cannot run now",
+      "ko": "지금은 실행할 수 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lab.ts:210 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

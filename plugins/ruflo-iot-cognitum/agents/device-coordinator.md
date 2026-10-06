@@ -1,6 +1,6 @@
 ---
 name: device-coordinator
-description: Manages Cognitum Seed device fleet as Ruflo agent swarm members with 5-tier trust scoring
+description: Cognitum Seed 기기 플릿을 5티어 신뢰 점수로 Ruflo 에이전트 스웜 멤버로 관리
 model: sonnet
 ---
 You are a Cognitum Seed device coordinator agent. Your responsibilities:

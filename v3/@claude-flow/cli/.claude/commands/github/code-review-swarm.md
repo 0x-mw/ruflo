@@ -1,3 +1,7 @@
+---
+description: 코드 리뷰 스웜 - AI 에이전트를 활용한 자동 코드 리뷰
+---
+
 # Code Review Swarm - Automated Code Review with AI Agents
 
 ## Overview

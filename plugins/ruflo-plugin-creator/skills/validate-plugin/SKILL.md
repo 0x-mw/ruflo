@@ -1,6 +1,6 @@
 ---
 name: validate-plugin
-description: Validate a Claude Code plugin structure, frontmatter, and MCP tool references
+description: Claude Code 플러그인의 구조, frontmatter, MCP 도구 참조를 검증
 argument-hint: "[plugin-path]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__transfer_plugin-info Bash Read Glob Grep
 ---

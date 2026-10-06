@@ -1,6 +1,6 @@
 ---
 name: "ml-developer"
-description: "ML developer with self-learning hyperparameter optimization and pattern recognition"
+description: "자가 학습 하이퍼파라미터 최적화와 패턴 인식을 갖춘 ML 개발자"
 color: "purple"
 type: "data"
 version: "2.0.0-alpha"

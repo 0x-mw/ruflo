@@ -1,6 +1,6 @@
 {
   "name": "ruflo-testgen",
-  "description": "Test gap detection, coverage analysis, and automated test generation — drives the testgaps background worker via hooks_worker-dispatch; SPARC Refinement-phase canonical owner",
+  "description": "테스트 공백 탐지, 커버리지 분석, 자동 테스트 생성 — hooks_worker-dispatch를 통해 testgaps 백그라운드 워커를 구동하며, SPARC 개선 단계의 표준 담당",
   "version": "0.3.1",
   "author": {
     "name": "ruvnet",

@@ -1,0 +1,189 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/bar.ts",
+  "entries": [
+    {
+      "key": "+{0} more working",
+      "ko": "+{0}개 더 작업 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:70 text"
+      ]
+    },
+    {
+      "key": "{0}/{1} paused (1)",
+      "ko": "{0}/{1} 일시 중지 (1)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:93 text"
+      ]
+    },
+    {
+      "key": "{0} to approve (q)",
+      "ko": "승인 대기 {0} (q)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:104 text"
+      ]
+    },
+    {
+      "key": "{0} alerts",
+      "ko": "경고 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:105 text",
+        "plugins/ruflo-console/hooks/views/overview.ts:94 rule()"
+      ]
+    },
+    {
+      "key": "Claude working{0}",
+      "ko": "Claude 작업 중{0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:113 text"
+      ]
+    },
+    {
+      "key": "{0} answering{1}",
+      "ko": "{0} 응답 중{1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:117 text"
+      ]
+    },
+    {
+      "key": "idle · {0} agent ready",
+      "ko": "유휴 · 에이전트 {0}개 준비됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:128 text"
+      ]
+    },
+    {
+      "key": "idle · {0} agents ready",
+      "ko": "유휴 · 에이전트 {0}개 준비됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:128 text"
+      ]
+    },
+    {
+      "key": "swarm, no agents",
+      "ko": "스웜, 에이전트 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:128 text"
+      ]
+    },
+    {
+      "key": "{0} tool calls, {1}m",
+      "ko": "도구 호출 {0}회, {1}분",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:137 text"
+      ]
+    },
+    {
+      "key": "{0} claim ({1} stealable)",
+      "ko": "클레임 {0}건 (가로채기 가능 {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:144 text"
+      ]
+    },
+    {
+      "key": "{0} claims ({1} stealable)",
+      "ko": "클레임 {0}건 (가로채기 가능 {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:144 text"
+      ]
+    },
+    {
+      "key": "{0} this session",
+      "ko": "이번 세션 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:147 text"
+      ]
+    },
+    {
+      "key": "ctx {0}% · /compact soon",
+      "ko": "ctx {0}% · 곧 /compact",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:153 text"
+      ]
+    },
+    {
+      "key": "{0} high or critical",
+      "ko": "높음·치명 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:159 text"
+      ]
+    },
+    {
+      "key": "{0} available",
+      "ko": "사용 가능 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:160 text"
+      ]
+    },
+    {
+      "key": "#1c1c1c",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:175 ground"
+      ]
+    },
+    {
+      "key": "#5f5faf",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:175 border"
+      ]
+    },
+    {
+      "key": "#d0d0d0",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:175 text",
+        "plugins/ruflo-console/hooks/views/menu.ts:103 const"
+      ]
+    },
+    {
+      "key": "Menu",
+      "ko": "메뉴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:184 label",
+        "plugins/ruflo-console/hooks/views/nav.ts:42 expr"
+      ]
+    },
+    {
+      "key": "open console",
+      "ko": "콘솔 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:250 label"
+      ]
+    },
+    {
+      "key": "view",
+      "ko": "보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/bar.ts:274 label",
+        "plugins/ruflo-console/hooks/views/memory.ts:118 label",
+        "plugins/ruflo-console/hooks/views/skills.ts:46 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

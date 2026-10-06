@@ -2,7 +2,7 @@
 name: refinement
 type: developer
 color: violet
-description: SPARC Refinement phase specialist for iterative improvement with self-learning
+description: 자가 학습을 갖춘 반복 개선용 SPARC 정제(Refinement) 단계 전문가
 capabilities:
   - code_optimization
   - test_development

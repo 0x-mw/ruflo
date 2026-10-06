@@ -1,7 +1,7 @@
 {
   "name": "ruflo-arena",
   "version": "0.2.3",
-  "description": "Competitive ruliology for Ruflo swarms — arenas, tournaments, and adaptive co-evolution of program strategies (ADR-147/148). Strategies-as-programs compete under payoff games; tournaments produce Wolfram-style competitive arrays; hill-climb and mutual co-evolution discover winners empirically.",
+  "description": "Ruflo 스웜을 위한 경쟁적 룰리올로지 — 아레나, 토너먼트, 프로그램 전략의 적응형 공진화(ADR-147/148). 프로그램으로 표현된 전략이 보상 게임에서 경쟁하며, 토너먼트는 울프럼 방식의 경쟁 배열을 만들고, 힐 클라이밍과 상호 공진화로 승자를 경험적으로 찾아냅니다.",
   "author": {
     "name": "ruvnet",
     "url": "https://github.com/ruvnet"

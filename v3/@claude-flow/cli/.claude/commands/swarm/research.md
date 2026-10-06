@@ -1,3 +1,7 @@
+---
+description: 연구 스웜 전략
+---
+
 # Research Swarm Strategy
 
 ## Purpose

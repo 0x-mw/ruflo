@@ -1,6 +1,6 @@
 ---
 name: agntcy-status
-description: Show AGNTCY/SLIM/CASA integration status — whether upstream AGNTCY packages are installed, which transport (local vs SLIM) is active, and whether CASA enforcement is enabled. Use when the user asks "is AGNTCY configured?", "show SLIM/CASA status", or "is AGNTCY/IOC integration active?".
+description: AGNTCY/SLIM/CASA 통합 상태를 보여 줍니다 — 업스트림 AGNTCY 패키지가 설치되어 있는지, 어떤 전송(로컬 또는 SLIM)이 활성인지, CASA 강제가 켜져 있는지. 사용자가 "AGNTCY 설정돼 있어?"("is AGNTCY configured?"), "SLIM/CASA 상태 보여 줘"("show SLIM/CASA status"), "AGNTCY/IOC 통합이 활성이야?"("is AGNTCY/IOC integration active?")라고 물을 때 사용합니다.
 allowed-tools: Read
 argument-hint: ""
 ---

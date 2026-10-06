@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-cost.ts",
+  "entries": [
+    {
+      "key": "no price",
+      "ko": "가격 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-cost.ts:270 return"
+      ]
+    },
+    {
+      "key": "≥{0} + unpriced",
+      "ko": "≥{0} + 가격 미확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-cost.ts:273 return"
+      ]
+    },
+    {
+      "key": "≈{0} + unpriced",
+      "ko": "≈{0} + 가격 미확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-cost.ts:273 return"
+      ]
+    },
+    {
+      "key": "{0} + unpriced",
+      "ko": "{0} + 가격 미확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-cost.ts:273 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

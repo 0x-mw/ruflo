@@ -1,0 +1,25 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/charts.ts",
+  "entries": [
+    {
+      "key": "no budget set",
+      "ko": "설정된 예산 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/charts.ts:154 const",
+        "plugins/ruflo-console/hooks/views/cost.ts:64 picture()"
+      ]
+    },
+    {
+      "key": "limit ${0} · spend n/a",
+      "ko": "한도 ${0} · 지출 해당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/charts.ts:154 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

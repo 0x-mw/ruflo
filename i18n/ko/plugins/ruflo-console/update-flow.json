@@ -1,0 +1,176 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/update-flow.ts",
+  "entries": [
+    {
+      "key": "{0} is not installed from the ruflo marketplace here (a session loaded with --plugin-dir has nothing to update)",
+      "ko": "{0}은(는) 여기서 ruflo 마켓플레이스로 설치되지 않았습니다 (--plugin-dir로 불러온 세션은 업데이트할 것이 없습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:99 detail"
+      ]
+    },
+    {
+      "key": "the marketplace did not update: {0}",
+      "ko": "마켓플레이스를 업데이트하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:103 detail"
+      ]
+    },
+    {
+      "key": "the marketplace did not update: no answer",
+      "ko": "마켓플레이스를 업데이트하지 못했습니다: 응답이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:103 detail"
+      ]
+    },
+    {
+      "key": "Claude Code wants you to confirm this update itself: run `{0}` in a terminal",
+      "ko": "Claude Code가 이 업데이트를 직접 확인받길 원합니다. 터미널에서 `{0}`을(를) 실행하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:115 detail"
+      ]
+    },
+    {
+      "key": "{0} installed: restart Claude Code, or run /reload-plugins, to load it",
+      "ko": "{0} 설치했습니다. 적용하려면 Claude Code를 다시 시작하거나 /reload-plugins를 실행하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:125 detail"
+      ]
+    },
+    {
+      "key": "the update ran, but Claude Code lists {0} (expected {1}): check /plugin, then restart",
+      "ko": "업데이트를 실행했지만 Claude Code에는 {0}이(가) 표시됩니다 (예상: {1}). /plugin을 확인한 뒤 다시 시작하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:128 detail"
+      ]
+    },
+    {
+      "key": "the update ran, but Claude Code lists no version (expected {0}): check /plugin, then restart",
+      "ko": "업데이트를 실행했지만 Claude Code에 버전이 표시되지 않습니다 (예상: {0}). /plugin을 확인한 뒤 다시 시작하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:128 detail"
+      ]
+    },
+    {
+      "key": "nobody to ask (not an interactive session)",
+      "ko": "물어볼 대상이 없습니다 (대화형 세션이 아닙니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:144 skipped()"
+      ]
+    },
+    {
+      "key": "update checks are off",
+      "ko": "업데이트 확인이 꺼져 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:145 skipped()"
+      ]
+    },
+    {
+      "key": "this session runs a development checkout, which updates with git",
+      "ko": "이 세션은 개발용 체크아웃을 실행 중이며, git으로 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:146 skipped()"
+      ]
+    },
+    {
+      "key": "checked in the last day",
+      "ko": "최근 하루 안에 확인했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:150 skipped()"
+      ]
+    },
+    {
+      "key": "another session is updating",
+      "ko": "다른 세션이 업데이트 중입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:151 skipped()"
+      ]
+    },
+    {
+      "key": "could not reach GitHub",
+      "ko": "GitHub에 연결하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:155 detail"
+      ]
+    },
+    {
+      "key": "GitHub answered {0}",
+      "ko": "GitHub 응답: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:155 detail"
+      ]
+    },
+    {
+      "key": "the published manifest is not one of ours",
+      "ko": "게시된 매니페스트가 우리 것이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:159 detail"
+      ]
+    },
+    {
+      "key": "{0} is the newest published",
+      "ko": "{0}이(가) 게시된 최신 버전입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:166 detail"
+      ]
+    },
+    {
+      "key": "{0} is installed: restart Claude Code to load it",
+      "ko": "{0}이(가) 설치되었습니다. 적용하려면 Claude Code를 다시 시작하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:167 skipped()"
+      ]
+    },
+    {
+      "key": "{0} is available; Settings → Updates installs it",
+      "ko": "{0}을(를) 사용할 수 있습니다. 설정 → 업데이트에서 설치합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:175 detail"
+      ]
+    },
+    {
+      "key": "{0} is available; not now",
+      "ko": "{0}을(를) 사용할 수 있습니다. 지금은 건너뜁니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:186 detail"
+      ]
+    },
+    {
+      "key": "Updating ruflo-console to {0}…",
+      "ko": "ruflo-console을 {0}(으)로 업데이트하는 중…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:188 toast()"
+      ]
+    },
+    {
+      "key": "the check failed",
+      "ko": "확인하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/update-flow.ts:197 detail"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,3 +1,7 @@
+---
+description: SPARC 배치 실행기 모드
+---
+
 # SPARC Batch Executor Mode
 
 ## Purpose

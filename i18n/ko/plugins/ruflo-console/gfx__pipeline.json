@@ -1,0 +1,74 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/pipeline.ts",
+  "entries": [
+    {
+      "key": "the classic hook-handler routes; ruflo-mods stands down",
+      "ko": "기존 훅 핸들러가 라우팅하며 ruflo-mods는 물러납니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:63 text"
+      ]
+    },
+    {
+      "key": "no route recorded yet",
+      "ko": "기록된 경로가 아직 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:80 text()"
+      ]
+    },
+    {
+      "key": "n/a",
+      "ko": "해당 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:91 text()",
+        "plugins/ruflo-console/hooks/views/agent.ts:30 kv()",
+        "plugins/ruflo-console/hooks/views/cost.ts:49 kv()"
+      ]
+    },
+    {
+      "key": "a prior, not a calibrated probability · from your route query {0}",
+      "ko": "보정된 확률이 아닌 사전값 · 라우팅 질의 {0} 기준",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:96 const"
+      ]
+    },
+    {
+      "key": "a prior, not a calibrated probability · from your route query",
+      "ko": "보정된 확률이 아닌 사전값 · 라우팅 질의 기준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:96 const"
+      ]
+    },
+    {
+      "key": "keyword match · only the winner is stored; runners-up need a route query",
+      "ko": "키워드 일치 · 우승 후보만 저장됨. 차순위는 라우팅 질의가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:98 const"
+      ]
+    },
+    {
+      "key": "no match, default · only the winner is stored; runners-up need a route query",
+      "ko": "일치 없음, 기본값 · 우승 후보만 저장됨. 차순위는 라우팅 질의가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:98 const"
+      ]
+    },
+    {
+      "key": "run a route query in the Learning Lab to see candidates",
+      "ko": "학습 랩에서 라우팅 질의를 실행하면 후보를 볼 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pipeline.ts:99 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

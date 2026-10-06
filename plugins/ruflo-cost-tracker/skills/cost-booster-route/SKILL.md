@@ -1,6 +1,6 @@
 ---
 name: cost-booster-route
-description: Route tasks through hooks_route, partition by Agent Booster availability, and report Tier 1 bypass utilization with $0 cost
+description: hooks_route로 작업을 라우팅하고, Agent Booster 사용 가능 여부로 나눠, $0 비용으로 Tier 1 우회 활용률을 보고
 argument-hint: "[--from-recent] | <task-description>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__hooks_route mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list Bash
 ---

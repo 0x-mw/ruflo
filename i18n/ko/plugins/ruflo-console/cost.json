@@ -1,0 +1,112 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/cost.ts",
+  "entries": [
+    {
+      "key": "set costBudgetUsd in /config → ruflo-mods; restart/reload may be needed",
+      "ko": "/config → ruflo-mods에서 costBudgetUsd를 설정하세요. 재시작/리로드가 필요할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:7 const"
+      ]
+    },
+    {
+      "key": "INFO",
+      "ko": "정보",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:20 expr"
+      ]
+    },
+    {
+      "key": "WARNING",
+      "ko": "주의",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:20 expr"
+      ]
+    },
+    {
+      "key": "CRITICAL",
+      "ko": "치명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:20 expr"
+      ]
+    },
+    {
+      "key": "HARD_STOP",
+      "ko": "HARD_STOP(강제 중지)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:20 expr"
+      ]
+    },
+    {
+      "key": "budget must be a number from 0.01 to 10000 USD",
+      "ko": "예산은 0.01~10000 USD 범위의 숫자여야 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:50 expr"
+      ]
+    },
+    {
+      "key": "budget setter unavailable; {0}",
+      "ko": "예산 설정기를 사용할 수 없습니다. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:50 expr"
+      ]
+    },
+    {
+      "key": "budget setter unavailable — open Cost to check CLI support; {0}",
+      "ko": "예산 설정기를 사용할 수 없습니다 — 비용 화면을 열어 CLI 지원 여부를 확인하세요. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:50 expr"
+      ]
+    },
+    {
+      "key": "set ruflo-mods@ruflo costBudgetUsd to ${0}",
+      "ko": "ruflo-mods@ruflo costBudgetUsd를 ${0}(으)로 설정",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:61 label"
+      ]
+    },
+    {
+      "key": "costBudgetUsd = {0}; restart/reload may be needed before the live budget changes",
+      "ko": "costBudgetUsd = {0}. 실제 예산이 바뀌려면 재시작/리로드가 필요할 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:64 expect"
+      ]
+    },
+    {
+      "key": "Changes the ruflo-mods user plugin option only; restart/reload may be needed. Does not change the AI terminal’s $1 per-turn cap.",
+      "ko": "ruflo-mods 사용자 플러그인 옵션만 변경합니다. 재시작/리로드가 필요할 수 있습니다. AI 터미널의 턴당 $1 한도는 바꾸지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:65 note"
+      ]
+    },
+    {
+      "key": "model routing counts (dollars and tokens n/a)",
+      "ko": "모델 라우팅 횟수 (금액과 토큰은 해당 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:70 label"
+      ]
+    },
+    {
+      "key": "local routing counts",
+      "ko": "로컬 라우팅 횟수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/cost.ts:70 expect"
+      ]
+    }
+  ],
+  "obsolete": []
+}

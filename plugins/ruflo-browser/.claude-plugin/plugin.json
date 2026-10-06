@@ -1,6 +1,6 @@
 {
   "name": "ruflo-browser",
-  "description": "Session-as-skill browser automation: Playwright + RVF cognitive containers + ruvector trajectories + AgentDB selector memory + AIDefence PII/injection gates As a mod (ADR-445 pattern): a tighten-only tool guard, a local slash command, and a status file the console shows.",
+  "description": "스킬로서의 세션 브라우저 자동화: Playwright + RVF 인지 컨테이너 + ruvector 궤적 + AgentDB 선택자 메모리 + AIDefence PII/인젝션 게이트. mod(ADR-445 패턴)로서 강화 전용 도구 가드, 로컬 슬래시 명령, 콘솔이 보여 주는 상태 파일을 제공합니다.",
   "version": "0.3.4",
   "author": {
     "name": "ruvnet",
@@ -27,8 +27,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Tool guard",
-      "description": "Refuse clearly harmful calls to this plugin's tools (tighten-only: it can only deny, never allow).",
+      "title": "도구 가드",
+      "description": "이 플러그인 도구에 대한 명백히 해로운 호출을 거부합니다(강화 전용: 거부만 가능하며 허용은 하지 않음).",
       "required": false,
       "default": "on",
       "options": [
@@ -38,8 +38,8 @@
     },
     "strictUrls": {
       "type": "string",
-      "title": "Strict URLs",
-      "description": "Also refuse plain http URLs outside localhost.",
+      "title": "엄격한 URL",
+      "description": "localhost 밖의 일반 http URL도 거부합니다.",
       "required": false,
       "default": "off",
       "options": [

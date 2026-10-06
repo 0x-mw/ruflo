@@ -1,6 +1,6 @@
 ---
 name: security-scan
-description: Run full security scans on the codebase using Ruflo security tools. Use when reviewing PRs for security regressions, auditing auth/input-handling code, before production deploys, or when the user asks for a security check at quick/standard/deep depth.
+description: Ruflo 보안 도구로 코드베이스 전체 보안 스캔을 실행합니다. PR에서 보안 회귀를 리뷰할 때, 인증/입력 처리 코드를 감사할 때, 프로덕션 배포 전에, 사용자가 quick/standard/deep 깊이의 보안 점검을 요청할 때 사용합니다.
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__hooks_post-task Read Grep
 argument-hint: "[depth: quick|standard|deep]"
 ---

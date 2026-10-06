@@ -1,0 +1,41 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-list.ts",
+  "entries": [
+    {
+      "key": "no budget",
+      "ko": "예산 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-list.ts:61 return"
+      ]
+    },
+    {
+      "key": "{0} settled",
+      "ko": "{0} 정산됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-list.ts:62 return"
+      ]
+    },
+    {
+      "key": "(no objective)",
+      "ko": "(목표 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-list.ts:74 const",
+        "plugins/ruflo-console/hooks/views/missions.ts:16 text()"
+      ]
+    },
+    {
+      "key": "{0} {1} · {2} · tasks {3} · verified {4}/{5} · {6}",
+      "ko": "{0} {1} · {2} · 작업 {3} · 검증 {4}/{5} · {6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-list.ts:78 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

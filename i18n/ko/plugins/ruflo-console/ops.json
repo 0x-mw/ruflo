@@ -1,0 +1,235 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/ops.ts",
+  "entries": [
+    {
+      "key": "spawn a {0} agent named {1}",
+      "ko": "{1} 이름의 {0} 에이전트 생성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:25 label"
+      ]
+    },
+    {
+      "key": "a new agent in .claude-flow/agents/store.json",
+      "ko": ".claude-flow/agents/store.json에 새 에이전트가 생깁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:27 expect"
+      ]
+    },
+    {
+      "key": "stop agent {0} ({1})",
+      "ko": "에이전트 중지: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:37 label"
+      ]
+    },
+    {
+      "key": "the agent no longer idle or busy",
+      "ko": "에이전트가 더 이상 유휴·작업 중이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:37 expect"
+      ]
+    },
+    {
+      "key": "logs of {0}",
+      "ko": "{0}의 로그",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:43 label"
+      ]
+    },
+    {
+      "key": "the log lines",
+      "ko": "로그 줄",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:43 expect"
+      ]
+    },
+    {
+      "key": "pause the claim on {0}",
+      "ko": "{0}의 클레임 일시 중지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:53 label",
+        "plugins/ruflo-console/hooks/palette.ts:93 add()"
+      ]
+    },
+    {
+      "key": "resume the claim on {0}",
+      "ko": "{0}의 클레임 재개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:53 label",
+        "plugins/ruflo-console/hooks/palette.ts:93 add()"
+      ]
+    },
+    {
+      "key": "from ruflo-console",
+      "ko": "ruflo-console에서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:54 note"
+      ]
+    },
+    {
+      "key": "the claim {0}",
+      "ko": "클레임: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:55 expect"
+      ]
+    },
+    {
+      "key": "a pick printed by the router",
+      "ko": "라우터가 출력한 선택 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:64 expect"
+      ]
+    },
+    {
+      "key": "initialise a hierarchical swarm (max 8, specialized)",
+      "ko": "계층형 스웜 초기화 (최대 8, specialized)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:69 label"
+      ]
+    },
+    {
+      "key": "a swarm in .claude-flow/swarm/swarm-state.json",
+      "ko": ".claude-flow/swarm/swarm-state.json에 스웜이 생깁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:71 expect"
+      ]
+    },
+    {
+      "key": "stop the swarm",
+      "ko": "스웜 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:77 label",
+        "plugins/ruflo-console/hooks/palette.ts:112 add()"
+      ]
+    },
+    {
+      "key": "the swarm no longer running",
+      "ko": "스웜이 더 이상 실행 중이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:77 expect"
+      ]
+    },
+    {
+      "key": "vote yes on {0} as console-operator",
+      "ko": "console-operator로서 {0}에 찬성 투표",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:86 label"
+      ]
+    },
+    {
+      "key": "vote no on {0} as console-operator",
+      "ko": "console-operator로서 {0}에 반대 투표",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:86 label"
+      ]
+    },
+    {
+      "key": "a vote counted on the proposal",
+      "ko": "제안에 투표가 집계됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:88 expect"
+      ]
+    },
+    {
+      "key": "score the harness now",
+      "ko": "하네스 지금 채점",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:97 label"
+      ]
+    },
+    {
+      "key": "the five scores",
+      "ko": "다섯 가지 점수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:97 expect"
+      ]
+    },
+    {
+      "key": "run a MetaHarness OIA audit (stored in memory namespace metaharness-audit)",
+      "ko": "MetaHarness OIA 감사 실행 (메모리 네임스페이스 metaharness-audit에 저장)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:99 label"
+      ]
+    },
+    {
+      "key": "an audit record",
+      "ko": "감사 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:99 expect"
+      ]
+    },
+    {
+      "key": "dispatch the {0} worker",
+      "ko": "{0} 워커 디스패치",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:102 label"
+      ]
+    },
+    {
+      "key": "the worker queued",
+      "ko": "워커가 대기열에 들어갔습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:102 expect"
+      ]
+    },
+    {
+      "key": "store \"{0}\" as {1} in namespace console",
+      "ko": "네임스페이스 console에 \"{0}\"을 {1}(으)로 저장",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:109 label"
+      ]
+    },
+    {
+      "key": "one more memory entry",
+      "ko": "메모리 항목이 하나 늘어납니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:109 expect"
+      ]
+    },
+    {
+      "key": "search memory for \"{0}\"",
+      "ko": "메모리에서 \"{0}\" 검색",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:115 label"
+      ]
+    },
+    {
+      "key": "the matches",
+      "ko": "일치 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ops.ts:115 expect"
+      ]
+    }
+  ],
+  "obsolete": []
+}

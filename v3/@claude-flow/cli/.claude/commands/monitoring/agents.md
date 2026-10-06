@@ -1,3 +1,7 @@
+---
+description: 활성 패턴 목록
+---
+
 # List Active Patterns
 
 ## 🎯 Key Principle

@@ -1,3 +1,7 @@
+---
+description: 예시 스웜 전략
+---
+
 # Examples Swarm Strategy
 
 ## Common Swarm Patterns

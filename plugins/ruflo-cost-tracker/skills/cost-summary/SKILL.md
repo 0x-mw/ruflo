@@ -1,6 +1,6 @@
 ---
 name: cost-summary
-description: Single-shot programmatic dump of all cost data — total spend, per-tier, top session, budget status, federation aggregate. JSON or markdown.
+description: 모든 비용 데이터를 한 번에 프로그램용으로 덤프 — 총지출, 티어별, 상위 세션, 예산 상태, 페더레이션 집계. JSON 또는 markdown.
 argument-hint: "[--format json|markdown]"
 allowed-tools: Bash
 ---

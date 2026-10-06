@@ -1,6 +1,6 @@
 ---
 name: cost-report
-description: Generate a cost report showing token usage and USD costs by agent and model
+description: 에이전트와 모델별 토큰 사용량과 USD 비용을 보여 주는 비용 보고서를 생성
 argument-hint: "[--period today]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_semantic-route Bash
 ---

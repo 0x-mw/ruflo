@@ -1,0 +1,232 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/mission-launch.ts",
+  "entries": [
+    {
+      "key": "Goal entered and planned",
+      "ko": "목표 입력 및 계획 완료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:25 label"
+      ]
+    },
+    {
+      "key": "{0} tasks across {1} waves",
+      "ko": "웨이브 {1}개에 걸친 작업 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:25 detail"
+      ]
+    },
+    {
+      "key": "type it in the box above, then Enter",
+      "ko": "위 입력란에 입력한 뒤 Enter를 누르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:25 detail"
+      ]
+    },
+    {
+      "key": "AIDefence screen",
+      "ko": "AIDefence 검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:31 label"
+      ]
+    },
+    {
+      "key": "off (turn it on below)",
+      "ko": "꺼짐 (아래에서 켜세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:33 detail"
+      ]
+    },
+    {
+      "key": "screening the goal…",
+      "ko": "목표를 검사하는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:33 detail"
+      ]
+    },
+    {
+      "key": "screens the goal for injection and PII",
+      "ko": "목표에서 인젝션과 PII를 검사합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:33 detail"
+      ]
+    },
+    {
+      "key": "Claude guidance",
+      "ko": "Claude 안내",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:40 label"
+      ]
+    },
+    {
+      "key": "off in Settings",
+      "ko": "설정에서 꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:42 detail"
+      ]
+    },
+    {
+      "key": "↻ again",
+      "ko": "↻ 다시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:43 label"
+      ]
+    },
+    {
+      "key": "Create the mission and its tasks",
+      "ko": "미션과 작업 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:48 label"
+      ]
+    },
+    {
+      "key": "writes the mission record and one ruflo task per plan node; runs no agent",
+      "ko": "미션 기록과 계획 노드마다 ruflo 작업 하나를 기록하며 에이전트는 실행하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:50 detail"
+      ]
+    },
+    {
+      "key": "✚ create",
+      "ko": "✚ 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:51 label"
+      ]
+    },
+    {
+      "key": "Hand tasks to Claude",
+      "ko": "작업을 Claude에게 인계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:61 label"
+      ]
+    },
+    {
+      "key": "after the mission exists",
+      "ko": "미션이 생성된 뒤",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:63 detail"
+      ]
+    },
+    {
+      "key": "{0}/{1} done · paused · next {2} {3}",
+      "ko": "{0}/{1} 완료 · 일시 중지됨 · 다음 {2} {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:63 detail"
+      ]
+    },
+    {
+      "key": "{0}/{1} done · paused",
+      "ko": "{0}/{1} 완료 · 일시 중지됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:63 detail"
+      ]
+    },
+    {
+      "key": "{0}/{1} done · next {2} {3}",
+      "ko": "{0}/{1} 완료 · 다음 {2} {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:63 detail"
+      ]
+    },
+    {
+      "key": "▓▒░ NEXT STEP · all done ░▒▓",
+      "ko": "▓▒░ 다음 단계 · 모두 완료 ░▒▓",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:105 children"
+      ]
+    },
+    {
+      "key": "▓▒░ NEXT STEP: {0} ░▒▓",
+      "ko": "▓▒░ 다음 단계: {0} ░▒▓",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:105 children"
+      ]
+    },
+    {
+      "key": "● screen mission text",
+      "ko": "● 미션 텍스트 검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:126 label"
+      ]
+    },
+    {
+      "key": "○ screen mission text",
+      "ko": "○ 미션 텍스트 검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:126 label"
+      ]
+    },
+    {
+      "key": "the goal and guide text are checked for injection and PII before a model sees them",
+      "ko": "목표와 안내 텍스트는 모델에 전달되기 전에 인젝션과 PII를 검사합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:127 children"
+      ]
+    },
+    {
+      "key": "Capabilities",
+      "ko": "기능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:148 section()"
+      ]
+    },
+    {
+      "key": "no other ruflo plugin is loaded in this session",
+      "ko": "이 세션에는 다른 ruflo 플러그인이 로드되어 있지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:148 section()"
+      ]
+    },
+    {
+      "key": "{0} ruflo plugin: each command runs on the goal in the main Claude UI",
+      "ko": "ruflo 플러그인 {0}개: 각 명령은 메인 Claude UI에서 목표에 대해 실행됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:148 section()"
+      ]
+    },
+    {
+      "key": "{0} ruflo plugins: each command runs on the goal in the main Claude UI",
+      "ko": "ruflo 플러그인 {0}개: 각 명령은 메인 Claude UI에서 목표에 대해 실행됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:148 section()"
+      ]
+    },
+    {
+      "key": "install ruflo plugins from the Plugin Catalog, then /reload-plugins",
+      "ko": "플러그인 카탈로그에서 ruflo 플러그인을 설치한 뒤 /reload-plugins를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:148 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

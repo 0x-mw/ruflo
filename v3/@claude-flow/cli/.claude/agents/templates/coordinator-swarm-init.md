@@ -2,7 +2,7 @@
 name: swarm-init
 type: coordination
 color: teal
-description: Swarm initialization and topology optimization specialist
+description: 스웜 초기화 및 토폴로지 최적화 전문가
 capabilities:
   - swarm-initialization
   - topology-optimization

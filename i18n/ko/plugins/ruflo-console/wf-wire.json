@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/wf-wire.ts",
+  "entries": [
+    {
+      "key": "a floor: {0} of {1} agents read or some tokens unpriced",
+      "ko": "하한: 에이전트 {1}개 중 {0}개만 읽었거나 일부 토큰의 가격이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-wire.ts:33 expr"
+      ]
+    },
+    {
+      "key": "rough family price",
+      "ko": "대략적인 계열 가격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-wire.ts:33 expr"
+      ]
+    },
+    {
+      "key": "price-book estimate, not a bill; {0}",
+      "ko": "가격표 기준 추정치이며 청구 금액이 아닙니다. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-wire.ts:35 source"
+      ]
+    },
+    {
+      "key": "price-book estimate, not a bill",
+      "ko": "가격표 기준 추정치이며 청구 금액이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-wire.ts:35 source"
+      ]
+    }
+  ],
+  "obsolete": []
+}

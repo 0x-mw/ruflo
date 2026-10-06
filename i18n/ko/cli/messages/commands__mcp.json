@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/mcp.ts",
+  "entries": [
+    {
+      "key": "MCP Server Management",
+      "ko": "MCP 서버 관리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:865 bold"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow mcp <subcommand> [options]",
+      "ko": "사용법: claude-flow mcp <subcommand> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/mcp.ts:867 writeln"
+      ]
+    },
+    {
+      "key": "{0}    - Start MCP server",
+      "ko": "{0}    - MCP 서버 시작",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:871 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Stop MCP server",
+      "ko": "{0}     - MCP 서버 중지",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:872 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Show server status",
+      "ko": "{0}   - 서버 상태 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:873 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Check server health",
+      "ko": "{0}   - 서버 상태 점검",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:874 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Restart MCP server",
+      "ko": "{0}  - MCP 서버 재시작",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:875 printList"
+      ]
+    },
+    {
+      "key": "{0}    - List available tools",
+      "ko": "{0}    - 사용 가능한 도구 목록 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:876 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Enable/disable tools",
+      "ko": "{0}   - 도구 켜기/끄기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:877 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Execute a tool",
+      "ko": "{0}     - 도구 실행",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:878 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Show server logs",
+      "ko": "{0}     - 서버 로그 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/mcp.ts:879 printList"
+      ]
+    }
+  ],
+  "obsolete": []
+}

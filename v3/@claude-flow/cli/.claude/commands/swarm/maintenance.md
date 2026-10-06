@@ -1,3 +1,7 @@
+---
+description: 유지 관리 스웜 전략
+---
+
 # Maintenance Swarm Strategy
 
 ## Purpose

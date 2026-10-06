@@ -1,6 +1,6 @@
 ---
 name: intelligence-route
-description: Route tasks via the 3-tier model selector and learned patterns; emits a routing rationale via hooks_explain
+description: "3티어 모델 선택기와 학습된 패턴으로 작업을 라우팅하며, hooks_explain으로 라우팅 근거를 출력"
 argument-hint: "<task-description> [--why]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__hooks_route mcp__plugin_ruflo-core_ruflo__hooks_explain mcp__plugin_ruflo-core_ruflo__hooks_model-route mcp__plugin_ruflo-core_ruflo__hooks_model-stats mcp__plugin_ruflo-core_ruflo__hooks_model-outcome mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-search mcp__plugin_ruflo-core_ruflo__hooks_intelligence_attention mcp__plugin_ruflo-core_ruflo__hooks_intelligence_stats mcp__plugin_ruflo-core_ruflo__neural_predict mcp__plugin_ruflo-core_ruflo__hooks_pre-task Bash
 ---

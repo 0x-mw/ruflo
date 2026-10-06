@@ -1,0 +1,296 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-convo.ts",
+  "entries": [
+    {
+      "key": "… {0} more lines (the transcript keeps them)",
+      "ko": "… {0}줄 더 있음 (대화 기록에 남아 있습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:39 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} · leaves: {2} · {3}",
+      "ko": "{0} · {1} · 종료: {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:48 text()"
+      ]
+    },
+    {
+      "key": "sends",
+      "ko": "전송",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:51 text()"
+      ]
+    },
+    {
+      "key": "reply",
+      "ko": "답장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:53 text()"
+      ]
+    },
+    {
+      "key": "No messages with @{0} yet.",
+      "ko": "@{0}와(과) 주고받은 메시지가 아직 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:63 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens n/a · cost n/a (no billed figure reported) · {3} oldest dropped at the {4}-message cap",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 n/a · 비용 n/a (청구 금액 보고 없음) · {4}개 한도에서 가장 오래된 {3}개 제외",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens n/a · cost n/a (no billed figure reported)",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 n/a · 비용 n/a (청구 금액 보고 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens n/a · cost ${3} billed · {4} oldest dropped at the {5}-message cap",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 n/a · 비용 ${3} 청구됨 · {5}개 한도에서 가장 오래된 {4}개 제외",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens n/a · cost ${3} billed",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 n/a · 비용 ${3} 청구됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens {3} in / {4} out · cost n/a (no billed figure reported) · {5} oldest dropped at the {6}-message cap",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 입력 {3} / 출력 {4} · 비용 n/a (청구 금액 보고 없음) · {6}개 한도에서 가장 오래된 {5}개 제외",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens {3} in / {4} out · cost n/a (no billed figure reported)",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 입력 {3} / 출력 {4} · 비용 n/a (청구 금액 보고 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens {3} in / {4} out · cost ${5} billed · {6} oldest dropped at the {7}-message cap",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 입력 {3} / 출력 {4} · 비용 ${5} 청구됨 · {7}개 한도에서 가장 오래된 {6}개 제외",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} sent · {1} answered · {2} failed · tokens {3} in / {4} out · cost ${5} billed",
+      "ko": "전송 {0} · 응답 {1} · 실패 {2} · 토큰 입력 {3} / 출력 {4} · 비용 ${5} 청구됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:66 text()"
+      ]
+    },
+    {
+      "key": "{0} earlier messages are in the transcript, not drawn",
+      "ko": "이전 메시지 {0}개는 대화 기록에 있으며 표시되지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:76 text()"
+      ]
+    },
+    {
+      "key": "Answers side by side",
+      "ko": "응답 나란히 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:88 text()"
+      ]
+    },
+    {
+      "key": "The console is not wired to a host here: nothing can be sent.",
+      "ko": "콘솔이 호스트에 연결되어 있지 않아 보낼 수 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:97 text()"
+      ]
+    },
+    {
+      "key": "convoTargets option: {0} (+{1} more)",
+      "ko": "convoTargets 옵션: {0} (+{1}개 더)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:108 text()"
+      ]
+    },
+    {
+      "key": "convoTargets option: {0}",
+      "ko": "convoTargets 옵션: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:108 text()"
+      ]
+    },
+    {
+      "key": "convoTargets option:  (+{0} more)",
+      "ko": "convoTargets 옵션:  (+{0}개 더)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:108 text()"
+      ]
+    },
+    {
+      "key": "convoTargets option:",
+      "ko": "convoTargets 옵션:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:108 text()"
+      ]
+    },
+    {
+      "key": "this surface has no text field: the composer needs one",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다: 작성기에는 입력란이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:110 text()"
+      ]
+    },
+    {
+      "key": "@claude @openrouter what do you think? (@all = agents, hive, rooms)",
+      "ko": "@claude @openrouter 어떻게 생각해? (@all = 에이전트, 하이브, 룸)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:110 placeholder"
+      ]
+    },
+    {
+      "key": "no one to send to",
+      "ko": "보낼 대상이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:114 const"
+      ]
+    },
+    {
+      "key": "Send to @{0}",
+      "ko": "@{0}에게 보내기",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:114 const"
+      ]
+    },
+    {
+      "key": "Send to @",
+      "ko": "@에게 보내기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:114 const"
+      ]
+    },
+    {
+      "key": "Ask {0} targets at once",
+      "ko": "대상 {0}곳에 한꺼번에 질문",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:114 const"
+      ]
+    },
+    {
+      "key": "Relay @{0}'s answer to the @mentioned",
+      "ko": "@{0}의 응답을 @멘션된 대상에게 전달",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:117 button()"
+      ]
+    },
+    {
+      "key": "Stop watching @{0}",
+      "ko": "@{0} 감시 중지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:121 button()"
+      ]
+    },
+    {
+      "key": "Watch @{0} for replies",
+      "ko": "@{0}의 답장 감시",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:121 button()"
+      ]
+    },
+    {
+      "key": "Save transcript",
+      "ko": "대화 기록 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:124 button()"
+      ]
+    },
+    {
+      "key": "reply polling",
+      "ko": "답장 폴링",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:130 kv()"
+      ]
+    },
+    {
+      "key": "on: a read every {0}s, {1} of {2} done",
+      "ko": "켜짐: {0}초마다 읽기, {2}회 중 {1}회 완료",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:130 kv()"
+      ]
+    },
+    {
+      "key": "off (a read every {0}s, at most {1}, when you start it)",
+      "ko": "꺼짐 (시작하면 {0}초마다 읽으며 최대 {1}회)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:130 kv()"
+      ]
+    },
+    {
+      "key": "not used: {0}",
+      "ko": "사용 안 함: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:130 kv()"
+      ]
+    },
+    {
+      "key": "talk to Claude, its agents, the hive, federation, Codex and other models · {0} thread · every send is confirmed with its exact payload",
+      "ko": "Claude, 그 에이전트, 하이브, 페더레이션, Codex 및 다른 모델과 대화 · 스레드 {0}개 · 모든 전송은 정확한 내용으로 확인합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:147 fold()"
+      ]
+    },
+    {
+      "key": "talk to Claude, its agents, the hive, federation, Codex and other models · {0} threads · every send is confirmed with its exact payload",
+      "ko": "Claude, 그 에이전트, 하이브, 페더레이션, Codex 및 다른 모델과 대화 · 스레드 {0}개 · 모든 전송은 정확한 내용으로 확인합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:147 fold()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

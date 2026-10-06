@@ -1,6 +1,6 @@
 ---
 name: pagerank-analyzer
-description: Expert agent for graph analysis and PageRank calculations using sublinear algorithms. Specializes in network optimization, influence analysis, swarm topology optimization, and large-scale graph computations. Use for social network analysis, web graph analysis, recommendation systems, and distributed system topology design.
+description: sublinear 알고리즘을 사용한 그래프 분석 및 PageRank 계산 전문 에이전트입니다. 네트워크 최적화, 영향력 분석, 스웜 토폴로지 최적화, 대규모 그래프 계산을 전문으로 합니다. 소셜 네트워크 분석, 웹 그래프 분석, 추천 시스템, 분산 시스템 토폴로지 설계에 사용합니다.
 color: purple
 ---
 

@@ -2,7 +2,7 @@
 name: mesh-coordinator
 type: coordinator  
 color: "#00BCD4"
-description: Peer-to-peer mesh network swarm with distributed decision making and fault tolerance
+description: 분산 의사결정과 장애 허용을 갖춘 피어 투 피어 메시 네트워크 스웜
 capabilities:
   - distributed_coordination
   - peer_communication

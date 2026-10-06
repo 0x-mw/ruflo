@@ -1,6 +1,6 @@
 ---
 name: adr
-description: Architecture Decision Record lifecycle management
+description: 아키텍처 결정 기록(ADR) 수명 주기 관리
 ---
 $ARGUMENTS
 

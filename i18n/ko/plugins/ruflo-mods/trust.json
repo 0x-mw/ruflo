@@ -1,0 +1,112 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-mods/hooks/trust.ts",
+  "entries": [
+    {
+      "key": "runs host commands",
+      "ko": "호스트 명령을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:29 process.run"
+      ]
+    },
+    {
+      "key": "makes network requests",
+      "ko": "네트워크 요청을 보냅니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:30 http.fetch"
+      ]
+    },
+    {
+      "key": "changes the environment of later hooks and tools",
+      "ko": "이후 훅과 도구의 환경을 변경합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:31 env.set"
+      ]
+    },
+    {
+      "key": "writes files (settings, hooks, helpers included)",
+      "ko": "파일을 씁니다 (설정, 훅, 헬퍼 포함)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:32 fs.write"
+      ]
+    },
+    {
+      "key": "starts agents with a prompt of its own",
+      "ko": "자체 프롬프트로 에이전트를 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:33 agent.spawn"
+      ]
+    },
+    {
+      "key": "can answer tool permission verdicts",
+      "ko": "도구 권한 판정에 응답할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:38 tool.check"
+      ]
+    },
+    {
+      "key": "can rewrite or answer tool calls",
+      "ko": "도구 호출을 재작성하거나 대신 응답할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:39 tool.call"
+      ]
+    },
+    {
+      "key": "sees every event",
+      "ko": "모든 이벤트를 봅니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:40 *"
+      ]
+    },
+    {
+      "key": "can answer every settings hook",
+      "ko": "모든 설정 훅에 응답할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:41 classic.*"
+      ]
+    },
+    {
+      "key": "can refuse other mods",
+      "ko": "다른 mod를 거부할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:42 plugin.register"
+      ]
+    },
+    {
+      "key": "can rewrite the system prompt",
+      "ko": "시스템 프롬프트를 재작성할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:43 prompt.compose"
+      ]
+    },
+    {
+      "key": "can add to or rewrite every prompt you send",
+      "ko": "보내는 모든 프롬프트에 내용을 추가하거나 재작성할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:44 prompt.submit"
+      ]
+    },
+    {
+      "key": "can rewrite or answer every agent spawn",
+      "ko": "모든 에이전트 생성을 재작성하거나 대신 응답할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/trust.ts:45 agent.spawn"
+      ]
+    }
+  ],
+  "obsolete": []
+}

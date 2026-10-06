@@ -1,0 +1,322 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/overview.ts",
+  "entries": [
+    {
+      "key": "Subsystems",
+      "ko": "하위 시스템",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:22 rule()"
+      ]
+    },
+    {
+      "key": "not a ruflo project",
+      "ko": "ruflo 프로젝트가 아님",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:22 rule()"
+      ]
+    },
+    {
+      "key": "project",
+      "ko": "프로젝트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:28 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no .claude-flow here (see Get going below)",
+      "ko": "해당 없음 — 여기에 .claude-flow가 없습니다 (아래 시작하기 참고)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no daemon-state.json",
+      "ko": "해당 없음 — daemon-state.json 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:38 kv()"
+      ]
+    },
+    {
+      "key": "running per daemon-state.json (written {0}) · {1} workers · {2} runs",
+      "ko": "daemon-state.json 기준 실행 중 (기록 {0}) · 워커 {1}개 · 실행 {2}회",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:39 kv()"
+      ]
+    },
+    {
+      "key": "stopped per daemon-state.json (written {0}) · {1} workers · {2} runs",
+      "ko": "daemon-state.json 기준 중지됨 (기록 {0}) · 워커 {1}개 · 실행 {2}회",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:39 kv()"
+      ]
+    },
+    {
+      "key": "MCP",
+      "ko": "MCP",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:48 kv()",
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:18 expr"
+      ]
+    },
+    {
+      "key": "{0} ruflo server connected ({1}) · {2} tools callable now",
+      "ko": "ruflo 서버 {0}개 연결됨 ({1}) · 지금 호출 가능한 도구 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:49 kv()"
+      ]
+    },
+    {
+      "key": "{0} ruflo servers connected ({1}) · {2} tools callable now",
+      "ko": "ruflo 서버 {0}개 연결됨 ({1}) · 지금 호출 가능한 도구 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:49 kv()"
+      ]
+    },
+    {
+      "key": "no ruflo MCP server connected in this session",
+      "ko": "이 세션에 연결된 ruflo MCP 서버가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:49 kv()"
+      ]
+    },
+    {
+      "key": "memory DB",
+      "ko": "메모리 DB",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:53 kv()"
+      ]
+    },
+    {
+      "key": "{0} entries · {1} vectors · {2} · {3}",
+      "ko": "항목 {0}개 · 벡터 {1}개 · {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:53 kv()"
+      ]
+    },
+    {
+      "key": "{0} entries · {1} vectors · {2}",
+      "ko": "항목 {0}개 · 벡터 {1}개 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:53 kv()"
+      ]
+    },
+    {
+      "key": "helpers",
+      "ko": "헬퍼",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:57 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no .claude/helpers/helpers.manifest.json",
+      "ko": "해당 없음 — .claude/helpers/helpers.manifest.json 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:59 kv()"
+      ]
+    },
+    {
+      "key": "manifest v{0} · {1} files · signed ({2}) · signature not checked here (ruflo verify)",
+      "ko": "매니페스트 v{0} · 파일 {1}개 · 서명됨 ({2}) · 서명은 여기서 검사하지 않음 (ruflo verify)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:60 kv()"
+      ]
+    },
+    {
+      "key": "manifest v{0} · {1} files · signed (unknown) · signature not checked here (ruflo verify)",
+      "ko": "매니페스트 v{0} · 파일 {1}개 · 서명됨 (알 수 없음) · 서명은 여기서 검사하지 않음 (ruflo verify)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:60 kv()"
+      ]
+    },
+    {
+      "key": "manifest v{0} · {1} files · UNSIGNED · signature not checked here (ruflo verify)",
+      "ko": "매니페스트 v{0} · 파일 {1}개 · 서명 없음 · 서명은 여기서 검사하지 않음 (ruflo verify)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:60 kv()"
+      ]
+    },
+    {
+      "key": "seated · policy {0} · routed {1} · tightened {2} · owns {3}",
+      "ko": "장착됨 · 정책 {0} · 라우팅 {1} · 강화 {2} · 담당 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:68 kv()"
+      ]
+    },
+    {
+      "key": "seated · policy {0} · routed {1} · tightened {2} · owns nothing",
+      "ko": "장착됨 · 정책 {0} · 라우팅 {1} · 강화 {2} · 담당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:68 kv()"
+      ]
+    },
+    {
+      "key": "not seated — classic hooks handle every event",
+      "ko": "장착되지 않음 — 기존 훅이 모든 이벤트를 처리합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:68 kv()"
+      ]
+    },
+    {
+      "key": "function hooks",
+      "ko": "함수 훅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:72 kv()",
+        "plugins/ruflo-console/hooks/views/plugins.ts:104 rule()"
+      ]
+    },
+    {
+      "key": "on (this mod runs) · mods seen since it loaded: {0} loaded, {1} refused",
+      "ko": "켜짐 (이 mod 실행 중) · 로드 이후 확인한 mod: {0}개 로드, {1}개 거부",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:72 kv()"
+      ]
+    },
+    {
+      "key": "mods reporting",
+      "ko": "보고 중인 mod",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:76 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} blocked something",
+      "ko": "{0} · {1}개가 무언가를 차단했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:76 kv()"
+      ]
+    },
+    {
+      "key": "The Room: Mods",
+      "ko": "룸: mods",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:77 button()"
+      ]
+    },
+    {
+      "key": "n/a — no swarm on disk",
+      "ko": "해당 없음 — 디스크에 스웜 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:78 kv()"
+      ]
+    },
+    {
+      "key": "Get going",
+      "ko": "시작하기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:88 rule()"
+      ]
+    },
+    {
+      "key": "one click each: it asks, shows the command, then runs it",
+      "ko": "각각 클릭 한 번: 먼저 묻고, 명령을 보여준 뒤 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:88 rule()"
+      ]
+    },
+    {
+      "key": "Not running yet in this project:",
+      "ko": "이 프로젝트에서 아직 실행되지 않음:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:89 starts()"
+      ]
+    },
+    {
+      "key": "No ruflo state in this project.",
+      "ko": "이 프로젝트에는 ruflo 상태가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:89 starts()"
+      ]
+    },
+    {
+      "key": "Health",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:94 rule()"
+      ]
+    },
+    {
+      "key": "no alerts",
+      "ko": "경고 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:94 rule()"
+      ]
+    },
+    {
+      "key": "+{0} more · approvals (q) lists what needs a decision",
+      "ko": "+{0}개 더 · 승인(q)에서 결정이 필요한 항목을 봅니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:100 text()"
+      ]
+    },
+    {
+      "key": "measured",
+      "ko": "측정값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:102 rule()"
+      ]
+    },
+    {
+      "key": "tool calls/5s: {0}",
+      "ko": "도구 호출/5초: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:103 picture()"
+      ]
+    },
+    {
+      "key": "tool calls/5s: none yet",
+      "ko": "도구 호출/5초: 아직 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:103 picture()"
+      ]
+    },
+    {
+      "key": "tool calls the console saw (5 s buckets) and ruflo files changed between reads; the glow is decoration",
+      "ko": "콘솔이 본 도구 호출(5초 단위)과 읽는 사이 바뀐 ruflo 파일입니다. 빛 효과는 장식입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/overview.ts:104 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

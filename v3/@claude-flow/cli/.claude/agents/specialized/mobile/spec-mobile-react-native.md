@@ -1,6 +1,6 @@
 ---
 name: "mobile-dev"
-description: "Expert agent for React Native mobile application development across iOS and Android"
+description: "iOS와 Android를 아우르는 React Native 모바일 애플리케이션 개발 전문 에이전트"
 color: "teal"
 type: "specialized"
 version: "1.0.0"

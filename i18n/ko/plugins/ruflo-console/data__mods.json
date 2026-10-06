@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/mods.ts",
+  "entries": [
+    {
+      "key": ".claude-flow",
+      "ko": ".claude-flow",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/mods.ts:10 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

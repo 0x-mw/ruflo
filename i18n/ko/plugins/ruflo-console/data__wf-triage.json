@@ -1,0 +1,145 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-triage.ts",
+  "entries": [
+    {
+      "key": "no sign of life for 15 minutes or more",
+      "ko": "15분 이상 응답 신호 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:59 why"
+      ]
+    },
+    {
+      "key": "the run record marks it failed; no result text was recorded",
+      "ko": "실행 기록상 실패로 표시됨, 결과 텍스트 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:66 why"
+      ]
+    },
+    {
+      "key": "its result reads as a timeout",
+      "ko": "결과가 시간 초과로 보임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:66 why"
+      ]
+    },
+    {
+      "key": "the run record marks it failed",
+      "ko": "실행 기록상 실패로 표시됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:66 why"
+      ]
+    },
+    {
+      "key": "it finished, but its result opens with an error",
+      "ko": "끝났지만 결과가 오류로 시작함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:72 why"
+      ]
+    },
+    {
+      "key": "its whole result is \"{0}\"",
+      "ko": "결과 전체가 \"{0}\"",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:73 why"
+      ]
+    },
+    {
+      "key": "it finished with no result and no tool call",
+      "ko": "결과와 도구 호출 없이 끝남",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:74 why"
+      ]
+    },
+    {
+      "key": "finished; no result text was recorded",
+      "ko": "끝남, 결과 텍스트 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:76 why"
+      ]
+    },
+    {
+      "key": "finished with a result",
+      "ko": "결과와 함께 끝남",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:76 why"
+      ]
+    },
+    {
+      "key": "{0} failed",
+      "ko": "실패 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:106 expr",
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:217 const"
+      ]
+    },
+    {
+      "key": "{0} running or waiting",
+      "ko": "실행 중 또는 대기 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:106 expr"
+      ]
+    },
+    {
+      "key": "no agents to triage",
+      "ko": "분류할 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:108 return"
+      ]
+    },
+    {
+      "key": "Stop the run first (the console cannot: Claude Code's Workflows panel, or TaskStop), then:",
+      "ko": "먼저 실행을 중지하세요(콘솔은 중지할 수 없음: Claude Code의 Workflows 패널 또는 TaskStop 사용). 그다음:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:128 return"
+      ]
+    },
+    {
+      "key": "Workflow({ scriptPath: \"<the script that started this run>\", resumeFromRunId: \"{0}\" })",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:129 return"
+      ]
+    },
+    {
+      "key": "runs again, no result recorded: {0}",
+      "ko": "다시 실행됨, 기록된 결과 없음: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:130 return"
+      ]
+    },
+    {
+      "key": "stays cached, its error is its recorded result: {0}. Change that agent() call or its input to run it again",
+      "ko": "캐시된 채 유지되며 오류가 기록된 결과입니다: {0}. 다시 실행하려면 해당 agent() 호출이나 입력을 바꾸세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:131 return"
+      ]
+    },
+    {
+      "key": "the journal was not read, so which of these are cached is unknown",
+      "ko": "저널을 읽지 못해 이 중 어느 것이 캐시되었는지 알 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-triage.ts:132 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,526 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/daemon.ts",
+  "entries": [
+    {
+      "key": "Start the worker daemon with all enabled background workers",
+      "ko": "활성화된 모든 백그라운드 워커와 함께 워커 데몬을 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:19 description"
+      ]
+    },
+    {
+      "key": "Comma-separated list of workers to enable (default: map,audit,optimize,consolidate,testgaps)",
+      "ko": "활성화할 워커 목록 (쉼표로 구분, 기본값: map,audit,optimize,consolidate,testgaps)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:21 description"
+      ]
+    },
+    {
+      "key": "Disable the consolidate worker's memory-distillation pass (ADR-174)",
+      "ko": "consolidate 워커의 메모리 증류 단계를 비활성화합니다 (ADR-174)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:27 description"
+      ]
+    },
+    {
+      "key": "Suppress output",
+      "ko": "출력을 생략합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:28 description",
+        "src/commands/daemon.ts:624 description"
+      ]
+    },
+    {
+      "key": "Run daemon in background (detached process)",
+      "ko": "데몬을 백그라운드에서 실행합니다 (분리된 프로세스)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:29 description"
+      ]
+    },
+    {
+      "key": "Run daemon in foreground (blocks terminal)",
+      "ko": "데몬을 포그라운드에서 실행합니다 (터미널을 차지함)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:30 description"
+      ]
+    },
+    {
+      "key": "Enable AI workers (scheduled `claude --print` execution, governed by the user-global AI budget). Default: off — workers run local-only",
+      "ko": "AI 워커를 활성화합니다 (예약된 `claude --print` 실행, 사용자 전역 AI 예산의 적용을 받음). 기본값: 꺼짐 — 워커는 로컬에서만 실행됩니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:35 description"
+      ]
+    },
+    {
+      "key": "Default sandbox mode for headless workers",
+      "ko": "헤드리스 워커의 기본 샌드박스 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:36 description"
+      ]
+    },
+    {
+      "key": "Override maxCpuLoad resource threshold (e.g. 4.0)",
+      "ko": "maxCpuLoad 리소스 임계값을 덮어씁니다 (예: 4.0)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:37 description"
+      ]
+    },
+    {
+      "key": "Override minFreeMemoryPercent resource threshold (e.g. 15)",
+      "ko": "minFreeMemoryPercent 리소스 임계값을 덮어씁니다 (예: 15)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:38 description"
+      ]
+    },
+    {
+      "key": "Max daemon age in seconds before graceful self-shutdown (0 = run until stopped; default 43200 = 12h)",
+      "ko": "스스로 정상 종료하기 전까지 데몬의 최대 수명(초) (0 = 중지할 때까지 실행, 기본값 43200 = 12시간)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:41 description"
+      ]
+    },
+    {
+      "key": "Workspace root for this daemon (internal — set automatically when forking)",
+      "ko": "이 데몬의 워크스페이스 루트 (내부용 — 포크할 때 자동 설정)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:46 description"
+      ]
+    },
+    {
+      "key": "Start daemon in background (default)",
+      "ko": "데몬을 백그라운드에서 시작 (기본값)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:49 description"
+      ]
+    },
+    {
+      "key": "Start in foreground (blocks terminal)",
+      "ko": "포그라운드에서 시작 (터미널을 차지함)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:50 description"
+      ]
+    },
+    {
+      "key": "Start with specific workers",
+      "ko": "특정 워커와 함께 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:51 description"
+      ]
+    },
+    {
+      "key": "Start with headless workers in strict sandbox",
+      "ko": "엄격한 샌드박스의 헤드리스 워커와 함께 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:52 description"
+      ]
+    },
+    {
+      "key": "Start with the consolidate worker's distillation pass disabled",
+      "ko": "consolidate 워커의 증류 단계를 끄고 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:53 description"
+      ]
+    },
+    {
+      "key": "Stop the worker daemon and all background workers",
+      "ko": "워커 데몬과 모든 백그라운드 워커를 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:622 description"
+      ]
+    },
+    {
+      "key": "Stop ruflo daemons in ALL workspaces/worktrees (not just the current one)",
+      "ko": "현재 위치뿐 아니라 모든 워크스페이스/워크트리의 ruflo 데몬을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:627 description"
+      ]
+    },
+    {
+      "key": "Stop the daemon in this workspace",
+      "ko": "이 워크스페이스의 데몬 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:630 description"
+      ]
+    },
+    {
+      "key": "Stop ruflo daemons in every workspace/worktree",
+      "ko": "모든 워크스페이스/워크트리의 ruflo 데몬 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:631 description"
+      ]
+    },
+    {
+      "key": "Show daemon and worker status",
+      "ko": "데몬과 워커 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1189 description"
+      ]
+    },
+    {
+      "key": "Show detailed worker statistics",
+      "ko": "워커 상세 통계를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1191 description"
+      ]
+    },
+    {
+      "key": "Show worker execution modes (local/headless) and sandbox settings",
+      "ko": "워커 실행 모드(local/headless)와 샌드박스 설정을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1192 description"
+      ]
+    },
+    {
+      "key": "List ruflo daemons across ALL workspaces (global view — surfaces leaked daemons)",
+      "ko": "모든 워크스페이스의 ruflo 데몬 목록을 표시합니다 (전역 보기 — 누수된 데몬을 찾아냄)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1196 description"
+      ]
+    },
+    {
+      "key": "Show daemon status",
+      "ko": "데몬 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1199 description"
+      ]
+    },
+    {
+      "key": "Show detailed status",
+      "ko": "상세 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1200 description"
+      ]
+    },
+    {
+      "key": "Show worker execution modes",
+      "ko": "워커 실행 모드 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1201 description"
+      ]
+    },
+    {
+      "key": "List daemons across all workspaces",
+      "ko": "모든 워크스페이스의 데몬 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1202 description"
+      ]
+    },
+    {
+      "key": "Manually trigger a specific worker",
+      "ko": "특정 워커를 수동으로 트리거합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1353 description"
+      ]
+    },
+    {
+      "key": "Worker type to trigger",
+      "ko": "트리거할 워커 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1355 description"
+      ]
+    },
+    {
+      "key": "Run triggered worker in headless mode (E2B sandbox)",
+      "ko": "트리거한 워커를 헤드리스 모드(E2B 샌드박스)로 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1356 description"
+      ]
+    },
+    {
+      "key": "Trigger the map worker",
+      "ko": "map 워커 트리거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1359 description"
+      ]
+    },
+    {
+      "key": "Trigger security audit",
+      "ko": "보안 감사 트리거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1360 description"
+      ]
+    },
+    {
+      "key": "Trigger audit in headless sandbox",
+      "ko": "헤드리스 샌드박스에서 감사 트리거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1361 description"
+      ]
+    },
+    {
+      "key": "Enable or disable a specific worker",
+      "ko": "특정 워커를 활성화하거나 비활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1410 description"
+      ]
+    },
+    {
+      "key": "Worker type",
+      "ko": "워커 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1412 description",
+        "src/commands/process.ts:420 description"
+      ]
+    },
+    {
+      "key": "Disable instead of enable",
+      "ko": "활성화 대신 비활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1413 description"
+      ]
+    },
+    {
+      "key": "Enable predict worker",
+      "ko": "predict 워커 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1416 description"
+      ]
+    },
+    {
+      "key": "Disable document worker",
+      "ko": "document 워커 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1417 description"
+      ]
+    },
+    {
+      "key": "Install OS-level auto-restart supervisor (launchd on macOS, systemd-user on Linux)",
+      "ko": "OS 수준 자동 재시작 감독자를 설치합니다 (macOS는 launchd, Linux는 systemd-user)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1468 description"
+      ]
+    },
+    {
+      "key": "Overwrite existing unit file",
+      "ko": "기존 유닛 파일을 덮어씁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1470 description"
+      ]
+    },
+    {
+      "key": "Load/enable the unit immediately",
+      "ko": "유닛을 즉시 로드/활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1471 description"
+      ]
+    },
+    {
+      "key": "Print the unit file content without writing",
+      "ko": "파일을 쓰지 않고 유닛 파일 내용만 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1472 description"
+      ]
+    },
+    {
+      "key": "Install + load (auto-restart enabled)",
+      "ko": "설치 + 로드 (자동 재시작 활성화)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1475 description"
+      ]
+    },
+    {
+      "key": "Write unit file but do not enable yet",
+      "ko": "유닛 파일만 쓰고 아직 활성화하지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1476 description"
+      ]
+    },
+    {
+      "key": "Preview the unit file",
+      "ko": "유닛 파일 미리보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1477 description"
+      ]
+    },
+    {
+      "key": "Remove the auto-restart supervisor unit (launchd on macOS, systemd-user on Linux)",
+      "ko": "자동 재시작 감독자 유닛을 제거합니다 (macOS는 launchd, Linux는 systemd-user)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1630 description"
+      ]
+    },
+    {
+      "key": "Show the user-global AI launch budget (launches, active children, circuit-breaker state)",
+      "ko": "사용자 전역 AI 실행 예산을 표시합니다 (실행 횟수, 활성 자식 프로세스, 서킷 브레이커 상태)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1675 description"
+      ]
+    },
+    {
+      "key": "Show current budget usage and limits",
+      "ko": "현재 예산 사용량과 한도를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1677 description"
+      ]
+    },
+    {
+      "key": "Pause ALL autonomous Claude launches across every daemon until resumed",
+      "ko": "재개할 때까지 모든 데몬의 자율 Claude 실행을 전부 일시 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1703 description"
+      ]
+    },
+    {
+      "key": "Optional reason recorded in the pause receipt",
+      "ko": "일시 중지 영수증에 기록할 사유 (선택)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1705 description"
+      ]
+    },
+    {
+      "key": "Pause autonomous launches",
+      "ko": "자율 실행 일시 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1707 description"
+      ]
+    },
+    {
+      "key": "Resume autonomous Claude launches (clears a manual pause or a quota-triggered circuit-breaker pause)",
+      "ko": "자율 Claude 실행을 재개합니다 (수동 일시 중지나 할당량 때문에 작동한 서킷 브레이커 중지를 해제)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1718 description"
+      ]
+    },
+    {
+      "key": "Resume autonomous launches",
+      "ko": "자율 실행 재개",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1720 description",
+        "src/commands/daemon.ts:1737 description"
+      ]
+    },
+    {
+      "key": "Inspect and control the user-global AI launch budget (#2661)",
+      "ko": "사용자 전역 AI 실행 예산을 확인하고 제어합니다 (#2661)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1731 description"
+      ]
+    },
+    {
+      "key": "Show current usage/limits",
+      "ko": "현재 사용량/한도 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1735 description"
+      ]
+    },
+    {
+      "key": "Pause all autonomous launches",
+      "ko": "모든 자율 실행 일시 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1736 description"
+      ]
+    },
+    {
+      "key": "Manage background worker daemon (Node.js-based, auto-runs like shell helpers)",
+      "ko": "백그라운드 워커 데몬을 관리합니다 (Node.js 기반, 셸 헬퍼처럼 자동 실행)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1749 description"
+      ]
+    },
+    {
+      "key": "Start the daemon",
+      "ko": "데몬 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1762 description",
+        "src/commands/process.ts:85 description"
+      ]
+    },
+    {
+      "key": "Start with headless workers (E2B sandbox)",
+      "ko": "헤드리스 워커(E2B 샌드박스)와 함께 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1763 description"
+      ]
+    },
+    {
+      "key": "Check daemon status",
+      "ko": "데몬 상태 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1764 description",
+        "src/commands/process.ts:88 description"
+      ]
+    },
+    {
+      "key": "Stop the daemon",
+      "ko": "데몬 중지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1765 description",
+        "src/commands/process.ts:86 description"
+      ]
+    },
+    {
+      "key": "Run security audit",
+      "ko": "보안 감사 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/daemon.ts:1766 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

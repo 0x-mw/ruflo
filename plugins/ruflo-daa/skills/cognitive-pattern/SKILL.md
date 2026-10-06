@@ -1,6 +1,6 @@
 ---
 name: cognitive-pattern
-description: Define and manage cognitive patterns for agent reasoning and decision-making
+description: 에이전트 추론과 의사 결정을 위한 인지 패턴을 정의하고 관리
 argument-hint: "<pattern-name>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__daa_cognitive_pattern mcp__plugin_ruflo-core_ruflo__daa_workflow_create mcp__plugin_ruflo-core_ruflo__daa_workflow_execute mcp__plugin_ruflo-core_ruflo__daa_knowledge_share mcp__plugin_ruflo-core_ruflo__daa_learning_status Bash
 ---

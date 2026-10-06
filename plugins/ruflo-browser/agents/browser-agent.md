@@ -1,6 +1,6 @@
 ---
 name: browser-agent
-description: Browser automation agent — drives Playwright via 23 MCP tools, captures every session as an RVF container with a ruvector trajectory, and gates content through AIDefence
+description: 브라우저 자동화 에이전트 — MCP 도구 23개로 Playwright를 구동하고, 모든 세션을 ruvector 궤적이 담긴 RVF 컨테이너로 캡처하며, 콘텐츠를 AIDefence로 검문
 model: sonnet
 ---
 

@@ -1,3 +1,7 @@
+---
+description: SPARC 최적화기 모드
+---
+
 # SPARC Optimizer Mode
 
 ## Purpose

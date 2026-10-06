@@ -1,6 +1,6 @@
 {
   "name": "ruflo",
-  "description": "RuFlo Marketplace: Claude Code native agents, swarms, workers, and MCP tools for continuous software engineering",
+  "description": "RuFlo 마켓플레이스: 지속적인 소프트웨어 엔지니어링을 위한 Claude Code 네이티브 에이전트, 스웜, 워커, MCP 도구",
   "owner": {
     "name": "ruvnet",
     "url": "https://github.com/ruvnet"
@@ -9,232 +9,232 @@
     {
       "name": "ruflo-core",
       "source": "./plugins/ruflo-core",
-      "description": "Core Ruflo MCP tools, commands, and Claude Code orchestration patterns"
+      "description": "핵심 Ruflo MCP 도구, 명령, Claude Code 오케스트레이션 패턴"
     },
     {
       "name": "ruflo-ai-team",
       "source": "./plugins/ruflo-ai-team/directory",
-      "description": "Tenant-isolated AI teams that plan work, coordinate tasks, recall approved context, and return evidence-backed results"
+      "description": "작업을 계획하고, 작업을 조율하고, 승인된 컨텍스트를 불러와 근거 기반 결과를 돌려주는 테넌트 격리형 AI 팀"
     },
     {
       "name": "ruflo-x-gateway",
       "source": "./plugins/ruflo-x-gateway/directory",
-      "description": "Remote RuFlo Federation MCP connector for signed channels, work claims, evidence, and cross-agent coordination"
+      "description": "서명된 채널, 작업 클레임, 증거, 에이전트 간 조율을 위한 원격 RuFlo Federation MCP 커넥터"
     },
     {
       "name": "ruflo-deepseek-harness",
       "source": "./plugins/ruflo-deepseek-harness",
-      "description": "DeepSeek model harness with focused agents, commands, and skills for swarm-backed reasoning workflows"
+      "description": "스웜 기반 추론 워크플로를 위한 전용 에이전트, 명령, 스킬을 갖춘 DeepSeek 모델 하네스(harness)"
     },
     {
       "name": "ruflo-swarm",
       "source": "./plugins/ruflo-swarm",
-      "description": "Agent teams, swarm coordination, Monitor streams, and worktree isolation"
+      "description": "에이전트 팀, 스웜 조율, Monitor 스트림, 워크트리 격리"
     },
     {
       "name": "ruflo-loop-workers",
       "source": "./plugins/ruflo-loop-workers",
-      "description": "Cache-aware /loop workers and CronCreate background automation"
+      "description": "캐시 인식 /loop 워커와 CronCreate 백그라운드 자동화"
     },
     {
       "name": "ruflo-security-audit",
       "source": "./plugins/ruflo-security-audit",
-      "description": "Security review, dependency scanning, policy gates, and CVE monitoring"
+      "description": "보안 리뷰, 의존성 스캔, 정책 게이트, CVE 모니터링"
     },
     {
       "name": "ruflo-rag-memory",
       "source": "./plugins/ruflo-rag-memory",
-      "description": "RuVector memory with HNSW search, AgentDB, and semantic retrieval"
+      "description": "HNSW 검색, AgentDB, 시맨틱 검색을 갖춘 RuVector 메모리"
     },
     {
       "name": "ruflo-testgen",
       "source": "./plugins/ruflo-testgen",
-      "description": "Test gap detection, coverage analysis, and automated test generation"
+      "description": "테스트 공백 탐지, 커버리지 분석, 자동 테스트 생성"
     },
     {
       "name": "ruflo-docs",
       "source": "./plugins/ruflo-docs",
-      "description": "Documentation generation, drift detection, and API docs automation"
+      "description": "문서 생성, 드리프트 탐지, API 문서 자동화"
     },
     {
       "name": "ruflo-autopilot",
       "source": "./plugins/ruflo-autopilot",
-      "description": "Autonomous /loop-driven task completion with learning, prediction, and progress tracking"
+      "description": "학습, 예측, 진행 상황 추적을 갖춘 /loop-driven 방식의 자율 작업 완료"
     },
     {
       "name": "ruflo-intelligence",
       "source": "./plugins/ruflo-intelligence",
-      "description": "Self-learning neural intelligence with SONA patterns, trajectory learning, and model routing"
+      "description": "SONA 패턴, 궤적 학습, 모델 라우팅을 갖춘 자가 학습 뉴럴 인텔리전스"
     },
     {
       "name": "ruflo-agentdb",
       "source": "./plugins/ruflo-agentdb",
-      "description": "AgentDB memory controllers with HNSW vector search, RuVector embeddings, and causal graphs"
+      "description": "HNSW 벡터 검색, RuVector 임베딩, 인과 그래프를 갖춘 AgentDB 메모리 컨트롤러"
     },
     {
       "name": "ruflo-aidefence",
       "source": "./plugins/ruflo-aidefence",
-      "description": "AI safety scanning, PII detection, prompt injection defense, and adaptive threat learning"
+      "description": "AI 안전 스캔, PII 탐지, 프롬프트 인젝션 방어, 적응형 위협 학습"
     },
     {
       "name": "ruflo-protector",
       "source": "./plugins/ruflo-protector",
-      "description": "Project Anatole: an optional, learning watchdog for unattended agents (OWASP-mapped rules, a per-project baseline, learn / notify / enforce modes). Default off."
+      "description": "Project Anatole: 무인 에이전트를 위한 선택적 학습형 감시 도구(OWASP 매핑 규칙, 프로젝트별 기준선, learn / notify / enforce 모드). 기본값은 꺼짐."
     },
     {
       "name": "ruflo-browser",
       "source": "./plugins/ruflo-browser",
-      "description": "Agentic browser automation with Playwright for testing, scraping, and UI interaction"
+      "description": "테스트, 스크래핑, UI 상호작용을 위한 Playwright 기반 에이전트형 브라우저 자동화"
     },
     {
       "name": "ruflo-jujutsu",
       "source": "./plugins/ruflo-jujutsu",
-      "description": "Advanced git workflows with diff analysis, risk scoring, and reviewer recommendations"
+      "description": "diff 분석, 위험 점수 산정, 리뷰어 추천을 갖춘 고급 git 워크플로"
     },
     {
       "name": "ruflo-agent",
       "source": "./plugins/ruflo-agent",
-      "description": "Agent runtimes \u2014 local WASM-sandboxed agents (rvagent) + Anthropic Claude Managed Agents (cloud); one interface, local-vs-cloud backends"
+      "description": "에이전트 런타임 — 로컬 WASM 샌드박스 에이전트(rvagent)와 Anthropic Claude Managed Agents(클라우드), 하나의 인터페이스로 로컬/클라우드 백엔드 지원"
     },
     {
       "name": "ruflo-workflows",
       "source": "./plugins/ruflo-workflows",
-      "description": "Visual workflow automation with templates, orchestration, and lifecycle management"
+      "description": "템플릿, 오케스트레이션, 수명 주기 관리를 갖춘 시각적 워크플로 자동화"
     },
     {
       "name": "ruflo-daa",
       "source": "./plugins/ruflo-daa",
-      "description": "Dynamic Agentic Architecture with cognitive patterns, knowledge sharing, and adaptive agents"
+      "description": "인지 패턴, 지식 공유, 적응형 에이전트를 갖춘 동적 에이전트 아키텍처"
     },
     {
       "name": "ruflo-ruvllm",
       "source": "./plugins/ruflo-ruvllm",
-      "description": "RuVLLM local inference with chat formatting, MicroLoRA fine-tuning, and SONA adaptation"
+      "description": "채팅 포맷팅, MicroLoRA 파인튜닝, SONA 적응을 갖춘 RuVLLM 로컬 추론"
     },
     {
       "name": "ruflo-rvf",
       "source": "./plugins/ruflo-rvf",
-      "description": "RVF format for portable agent memory, session persistence, and cross-platform transfer"
+      "description": "이식 가능한 에이전트 메모리, 세션 영속화, 플랫폼 간 전송을 위한 RVF 형식"
     },
     {
       "name": "ruflo-plugin-creator",
       "source": "./plugins/ruflo-plugin-creator",
-      "description": "Scaffold, validate, and publish new Claude Code plugins with proper structure"
+      "description": "올바른 구조의 새 Claude Code 플러그인을 스캐폴딩, 검증, 게시"
     },
     {
       "name": "ruflo-goals",
       "source": "./plugins/ruflo-goals",
-      "description": "Long-horizon goal planning, deep research orchestration, and adaptive replanning using GOAP"
+      "description": "GOAP를 활용한 장기 목표 계획, 심층 리서치 오케스트레이션, 적응형 재계획"
     },
     {
       "name": "ruflo-adr",
       "source": "./plugins/ruflo-adr",
-      "description": "ADR lifecycle management \u2014 create, index, supersede, and link Architecture Decision Records to code"
+      "description": "ADR 수명 주기 관리 — 아키텍처 결정 기록(ADR)을 생성, 인덱싱, 대체하고 코드에 연결"
     },
     {
       "name": "ruflo-cost-tracker",
       "source": "./plugins/ruflo-cost-tracker",
-      "description": "Token usage tracking, model cost attribution per agent, budget alerts, and optimization recommendations"
+      "description": "토큰 사용량 추적, 에이전트별 모델 비용 귀속, 예산 경고, 최적화 권장 사항"
     },
     {
       "name": "ruflo-ddd",
       "source": "./plugins/ruflo-ddd",
-      "description": "Domain-Driven Design scaffolding \u2014 bounded contexts, aggregate roots, domain events, and anti-corruption layers"
+      "description": "도메인 주도 설계 스캐폴딩 — 바운디드 컨텍스트, 애그리게이트 루트, 도메인 이벤트, 부패 방지 계층"
     },
     {
       "name": "ruflo-federation",
       "source": "./plugins/ruflo-federation",
-      "description": "Cross-installation agent federation with zero-trust security, PII-gated data flow, and compliance-grade audit trails"
+      "description": "제로 트러스트 보안, PII 차단 데이터 흐름, 규정 준수 수준 감사 추적을 갖춘 설치 간 에이전트 페더레이션"
     },
     {
       "name": "ruflo-graph-intelligence",
       "source": "./plugins/ruflo-graph-intelligence",
-      "description": "Real-time graph intelligence \u2014 personalized PageRank, streaming delta updates, witness-signed reasoning, and federation-distributable vectors"
+      "description": "실시간 그래프 인텔리전스 — 개인화 PageRank, 스트리밍 델타 업데이트, 위트니스 서명 추론, 페더레이션 배포 가능 벡터"
     },
     {
       "name": "ruflo-iot-cognitum",
       "source": "./plugins/ruflo-iot-cognitum",
-      "description": "IoT device lifecycle, telemetry anomaly detection, fleet management, and witness chain verification for Cognitum Seed hardware"
+      "description": "Cognitum Seed 하드웨어를 위한 IoT 기기 수명 주기, 텔레메트리 이상 탐지, 플릿 관리, 위트니스 체인 검증"
     },
     {
       "name": "ruflo-knowledge-graph",
       "source": "./plugins/ruflo-knowledge-graph",
-      "description": "Knowledge graph construction \u2014 entity extraction, relation mapping, and pathfinder graph traversal"
+      "description": "지식 그래프 구축 — 엔티티 추출, 관계 매핑, 패스파인더 그래프 순회"
     },
     {
       "name": "ruflo-market-data",
       "source": "./plugins/ruflo-market-data",
-      "description": "Market data ingestion \u2014 feed normalization, OHLCV vectorization, and HNSW-indexed pattern matching"
+      "description": "시장 데이터 수집 — 피드 정규화, OHLCV 벡터화, HNSW 인덱스 기반 패턴 매칭"
     },
     {
       "name": "ruflo-migrations",
       "source": "./plugins/ruflo-migrations",
-      "description": "Schema migration management \u2014 generate, validate, dry-run, and rollback database migrations"
+      "description": "스키마 마이그레이션 관리 — 데이터베이스 마이그레이션 생성, 검증, 드라이런, 롤백"
     },
     {
       "name": "ruflo-neural-trader",
       "source": "./plugins/ruflo-neural-trader",
-      "description": "Neural trading strategies \u2014 self-learning LSTM/Transformer/N-BEATS models with Rust/NAPI backtesting"
+      "description": "뉴럴 트레이딩 전략 — Rust/NAPI 백테스트를 갖춘 자가 학습 LSTM/Transformer/N-BEATS 모델"
     },
     {
       "name": "ruflo-observability",
       "source": "./plugins/ruflo-observability",
-      "description": "Structured logging, distributed tracing, and metrics \u2014 correlate agent swarm activity with application telemetry"
+      "description": "구조화 로깅, 분산 트레이싱, 메트릭 — 에이전트 스웜 활동을 애플리케이션 텔레메트리와 연관"
     },
     {
       "name": "ruflo-ruvector",
       "source": "./plugins/ruflo-ruvector",
-      "description": "Self-learning vector database \u2014 HNSW, FlashAttention-3, Graph RAG, hybrid search, DiskANN, and Brain AGI"
+      "description": "자가 학습 벡터 데이터베이스 — HNSW, FlashAttention-3, Graph RAG, 하이브리드 검색, DiskANN, Brain AGI"
     },
     {
       "name": "ruflo-sparc",
       "source": "./plugins/ruflo-sparc",
-      "description": "SPARC methodology \u2014 Specification, Pseudocode, Architecture, Refinement, Completion phases with quality gates"
+      "description": "SPARC 방법론 — 품질 게이트를 갖춘 명세(Specification), 의사코드(Pseudocode), 아키텍처(Architecture), 개선(Refinement), 완료(Completion) 단계"
     },
     {
       "name": "ruflo-metaharness",
       "source": "./plugins/ruflo-metaharness",
-      "description": "MetaHarness integration \u2014 surfaces score/genome/mint/mcp-scan/threat-model via skills; pairs with @metaharness/router (ADR-148/149) for cost-optimal model routing; honors ADR-150 optional-augmentation constraint"
+      "description": "MetaHarness 통합 — 스킬을 통해 score/genome/mint/mcp-scan/threat-model을 제공하고, @metaharness/router(ADR-148/149)와 함께 비용 최적 모델 라우팅을 수행하며, ADR-150의 선택적 확장 제약을 준수"
     },
     {
       "name": "ruflo-arena",
       "source": "./plugins/ruflo-arena",
-      "description": "Competitive ruliology for ruflo swarms \u2014 arenas, tournaments, and adaptive co-evolution of program strategies (ADR-147/148); strategies-as-programs compete under payoff games"
+      "description": "ruflo 스웜을 위한 경쟁적 룰리올로지 — 아레나, 토너먼트, 프로그램 전략의 적응형 공진화(ADR-147/148), 프로그램으로 표현된 전략이 보상 게임에서 경쟁"
     },
     {
       "name": "ruflo-agntcy",
       "source": "./plugins/ruflo-agntcy",
-      "description": "AGNTCY/Outshift Internet-of-Cognition runtime integration \u2014 SLIM secure transport, CASA intent-scoped tool authorization, and AGNTCY identity/observability spans (ADR-380); optional, removable augmentation per ADR-150"
+      "description": "AGNTCY/Outshift Internet-of-Cognition 런타임 통합 — SLIM 보안 전송, CASA 의도 범위 도구 권한 부여, AGNTCY 신원/관측 스팬(ADR-380), ADR-150에 따른 선택적이며 제거 가능한 확장 기능"
     },
     {
       "name": "ruflo-bbs-federation",
       "source": "./plugins/ruflo-bbs-federation",
-      "description": "AgentBBS cross-host agent federation (ADR-164). Phase 1: register/publish/watch/human-join room coordination. Phase 2 (v3.40.0): signed cross-host federation \u2014 identity, peer_add (pin by nodeId+Ed25519 key), peers, serve (read-only pull), sync (pull + union-merge what verifies). Registry-anchored pinning; works on any network (no tailnet required); coordinates work claims (ClaimIssued/Released/Handoff/Ack). Degrades gracefully when agentbbs is absent."
+      "description": "AgentBBS 호스트 간 에이전트 페더레이션(ADR-164). 1단계: register/publish/watch/human-join 룸 조율(등록/게시/감시/사람 참여). 2단계(v3.40.0): 서명된 호스트 간 페더레이션 — identity, peer_add(nodeId+Ed25519 키로 고정), peers, serve(읽기 전용 가져오기), sync(가져오기 + 검증된 항목 합집합 병합). 레지스트리 기반 고정, 모든 네트워크에서 동작(tailnet 불필요), 작업 클레임(ClaimIssued/Released/Handoff/Ack) 조율. agentbbs가 없으면 기능이 단계적으로 축소됩니다."
     },
     {
       "name": "ruflo-business-pods",
       "source": "./plugins/ruflo-business-pods",
-      "description": "Business-domain pod templates for the federated business autopilot (ADR-164 Phase 2) \u2014 pod templates plus a dry-run-by-default single-tick runner that validates, reserves budget, and resolves agent roles before posting to the BBS room"
+      "description": "연합형 비즈니스 오토파일럿(ADR-164 2단계)을 위한 비즈니스 도메인 팟 템플릿 — 팟 템플릿과, BBS 룸에 게시하기 전에 검증하고 예산을 확보하고 에이전트 역할을 확정하는 기본 드라이런 단일 틱 실행기"
     },
     {
       "name": "ruflo-music",
       "source": "./plugins/ruflo-music",
-      "description": "AI music generation via Cognitum Music (cogmusic MCP) \u2014 compose lyrics/prompts, generate tracks, separate stems, extract MIDI, and master through your own music.cognitum.one account"
+      "description": "Cognitum Music(cogmusic MCP)을 통한 AI 음악 생성 — 가사/프롬프트 작성, 트랙 생성, 스템 분리, MIDI 추출, 본인 music.cognitum.one 계정으로 마스터링"
     },
     {
       "name": "ruflo-mods",
       "source": "./plugins/ruflo-mods",
-      "description": "Early access (ADR-404): ruflo as a Claude Code mod (function hooks) \u2014 in-process routing, edit learning signals, tighten-only tool checks from ruflo policy, and the cost budget ladder. Opt-in via `ruflo mods install`; classic hooks stay the fallback"
+      "description": "얼리 액세스(ADR-404): Claude Code mod(함수 훅)로 구현한 ruflo — 인프로세스 라우팅, 편집 학습 신호, ruflo 정책 기반의 강화 전용 도구 검사, 비용 예산 단계. `ruflo mods install`로 옵트인하며 기존 훅이 대체 수단으로 유지"
     },
     {
       "name": "ruflo-ruos",
       "source": "./plugins/ruflo-ruos",
-      "description": "Run ruflo swarm agents on your own ruOS cloud desktops via the tenant-authenticated fleet MCP or per-tenant SSH; optional, removable"
+      "description": "테넌트 인증 플릿 MCP 또는 테넌트별 SSH를 통해 본인의 ruOS 클라우드 데스크톱에서 ruflo 스웜 에이전트를 실행하는 선택적이며 제거 가능한 플러그인"
     },
     {
       "name": "ruflo-console",
       "source": "./plugins/ruflo-console",
-      "description": "Early access: ruflo's cockpit as a Claude Code mod (function hooks) and the one /ruflo command for every ruflo mod \u2014 overview with health alerts, swarm topology, claims flow, federation map, plugin health, learning pipeline, MetaHarness radar, memory, cost gauge, agent timeline, approvals and events; a command palette for confirm-gated actions through the ruflo CLI; auto-opens where it docks; no network by default"
+      "description": "얼리 액세스: Claude Code mod(함수 훅)로 구현한 ruflo 콕핏과 모든 ruflo mod를 위한 단일 /ruflo 명령 — 상태 경고 개요, 스웜 토폴로지, 클레임 흐름, 페더레이션 지도, 플러그인 상태, 학습 파이프라인, MetaHarness 레이더, 메모리, 비용 게이지, 에이전트 타임라인, 승인, 이벤트, ruflo CLI를 통한 확인 필요 작업용 명령 팔레트, 도킹 위치에서 자동 열림, 기본적으로 네트워크 미사용"
     }
   ]
 }

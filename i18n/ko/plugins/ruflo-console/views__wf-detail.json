@@ -1,0 +1,181 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-detail.ts",
+  "entries": [
+    {
+      "key": "{0}  {1} · {2} agents · tokens n/a",
+      "ko": "{0}  {1} · 에이전트 {2}개 · 토큰 해당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:195 text()"
+      ]
+    },
+    {
+      "key": "{0}  {1} · {2} agents · {3} tok",
+      "ko": "{0}  {1} · 에이전트 {2}개 · {3} tok",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:195 text()"
+      ]
+    },
+    {
+      "key": "{0}  {1} · {2} agents · ruflo swarm",
+      "ko": "{0}  {1} · 에이전트 {2}개 · ruflo 스웜",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:195 text()"
+      ]
+    },
+    {
+      "key": "{0} runs: m w move",
+      "ko": "{0} 실행: m w 이동",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:196 text()"
+      ]
+    },
+    {
+      "key": "{0}  {1}/{2} done · {3} running · {4} failed",
+      "ko": "{0}  {1}/{2} 완료 · {3} 실행 중 · {4} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:200 text()"
+      ]
+    },
+    {
+      "key": "{0}  {1}/{2} done · {3} running",
+      "ko": "{0}  {1}/{2} 완료 · {3} 실행 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:200 text()"
+      ]
+    },
+    {
+      "key": "{0}  {1}/{2} done · {3} failed",
+      "ko": "{0}  {1}/{2} 완료 · {3} 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:200 text()"
+      ]
+    },
+    {
+      "key": "{0}  {1} · calls n/a · {2}",
+      "ko": "{0}  {1} · 호출 해당 없음 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:204 text()"
+      ]
+    },
+    {
+      "key": "No agent has started in this phase yet.",
+      "ko": "이 단계에서 시작된 에이전트가 아직 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:205 text()",
+        "plugins/ruflo-console/hooks/views/workflows.ts:173 text()"
+      ]
+    },
+    {
+      "key": "Drill into this run",
+      "ko": "이 실행 자세히 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:223 button()"
+      ]
+    },
+    {
+      "key": "{0} · {1} — runs › phases › agents › one agent (activity, log, files, result) › one call",
+      "ko": "{0} · {1} — 실행 › 단계 › 에이전트 › 에이전트 하나(활동, 로그, 파일, 결과) › 호출 하나",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:223 text()"
+      ]
+    },
+    {
+      "key": "deeper",
+      "ko": "더 깊이",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:238 button()",
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:247 label"
+      ]
+    },
+    {
+      "key": "✕ close",
+      "ko": "✕ 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:238 button()"
+      ]
+    },
+    {
+      "key": "◂ back",
+      "ko": "◂ 뒤로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:238 button()",
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:248 label"
+      ]
+    },
+    {
+      "key": "▴ prev",
+      "ko": "▴ 이전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:238 button()",
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:250 label"
+      ]
+    },
+    {
+      "key": "▾ next",
+      "ko": "▾ 다음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:238 button()",
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:249 label"
+      ]
+    },
+    {
+      "key": "next tab",
+      "ko": "다음 탭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:241 hint()"
+      ]
+    },
+    {
+      "key": "tab ▸",
+      "ko": "탭 ▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:251 label"
+      ]
+    },
+    {
+      "key": "follow",
+      "ko": "따라가기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:252 label"
+      ]
+    },
+    {
+      "key": "Drill-down",
+      "ko": "자세히 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:261 title"
+      ]
+    },
+    {
+      "key": "no letter left",
+      "ko": "남은 글자 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-detail.ts:266 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

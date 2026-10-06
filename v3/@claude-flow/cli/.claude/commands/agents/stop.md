@@ -1,6 +1,6 @@
 ---
 name: stop
-description: Stop a running agent
+description: 실행 중인 에이전트를 중지합니다
 aliases: [kill]
 type: command
 ---

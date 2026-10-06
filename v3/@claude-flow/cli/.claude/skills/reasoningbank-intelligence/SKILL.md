@@ -1,6 +1,6 @@
 ---
 name: "ReasoningBank Intelligence"
-description: "Implement adaptive learning with ReasoningBank for pattern recognition, strategy optimization, and continuous improvement. Use when building self-learning agents, optimizing workflows, or implementing meta-cognitive systems."
+description: "ReasoningBank로 패턴 인식, 전략 최적화, 지속적 개선을 위한 적응형 학습을 구현합니다. 자가 학습 에이전트(self-learning agents)를 만들거나, 워크플로를 최적화하거나, 메타인지(meta-cognitive) 시스템을 구현할 때 사용합니다."
 ---
 
 # ReasoningBank Intelligence

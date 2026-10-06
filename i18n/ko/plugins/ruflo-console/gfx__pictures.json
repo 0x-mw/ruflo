@@ -1,0 +1,41 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/pictures.ts",
+  "entries": [
+    {
+      "key": "no routed outcomes on disk yet",
+      "ko": "디스크에 라우팅 결과가 아직 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pictures.ts:204 text()"
+      ]
+    },
+    {
+      "key": "░▒▓ AGENT SWARM CONSOLE",
+      "ko": "░▒▓ 에이전트 스웜 콘솔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pictures.ts:342 const"
+      ]
+    },
+    {
+      "key": "░▒▓ SWARM CONSOLE",
+      "ko": "░▒▓ 스웜 콘솔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pictures.ts:346 expr"
+      ]
+    },
+    {
+      "key": "░▒▓ CONSOLE",
+      "ko": "░▒▓ 콘솔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/pictures.ts:346 expr",
+        "plugins/ruflo-console/hooks/gfx/pictures.ts:346 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

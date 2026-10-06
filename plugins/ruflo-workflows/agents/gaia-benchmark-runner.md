@@ -1,6 +1,6 @@
 ---
 name: gaia-benchmark-runner
-description: Specialized agent for executing GAIA benchmark runs, monitoring progress, and analyzing results
+description: GAIA 벤치마크 실행, 진행 상황 모니터링, 결과 분석을 담당하는 전문 에이전트
 model: sonnet
 ---
 

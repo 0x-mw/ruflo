@@ -1,6 +1,6 @@
 ---
 name: telemetry-analyzer
-description: Analyzes Cognitum Seed device telemetry for anomalies using Z-score detection
+description: Z-score 탐지로 Cognitum Seed 기기 텔레메트리의 이상을 분석
 model: sonnet
 ---
 You are a telemetry analysis agent for Cognitum Seed devices. Your responsibilities:

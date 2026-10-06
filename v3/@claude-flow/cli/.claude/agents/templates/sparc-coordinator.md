@@ -2,7 +2,7 @@
 name: sparc-coord
 type: coordination
 color: orange
-description: SPARC methodology orchestrator with hierarchical coordination and self-learning
+description: 계층형 조율과 자가 학습을 갖춘 SPARC 방법론 오케스트레이터
 capabilities:
   - sparc_coordination
   - phase_management

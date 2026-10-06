@@ -1,0 +1,1950 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/hooks.ts",
+  "entries": [
+    {
+      "key": "Get context and agent suggestions before editing a file",
+      "ko": "파일을 편집하기 전에 컨텍스트와 에이전트 제안을 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:279 description"
+      ]
+    },
+    {
+      "key": "File path to edit",
+      "ko": "편집할 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:284 description"
+      ]
+    },
+    {
+      "key": "Type of edit operation (create, update, delete, refactor)",
+      "ko": "편집 작업 유형 (create, update, delete, refactor)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:291 description"
+      ]
+    },
+    {
+      "key": "Additional context about the edit",
+      "ko": "편집에 대한 추가 컨텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:298 description"
+      ]
+    },
+    {
+      "key": "Get context before editing",
+      "ko": "편집 전 컨텍스트 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:303 description",
+        "src/commands/hooks.ts:5704 description"
+      ]
+    },
+    {
+      "key": "Pre-edit with operation type",
+      "ko": "작업 유형을 지정한 편집 전 훅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:304 description"
+      ]
+    },
+    {
+      "key": "Record editing outcome for learning",
+      "ko": "학습을 위해 편집 결과를 기록합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:402 description"
+      ]
+    },
+    {
+      "key": "File path that was edited",
+      "ko": "편집한 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:407 description"
+      ]
+    },
+    {
+      "key": "Whether the edit was successful",
+      "ko": "편집 성공 여부",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:414 description"
+      ]
+    },
+    {
+      "key": "Outcome description",
+      "ko": "결과 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:421 description"
+      ]
+    },
+    {
+      "key": "Performance metrics (e.g., \"time:500ms,quality:0.95\")",
+      "ko": "성능 메트릭 (예: \"time:500ms,quality:0.95\")",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:427 description"
+      ]
+    },
+    {
+      "key": "Record successful edit",
+      "ko": "성공한 편집 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:432 description"
+      ]
+    },
+    {
+      "key": "Record failed edit",
+      "ko": "실패한 편집 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:433 description"
+      ]
+    },
+    {
+      "key": "Assess risk before executing a command",
+      "ko": "명령을 실행하기 전에 위험을 평가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:527 description"
+      ]
+    },
+    {
+      "key": "Command to execute",
+      "ko": "실행할 명령",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:532 description"
+      ]
+    },
+    {
+      "key": "Only analyze, do not execute",
+      "ko": "분석만 하고 실행하지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:539 description"
+      ]
+    },
+    {
+      "key": "Assess command risk",
+      "ko": "명령 위험 평가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:545 description"
+      ]
+    },
+    {
+      "key": "Check package install",
+      "ko": "패키지 설치 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:546 description"
+      ]
+    },
+    {
+      "key": "Record command execution outcome",
+      "ko": "명령 실행 결과를 기록합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:643 description"
+      ]
+    },
+    {
+      "key": "Command that was executed",
+      "ko": "실행한 명령",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:648 description"
+      ]
+    },
+    {
+      "key": "Whether the command succeeded",
+      "ko": "명령 성공 여부",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:655 description"
+      ]
+    },
+    {
+      "key": "Command exit code",
+      "ko": "명령 종료 코드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:662 description"
+      ]
+    },
+    {
+      "key": "Execution duration in milliseconds",
+      "ko": "실행 시간(밀리초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:669 description"
+      ]
+    },
+    {
+      "key": "Command history lifetime in seconds (default: 30 days)",
+      "ko": "명령 기록 유지 시간(초) (기본값: 30일)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:674 description"
+      ]
+    },
+    {
+      "key": "Record successful test run",
+      "ko": "성공한 테스트 실행 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:679 description"
+      ]
+    },
+    {
+      "key": "Record failed build",
+      "ko": "실패한 빌드 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:680 description"
+      ]
+    },
+    {
+      "key": "Route task to optimal agent using learned patterns",
+      "ko": "학습된 패턴으로 작업을 최적의 에이전트에게 라우팅합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:746 description"
+      ]
+    },
+    {
+      "key": "Additional context",
+      "ko": "추가 컨텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:758 description",
+        "src/commands/hooks.ts:5070 description"
+      ]
+    },
+    {
+      "key": "Number of top agent suggestions",
+      "ko": "상위 에이전트 제안 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:764 description"
+      ]
+    },
+    {
+      "key": "Routing mode: single (default) or moa (mixture-of-agents fanout, #2778)",
+      "ko": "라우팅 모드: single(기본값) 또는 moa (mixture-of-agents 팬아웃, #2778)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:776 description"
+      ]
+    },
+    {
+      "key": "MoA fanout width (N parallel calls at Haiku tier; only meaningful when --mode=moa)",
+      "ko": "MoA 팬아웃 폭 (Haiku 티어에서 N개 병렬 호출, --mode=moa일 때만 의미 있음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:793 description"
+      ]
+    },
+    {
+      "key": "DEPRECATED alias for --parallel (kept for v3.32.13 backward compat)",
+      "ko": "--parallel의 지원 중단된 별칭 (v3.32.13 하위 호환용으로 유지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:800 description"
+      ]
+    },
+    {
+      "key": "MoA consensus strategy: majority-vote (default) or best-confidence",
+      "ko": "MoA 합의 전략: majority-vote(기본값) 또는 best-confidence",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:805 description"
+      ]
+    },
+    {
+      "key": "Route task to optimal agent (single mode)",
+      "ko": "작업을 최적의 에이전트에게 라우팅 (single 모드)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:812 description"
+      ]
+    },
+    {
+      "key": "Get top 5 suggestions",
+      "ko": "상위 5개 제안 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:813 description"
+      ]
+    },
+    {
+      "key": "MoA fanout: 3× Haiku + consensus (dream-cycle #2778)",
+      "ko": "MoA 팬아웃: Haiku 3× + 합의 (dream-cycle #2778)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:814 description"
+      ]
+    },
+    {
+      "key": "Explain routing decision with transparency",
+      "ko": "라우팅 결정을 투명하게 설명합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1016 description"
+      ]
+    },
+    {
+      "key": "Agent type to explain",
+      "ko": "설명할 에이전트 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1028 description"
+      ]
+    },
+    {
+      "key": "Verbose explanation",
+      "ko": "상세 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1034 description"
+      ]
+    },
+    {
+      "key": "Explain routing decision",
+      "ko": "라우팅 결정 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1040 description"
+      ]
+    },
+    {
+      "key": "Verbose explanation for specific agent",
+      "ko": "특정 에이전트에 대한 상세 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1041 description"
+      ]
+    },
+    {
+      "key": "Bootstrap intelligence from repository (4-step pipeline + embeddings)",
+      "ko": "저장소에서 인텔리전스를 부트스트랩합니다 (4단계 파이프라인 + 임베딩)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1146 description"
+      ]
+    },
+    {
+      "key": "Repository path",
+      "ko": "저장소 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1151 description"
+      ]
+    },
+    {
+      "key": "Analysis depth (shallow, medium, deep)",
+      "ko": "분석 깊이 (shallow, medium, deep)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1158 description"
+      ]
+    },
+    {
+      "key": "Skip cached analysis",
+      "ko": "캐시된 분석 건너뛰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1165 description"
+      ]
+    },
+    {
+      "key": "Index documents for semantic search during pretraining",
+      "ko": "사전 학습 중 시맨틱 검색용 문서 인덱싱",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1171 description"
+      ]
+    },
+    {
+      "key": "ONNX embedding model",
+      "ko": "ONNX 임베딩 모델",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1177 description"
+      ]
+    },
+    {
+      "key": "File extensions to index (comma-separated)",
+      "ko": "인덱싱할 파일 확장자 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1184 description"
+      ]
+    },
+    {
+      "key": "Pretrain with embeddings indexing",
+      "ko": "임베딩 인덱싱과 함께 사전 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1190 description"
+      ]
+    },
+    {
+      "key": "Deep analysis of specific project",
+      "ko": "특정 프로젝트 심층 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1191 description"
+      ]
+    },
+    {
+      "key": "Skip embedding indexing",
+      "ko": "임베딩 인덱싱 건너뛰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1192 description"
+      ]
+    },
+    {
+      "key": "Index only TypeScript/JS files",
+      "ko": "TypeScript/JS 파일만 인덱싱",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1193 description"
+      ]
+    },
+    {
+      "key": "Generate optimized agent configs from pretrain data",
+      "ko": "사전 학습 데이터로 최적화된 에이전트 설정을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1339 description"
+      ]
+    },
+    {
+      "key": "Output directory for agent configs",
+      "ko": "에이전트 설정 출력 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1344 description"
+      ]
+    },
+    {
+      "key": "Focus area (v3-implementation, security, performance, all)",
+      "ko": "중점 영역 (v3-implementation, security, performance, all)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1351 description"
+      ]
+    },
+    {
+      "key": "Config format (yaml, json)",
+      "ko": "설정 형식 (yaml, json)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1357 description"
+      ]
+    },
+    {
+      "key": "Build all agent configs",
+      "ko": "모든 에이전트 설정 빌드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1364 description"
+      ]
+    },
+    {
+      "key": "Build security-focused configs",
+      "ko": "보안 중심 설정 빌드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1365 description"
+      ]
+    },
+    {
+      "key": "View learning metrics dashboard",
+      "ko": "학습 메트릭 대시보드를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1451 description"
+      ]
+    },
+    {
+      "key": "Time period (1h, 24h, 7d, 30d, all)",
+      "ko": "기간 (1h, 24h, 7d, 30d, all)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1456 description"
+      ]
+    },
+    {
+      "key": "Show V3 performance dashboard",
+      "ko": "V3 성능 대시보드 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1462 description"
+      ]
+    },
+    {
+      "key": "Metric category (patterns, agents, commands, performance)",
+      "ko": "메트릭 범주 (patterns, agents, commands, performance)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1469 description"
+      ]
+    },
+    {
+      "key": "View 24h metrics",
+      "ko": "24h 메트릭 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1474 description"
+      ]
+    },
+    {
+      "key": "V3 metrics for 7 days",
+      "ko": "7일간 V3 메트릭",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1475 description"
+      ]
+    },
+    {
+      "key": "Transfer patterns from another project",
+      "ko": "다른 프로젝트에서 패턴을 전송합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1688 description"
+      ]
+    },
+    {
+      "key": "Source project path",
+      "ko": "원본 프로젝트 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1693 description"
+      ]
+    },
+    {
+      "key": "Filter patterns by type",
+      "ko": "유형별 패턴 필터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1700 description"
+      ]
+    },
+    {
+      "key": "Minimum confidence threshold (0-1)",
+      "ko": "최소 신뢰도 임계값 (0-1)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1706 description",
+        "src/commands/hooks.ts:3212 description"
+      ]
+    },
+    {
+      "key": "Transfer all patterns",
+      "ko": "모든 패턴 전송",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1712 description"
+      ]
+    },
+    {
+      "key": "Transfer high-confidence security patterns",
+      "ko": "신뢰도 높은 보안 패턴 전송",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1713 description"
+      ]
+    },
+    {
+      "key": "Transfer patterns and plugins via IPFS-based decentralized registry",
+      "ko": "IPFS 기반 분산 레지스트리를 통해 패턴과 플러그인을 전송합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1831 description"
+      ]
+    },
+    {
+      "key": "List patterns from registry",
+      "ko": "레지스트리의 패턴 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1834 description"
+      ]
+    },
+    {
+      "key": "Search patterns",
+      "ko": "패턴 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1835 description",
+        "src/commands/transfer-store.ts:466 description"
+      ]
+    },
+    {
+      "key": "Download pattern",
+      "ko": "패턴 다운로드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1836 description",
+        "src/commands/transfer-store.ts:216 description",
+        "src/commands/transfer-store.ts:467 description"
+      ]
+    },
+    {
+      "key": "Publish pattern to registry",
+      "ko": "레지스트리에 패턴 게시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1837 description"
+      ]
+    },
+    {
+      "key": "Transfer from project",
+      "ko": "프로젝트에서 전송",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1838 description"
+      ]
+    },
+    {
+      "key": "List all registered hooks",
+      "ko": "등록된 모든 훅 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1869 description"
+      ]
+    },
+    {
+      "key": "Show only enabled hooks",
+      "ko": "활성화된 훅만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1874 description"
+      ]
+    },
+    {
+      "key": "Filter by hook type",
+      "ko": "훅 유형별 필터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1881 description"
+      ]
+    },
+    {
+      "key": "Record task start and get agent suggestions",
+      "ko": "작업 시작을 기록하고 에이전트 제안을 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1947 description"
+      ]
+    },
+    {
+      "key": "Unique task identifier (auto-generated if omitted)",
+      "ko": "고유 작업 식별자 (생략하면 자동 생성)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1952 description"
+      ]
+    },
+    {
+      "key": "Auto-spawn suggested agents",
+      "ko": "제안된 에이전트 자동 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1965 description"
+      ]
+    },
+    {
+      "key": "Record task start",
+      "ko": "작업 시작 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1971 description"
+      ]
+    },
+    {
+      "key": "With auto-spawn",
+      "ko": "자동 생성 사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:1972 description"
+      ]
+    },
+    {
+      "key": "Record task completion for learning",
+      "ko": "학습을 위해 작업 완료를 기록합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2113 description"
+      ]
+    },
+    {
+      "key": "JSON array of learned pattern strings for feedback and skill creation",
+      "ko": "피드백과 스킬 생성을 위한 학습된 패턴 문자열의 JSON 배열",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2115 description"
+      ]
+    },
+    {
+      "key": "Unique task identifier (auto-generated if not provided)",
+      "ko": "고유 작업 식별자 (지정하지 않으면 자동 생성)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2119 description"
+      ]
+    },
+    {
+      "key": "Whether the task succeeded",
+      "ko": "작업 성공 여부",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2126 description",
+        "src/commands/hooks.ts:5421 description"
+      ]
+    },
+    {
+      "key": "Quality score (0-1)",
+      "ko": "품질 점수 (0-1)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2133 description",
+        "src/commands/hooks.ts:5428 description"
+      ]
+    },
+    {
+      "key": "Agent that executed the task",
+      "ko": "작업을 실행한 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2139 description"
+      ]
+    },
+    {
+      "key": "Stable agent role used for role-aware pheromone comparison (for example coder, tester, coordinator)",
+      "ko": "역할 인지형 pheromone 비교에 쓰는 고정 에이전트 역할 (예: coder, tester, coordinator)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2144 description"
+      ]
+    },
+    {
+      "key": "Observed task duration in milliseconds for latency fitness",
+      "ko": "지연 시간 적합도 계산용 관측 작업 시간(밀리초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2149 description"
+      ]
+    },
+    {
+      "key": "Expected task duration in milliseconds; paired with --duration to normalize latency fitness",
+      "ko": "예상 작업 시간(밀리초). --duration과 함께 지연 시간 적합도를 정규화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2154 description"
+      ]
+    },
+    {
+      "key": "Consensus alignment score from 0 to 1",
+      "ko": "0에서 1 사이의 합의 정렬 점수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2159 description"
+      ]
+    },
+    {
+      "key": "Task description text (used for routing-outcome persistence and keyword extraction so hooks_metrics can surface Pattern Learning / Agent Routing counts). Without this + --agent, no routing outcome is recorded (#2785).",
+      "ko": "작업 설명 텍스트 (라우팅 결과 저장과 키워드 추출에 사용되어 hooks_metrics가 Pattern Learning / Agent Routing 건수를 표시할 수 있음). 이 값과 --agent가 없으면 라우팅 결과가 기록되지 않습니다 (#2785).",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2165 description"
+      ]
+    },
+    {
+      "key": "Also persist the routing decision to the memory DB (maps to hooks_post-task storeDecisions) so hooks_metrics can cross-reference it. Requires --task and --agent.",
+      "ko": "hooks_metrics가 교차 참조할 수 있도록 라우팅 결정을 메모리 DB에도 저장합니다 (hooks_post-task storeDecisions에 대응). --task와 --agent가 필요합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2171 description"
+      ]
+    },
+    {
+      "key": "ID of the parent agent (from Claude Code's parent_agent_id OTel span tag). Omit for top-level work.",
+      "ko": "상위 에이전트 ID (Claude Code의 parent_agent_id OTel 스팬 태그에서 가져옴). 최상위 작업이면 생략합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2178 description"
+      ]
+    },
+    {
+      "key": "Chain depth from root lead session (0 = lead, 1+ = subagent). Used by ADR-147 P3 depth-aware guardrail.",
+      "ko": "루트 리드 세션부터의 체인 깊이 (0 = 리드, 1 이상 = 서브에이전트). ADR-147 P3 깊이 인지형 가드레일에서 사용합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2184 description"
+      ]
+    },
+    {
+      "key": "Record successful completion",
+      "ko": "성공한 완료 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2190 description"
+      ]
+    },
+    {
+      "key": "Record failed task",
+      "ko": "실패한 작업 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2191 description"
+      ]
+    },
+    {
+      "key": "Record with routing-outcome persistence for hooks_metrics",
+      "ko": "hooks_metrics용 라우팅 결과 저장과 함께 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2192 description"
+      ]
+    },
+    {
+      "key": "End current session and persist state",
+      "ko": "현재 세션을 종료하고 상태를 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2284 description"
+      ]
+    },
+    {
+      "key": "Save session state for later restoration",
+      "ko": "나중에 복원할 수 있도록 세션 상태 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2289 description"
+      ]
+    },
+    {
+      "key": "End and save session",
+      "ko": "세션 종료 및 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2295 description"
+      ]
+    },
+    {
+      "key": "End without saving",
+      "ko": "저장하지 않고 종료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2296 description"
+      ]
+    },
+    {
+      "key": "Restore a previous session",
+      "ko": "이전 세션을 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2365 description"
+      ]
+    },
+    {
+      "key": "Session ID to restore (use \"latest\" for most recent)",
+      "ko": "복원할 세션 ID (가장 최근은 \"latest\" 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2370 description"
+      ]
+    },
+    {
+      "key": "Restore spawned agents",
+      "ko": "생성된 에이전트 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2377 description"
+      ]
+    },
+    {
+      "key": "Restore active tasks",
+      "ko": "활성 작업 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2384 description"
+      ]
+    },
+    {
+      "key": "Restore latest session",
+      "ko": "최근 세션 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2390 description"
+      ]
+    },
+    {
+      "key": "Restore specific session",
+      "ko": "특정 세션 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2391 description"
+      ]
+    },
+    {
+      "key": "RuVector intelligence system (SONA, MoE, HNSW 150x faster)",
+      "ko": "RuVector 인텔리전스 시스템 (SONA, MoE, HNSW 150x 빠름)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2459 description"
+      ]
+    },
+    {
+      "key": "Intelligence mode (real-time, batch, edge, research, balanced)",
+      "ko": "인텔리전스 모드 (real-time, batch, edge, research, balanced)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2464 description"
+      ]
+    },
+    {
+      "key": "Enable SONA sub-0.05ms learning",
+      "ko": "SONA 0.05ms 미만 학습 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2471 description"
+      ]
+    },
+    {
+      "key": "Enable Mixture of Experts routing",
+      "ko": "Mixture of Experts 라우팅 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2477 description",
+        "src/commands/neural.ts:25 description"
+      ]
+    },
+    {
+      "key": "Enable HNSW 150x faster search",
+      "ko": "HNSW 150x 빠른 검색 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2483 description"
+      ]
+    },
+    {
+      "key": "Show current intelligence status",
+      "ko": "현재 인텔리전스 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2490 description"
+      ]
+    },
+    {
+      "key": "Force training cycle",
+      "ko": "학습 주기 강제 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2497 description",
+        "src/commands/hooks.ts:2519 description"
+      ]
+    },
+    {
+      "key": "Reset learning state",
+      "ko": "학습 상태 재설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2504 description"
+      ]
+    },
+    {
+      "key": "Embedding provider (transformers, openai, mock)",
+      "ko": "임베딩 프로바이더 (transformers, openai, mock)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2510 description"
+      ]
+    },
+    {
+      "key": "Show intelligence status",
+      "ko": "인텔리전스 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2517 description"
+      ]
+    },
+    {
+      "key": "Enable real-time mode",
+      "ko": "실시간(real-time) 모드를 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2518 description"
+      ]
+    },
+    {
+      "key": "List all 12 background workers with capabilities",
+      "ko": "12개 백그라운드 워커 전체를 기능과 함께 나열합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2897 description"
+      ]
+    },
+    {
+      "key": "Filter by status (all, running, completed, pending)",
+      "ko": "상태별 필터 (all, running, completed, pending)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2899 description"
+      ]
+    },
+    {
+      "key": "Show active worker instances",
+      "ko": "활성 워커 인스턴스 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2900 description"
+      ]
+    },
+    {
+      "key": "List all workers",
+      "ko": "모든 워커 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2903 description",
+        "src/commands/hooks.ts:4289 description",
+        "src/commands/process.ts:436 description"
+      ]
+    },
+    {
+      "key": "Show active instances",
+      "ko": "활성 인스턴스 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:2904 description"
+      ]
+    },
+    {
+      "key": "Dispatch a background worker for analysis/optimization",
+      "ko": "분석/최적화용 백그라운드 워커를 디스패치합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3001 description"
+      ]
+    },
+    {
+      "key": "Worker type (ultralearn, optimize, audit, map, etc.)",
+      "ko": "워커 유형 (ultralearn, optimize, audit, map 등)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3003 description"
+      ]
+    },
+    {
+      "key": "Context for the worker (file path, topic)",
+      "ko": "워커용 컨텍스트 (파일 경로, 주제)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3004 description"
+      ]
+    },
+    {
+      "key": "Priority (low, normal, high, critical)",
+      "ko": "우선순위 (low, normal, high, critical)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3005 description"
+      ]
+    },
+    {
+      "key": "Wait for completion (synchronous)",
+      "ko": "완료될 때까지 대기 (동기)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3006 description"
+      ]
+    },
+    {
+      "key": "Dispatch optimize worker",
+      "ko": "optimize 워커 디스패치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3009 description"
+      ]
+    },
+    {
+      "key": "Security audit with critical priority",
+      "ko": "critical 우선순위로 보안 감사",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3010 description"
+      ]
+    },
+    {
+      "key": "Test coverage analysis (sync)",
+      "ko": "테스트 커버리지 분석 (동기)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3011 description"
+      ]
+    },
+    {
+      "key": "Get status of workers",
+      "ko": "워커 상태를 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3093 description"
+      ]
+    },
+    {
+      "key": "Specific worker ID to check",
+      "ko": "확인할 특정 워커 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3095 description"
+      ]
+    },
+    {
+      "key": "Include completed workers",
+      "ko": "완료된 워커 포함",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3096 description",
+        "src/commands/hooks.ts:3101 description"
+      ]
+    },
+    {
+      "key": "Show running workers",
+      "ko": "실행 중인 워커 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3099 description"
+      ]
+    },
+    {
+      "key": "Check specific worker",
+      "ko": "특정 워커 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3100 description"
+      ]
+    },
+    {
+      "key": "Detect worker triggers from prompt text",
+      "ko": "프롬프트 텍스트에서 워커 트리거를 감지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3208 description"
+      ]
+    },
+    {
+      "key": "Prompt text to analyze",
+      "ko": "분석할 프롬프트 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3210 description"
+      ]
+    },
+    {
+      "key": "Automatically dispatch detected workers",
+      "ko": "감지된 워커 자동 디스패치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3211 description"
+      ]
+    },
+    {
+      "key": "Detect triggers in prompt",
+      "ko": "프롬프트의 트리거 감지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3215 description"
+      ]
+    },
+    {
+      "key": "Detect and dispatch",
+      "ko": "감지 후 디스패치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3216 description"
+      ]
+    },
+    {
+      "key": "Cancel a running worker",
+      "ko": "실행 중인 워커를 취소합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3302 description"
+      ]
+    },
+    {
+      "key": "Worker ID to cancel",
+      "ko": "취소할 워커 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3304 description"
+      ]
+    },
+    {
+      "key": "Cancel specific worker",
+      "ko": "특정 워커 취소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3307 description"
+      ]
+    },
+    {
+      "key": "Route task to agents based on test coverage gaps (ruvector integration)",
+      "ko": "테스트 커버리지 공백을 기준으로 작업을 에이전트에게 라우팅합니다 (ruvector 통합)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3367 description"
+      ]
+    },
+    {
+      "key": "Task description to route",
+      "ko": "라우팅할 작업 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3372 description",
+        "src/commands/hooks.ts:5069 description"
+      ]
+    },
+    {
+      "key": "Coverage threshold percentage (default: 80)",
+      "ko": "커버리지 임계값 비율 (기본값: 80)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3378 description",
+        "src/commands/hooks.ts:3649 description",
+        "src/commands/hooks.ts:3877 description"
+      ]
+    },
+    {
+      "key": "Disable ruvector integration",
+      "ko": "ruvector 통합 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3384 description"
+      ]
+    },
+    {
+      "key": "Route with coverage awareness",
+      "ko": "커버리지를 고려해 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3390 description"
+      ]
+    },
+    {
+      "key": "Route with custom threshold",
+      "ko": "사용자 지정 임계값으로 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3391 description"
+      ]
+    },
+    {
+      "key": "Suggest coverage improvements for a path (ruvector integration)",
+      "ko": "경로의 커버리지 개선안을 제안합니다 (ruvector 통합)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3638 description"
+      ]
+    },
+    {
+      "key": "Path to analyze for coverage suggestions",
+      "ko": "커버리지 제안을 위해 분석할 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3643 description"
+      ]
+    },
+    {
+      "key": "Maximum number of suggestions (default: 20)",
+      "ko": "최대 제안 수 (기본값: 20)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3656 description"
+      ]
+    },
+    {
+      "key": "Suggest improvements for src/",
+      "ko": "src/ 개선안 제안",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3662 description"
+      ]
+    },
+    {
+      "key": "Stricter threshold",
+      "ko": "더 엄격한 임계값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3663 description",
+        "src/commands/hooks.ts:3897 description"
+      ]
+    },
+    {
+      "key": "List all coverage gaps with priority scoring and agent assignments",
+      "ko": "우선순위 점수와 에이전트 할당을 포함해 모든 커버리지 공백 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3873 description"
+      ]
+    },
+    {
+      "key": "Group gaps by suggested agent (default: true)",
+      "ko": "제안된 에이전트별로 공백 그룹화 (기본값: true)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3883 description"
+      ]
+    },
+    {
+      "key": "Show only critical gaps",
+      "ko": "중요 공백만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3889 description"
+      ]
+    },
+    {
+      "key": "List all coverage gaps",
+      "ko": "모든 커버리지 공백 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3895 description"
+      ]
+    },
+    {
+      "key": "Only critical gaps",
+      "ko": "중요 공백만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:3896 description"
+      ]
+    },
+    {
+      "key": "Check V3 implementation progress via hooks",
+      "ko": "훅을 통해 V3 구현 진행 상황을 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4132 description"
+      ]
+    },
+    {
+      "key": "Show detailed breakdown by category",
+      "ko": "범주별 상세 내역 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4137 description"
+      ]
+    },
+    {
+      "key": "Sync and persist progress to file",
+      "ko": "진행 상황을 동기화하여 파일에 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4144 description"
+      ]
+    },
+    {
+      "key": "Show human-readable summary",
+      "ko": "사람이 읽기 쉬운 요약 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4150 description",
+        "src/commands/progress.ts:143 description"
+      ]
+    },
+    {
+      "key": "Check current progress",
+      "ko": "현재 진행 상황 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4156 description",
+        "src/commands/progress.ts:263 description"
+      ]
+    },
+    {
+      "key": "Detailed breakdown",
+      "ko": "상세 내역",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4157 description"
+      ]
+    },
+    {
+      "key": "Sync progress to file",
+      "ko": "진행 상황을 파일로 동기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4158 description"
+      ]
+    },
+    {
+      "key": "Human-readable summary",
+      "ko": "사람이 읽기 쉬운 요약",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4159 description"
+      ]
+    },
+    {
+      "key": "Background worker management (12 workers for analysis/optimization)",
+      "ko": "백그라운드 워커 관리 (분석/최적화용 12개 워커)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4279 description"
+      ]
+    },
+    {
+      "key": "Dispatch optimizer",
+      "ko": "optimizer 디스패치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4290 description"
+      ]
+    },
+    {
+      "key": "Detect from prompt",
+      "ko": "프롬프트에서 감지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4291 description"
+      ]
+    },
+    {
+      "key": "Generate dynamic statusline with V3 progress and system status",
+      "ko": "V3 진행 상황과 시스템 상태를 담은 동적 상태 표시줄을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4333 description"
+      ]
+    },
+    {
+      "key": "Compact single-line output (auto-enabled when terminal width < 100 cols)",
+      "ko": "간결한 한 줄 출력 (터미널 너비가 100열 미만이면 자동 활성화)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4343 description"
+      ]
+    },
+    {
+      "key": "Force the full multi-line output even on narrow terminals",
+      "ko": "좁은 터미널에서도 전체 여러 줄 출력을 강제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4349 description"
+      ]
+    },
+    {
+      "key": "Disable ANSI colors",
+      "ko": "ANSI 색상 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4355 description"
+      ]
+    },
+    {
+      "key": "Display full statusline",
+      "ko": "전체 상태 표시줄 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4361 description"
+      ]
+    },
+    {
+      "key": "JSON output for hooks",
+      "ko": "훅용 JSON 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4362 description"
+      ]
+    },
+    {
+      "key": "Single-line status",
+      "ko": "한 줄 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4363 description"
+      ]
+    },
+    {
+      "key": "(DEPRECATED: Use \"route\" instead) Route task to optimal agent",
+      "ko": "(지원 중단: 대신 \"route\" 사용) 작업을 최적의 에이전트에게 라우팅합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4843 description"
+      ]
+    },
+    {
+      "key": "Route with auto-swarm (v2 compat)",
+      "ko": "자동 스웜으로 라우팅 (v2 호환)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4846 description"
+      ]
+    },
+    {
+      "key": "(DEPRECATED: Use \"session-restore\" instead) Start/restore session",
+      "ko": "(지원 중단: 대신 \"session-restore\" 사용) 세션을 시작/복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4861 description"
+      ]
+    },
+    {
+      "key": "(v2 compat) Auto-configure session",
+      "ko": "(v2 호환) 세션 자동 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4867 description"
+      ]
+    },
+    {
+      "key": "(v2 compat) Restore context",
+      "ko": "(v2 호환) 컨텍스트 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4873 description"
+      ]
+    },
+    {
+      "key": "Start session (v2 compat)",
+      "ko": "세션 시작 (v2 호환)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4879 description"
+      ]
+    },
+    {
+      "key": "(ALIAS) Same as pre-command",
+      "ko": "(별칭) pre-command와 같습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4894 description"
+      ]
+    },
+    {
+      "key": "(ALIAS) Same as post-command",
+      "ko": "(별칭) post-command와 같습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4903 description"
+      ]
+    },
+    {
+      "key": "Token optimization via agentic-flow Agent Booster integration",
+      "ko": "agentic-flow Agent Booster 통합을 통한 토큰 최적화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4912 description"
+      ]
+    },
+    {
+      "key": "Query for compact context retrieval",
+      "ko": "간결한 컨텍스트 조회용 쿼리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4914 description"
+      ]
+    },
+    {
+      "key": "Agent count for optimal config",
+      "ko": "최적 설정을 위한 에이전트 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4915 description"
+      ]
+    },
+    {
+      "key": "Generate optimization report",
+      "ko": "최적화 보고서 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4916 description"
+      ]
+    },
+    {
+      "key": "Show token savings statistics",
+      "ko": "토큰 절감 통계 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4917 description"
+      ]
+    },
+    {
+      "key": "Show token savings stats",
+      "ko": "토큰 절감 통계 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4920 description"
+      ]
+    },
+    {
+      "key": "Get compact context",
+      "ko": "간결한 컨텍스트 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4921 description"
+      ]
+    },
+    {
+      "key": "Config for 8 agents + report",
+      "ko": "에이전트 8개 설정 + 보고서",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:4922 description"
+      ]
+    },
+    {
+      "key": "Route task to optimal Claude model (haiku/sonnet/opus) based on complexity",
+      "ko": "복잡도에 따라 작업을 최적의 Claude 모델(haiku/sonnet/opus)로 라우팅합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5067 description"
+      ]
+    },
+    {
+      "key": "Prefer lower cost models",
+      "ko": "저비용 모델 우선",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5071 description"
+      ]
+    },
+    {
+      "key": "Prefer higher quality models",
+      "ko": "고품질 모델 우선",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5072 description"
+      ]
+    },
+    {
+      "key": "Route simple task (likely haiku)",
+      "ko": "단순 작업 라우팅 (haiku 가능성 높음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5075 description"
+      ]
+    },
+    {
+      "key": "Route complex task (likely opus)",
+      "ko": "복잡한 작업 라우팅 (opus 가능성 높음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5076 description"
+      ]
+    },
+    {
+      "key": "Record model routing outcome for learning",
+      "ko": "학습을 위해 모델 라우팅 결과를 기록합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5162 description"
+      ]
+    },
+    {
+      "key": "Task that was executed",
+      "ko": "실행한 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5164 description"
+      ]
+    },
+    {
+      "key": "Model that was used (haiku/sonnet/opus)",
+      "ko": "사용한 모델 (haiku/sonnet/opus)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5165 description"
+      ]
+    },
+    {
+      "key": "Outcome (success/failure/escalated)",
+      "ko": "결과 (success/failure/escalated)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5166 description"
+      ]
+    },
+    {
+      "key": "Quality score 0-1",
+      "ko": "품질 점수 0-1",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5167 description"
+      ]
+    },
+    {
+      "key": "Record successful haiku task",
+      "ko": "성공한 haiku 작업 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5170 description"
+      ]
+    },
+    {
+      "key": "Record escalation to opus",
+      "ko": "opus로의 에스컬레이션 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5171 description"
+      ]
+    },
+    {
+      "key": "View model routing statistics and learning metrics",
+      "ko": "모델 라우팅 통계와 학습 메트릭을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5207 description"
+      ]
+    },
+    {
+      "key": "Show detailed breakdown",
+      "ko": "상세 내역 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5209 description",
+        "src/commands/hooks.ts:5213 description",
+        "src/commands/progress.ts:28 description"
+      ]
+    },
+    {
+      "key": "View routing stats",
+      "ko": "라우팅 통계 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5212 description"
+      ]
+    },
+    {
+      "key": "Handle idle teammate in Agent Teams - auto-assign tasks or notify lead",
+      "ko": "Agent Teams의 유휴 팀원을 처리합니다 - 작업을 자동 할당하거나 리드에게 알립니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5297 description"
+      ]
+    },
+    {
+      "key": "Automatically assign pending tasks to idle teammate",
+      "ko": "대기 중인 작업을 유휴 팀원에게 자동 할당",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5302 description"
+      ]
+    },
+    {
+      "key": "Check shared task list for available work",
+      "ko": "공유 작업 목록에서 가능한 작업 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5310 description"
+      ]
+    },
+    {
+      "key": "ID of the idle teammate",
+      "ko": "유휴 팀원 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5317 description"
+      ]
+    },
+    {
+      "key": "Team name for context",
+      "ko": "컨텍스트용 팀 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5322 description"
+      ]
+    },
+    {
+      "key": "Auto-assign tasks to idle teammate",
+      "ko": "유휴 팀원에게 작업 자동 할당",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5327 description"
+      ]
+    },
+    {
+      "key": "Check tasks for specific teammate",
+      "ko": "특정 팀원의 작업 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5328 description"
+      ]
+    },
+    {
+      "key": "Handle task completion in Agent Teams - train patterns and notify lead",
+      "ko": "Agent Teams의 작업 완료를 처리합니다 - 패턴을 학습시키고 리드에게 알립니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5395 description"
+      ]
+    },
+    {
+      "key": "ID of the completed task",
+      "ko": "완료된 작업 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5400 description"
+      ]
+    },
+    {
+      "key": "Train neural patterns from successful task",
+      "ko": "성공한 작업에서 뉴럴 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5407 description"
+      ]
+    },
+    {
+      "key": "Notify team lead of task completion",
+      "ko": "작업 완료를 팀 리드에게 알림",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5414 description"
+      ]
+    },
+    {
+      "key": "ID of the teammate that completed the task",
+      "ko": "작업을 완료한 팀원 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5434 description"
+      ]
+    },
+    {
+      "key": "Complete task and train patterns",
+      "ko": "작업을 완료하고 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5439 description"
+      ]
+    },
+    {
+      "key": "Complete with quality score",
+      "ko": "품질 점수와 함께 완료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5440 description"
+      ]
+    },
+    {
+      "key": "Send a notification message (logged to session)",
+      "ko": "알림 메시지를 보냅니다 (세션에 기록됨)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5531 description"
+      ]
+    },
+    {
+      "key": "Notification message",
+      "ko": "알림 메시지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5533 description"
+      ]
+    },
+    {
+      "key": "Level: info, warn, error",
+      "ko": "수준: info, warn, error",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5534 description"
+      ]
+    },
+    {
+      "key": "Notification channel",
+      "ko": "알림 채널",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5535 description"
+      ]
+    },
+    {
+      "key": "Send info notification",
+      "ko": "info 알림 보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5538 description"
+      ]
+    },
+    {
+      "key": "Send error notification",
+      "ko": "error 알림 보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5539 description"
+      ]
+    },
+    {
+      "key": "Best-effort background refresh of the funnel message cache (internal — see hook-handler.cjs session-restore)",
+      "ko": "퍼널 메시지 캐시를 백그라운드에서 최선을 다해 새로고침합니다 (내부용 — hook-handler.cjs session-restore 참조)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5591 description"
+      ]
+    },
+    {
+      "key": "Suppress output (used when spawned detached from a hook)",
+      "ko": "출력 억제 (훅에서 분리되어 생성될 때 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5593 description",
+        "src/commands/hooks.ts:5627 description"
+      ]
+    },
+    {
+      "key": "Best-effort background refresh of the co-pilot advisor tip (internal — see hook-handler.cjs session-restore; ADR-316)",
+      "ko": "코파일럿 어드바이저 팁을 백그라운드에서 최선을 다해 새로고침합니다 (내부용 — hook-handler.cjs session-restore 참조, ADR-316)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5625 description"
+      ]
+    },
+    {
+      "key": "Self-learning hooks system for intelligent workflow automation",
+      "ko": "지능형 워크플로 자동화를 위한 자가 학습 훅 시스템",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5657 description"
+      ]
+    },
+    {
+      "key": "Route task to optimal agent",
+      "ko": "작업을 최적의 에이전트에게 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5705 description"
+      ]
+    },
+    {
+      "key": "Bootstrap intelligence from repository",
+      "ko": "저장소에서 인텔리전스 부트스트랩",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5706 description"
+      ]
+    },
+    {
+      "key": "View V3 performance metrics",
+      "ko": "V3 성능 메트릭 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hooks.ts:5707 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: migrate-create
-description: Create a new sequentially numbered database migration with up/down SQL files
+description: up/down SQL 파일이 있는, 순차 번호가 붙은 새 데이터베이스 마이그레이션을 생성
 argument-hint: "<name>"
 allowed-tools: Read Write Glob Bash mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search
 ---

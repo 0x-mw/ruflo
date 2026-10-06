@@ -1,3 +1,7 @@
+---
+description: 이슈 분류
+---
+
 # issue-triage
 
 Intelligent issue classification and triage.

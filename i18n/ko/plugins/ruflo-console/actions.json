@@ -1,0 +1,165 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/actions.ts",
+  "entries": [
+    {
+      "key": "claim {0} for {1}",
+      "ko": "{0} 클레임: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:66 label"
+      ]
+    },
+    {
+      "key": "the claim in .claude-flow/claims/claims.json",
+      "ko": ".claude-flow/claims/claims.json의 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:68 expect"
+      ]
+    },
+    {
+      "key": "release {0} held by {1}",
+      "ko": "{0} 해제 (보유: {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:80 label"
+      ]
+    },
+    {
+      "key": "released from ruflo-console",
+      "ko": "ruflo-console에서 해제함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:81 reason"
+      ]
+    },
+    {
+      "key": "the claim gone from claims.json",
+      "ko": "claims.json에서 사라진 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:82 expect"
+      ]
+    },
+    {
+      "key": "hand {0} to {1}",
+      "ko": "{0}을 {1}에게 인계",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:95 label"
+      ]
+    },
+    {
+      "key": "handed off from ruflo-console",
+      "ko": "ruflo-console에서 인계함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:96 reason"
+      ]
+    },
+    {
+      "key": "a pending handoff on the claim",
+      "ko": "클레임에 대기 중인 인계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:97 expect"
+      ]
+    },
+    {
+      "key": "steal {0} for {1}",
+      "ko": "{0} 가로채기: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:109 label",
+        "plugins/ruflo-console/hooks/palette.ts:98 add()"
+      ]
+    },
+    {
+      "key": "the claim held by the picked agent",
+      "ko": "선택한 에이전트가 보유한 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:111 expect"
+      ]
+    },
+    {
+      "key": "no unclaimed task to claim",
+      "ko": "클레임할 미클레임 작업이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:118 return"
+      ]
+    },
+    {
+      "key": "no agent to claim it for",
+      "ko": "클레임을 맡길 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:118 return"
+      ]
+    },
+    {
+      "key": "that task id or agent cannot be passed to ruflo",
+      "ko": "해당 작업 ID나 에이전트를 ruflo에 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:118 return"
+      ]
+    },
+    {
+      "key": "no claim picked",
+      "ko": "선택한 클레임이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:119 return"
+      ]
+    },
+    {
+      "key": "that claimant cannot be named to ruflo",
+      "ko": "해당 클레임 보유자를 ruflo에 지정할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:120 return",
+        "plugins/ruflo-console/hooks/palette.ts:94 why"
+      ]
+    },
+    {
+      "key": "no agent picked (a)",
+      "ko": "선택한 에이전트가 없습니다 (a)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:121 return"
+      ]
+    },
+    {
+      "key": "the picked agent already holds it",
+      "ko": "선택한 에이전트가 이미 보유하고 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:122 return",
+        "plugins/ruflo-console/hooks/palette.ts:98 why"
+      ]
+    },
+    {
+      "key": "the claim is not marked stealable",
+      "ko": "클레임이 가로챌 수 있음으로 표시되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:124 return",
+        "plugins/ruflo-console/hooks/palette.ts:98 why"
+      ]
+    },
+    {
+      "key": "that claim cannot be passed to ruflo",
+      "ko": "해당 클레임을 ruflo에 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/actions.ts:124 return",
+        "plugins/ruflo-console/hooks/palette.ts:93 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: llm-specialist
-description: RuVLLM specialist for local inference configuration, MicroLoRA fine-tuning, and multi-provider routing
+description: 로컬 추론 설정, MicroLoRA 파인튜닝, 다중 프로바이더 라우팅을 담당하는 RuVLLM 전문 에이전트
 model: sonnet
 ---
 
