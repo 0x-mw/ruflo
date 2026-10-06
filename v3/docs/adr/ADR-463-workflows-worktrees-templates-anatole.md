@@ -55,7 +55,7 @@ start never matches. The board shows per agent the blocked and notified counts, 
 override, else the default), and an inspector tab lists one agent's alerts, masked and stripped. Everything is labelled as reported by the
 mod and unauthenticated.
 
-**The console cannot stop or message a running workflow.** None of the three adds such a button; the page's own line saying so (ADR-464)
+**The console cannot stop or message a running workflow.** (Amended by ADR-465: the control tab can, through the engine's own TaskStop and SendMessage.) None of the three adds such a button; the page's own line saying so (ADR-464)
 stays, and a worktree whose agent is running is kept with that reason instead of a disabled button.
 
 ## 3. Consequences

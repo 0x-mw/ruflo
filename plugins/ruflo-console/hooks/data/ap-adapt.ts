@@ -13,7 +13,7 @@
  * finished without a verified effect are neither success nor failure here: an unverified step teaches nothing.
  */
 import { canonical, sha256, type Envelope } from './ap-envelope'
-import type { Receipt } from './ap-journal'
+import { REFUSED_WHY, type Receipt } from './ap-journal'
 import type { StepRec } from './ap-loop'
 
 export const TIERS = ['low', 'mid', 'high'] as const
@@ -92,6 +92,8 @@ export function outcomesOf(steps: readonly StepRec[]): Outcome[] {
     const ok = step.status === 'done' && step.verified === true
 
     if (!ok && step.status !== 'failed') return []
+    // A hand-over the mission refused never ran: it says nothing about the setting it was started under.
+    if (step.status === 'failed' && step.why === REFUSED_WHY) return []
 
     return [{ at: step.endedAt ?? step.startedAt, cls: step.cls, tier: step.tier, par: step.par ?? 1, attempt: step.attempt, ok, durationMs: Math.max(0, (step.endedAt ?? step.startedAt) - step.startedAt) }]
   })
@@ -105,7 +107,7 @@ const pct = (n: number): string => `${Math.round(n * 100)}%`
 const nextTier = (tier: string, step: 1 | -1): Tier | null => TIERS[(TIERS as readonly string[]).indexOf(tier) + step] ?? null
 
 /** What the measured outcomes suggest, as proposals only. Nothing is applied here. */
-export function propose(outcomes: readonly Outcome[], t: Tunables, env: Envelope): Proposal[] {
+export function propose(outcomes: readonly Outcome[], t: Tunables, env: Envelope, receipts: readonly Receipt[] = []): Proposal[] {
   const out: Proposal[] = []
   const classes = [...new Set(outcomes.map(o => o.cls))]
 
@@ -131,7 +133,10 @@ export function propose(outcomes: readonly Outcome[], t: Tunables, env: Envelope
 
   if (retried.length >= MIN_SAMPLES && 1 - rate(retried) >= 0.6 && t.retries < RANGE.retries[1]) out.push({ id: `retries-${t.retries + 1}`, change: { path: 'retries', from: String(t.retries), to: String(t.retries + 1) }, direction: 'conservative', reason: `${pct(1 - rate(retried))} of retried steps succeed` })
 
-  return out.filter(p => applyChange(t, p.change) !== null)
+  // A setting a trial was reverted away from is not tried again: the old clean history that proposed it is the very history the trial contradicted.
+  const reverted = new Set(receipts.filter(r => r.id.startsWith('revert-')).map(r => `${r.path}=${r.from}`))
+
+  return out.filter(p => applyChange(t, p.change) !== null && !(p.direction === 'aggressive' && reverted.has(`${p.change.path}=${p.change.to}`)))
 }
 
 /** Replays the proposal over what the journal holds: does the evidence about the setting being left support leaving it? */

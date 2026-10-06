@@ -34,6 +34,14 @@ const UNPLACED = /\b(push(es|ed|ing)?|install(s|ed|ing)?|uninstall|upload|send|p
 
 /** Text as the patterns must see it: compatibility-normalised, escape sequences gone, zero-width and format characters REMOVED (so "pub<ZWSP>lish" reads as "publish"), other control characters spaced. */
 export const seen = (value: string): string => value.normalize('NFKC').replace(ESCAPES, '').replace(INVISIBLE, '').replace(HIDDEN, ' ')
+/** URLs the text names: host, then up to three path segments (enough to read a GitHub `owner/name`). */
+const URLS = /\bhttps?:\/\/([A-Za-z0-9.-]{1,253})(?::\d+)?((?:\/[A-Za-z0-9._~%@-]*){0,3})/gi
+
+const repoOf = (urlPath: string): string | null => {
+  const match = /^\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)/.exec(urlPath)
+
+  return match === null ? null : `${match[1]}/${(match[2] as string).replace(/\.git$/, '')}`
+}
 
 /** A task's text as the facts the loop needs. The class is the most privileged one the words suggest; none is `null`, never a default. */
 export function classifyTask(id: string, title: string, requirement = ''): TaskFact {
@@ -41,9 +49,12 @@ export function classifyTask(id: string, title: string, requirement = ''): TaskF
   const hardDeny = DENIES.find(([, pattern]) => pattern.test(text))?.[0] ?? null
   const hits = CLASS_WORDS.filter(([, pattern]) => pattern.test(text)).map(([cls]) => cls)
   const cls = hits.length === 0 || UNPLACED.test(text) ? null : (hits.at(-1) as ToolClass)
-  const paths = [...[...text.matchAll(PATH)].map(m => m[1] as string), ...[...text.matchAll(RELATIVE_PATH)].map(m => m[1] as string)].slice(0, 12)
+  const paths = [...new Set([...[...text.matchAll(PATH)].map(m => m[1] as string), ...[...text.matchAll(RELATIVE_PATH)].map(m => m[1] as string)])].slice(0, 12)
+  const urls = [...text.matchAll(URLS)]
+  const hosts = [...new Set(urls.map(match => (match[1] as string).toLowerCase()))].slice(0, 8)
+  const repos = [...new Set(urls.flatMap(match => ((match[1] as string).toLowerCase() === 'github.com' ? [repoOf(match[2] as string)] : []).filter((name): name is string => name !== null)))].slice(0, 8)
 
-  return { id, title: seen(title).slice(0, 160), cls, hardDeny, path: paths[0] ?? null, paths }
+  return { id, title: seen(title).slice(0, 160), cls, hardDeny, path: paths[0] ?? null, paths, ...(hosts.length > 0 && { hosts }), ...(repos.length > 0 && { repos }) }
 }
 
 /**
