@@ -172,3 +172,30 @@ describe('the view', () => {
     expect(texts(memmapRows(ctxOf(state))).join('\n')).toContain('read counts n/a')
   })
 })
+
+describe('the optimised projection and layout cache', () => {
+  it('projects exactly as the per-dimension hash definition does, at any length', () => {
+    for (const length of [2, 7, 384, 1536]) {
+      const v = Array.from({ length }, (_, i) => Math.cos(i * 1.7))
+      let a = 0
+      let b = 0
+
+      v.forEach((value, i) => {
+        a += (hash32(String(i), 1) & 1 ? 1 : -1) * value
+        b += (hash32(String(i), 2) & 1 ? 1 : -1) * value
+      })
+
+      const scale = Math.sqrt(Math.max(1, length)) / 2
+
+      expect(projectVector(v)).toEqual({ x: 0.5 + 0.5 * Math.tanh(a / scale), y: 0.5 + 0.5 * Math.tanh(b / scale) })
+    }
+  })
+
+  it('lays an array out once and gives a new array its own layout', () => {
+    const list = entries()
+
+    expect(layout(list)).toBe(layout(list))
+    expect(layout([...list])).not.toBe(layout(list))
+    expect(layout([...list])).toEqual(layout(list))
+  })
+})

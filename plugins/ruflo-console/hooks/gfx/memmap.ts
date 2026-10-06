@@ -39,15 +39,32 @@ const unit = (text: string, seed: number): number => hash32(text, seed) / 0x1_00
 /** Namespaces in a fixed order (by name), so a namespace keeps its colour and its place whatever else is listed. */
 export const spacesOf = (entries: readonly { namespace: string }[]): string[] => [...new Set(entries.map(entry => entry.namespace))].sort()
 
+/** The two hyperplanes' ±1 signs by dimension index, grown on demand: hashing the index per entry per dimension was the whole cost of an embedding layout. */
+const signs: [Int8Array, Int8Array] = [new Int8Array(0), new Int8Array(0)]
+
+function signsFor(length: number): [Int8Array, Int8Array] {
+  if (signs[0].length < length) {
+    const size = Math.max(length, 384)
+
+    signs[0] = Int8Array.from({ length: size }, (_, i) => (hash32(String(i), 1) & 1 ? 1 : -1))
+    signs[1] = Int8Array.from({ length: size }, (_, i) => (hash32(String(i), 2) & 1 ? 1 : -1))
+  }
+
+  return signs
+}
+
 /** A vector onto the plane through two fixed ±1 hyperplanes seeded by the dimension index; tanh keeps it inside 0..1. */
 export function projectVector(vector: readonly number[]): { x: number; y: number } {
+  const [sa, sb] = signsFor(vector.length)
   let a = 0
   let b = 0
 
-  vector.forEach((value, i) => {
-    a += (hash32(String(i), 1) & 1 ? 1 : -1) * value
-    b += (hash32(String(i), 2) & 1 ? 1 : -1) * value
-  })
+  for (let i = 0; i < vector.length; i++) {
+    const value = vector[i] as number
+
+    a += (sa[i] as number) * value
+    b += (sb[i] as number) * value
+  }
 
   const scale = Math.sqrt(Math.max(1, vector.length)) / 2
 
@@ -57,11 +74,29 @@ export function projectVector(vector: readonly number[]): { x: number; y: number
 /** Every entry is embedded and carries its vector: the only case the map may call 'embedding'. */
 export const modeOf = (entries: readonly MapEntry[]): MapMode => (entries.length > 0 && entries.every(entry => entry.vector !== undefined && entry.vector.length > 1) ? 'embedding' : 'hash')
 
-/** The plane: positions in 0..1 for each entry, by `modeOf`. Deterministic: the same entries land in the same places. */
+const laidOut = new WeakMap<readonly MapEntry[], { mode: MapMode; points: MapPoint[] }>()
+
+/**
+ * The plane: positions in 0..1 for each entry, by `modeOf`. Deterministic: the same entries land in the same places. Remembered per
+ * entries array (a probe hands the same array to every frame until it refreshes), so the picture and the rows of one frame lay out once.
+ */
 export function layout(entries: readonly MapEntry[]): { mode: MapMode; points: MapPoint[] } {
+  const known = laidOut.get(entries)
+
+  if (known !== undefined) return known
+
+  const placed = layoutOf(entries)
+
+  laidOut.set(entries, placed)
+
+  return placed
+}
+
+function layoutOf(entries: readonly MapEntry[]): { mode: MapMode; points: MapPoint[] } {
   const mode = modeOf(entries)
   const spaces = spacesOf(entries)
   const n = spaces.length
+  const slot = new Map(spaces.map((space, i) => [space, i]))
   // Ring radius and cluster radius, in -1..1 units: clusters of neighbouring namespaces on the ring just touch.
   const ring = n === 1 ? 0 : 0.6
   const spread = n === 1 ? 0.85 : Math.min(0.4, 0.9 * ring * Math.sin(Math.PI / n))
@@ -71,7 +106,7 @@ export function layout(entries: readonly MapEntry[]): { mode: MapMode; points: M
 
     if (mode === 'embedding') return { ...meta, ...projectVector(entry.vector as readonly number[]) }
 
-    const angle = (Math.max(0, spaces.indexOf(entry.namespace)) / Math.max(1, n)) * Math.PI * 2 - Math.PI / 2
+    const angle = ((slot.get(entry.namespace) ?? 0) / Math.max(1, n)) * Math.PI * 2 - Math.PI / 2
     const around = unit(entry.key, 3) * Math.PI * 2
     const reach = Math.sqrt(unit(entry.key, 4)) * spread
 
