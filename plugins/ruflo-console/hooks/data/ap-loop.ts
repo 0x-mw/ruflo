@@ -29,9 +29,11 @@ export type LoopState = {
   lastBeatAt: number | null
   lastDigestDay: string | null
   receipts: Receipt[]
+  /** How many `start` lines the journal holds: the approved count is pinned outside the project, so an extra (forged or replayed) start is seen. */
+  starts: number
 }
 
-export const emptyLoop = (): LoopState => ({ phase: 'idle', startedAtMs: null, envHash: null, revision: null, anatole: null, reason: null, steps: [], parked: [], failures: 0, lastFailureAt: null, lastBeatAt: null, lastDigestDay: null, receipts: [] })
+export const emptyLoop = (): LoopState => ({ phase: 'idle', startedAtMs: null, envHash: null, revision: null, anatole: null, reason: null, steps: [], parked: [], failures: 0, lastFailureAt: null, lastBeatAt: null, lastDigestDay: null, receipts: [], starts: 0 })
 
 export const KEEP_STEPS = 400
 /** Consecutive failures that pause the loop instead of letting it thrash. */
@@ -49,6 +51,7 @@ export function foldJournal(events: readonly JournalEvent[], base: LoopState = e
   for (const e of events) {
     switch (e.t) {
       case 'start':
+        s.starts += 1
         Object.assign(s, { phase: 'running', startedAtMs: e.at, envHash: e.envHash, revision: e.revision, anatole: e.anatole, reason: null, failures: 0, lastFailureAt: null })
         break
       case 'step.started':
@@ -125,7 +128,7 @@ export function compactState(s: LoopState): LoopState {
   return { ...s, steps: s.steps.filter(step => keep.has(step)), parked: s.parked.slice(-200), receipts: s.receipts.slice(-200) }
 }
 
-export type TaskFact = { id: string; title: string; /** The envelope class the task needs, or null when it cannot be classified (it is parked, never guessed). */ cls: string | null; /** A hard deny the task text names, or null. */ hardDeny: string | null; /** A path the task names, when one can be read from it. */ path: string | null }
+export type TaskFact = { id: string; title: string; /** Every path the text names (absolute, or home/parent/variable forms that can never be inside a folder). */ paths?: readonly string[]; /** The envelope class the task needs, or null when it cannot be classified (it is parked, never guessed). */ cls: string | null; /** A hard deny the task text names, or null. */ hardDeny: string | null; /** A path the task names, when one can be read from it. */ path: string | null }
 export type EffectFact = 'done' | 'done-unverified' | 'failed' | 'absent' | 'unknown'
 export type Preflight = 'allow' | 'deny' | 'ask' | 'unwired'
 export type Tunables = { parallelism: number; retries: number; stepTimeoutMs: number; tierOf: (cls: string) => string }
@@ -166,7 +169,7 @@ export function whyParked(task: TaskFact, env: Envelope, preflight: Readonly<Rec
   if (task.hardDeny !== null) return `needs "${task.hardDeny}", which autopilot can never do. Do it yourself, or deny it.`
   if (task.cls === null) return 'cannot tell which kind of action this needs, and autopilot does not guess. Which class is it?'
   if (!classAllowed(env, task.cls)) return `needs "${task.cls}", which the envelope does not allow. Approve once, or deny.`
-  if (task.path !== null && !pathAllowed(env, task.path)) return `touches ${task.path.slice(0, 80)}, outside the envelope's folders. Approve once, or deny.`
+  for (const path of task.paths ?? (task.path === null ? [] : [task.path])) if (!pathAllowed(env, path)) return `touches ${path.slice(0, 80)}, outside the envelope's folders (or in one that is never granted). Approve once, or deny.`
   if (preflight[task.cls] === 'deny' || preflight[task.cls] === 'ask') return `your permission settings would not allow "${task.cls}" without asking. Approve once here (the engine still decides), or deny.`
 
   return null
@@ -253,6 +256,11 @@ export function tick(s: LoopState, f: Facts): Decision {
 
     return park(s, events, task, 'retries', why, now)
   }
+
+  // A step lost to a restart may have run: the prompt may already have been handed to the session. Retrying it is a question, never automatic.
+  const wasLost = s.steps.some(step => step.task === task.id && step.status === 'failed' && (step.why ?? '').startsWith('lost on restart'))
+
+  if (wasLost && !answeredOnce) return park(s, events, task, 'lost', 'a step for this task was in flight when the console restarted and may have run: check the work, then retry once, or deny.', now)
 
   const why = answeredOnce ? null : whyParked(task, f.envelope, f.preflight)
 

@@ -16,10 +16,12 @@ import { readBounded, under } from './data/files'
 import { checkNoLinks, dirOf, removeFileArgv, replaceFileArgv } from './data/wf-file'
 import { cleanText } from './data/wf-clean'
 import { trackerOf } from './data/cost-ledger'
-import { evaluate, outcomesOf, promote, propose, reviewTrials, tierOf, tunablesFrom, lastHash } from './data/ap-adapt'
+import { evaluate, outcomesOf, promote, propose, reviewTrials, tierOf, tunablesFrom, lastHash, verifyReceipts } from './data/ap-adapt'
+import { checkPin, type Pin } from './data/ap-pin'
+import { loadPin, setPin } from './ap-pin-live'
 import { AUTOPILOT_DIR, ENVELOPE_FILE, KILL_FILE, open, type Envelope, type Sealed, type Spend } from './data/ap-envelope'
-import { anatoleFact, classifyTask, effectOf, killSeen, preflightAll, spendArgvs, spendOf, type ToolCheck } from './data/ap-guard'
-import { appendArgv, encodeLine, JOURNAL_FILE, JOURNAL_MAX_BYTES, parseJournal, touchArgv, type JournalEvent } from './data/ap-journal'
+import { anatoleFact, classifyTask, effectOf, killSeen, preflightAll, spendArgvs, spendOf, verifyPermission, type ToolCheck } from './data/ap-guard'
+import { appendArgv, encodeLine, JOURNAL_FILE, JOURNAL_MAX_BYTES, parseJournal, startedCount, touchArgv, type JournalEvent } from './data/ap-journal'
 import { digestText, emptyLoop, foldJournal, skipSet, snapshotEvents, tick, type EffectFact, type Facts, type LoopState, type TaskFact } from './data/ap-loop'
 import type { Preflight } from './data/ap-loop'
 import type { NoticeDraft } from './notices'
@@ -52,6 +54,11 @@ export type Store = {
   verified: Map<string, EffectFact>
   chain: Promise<unknown>
   isTimerOn: boolean
+  /** What the person approved, held outside the project (data/ap-pin.ts). */
+  pin: Pin | null
+  isPinLoaded: boolean
+  /** True while a confirmed Start is writing: the journal may hold one start more than the pin says. */
+  isPinPending: boolean
 }
 
 const stores = new WeakMap<State, Store>()
@@ -63,7 +70,7 @@ export const activeOf = (): State | null => active
 
 const checks = new WeakMap<State, ToolCheck | undefined>()
 
-export const storeOf = (state: State): Store => stores.get(state) ?? stores.set(state, { sealed: null, envWhy: null, loop: emptyLoop(), badLines: 0, journalBytes: 0, spend: null, spendAtMs: 0, killed: false, status: 'not wired', preflight: {}, preflightAtMs: 0, hasCheck: false, adaptAtMs: 0, bootMs: Date.now(), isTicking: false, error: null, readAtMs: 0, notices: [], verified: new Map(), chain: Promise.resolve(), isTimerOn: false }).get(state)!
+export const storeOf = (state: State): Store => stores.get(state) ?? stores.set(state, { sealed: null, envWhy: null, loop: emptyLoop(), badLines: 0, journalBytes: 0, spend: null, spendAtMs: 0, killed: false, status: 'not wired', preflight: {}, preflightAtMs: 0, hasCheck: false, adaptAtMs: 0, bootMs: Date.now(), isTicking: false, error: null, readAtMs: 0, notices: [], verified: new Map(), chain: Promise.resolve(), isTimerOn: false, pin: null, isPinLoaded: false, isPinPending: false }).get(state)!
 
 export const hostOf = (state: State): Host | undefined => hosts.get(state)
 
@@ -155,8 +162,10 @@ export function appendEvents(state: State, host: Host, events: readonly JournalE
         return false
       }
 
+      state.cache.delete(path) // a file just written is no longer "missing" for the next read
       store.loop = foldJournal(events, store.loop)
       store.error = null
+      if (store.pin !== null && store.pin.stopped !== true && events.some(e => e.t === 'stop')) await setPin(store, host, state.cwd, { ...store.pin, stopped: true })
 
       return true
     } catch {
@@ -236,7 +245,10 @@ export async function writeEnvelope(state: State, host: Host, sealed: Sealed): P
   const hasDir = (await host.fs.stat(dirOf(path)).catch(() => undefined)) !== undefined
   const result = await host.run(replaceFileArgv(path, hasDir), 10_000, `${JSON.stringify(sealed, null, 2)}\n`)
 
-  if (result.exitCode === 0) storeOf(state).sealed = sealed
+  if (result.exitCode === 0) {
+    state.cache.delete(path)
+    storeOf(state).sealed = sealed
+  }
 
   return result.exitCode === 0
 }
@@ -286,12 +298,19 @@ async function effectsOf(state: State, host: Host, loop: LoopState, mission: Mis
       for (const argv of env.verify) {
         ran += 1
 
+        // The console runs these itself, so the person's own permission rules are asked first (a refusal is a failed check, never run), and a kill flag ends the list.
+        if ((await verifyPermission(checks.get(state), argv)) === 'blocked' || (await killSeen(host.fs, state.cwd)) || store.loop.phase === 'stopped') {
+          failed += 1
+          continue
+        }
+
         const result = await host.run(argv, 10 * 60_000).catch(() => ({ exitCode: 1 }))
 
         if (result.exitCode !== 0) failed += 1
       }
 
       store.verified.set(step.id, effectOf(stored, { ran, failed }))
+      if (store.verified.size > 500) for (const key of [...store.verified.keys()].slice(0, 100)) store.verified.delete(key)
     }
 
     out[step.id] = stored === 'completed' ? (store.verified.get(step.id) ?? 'unknown') : stored === 'failed' || stored === 'cancelled' ? 'failed' : stored === 'pending' || stored === undefined ? 'absent' : 'unknown'
@@ -311,7 +330,17 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
   try {
     await refreshAutopilot(state, host, nowMs)
 
+    await loadPin(store, host, state.cwd)
+
     const loop = store.loop
+    const pinned = checkPin(store.pin, loop, store.isPinPending)
+
+    if (!pinned.ok && loop.phase !== 'stopped') {
+      await stopNow(state, host, pinned.why)
+      store.status = `stopped: ${pinned.why}`
+
+      return
+    }
 
     if (loop.phase === 'idle') {
       store.status = 'not started'
@@ -348,7 +377,7 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
       nowMs,
       killSeen: store.killed,
       envelope: env,
-      anatole: anatoleFact(state.snapshot?.anatole),
+      anatole: anatoleFact(state.snapshot?.anatole, nowMs),
       spend: store.spend,
       task: picked?.fact ?? null,
       effects: env === null ? {} : await effectsOf(state, host, loop, mission, env),
@@ -370,6 +399,23 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
     }
 
     if (wrote && decision.act !== null && mission !== null && picked !== null) {
+      // Kill flag and a second session are looked at again HERE (a verify run can take minutes): hand over only if no flag appeared and the journal, read within its cap, holds exactly one start for this step.
+      const at = pathOf(state, JOURNAL_FILE)
+      const size = await host.fs.stat(at).catch(() => undefined)
+      const journalNow = size === undefined || size.isLink === true || (size.size ?? JOURNAL_MAX_BYTES + 1) > JOURNAL_MAX_BYTES ? null : await host.fs.read(at).catch(() => null)
+
+      if ((await killSeen(host.fs, state.cwd)) || store.loop.phase === 'stopped' || store.loop.phase === 'paused') {
+        await appendEvents(state, host, [{ t: 'step.failed', at: Date.now(), id: decision.act.id, why: 'stopped before the hand-over' }])
+
+        return
+      }
+
+      if (journalNow === null || startedCount(journalNow, decision.act.id) !== 1) {
+        await appendEvents(state, host, [{ t: 'step.failed', at: Date.now(), id: decision.act.id, why: 'not handed over: the journal is unreadable, over its cap or holds a second start of this step' }])
+
+        return
+      }
+
       // The existing dispatch only hands out the first ready task of its own list; a shadow record with the picked task first lets autopilot work on past a parked one, over the same events and tasks.
       const shadow: MissionRecord = { ...mission, tasks: [picked.ledger, ...mission.tasks.filter(task => task !== picked.ledger)] }
       await dispatchSpec(state, host, shadow, picked.ledger, body => host.submitPrompt(body)).run?.()
@@ -402,6 +448,8 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
 /** Propose, replay-evaluate, and promote under the gate; then revert any trial that did worse. At most one receipt a pass. */
 async function adaptPass(state: State, host: Host, env: Envelope, nowMs: number): Promise<void> {
   const store = storeOf(state)
+  if (!verifyReceipts(store.loop.receipts).ok) return
+
   const outcomes = outcomesOf(store.loop.steps)
   const current = tunablesFrom(store.loop.receipts, env)
   const prev = lastHash(store.loop.receipts)
@@ -424,9 +472,23 @@ async function rotate(state: State, host: Host, nowMs: number): Promise<void> {
 
   if (lines === '') return
 
-  const copied = await host.run(['cp', '--no-clobber', '--', path, archive], 30_000).catch(() => ({ exitCode: 1 }))
+  // The archive must be a new name with no link on the way: a pre-made link there would make `cp --no-clobber` skip and the old journal be lost.
+  const clear = await checkNoLinks(host.fs, archive, { cwd: state.cwd }).catch(() => ({ ok: false as const }))
+  const copied = clear.ok ? await host.run(['cp', '--no-clobber', '--', path, archive], 30_000).catch(() => ({ exitCode: 1 })) : { exitCode: 1 }
+  const saved = (await host.fs.stat(archive).catch(() => undefined)) !== undefined
 
-  if (copied.exitCode === 0) await storeOf(state).chain.then(() => host.run(replaceFileArgv(path, true), 10_000, lines)).catch(() => undefined)
+  if (copied.exitCode === 0 && saved) {
+    const store = storeOf(state)
+    const pin = store.pin
+
+    store.isPinPending = true
+    if (pin !== null) await setPin(store, host, state.cwd, { ...pin, starts: 1 })
+
+    const wrote = await store.chain.then(() => host.run(replaceFileArgv(path, true), 10_000, lines)).catch(() => ({ exitCode: 1 }))
+
+    if (wrote.exitCode !== 0 && pin !== null) await setPin(store, host, state.cwd, pin)
+    store.isPinPending = false
+  }
 }
 
-export { AUTOPILOT_DIR }
+export { AUTOPILOT_DIR, setPin }

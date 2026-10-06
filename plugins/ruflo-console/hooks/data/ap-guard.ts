@@ -4,22 +4,15 @@
  * reader and the (optional) permission check. Nothing here widens anything: a task it cannot place is `cls: null` and is parked.
  */
 import { missionCostArgv, parseMissionCost } from './mission-cost'
-import { KILL_FILE, TOOL_CLASSES, type HardDeny, type ToolClass } from './ap-envelope'
+import { DENY_PATTERNS, KILL_FILE, TOOL_CLASSES, type ToolClass } from './ap-envelope'
+import { ESCAPES, HIDDEN, INVISIBLE } from './parse'
+import { ANATOLE_STALE_MS } from './anatole'
 import type { EffectFact, Preflight, TaskFact } from './ap-loop'
 import type { AnatoleFacts } from './anatole'
 import type { Spend } from './ap-envelope'
 import type { ReaderFs } from './files'
 
-/** Words that mean a hard deny. Matching is deliberately broad: a false match only parks a task for a question. */
-const DENIES: readonly [HardDeny, RegExp][] = [
-  ['publish', /\b(npm\s+publish|publish(es|ed|ing)?\b|pnpm\s+publish|cargo\s+publish|twine|docker\s+push)/i],
-  ['release', /\b(gh\s+release|git\s+tag\b.*push|cut\s+a\s+release|create\s+(a\s+)?release|release\s+notes?\s+and\s+tag)/i],
-  ['deploy', /\b(deploy(s|ed|ing)?\b|gcloud\s+run\s+deploy|firebase\s+deploy|kubectl\s+apply|terraform\s+apply)/i],
-  ['force-push', /(push\s+(--force|-f\b|--force-with-lease)|force[- ]push)/i],
-  ['secret-access', /\b(api[_ -]?key|secret|credential|password|private\s+key|\.env\b|gcloud\s+secrets|token)\b/i],
-  ['delete-outside-worktree', /\b(rm\s+-rf?\s+(\/|~|\$HOME)|delete\s+(the\s+)?(home|root|\/)|drop\s+database|mkfs|dd\s+of=\/dev)/i],
-  ['envelope-edit', /\b(autopilot\s+(envelope|scope|settings)|widen\s+(the\s+)?(envelope|scope)|raise\s+(the\s+)?(spend|budget)\s+(cap|ceiling)|grant\s+(itself|autopilot))/i],
-]
+const DENIES = DENY_PATTERNS
 
 /** From least to most privileged: a task that matches several is classified as the most privileged. */
 const CLASS_WORDS: readonly [ToolClass, RegExp][] = [
@@ -33,27 +26,43 @@ const CLASS_WORDS: readonly [ToolClass, RegExp][] = [
   ['network', /\b(fetch|download|curl|http|api\s+call|web\s+search|clone)\b/i],
 ]
 
-// eslint-disable-next-line no-control-regex
-const PATH = /(?:^|[\s"'`(])(\/(?:[A-Za-z0-9._@-]+\/)*[A-Za-z0-9._@-]+)/
+const PATH = /(?:^|[\s"'`(=:])(\/(?:[A-Za-z0-9._@-]+\/)*[A-Za-z0-9._@-]+)/g
+/** A path that is not absolute (home, a variable, a parent): it is never inside the envelope's folders, so a task naming one is parked. */
+const RELATIVE_PATH = /(?:^|[\s"'`(=:])(~\/\S*|~(?=\s|$)|\$\{?HOME\}?(?:\/\S*)?|\.\.\/\S*|\.\.(?=\s|$))/g
+/** Verbs whose effect the class words do not capture (they leave the machine, change the system or run arbitrary code): a task using one is parked instead of guessed. */
+const UNPLACED = /\b(push(es|ed|ing)?|install(s|ed|ing)?|uninstall|upload|send|post|e-?mail|ssh|scp|rsync|sudo|execute|exec|kill|chmod|chown|shred|wipe|systemctl|crontab)\b/i
+
+/** Text as the patterns must see it: compatibility-normalised, escape sequences gone, zero-width and format characters REMOVED (so "pub<ZWSP>lish" reads as "publish"), other control characters spaced. */
+export const seen = (value: string): string => value.normalize('NFKC').replace(ESCAPES, '').replace(INVISIBLE, '').replace(HIDDEN, ' ')
 
 /** A task's text as the facts the loop needs. The class is the most privileged one the words suggest; none is `null`, never a default. */
 export function classifyTask(id: string, title: string, requirement = ''): TaskFact {
-  const text = `${title}\n${requirement}`
+  const text = seen(`${title}\n${requirement}`)
   const hardDeny = DENIES.find(([, pattern]) => pattern.test(text))?.[0] ?? null
   const hits = CLASS_WORDS.filter(([, pattern]) => pattern.test(text)).map(([cls]) => cls)
-  const cls = hits.length === 0 ? null : (hits.at(-1) as ToolClass)
-  const path = PATH.exec(text)?.[1] ?? null
+  const cls = hits.length === 0 || UNPLACED.test(text) ? null : (hits.at(-1) as ToolClass)
+  const paths = [...[...text.matchAll(PATH)].map(m => m[1] as string), ...[...text.matchAll(RELATIVE_PATH)].map(m => m[1] as string)].slice(0, 12)
 
-  return { id, title: title.slice(0, 160), cls, hardDeny, path }
+  return { id, title: seen(title).slice(0, 160), cls, hardDeny, path: paths[0] ?? null, paths }
 }
 
-/** Anatole's state for the gate: `on` only when its status says a mode other than off, `off` when it says off, else `absent`. */
-export function anatoleFact(facts: AnatoleFacts | undefined): 'on' | 'off' | 'absent' {
+/**
+ * Anatole's state for the gate: `on` only when a status file that is FRESH (written within ANATOLE_STALE_MS) says a mode other than off and
+ * does not say it failed open; `off` when it says off; else `absent`. Any process can write those files, so a stale or degraded one
+ * proves nothing. Without `nowMs` freshness is not checked (the pure callers that hold no clock).
+ */
+export function anatoleFact(facts: AnatoleFacts | undefined, nowMs?: number): 'on' | 'off' | 'absent' {
   const mode = facts?.status?.mode ?? facts?.modeOverride ?? null
 
   if (facts === undefined || !facts.present || mode === null) return 'absent'
+  if (mode === 'off') return 'off'
+  if (nowMs === undefined) return 'on'
 
-  return mode === 'off' ? 'off' : 'on'
+  const status = facts.status
+
+  if (status === null || (status.degraded !== false && status.degraded !== undefined) || status.updatedMs === null || nowMs - status.updatedMs > ANATOLE_STALE_MS) return 'absent'
+
+  return 'on'
 }
 
 /** True when the kill flag exists. A stat that throws means no flag (a missing file is how stat says it). Checked on every tick. */
@@ -82,7 +91,7 @@ export function spendOf(out: { hour: string; day: string; total: string }): Spen
 }
 
 /** The engine's own permission check, when the host offers one (`$.tool.check`). Absent in this console today: said, never faked. */
-export type ToolCheck = (tool: string) => Promise<{ decision?: string } | string | undefined>
+export type ToolCheck = (tool: string, input?: unknown) => Promise<{ decision?: string } | string | undefined>
 
 /** The tool a class is checked through. A class whose representative tool the person's settings would block is parked, never tried. */
 export const PREFLIGHT_TOOL: Record<ToolClass, string> = { read: 'Read', test: 'Bash', edit: 'Edit', 'git-local': 'Bash', 'git-branch': 'Bash', spawn: 'Agent', mcp: 'mcp__claude-flow__task_update', network: 'WebFetch' }
@@ -116,4 +125,22 @@ export function effectOf(storeStatus: string | undefined, verify: { ran: number;
   if (verify.failed > 0) return 'failed'
 
   return verify.ran === 0 ? 'done-unverified' : 'done'
+}
+
+/**
+ * The engine's verdict on one verify command, asked as the Bash call it is. The console runs these itself (the host's process API, not the
+ * engine's tool path), so the person's own permission rules must be consulted here or the envelope would launder them: `blocked` when
+ * they would deny or ask, `unwired` when there is no check to ask (the person approved the exact argv on the Start card).
+ */
+export async function verifyPermission(check: ToolCheck | undefined, argv: readonly string[]): Promise<'allow' | 'blocked' | 'unwired'> {
+  if (check === undefined) return 'unwired'
+
+  try {
+    const answer = await check('Bash', { command: argv.join(' ') })
+    const decision = typeof answer === 'string' ? answer : answer?.decision
+
+    return decision === 'allow' ? 'allow' : 'blocked'
+  } catch {
+    return 'unwired'
+  }
 }

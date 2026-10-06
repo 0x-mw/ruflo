@@ -65,7 +65,7 @@ export function payloadOf(target: Target, raw: string, deps: Pick<SendDeps, 'con
   if (!typed.ok) return typed
 
   const body = typed.text
-  const done = (shows: string, note: string): { ok: true; payload: Payload; body: string } => ({ ok: true, payload: { shows: shows.slice(0, 700), note }, body })
+  const done = (shows: string, note: string): { ok: true; payload: Payload; body: string } => ({ ok: true, payload: { shows, note }, body })
 
   switch (target.transport) {
     case 'prompt':

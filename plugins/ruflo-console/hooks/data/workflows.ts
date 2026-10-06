@@ -11,7 +11,7 @@
  * Unknown event types and keys are ignored, a half-written last line is dropped, and a missing source is a missing fact:
  * nothing here is estimated.
  */
-import { agentLabels, ESCAPES, HIDDEN, shortId, type AgentRecord, type SwarmInfo } from './parse'
+import { agentLabels, ESCAPES, HIDDEN, INVISIBLE, shortId, type AgentRecord, type SwarmInfo } from './parse'
 
 export type AgentState = 'running' | 'done' | 'failed' | 'stale' | 'idle' | 'queued'
 
@@ -67,7 +67,7 @@ const asRecord = (value: unknown): Record<string, unknown> | null => (typeof val
 /** Escape sequences go whole (an OSC title or a hyperlink would otherwise leave its text behind), then control, zero-width and bidi-override characters (they reorder or hide text) become spaces: every string a file supplies passes here. */
 const CONTROL = HIDDEN
 const str = (value: unknown, max = 200): string | undefined => {
-  const clean = typeof value === 'string' ? value.replace(ESCAPES, '').replace(CONTROL, ' ').slice(0, max) : ''
+  const clean = typeof value === 'string' ? value.replace(ESCAPES, '').replace(INVISIBLE, '').replace(CONTROL, ' ').slice(0, max) : ''
 
   return clean === '' ? undefined : clean
 }
@@ -134,7 +134,7 @@ export function parseJournal(text: string | null): { isLaunched: boolean; agents
       byId.set(id, { agentId: id, label: str(event.label, 80) ?? id, hasResult: false, ...(phase !== undefined && { phase }) })
     } else if (event.type === 'result' && id !== undefined) {
       const held = byId.get(id) ?? { agentId: id, label: id, hasResult: false }
-      const preview = typeof event.result === 'string' ? maskSecrets(event.result.replace(ESCAPES, '').replace(CONTROL, ' ').replace(/\s+/g, ' ')).slice(0, 160) : asRecord(event.result) !== null ? `structured result (${Object.keys(event.result as object).length} fields)` : undefined
+      const preview = typeof event.result === 'string' ? maskSecrets(event.result.replace(ESCAPES, '').replace(INVISIBLE, '').replace(CONTROL, ' ').replace(/\s+/g, ' ')).slice(0, 160) : asRecord(event.result) !== null ? `structured result (${Object.keys(event.result as object).length} fields)` : undefined
 
       byId.set(id, { ...held, hasResult: true, ...(preview !== undefined && preview !== '' && { resultPreview: preview }) })
     }

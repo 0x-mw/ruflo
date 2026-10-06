@@ -8,7 +8,7 @@
 import type { RenderElement } from 'claude-code'
 
 import type { ActionSpec } from '../actions'
-import { activeOf, apTick, appendEvents, clearKill, drainNotices, hostOf, pauseNow, refreshAutopilot, resumeNow, stopNow, storeOf, writeEnvelope } from '../ap-live'
+import { activeOf, apTick, appendEvents, clearKill, drainNotices, hostOf, pauseNow, refreshAutopilot, resumeNow, setPin, stopNow, storeOf, writeEnvelope } from '../ap-live'
 import { DEFAULTS, tierOf, tunablesFrom, verifyReceipts } from '../data/ap-adapt'
 import { AUTOPILOT_DIR, hashOf, HARD_DENIES, MAX_DURATION_MS, MIN_DURATION_MS, seal, TOOL_CLASSES, validateEnvelope, widened, type Envelope, type ToolClass } from '../data/ap-envelope'
 import { anatoleFact } from '../data/ap-guard'
@@ -212,7 +212,7 @@ export function startSpec(env: SlotEnv): ActionSpec | null {
     scope: 'workflows',
     args: [],
     declared: 'spend',
-    shows: `envelope ${hash.slice(0, 12)}: classes ${next.toolClasses.join(' ')}; folders ${next.paths.join(', ')}; network ${next.network.join(',') || 'none'}; ${money(next.spend.hourUsd)}/h ${money(next.spend.dayUsd)}/day ${money(next.spend.totalUsd)} total; ${next.concurrency} at once; ${next.verify.length} verify commands; Anatole ${anatole}${next.acceptWithoutAnatole ? ' (running without it accepted)' : ''}${grew.length > 0 ? `; WIDENS: ${grew.join('; ')}` : ''}; never: ${HARD_DENIES.join(', ')}`,
+    shows: `envelope ${hash.slice(0, 12)}: classes ${next.toolClasses.join(' ')}; folders ${next.paths.join(', ')}; network ${next.network.join(',') || 'none'}; ${money(next.spend.hourUsd)}/h ${money(next.spend.dayUsd)}/day ${money(next.spend.totalUsd)} total; ${next.concurrency} at once; verify ${next.verify.length === 0 ? 'none' : next.verify.map(argv => argv.join(' ')).join(' | ')}; repos ${next.repos.join(', ') || 'none'}; secret env names ${next.secretEnv.join(', ') || 'none'}; Anatole ${anatole}${next.acceptWithoutAnatole ? ' (running without it accepted)' : ''}${grew.length > 0 ? `; WIDENS: ${grew.join('; ')}` : ''}; never: ${HARD_DENIES.join(', ')}`,
     expect: 'a start line in the autopilot journal, then steps handed to the session',
     note: 'After this, steps inside the envelope run WITHOUT asking this console, for days if the session lives, and spend money. Claude Code\'s own permission dialog still applies and is never bypassed: anything it would ask about is parked. Stop, the KILL file or /ruflo autopilot stop halts it within one tick.',
     run: async () => {
@@ -239,7 +239,18 @@ export function startSpec(env: SlotEnv): ActionSpec | null {
       store.spend = null
       store.spendAtMs = 0
 
-      if (await appendEvents(state, host, [{ t: 'start', at: now, envHash: sealed.hash, revision: sealed.revision, anatole: mode === 'on' ? 'on' : 'accepted-without' }])) void apTick(state, host)
+      // What the person approved is pinned OUTSIDE the project first (the journal and envelope can be written by the steps): the hash and the count of start lines.
+      const before = store.pin
+
+      await refreshAutopilot(state, host)
+      store.isPinPending = true
+      await setPin(store, host, state.cwd, { envHash: sealed.hash, starts: store.loop.starts + 1 })
+
+      const started = await appendEvents(state, host, [{ t: 'start', at: now, envHash: sealed.hash, revision: sealed.revision, anatole: mode === 'on' ? 'on' : 'accepted-without' }])
+
+      if (!started) await setPin(store, host, state.cwd, before)
+      store.isPinPending = false
+      if (started) void apTick(state, host)
     },
   }
 }
