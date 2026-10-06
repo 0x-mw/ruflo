@@ -123,6 +123,22 @@ describe('live: kill-switch latency and TOCTOU', () => {
 
     expect(r.runs.some(a => a[0] === 'true')).toBe(true)
     expect(r.prompts).toEqual([])
+    // The review's stop-race re-read catches it before the step is even journaled: nothing is started, nothing handed over.
+    expect(journal(r).some(e => e.t === 'step.started' && e.id !== 's-dangling00001')).toBe(false)
+  })
+
+  it('a kill flag that appears while the step start is being journaled still stops the hand-over (the recheck right before it)', async () => {
+    const r = rig()
+    const state = stateWith([task('r1', 'completed'), task('r2', 'pending'), task('r3', 'pending')])
+
+    started(r, [dangling()])
+    wireAutopilot(state, r.host)
+    storeOf(state).bootMs = T0 - 1
+    ready(state, T0 + 1000)
+    r.onAppend.fn = text => { if (text.includes('"t":"step.started"')) r.files.set(KILL, ''); return text }
+    await apTick(state, r.host, T0 + 1000)
+
+    expect(r.prompts).toEqual([])
     expect(journal(r).some(e => e.t === 'step.failed' && e.why.includes('stopped before the hand-over'))).toBe(true)
   })
 

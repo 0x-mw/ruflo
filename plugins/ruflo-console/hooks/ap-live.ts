@@ -310,12 +310,12 @@ async function effectsOf(state: State, host: Host, loop: LoopState, mission: Mis
       let ran = 0
       let failed = 0
 
-      // The envelope's verify commands run through the console, not the engine: where the person's settings deny the test class they are not run (the step is then unverified).
-      for (const argv of store.preflight.test === 'deny' ? [] : env.verify) {
+      // The envelope's verify commands run through the console, not the engine: where the person's settings deny the test class they are never run, and each counts as a failed check (never as a pass).
+      for (const argv of env.verify) {
         ran += 1
 
         // The console runs these itself, so the person's own permission rules are asked first (a refusal is a failed check, never run), and a kill flag ends the list.
-        if ((await verifyPermission(checks.get(state), argv)) === 'blocked' || (await killSeen(host.fs, state.cwd)) || store.loop.phase === 'stopped') {
+        if (store.preflight.test === 'deny' || (await verifyPermission(checks.get(state), argv)) === 'blocked' || (await killSeen(host.fs, state.cwd)) || store.loop.phase === 'stopped') {
           failed += 1
           continue
         }

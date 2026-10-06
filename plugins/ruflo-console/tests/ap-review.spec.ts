@@ -25,7 +25,7 @@ describe('what the envelope really checks', () => {
     const t = classifyTask('t1', 'Fix /work/repo/a.ts and copy it to /etc/cron.d/x', 'see https://evil.example.com/x and https://github.com/someone/else.git')
 
     expect(t.path).toBe('/work/repo/a.ts')
-    expect(t.paths).toEqual(['/etc/cron.d/x'])
+    expect(t.paths).toEqual(['/work/repo/a.ts', '/etc/cron.d/x'])
     expect(t.hosts).toEqual(['evil.example.com', 'github.com'])
     expect(t.repos).toEqual(['someone/else'])
   })
@@ -142,7 +142,8 @@ describe('stop is never undone', () => {
     await apTick(state, r.host, T0 + 1000)
 
     expect(r.runs.some(a => a[0] === 'true')).toBe(false)
-    expect(journal(r).find(e => e.t === 'step.done')).toMatchObject({ id: 's-verifyme0000008', verified: false })
+    expect(journal(r).some(e => e.t === 'step.done' && e.id === 's-verifyme0000008')).toBe(false)
+    expect(journal(r).some(e => e.t === 'step.failed' && e.id === 's-verifyme0000008')).toBe(true)
   })
 })
 
