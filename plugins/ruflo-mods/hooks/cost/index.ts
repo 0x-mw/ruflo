@@ -3,6 +3,7 @@ import type { On } from 'claude-code'
 import type { ModOptions } from '../options'
 import { redraw, type ModState } from '../state'
 import { alertLevel, isRaised, type BudgetLevel } from './budget'
+import { t } from '../i18n/translate'
 
 /**
  * ruflo-cost-tracker's budget ladder on the session's live cost:
@@ -29,7 +30,7 @@ export function registerCost(on: On, state: ModState, options: ModOptions) {
     if (isRaised(state.rollup.rung, level)) state.rollup.rung = level // the session rollup keeps the highest rung reached
     if (raised) {
       try {
-        $.ui.toast(`ruflo budget ${level}: $${usd.toFixed(2)} of $${limit.toFixed(2)} this session`)
+        $.ui.toast(t(`ruflo budget ${level}: $${usd.toFixed(2)} of $${limit.toFixed(2)} this session`))
       } catch {
         // a refused toast never fails the hook
       }

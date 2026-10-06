@@ -205,7 +205,7 @@ export function createRunner(state: State, host: Host, deps: RunnerDeps): Runner
   /** A palette entry by its id (`/ruflo run <id> [text]`, an approval's button): false when there is none now. */
   function runById(id: string, text: string, options: { exact?: boolean } = {}): boolean {
     const entries = paletteEntries(state, Date.now())
-    const entry = entries.find(candidate => candidate.id === id) ?? (text === '' || options.exact === true ? undefined : filterPalette(entries, `${id} ${text}`, 'all')[0])
+    const entry = entries.find(candidate => candidate.id === id) ?? (text === '' || options.exact === true ? undefined : filterPalette(entries, `${id} ${text}`, 'all', true)[0])
 
     if (entry === undefined) return false
 

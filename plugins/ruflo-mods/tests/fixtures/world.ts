@@ -23,7 +23,7 @@ export function world(on: On, settings: unknown = {}, files: Record<string, stri
   on('session.start', ($, e) => ({ cwd: e.cwd }))
   on('session.root', () => ({ value: ROOT }))
   on('settings.read', () => ({ value: settings as never }))
-  on('env.get', ($, e) => ({ value: w.env.get(e.name) }))
+  on('env.get', ($, e) => ({ value: e.name === 'RUFLO_LANG' ? (w.env.get(e.name) ?? 'en') : w.env.get(e.name) }))
   on('env.set', ($, e) => {
     if (e.value === undefined) w.env.delete(e.name)
     else w.env.set(e.name, e.value)

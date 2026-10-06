@@ -6,6 +6,8 @@
  */
 import type { StartId } from './starts'
 import type { ViewId } from './state'
+import { getLocale, t } from './i18n/translate'
+import { TOPICS } from './help-topics'
 
 /** What a step's button does: open a page, run a palette entry (asks first if it changes anything), or start something. */
 export type Go = { view: ViewId } | { run: string } | { start: StartId }
@@ -95,22 +97,28 @@ const SAME: readonly (readonly string[])[] = [
 
 const STOP = new Set(['a', 'an', 'the', 'how', 'do', 'i', 'to', 'what', 'is', 'are', 'can', 'my', 'me', 'of', 'in', 'on', 'for', 'and', 'or', 'it', 'does', 'use', 'with', 'where', 'why', 'should'])
 
-const wordsOf = (text: string): string[] => text.toLowerCase().split(/[^a-z0-9.:_-]+/).filter(word => word !== '' && !STOP.has(word))
+const wordsOf = (text: string): string[] => text.toLowerCase().split(/[^a-z0-9.:_가-힣-]+/).filter(word => word !== '' && !STOP.has(word))
+/** The words of a text as written and, in Korean, as shown, so a guide is found by either (search only: the model's prompt stays English). */
+const bothWords = (text: string, isEnglishOnly = false): string[] => {
+  const shown = isEnglishOnly ? text : t(text)
+
+  return shown === text ? wordsOf(text) : [...wordsOf(text), ...wordsOf(shown)]
+}
 const groupOf = (word: string): number => SAME.findIndex(group => group.includes(word))
 
 export type HelpHit = { topic: HelpTopic; score: number }
 
 /** The guides that best answer `query`, best first: titles and keywords count most, then summaries, then the steps. Empty for a query with no words. */
-export function searchDocs(topics: readonly HelpTopic[], query: string, limit = 5): HelpHit[] {
+export function searchDocs(topics: readonly HelpTopic[], query: string, limit = 5, isEnglishOnly = false): HelpHit[] {
   const words = wordsOf(query)
 
   if (words.length === 0) return []
 
   const hits = topics.map(topic => {
-    const title = wordsOf(topic.title)
+    const title = bothWords(topic.title, isEnglishOnly)
     const keys = (topic.keywords ?? []).flatMap(wordsOf)
-    const summary = wordsOf(topic.summary)
-    const body = [...topic.steps.flatMap(step => wordsOf(step.text)), ...(topic.tips ?? []).flatMap(wordsOf)]
+    const summary = bothWords(topic.summary, isEnglishOnly)
+    const body = [...topic.steps.flatMap(step => bothWords(step.text, isEnglishOnly)), ...(topic.tips ?? []).flatMap(tip => bothWords(tip, isEnglishOnly))]
     let score = 0
 
     for (const word of words) {
@@ -142,6 +150,8 @@ const MAX_QUESTION = 300
  */
 export function helpPrompt(question: string, hits: readonly HelpHit[]): string {
   const q = question.replace(/\s+/g, ' ').trim().slice(0, MAX_QUESTION)
+  // The guides the model reads are picked by the English words only, so the locale never changes which ones it gets.
+  const picked = getLocale() === 'ko' ? searchDocs(TOPICS, q, hits.length, true) : hits
 
   return [
     'You are ruHelp, the help bot of the ruflo console. Answer in plain, brief language: a short answer, then numbered steps if it is a how-to.',
@@ -149,6 +159,6 @@ export function helpPrompt(question: string, hits: readonly HelpHit[]): string {
     '',
     `Question: ${q}`,
     '',
-    ...hits.flatMap(hit => topicText(hit.topic).split('\n').map(line => `│ ${line}`)),
+    ...picked.flatMap(hit => topicText(hit.topic).split('\n').map(line => `│ ${line}`)),
   ].join('\n')
 }

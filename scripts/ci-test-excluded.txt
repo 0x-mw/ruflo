@@ -82,3 +82,4 @@ plugins/ruflo-protector/tests/corpus.test.ts
 plugins/ruflo-protector/tests/mod.test.ts
 plugins/ruflo-protector/tests/rules.test.ts
 plugins/ruflo-mods/tests/protector.test.ts
+plugins/ruflo-swarm/tests/i18n-ko.test.ts

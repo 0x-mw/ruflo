@@ -2,6 +2,7 @@ import type { EngineInterface, On } from 'claude-code'
 import type { GuidanceHooks } from './guidance'
 
 import { versionText } from './probe'
+import { localeOf, setLocale, tLines } from './i18n/translate'
 import { HANDSHAKE_MARKER, ownedEvents } from './ownership'
 import type { ModOptions } from './options'
 import { MAX_BYTES, PROTECTOR_STATUS, protectorLine } from './protector'
@@ -62,6 +63,7 @@ function hasClassicStatusLine(settings: unknown): boolean {
  */
 export function registerSession(on: On, state: ModState, options: ModOptions, guidance?: GuidanceHooks) {
   on('session.start', async ($, e, next) => {
+    setLocale(localeOf(await (async () => $.env.get('RUFLO_LANG'))().catch(() => 'en')))
     state.root = await $.session.root()
     // A user-scoped install loads in every project. Existing Ruflo state is
     // the opt-in boundary: a missing, unreadable or non-directory path must
@@ -97,13 +99,13 @@ export function registerSession(on: On, state: ModState, options: ModOptions, gu
     return next(e)
   })
 
-  on('command.run', { command: 'ruflo-mods' }, async $ => ({ text: await reportWithProtector($, state) }))
+  on('command.run', { command: 'ruflo-mods' }, async $ => ({ text: tLines(await reportWithProtector($, state)) }))
 
   // `/ruflo` is ruflo-console's one command for every ruflo mod; its `mods` subcommand is this report. The console
   // registers `/ruflo`; this hook answers `mods` wherever it sits in the chain and passes every other word on.
   // `/ruflo-mods` above stays registered as its alias: ADR-406 removes, renames or reassigns no command.
   // `/ruflo-console` is the same command as `/ruflo` (kept by ADR-406), so its `mods` is answered too.
   for (const command of ['ruflo', 'ruflo-console'] as const) {
-    on('command.run', { command }, async ($, e, next) => (e.args.trim().split(/\s+/)[0]?.toLowerCase() === 'mods' ? { text: await reportWithProtector($, state) } : next(e)))
+    on('command.run', { command }, async ($, e, next) => (e.args.trim().split(/\s+/)[0]?.toLowerCase() === 'mods' ? { text: tLines(await reportWithProtector($, state)) } : next(e)))
   }
 }

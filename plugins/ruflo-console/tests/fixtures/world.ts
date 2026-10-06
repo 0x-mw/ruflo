@@ -141,7 +141,7 @@ export function worldOf(on: On, files: Readonly<Record<string, string>>, options
 
     return 'deny' in answer ? { deny: answer.deny } : { value: { ...answer, isStdoutTruncated: false, isStderrTruncated: false } }
   })
-  on('env.get', ($, e) => (refuse ? { deny: 'env withheld' } : { value: e.name === 'HOME' ? HOME : options.env?.[e.name] }))
+  on('env.get', ($, e) => (refuse ? { deny: 'env withheld' } : { value: e.name === 'HOME' ? HOME : (options.env?.[e.name] ?? (e.name === 'RUFLO_LANG' ? 'en' : undefined)) }))
   on('settings.read', () => (refuse ? { deny: 'settings withheld' } : { value: { enabledPlugins: { 'ruflo-core@ruflo': true } } as never }))
   on('session.usage', () => (refuse ? { deny: 'usage withheld' } : { value: { context: { tokens: 50_000, window: 200_000, percent: 25 }, rateLimits: [], cost: { usd: 0.4213 } } as never }))
   on('tool.list', () => (refuse ? { deny: 'tools withheld' } : { value: [{ name: 'mcp__plugin_ruflo-core_ruflo__swarm_init' }, { name: 'mcp__plugin_ruflo-core_ruflo__claims_board' }, { name: 'Read' }] as never }))
