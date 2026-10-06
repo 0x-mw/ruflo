@@ -6,21 +6,36 @@
  */
 import type { Host } from './host'
 import type { State } from './state'
-import { refreshWfGuards } from './wf-cost-live'
+import { isUnread } from './data/wf-cost'
+import type { ExportCost } from './data/wf-export'
+import type { WfRun } from './data/workflows'
+import { guards, refreshWfGuards } from './wf-cost-live'
 import { bindWorkflowDrill } from './wf-drill'
 import { afterRead } from './wf-live'
 import { syncSavedViews } from './wf-saved-live'
 import { recordRunEvents } from './views/wf-guide'
-import { setExportFs } from './views/wf-export'
+import { setExportCostSource, setExportFs } from './views/wf-export'
 import { wireWfAnatole } from './views/wf-anatole'
 import { wireWfTemplates } from './views/wf-templates'
 import { wireWfWorktrees } from './views/wf-worktrees'
 
 let isWired = false
 
+/** The export's cost, from the figures the Cost section shows (ADR-462), never a number the page does not hold: an unread run, or one with no priced token, is null (n/a). A floor or an estimate says so in the source words. */
+export function exportCostOf(run: WfRun): ExportCost | null {
+  const cost = guards.costs.get(run.id)
+
+  if (cost === undefined || isUnread(cost.total) || cost.total.pricedTokens === 0) return null
+
+  const caveats = [cost.total.isFloor || cost.total.unpricedTokens > 0 ? `a floor: ${cost.covered} of ${cost.count} agents read or some tokens unpriced` : '', cost.total.isApprox ? 'rough family price' : ''].filter(Boolean)
+
+  return { usd: cost.total.usd, source: `price-book estimate, not a bill${caveats.length > 0 ? `; ${caveats.join('; ')}` : ''}` }
+}
+
 export function wireWorkflows(state: State, host: Host): void {
   bindWorkflowDrill(state, host)
   setExportFs(host.fs)
+  setExportCostSource(exportCostOf)
   wireWfWorktrees(state, host)
   wireWfTemplates(state, host)
   wireWfAnatole(state, host)

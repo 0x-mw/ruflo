@@ -165,7 +165,8 @@ describe('the probes', () => {
     expect(w.calls.length).toBeGreaterThan(10)
     for (const argv of w.calls) {
       expect(argv[0] === 'git' ? argv[1] : argv[0]).toMatch(/^(-C|\/usr\/bin\/find)$/)
-      expect(argv.join(' ')).not.toMatch(/(^| )(sh|bash|-c|eval)( |$)/)
+      expect(argv[0]).toMatch(/^(git|\/usr\/bin\/find)$/)
+      expect(argv.join(' ')).not.toMatch(/(^| )(sh|bash|eval)( |$)/)
       expect(argv.every(part => !/[\n\r]/.test(part))).toBe(true)
     }
 

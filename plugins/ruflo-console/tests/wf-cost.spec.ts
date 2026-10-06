@@ -6,7 +6,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { alertKey, evaluateGuards, guardOptionsOf, newAlerts, parseGuardRules, trackProgress, type GuardInput, type GuardRules, NO_RULES } from '../hooks/data/wf-alerts'
-import { billedTokens, costOfUsage, costRun, fmtCosted, fmtUsd, parsePriceBook, priceFor, spendOf, usageOfTranscript, usdOf, zeroUsage, type AgentUsage, type PriceBook } from '../hooks/data/wf-cost'
+import { billedTokens, costOfUsage, costRun, fmtCosted, fmtUsd, isUnread, parsePriceBook, priceFor, spendOf, usageOfTranscript, usdOf, zeroUsage, type AgentUsage, type PriceBook } from '../hooks/data/wf-cost'
 import { buildRun, type WfRun } from '../hooks/data/workflows'
 import { journal, meta, result, started, T0, transcript } from './fixtures/workflows'
 
@@ -303,5 +303,31 @@ describe('trackProgress and newAlerts', () => {
     expect(one.fresh).toHaveLength(1)
     expect(again.fresh).toHaveLength(0)
     expect(newAlerts([alert], cleared.raised).fresh).toHaveLength(1)
+  })
+})
+
+describe('review fixes: nothing read is n/a, never $0', () => {
+  it('a run whose agents were not read has no figure, and a read zero-token agent is still $0', () => {
+    const none = costRun(run('wf_c9'), new Map(), BOOK)
+
+    expect(fmtCosted(none.total)).toBe('n/a')
+    expect([...none.phases.values()].map(fmtCosted)).toEqual(['n/a', 'n/a'])
+    expect(isUnread(none.total)).toBe(true)
+    expect(fmtCosted(costOfUsage({ byModel: new Map([['claude-sonnet-5-5', zeroUsage()]]), isTail: false }, BOOK))).toBe('$0')
+  })
+})
+
+describe('review fixes: the export cost is the Cost section figure, labelled', () => {
+  it('carries a floor caveat when agents are unread and null when no token was priced', async () => {
+    const { exportCostOf } = await import('../hooks/wf-wire')
+    const { guards } = await import('../hooks/wf-cost-live')
+    const r = run('wf_c7')
+
+    guards.costs.clear()
+    guards.costs.set('wf_c7', costRun(r, new Map([['wf_c7/a1', usageOf('claude-sonnet-5-5', { output: 1e6 })]]), BOOK))
+    expect(exportCostOf(r)).toMatchObject({ usd: 10, source: expect.stringContaining('a floor: 1 of 3 agents') })
+    guards.costs.set('wf_c7', costRun(r, new Map([['wf_c7/a1', usageOf('claude-mystery-9', { output: 1e6 })]]), BOOK))
+    expect(exportCostOf(r)).toBeNull()
+    guards.costs.clear()
   })
 })

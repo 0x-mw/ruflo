@@ -35,6 +35,8 @@ export const REMOVE_MAX = 10
 /** The process check must be this fresh to plan a removal, and must have seen at least MIN_PROCS working directories. */
 export const PROCS_FRESH_MS = 120_000
 export const MIN_PROCS = 3
+/** The ignored listing is read up to here; the names are matched, never shown. */
+export const IGNORED_MAX_BYTES = 1_000_000
 /** Dirty lines are counted up to here. */
 export const DIRTY_CAP = 200
 /** The process listing is read up to here; a longer one makes the check refuse rather than guess. */
@@ -43,7 +45,11 @@ export const PROCS_MAX_BYTES = 4_000_000
 export const REMOVABLE_DIRS = ['.claude/worktrees', '.git-worktrees'] as const
 
 export const LIST_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, 'worktree', 'list', '--porcelain']
-export const STATUS_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, 'status', '--porcelain=v1']
+// status is the one probe that can run a program from the repository's config (core.fsmonitor) and that refreshes the index (a write, and a lock another
+// session's git may want): both are switched off, after '-C <dir>' so the directory stays the third word.
+export const STATUS_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, '--no-optional-locks', '-c', 'core.fsmonitor=false', 'status', '--porcelain=v1']
+/** Ignored files and folders (a folder is one entry): 'git worktree remove' deletes these too, and they are where a .env or a key lives. */
+export const IGNORED_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, '--no-optional-locks', 'ls-files', '--others', '--ignored', '--exclude-standard', '--directory']
 export const AHEAD_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, 'rev-list', '--left-right', '--count', 'origin/main...HEAD']
 export const REF_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, 'log', '-1', '--format=%ct', 'origin/main']
 export const REMOVE_ARGV = (main: string, path: string): readonly string[] => ['git', '-C', main, 'worktree', 'remove', path]
@@ -54,6 +60,12 @@ const CONTROL = /[\u0000-\u001f\u007f-\u009f]/
 
 /** An absolute path with no control character and no `..` part: the only kind that reaches a command. */
 export const isSafePath = (path: string): boolean => path.length > 1 && path.length <= 1024 && path.startsWith('/') && !CONTROL.test(path) && !path.split('/').includes('..')
+
+const SECRETISH_NAME = /^(?:\.env(?:\..+)?|\.npmrc|\.netrc|\.pgpass|\.secrets?|secrets?(?:\..+)?|credentials(?:\..+)?|id_(?:rsa|dsa|ecdsa|ed25519)|.+\.(?:pem|key|p12|pfx|jks|keystore|secret))\/?$/i
+
+/** How many entries of an ignored listing (git ls-files --ignored) are named like a secret or a key (.env*, *.pem, id_rsa, credentials…). Null input is unknown. */
+export const countIgnoredSecrets = (listing: string | null): number | null =>
+  listing === null ? null : listing.slice(0, IGNORED_MAX_BYTES).split('\n').filter(line => SECRETISH_NAME.test(line.slice(line.lastIndexOf('/', line.length - 2) + 1))).length
 
 export type WtEntry = { path: string; head: string; branch: string | null; isDetached: boolean; isBare: boolean; isLocked: boolean; isPrunable: boolean; isMain: boolean; isSafe: boolean }
 
@@ -146,6 +158,8 @@ export function makerOf(entry: Pick<WtEntry, 'path' | 'branch'>, runs: readonly 
 export type WtRow = WtEntry & {
   /** Dirty lines (untracked files count), up to DIRTY_CAP; null when the probe failed. */
   dirty: number | null
+  /** Ignored files named like a secret (they would go with the directory); null when the probe failed. */
+  ignoredSecrets: number | null
   ahead: number | null
   behind: number | null
   createdMs: number | null
@@ -165,16 +179,17 @@ const oneLine = async (io: WtIo, argv: readonly string[], timeoutMs: number): Pr
 export const isCurrentDir = (cwd: string, path: string): boolean => cwd === path || cwd.startsWith(`${path}/`)
 
 async function probeOne(io: WtIo, entry: WtEntry, cwd: string, runs: readonly WfRun[]): Promise<WtRow> {
-  const base: WtRow = { ...entry, dirty: null, ahead: null, behind: null, createdMs: null, maker: makerOf(entry, runs), isCurrent: isCurrentDir(cwd, entry.path) }
+  const base: WtRow = { ...entry, dirty: null, ignoredSecrets: null, ahead: null, behind: null, createdMs: null, maker: makerOf(entry, runs), isCurrent: isCurrentDir(cwd, entry.path) }
 
   if (!entry.isSafe || entry.isBare || entry.isPrunable) return base
 
-  const [status, counts, link] = await Promise.all([oneLine(io, STATUS_ARGV(entry.path), 30_000), oneLine(io, AHEAD_ARGV(entry.path), 15_000), io.stat(`${entry.path}/.git`).catch(() => undefined)])
+  const [status, counts, ignored, link] = await Promise.all([oneLine(io, STATUS_ARGV(entry.path), 30_000), oneLine(io, AHEAD_ARGV(entry.path), 15_000), oneLine(io, IGNORED_ARGV(entry.path), 30_000), io.stat(`${entry.path}/.git`).catch(() => undefined)])
   const pair = counts === null ? null : /^(\d+)\s+(\d+)\s*$/.exec(counts)
 
   return {
     ...base,
     dirty: status === null ? null : Math.min(DIRTY_CAP, status.split('\n').filter(line => line.trim() !== '').length),
+    ignoredSecrets: countIgnoredSecrets(ignored),
     behind: pair === null ? null : Number(pair[1]),
     ahead: pair === null ? null : Number(pair[2]),
     createdMs: typeof link?.mtimeMs === 'number' && link.mtimeMs > 0 ? link.mtimeMs : null,
@@ -233,6 +248,8 @@ export function whyKept(row: WtRow, read: Pick<WtRead, 'root' | 'hasRef'>, check
   if (!isRemovableDir(read.root, row.path)) return `outside ${REMOVABLE_DIRS.join(' and ')} under the main worktree`
   if (row.dirty === null) return 'not known whether it has changes'
   if (row.dirty > 0) return `${row.dirty >= DIRTY_CAP ? `${DIRTY_CAP}+` : row.dirty} changed or untracked file${row.dirty === 1 ? '' : 's'}`
+  if (row.ignoredSecrets === null) return 'not known whether it has ignored files such as a .env'
+  if (row.ignoredSecrets > 0) return `${row.ignoredSecrets} ignored file${row.ignoredSecrets === 1 ? '' : 's'} named like a secret (.env, a key): removing the directory would delete ${row.ignoredSecrets === 1 ? 'it' : 'them'}`
   if (!read.hasRef || row.ahead === null) return 'origin/main is not known here, so merged cannot be told'
   if (row.ahead > 0) return `${row.ahead} commit${row.ahead === 1 ? '' : 's'} not in origin/main`
   if (row.createdMs === null) return 'its age is not known'

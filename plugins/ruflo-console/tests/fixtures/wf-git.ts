@@ -1,7 +1,7 @@
 /**
  * A stand-in for git and /proc for the worktree specs: a fixed list, per-path dirty and ahead counts, ages and a process listing.
  */
-import { AHEAD_ARGV, LIST_ARGV, parseProcs, PROCS_ARGV, REF_ARGV, STATUS_ARGV, type WtIo, type WtRead, type WtRow } from '../../hooks/data/wf-worktrees'
+import { AHEAD_ARGV, IGNORED_ARGV, LIST_ARGV, parseProcs, PROCS_ARGV, REF_ARGV, STATUS_ARGV, type WtIo, type WtRead, type WtRow } from '../../hooks/data/wf-worktrees'
 import type { Kit } from '../../hooks/views/common'
 
 export const NOW = Date.parse('2026-10-06T12:00:00.000Z')
@@ -28,7 +28,7 @@ export const words = (tree: unknown): string => flat(tree).filter(el => el.kind 
 
 export const block = (path: string, branch: string | null, extra: string[] = [], head = 'a'.repeat(40)): string => [`worktree ${path}`, `HEAD ${head}`, branch === null ? 'detached' : `branch refs/heads/${branch}`, ...extra].join('\n')
 
-export type World = { dirty: Record<string, number>; ahead: Record<string, number | null>; created: Record<string, number | null>; procs: string; list: string; calls: (readonly string[])[]; removed: string[]; failRemove: Set<string>; hasRef: boolean }
+export type World = { dirty: Record<string, number>; ahead: Record<string, number | null>; created: Record<string, number | null>; procs: string; list: string; calls: (readonly string[])[]; removed: string[]; failRemove: Set<string>; hasRef: boolean; ignored: Record<string, string> }
 
 export const procLines = (rows: [number, string, string][]): string => rows.map(([pid, kind, target]) => `/proc/${pid}/${kind}\t${target}`).join('\n')
 export const BASE_PROCS = procLines([[1, 'cwd', '/'], [2, 'cwd', '/home/u'], [3, 'cwd', '/tmp']])
@@ -46,6 +46,7 @@ export function world(over: Partial<World> = {}): World {
     removed: [],
     failRemove: new Set(),
     hasRef: true,
+    ignored: {},
     ...over,
   }
 }
@@ -66,6 +67,7 @@ export function ioOf(w: World): WtIo {
       if (key === LIST_ARGV(dir).join(' ')) return { stdout: w.list, stderr: '', exitCode: 0 }
       if (key === REF_ARGV(dir).join(' ')) return w.hasRef ? { stdout: `${Math.floor((NOW - 2 * 3_600_000) / 1000)}\n`, stderr: '', exitCode: 0 } : { stdout: '', stderr: 'unknown revision', exitCode: 128 }
       if (key === STATUS_ARGV(dir).join(' ')) return { stdout: Array.from({ length: w.dirty[dir] ?? 0 }, (_, i) => ` M f${i}`).join('\n'), stderr: '', exitCode: 0 }
+      if (key === IGNORED_ARGV(dir).join(' ')) return { stdout: w.ignored[dir] ?? '', stderr: '', exitCode: 0 }
       if (key === AHEAD_ARGV(dir).join(' ')) return w.ahead[dir] === null ? { stdout: '', stderr: 'bad', exitCode: 128 } : { stdout: `0\t${w.ahead[dir] ?? 0}\n`, stderr: '', exitCode: 0 }
       if (key.startsWith(`git -C ${ROOT} worktree remove `)) {
         const path = argv[5] ?? ''
@@ -88,7 +90,7 @@ export function ioOf(w: World): WtIo {
   }
 }
 
-export const row = (over: Partial<WtRow> = {}): WtRow => ({ path: wt('x'), head: 'a'.repeat(40), branch: 'feat/x', isDetached: false, isBare: false, isLocked: false, isPrunable: false, isMain: false, isSafe: true, dirty: 0, ahead: 0, behind: 3, createdMs: NOW - 5 * DAY, maker: null, isCurrent: false, ...over })
+export const row = (over: Partial<WtRow> = {}): WtRow => ({ path: wt('x'), head: 'a'.repeat(40), branch: 'feat/x', isDetached: false, isBare: false, isLocked: false, isPrunable: false, isMain: false, isSafe: true, dirty: 0, ignoredSecrets: 0, ahead: 0, behind: 3, createdMs: NOW - 5 * DAY, maker: null, isCurrent: false, ...over })
 export const readOf = (rows: WtRow[]): WtRead => ({ root: ROOT, rows, total: rows.length, isCut: false, refAtMs: NOW - 3_600_000, hasRef: true, atMs: NOW })
 export const okCheck = (paths: string[], counts: Record<string, number> = {}, atMs = NOW) => parseProcs(`${BASE_PROCS}\n${procLines(Object.entries(counts).map(([path], i) => [50 + i, 'cwd', path] as [number, string, string]))}`, paths, atMs)
 

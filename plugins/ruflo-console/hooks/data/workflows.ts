@@ -11,7 +11,7 @@
  * Unknown event types and keys are ignored, a half-written last line is dropped, and a missing source is a missing fact:
  * nothing here is estimated.
  */
-import { agentLabels, shortId, type AgentRecord, type SwarmInfo } from './parse'
+import { agentLabels, ESCAPES, HIDDEN, shortId, type AgentRecord, type SwarmInfo } from './parse'
 
 export type AgentState = 'running' | 'done' | 'failed' | 'stale' | 'idle' | 'queued'
 
@@ -64,17 +64,35 @@ export type WfRun = {
 }
 
 const asRecord = (value: unknown): Record<string, unknown> | null => (typeof value === 'object' && value !== null && !Array.isArray(value) ? (value as Record<string, unknown>) : null)
-/** Control characters (an ANSI escape in a label would drive the terminal) are dropped from every string a file supplies. */
-// eslint-disable-next-line no-control-regex
-const CONTROL = /[\u0000-\u001f\u007f-\u009f]/g
+/** Escape sequences go whole (an OSC title or a hyperlink would otherwise leave its text behind), then control, zero-width and bidi-override characters (they reorder or hide text) become spaces: every string a file supplies passes here. */
+const CONTROL = HIDDEN
 const str = (value: unknown, max = 200): string | undefined => {
-  const clean = typeof value === 'string' ? value.replace(CONTROL, ' ').slice(0, max) : ''
+  const clean = typeof value === 'string' ? value.replace(ESCAPES, '').replace(CONTROL, ' ').slice(0, max) : ''
 
   return clean === '' ? undefined : clean
 }
 
 /** A result preview is agent output: anything shaped like a credential is masked before it is kept or drawn. */
-const SECRETISH = /\b(?:sk|pk|ghp|gho|ghs|github_pat|xox[abprs]|AKIA|AIza)[-_A-Za-z0-9]{12,}|\bBearer\s+\S{8,}|\b[A-Za-z0-9+_-]{32,}={0,2}|(?:key|token|secret|passw(?:or)?d)\s*[=:]\s*\S+/gi
+const SECRETISH = new RegExp(
+  [
+    // Vendor prefixes with a long tail (sk-ant-..., ghp_..., xoxb-..., AKIA..., AIza...), and the ones that need a separator so a plain word cannot match.
+    String.raw`\b(?:sk|pk|ghp|gho|ghs|github_pat|xox[abprs]|xapp|AKIA|ASIA|AIza)[-_A-Za-z0-9]{12,}`,
+    String.raw`\b(?:glpat|npm|hf|dop_v1|shpat|whsec|rk_live|sk_live|ya29)[-_.][-_.A-Za-z0-9]{12,}`,
+    String.raw`\bBearer\s+\S{8,}`,
+    // A JSON web token: three dot-separated base64url parts, the first starting eyJ.
+    String.raw`\beyJ[A-Za-z0-9_-]{6,}\.[A-Za-z0-9_-]{6,}\.?[A-Za-z0-9_-]*`,
+    // A long unbroken run of key-alphabet characters.
+    String.raw`\b[A-Za-z0-9+_-]{32,}={0,2}`,
+    // A private key block (whole when it ends in the text, else from its header to the end), and user:password@ in a URL.
+    String.raw`-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?(?:-----END [A-Z ]*PRIVATE KEY-----|$)`,
+    String.raw`\b[a-z][a-z0-9+.-]*://[^\s/:@]+:[^\s/@]+@`,
+    // key=value, "key": "value", Authorization: Bearer x, --token x. The key may be quoted; the value may be a quoted string or follow Bearer/Basic/Token.
+    String.raw`(?:key|token|secret|passw(?:or)?d|pwd|passphrase|credential|authorization)["']?\s*[=:]\s*(?:(?:Bearer|Basic|Token)\s+)?(?:"[^"]*"|'[^']*'|\S+)`,
+    String.raw`\bpass["']?\s*=\s*(?:"[^"]*"|'[^']*'|\S+)`,
+    String.raw`(?:^|\s)--?(?:token|password|passwd|pwd|secret|api-?key|auth(?:orization)?|access-?key|client-?secret)(?:=|\s+)\S+`,
+  ].join('|'),
+  'gi',
+)
 export const maskSecrets = (text: string): string => text.replace(SECRETISH, '‹masked›')
 const num = (value: unknown): number | undefined => (typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : undefined)
 
@@ -116,7 +134,7 @@ export function parseJournal(text: string | null): { isLaunched: boolean; agents
       byId.set(id, { agentId: id, label: str(event.label, 80) ?? id, hasResult: false, ...(phase !== undefined && { phase }) })
     } else if (event.type === 'result' && id !== undefined) {
       const held = byId.get(id) ?? { agentId: id, label: id, hasResult: false }
-      const preview = typeof event.result === 'string' ? maskSecrets(event.result.replace(CONTROL, ' ').replace(/\s+/g, ' ')).slice(0, 160) : asRecord(event.result) !== null ? `structured result (${Object.keys(event.result as object).length} fields)` : undefined
+      const preview = typeof event.result === 'string' ? maskSecrets(event.result.replace(ESCAPES, '').replace(CONTROL, ' ').replace(/\s+/g, ' ')).slice(0, 160) : asRecord(event.result) !== null ? `structured result (${Object.keys(event.result as object).length} fields)` : undefined
 
       byId.set(id, { ...held, hasResult: true, ...(preview !== undefined && preview !== '' && { resultPreview: preview }) })
     }

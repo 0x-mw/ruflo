@@ -158,7 +158,7 @@ export function removalSpec(env: SlotEnv): ActionSpec | null {
     declared: 'delete',
     shows: targets.map(path => REMOVE_ARGV(root, path).join(' ')).join('  ·  '),
     expect: 'each directory gone and no longer in git worktree list',
-    note: `Removes only these ${count} worktree director${count === 1 ? 'y' : 'ies'} (branches stay). Each is re-checked just before it goes, one at a time, with no --force: git refuses a dirty or locked one.${plan.more > 0 ? ` ${plan.more} more qualify and wait for the next confirm.` : ''}`,
+    note: `Removes only these ${count} worktree director${count === 1 ? 'y' : 'ies'} (branches stay; files git ignores, such as build output, go with the directory). Each is re-checked just before it goes, one at a time, with no --force: git refuses a dirty or locked one.${plan.more > 0 ? ` ${plan.more} more qualify and wait for the next confirm.` : ''}`,
     run: async () => {
       const io = ioOf(host)
       const gone: string[] = []
@@ -182,7 +182,7 @@ export function removalSpec(env: SlotEnv): ActionSpec | null {
           const result = await host.run(REMOVE_ARGV(root, path), 60_000)
 
           if (result.exitCode === 0) gone.push(label)
-          else skipped.push(`${label}: git said ${plain(result.stderr || result.stdout, 100) || `exit ${result.exitCode}`}`)
+          else skipped.push(`${label}: git said ${cleanText(plain(result.stderr || result.stdout, 100)) || `exit ${result.exitCode}`}`)
         } catch (error) {
           skipped.push(`${label}: ${failureOf(error)}`)
         }

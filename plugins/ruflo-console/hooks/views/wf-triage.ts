@@ -7,7 +7,7 @@
 import type { RenderElement } from 'claude-code'
 
 import { newAlerts } from '../data/wf-alerts'
-import { billedTokens, fmtCosted, fmtUsd } from '../data/wf-cost'
+import { billedTokens, fmtCosted, fmtUsd, isUnread } from '../data/wf-cost'
 import { failedOf, rerunText, resultsOfJournal, triageRun, triageStrip, type TriageItem } from '../data/wf-triage'
 import { fmtTokens, modelName, type WfRun } from '../data/workflows'
 import { under } from '../data/files'
@@ -132,7 +132,7 @@ export function costRows(env: SlotEnv): RenderElement[] {
 
   const { coverage } = guards
 
-  rows.push(kv(ctx, 'run', `${fmtCosted(cost.total)} · ${fmtTokens(billedTokens(cost.total), cost.total.isFloor)} billed tokens (all request buckets) · ${cost.covered} of ${cost.count} agents read`, cost.total.isFloor ? THEME.warn : undefined))
+  rows.push(kv(ctx, 'run', `${fmtCosted(cost.total)} · ${isUnread(cost.total) ? 'n/a' : fmtTokens(billedTokens(cost.total), cost.total.isFloor)} billed tokens (all request buckets) · ${cost.covered} of ${cost.count} agents read`, cost.total.isFloor ? THEME.warn : undefined))
   rows.push(...notes(ctx, `Transcripts: up to ${mb(TRANSCRIPT_CAP)} each (a larger one is read from its end: ≥); at most ${mb(READ_BUDGET)} parsed per refresh; ${coverage.read} of ${coverage.total} read${coverage.left > 0 ? `, ${coverage.left} wait for the next refresh` : ''}. ≥ marks a floor, ≈ a family price.`))
 
   if (cost.total.unpricedModels.length > 0) rows.push(text(ctx, `no price for ${cost.total.unpricedModels.slice(0, 3).map(model => modelName(model)).join(', ')}: its tokens are counted, its dollars are not`, { color: THEME.warn }))
@@ -141,7 +141,7 @@ export function costRows(env: SlotEnv): RenderElement[] {
     const mine = cost.phases.get(entry.title)
     const here = entry.title === phase?.title
 
-    rows.push(text(ctx, `${here ? '▸' : ' '} ${clip(entry.title, 24).padEnd(24)} ${fmtCosted(mine).padEnd(14)} ${mine === undefined ? 'n/a' : `${fmtTokens(billedTokens(mine), mine.isFloor)} tok`}`, here ? { bold: true } : { dimColor: true }))
+    rows.push(text(ctx, `${here ? '▸' : ' '} ${clip(entry.title, 24).padEnd(24)} ${fmtCosted(mine).padEnd(14)} ${mine === undefined || isUnread(mine) ? 'n/a' : `${fmtTokens(billedTokens(mine), mine.isFloor)} tok`}`, here ? { bold: true } : { dimColor: true }))
   }
 
   if (run.phases.length > 10) rows.push(text(ctx, `+${run.phases.length - 10} more phases`, { dimColor: true }))
@@ -149,7 +149,7 @@ export function costRows(env: SlotEnv): RenderElement[] {
   if (phase !== null) {
     for (const agent of phase.agents.slice(0, 10)) {
       const mine = cost.agents.get(agent.id)
-      rows.push(text(ctx, `    ${clip(agent.label, 26).padEnd(26)} ${modelName(agent.model).padEnd(11)} ${fmtCosted(mine).padEnd(12)} ${mine === undefined ? 'n/a' : `${fmtTokens(billedTokens(mine), mine.isFloor)} tok`}`, { dimColor: true }))
+      rows.push(text(ctx, `    ${clip(agent.label, 26).padEnd(26)} ${modelName(agent.model).padEnd(11)} ${fmtCosted(mine).padEnd(12)} ${mine === undefined || isUnread(mine) ? 'n/a' : `${fmtTokens(billedTokens(mine), mine.isFloor)} tok`}`, { dimColor: true }))
     }
 
     if (phase.agents.length > 10) rows.push(text(ctx, `    +${phase.agents.length - 10} more agents`, { dimColor: true }))

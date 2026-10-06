@@ -123,7 +123,7 @@ function inspect(ctx: Ctx, run: WfRun, agent: WfAgent, hooks: WorkflowsHooks): R
  * is the ruflo agents' stop and spawn, each behind the confirm card.
  */
 export function workflowsView(ctx: Ctx, model: WorkflowsModel | null, ui: WfUi, hooks: WorkflowsHooks): RenderElement {
-  const rows: RenderElement[] = [rule(ctx, 'Workflows', model === null ? '' : `${model.runs.length} runs · j/k move · h/l column · Enter inspect`)]
+  const rows: RenderElement[] = [rule(ctx, 'Workflows', model === null ? '' : `${model.runs.length} runs · j/k move · b/l column · d inspect`)]
 
   if (model === null) return col(ctx, [...rows, text(ctx, 'reading workflow runs…', { dimColor: true })], 'workflows')
 
@@ -177,7 +177,7 @@ export function workflowsView(ctx: Ctx, model: WorkflowsModel | null, ui: WfUi, 
   }
 
   if (model.more > 0) rows.push(text(ctx, `+${model.more} older runs not shown`, { dimColor: true }))
-  if (wide && !here.ui.isInspecting) rows.push(text(ctx, `${shortId(run.id)} · Enter inspects the agent · [ ] switches run`, { dimColor: true }))
+  if (wide && !here.ui.isInspecting) rows.push(text(ctx, `${shortId(run.id)} · d inspects the agent · u/i switches run`, { dimColor: true }))
 
   return col(ctx, rows, 'workflows')
 }

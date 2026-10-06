@@ -67,7 +67,7 @@ export async function readWorkflowRuns(fs: WorkflowFs, cache: ReadCache, options
     chosen.map(async ({ session, id }) => {
       const dir = under(root, `${session}/subagents/workflows/${id}`)
       const entries = await safeList(fs, dir)
-      const text = async (path: string, max?: number) => (await readBounded(fs, cache, path, max)).text
+      const text = async (path: string, max?: number) => (await readBounded(fs, cache, path, max, true)).text
       const record = await text(under(root, `${session}/workflows/${id}.json`), 6_000_000)
       const scripts = record === null ? await safeList(fs, under(root, `${session}/workflows/scripts`)) : []
       const scriptName = scripts.find(entry => entry.name.endsWith(`-${id}.js`))?.name

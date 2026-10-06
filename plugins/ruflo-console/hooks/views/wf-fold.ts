@@ -8,8 +8,6 @@ import { button, row, text, type Ctx } from './common'
 
 const open = new Set<string>()
 
-export const isFolded = (id: string): boolean => !open.has(id)
-
 /** For tests. */
 export const resetFolds = (): void => open.clear()
 

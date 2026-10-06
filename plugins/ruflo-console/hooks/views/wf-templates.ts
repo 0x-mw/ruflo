@@ -9,6 +9,7 @@ import type { RenderElement } from 'claude-code'
 
 import type { ActionSpec } from '../actions'
 import { plain } from '../data/parse'
+import { cleanText } from '../data/wf-clean'
 import { estimate, hasMasked, missingOf, promptOf, templateById, TEMPLATES, valuesOf, AGENTS_MAX, TEXT_MAX, type Param, type Template } from '../data/wf-templates'
 import type { Host } from '../host'
 import type { State } from '../state'
@@ -108,7 +109,7 @@ export function launchSpec(env: SlotEnv): ActionSpec | null {
         if (state.turnActive) await host.fillPrompt(prompt)
         else await host.submitPrompt(prompt)
       } catch (error) {
-        state.outcome = { label: 'launch workflow template', ok: false, verified: 'n/a', detail: plain(error instanceof Error ? error.message : String(error), 140) || 'refused', atMs: Date.now() }
+        state.outcome = { label: 'launch workflow template', ok: false, verified: 'n/a', detail: cleanText(plain(error instanceof Error ? error.message : String(error), 140)) || 'refused', atMs: Date.now() }
         host.invalidate()
       }
     },

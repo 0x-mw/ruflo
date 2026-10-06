@@ -12,7 +12,6 @@ import type { WfRun } from './workflows'
 
 export type GuardOptions = { wfBudgetRunUsd: number; wfBudgetDayUsd: number; wfAlertRules: string }
 
-export const GUARD_DEFAULTS: GuardOptions = { wfBudgetRunUsd: 0, wfBudgetDayUsd: 0, wfAlertRules: '' }
 
 const usdOption = (value: unknown): number => {
   const amount = typeof value === 'number' ? value : typeof value === 'string' && /^\d+(?:\.\d+)?$/.test(value.trim()) ? Number(value) : Number.NaN

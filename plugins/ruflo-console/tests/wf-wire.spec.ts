@@ -271,6 +271,20 @@ describe('the keys', () => {
     expect(world.state.wf.ui.column).toBe('agents')
   })
 
+  it('the keys the page names in its own text are keys its buttons carry (h is Help\'s, [ and ] are not hotkeys)', async () => {
+    const world = worldOf(live())
+
+    await refreshWorkflows(world.state, world.host, true, NOW)
+
+    const { tree } = pageOf(world.state, world.host)
+    const shown = words(tree)
+
+    expect(shown).toContain('b/l column')
+    expect(shown).toContain('d inspect')
+    expect(shown).not.toContain('h/l column')
+    expect(shown).not.toContain('[ ] switches run')
+  })
+
   it('opens a transcript path only inside the config directory\'s projects folder', () => {
     expect(isRunPath(`${ROOT}/${SESSION}/subagents/workflows/wf_live/agent-a1.jsonl`, CONFIG)).toBe(true)
     expect(isRunPath(`${CONFIG}/projects/../secrets.json`, CONFIG)).toBe(false)

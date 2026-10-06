@@ -9,7 +9,8 @@
  */
 import type { ActionSpec } from './actions'
 import { decodeSaved, emptySaved, encodeSaved, captureDrill, restoreDrill, sameDrill, SAVED_FILE, SAVED_MAX_BYTES, type Saved } from './data/wf-saved'
-import { dirOf, removeFileArgv, replaceFileArgv } from './data/wf-file'
+import { cleanText } from './data/wf-clean'
+import { checkNoLinks, dirOf, removeFileArgv, replaceFileArgv } from './data/wf-file'
 import { readBounded } from './data/files'
 import type { Host } from './host'
 import type { State } from './state'
@@ -129,13 +130,22 @@ export async function syncSavedViews(state: State, host: SavedHost, nowMs: numbe
 
     try {
       const path = savedPathOf(state.cwd)
+      // dd follows a link: a `.claude-flow` folder or a wf-views.json that is one (a repository can ship either) would send this write to any file the person can write. Refused, and said.
+      const clear = await checkNoLinks(host.fs, path, { cwd: state.cwd }, { allowExisting: true })
+
+      if (!clear.ok) {
+        own.error = cleanText(clear.why).slice(0, 80)
+
+        return
+      }
+
       const hasDir = (await host.fs.stat(dirOf(path)).catch(() => undefined)) !== undefined
       const result = await host.run(replaceFileArgv(path, hasDir), 10_000, encodeSaved(own.saved, nowMs))
 
       own.error = result.exitCode === 0 ? null : `the write exited ${result.exitCode}`
       if (result.exitCode === 0) own.isDirty = false
     } catch (error) {
-      own.error = error instanceof Error ? error.message.slice(0, 80) : 'the write was refused'
+      own.error = error instanceof Error ? cleanText(error.message).slice(0, 80) : 'the write was refused'
     } finally {
       own.isWriting = false
     }

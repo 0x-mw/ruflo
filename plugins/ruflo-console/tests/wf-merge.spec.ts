@@ -82,3 +82,19 @@ describe('guard options', () => {
     expect(optionsOf(undefined).wfAlertRules).toBe('')
   })
 })
+
+describe('review fixes: the export takes its cost from the Cost section', () => {
+  it('is null where nothing was read and a labelled estimate where something was', async () => {
+    const { exportCostOf } = await import('../hooks/wf-wire')
+    const { guards } = await import('../hooks/wf-cost-live')
+    const { costRun } = await import('../hooks/data/wf-cost')
+    const { buildRun } = await import('../hooks/data/workflows')
+    const { journal, meta, started } = await import('./fixtures/workflows')
+    const wfRun = buildRun({ id: 'wf_x', journal: journal(started('a1', 'build:a', 'Build')), agents: new Map([['a1', { meta: meta('a1', 'Build'), transcript: null, isTail: false, path: '/p/a1.jsonl' }]]), nowMs: 0 } as never)
+
+    guards.costs.clear()
+    expect(exportCostOf(wfRun)).toBeNull()
+    guards.costs.set('wf_x', costRun(wfRun, new Map(), null))
+    expect(exportCostOf(wfRun)).toBeNull()
+  })
+})

@@ -261,9 +261,12 @@ export function fmtUsd(usd: number): string {
   return usd <= 0 ? '$0' : usd < 0.001 ? '<$0.001' : usd < 0.1 ? `$${usd.toFixed(3)}` : usd < 100 ? `$${usd.toFixed(2)}` : `$${Math.round(usd)}`
 }
 
+/** A sum of nothing read: no token seen and some part missing. It is not $0, it is unknown. */
+export const isUnread = (cost: Costed): boolean => cost.pricedTokens === 0 && cost.unpricedTokens === 0 && cost.isFloor
+
 /** A cost as a cell says it: `≥` for a floor, `≈` for a rough price, "no price" where tokens had none, "n/a" where nothing was read. */
 export function fmtCosted(cost: Costed | undefined): string {
-  if (cost === undefined) return 'n/a'
+  if (cost === undefined || isUnread(cost)) return 'n/a'
   if (cost.pricedTokens === 0 && cost.unpricedTokens > 0) return 'no price'
   if (cost.pricedTokens === 0) return '$0'
 

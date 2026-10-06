@@ -11,6 +11,7 @@
 import { agentKey, evaluateGuards, NO_RULES, parseGuardRules, trackProgress, type GuardAlert, type GuardRules, type Mark } from './data/wf-alerts'
 import { costRun, parsePriceBook, spendOf, usageOfTranscript, type AgentUsage, type PriceBook, type RunCost } from './data/wf-cost'
 import { trackerOf } from './data/cost-ledger'
+import { cleanText } from './data/wf-clean'
 import { readBounded, under } from './data/files'
 import { TAIL_BYTES, TRANSCRIPT_CAP, type WorkflowFs } from './data/workflows-read'
 import type { WfRun } from './data/workflows'
@@ -71,7 +72,8 @@ const rememberParsed = (path: string, entry: Parsed): void => {
 async function usageOf(fs: WorkflowFs, path: string, budget: { left: number; bytes: number }): Promise<{ usage: AgentUsage } | { later: boolean }> {
   const stat = await fs.stat(path).catch(() => undefined)
 
-  if (stat === undefined || typeof stat.size !== 'number') return { later: false }
+  // A link or anything but a file (a device, a pipe) is never read: its size would say 0 and the read would not end.
+  if (stat === undefined || typeof stat.size !== 'number' || stat.isLink === true || (stat.kind !== undefined && stat.kind !== 'file')) return { later: false }
 
   const sig = `${stat.size}:${stat.mtimeMs ?? 0}`
   const held = parsed.get(path)
@@ -193,7 +195,7 @@ export async function refreshWfGuards(state: State, host: Host, force = false, n
     // The first reading announces nothing, as the page's own notices do: what is already true when the console looks is on the Cost board, and only a crossing after it raises a notice.
     if (isFirst) store.raised = new Set(activeAlerts(state.wf.read.runs, nowMs).map(alert => alert.key))
   } catch (error) {
-    store.error = error instanceof Error ? error.message.replace(/[\u0000-\u001f\u007f-\u009f]/g, ' ').slice(0, 100) : 'the read was refused'
+    store.error = error instanceof Error ? cleanText(error.message).slice(0, 100) : 'the read was refused'
   } finally {
     store.isReading = false
     host.invalidate()

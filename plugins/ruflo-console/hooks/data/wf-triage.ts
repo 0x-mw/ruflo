@@ -7,15 +7,14 @@
  * result (the page says so). A result that merely MENTIONS an error is not an error: for an agent that finished, only a result that begins
  * with one is.
  */
+import { ESCAPES, HIDDEN } from './parse'
 import { maskSecrets, jsonLines, type WfAgent, type WfRun } from './workflows'
 
 export type TriageKind = 'ok' | 'empty' | 'error' | 'timeout' | 'stale' | 'pending'
 
 export type Triage = { kind: TriageKind; /** One short reason, for the row. */ why: string; /** The first error line of the result, masked and without control characters. */ firstError?: string }
 
-// eslint-disable-next-line no-control-regex
-const CONTROL = /[\u0000-\u001f\u007f-\u009f]/g
-const tidy = (value: string, max: number): string => maskSecrets(value.replace(CONTROL, ' ').replace(/\s+/g, ' ').trim()).slice(0, max)
+const tidy = (value: string, max: number): string => maskSecrets(value.replace(ESCAPES, '').replace(HIDDEN, ' ').replace(/\s+/g, ' ').trim()).slice(0, max)
 
 const ERROR_START = /^\W{0,3}(?:[A-Z][A-Za-z]*Error\s*[:(]|error\s*[:(]|fatal\s*[:(]|panic(?:ked)?\b|exception\s*[:(]|traceback \(most recent|npm ERR!|✖|✗)/i
 const ERROR_ANYWHERE = /\b(?:[A-Z][A-Za-z]*Error|ENOENT|EACCES|EPERM|ECONN[A-Z]+|ETIMEDOUT|ENOSPC)\b|\b(?:error|fatal|panic|failed|exception)\s*[:(]|\bTraceback\b|\bcould not\b|\bunable to\b|\bcannot\b/i
