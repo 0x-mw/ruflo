@@ -45,8 +45,8 @@ const run = async (argv: readonly string[], _ms: number, stdin?: string): Promis
     let stdout = ''
     let stderr = ''
 
-    child.stdout.on('data', chunk => (stdout += chunk))
-    child.stderr.on('data', chunk => (stderr += chunk))
+    child.stdout?.on('data', chunk => (stdout += chunk))
+    child.stderr?.on('data', chunk => (stderr += chunk))
     child.on('close', code => void handle.close().then(() => resolve({ exitCode: code ?? -1, stdout, stderr })))
     child.on('error', error => void handle.close().then(() => resolve({ exitCode: 127, stdout, stderr: String(error) })))
   })

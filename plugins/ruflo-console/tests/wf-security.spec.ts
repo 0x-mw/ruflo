@@ -141,8 +141,8 @@ describe('export and saved-view paths', () => {
       let stdout = ''
       let stderr = ''
 
-      child.stdout.on('data', chunk => (stdout += chunk))
-      child.stderr.on('data', chunk => (stderr += chunk))
+      child.stdout?.on('data', chunk => (stdout += chunk))
+      child.stderr?.on('data', chunk => (stderr += chunk))
       child.on('close', code => void handle.close().then(() => resolve({ exitCode: code ?? -1, stdout, stderr })))
       child.on('error', error => void handle.close().then(() => resolve({ exitCode: 127, stdout, stderr: String(error) })))
     })
@@ -223,7 +223,7 @@ describe('export and saved-view paths', () => {
 
     await writeFile(victim, 'precious')
 
-    const state = newState()
+    const state = newState({})
 
     state.cwd = dir
     state.view = 'workflows'
@@ -253,7 +253,7 @@ describe('export and saved-view paths', () => {
   })
 
   it('writes the saved views normally when nothing is a link', async () => {
-    const state = newState()
+    const state = newState({})
 
     state.cwd = dir
     state.view = 'workflows'
