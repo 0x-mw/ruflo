@@ -30,6 +30,7 @@ import { BOOT_MIN_MS, CLI_PREFIXES, isBooting, NAV_KEY, NAV_STYLES, PANE_ID, pus
 import type { Actions } from './views/common'
 import { picturesOf } from './views/frames'
 import { pulseDue } from './pulse'
+import { refreshWorkflows } from './wf-live'
 
 const ACTIVITY_BUCKET_MS = 5_000
 const PANE_WATCH_MS = 1_000
@@ -328,6 +329,7 @@ export function createController(state: State, host: Host): Controller {
         lastIdleMs = now
         void refresh().then(() => {
           void probe()
+          void refreshWorkflows(state, host)
           advance(state, host)
         })
       }

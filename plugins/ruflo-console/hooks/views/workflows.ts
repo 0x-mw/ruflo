@@ -90,7 +90,7 @@ function inspect(ctx: Ctx, run: WfRun, agent: WfAgent, hooks: WorkflowsHooks): R
     rows.push(kv(ctx, 'model / tokens', 'n/a (ruflo records neither per agent)'))
     rows.push(
       row(ctx, [
-        button(ctx, 'wf-stop', 'Stop agent', () => { const spec = stopAgent(a); if (spec !== null) hooks.ask(spec) }, { hotkey: 'x' }),
+        button(ctx, 'wf-stop', 'Stop agent', () => { const spec = stopAgent(a); if (spec !== null) hooks.ask(spec) }),
         button(ctx, 'wf-spawn', `Spawn another ${a.type}`, () => { const spec = spawnAgent(a.type, ctx.nowMs); if (spec !== null) hooks.ask(spec) }),
       ]),
     )

@@ -12,6 +12,7 @@ import { navActions } from './nav-state'
 import { roomActions } from './room'
 import { roomPages } from './views/room'
 import { watchActions } from './watch'
+import { workflowsActions } from './wf-actions'
 import { missionActions } from './mission-control'
 import { catalogActions } from './plugin-catalog'
 import { saveAllowed } from './remember'
@@ -63,6 +64,10 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
   /** j/k: what moves depends on the view in front. */
   function select(by: number): void {
     const view = state.view
+
+    // The Workflows page keeps its own cursor (run, phase, agent): /ruflo next and prev move it as j and k do.
+    if (view === 'workflows') return actions.workflows.key(by > 0 ? 'j' : 'k')
+
     const key = view === 'claims' ? 'claim' : view === 'swarm' || view === 'timeline' || view === 'agent' ? 'agent' : 'item'
 
     state.select[key] += by
@@ -380,6 +385,7 @@ export function actionsOf(state: State, host: Host, runner: Runner, steps: Steps
         host.invalidate()
       },
     },
+    workflows: workflowsActions(state, host, runner),
     devtools: devtoolsActions(state, host, runner.runById, why => runner.ask(null, why)),
   }
 
