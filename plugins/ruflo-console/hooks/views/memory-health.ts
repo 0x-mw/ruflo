@@ -85,7 +85,7 @@ function consolidateRows(ctx: Ctx): RenderElement[] {
   return [
     row(ctx, [
       button(ctx, 'mem-health-consolidate', '▸ consolidate', press, { primary: true }),
-      text(ctx, ' AgentDB consolidate: merges and promotes across tiers; asks first. It does not delete the keys listed above, delete those one by one (DELETE).', { dimColor: true }),
+      text(ctx, ' asks first · merges across tiers, never deletes these keys (DELETE does)', { dimColor: true }),
     ]),
     ...(lab.origin === 'health' ? confirmHere(ctx, 'mem:agentdb') : []),
   ]

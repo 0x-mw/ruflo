@@ -39,6 +39,28 @@ describe('memory health analysis', () => {
     expect(report.clusterCount).toBe(0)
   })
 
+  it('does not cluster unlike keys that merely share a size, and a same-key different-size pair is near, not exact', () => {
+    const unlike = analyseHealth({ listed: 2, entries: [e('a', 'payment-gateway-config', 100, 1, 1), e('a', 'user-avatar-cache', 100, 1, 2)] }, NOW)
+    const resized = analyseHealth({ listed: 2, entries: [e('a', 'api/auth', 100, 1, 1), e('b', 'api-auth', 500, 1, 2)] }, NOW)
+
+    expect(unlike.clusterCount).toBe(0)
+    expect(resized.clusters[0]).toMatchObject({ kind: 'near', size: 2 })
+  })
+
+  it('the same namespace and key listed twice is not a duplicate of itself', () => {
+    expect(analyseHealth({ listed: 2, entries: [e('a', 'same-key', 10, 1, 1), e('a', 'same-key', 10, 1, 2)] }, NOW).clusterCount).toBe(0)
+  })
+
+  it('the pair budget drops the OLDEST entries: a duplicate among the oldest is not found, one among the newest is', () => {
+    const filler = Array.from({ length: 30 }, (_, index) => e('f', `filler-${index}-zz${index}`, 10 + index * 7, 1, 10 + index))
+    const newest = [e('n', 'fresh-dup-key', 999, 1, 0), e('m', 'fresh-dup-key', 999, 1, 0.5)]
+    const oldest = [e('o', 'ancient-dup-key', 777, 1, 400), e('p', 'ancient-dup-key', 777, 1, 401)]
+    const report = analyseHealth({ listed: 34, entries: [...oldest, ...filler, ...newest] }, NOW, { pairCap: 120 })
+
+    expect(report.isTruncated).toBe(true)
+    expect(report.clusters.flatMap(cluster => cluster.members.map(member => member.key))).toEqual(['fresh-dup-key', 'fresh-dup-key'])
+  })
+
   it('stale means never recalled and not updated for the window; a recalled or undated entry is never stale', () => {
     const undated: HealthEntry = { namespace: 'a', key: 'undated', size: 1, accessCount: 0 }
     const report = analyseHealth({ listed: 4, entries: [e('a', 'old-unread', 1, 0, 90), e('a', 'old-read', 1, 3, 90), e('a', 'new-unread', 1, 0, 2), undated] }, NOW)
@@ -92,6 +114,14 @@ describe('the health probe reader', () => {
     expect(JSON.stringify(sample)).not.toContain('must-not-be-kept')
     expect(sample?.entries[1]).toMatchObject({ key: 'k2', namespace: '(none)', size: 0, accessCount: 0 })
     expect(memoryHealthProbe.parse('not json')).toBeNull()
+  })
+
+  it('reads at most HEALTH_CAP rows even if the CLI ignores --limit', () => {
+    const rows = Array.from({ length: HEALTH_CAP + 50 }, (_, index) => ({ key: `k${index}`, namespace: 'n', size: 1, accessCount: 0 }))
+    const sample = memoryHealthProbe.parse(JSON.stringify(rows))
+
+    expect(sample?.entries).toHaveLength(HEALTH_CAP)
+    expect(sample?.listed).toBe(HEALTH_CAP)
   })
 
   it('asks for exactly the cap, read-only, through the fixed memory list argv', () => {
