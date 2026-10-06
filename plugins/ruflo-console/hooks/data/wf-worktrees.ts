@@ -49,7 +49,7 @@ export const LIST_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, 
 // session's git may want): both are switched off, after '-C <dir>' so the directory stays the third word.
 export const STATUS_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, '--no-optional-locks', '-c', 'core.fsmonitor=false', 'status', '--porcelain=v1']
 /** Ignored files and folders (a folder is one entry): 'git worktree remove' deletes these too, and they are where a .env or a key lives. */
-export const IGNORED_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, '--no-optional-locks', 'ls-files', '--others', '--ignored', '--exclude-standard', '--directory']
+export const IGNORED_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, '--no-optional-locks', '-c', 'core.fsmonitor=false', 'ls-files', '--others', '--ignored', '--exclude-standard', '--directory']
 export const AHEAD_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, 'rev-list', '--left-right', '--count', 'origin/main...HEAD']
 export const REF_ARGV = (dir: string): readonly string[] => ['git', '-C', dir, 'log', '-1', '--format=%ct', 'origin/main']
 export const REMOVE_ARGV = (main: string, path: string): readonly string[] => ['git', '-C', main, 'worktree', 'remove', path]

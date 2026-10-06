@@ -88,7 +88,7 @@ const SECRETISH = new RegExp(
     String.raw`\b[a-z][a-z0-9+.-]*://[^\s/:@]+:[^\s/@]+@`,
     // key=value, "key": "value", Authorization: Bearer x, --token x. The key may be quoted; the value may be a quoted string or follow Bearer/Basic/Token.
     String.raw`(?:key|token|secret|passw(?:or)?d|pwd|passphrase|credential|authorization)["']?\s*[=:]\s*(?:(?:Bearer|Basic|Token)\s+)?(?:"[^"]*"|'[^']*'|\S+)`,
-    String.raw`\bpass["']?\s*=\s*(?:"[^"]*"|'[^']*'|\S+)`,
+    String.raw`(?<![A-Za-z0-9])pass["']?\s*=\s*(?:"[^"]*"|'[^']*'|\S+)`,
     String.raw`(?:^|\s)--?(?:token|password|passwd|pwd|secret|api-?key|auth(?:orization)?|access-?key|client-?secret)(?:=|\s+)\S+`,
   ].join('|'),
   'gi',

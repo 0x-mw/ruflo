@@ -5,7 +5,7 @@
  *   npx vitest run plugins/ruflo-console/tests/wf-security.spec.ts --testTimeout=30000
  */
 import { spawn } from 'node:child_process'
-import { lstat, mkdir, mkdtemp, readFile, rm, stat as statOf, symlink, writeFile } from 'node:fs/promises'
+import { lstat, mkdir, mkdtemp, open, readFile, rm, stat as statOf, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -128,18 +128,25 @@ describe('export and saved-view paths', () => {
     read: async (path: string) => readFile(path, 'utf8'),
     list: async () => [],
   }
-  const run = (argv: readonly string[], _ms: number, stdin?: string): Promise<{ exitCode: number; stdout: string; stderr: string }> =>
-    new Promise(resolve => {
-      const child = spawn(argv[0] as string, argv.slice(1), { stdio: ['pipe', 'pipe', 'pipe'] })
+  // stdin goes in as a file descriptor, not a socket: GNU install opens /dev/stdin and refuses a socket (which Node's 'pipe' stdio is).
+  const run = async (argv: readonly string[], _ms: number, stdin?: string): Promise<{ exitCode: number; stdout: string; stderr: string }> => {
+    const input = join(dir, '..', `stdin-${Math.random().toString(36).slice(2)}`)
+
+    await writeFile(input, stdin ?? '')
+
+    const handle = await open(input, 'r')
+
+    return new Promise(resolve => {
+      const child = spawn(argv[0] as string, argv.slice(1), { stdio: [handle.fd, 'pipe', 'pipe'] })
       let stdout = ''
       let stderr = ''
 
       child.stdout.on('data', chunk => (stdout += chunk))
       child.stderr.on('data', chunk => (stderr += chunk))
-      child.on('close', code => resolve({ exitCode: code ?? -1, stdout, stderr }))
-      child.on('error', error => resolve({ exitCode: 127, stdout, stderr: String(error) }))
-      child.stdin.end(stdin ?? '')
+      child.on('close', code => void handle.close().then(() => resolve({ exitCode: code ?? -1, stdout, stderr })))
+      child.on('error', error => void handle.close().then(() => resolve({ exitCode: 127, stdout, stderr: String(error) })))
     })
+  }
 
   beforeEach(async () => {
     const base = await mkdtemp(join(tmpdir(), 'wf-sec-'))
@@ -254,6 +261,7 @@ describe('export and saved-view paths', () => {
     await syncSavedViews(state, { fs: fsOf, run } as never, 1000)
     updateSaved(dir, s => setSearch(s, 'needle'))
     await syncSavedViews(state, { fs: fsOf, run } as never, 100_000)
+    expect(savedFor(dir).error).toBeNull()
     expect(decodeSaved(await readFile(savedPathOf(dir), 'utf8')).saved.search).toBe('needle')
   })
 })
