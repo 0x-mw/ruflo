@@ -325,3 +325,13 @@ export function snapshotEvents(s: LoopState): JournalEvent[] {
 
   return out
 }
+
+/** The daily digest line: what the last 24 hours did, from the steps the journal still holds. Spend is drawn only when it was read. */
+export function digestText(s: LoopState, nowMs: number, spendUsd: number | null): string {
+  const since = nowMs - 86_400_000
+  const day = s.steps.filter(step => (step.endedAt ?? step.startedAt) >= since)
+  const done = day.filter(step => step.status === 'done')
+  const adapted = s.receipts.filter(r => r.at >= since).length
+
+  return `autopilot digest: ${done.filter(step => step.verified === true).length} verified, ${done.filter(step => step.verified !== true).length} unverified, ${day.filter(step => step.status === 'failed').length} failed · ${s.parked.filter(p => p.answer === undefined).length} parked · ${adapted} adaptation${adapted === 1 ? '' : 's'} · spend ${spendUsd === null ? 'n/a' : `$${Math.round(spendUsd * 100) / 100}`}`
+}
