@@ -258,7 +258,7 @@ export type RunInput = {
   dir?: string
   journal: string | null
   /** agentId → meta file text, transcript text (and whether it is a tail), and its path. */
-  agents: ReadonlyMap<string, { meta: string | null; transcript: string | null; isTail: boolean; path: string }>
+  agents: ReadonlyMap<string, { meta: string | null; transcript: string | null; isTail: boolean; path: string; /** What `parseTranscript` already made of this very text, where the reader kept it. */ facts?: TranscriptFacts }>
   record: string | null
   script: string | null
   nowMs: number
@@ -282,7 +282,7 @@ export function buildRun(input: RunInput): WfRun {
     const r = fromRecord.get(id)
     const source = input.agents.get(id)
     const meta = parseAgentMeta(source?.meta ?? null)
-    const facts = source === undefined ? null : parseTranscript(source.transcript, source.isTail)
+    const facts = source === undefined ? null : (source.facts ?? parseTranscript(source.transcript, source.isTail))
     const startedMs = r?.startedMs ?? (source?.isTail === true ? undefined : facts?.firstMs)
     const lastSeen = facts?.lastMs ?? input.lastActivityMs
     const hasResult = j?.hasResult === true

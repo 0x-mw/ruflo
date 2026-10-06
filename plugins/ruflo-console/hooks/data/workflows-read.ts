@@ -6,7 +6,7 @@
  * its transcripts are not read.
  */
 import { readBounded, under, type ReadCache, type ReaderFs } from './files'
-import { buildRun, type RunInput, type WfRun } from './workflows'
+import { buildRun, parseTranscript, type RunInput, type TranscriptFacts, type WfRun } from './workflows'
 
 /** The engine refuses files over 4 MiB; below this a transcript is read whole. */
 export const TRANSCRIPT_CAP = 3_000_000
@@ -22,6 +22,29 @@ export type WorkflowRuns = { runs: WfRun[]; /** The project's folder under the c
 
 /** Claude Code's folder name for a project: every character that is not a letter or digit becomes `-`. */
 export const slugOf = (cwd: string): string => cwd.replace(/[^A-Za-z0-9]/g, '-')
+
+/**
+ * What each transcript parsed to, by path. A refresh re-reads every run on a timer; JSON.parse of the same unchanged
+ * transcripts was the whole cost of it (bench-swarmui.mjs: ~170 ms of ~170 ms at 6 runs x 60 agents). The read cache hands back
+ * the same string while a file is unchanged, so the text itself is the key's check. Bounded, oldest out.
+ */
+const PARSED_MAX = MAX_RUNS * MAX_AGENTS * 2
+const parsed = new Map<string, { text: string; isTail: boolean; facts: TranscriptFacts }>()
+
+function factsOf(path: string, text: string, isTail: boolean): TranscriptFacts {
+  const held = parsed.get(path)
+
+  if (held !== undefined && held.isTail === isTail && held.text === text) return held.facts
+
+  const facts = parseTranscript(text, isTail)
+
+  parsed.delete(path)
+  parsed.set(path, { text, isTail, facts })
+
+  if (parsed.size > PARSED_MAX) parsed.delete(parsed.keys().next().value as string)
+
+  return facts
+}
 
 const safeList = (fs: ReaderFs, path: string) => fs.list(path).catch(() => [] as Awaited<ReturnType<ReaderFs['list']>>)
 
@@ -68,7 +91,7 @@ export async function readWorkflowRuns(fs: WorkflowFs, cache: ReadCache, options
               if (transcript === null) skipped.push(path)
             }
 
-            return [agentId, { meta, transcript, isTail, path }] as const
+            return [agentId, { meta, transcript, isTail, path, ...(transcript !== null && { facts: factsOf(path, transcript, isTail) }) }] as const
           }),
         ),
       )

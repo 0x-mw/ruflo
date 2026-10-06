@@ -144,19 +144,25 @@ export function workflowsView(ctx: Ctx, model: WorkflowsModel | null, ui: WfUi, 
 
   rows.push(rule(ctx, 'Phases', phase === null ? '' : `${phase.title}${phase.detail === undefined ? '' : ` · ${clip(phase.detail, 40)}`}`))
 
-  const phases = run.phases.map((entry, i) => phaseCell(ctx, entry, i, { isHere: i === here.ui.phase && here.ui.column === 'phases', isCurrent: i === current, width: left }))
-  const agents = (phase?.agents ?? []).map((entry, i) => agentCell(ctx, entry, i === here.ui.agent && here.ui.column === 'agents', right))
+  // Cells are built for the rows that are drawn only: a run can name thousands of agents, and a frame must not scale with them.
+  const rowsMax = 14
+  const phaseTotal = run.phases.length
+  const agentList = phase?.agents ?? []
+  const phases = run.phases.slice(0, rowsMax).map((entry, i) => phaseCell(ctx, entry, i, { isHere: i === here.ui.phase && here.ui.column === 'phases', isCurrent: i === current, width: left }))
+  const agents = agentList.slice(0, rowsMax).map((entry, i) => agentCell(ctx, entry, i === here.ui.agent && here.ui.column === 'agents', right))
 
   if (run.phases.length === 0) rows.push(text(ctx, 'This run has no agents yet.', { dimColor: true }))
   else if (wide) {
-    for (let i = 0; i < Math.min(14, Math.max(phases.length, agents.length)); i += 1) {
+    for (let i = 0; i < Math.max(phases.length, agents.length); i += 1) {
       rows.push(row(ctx, [phases[i] ?? text(ctx, ' '.repeat(left)), ctx.kit.Text({ dimColor: true, children: ' │ ' }), agents[i] ?? text(ctx, ' ')], `wf-${i}`))
     }
   } else {
     rows.push(...phases, ...agents)
   }
 
-  if (Math.max(phases.length, agents.length) > 14 && wide) rows.push(text(ctx, `+${Math.max(phases.length, agents.length) - 14} more (j/k walks all of them)`, { dimColor: true }))
+  const hidden = Math.max(phaseTotal, agentList.length) - rowsMax
+
+  if (hidden > 0) rows.push(text(ctx, `+${hidden} more (j/k walks all of them)`, { dimColor: true }))
   if (phase !== null && phase.agents.length === 0) rows.push(text(ctx, 'No agent has started in this phase yet.', { dimColor: true }))
 
   if (here.ui.isInspecting && here.agent !== null) rows.push(...inspect(ctx, run, here.agent, hooks))

@@ -326,6 +326,17 @@ describe('view', () => {
     expect(text).toContain('derived from the journal and transcripts')
   })
 
+  it('draws at most 14 rows a column however many agents the run names, wide or narrow', () => {
+    const many = buildRun({ ...liveInput(), journal: journal(...Array.from({ length: 500 }, (_, i) => started(`x${i}`, `agent ${i}`, 'Build'))), agents: new Map() })
+
+    for (const columns of [110, 50]) {
+      const out = lines(workflowsView(ctxOf(columns), model([many]), startOn(newWfUi(), many), hooks))
+
+      expect(out.filter(l => /◐ agent/.test(l)).length).toBe(14)
+      expect(out.join('\n')).toContain('+486 more')
+    }
+  })
+
   it('narrow screens drop the model and badge instead of overflowing', () => {
     const out = lines(workflowsView(ctxOf(50), model(), startOn(newWfUi(), live), hooks))
 
