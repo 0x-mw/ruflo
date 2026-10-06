@@ -148,6 +148,14 @@ describe('buildRun', () => {
     expect(currentPhase(run.phases)).toBe(0)
   })
 
+  it('stale starts after 15 minutes without a sign of life, not before', () => {
+    const at = (idle: number) => buildRun(liveInput({ nowMs: T0 + 40_000 + idle, lastActivityMs: T0 + 40_000 })).phases[0]?.agents.find(a => a.label === 'build:memmap')?.state
+
+    expect(STALE_MS).toBe(15 * 60_000)
+    expect(at(14 * 60_000)).toBe('running')
+    expect(at(16 * 60_000)).toBe('stale')
+  })
+
   it('a tail-read transcript makes tokens a floor and gives no start time', () => {
     const run = buildRun(liveInput({ agents: new Map([['a1', { meta: null, transcript: transcript([{ at: 5, id: 'm1', input: 1, write: 1, read: 1, output: 1 }, { at: 9, id: 'm2', input: 1, write: 1, read: 1, output: 1 }]), isTail: true, path: '/p' }]]), journal: journal(started('a1', 'big', 'Build')) }))
     const agent = run.phases[0]?.agents[0]
@@ -279,6 +287,15 @@ describe('reader', () => {
     expect(found.skipped).toEqual([])
   })
 
+  it('a finished run never opens a transcript', async () => {
+    const files = { ...base(), [`${root}/${session}/workflows/wf_live.json`]: record() }
+    const opened: string[] = []
+    const inner = memoryFs(files)
+
+    await read({ ...inner, read: async path => (opened.push(path), inner.read(path)) })
+    expect(opened.filter(path => path.endsWith('.jsonl') && !path.endsWith('journal.jsonl'))).toEqual([])
+  })
+
   it('an oversized transcript is tail-read where the host can, else left unread and counted', async () => {
     const big = { [`${runDir}/agent-a1.jsonl`]: TRANSCRIPT_CAP + 1 }
     const files = base()
@@ -335,6 +352,36 @@ describe('view', () => {
       expect(out.filter(l => /◐ agent/.test(l)).length).toBe(14)
       expect(out.join('\n')).toContain('+486 more')
     }
+  })
+
+  it('scrolls so the cursor row is always drawn, however far down it is', () => {
+    const many = buildRun({ ...liveInput(), journal: journal(...Array.from({ length: 500 }, (_, i) => started(`x${i}`, `agent ${i}`, 'Build'))), agents: new Map() })
+
+    for (const columns of [110, 50]) {
+      const ui = { ...startOn(newWfUi(), many), column: 'agents' as const, agent: 300 }
+      const out = lines(workflowsView(ctxOf(columns), model([many]), ui, hooks))
+
+      expect(out.some(l => l.includes('▸') && l.includes('agent 300'))).toBe(true)
+      expect(out.filter(l => /agent \d/.test(l)).length).toBe(14)
+    }
+  })
+
+  it('strips control characters from labels, masks credential-shaped text in a result preview, and survives an absurd start time', () => {
+    const run = buildRun({
+      ...liveInput(),
+      journal: journal(started('z1', '\u001b[31mevil\u001b[0m label', 'Build'), result('z1', 'token=abc123 and sk-abcdefghijklmnop1234 ok see src/some/long/path/to/a/file/name/here.ts')),
+      agents: new Map(),
+      record: record({ workflowProgress: [{ type: 'workflow_agent', agentId: 'z1', startedAt: 1e20, state: 'done' }] }),
+    })
+    const agent = run.phases[0]?.agents[0]
+
+    expect(agent?.label).not.toMatch(/\u001b/)
+    expect(agent?.resultPreview).not.toMatch(/abc123|sk-abcdef/)
+    expect(agent?.resultPreview).toContain('src/some/long/path/to/a/file/name/here.ts')
+
+    const ui = { ...startOn(newWfUi(), run), column: 'agents' as const, isInspecting: true }
+
+    expect(() => lines(workflowsView(ctxOf(110), model([run]), ui, hooks))).not.toThrow()
   })
 
   it('narrow screens drop the model and badge instead of overflowing', () => {

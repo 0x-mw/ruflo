@@ -64,7 +64,18 @@ export type WfRun = {
 }
 
 const asRecord = (value: unknown): Record<string, unknown> | null => (typeof value === 'object' && value !== null && !Array.isArray(value) ? (value as Record<string, unknown>) : null)
-const str = (value: unknown, max = 200): string | undefined => (typeof value === 'string' && value !== '' ? value.slice(0, max) : undefined)
+/** Control characters (an ANSI escape in a label would drive the terminal) are dropped from every string a file supplies. */
+// eslint-disable-next-line no-control-regex
+const CONTROL = /[\u0000-\u001f\u007f-\u009f]/g
+const str = (value: unknown, max = 200): string | undefined => {
+  const clean = typeof value === 'string' ? value.replace(CONTROL, ' ').slice(0, max) : ''
+
+  return clean === '' ? undefined : clean
+}
+
+/** A result preview is agent output: anything shaped like a credential is masked before it is kept or drawn. */
+const SECRETISH = /\b(?:sk|pk|ghp|gho|ghs|github_pat|xox[abprs]|AKIA|AIza)[-_A-Za-z0-9]{12,}|\bBearer\s+\S{8,}|\b[A-Za-z0-9+_-]{32,}={0,2}|(?:key|token|secret|passw(?:or)?d)\s*[=:]\s*\S+/gi
+export const maskSecrets = (text: string): string => text.replace(SECRETISH, '‹masked›')
 const num = (value: unknown): number | undefined => (typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : undefined)
 
 /** JSONL as records: a line that does not parse (a half-written tail) is dropped, never thrown on. */
@@ -105,7 +116,7 @@ export function parseJournal(text: string | null): { isLaunched: boolean; agents
       byId.set(id, { agentId: id, label: str(event.label, 80) ?? id, hasResult: false, ...(phase !== undefined && { phase }) })
     } else if (event.type === 'result' && id !== undefined) {
       const held = byId.get(id) ?? { agentId: id, label: id, hasResult: false }
-      const preview = typeof event.result === 'string' ? event.result.replace(/\s+/g, ' ').slice(0, 160) : asRecord(event.result) !== null ? `structured result (${Object.keys(event.result as object).length} fields)` : undefined
+      const preview = typeof event.result === 'string' ? maskSecrets(event.result.replace(CONTROL, ' ').replace(/\s+/g, ' ')).slice(0, 160) : asRecord(event.result) !== null ? `structured result (${Object.keys(event.result as object).length} fields)` : undefined
 
       byId.set(id, { ...held, hasResult: true, ...(preview !== undefined && preview !== '' && { resultPreview: preview }) })
     }

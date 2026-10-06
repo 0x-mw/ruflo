@@ -60,7 +60,7 @@ No file in the console's existing registries is edited by this change; the wirin
 ## 3. Consequences
 
 - One page for both swarms, from files already on disk; no new probe, no network, no secrets. A result is shown only as the
-  first 160 characters of the string the journal already holds (a structured result as a field count), in the inspect panel.
+  first 160 characters of the string the journal already holds (a structured result as a field count), in the inspect panel, with credential-shaped text (`sk-…`, `token=…`, `Bearer …`, 32+ character tokens) masked and control characters stripped from every file-supplied string. Lists longer than 14 rows scroll with the cursor.
 - A live run's figures are derived and say so; a finished run's are Claude Code's own.
 - `stale` is a heuristic with a stated threshold, not a fact. The page never reports a failure it cannot read.
 - Reading cost: measured 72 ms for 6 real runs including one live run (this one), on the 2026-10-05 host. A finished run costs
@@ -68,7 +68,7 @@ No file in the console's existing registries is edited by this change; the wirin
 
 ## 4. Test and benchmark plan
 
-`plugins/ruflo-console/tests/workflows.spec.ts` (27 tests) with fixtures that copy the shape of a real run and none of its
+`plugins/ruflo-console/tests/workflows.spec.ts` (32 tests) with fixtures that copy the shape of a real run and none of its
 content: parsers (unknown events, a half-written line, a cut tail), streamed-message dedupe, live vs finished vs stale vs
 tail-read runs, the ruflo swarm run, key movement and clamping, the reader against an in-memory disk (oversize, tail,
 limits, empty), and the page through a recording kit (columns, narrow width, inspect, buttons and their argv, empty states).

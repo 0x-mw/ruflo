@@ -25,6 +25,9 @@ function phaseMark(phase: WfPhase, nowMs: number): { mark: string; color: string
   return { mark: '○', color: undefined }
 }
 
+/** First row drawn so the cursor row is always inside a window of `size` rows (the list scrolls with it). */
+const windowStart = (total: number, cursor: number, size: number): number => Math.max(0, Math.min(total - size, cursor - size + 1))
+
 const mb = (bytes: number): string => `${(bytes / 1_000_000).toFixed(1)} MB`
 
 /** The run header: its name and state, then agents running, done and failed, and the tokens the agents' records add up to. */
@@ -97,7 +100,7 @@ function inspect(ctx: Ctx, run: WfRun, agent: WfAgent, hooks: WorkflowsHooks): R
 
   rows.push(kv(ctx, 'model', agent.model === undefined ? 'n/a' : `${modelName(agent.model)} (${agent.model})`))
   rows.push(kv(ctx, 'tokens', `${fmtTokens(agent.tokens, agent.isTokensPartial)} context tokens of its latest request${agent.isTokensPartial === true ? ' (tail of the transcript only: a floor)' : ''}`))
-  rows.push(kv(ctx, 'elapsed', `${fmtElapsed(agent.elapsedMs)}${agent.startedMs === undefined ? '' : ` · started ${new Date(agent.startedMs).toISOString().slice(11, 19)}Z`}`))
+  rows.push(kv(ctx, 'elapsed', `${fmtElapsed(agent.elapsedMs)}${Number.isNaN(new Date(agent.startedMs ?? Number.NaN).getTime()) ? '' : ` · started ${new Date(agent.startedMs as number).toISOString().slice(11, 19)}Z`}`))
   rows.push(kv(ctx, 'worktree', agent.hasWorktree ? (agent.worktreePath ?? 'yes') : 'none'))
   if (agent.toolCalls !== undefined) rows.push(kv(ctx, 'tool calls', `${agent.toolCalls}${agent.lastTool === undefined ? '' : ` · last ${agent.lastTool}`}`))
   if (agent.resultPreview !== undefined) rows.push(text(ctx, `result: ${agent.resultPreview}`, { dimColor: true }))
@@ -139,7 +142,7 @@ export function workflowsView(ctx: Ctx, model: WorkflowsModel | null, ui: WfUi, 
   const wide = ctx.columns >= 56
   const left = wide ? Math.min(26, Math.max(18, Math.floor(ctx.columns / 3))) : ctx.columns
   const current = currentPhase(run.phases)
-  const right = Math.max(20, ctx.columns - left - 3)
+  const right = wide ? Math.max(20, ctx.columns - left - 3) : Math.max(20, ctx.columns - 1)
   const phase = here.phase
 
   rows.push(rule(ctx, 'Phases', phase === null ? '' : `${phase.title}${phase.detail === undefined ? '' : ` · ${clip(phase.detail, 40)}`}`))
@@ -148,8 +151,10 @@ export function workflowsView(ctx: Ctx, model: WorkflowsModel | null, ui: WfUi, 
   const rowsMax = 14
   const phaseTotal = run.phases.length
   const agentList = phase?.agents ?? []
-  const phases = run.phases.slice(0, rowsMax).map((entry, i) => phaseCell(ctx, entry, i, { isHere: i === here.ui.phase && here.ui.column === 'phases', isCurrent: i === current, width: left }))
-  const agents = agentList.slice(0, rowsMax).map((entry, i) => agentCell(ctx, entry, i === here.ui.agent && here.ui.column === 'agents', right))
+  const phaseFrom = windowStart(phaseTotal, here.ui.phase, rowsMax)
+  const agentFrom = windowStart(agentList.length, here.ui.agent, rowsMax)
+  const phases = run.phases.slice(phaseFrom, phaseFrom + rowsMax).map((entry, n) => phaseCell(ctx, entry, phaseFrom + n, { isHere: phaseFrom + n === here.ui.phase && here.ui.column === 'phases', isCurrent: phaseFrom + n === current, width: left }))
+  const agents = agentList.slice(agentFrom, agentFrom + rowsMax).map((entry, n) => agentCell(ctx, entry, agentFrom + n === here.ui.agent && here.ui.column === 'agents', right))
 
   if (run.phases.length === 0) rows.push(text(ctx, 'This run has no agents yet.', { dimColor: true }))
   else if (wide) {
@@ -162,7 +167,7 @@ export function workflowsView(ctx: Ctx, model: WorkflowsModel | null, ui: WfUi, 
 
   const hidden = Math.max(phaseTotal, agentList.length) - rowsMax
 
-  if (hidden > 0) rows.push(text(ctx, `+${hidden} more (j/k walks all of them)`, { dimColor: true }))
+  if (hidden > 0) rows.push(text(ctx, `+${hidden} more (j/k scrolls to them)`, { dimColor: true }))
   if (phase !== null && phase.agents.length === 0) rows.push(text(ctx, 'No agent has started in this phase yet.', { dimColor: true }))
 
   if (here.ui.isInspecting && here.agent !== null) rows.push(...inspect(ctx, run, here.agent, hooks))
