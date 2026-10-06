@@ -19,7 +19,7 @@ import { trackerOf } from './data/cost-ledger'
 import { evaluate, outcomesOf, promote, propose, reviewTrials, tierOf, tunablesFrom, lastHash } from './data/ap-adapt'
 import { AUTOPILOT_DIR, ENVELOPE_FILE, KILL_FILE, open, type Envelope, type Sealed, type Spend } from './data/ap-envelope'
 import { anatoleFact, classifyTask, effectOf, killSeen, preflightAll, spendArgvs, spendOf, type ToolCheck } from './data/ap-guard'
-import { appendArgv, encodeLine, JOURNAL_FILE, JOURNAL_MAX_BYTES, parseJournal, touchArgv, type JournalEvent } from './data/ap-journal'
+import { appendArgv, encodeLine, JOURNAL_FILE, JOURNAL_MAX_BYTES, parseJournal, REFUSED_WHY, touchArgv, type JournalEvent } from './data/ap-journal'
 import { digestText, emptyLoop, foldJournal, skipSet, snapshotEvents, tick, type EffectFact, type Facts, type LoopState, type TaskFact } from './data/ap-loop'
 import type { Preflight } from './data/ap-loop'
 import type { NoticeDraft } from './notices'
@@ -29,6 +29,8 @@ const SPEND_EVERY_MS = 120_000
 const ADAPT_EVERY_MS = 600_000
 const PREFLIGHT_EVERY_MS = 60_000
 const STEP_TIMEOUT_MS = 30 * 60_000
+/** A gap between ticks this long is a sleeping machine, not a slow tick. */
+const SLEEP_GAP_MS = 3 * TICK_MS
 
 export type Store = {
   sealed: Sealed | null
@@ -52,6 +54,11 @@ export type Store = {
   verified: Map<string, EffectFact>
   chain: Promise<unknown>
   isTimerOn: boolean
+  /** A stop that reached neither the journal nor the flag file (a full disk): held in memory so the next read cannot undo it. */
+  heldStop: string | null
+  lastTickMs: number
+  /** Time each in-flight step is forgiven for the machine having slept, by step id. */
+  slack: Record<string, number>
 }
 
 const stores = new WeakMap<State, Store>()
@@ -63,7 +70,7 @@ export const activeOf = (): State | null => active
 
 const checks = new WeakMap<State, ToolCheck | undefined>()
 
-export const storeOf = (state: State): Store => stores.get(state) ?? stores.set(state, { sealed: null, envWhy: null, loop: emptyLoop(), badLines: 0, journalBytes: 0, spend: null, spendAtMs: 0, killed: false, status: 'not wired', preflight: {}, preflightAtMs: 0, hasCheck: false, adaptAtMs: 0, bootMs: Date.now(), isTicking: false, error: null, readAtMs: 0, notices: [], verified: new Map(), chain: Promise.resolve(), isTimerOn: false }).get(state)!
+export const storeOf = (state: State): Store => stores.get(state) ?? stores.set(state, { sealed: null, envWhy: null, loop: emptyLoop(), badLines: 0, journalBytes: 0, spend: null, spendAtMs: 0, killed: false, status: 'not wired', preflight: {}, preflightAtMs: 0, hasCheck: false, adaptAtMs: 0, bootMs: Date.now(), isTicking: false, error: null, readAtMs: 0, notices: [], verified: new Map(), chain: Promise.resolve(), isTimerOn: false, heldStop: null, lastTickMs: 0, slack: {} }).get(state)!
 
 export const hostOf = (state: State): Host | undefined => hosts.get(state)
 
@@ -119,7 +126,9 @@ export async function refreshAutopilot(state: State, host: Host, nowMs: number =
       store.error = null
     }
 
-    store.killed = await killSeen(host.fs, state.cwd)
+    store.killed = (await killSeen(host.fs, state.cwd)) || store.heldStop !== null
+
+    if (store.heldStop !== null && store.loop.phase !== 'idle' && store.loop.phase !== 'stopped') store.loop = foldJournal([{ t: 'stop', at: nowMs, reason: store.heldStop }], store.loop)
     store.readAtMs = nowMs
   } catch {
     store.error = 'the autopilot files were not read'
@@ -199,11 +208,12 @@ export async function stopNow(state: State, host: Host, reason = 'stopped by you
   host.invalidate()
 
   const clear = await checkNoLinks(host.fs, flag, { cwd: state.cwd }, { allowExisting: true }).catch(() => ({ ok: false as const, why: 'unchecked' }))
+  const flagged = clear.ok ? await host.run(touchArgv(flag), 10_000).then(result => result.exitCode === 0, () => false) : false
+  const journaled = await appendEvents(state, host, [{ t: 'stop', at: Date.now(), reason }])
 
-  if (clear.ok) await host.run(touchArgv(flag), 10_000).catch(() => undefined)
-
-  await appendEvents(state, host, [{ t: 'stop', at: Date.now(), reason }])
-  say(state, host, { level: 'warn', text: `autopilot stopped: ${reason}`, key: 'ap-stop', go: 'missions' })
+  // Neither write landed (a full disk, a read-only folder): the stop is held in memory so a re-read of the files cannot undo it, and it is said.
+  if (!flagged && !journaled) store.heldStop = reason
+  say(state, host, { level: 'warn', text: flagged || journaled ? `autopilot stopped: ${reason}` : `autopilot stopped in this session only: the stop could not be written (${reason})`, key: 'ap-stop', go: 'missions' })
 }
 
 export async function pauseNow(state: State, host: Host, reason = 'paused by you'): Promise<void> {
@@ -220,7 +230,11 @@ export async function answerParked(state: State, host: Host, id: string, answer:
 }
 
 /** Clears the kill flag; part of the confirmed start, never a button of its own. */
-export const clearKill = (state: State, host: Host): Promise<unknown> => host.run(removeFileArgv(pathOf(state, KILL_FILE)), 10_000).catch(() => undefined)
+export function clearKill(state: State, host: Host): Promise<unknown> {
+  storeOf(state).heldStop = null
+
+  return host.run(removeFileArgv(pathOf(state, KILL_FILE)), 10_000).catch(() => undefined)
+}
 
 /** Writes the sealed envelope (replacing the file). Only the confirmed start/change calls this. */
 export async function writeEnvelope(state: State, host: Host, sealed: Sealed): Promise<boolean> {
@@ -283,7 +297,8 @@ async function effectsOf(state: State, host: Host, loop: LoopState, mission: Mis
       let ran = 0
       let failed = 0
 
-      for (const argv of env.verify) {
+      // The envelope's verify commands run through the console, not the engine: where the person's settings deny the test class they are not run (the step is then unverified).
+      for (const argv of store.preflight.test === 'deny' ? [] : env.verify) {
         ran += 1
 
         const result = await host.run(argv, 10 * 60_000).catch(() => ({ exitCode: 1 }))
@@ -310,6 +325,15 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
 
   try {
     await refreshAutopilot(state, host, nowMs)
+
+    // A long gap since the last pass is a machine that slept: steps in flight are forgiven that time before they can count as timed out.
+    const gap = store.lastTickMs > 0 ? nowMs - store.lastTickMs : 0
+
+    store.lastTickMs = nowMs
+
+    if (gap > SLEEP_GAP_MS) for (const step of store.loop.steps.filter(entry => entry.status === 'started')) store.slack[step.id] = (store.slack[step.id] ?? 0) + gap
+
+    if (store.heldStop !== null && store.loop.phase === 'stopped' && (await appendEvents(state, host, [{ t: 'stop', at: nowMs, reason: store.heldStop }]))) store.heldStop = null
 
     const loop = store.loop
 
@@ -355,16 +379,20 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
       orphans: new Set(loop.steps.filter(step => step.status === 'started' && step.startedAt < store.bootMs).map(step => step.id)),
       tunables: { parallelism: tunables?.parallelism ?? 1, retries: tunables?.retries ?? 0, stepTimeoutMs: STEP_TIMEOUT_MS, tierOf: cls => (tunables === null ? 'mid' : tierOf(tunables, cls)) },
       preflight: store.preflight,
+      slack: store.slack,
     }
 
-    const decision = tick(loop, facts)
+    let decision = tick(loop, facts)
+
+    // Stop or pause may have been pressed while the facts were gathered (a verify command can run for minutes): the person's later word wins, and nothing starts.
+    if (decision.act !== null && (store.killed || (await killSeen(host.fs, state.cwd)) || store.loop.phase !== 'running')) decision = { events: decision.events.filter(event => event.t !== 'step.started'), act: null, status: 'stopped or paused while this pass ran: nothing started' }
 
     store.status = decision.status
 
     // The decision is journaled BEFORE the step is handed over: a crash between the two leaves a started step that the next pass settles by its effect, never a step that ran unrecorded.
     const wrote = await appendEvents(state, host, decision.events)
 
-    for (const event of decision.events) {
+    for (const event of wrote ? decision.events : []) {
       if (event.t === 'stop' || event.t === 'pause') say(state, host, { level: event.t === 'stop' ? 'bad' : 'warn', text: `autopilot ${event.t === 'stop' ? 'stopped' : 'paused'}: ${event.reason}`, key: `ap-${event.t}`, go: 'missions' })
       if (event.t === 'parked') say(state, host, { level: 'info', text: `autopilot parked ${event.task}: a question is waiting`, key: `ap-park-${event.task}`, go: 'missions' })
     }
@@ -375,7 +403,7 @@ export async function apTick(state: State, host: Host, nowMs: number = Date.now(
       await dispatchSpec(state, host, shadow, picked.ledger, body => host.submitPrompt(body)).run?.()
 
       // The dispatch refuses (and says so in the mission view) when the mission moved; that is a step that never started, not a failure to learn from.
-      if (decision.act !== null && (picked.ledger.dispatchedAtMs ?? 0) < nowMs - 1000) await appendEvents(state, host, [{ t: 'step.failed', at: Date.now(), id: decision.act.id, why: 'the mission refused the hand-over' }])
+      if (decision.act !== null && (picked.ledger.dispatchedAtMs ?? 0) < nowMs - 1000) await appendEvents(state, host, [{ t: 'step.failed', at: Date.now(), id: decision.act.id, why: REFUSED_WHY }])
     }
 
     if (env !== null && tunables !== null && store.loop.phase === 'running' && nowMs - store.adaptAtMs >= ADAPT_EVERY_MS) {
@@ -406,7 +434,7 @@ async function adaptPass(state: State, host: Host, env: Envelope, nowMs: number)
   const current = tunablesFrom(store.loop.receipts, env)
   const prev = lastHash(store.loop.receipts)
   const reverts = reviewTrials(store.loop.receipts, outcomes)
-  const candidate = reverts[0] ?? propose(outcomes, current, env).find(p => evaluate(p, outcomes, current).verdict === 'supported')
+  const candidate = reverts[0] ?? propose(outcomes, current, env, store.loop.receipts).find(p => evaluate(p, outcomes, current).verdict === 'supported')
 
   if (candidate === undefined) return
 
@@ -418,15 +446,23 @@ async function adaptPass(state: State, host: Host, env: Envelope, nowMs: number)
 
 /** Archives the journal and starts a new one from its snapshot, so weeks of running stay readable. The old file is kept beside it. */
 async function rotate(state: State, host: Host, nowMs: number): Promise<void> {
+  const store = storeOf(state)
   const path = pathOf(state, JOURNAL_FILE)
   const archive = `${path}.${new Date(nowMs).toISOString().replace(/[^0-9]/g, '').slice(0, 14)}`
-  const lines = snapshotEvents(storeOf(state).loop).map(encodeLine).join('')
 
-  if (lines === '') return
+  // Inside the write chain, so a stop or pause pressed meanwhile lands before the snapshot is taken and cannot be lost to the replace.
+  const job = store.chain.then(async () => {
+    const lines = snapshotEvents(store.loop).map(encodeLine).join('')
 
-  const copied = await host.run(['cp', '--no-clobber', '--', path, archive], 30_000).catch(() => ({ exitCode: 1 }))
+    if (lines === '') return
 
-  if (copied.exitCode === 0) await storeOf(state).chain.then(() => host.run(replaceFileArgv(path, true), 10_000, lines)).catch(() => undefined)
+    const copied = await host.run(['cp', '--no-clobber', '--', path, archive], 30_000).catch(() => ({ exitCode: 1 }))
+
+    if (copied.exitCode === 0) await host.run(replaceFileArgv(path, true), 10_000, lines).catch(() => undefined)
+  })
+
+  store.chain = job.catch(() => undefined)
+  await store.chain
 }
 
 export { AUTOPILOT_DIR }

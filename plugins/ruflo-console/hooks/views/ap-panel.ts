@@ -88,6 +88,9 @@ export async function loadDraftFile(state: State): Promise<string> {
   return 'draft loaded'
 }
 
+/** Buttons that wrap onto more lines when the page is narrow, so none is pushed off the edge where a click cannot reach it. */
+const flow = (ctx: Ctx, parts: readonly RenderElement[], key: string): RenderElement => ctx.kit.Box({ flexDirection: 'row', flexWrap: 'wrap', key, children: [...parts] })
+
 const money = (n: number | undefined | null): string => (n === undefined || n === null ? 'n/a' : `$${Math.round(n * 100) / 100}`)
 const COLOR = { running: THEME.ok, paused: THEME.warn, stopped: THEME.bad, idle: undefined } as const
 
@@ -99,7 +102,7 @@ function gates(ctx: Ctx, env: Envelope | null): RenderElement[] {
 
   return [
     kv(ctx, 'Anatole', anatole === 'on' ? 'on' : anatole === 'off' ? 'OFF: autopilot pauses' : 'not installed', anatole === 'on' ? THEME.ok : THEME.warn),
-    kv(ctx, 'permissions', !store.hasCheck ? 'preflight not wired: the engine still asks per call; a step it would deny fails, it is not bypassed' : denied.length === 0 ? 'your settings allow every class' : `would ask or deny: ${denied.join(', ')} (parked)`, store.hasCheck ? undefined : THEME.warn),
+    kv(ctx, 'permissions', !store.hasCheck ? 'preflight not wired: the engine still decides every call, never bypassed' : denied.length === 0 ? 'your settings allow every class' : `would ask or deny: ${denied.join(', ')} (parked)`, store.hasCheck ? undefined : THEME.warn),
     kv(ctx, 'spend', `hour ${money(store.spend?.hourUsd)}/${money(env?.spend.hourUsd)} · day ${money(store.spend?.dayUsd)}/${money(env?.spend.dayUsd)} · total ${money(store.spend?.totalUsd)}/${money(env?.spend.totalUsd)}${store.spend === null ? ' (ledger not read)' : ' (list-price estimate, whole project)'}`),
     kv(ctx, 'journal', `${Math.round(store.journalBytes / 1000)} kB of 1500 kB cap${store.badLines > 0 ? ` · ${store.badLines} unusable lines` : ''}`),
   ]
@@ -114,7 +117,11 @@ function envelopeRows(ctx: Ctx, nowMs: number): RenderElement[] {
 
   return [
     text(ctx, ` "${cleanText(e.name)}" revision ${store.sealed.revision} · hash ${store.sealed.hash.slice(0, 12)} · approved ${ago(store.sealed.approvedAtMs, nowMs)}`),
-    text(ctx, ` classes ${e.toolClasses.join(' ') || 'none'} · ${e.paths.length} folder${e.paths.length === 1 ? '' : 's'} · ${e.repos.length} repos · network ${e.network.join(',') || 'none'} · secrets ${e.secretEnv.join(',') || 'none'} · up to ${e.concurrency} at once · ${Math.round(e.maxDurationMs / DAY)} d · ${e.verify.length} verify command${e.verify.length === 1 ? '' : 's'}`, { dimColor: true }),
+    text(ctx, ` classes ${e.toolClasses.join(' ') || 'none'} · up to ${e.concurrency} at once · ${Math.round(e.maxDurationMs / DAY)} d · ${e.verify.length} verify command${e.verify.length === 1 ? '' : 's'}`, { dimColor: true }),
+    text(ctx, ` folders ${e.paths.map(cleanText).join(', ')}`, { dimColor: true }),
+    text(ctx, ` network ${e.network.join(',') || 'none'} · repos ${e.repos.join(',') || 'none'} · secret names ${e.secretEnv.join(',') || 'none'}`, { dimColor: true }),
+    text(ctx, ' checked against what a task SAYS: its class, paths, URLs and repos', { dimColor: true }),
+    text(ctx, ' enforced: spend, concurrency, duration, verify. Secret names are a record only.', { dimColor: true }),
     text(ctx, ` never granted: ${HARD_DENIES.join(', ')}`, { dimColor: true }),
   ]
 }
@@ -131,13 +138,15 @@ function editor(ctx: Ctx): RenderElement[] {
   }
 
   const rows: RenderElement[] = [
-    row(ctx, [text(ctx, ' classes   ', { dimColor: true }), ...TOOL_CLASSES.map(cls => button(ctx, `ap-c-${cls}`, `${have.includes(cls) ? '●' : '○'} ${cls}`, set({ kind: 'class', cls })))], 'ap-classes'),
+    text(ctx, ' classes', { dimColor: true }),
+    flow(ctx, TOOL_CLASSES.map(cls => button(ctx, `ap-c-${cls}`, `${have.includes(cls) ? '●' : '○'} ${cls}`, set({ kind: 'class', cls }))), 'ap-classes'),
   ]
 
   for (const key of ['hourUsd', 'dayUsd', 'totalUsd'] as const) rows.push(row(ctx, [text(ctx, ` ${key.replace('Usd', '').padEnd(8)}   `, { dimColor: true }), button(ctx, `ap-s-${key}-less`, ' − ', set({ kind: 'spend', key, by: -1 })), text(ctx, ` ${money(spend[key])} `, { bold: true }), button(ctx, `ap-s-${key}-more`, ' + ', set({ kind: 'spend', key, by: 1 }))], `ap-spend-${key}`))
 
   rows.push(row(ctx, [text(ctx, ' at once    ', { dimColor: true }), button(ctx, 'ap-n-less', ' − ', set({ kind: 'concurrency', by: -1 })), text(ctx, ` ${String(d.value.concurrency)} `, { bold: true }), button(ctx, 'ap-n-more', ' + ', set({ kind: 'concurrency', by: 1 })), text(ctx, '   duration ', { dimColor: true }), button(ctx, 'ap-d-less', ' − ', set({ kind: 'days', by: -1 })), text(ctx, ` ${Math.round(Number(d.value.maxDurationMs) / DAY)} d `, { bold: true }), button(ctx, 'ap-d-more', ' + ', set({ kind: 'days', by: 1 }))], 'ap-conc'))
-  rows.push(row(ctx, [button(ctx, 'ap-anatole', `${d.value.acceptWithoutAnatole === true ? '●' : '○'} accept running without Anatole`, set({ kind: 'anatole' })), button(ctx, 'ap-load', 'load draft file', () => void loadDraftFile(ctx.state)), text(ctx, ` ${DRAFT_FILE} holds paths, repos, network, verify`, { dimColor: true })], 'ap-draft-row'))
+  rows.push(flow(ctx, [button(ctx, 'ap-anatole', `${d.value.acceptWithoutAnatole === true ? '●' : '○'} accept running without Anatole`, set({ kind: 'anatole' })), button(ctx, 'ap-load', 'load draft file', () => void loadDraftFile(ctx.state))], 'ap-draft-row'))
+  rows.push(text(ctx, ` ${DRAFT_FILE} holds paths, repos, network, verify`, { dimColor: true }))
   rows.push(text(ctx, checked.ok ? ` draft is valid · hash ${hashOf(checked.envelope).slice(0, 12)}${d.fromFile === null ? '' : ' · from file'} · ${(d.value.paths as string[]).join(', ')}` : ` draft is not valid: ${cleanText(checked.errors.slice(0, 2).join('; '))}`, { color: checked.ok ? undefined : THEME.bad }))
 
   return rows
@@ -173,17 +182,19 @@ export function boardRows(env: SlotEnv): RenderElement[] {
   rows.push(text(ctx, ` ${sum.phase}${sum.reason === null ? '' : `: ${cleanText(sum.reason)}`} · ${store.status} · ${sum.running} running · ${sum.done} done (${sum.unverified} unverified) · ${sum.failed} failed${store.readAtMs > 0 ? ` · read ${ago(store.readAtMs, nowMs)}` : ''}`, { dimColor: true }))
   if (store.error !== null) rows.push(text(ctx, ` ${cleanText(store.error)}`, { color: THEME.warn }))
 
-  rows.push(row(ctx, [
-    button(ctx, 'ap-stop', 'Stop', () => void stopNow(ctx.state, host), { hotkey: '9' }),
+  // Stop's key (9) is the key slot's: a second button on the same key would run it twice.
+  rows.push(flow(ctx, [
+    button(ctx, 'ap-stop', 'Stop (9)', () => void stopNow(ctx.state, host)),
     ...(sum.phase === 'running' ? [button(ctx, 'ap-pause', 'Pause', () => void pauseNow(ctx.state, host))] : []),
     ...(sum.phase === 'paused' ? [button(ctx, 'ap-resume', 'Resume', () => void resumeNow(ctx.state, host), { primary: true })] : []),
     button(ctx, 'ap-tick', 'Check now', () => void apTick(ctx.state, host)),
-    text(ctx, ' Start is the action row (key 8) and asks first · Stop asks nothing', { dimColor: true }),
   ], 'ap-controls'))
+  rows.push(text(ctx, ' Start is the action row (key 8) and asks first · Stop asks nothing', { dimColor: true }))
 
   rows.push(...gates(ctx, e), ...envelopeRows(ctx, nowMs), ...adaptRows(ctx, e))
   rows.push(text(ctx, ' next envelope (a change asks again):', { dimColor: true }), ...editor(ctx))
-  rows.push(text(ctx, ' Inside the envelope autopilot does not ask this console. It does not bypass Claude Code\'s permission dialog, and it is not a scheduler: it runs while the session lives (re-arm the mission /loop).', { dimColor: true }))
+  rows.push(text(ctx, ' Inside the envelope autopilot does not ask this console. It never bypasses Claude Code\'s permission dialog.', { dimColor: true }))
+  rows.push(text(ctx, ' It is not a sandbox (the envelope gates what a task says) and not a scheduler: it runs while the session lives.', { dimColor: true }))
 
   return rows
 }
@@ -212,7 +223,7 @@ export function startSpec(env: SlotEnv): ActionSpec | null {
     scope: 'workflows',
     args: [],
     declared: 'spend',
-    shows: `envelope ${hash.slice(0, 12)}: classes ${next.toolClasses.join(' ')}; folders ${next.paths.join(', ')}; network ${next.network.join(',') || 'none'}; ${money(next.spend.hourUsd)}/h ${money(next.spend.dayUsd)}/day ${money(next.spend.totalUsd)} total; ${next.concurrency} at once; ${next.verify.length} verify commands; Anatole ${anatole}${next.acceptWithoutAnatole ? ' (running without it accepted)' : ''}${grew.length > 0 ? `; WIDENS: ${grew.join('; ')}` : ''}; never: ${HARD_DENIES.join(', ')}`,
+    shows: `envelope ${hash.slice(0, 12)}: classes ${next.toolClasses.join(' ')}; folders ${next.paths.join(', ')}; network ${next.network.join(',') || 'none'}; ${money(next.spend.hourUsd)}/h ${money(next.spend.dayUsd)}/day ${money(next.spend.totalUsd)} total; ${next.concurrency} at once; ${next.verify.length === 0 ? 'no verify commands (steps will be unverified)' : `verify commands run by this console after each step: ${next.verify.map(argv => clip(cleanText(argv.join(' ')), 80)).join(' ; ')}`}; repos ${next.repos.join(',') || 'none'}; Anatole ${anatole}${next.acceptWithoutAnatole ? ' (running without it accepted)' : ''}${grew.length > 0 ? `; WIDENS: ${grew.join('; ')}` : ''}; never: ${HARD_DENIES.join(', ')}`,
     expect: 'a start line in the autopilot journal, then steps handed to the session',
     note: 'After this, steps inside the envelope run WITHOUT asking this console, for days if the session lives, and spend money. Claude Code\'s own permission dialog still applies and is never bypassed: anything it would ask about is parked. Stop, the KILL file or /ruflo autopilot stop halts it within one tick.',
     run: async () => {

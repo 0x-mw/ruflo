@@ -13,6 +13,8 @@ export const JOURNAL_FILE = `${AUTOPILOT_DIR}/journal.jsonl`
 /** A journal over this is read no further (the cap is drawn): the loop then compacts by checkpoint (data/ap-loop.ts `compactState`). */
 export const JOURNAL_MAX_BYTES = 1_500_000
 export const LINE_MAX = 2_000
+/** Why a step is journaled failed when the mission would not take it: a step that never started, which adaptation must not learn from. */
+export const REFUSED_WHY = 'the mission refused the hand-over'
 
 export type Receipt = { id: string; at: number; path: string; from: string; to: string; direction: 'conservative' | 'aggressive'; evidence: string; prev: string; hash: string }
 export type Anatole = 'on' | 'accepted-without'

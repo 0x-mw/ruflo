@@ -42,7 +42,7 @@ View-local keys shadow tab keys while the page is open, as Claims' do. ADR-458's
 **Notices.** A workflow run that changed to finished or failed between two reads raises one band notice (deduped by the notice ring).
 Reads happen only while the page is open, so this is not a background watcher; it says what changed while the person looked.
 
-**What the console cannot do.** It cannot stop or message a running Claude Code workflow. Where those buttons would be, the page says so
+**What the console cannot do.** (Amended by ADR-465: it now can, through the engine's own TaskStop and SendMessage, behind the engine's permission check and the confirm card.) It could not stop or message a running Claude Code workflow when this was written. Where those buttons would be, the page says so
 and where to do it (Claude Code's Workflows panel, TaskStop). The only writes are ADR-458's: stop and spawn a ruflo agent behind the confirm card.
 
 **Seams.** `views/wf-slots.ts` is a registry; features call `registerSlot` from their own module and edit no shared file. Kinds:

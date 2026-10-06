@@ -88,9 +88,11 @@ Adaptation cannot widen the envelope, spend, tools, network, concurrency or rele
 ### 2.4 Parking (`views/ap-parked.ts`)
 
 A task the envelope does not allow, that names a hard deny, that cannot be classified (`cls: null`: the classifier never
-defaults), that touches a path outside the folders, or that the permission preflight says would ask or deny, is **parked** with
-a question and a notice; the loop carries on with other work. The person answers approve once (that task, one step, then the
-envelope applies again) or deny (final). Retries past the policy also park.
+defaults), that names a path outside the folders, a URL host not on the network list or a GitHub repository not on the repo
+list, or that the permission preflight says would ask or deny, is **parked** with a question and a notice; the loop carries on
+with other work. The person answers approve once (that task, one step, then the envelope applies again) or deny (final). A
+class the person's own settings **deny** has no approve button and an old approval is ignored for it: the console does not lift
+a deny. A class the settings only *ask* about can be approved once (the engine still asks). Retries past the policy also park.
 
 ### 2.5 Safety
 
@@ -119,9 +121,28 @@ network, verify) are loaded from `.claude-flow/console/autopilot/envelope.draft.
 - Every step that reached `done` without a verify command is flagged unverified; with none configured nothing is learned.
 - Parallelism above 1 is bounded in practice by the mission's own one-task-at-a-time dispatch.
 
+### Honest limits (found in the adversarial review, 2026-10-06)
+
+- **The envelope gates what a task SAYS, not what a session does.** Class, paths, URL hosts and GitHub repositories are read from
+  the task text by keyword and pattern (`data/ap-guard.ts`); a relative path, a `~` path or a task that does not name its target is
+  not caught. Spend, concurrency, duration and the verify commands are enforced; **secret names are a record only** (nothing reads
+  them). The real boundary is the engine's permission check on every tool call, which autopilot never bypasses. The panel says so.
+- **Verify commands run through this console**, not the engine, so they are shown in full on the Start confirm card and are not run
+  where the person's settings deny the `test` class (the step is then done-unverified).
+- **A sleeping machine** is credited to steps in flight (a gap of three ticks or more between passes), so a step is not failed as
+  timed out for time nobody could have worked. **A clock set back** does not hold a backoff for the size of the jump. Day counts and
+  the digest use UTC, so DST changes nothing. The maximum duration is wall-clock: sleep counts toward it.
+- **A full disk**: a pass whose journal write fails starts nothing and says so; a Stop that reaches neither the journal nor the KILL
+  file is held in memory (and said to be "this session only") so a re-read cannot resume the loop, and is written when the disk answers.
+- **Stop wins a race**: a pass re-checks the flag and the phase just before it journals a step, because gathering facts (a verify
+  command, up to 10 minutes) happens after the first check.
+- **Adaptation** does not learn from a hand-over the mission refused, and does not re-propose a setting a trial was reverted away
+  from (without that, a clean old history re-proposed it every ten minutes).
+- Fixed: the Stop key `9` existed as a key slot and again as a board button (two buttons on one key ran it twice); the board button now carries no hotkey.
+
 ## 4. Test and benchmark plan
 
-`tests/ap-core.spec.ts` (40) and `tests/ap-live.spec.ts` (17), pure and fast: SHA-256 vectors; envelope validation, sealing,
+`tests/ap-core.spec.ts` (30), `tests/ap-adapt.spec.ts` (10), `tests/ap-live.spec.ts` (17) and, from the review, `tests/ap-review.spec.ts` (16, each a defect the review found), pure and fast: SHA-256 vectors; envelope validation, sealing,
 tamper, widening; journal round trip, washing and the fixed argv; every ordering rule of the machine; **kill-switch property**
 (60 seeded random walks: once the flag is seen no tick ever acts and nothing restarts the loop); **no double start** (60 walks:
 no task has two live steps, no id repeats); **crash-resume** (30 walks, a fresh fold at every third prefix, each orphan

@@ -8,7 +8,7 @@
  * is considered; budget, Anatole and the failure ladder all sit between "settled" and "act". A step is started at most once per id,
  * and a task with a started or done step is never started again.
  */
-import { classAllowed, pathAllowed, sha256, type Envelope, type Spend } from './ap-envelope'
+import { classAllowed, hostAllowed, pathAllowed, sha256, type Envelope, type Spend } from './ap-envelope'
 import type { Anatole, JournalEvent, Receipt } from './ap-journal'
 
 export type Phase = 'idle' | 'running' | 'paused' | 'stopped'
@@ -125,7 +125,7 @@ export function compactState(s: LoopState): LoopState {
   return { ...s, steps: s.steps.filter(step => keep.has(step)), parked: s.parked.slice(-200), receipts: s.receipts.slice(-200) }
 }
 
-export type TaskFact = { id: string; title: string; /** The envelope class the task needs, or null when it cannot be classified (it is parked, never guessed). */ cls: string | null; /** A hard deny the task text names, or null. */ hardDeny: string | null; /** A path the task names, when one can be read from it. */ path: string | null }
+export type TaskFact = { id: string; title: string; /** The envelope class the task needs, or null when it cannot be classified (it is parked, never guessed). */ cls: string | null; /** A hard deny the task text names, or null. */ hardDeny: string | null; /** A path the task names, when one can be read from it. */ path: string | null; /** Every other absolute path the text names (at most 8). */ paths?: string[]; /** Hosts of the URLs the text names, lowercase. */ hosts?: string[]; /** `owner/name` of the GitHub repositories the text names by URL. */ repos?: string[] }
 export type EffectFact = 'done' | 'done-unverified' | 'failed' | 'absent' | 'unknown'
 export type Preflight = 'allow' | 'deny' | 'ask' | 'unwired'
 export type Tunables = { parallelism: number; retries: number; stepTimeoutMs: number; tierOf: (cls: string) => string }
@@ -145,6 +145,8 @@ export type Facts = {
   orphans: ReadonlySet<string>
   tunables: Tunables
   preflight: Readonly<Record<string, Preflight>>
+  /** Milliseconds each in-flight step is forgiven for time the machine was asleep (a gap between ticks), by step id. Absent means none. */
+  slack?: Readonly<Record<string, number>>
 }
 
 export type Decision = { events: JournalEvent[]; act: { id: string; task: TaskFact; cls: string; attempt: number; tier: string; deadline: number } | null; status: string }
@@ -166,8 +168,21 @@ export function whyParked(task: TaskFact, env: Envelope, preflight: Readonly<Rec
   if (task.hardDeny !== null) return `needs "${task.hardDeny}", which autopilot can never do. Do it yourself, or deny it.`
   if (task.cls === null) return 'cannot tell which kind of action this needs, and autopilot does not guess. Which class is it?'
   if (!classAllowed(env, task.cls)) return `needs "${task.cls}", which the envelope does not allow. Approve once, or deny.`
-  if (task.path !== null && !pathAllowed(env, task.path)) return `touches ${task.path.slice(0, 80)}, outside the envelope's folders. Approve once, or deny.`
-  if (preflight[task.cls] === 'deny' || preflight[task.cls] === 'ask') return `your permission settings would not allow "${task.cls}" without asking. Approve once here (the engine still decides), or deny.`
+
+  const outside = [task.path, ...(task.paths ?? [])].find(path => path !== null && path !== undefined && !pathAllowed(env, path))
+
+  if (outside !== undefined && outside !== null) return `touches ${outside.slice(0, 80)}, outside the envelope's folders. Approve once, or deny.`
+
+  const host = (task.hosts ?? []).find(name => !hostAllowed(env, name))
+
+  if (host !== undefined) return `names the host ${host.slice(0, 60)}, which is not on the envelope's network list. Approve once, or deny.`
+
+  const repo = (task.repos ?? []).find(name => !env.repos.includes(name))
+
+  if (repo !== undefined) return `names the repository ${repo.slice(0, 60)}, which is not on the envelope's repo list. Approve once, or deny.`
+  // A deny from the person's own settings is not the console's to lift: no approve button, and an old approval is ignored for it.
+  if (preflight[task.cls] === 'deny') return `your permission settings deny "${task.cls}", which autopilot can never do on your behalf. Change your settings, or deny it.`
+  if (preflight[task.cls] === 'ask') return `your permission settings would ask before "${task.cls}". Approve once here (the engine still decides), or deny.`
 
   return null
 }
@@ -198,7 +213,7 @@ export function tick(s: LoopState, f: Facts): Decision {
       events.push({ t: 'step.failed', at: now, id: step.id, why: 'the task reported failure' })
       failures += 1
       lastFailure = now
-    } else if (now > step.deadline) {
+    } else if (now > step.deadline + (f.slack?.[step.id] ?? 0)) {
       events.push({ t: 'step.failed', at: now, id: step.id, why: 'timed out' })
       failures += 1
       lastFailure = now
@@ -228,7 +243,8 @@ export function tick(s: LoopState, f: Facts): Decision {
 
   // 4. Failure ladder: a budget that pauses, a backoff that waits.
   if (failures >= FAILURE_BUDGET) return pauseWith(`${failures} failures in a row`)
-  if (failures > 0 && lastFailure !== null && now - lastFailure < backoffMs(failures)) return { events, act: null, status: `backing off after ${failures} failure${failures === 1 ? '' : 's'}` }
+  // A clock set back after a failure must not hold the loop for the size of the jump: a negative age counts as the full wait.
+  if (failures > 0 && lastFailure !== null && now >= lastFailure && now - lastFailure < backoffMs(failures)) return { events, act: null, status: `backing off after ${failures} failure${failures === 1 ? '' : 's'}` }
 
   // 5. Room to start one.
   if (stillOpen >= Math.min(f.envelope.concurrency, Math.max(1, f.tunables.parallelism))) return { events, act: null, status: `${stillOpen} step${stillOpen === 1 ? '' : 's'} running` }
@@ -246,7 +262,7 @@ export function tick(s: LoopState, f: Facts): Decision {
 
   const attempt = 1 + s.steps.filter(step => step.task === task.id && step.status === 'failed').length
   // A hard deny can never be approved once: the answer is ignored for it.
-  const answeredOnce = task.hardDeny === null && s.parked.some(p => p.task === task.id && p.answer === 'once' && p.isUsed !== true)
+  const answeredOnce = task.hardDeny === null && f.preflight[task.cls ?? ''] !== 'deny' && s.parked.some(p => p.task === task.id && p.answer === 'once' && p.isUsed !== true)
 
   if (!answeredOnce && attempt > 1 + f.tunables.retries) {
     const why = whyParked({ ...task, cls: task.cls }, f.envelope, f.preflight) ?? `failed ${attempt - 1} times, past the retry policy. Retry once, or deny.`

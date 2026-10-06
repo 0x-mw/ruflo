@@ -35,6 +35,14 @@ const CLASS_WORDS: readonly [ToolClass, RegExp][] = [
 
 // eslint-disable-next-line no-control-regex
 const PATH = /(?:^|[\s"'`(])(\/(?:[A-Za-z0-9._@-]+\/)*[A-Za-z0-9._@-]+)/
+const PATHS = new RegExp(PATH.source, 'g')
+const URLS = /\bhttps?:\/\/([A-Za-z0-9.-]{1,253})(?::\d+)?((?:\/[A-Za-z0-9._~%@-]*){0,3})/gi
+
+const repoOf = (urlPath: string): string | null => {
+  const match = /^\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)/.exec(urlPath)
+
+  return match === null ? null : `${match[1]}/${(match[2] as string).replace(/\.git$/, '')}`
+}
 
 /** A task's text as the facts the loop needs. The class is the most privileged one the words suggest; none is `null`, never a default. */
 export function classifyTask(id: string, title: string, requirement = ''): TaskFact {
@@ -42,9 +50,12 @@ export function classifyTask(id: string, title: string, requirement = ''): TaskF
   const hardDeny = DENIES.find(([, pattern]) => pattern.test(text))?.[0] ?? null
   const hits = CLASS_WORDS.filter(([, pattern]) => pattern.test(text)).map(([cls]) => cls)
   const cls = hits.length === 0 ? null : (hits.at(-1) as ToolClass)
-  const path = PATH.exec(text)?.[1] ?? null
+  const found = [...text.matchAll(PATHS)].map(match => match[1] as string)
+  const urls = [...text.matchAll(URLS)]
+  const hosts = [...new Set(urls.map(match => (match[1] as string).toLowerCase()))].slice(0, 8)
+  const repos = [...new Set(urls.flatMap(match => ((match[1] as string).toLowerCase() === 'github.com' ? [repoOf(match[2] as string)] : []).filter((name): name is string => name !== null)))].slice(0, 8)
 
-  return { id, title: title.slice(0, 160), cls, hardDeny, path }
+  return { id, title: title.slice(0, 160), cls, hardDeny, path: found[0] ?? null, ...(found.length > 1 && { paths: [...new Set(found.slice(1))].slice(0, 8) }), ...(hosts.length > 0 && { hosts }), ...(repos.length > 0 && { repos }) }
 }
 
 /** Anatole's state for the gate: `on` only when its status says a mode other than off, `off` when it says off, else `absent`. */
