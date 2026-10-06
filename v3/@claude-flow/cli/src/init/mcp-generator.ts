@@ -42,6 +42,30 @@ function createMCPServerEntry(
 }
 
 /**
+ * claude-flow 서버 항목 — 전역 설치된 ruflo 바이너리를 직접 실행
+ */
+function createGlobalCliEntry(
+  cliArgs: string[],
+  env: Record<string, string>,
+  additionalProps: Record<string, unknown> = {}
+): object {
+  if (isWindows()) {
+    return {
+      command: 'cmd',
+      args: ['/c', 'ruflo', ...cliArgs],
+      env,
+      ...additionalProps,
+    };
+  }
+  return {
+    command: 'ruflo',
+    args: [...cliArgs],
+    env,
+    ...additionalProps,
+  };
+}
+
+/**
  * Generate MCP configuration
  */
 export function generateMCPConfig(options: InitOptions): object {
@@ -62,8 +86,8 @@ export function generateMCPConfig(options: InitOptions): object {
   // detects the duplicate and instructs the operator to remove the
   // extra `ruflo`-keyed entry — NOT by flipping the canonical key here.
   if (config.claudeFlow) {
-    mcpServers['claude-flow'] = createMCPServerEntry(
-      ['ruflo@latest', 'mcp', 'start'],
+    mcpServers['claude-flow'] = createGlobalCliEntry(
+      ['mcp', 'start'],
       {
         ...npmEnv,
         CLAUDE_FLOW_MODE: 'v3',
@@ -115,7 +139,7 @@ export function generateMCPCommands(options: InitOptions): string[] {
   if (isWindows()) {
     if (config.claudeFlow) {
       // #2206: registration name must be `claude-flow` to match mcp__claude-flow__* plugin tool references
-      commands.push('claude mcp add claude-flow -- cmd /c npx -y ruflo@latest mcp start');
+      commands.push('claude mcp add claude-flow -- cmd /c ruflo mcp start');
     }
     if (config.ruvSwarm) {
       commands.push('claude mcp add ruv-swarm -- cmd /c npx -y ruv-swarm mcp start');
@@ -126,7 +150,7 @@ export function generateMCPCommands(options: InitOptions): string[] {
   } else {
     if (config.claudeFlow) {
       // #2206: registration name must be `claude-flow` to match mcp__claude-flow__* plugin tool references
-      commands.push("claude mcp add claude-flow -- npx -y ruflo@latest mcp start");
+      commands.push("claude mcp add claude-flow -- ruflo mcp start");
     }
     if (config.ruvSwarm) {
       commands.push("claude mcp add ruv-swarm -- npx -y ruv-swarm mcp start");
@@ -146,11 +170,11 @@ export function getPlatformInstructions(): { platform: string; note: string } {
   if (isWindows()) {
     return {
       platform: 'Windows',
-      note: 'MCP configuration uses cmd /c wrapper for npx compatibility.',
+      note: 'MCP configuration uses cmd /c wrapper; claude-flow uses the globally installed ruflo binary.',
     };
   }
   return {
     platform: process.platform === 'darwin' ? 'macOS' : 'Linux',
-    note: 'MCP configuration uses npx directly.',
+    note: 'MCP configuration uses npx directly; claude-flow uses the globally installed ruflo binary.',
   };
 }
