@@ -112,6 +112,17 @@ function hostOf($: EngineInterface, cwd: string): Host {
         $.clock.after(1, () => void $.command.run({ command, args }).then(resolve, reject))
       }),
     listCommands: async () => (await $.command.list()).map(command => command.name),
+    // ADR-465. A tool call waits on the turn like submitPrompt, so it starts from a clock tick, never inside the hook that asked.
+    toolCall: input =>
+      new Promise((resolve, reject) => {
+        $.clock.after(1, () => void $.tool.call(input as never).then(reply => resolve(reply as never), reject))
+      }),
+    toolCheck: async (tool, input) => $.tool.check({ tool, input }),
+    httpSend: async (url, init) => {
+      const response = await $.http.fetch(url, init)
+
+      return { ok: response.ok, status: response.status, text: response.text }
+    },
   }
 }
 
