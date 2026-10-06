@@ -8,6 +8,9 @@ import type { State } from '../state'
 import { clip, count, live, row, rule, text, type Ctx } from './common'
 import { note } from './subhead'
 
+/** Namespaces named in the key at most: a store with hundreds would otherwise grow the page without bound. */
+const LEGEND_MAX = 12
+
 const hex = (color: number): string => `#${color.toString(16).padStart(6, '0')}`
 
 /** The entries the map draws: the map's own probe (has read counts), else the Namespaces sample (no counts, so every dot is a speck). */
@@ -79,7 +82,7 @@ export function memmapRows(ctx: Ctx): RenderElement[] {
   let used = 0
   let index = 0
 
-  for (const space of spaces) {
+  for (const space of spaces.slice(0, LEGEND_MAX)) {
     const label = ` ● ${clip(space, 20)} ${count(perSpace.get(space))} `
 
     if (used + label.length > ctx.columns - 4 && line.length > 0) {
@@ -94,6 +97,9 @@ export function memmapRows(ctx: Ctx): RenderElement[] {
   }
 
   if (line.length > 0) rows.push(row(ctx, line, `memmap-key-${index}`))
+
+  if (spaces.length > LEGEND_MAX) rows.push(note(ctx, `+ ${spaces.length - LEGEND_MAX} more namespaces not in the key; colours repeat after ${SPACE_COLORS.length}, so a colour is not a unique namespace`))
+  else if (spaces.length > SPACE_COLORS.length) rows.push(note(ctx, `colours repeat after ${SPACE_COLORS.length} namespaces, so a colour is not a unique namespace`))
 
   rows.push(note(ctx, hasCounts ? 'dot size is how often the entry was read:  · never   • 1-2   ● 3-9   ◉ 10 or more' : 'read counts n/a (the map’s own list is not loaded yet): every dot is drawn as a speck'))
 

@@ -199,3 +199,31 @@ describe('the optimised projection and layout cache', () => {
     expect(layout([...list])).toEqual(layout(list))
   })
 })
+
+describe('bounds', () => {
+  it('names at most 12 namespaces in the key and says colours repeat', () => {
+    const state = newState({ boot: false })
+
+    state.probes.set('memmap', { value: Array.from({ length: 60 }, (_, i) => ({ key: `k${i}`, namespace: `ns-${String(i).padStart(2, '0')}`, hasVector: false })), error: null, okAtMs: 4_000 } as never)
+
+    const shown = texts(memmapRows(ctxOf(state))).join('\n')
+
+    expect(shown).toContain('ns-11')
+    expect(shown).not.toContain('ns-12 ')
+    expect(shown).toContain('+ 48 more namespaces')
+  })
+
+  it('ignores an embedding longer than 4096 numbers rather than projecting it', () => {
+    const long = JSON.stringify([{ key: 'k', namespace: 'n', embedding: Array.from({ length: 5000 }, () => 0.1) }])
+
+    expect(mapEntriesOf(long)?.[0]?.vector).toBeUndefined()
+  })
+})
+
+describe('registration', () => {
+  it('runs the memmap probe from the controller, so the read counts are not permanently n/a', async () => {
+    const { readFileSync } = await import('node:fs')
+
+    expect(readFileSync(new URL('../hooks/controller.ts', import.meta.url), 'utf8')).toMatch(/ALL_PROBES = \[[^\]]*memmapProbe/)
+  })
+})

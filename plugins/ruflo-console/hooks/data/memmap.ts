@@ -10,6 +10,9 @@ import type { MapEntry } from '../gfx/memmap'
 /** Entries the map draws at most: `memory list` is asked for the newest 500, as the Namespaces sample is. */
 export const MAP_LIMIT = 500
 
+/** A stored embedding longer than this is ignored (the map then says hash): bounds the work per frame on a corrupt list. */
+const MAX_DIMS = 4096
+
 /**
  * `memory list` JSON as map entries. `vector` is set only if a row carries an `embedding` array (the CLI's list does not
  * today, so the map says 'hash layout'); never invented.
@@ -27,7 +30,7 @@ export function mapEntriesOf(stdout: string): MapEntry[] | null {
 
     const accessCount = numberOf(record?.accessCount)
     const raw = Array.isArray(record?.embedding) ? record.embedding : null
-    const vector = raw !== null && raw.length > 1 && raw.every(item => typeof item === 'number' && Number.isFinite(item)) ? (raw as number[]) : undefined
+    const vector = raw !== null && raw.length > 1 && raw.length <= MAX_DIMS && raw.every(item => typeof item === 'number' && Number.isFinite(item)) ? (raw as number[]) : undefined
 
     return [{ key, namespace: stringOf(record?.namespace, 40) ?? '(none)', hasVector: record?.hasEmbedding === true, ...(accessCount !== undefined && { accessCount }), ...(vector !== undefined && { vector }) }]
   })
