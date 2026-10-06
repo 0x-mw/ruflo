@@ -10,12 +10,32 @@ export const PIPELINE_ROWS = 5
 
 const compact = (count: number): string => (count >= 10_000 ? `${(count / 1000).toFixed(1)}k` : String(count))
 
+/** CONSOLIDATE (11) plus the box edges: the widest name, so no stage name is ever cut. */
+const MIN_BOX = 13
+
+/** The narrow form: `NAME count · age` per stage, dim where the stage is stale or absent. */
+function stackedList(stages: readonly PipeStage[], columns: number): Grid {
+  const grid = new Grid(columns, Math.max(1, stages.length))
+
+  stages.forEach((stage, y) => {
+    const count = stage.count === null ? 'n/a' : compact(stage.count)
+
+    grid.text(0, y, `${stage.name} ${count} · ${stageNote(stage)}`, stage.state === 'live' ? COLOR.accent : stage.state === 'stale' ? COLOR.warn : COLOR.dim)
+  })
+
+  return grid
+}
+
 /** RETRIEVE → JUDGE → DISTILL → CONSOLIDATE: a box per stage with its count and how old its source is; stale and absent stages dim. */
 export function pipelineDiagram(stages: readonly PipeStage[], columns: number): Grid {
-  const grid = new Grid(columns, PIPELINE_ROWS)
   const n = Math.max(1, stages.length)
-  const gap = columns >= 41 ? 3 : 1
-  const box = Math.max(4, Math.floor((columns - (n - 1) * gap) / n))
+  const gap = columns >= 56 ? 3 : 1
+  const box = Math.floor((columns - (n - 1) * gap) / n)
+
+  // Too narrow for four boxes that keep every name, count and age whole: one line per stage, never a clipped number.
+  if (box < MIN_BOX) return stackedList(stages, columns)
+
+  const grid = new Grid(columns, PIPELINE_ROWS)
   const inner = box - 2
   const cell = (text: string): string => text.slice(0, inner).padEnd(inner)
 
@@ -73,7 +93,7 @@ export function routePicture(model: RouteModel, columns: number): Grid {
 
   const source =
     model.source === 'router-query'
-      ? `from your route query ${model.asked ?? ''} · a prior, not a calibrated probability`
+      ? `a prior, not a calibrated probability · from your route query ${model.asked ?? ''}`
       : model.source === 'mods'
         ? `${model.matched === true ? 'keyword match' : 'no match, default'} · only the winner is stored; runners-up need a route query`
         : 'run a route query in the Learning Lab to see candidates'

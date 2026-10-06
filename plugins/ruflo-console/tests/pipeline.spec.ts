@@ -56,6 +56,17 @@ describe('the pipeline diagram', () => {
     expect(fg(grid, at('JUDGE') - 1, 0)).toBe(COLOR.dim)
   })
 
+  it('never clips a name, count or age: a narrow pane stacks one line per stage', () => {
+    const grid = pipelineDiagram(stages, 40)
+
+    expect(grid.columns).toBe(40)
+    expect(grid.rows).toBe(4)
+    expect(rowText(grid, 0)).toContain('RETRIEVE 32.3k · 1h ago')
+    expect(rowText(grid, 1)).toContain('JUDGE 9 · stale 9d')
+    expect(rowText(grid, 3)).toContain('CONSOLIDATE n/a · no data')
+    expect(rowText(pipelineDiagram(stages, 80), 1)).toContain('CONSOLIDATE')
+  })
+
   it('keeps its size on a narrow pane', () => {
     const grid = pipelineDiagram(stages, 24)
 
@@ -89,6 +100,12 @@ describe('the route model', () => {
 
     expect(found).toHaveLength(MAX_CANDIDATES)
     expect(found.map(c => c.agent)).toEqual(['a', 'r0', 'r1', 'r2', 'r3'])
+  })
+
+  it('strips control characters from router text before it reaches a cell', () => {
+    const [pick] = candidatesFromLines(['→ co\u001b[2Jder · 50%'])
+
+    expect(pick?.agent).toBe('co[2Jder')
   })
 
   it('prefers a route query with candidates, else the mod pick, else says none', () => {

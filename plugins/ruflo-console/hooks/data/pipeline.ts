@@ -59,6 +59,9 @@ export type RouteModel = { owner: RouteOwner; source: RouteSource; candidates: R
 /** Who routes in this project: the classic hook-handler, the mod, or nobody known (ruflo-mods not seated). */
 export const routeOwnerOf = (seated: boolean, classicOwnsRoute: boolean): RouteOwner => (!seated ? 'unseated' : classicOwnsRoute ? 'classic' : 'mods')
 
+/** The router's text is untrusted: control characters never reach a cell. */
+// eslint-disable-next-line no-control-regex
+const plain = (text: string): string => text.replace(/[\u0000-\u001f\u007f-\u009f]/g, '')
 const clamp01 = (value: number): number => (Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0)
 const percent = (text: string | undefined): number | null => (text === undefined ? null : clamp01(Number(text) / 100))
 
@@ -71,13 +74,13 @@ export function candidatesFromLines(lines: readonly string[]): RouteCandidate[] 
 
   if (first === null) return []
 
-  const out: RouteCandidate[] = [{ agent: first[1] as string, confidence: percent(first[2]) }]
+  const out: RouteCandidate[] = [{ agent: plain(first[1] as string), confidence: percent(first[2]) }]
 
   for (let i = 1; i < lines.length && out.length < MAX_CANDIDATES; i++) {
     const line = lines[i] as string
     const alt = /^\s+or (\S+)(?: · (\d{1,3})%)?/.exec(line)
 
-    if (alt !== null) out.push({ agent: alt[1] as string, confidence: percent(alt[2]) })
+    if (alt !== null) out.push({ agent: plain(alt[1] as string), confidence: percent(alt[2]) })
   }
 
   return out
@@ -96,7 +99,7 @@ export function routeModelOf(input: {
   const owner = routeOwnerOf(input.seated, input.classicOwnsRoute)
   const asked = input.lab?.id === 'nn-route' ? candidatesFromLines(input.lab.lines) : []
 
-  if (input.lab !== null && asked.length > 0) return { owner, source: 'router-query', candidates: asked, matched: null, reason: null, asked: input.lab.label }
+  if (input.lab !== null && asked.length > 0) return { owner, source: 'router-query', candidates: asked, matched: null, reason: null, asked: plain(input.lab.label) }
   if (input.route !== null) return { owner, source: 'mods', candidates: [{ agent: input.route.agent, confidence: clamp01(input.route.confidence) }], matched: input.route.matched, reason: input.route.reason, asked: null }
 
   return { owner, source: 'none', candidates: [], matched: null, reason: null, asked: null }
