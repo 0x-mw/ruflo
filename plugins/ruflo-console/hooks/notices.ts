@@ -175,3 +175,11 @@ const sorted = (values: readonly number[]) => [...values].sort((a, b) => a - b)
 
 export const median = (values: readonly number[]) => sorted(values)[Math.floor(values.length / 2)] ?? 0
 export const p95 = (values: readonly number[]) => sorted(values)[Math.min(values.length - 1, Math.floor(values.length * 0.95))] ?? 0
+
+/** With the band off, the console's words ride ruflo-mods' status line instead: claims and a stale marketplace only. */
+export function segmentOf(state: State): string | null {
+  const claims = state.snapshot?.claims ?? []
+  const parts = [claims.length > 0 ? `${claims.length} claims` : '', state.snapshot?.plugins.missingFromClone.length ? 'marketplace stale' : ''].filter(Boolean)
+
+  return parts.length === 0 ? null : parts.join(' · ')
+}
