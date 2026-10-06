@@ -8,6 +8,8 @@ import { describe, expect, it } from 'vitest'
 
 import { compositeRank, explainPrompt, jaccard, lifecycleOrder, parseNeuralStore, parsePrompts, parseRanked, parseSessionRecall, readRecall, tokenize, trigrams, wouldPrune, type RecallFacts } from '../hooks/data/recall'
 import { promoteSpec, pruneSpec, pruneUnusedSpec, recallEntries } from '../hooks/recall'
+import { readSnapshot } from '../hooks/data/snapshot'
+import { paletteEntries } from '../hooks/palette'
 import { newState } from '../hooks/state'
 import type { Ctx } from '../hooks/views/common'
 import { lifecycleRows, pickPrompt, recallRows } from '../hooks/views/recall-rows'
@@ -253,5 +255,96 @@ describe('the reader', () => {
     const got = await readRecall(fs as never, new Map(), '/none')
 
     expect(got).toMatchObject({ ranked: null, sessions: [], prompts: [], neural: null, reads: { ranked: 'missing', bank: 'missing' } })
+  })
+})
+
+describe('wired into the console', () => {
+  const fsOf = (files: Record<string, string>) => ({
+    read: async (path: string) => files[path] ?? Promise.reject(new Error('ENOENT')),
+    stat: async (path: string) => (files[path] !== undefined ? { mtimeMs: 1, size: files[path]?.length ?? 0, kind: 'file' } : Promise.reject(new Error('ENOENT'))),
+    list: async () => Promise.reject(new Error('ENOENT')),
+  })
+
+  it('puts the recall facts in the snapshot and its ids in the palette, every mutation asking first', async () => {
+    const state = newState({ boot: false })
+
+    state.snapshot = await readSnapshot(fsOf({ '/w/.claude-flow/data/ranked-context.json': RANKED, '/w/.claude-flow/neural/models.json': MODELS }), new Map(), '/w', '/h', {}, 0)
+
+    expect(state.snapshot.recall?.ranked?.entries).toHaveLength(3)
+    expect(state.snapshot.recall?.neural).toHaveLength(2)
+
+    const entries = paletteEntries(state, 0)
+    const byId = (id: string) => entries.find(candidate => candidate.id === id)
+
+    for (const id of ['nn-recall-prune', 'nn-recall-promote', 'nn-recall-prune-unused']) expect(byId(id), id).toBeDefined()
+
+    const prune = byId('nn-recall-prune')?.run
+    const bulk = byId('nn-recall-prune-unused')?.run
+    const promote = byId('nn-recall-promote')?.run
+
+    expect(prune?.kind === 'text' ? prune.make('pattern-1-a')?.isReadOnly : 'x').not.toBe(true)
+    expect(promote?.kind === 'text' ? promote.make('pattern-2-b')?.isReadOnly : 'x').not.toBe(true)
+    expect(bulk?.kind === 'spec' ? bulk.spec?.isReadOnly : 'x').not.toBe(true)
+  })
+
+  it('says it is not wired only when the probe is absent', async () => {
+    const state = newState({ boot: false })
+
+    state.snapshot = await readSnapshot(fsOf({}), new Map(), '/w', '/h', {}, 0)
+    expect(state.snapshot.recall?.reads).toMatchObject({ ranked: 'missing', neural: 'missing' })
+  })
+})
+
+describe('what the scoring and the table promise', () => {
+  const many = ranked(Array.from({ length: 9 }, (_, index) => entry(`m${index}`, 'authentication token refresh login service', 0.02 + index / 1000)))
+
+  it('surfaces at most five, as the hook does', () => {
+    expect(explainPrompt('authentication token refresh login service', parseRanked(many)?.entries ?? [])).toHaveLength(5)
+  })
+
+  it('drops an entry that scores under 0.05 and keeps one that reaches it', () => {
+    const low = parseRanked(ranked([{ ...entry('lo', 'zzz', 0.0499 / 0.4), words: [] }, { ...entry('hi', 'zzz', 0.05 / 0.4), words: [] }]))?.entries ?? []
+
+    expect(explainPrompt('authentication', [{ ...low[0], pageRank: 0.1249 } as never, { ...low[1], pageRank: 0.125 } as never]).map(item => item.entry.id)).toEqual(['hi'])
+  })
+
+  it('prunes strictly below the threshold, never at it', () => {
+    const rows = parseNeuralStore(MODELS) ?? []
+
+    expect(wouldPrune(rows, 4)).toEqual(['pattern-1-a'])
+    expect(wouldPrune(rows, 5)).toEqual(['pattern-1-a', 'pattern-2-b'])
+  })
+
+  it('masks a credential-shaped word in a task or summary and never draws a missing confidence as a number', () => {
+    const key = `sk-${'a1'.repeat(20)}`
+    const [past] = parsePrompts(JSON.stringify({ outcomes: [{ task: `deploy with ${key} now`, agent: 'coder', success: true, timestamp: '2026-09-27T10:00:00Z' }] }))
+    const [bare] = parseRanked(JSON.stringify({ entries: [{ id: 'x', summary: `use ${key}`, pageRank: 0.1, words: [] }] }))?.entries ?? []
+
+    expect(past?.task).toBe('deploy with •••• now')
+    expect(bare?.summary).toBe('use ••••')
+    expect(bare?.confidence).toBeNull()
+    pickPrompt(`explain ${key}`)
+
+    const facts: RecallFacts = { ranked: { computedAtMs: 1, entries: bare === undefined ? [] : [bare] }, sessions: [{ file: 's', startedAtMs: 1, updatedAtMs: 1, ids: ['x'] }], prompts: [], neural: null, reads: { ranked: 'ok', sessions: 'ok', prompts: 'ok', neural: 'missing', bank: 'missing' } }
+    const text = words(recallRows(ctxOf(facts)))
+
+    pickPrompt(null)
+    expect(text).toMatch(/conf n\/a/)
+    expect(text).not.toContain(key)
+  })
+
+  it('fits the lifecycle table in 80, 120 and 160 columns, and shows only SHOWN rows with the rest counted', () => {
+    const patterns = Object.fromEntries(Array.from({ length: 15 }, (_, index) => [`pattern-1791244689589-${index}-abcdefg`, { id: `pattern-1791244689589-${index}-abcdefg`, name: 'fix: wire recordTrajectory into the hooks tools handler for everything', type: 'history-commit', content: 'c', metadata: { verdict: 'success' }, createdAt: '2026-09-27T17:34:15.801Z', usageCount: index }]))
+    const facts: RecallFacts = { ranked: null, sessions: [], prompts: [], neural: parseNeuralStore(JSON.stringify({ patterns })), reads: { ranked: 'missing', sessions: 'ok', prompts: 'missing', neural: 'ok', bank: 'ok' } }
+
+    for (const columns of [80, 120, 160]) {
+      const ctx = { ...ctxOf(facts), columns } as Ctx
+      const rows = lifecycleRows(ctx)
+      const lines = rows.map(rowEl => flat(rowEl).filter(el => el.kind === 'Text' || el.kind === 'Button').map(el => String(el.props.children ?? el.props.label ?? '')).join(''))
+
+      for (const line of lines) expect(line.length, `${columns}: ${line}`).toBeLessThanOrEqual(columns)
+      expect(lines.some(line => /\+ 3 more in the file/.test(line))).toBe(true)
+      expect(lines.filter(line => /pattern-1791/.test(line))).toHaveLength(12)
+    }
   })
 })

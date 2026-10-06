@@ -1,6 +1,6 @@
 import type { RenderElement } from 'claude-code'
 
-import { compositeRank, explainPrompt, lifecycleOrder, recallOf, wouldPrune, type RecallFacts, type SessionRecall } from '../data/recall'
+import { compositeRank, explainPrompt, lifecycleOrder, recallOf, shown, wouldPrune, type RecallFacts, type SessionRecall } from '../data/recall'
 import { ago, button, clip, kv, row, text, THEME, type Ctx } from './common'
 
 /** Rows of a table drawn at most; the rest are counted, not hidden silently. */
@@ -11,7 +11,7 @@ const BAR = 10
 let picked: string | null = null
 
 export const pickPrompt = (value: string | null): void => {
-  picked = value === null || value.trim() === '' ? null : value.trim().slice(0, 300)
+  picked = value === null || shown(value, 300) === '' ? null : shown(value, 300)
 }
 
 export const pickedPrompt = (): string | null => picked
@@ -30,7 +30,7 @@ function sessionRows(ctx: Ctx, facts: RecallFacts, session: SessionRecall): Rend
   return session.ids.map((id, index) => {
     const entry = byId.get(id)
 
-    return text(ctx, entry === undefined ? `   ${index + 1}. ${clip(id, 40)}  (no longer in the ranked file)` : `   ${index + 1}. rank ${n3(compositeRank(entry))}  ${entry.summary}  [${entry.category || 'n/a'} · conf ${entry.confidence.toFixed(2)} · pr ${n3(entry.pageRank)} · ${entry.accessCount}x]`, entry === undefined ? { dimColor: true } : {})
+    return text(ctx, entry === undefined ? `   ${index + 1}. ${clip(id, 40)}  (no longer in the ranked file)` : `   ${index + 1}. rank ${n3(compositeRank(entry))}  ${entry.summary}  [${entry.category || 'n/a'} · conf ${entry.confidence === null ? 'n/a' : entry.confidence.toFixed(2)} · pr ${n3(entry.pageRank)} · ${entry.accessCount}x]`, entry === undefined ? { dimColor: true } : {})
   })
 }
 
@@ -102,14 +102,19 @@ export function lifecycleRows(ctx: Ctx): RenderElement[] {
   const idle = wouldPrune(patterns, 1).length
 
   rows.push(text(ctx, ' columns: only what models.json records (age, uses, verdict at creation); rank and last-used time are not recorded there', { dimColor: true }))
-  rows.push(text(ctx, ` ${'pattern'.padEnd(26)} ${'type'.padEnd(14)} ${'age'.padEnd(8)} ${'uses'.padEnd(5)} ${'verdict'.padEnd(8)} name`, { dimColor: true }))
+  // Column widths follow the width: the wide table (id 26 + type 14 + age 8 + uses 5 + verdict 8, then the name) needs 86 columns plus the two buttons; narrower, the columns shrink and the name goes.
+  const wide = ctx.columns >= 120
+  const [wId, wType, wAge, wUses, wVerdict] = wide ? [26, 14, 8, 5, 8] : [16, 12, 6, 4, 7]
+  const wName = wide ? Math.max(10, ctx.columns - 86 - 20) : 0
+
+  rows.push(text(ctx, ` ${'pattern'.padEnd(wId)} ${'type'.padEnd(wType)} ${'age'.padEnd(wAge)} ${'uses'.padEnd(wUses)} ${'verdict'.padEnd(wVerdict)}${wide ? ' name' : ''}`, { dimColor: true }))
 
   sorted.slice(0, SHOWN).forEach((pattern, index) => {
     rows.push(
       row(
         ctx,
         [
-          ctx.kit.Text({ children: ` ${clip(pattern.id, 26).padEnd(26)} ${clip(pattern.type, 14).padEnd(14)} ${(pattern.createdAtMs === null ? 'n/a' : ago(pattern.createdAtMs, nowMs).replace(' ago', '')).padEnd(8)} ${String(pattern.usageCount).padEnd(5)} ${(pattern.verdict ?? 'n/a').padEnd(8)} ${clip(pattern.name, Math.max(10, ctx.columns - 96))} ` }),
+          ctx.kit.Text({ children: ` ${clip(pattern.id, wId).padEnd(wId)} ${clip(pattern.type, wType).padEnd(wType)} ${clip(pattern.createdAtMs === null ? 'n/a' : ago(pattern.createdAtMs, nowMs).replace(' ago', ''), wAge).padEnd(wAge)} ${String(pattern.usageCount).padEnd(wUses)} ${clip(pattern.verdict ?? 'n/a', wVerdict).padEnd(wVerdict)}${wide ? ` ${clip(pattern.name, wName)}` : ''} ` }),
           ctx.kit.Button({ key: `recall-promote-${index}`, label: '▲ promote', plain: true, onPress: () => void ctx.act.run('nn-recall-promote', pattern.id) }),
           ctx.kit.Button({ key: `recall-prune-${index}`, label: ' ✂ prune', plain: true, onPress: () => void ctx.act.run('nn-recall-prune', pattern.id) }),
         ],

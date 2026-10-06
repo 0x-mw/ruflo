@@ -13,6 +13,7 @@
  * 0.6 * match + 0.4 * pageRank, threshold 0.05, top 5) and is labelled a recomputation. `.claude-flow/neural/patterns.json`
  * (the ReasoningBank) is usually over READ_MAX and is not read; `reads.bank` says so.
  */
+import { looksSecret } from './automate'
 import { jsonObject, msOf, numberOf, plain, recordOf } from './parse'
 import { PROJECT, READ_MAX, readBounded, under, type ReaderFs, type ReadCache } from './files'
 
@@ -66,11 +67,14 @@ export function jaccard(a: ReadonlySet<string>, b: ReadonlySet<string>): number 
   return shared / (a.size + b.size - shared)
 }
 
-export type RankedEntry = { id: string; summary: string; category: string; confidence: number; pageRank: number; accessCount: number; words: string[] }
+/** Text drawn from a file or typed in: control characters out, and any word shaped like a credential masked (a task text can hold a pasted key). */
+export const shown = (value: unknown, max: number): string => plain(value, max * 2).split(' ').map(word => (looksSecret(word) ? '••••' : word)).join(' ').slice(0, max)
+
+export type RankedEntry = { id: string; summary: string; category: string; confidence: number | null; pageRank: number; accessCount: number; words: string[] }
 export type Ranked = { computedAtMs: number | null; entries: RankedEntry[] }
 
 /** The order the hook sorts its own entries in (intelligence.cjs: 0.6 pageRank + 0.4 confidence). */
-export const compositeRank = (entry: Pick<RankedEntry, 'pageRank' | 'confidence'>): number => ALPHA * entry.pageRank + (1 - ALPHA) * entry.confidence
+export const compositeRank = (entry: Pick<RankedEntry, 'pageRank' | 'confidence'>): number => ALPHA * entry.pageRank + (1 - ALPHA) * (entry.confidence ?? 0.5)
 
 export function parseRanked(text: string | null): Ranked | null {
   const value = jsonObject(text)
@@ -84,7 +88,7 @@ export function parseRanked(text: string | null): Ranked | null {
 
     const words = Array.isArray(row.words) ? row.words.filter((word): word is string => typeof word === 'string') : []
 
-    return [{ id: plain(row.id, 80), summary: plain(typeof row.summary === 'string' ? row.summary : typeof row.content === 'string' ? row.content : '', 80), category: plain(typeof row.category === 'string' ? row.category : '', 24), confidence: numberOf(row.confidence) ?? 0.5, pageRank: numberOf(row.pageRank) ?? 0, accessCount: numberOf(row.accessCount) ?? 0, words }]
+    return [{ id: plain(row.id, 80), summary: shown(typeof row.summary === 'string' ? row.summary : typeof row.content === 'string' ? row.content : '', 80), category: plain(typeof row.category === 'string' ? row.category : '', 24), confidence: numberOf(row.confidence) ?? null, pageRank: numberOf(row.pageRank) ?? 0, accessCount: numberOf(row.accessCount) ?? 0, words }]
   })
 
   return { computedAtMs: msOf(value.computedAt) ?? null, entries }
@@ -154,7 +158,7 @@ export function parsePrompts(text: string | null): PastPrompt[] {
     const row = recordOf(raw)
     const atMs = msOf(row?.timestamp)
 
-    return row === null || atMs === undefined || typeof row.task !== 'string' || row.task.trim() === '' ? [] : [{ task: plain(row.task, 160), agent: plain(typeof row.agent === 'string' ? row.agent : '?', 30), ok: row.success === true, atMs }]
+    return row === null || atMs === undefined || typeof row.task !== 'string' || row.task.trim() === '' ? [] : [{ task: shown(row.task, 160), agent: plain(typeof row.agent === 'string' ? row.agent : '?', 30), ok: row.success === true, atMs }]
   })
   const seen = new Set<string>()
   const out: PastPrompt[] = []
@@ -186,7 +190,7 @@ export function parseNeuralStore(text: string | null): NeuralPattern[] | null {
 
     const verdict = recordOf(row.metadata)?.verdict
 
-    return [{ id: plain(row.id, 80), name: plain(typeof row.name === 'string' ? row.name : '', 90), type: plain(typeof row.type === 'string' ? row.type : '?', 24), content: plain(typeof row.content === 'string' ? row.content : '', 600), createdAtMs: msOf(row.createdAt) ?? null, usageCount: numberOf(row.usageCount) ?? 0, verdict: typeof verdict === 'string' ? plain(verdict, 20) : null }]
+    return [{ id: plain(row.id, 80), name: shown(typeof row.name === 'string' ? row.name : '', 90), type: plain(typeof row.type === 'string' ? row.type : '?', 24), content: plain(typeof row.content === 'string' ? row.content : '', 600), createdAtMs: msOf(row.createdAt) ?? null, usageCount: numberOf(row.usageCount) ?? 0, verdict: typeof verdict === 'string' ? plain(verdict, 20) : null }]
   })
 }
 
