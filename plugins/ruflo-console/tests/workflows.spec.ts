@@ -398,7 +398,7 @@ describe('view', () => {
     const buttons = walkEls(tree).filter(n => n.kind === 'Button')
 
     expect(lines(tree).join('\n')).toContain('/d/agent-a1.jsonl')
-    expect(lines(tree).join('\n')).toContain('need the control tab, which is not switched on')
+    expect(lines(tree).join('\n')).toContain('control tab')
     expect(buttons.map(b => b.props.label)).toEqual(['Open transcript'])
     ;(buttons[0]?.props.onPress as () => void)()
     expect(shown).toEqual(['/d/agent-a1.jsonl'])

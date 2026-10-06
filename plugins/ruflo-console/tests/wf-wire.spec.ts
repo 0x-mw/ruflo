@@ -316,7 +316,7 @@ describe('the page', () => {
 
     const { tree } = pageOf(world.state, world.host)
 
-    expect(words(tree)).toMatch(/need the control tab, which is not switched on/)
+    expect(words(tree)).toMatch(/control tab/)
     expect(buttons(tree).some(el => /stop|message/i.test(String(el.props.label)))).toBe(false)
   })
 

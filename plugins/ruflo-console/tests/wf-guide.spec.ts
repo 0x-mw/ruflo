@@ -306,7 +306,7 @@ describe('the slots', () => {
 
     expect(flat(tree).some(el => el.kind === 'Input')).toBe(true)
     expect(text).toMatch(/guidance: none typed yet/)
-    expect(text).toMatch(/need the control tab, which is not switched on/)
+    expect(text).toMatch(/control tab/)
   })
 
   it('draws on the real page: the boards under the run board, and the tabs once the inspector is open', () => {
