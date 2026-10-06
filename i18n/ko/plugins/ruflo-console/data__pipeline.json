@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/pipeline.ts",
+  "entries": [
+    {
+      "key": "no data",
+      "ko": "데이터 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/pipeline.ts:44 return"
+      ]
+    },
+    {
+      "key": "age n/a",
+      "ko": "경과 해당 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/pipeline.ts:45 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

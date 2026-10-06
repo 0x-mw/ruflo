@@ -1,6 +1,6 @@
 ---
 name: daa
-description: Dynamic Agentic Architecture status -- learning metrics, active agents, cognitive patterns
+description: 동적 에이전트 아키텍처 상태 -- 학습 메트릭, 활성 에이전트, 인지 패턴
 ---
 
 Show DAA dashboard:

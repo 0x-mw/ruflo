@@ -1,0 +1,75 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/prompt.ts",
+  "entries": [
+    {
+      "key": "(Use arrow keys to navigate, enter to select)",
+      "ko": "(화살표 키로 이동하고 Enter로 선택하세요)",
+      "kind": "text",
+      "ctx": [
+        "src/prompt.ts:70 dim"
+      ]
+    },
+    {
+      "key": "(disabled)",
+      "ko": "(비활성화됨)",
+      "kind": "text",
+      "ctx": [
+        "src/prompt.ts:96 dim",
+        "src/prompt.ts:339 dim"
+      ]
+    },
+    {
+      "key": "Selected: {0}",
+      "ko": "선택됨: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/prompt.ts:133 success",
+        "src/prompt.ts:395 success",
+        "src/prompt.ts:562 success"
+      ]
+    },
+    {
+      "key": "(Use arrow keys to navigate, space to select, enter to confirm)",
+      "ko": "(화살표 키로 이동하고 스페이스로 선택한 뒤 Enter로 확인하세요)",
+      "kind": "text",
+      "ctx": [
+        "src/prompt.ts:307 dim"
+      ]
+    },
+    {
+      "key": "At least one option must be selected",
+      "ko": "옵션을 하나 이상 선택해야 합니다",
+      "kind": "text",
+      "ctx": [
+        "src/prompt.ts:383 error"
+      ]
+    },
+    {
+      "key": "At least {0} options must be selected",
+      "ko": "옵션을 {0}개 이상 선택해야 합니다",
+      "kind": "template",
+      "ctx": [
+        "src/prompt.ts:387 error"
+      ]
+    },
+    {
+      "key": "(Enter an empty line to finish)",
+      "ko": "(빈 줄을 입력하면 끝납니다)",
+      "kind": "text",
+      "ctx": [
+        "src/prompt.ts:437 dim"
+      ]
+    },
+    {
+      "key": "(Type to filter, arrow keys to navigate)",
+      "ko": "(입력해서 필터링하고 화살표 키로 이동하세요)",
+      "kind": "text",
+      "ctx": [
+        "src/prompt.ts:500 dim"
+      ]
+    }
+  ],
+  "obsolete": []
+}

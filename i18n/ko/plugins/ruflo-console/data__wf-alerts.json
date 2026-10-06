@@ -1,0 +1,104 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-alerts.ts",
+  "entries": [
+    {
+      "key": "rule \"{0}\" not understood (stuck>20m, tokens>2M, dirty)",
+      "ko": "규칙 \"{0}\"을(를) 이해하지 못했습니다 (stuck>20m, tokens>2M, dirty)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:52 push()"
+      ]
+    },
+    {
+      "key": "workflow {0} spent ≥{1}, over your {2} run ceiling (nothing was stopped)",
+      "ko": "워크플로 {0}의 지출이 ≥{1}로, 실행당 상한 {2}을(를) 넘었습니다 (중지된 것은 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:143 text"
+      ]
+    },
+    {
+      "key": "workflow {0} spent {1}, over your {2} run ceiling (nothing was stopped)",
+      "ko": "워크플로 {0}의 지출이 {1}로, 실행당 상한 {2}을(를) 넘었습니다 (중지된 것은 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:143 text"
+      ]
+    },
+    {
+      "key": "workflow {0} is at ≥{1} tokens, over your {2} rule",
+      "ko": "워크플로 {0}이(가) ≥{1} 토큰으로, 규칙 {2}을(를) 넘었습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:153 text"
+      ]
+    },
+    {
+      "key": "workflow {0} is at {1} tokens, over your {2} rule",
+      "ko": "워크플로 {0}이(가) {1} 토큰으로, 규칙 {2}을(를) 넘었습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:153 text"
+      ]
+    },
+    {
+      "key": "agent {0} in {1}: no progress for 15m or more (rule stuck>{2}m)",
+      "ko": "{1}의 에이전트 {0}: 15분 이상 진행 없음 (규칙 stuck>{2}m)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:164 text"
+      ]
+    },
+    {
+      "key": "agent {0} in {1}: no progress for {2}m (rule stuck>{3}m)",
+      "ko": "{1}의 에이전트 {0}: {2}분간 진행 없음 (규칙 stuck>{3}m)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:164 text"
+      ]
+    },
+    {
+      "key": "agent {0} in {1} ended with an uncommitted worktree",
+      "ko": "{1}의 에이전트 {0}이(가) 커밋되지 않은 워크트리를 남기고 끝났습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:169 text"
+      ]
+    },
+    {
+      "key": "workflow runs of the last 24h spent ≥{0} over {1} run, over your {2} day ceiling (nothing was stopped)",
+      "ko": "최근 24h 워크플로 실행 {1}건의 지출이 ≥{0}로, 일일 상한 {2}을(를) 넘었습니다 (중지된 것은 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:176 text"
+      ]
+    },
+    {
+      "key": "workflow runs of the last 24h spent ≥{0} over {1} runs, over your {2} day ceiling (nothing was stopped)",
+      "ko": "최근 24h 워크플로 실행 {1}건의 지출이 ≥{0}로, 일일 상한 {2}을(를) 넘었습니다 (중지된 것은 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:176 text"
+      ]
+    },
+    {
+      "key": "workflow runs of the last 24h spent {0} over {1} run, over your {2} day ceiling (nothing was stopped)",
+      "ko": "최근 24h 워크플로 실행 {1}건의 지출이 {0}로, 일일 상한 {2}을(를) 넘었습니다 (중지된 것은 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:176 text"
+      ]
+    },
+    {
+      "key": "workflow runs of the last 24h spent {0} over {1} runs, over your {2} day ceiling (nothing was stopped)",
+      "ko": "최근 24h 워크플로 실행 {1}건의 지출이 {0}로, 일일 상한 {2}을(를) 넘었습니다 (중지된 것은 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-alerts.ts:176 text"
+      ]
+    }
+  ],
+  "obsolete": []
+}

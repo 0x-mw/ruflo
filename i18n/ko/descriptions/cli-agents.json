@@ -1,0 +1,536 @@
+{
+  "v3/@claude-flow/cli/.claude/agents/analysis/analyze-code-quality.md": {
+    "en": "Advanced code quality analysis agent for comprehensive code reviews and improvements",
+    "ko": "종합 코드 리뷰와 개선을 위한 고급 코드 품질 분석 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/analysis/code-analyzer.md": {
+    "en": "Advanced code quality analysis agent for comprehensive code reviews and improvements",
+    "ko": "종합 코드 리뷰와 개선을 위한 고급 코드 품질 분석 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/analysis/code-review/analyze-code-quality.md": {
+    "en": "Advanced code quality analysis agent for comprehensive code reviews and improvements",
+    "ko": "종합 코드 리뷰와 개선을 위한 고급 코드 품질 분석 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/architecture/arch-system-design.md": {
+    "en": "Expert agent for system architecture design, patterns, and high-level technical decisions",
+    "ko": "시스템 아키텍처 설계, 패턴, 상위 수준 기술 결정을 위한 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/architecture/system-design/arch-system-design.md": {
+    "en": "Expert agent for system architecture design, patterns, and high-level technical decisions",
+    "ko": "시스템 아키텍처 설계, 패턴, 상위 수준 기술 결정을 위한 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/consensus/byzantine-coordinator.md": {
+    "en": "Coordinates Byzantine fault-tolerant consensus protocols with malicious actor detection",
+    "ko": "악의적 행위자 감지 기능으로 Byzantine 장애 허용 합의 프로토콜을 조율합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/consensus/crdt-synchronizer.md": {
+    "en": "Implements Conflict-free Replicated Data Types for eventually consistent state synchronization",
+    "ko": "최종 일관성 상태 동기화를 위한 충돌 없는 복제 데이터 타입(CRDT)을 구현합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/consensus/gossip-coordinator.md": {
+    "en": "Coordinates gossip-based consensus protocols for scalable eventually consistent systems",
+    "ko": "확장 가능한 최종 일관성 시스템을 위한 가십(gossip) 기반 합의 프로토콜을 조율합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/consensus/performance-benchmarker.md": {
+    "en": "Implements comprehensive performance benchmarking for distributed consensus protocols",
+    "ko": "분산 합의 프로토콜을 위한 종합 성능 벤치마킹을 구현합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/consensus/quorum-manager.md": {
+    "en": "Implements dynamic quorum adjustment and intelligent membership management",
+    "ko": "동적 정족수 조정과 지능형 멤버십 관리를 구현합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/consensus/raft-manager.md": {
+    "en": "Manages Raft consensus algorithm with leader election and log replication",
+    "ko": "리더 선출과 로그 복제를 포함한 Raft 합의 알고리즘을 관리합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/consensus/security-manager.md": {
+    "en": "Implements comprehensive security mechanisms for distributed consensus protocols",
+    "ko": "분산 합의 프로토콜을 위한 종합 보안 메커니즘을 구현합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/core/planner.md": {
+    "en": "Strategic planning and task orchestration agent with AI-powered resource optimization",
+    "ko": "AI 기반 리소스 최적화를 갖춘 전략 계획 및 작업 오케스트레이션 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/custom/test-long-runner.md": {
+    "en": "Test agent that can run for 30+ minutes on complex tasks",
+    "ko": "복잡한 작업을 30분 이상 실행할 수 있는 테스트 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/data/data-ml-model.md": {
+    "en": "ML developer with self-learning hyperparameter optimization and pattern recognition",
+    "ko": "자가 학습 하이퍼파라미터 최적화와 패턴 인식을 갖춘 ML 개발자",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/data/ml/data-ml-model.md": {
+    "en": "Specialized agent for machine learning model development, training, and deployment",
+    "ko": "머신러닝 모델 개발, 학습, 배포 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/development/backend/dev-backend-api.md": {
+    "en": "Specialized agent for backend API development, including REST and GraphQL endpoints",
+    "ko": "REST 및 GraphQL 엔드포인트를 포함한 백엔드 API 개발 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/development/dev-backend-api.md": {
+    "en": "Specialized agent for backend API development with self-learning and pattern recognition",
+    "ko": "자가 학습과 패턴 인식을 갖춘 백엔드 API 개발 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/devops/ci-cd/ops-cicd-github.md": {
+    "en": "Specialized agent for GitHub Actions CI/CD pipeline creation and optimization",
+    "ko": "GitHub Actions CI/CD 파이프라인 생성과 최적화 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/devops/ops-cicd-github.md": {
+    "en": "Specialized agent for GitHub Actions CI/CD pipeline creation and optimization",
+    "ko": "GitHub Actions CI/CD 파이프라인 생성과 최적화 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/documentation/api-docs/docs-api-openapi.md": {
+    "en": "Expert agent for creating and maintaining OpenAPI/Swagger documentation",
+    "ko": "OpenAPI/Swagger 문서 작성과 유지 관리 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/documentation/docs-api-openapi.md": {
+    "en": "Expert agent for creating OpenAPI documentation with pattern learning",
+    "ko": "패턴 학습을 활용한 OpenAPI 문서 작성 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/app-store.md": {
+    "en": "Application marketplace and template management specialist. Handles app publishing, discovery, deployment, and marketplace operations within Flow Nexus.",
+    "ko": "애플리케이션 마켓플레이스와 템플릿 관리 전문가입니다. Flow Nexus 안에서 앱 게시, 탐색, 배포, 마켓플레이스 운영을 처리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/authentication.md": {
+    "en": "Flow Nexus authentication and user management specialist. Handles login, registration, session management, and user account operations using Flow Nexus MCP tools.",
+    "ko": "Flow Nexus 인증 및 사용자 관리 전문가입니다. Flow Nexus MCP 도구로 로그인, 등록, 세션 관리, 사용자 계정 작업을 처리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/challenges.md": {
+    "en": "Coding challenges and gamification specialist. Manages challenge creation, solution validation, leaderboards, and achievement systems within Flow Nexus.",
+    "ko": "코딩 챌린지와 게이미피케이션 전문가입니다. Flow Nexus 안에서 챌린지 생성, 솔루션 검증, 리더보드, 업적 시스템을 관리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/neural-network.md": {
+    "en": "Neural network training and deployment specialist. Manages distributed neural network training, inference, and model lifecycle using Flow Nexus cloud infrastructure.",
+    "ko": "신경망 학습 및 배포 전문가입니다. Flow Nexus 클라우드 인프라로 분산 신경망 학습, 추론, 모델 수명 주기를 관리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/payments.md": {
+    "en": "Credit management and billing specialist. Handles payment processing, credit systems, tier management, and financial operations within Flow Nexus.",
+    "ko": "크레딧 관리 및 청구 전문가입니다. Flow Nexus 안에서 결제 처리, 크레딧 시스템, 티어 관리, 재무 작업을 처리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/sandbox.md": {
+    "en": "E2B sandbox deployment and management specialist. Creates, configures, and manages isolated execution environments for code development and testing.",
+    "ko": "E2B 샌드박스 배포 및 관리 전문가입니다. 코드 개발과 테스트를 위한 격리 실행 환경을 생성, 설정, 관리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/swarm.md": {
+    "en": "AI swarm orchestration and management specialist. Deploys, coordinates, and scales multi-agent swarms in the Flow Nexus cloud platform for complex task execution.",
+    "ko": "AI 스웜 오케스트레이션 및 관리 전문가입니다. Flow Nexus 클라우드 플랫폼에서 복잡한 작업 실행을 위한 멀티 에이전트 스웜을 배포, 조율, 확장합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/user-tools.md": {
+    "en": "User management and system utilities specialist. Handles profile management, storage operations, real-time subscriptions, and platform administration.",
+    "ko": "사용자 관리 및 시스템 유틸리티 전문가입니다. 프로필 관리, 스토리지 작업, 실시간(real-time) 구독, 플랫폼 관리를 처리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/flow-nexus/workflow.md": {
+    "en": "Event-driven workflow automation specialist. Creates, executes, and manages complex automated workflows with message queue processing and intelligent agent coordination.",
+    "ko": "이벤트 기반 워크플로 자동화 전문가입니다. 메시지 큐 처리와 지능형 에이전트 조율로 복잡한 자동화 워크플로를 생성, 실행, 관리합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/code-review-swarm.md": {
+    "en": "Deploy specialized AI agents to perform comprehensive, intelligent code reviews that go beyond traditional static analysis",
+    "ko": "기존 정적 분석을 넘어서는 종합적이고 지능적인 코드 리뷰를 수행하도록 전문 AI 에이전트를 배치합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/github-modes.md": {
+    "en": "Comprehensive GitHub integration modes for workflow orchestration, PR management, and repository coordination with batch optimization",
+    "ko": "배치 최적화를 갖춘 워크플로 오케스트레이션, PR 관리, 저장소 조율용 종합 GitHub 통합 모드",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/issue-tracker.md": {
+    "en": "Intelligent issue management and project coordination with automated tracking, progress monitoring, and team coordination",
+    "ko": "자동 추적, 진행 상황 모니터링, 팀 조율을 갖춘 지능형 이슈 관리 및 프로젝트 조율",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/multi-repo-swarm.md": {
+    "en": "Cross-repository swarm orchestration for organization-wide automation and intelligent collaboration",
+    "ko": "조직 전체 자동화와 지능형 협업을 위한 저장소 간 스웜 오케스트레이션",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/pr-manager.md": {
+    "en": "Comprehensive pull request management with swarm coordination for automated reviews, testing, and merge workflows",
+    "ko": "자동 리뷰, 테스트, 병합 워크플로를 위한 스웜 조율 기반 종합 풀 리퀘스트 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/project-board-sync.md": {
+    "en": "Synchronize AI swarms with GitHub Projects for visual task management, progress tracking, and team coordination",
+    "ko": "시각적 작업 관리, 진행 상황 추적, 팀 조율을 위해 AI 스웜을 GitHub Projects와 동기화합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/release-manager.md": {
+    "en": "Automated release coordination and deployment with ruv-swarm orchestration for seamless version management, testing, and deployment across multiple packages",
+    "ko": "여러 패키지에 걸친 매끄러운 버전 관리, 테스트, 배포를 위한 ruv-swarm 오케스트레이션 기반 자동 릴리스 조율 및 배포",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/release-swarm.md": {
+    "en": "Orchestrate complex software releases using AI swarms that handle everything from changelog generation to multi-platform deployment",
+    "ko": "변경 로그 생성부터 멀티 플랫폼 배포까지 모두 처리하는 AI 스웜으로 복잡한 소프트웨어 릴리스를 오케스트레이션합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/repo-architect.md": {
+    "en": "Repository structure optimization and multi-repo management with ruv-swarm coordination for scalable project architecture and development workflows",
+    "ko": "확장 가능한 프로젝트 아키텍처와 개발 워크플로를 위한 ruv-swarm 조율 기반 저장소 구조 최적화 및 멀티 저장소 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/swarm-issue.md": {
+    "en": "GitHub issue-based swarm coordination agent that transforms issues into intelligent multi-agent tasks with automatic decomposition and progress tracking",
+    "ko": "이슈를 자동 분해와 진행 추적이 가능한 지능형 멀티 에이전트 작업으로 바꾸는 GitHub 이슈 기반 스웜 조율 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/swarm-pr.md": {
+    "en": "Pull request swarm management agent that coordinates multi-agent code review, validation, and integration workflows with automated PR lifecycle management",
+    "ko": "자동 PR 수명 주기 관리와 함께 멀티 에이전트 코드 리뷰, 검증, 통합 워크플로를 조율하는 풀 리퀘스트 스웜 관리 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/sync-coordinator.md": {
+    "en": "Multi-repository synchronization coordinator that manages version alignment, dependency synchronization, and cross-package integration with intelligent swarm orchestration",
+    "ko": "지능형 스웜 오케스트레이션으로 버전 정렬, 의존성 동기화, 패키지 간 통합을 관리하는 멀티 저장소 동기화 코디네이터",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/github/workflow-automation.md": {
+    "en": "GitHub Actions workflow automation agent that creates intelligent, self-organizing CI/CD pipelines with adaptive multi-agent coordination and automated optimization",
+    "ko": "적응형 멀티 에이전트 조율과 자동 최적화로 지능적이고 자기 조직화하는 CI/CD 파이프라인을 만드는 GitHub Actions 워크플로 자동화 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/goal/agent.md": {
+    "en": "Goal-Oriented Action Planning (GOAP) specialist that dynamically creates intelligent plans to achieve complex objectives. Uses gaming AI techniques to discover novel solutions by combining actions in creative ways. Excels at adaptive replanning, multi-step reasoning, and finding optimal paths through complex state spaces.",
+    "ko": "복잡한 목표를 달성하기 위해 지능형 계획을 동적으로 만드는 목표 지향 행동 계획(GOAP, Goal-Oriented Action Planning) 전문가입니다. 게임 AI 기법으로 행동을 창의적으로 조합해 새로운 해법을 찾습니다. 적응형 재계획, 다단계 추론, 복잡한 상태 공간에서 최적 경로 찾기에 뛰어납니다.",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/optimization/benchmark-suite.md": {
+    "en": "Comprehensive performance benchmarking, regression detection and performance validation",
+    "ko": "종합 성능 벤치마킹, 회귀 감지, 성능 검증",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/optimization/load-balancer.md": {
+    "en": "Dynamic task distribution, work-stealing algorithms and adaptive load balancing",
+    "ko": "동적 작업 분배, 워크 스틸링(work-stealing) 알고리즘, 적응형 로드 밸런싱",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/optimization/performance-monitor.md": {
+    "en": "Real-time metrics collection, bottleneck analysis, SLA monitoring and anomaly detection",
+    "ko": "실시간 메트릭 수집, 병목 분석, SLA 모니터링, 이상 감지",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/optimization/resource-allocator.md": {
+    "en": "Adaptive resource allocation, predictive scaling and intelligent capacity planning",
+    "ko": "적응형 리소스 할당, 예측 기반 확장, 지능형 용량 계획",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/optimization/topology-optimizer.md": {
+    "en": "Dynamic swarm topology reconfiguration and communication pattern optimization",
+    "ko": "동적 스웜 토폴로지 재구성과 통신 패턴 최적화",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/payments/agentic-payments.md": {
+    "en": "Multi-agent payment authorization specialist for autonomous AI commerce with cryptographic verification and Byzantine consensus",
+    "ko": "암호화 검증과 Byzantine 합의를 갖춘, 자율 AI 상거래용 멀티 에이전트 결제 승인 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sona/sona-learning-optimizer.md": {
+    "en": "SONA-powered self-optimizing agent with LoRA fine-tuning and EWC++ memory preservation",
+    "ko": "LoRA 파인튜닝과 EWC++ 메모리 보존을 갖춘 SONA 기반 자가 최적화 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sparc/architecture.md": {
+    "en": "SPARC Architecture phase specialist for system design with self-learning",
+    "ko": "자가 학습을 갖춘 시스템 설계용 SPARC 아키텍처(Architecture) 단계 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sparc/pseudocode.md": {
+    "en": "SPARC Pseudocode phase specialist for algorithm design with self-learning",
+    "ko": "자가 학습을 갖춘 알고리즘 설계용 SPARC 의사코드(Pseudocode) 단계 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sparc/refinement.md": {
+    "en": "SPARC Refinement phase specialist for iterative improvement with self-learning",
+    "ko": "자가 학습을 갖춘 반복 개선용 SPARC 정제(Refinement) 단계 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sparc/specification.md": {
+    "en": "SPARC Specification phase specialist for requirements analysis with self-learning",
+    "ko": "자가 학습을 갖춘 요구사항 분석용 SPARC 명세(Specification) 단계 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/specialized/mobile/spec-mobile-react-native.md": {
+    "en": "Expert agent for React Native mobile application development across iOS and Android",
+    "ko": "iOS와 Android를 아우르는 React Native 모바일 애플리케이션 개발 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/specialized/spec-mobile-react-native.md": {
+    "en": "Expert agent for React Native mobile application development across iOS and Android",
+    "ko": "iOS와 Android를 아우르는 React Native 모바일 애플리케이션 개발 전문 에이전트",
+    "synth": false,
+    "style": "double"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sublinear/consensus-coordinator.md": {
+    "en": "Distributed consensus agent that uses sublinear solvers for fast agreement protocols in multi-agent systems. Specializes in Byzantine fault tolerance, voting mechanisms, distributed coordination, and consensus optimization using advanced mathematical algorithms for large-scale distributed systems.",
+    "ko": "멀티 에이전트 시스템의 빠른 합의 프로토콜에 sublinear solver를 사용하는 분산 합의 에이전트입니다. 대규모 분산 시스템을 위한 고급 수학 알고리즘으로 Byzantine 장애 허용, 투표 메커니즘, 분산 조율, 합의 최적화를 전문으로 합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sublinear/matrix-optimizer.md": {
+    "en": "Expert agent for matrix analysis and optimization using sublinear algorithms. Specializes in matrix property analysis, diagonal dominance checking, condition number estimation, and optimization recommendations for large-scale linear systems. Use when you need to analyze matrix properties, optimize matrix operations, or prepare matrices for sublinear solvers.",
+    "ko": "sublinear 알고리즘을 사용한 행렬 분석 및 최적화 전문 에이전트입니다. 대규모 선형 시스템의 행렬 속성 분석, 대각 우세 확인, 조건수 추정, 최적화 권고를 전문으로 합니다. 행렬 속성을 분석하거나, 행렬 연산을 최적화하거나, sublinear solver용 행렬을 준비해야 할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sublinear/pagerank-analyzer.md": {
+    "en": "Expert agent for graph analysis and PageRank calculations using sublinear algorithms. Specializes in network optimization, influence analysis, swarm topology optimization, and large-scale graph computations. Use for social network analysis, web graph analysis, recommendation systems, and distributed system topology design.",
+    "ko": "sublinear 알고리즘을 사용한 그래프 분석 및 PageRank 계산 전문 에이전트입니다. 네트워크 최적화, 영향력 분석, 스웜 토폴로지 최적화, 대규모 그래프 계산을 전문으로 합니다. 소셜 네트워크 분석, 웹 그래프 분석, 추천 시스템, 분산 시스템 토폴로지 설계에 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sublinear/performance-optimizer.md": {
+    "en": "System performance optimization agent that identifies bottlenecks and optimizes resource allocation using sublinear algorithms. Specializes in computational performance analysis, system optimization, resource management, and efficiency maximization across distributed systems and cloud infrastructure.",
+    "ko": "sublinear 알고리즘으로 병목을 찾아내고 리소스 할당을 최적화하는 시스템 성능 최적화 에이전트입니다. 분산 시스템과 클라우드 인프라 전반의 연산 성능 분석, 시스템 최적화, 리소스 관리, 효율 극대화를 전문으로 합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/sublinear/trading-predictor.md": {
+    "en": "Advanced financial trading agent that leverages temporal advantage calculations to predict and execute trades before market data arrives. Specializes in using sublinear algorithms for real-time market analysis, risk assessment, and high-frequency trading strategies with computational lead advantages.",
+    "ko": "시간적 우위 계산을 활용해 시장 데이터가 도착하기 전에 거래를 예측하고 실행하는 고급 금융 거래 에이전트입니다. sublinear 알고리즘을 사용한 실시간(real-time) 시장 분석, 위험 평가, 연산 우위를 가진 고빈도 거래 전략을 전문으로 합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/swarm/adaptive-coordinator.md": {
+    "en": "Dynamic topology switching coordinator with self-organizing swarm patterns and real-time optimization",
+    "ko": "자기 조직화 스웜 패턴과 실시간(real-time) 최적화를 갖춘 동적 토폴로지 전환 코디네이터",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/swarm/hierarchical-coordinator.md": {
+    "en": "Queen-led hierarchical swarm coordination with specialized worker delegation",
+    "ko": "전문 워커에게 위임하는 퀸 주도 계층형 스웜 조율",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/swarm/mesh-coordinator.md": {
+    "en": "Peer-to-peer mesh network swarm with distributed decision making and fault tolerance",
+    "ko": "분산 의사결정과 장애 허용을 갖춘 피어 투 피어 메시 네트워크 스웜",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/automation-smart-agent.md": {
+    "en": "Intelligent agent coordination and dynamic spawning specialist",
+    "ko": "지능형 에이전트 조율 및 동적 생성 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/base-template-generator.md": {
+    "en": "Use this agent when you need to create foundational templates, boilerplate code, or starter configurations for new projects, components, or features. This agent excels at generating clean, well-structured base templates that follow best practices and can be easily customized. Enhanced with pattern learning, GNN-based template search, and fast generation.\nExamples: <example>Context: User needs to start a new React component and wants a solid foundation. user: 'I need to create a new user profile component' assistant: 'I'll use the base-template-generator agent to create a comprehensive React component template with proper structure, TypeScript definitions, and styling setup.' <commentary>Since the user needs a foundational template for a new component, use the base-template-generator agent to create a well-structured starting point.</commentary></example>\n<example>Context: User is setting up a new API endpoint and needs a template. user: 'Can you help me set up a new REST API endpoint for user management?' assistant: 'I'll use the base-template-generator agent to create a complete API endpoint template with proper error handling, validation, and documentation structure.' <commentary>The user needs a foundational template for an API endpoint, so use the base-template-generator agent to provide a comprehensive starting point.</commentary></example>",
+    "ko": "새 프로젝트, 컴포넌트, 기능을 위한 기초 템플릿, 보일러플레이트 코드, 시작 설정을 만들어야 할 때 사용합니다. 이 에이전트는 모범 사례를 따르고 쉽게 커스터마이즈할 수 있는, 깔끔하고 구조가 잘 잡힌 기본 템플릿을 생성하는 데 뛰어납니다. 패턴 학습, GNN 기반 템플릿 검색, 빠른 생성으로 강화되었습니다.\n예시: <example>Context: 사용자가 새 React 컴포넌트를 시작하며 탄탄한 기반을 원합니다. user: '새 사용자 프로필 컴포넌트를 만들어야 해' assistant: 'base-template-generator 에이전트로 적절한 구조, TypeScript 정의, 스타일링 설정을 갖춘 종합 React 컴포넌트 템플릿을 만들겠습니다.' <commentary>사용자가 새 컴포넌트의 기초 템플릿이 필요하므로, base-template-generator 에이전트로 구조가 잘 잡힌 출발점을 만듭니다.</commentary></example>\n<example>Context: 사용자가 새 API 엔드포인트를 설정하며 템플릿이 필요합니다. user: '사용자 관리용 새 REST API 엔드포인트 설정을 도와줄 수 있어?' assistant: 'base-template-generator 에이전트로 적절한 오류 처리, 유효성 검사, 문서화 구조를 갖춘 완전한 API 엔드포인트 템플릿을 만들겠습니다.' <commentary>사용자가 API 엔드포인트의 기초 템플릿이 필요하므로, base-template-generator 에이전트로 종합적인 출발점을 제공합니다.</commentary></example>",
+    "synth": false,
+    "style": "block"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/coordinator-swarm-init.md": {
+    "en": "Swarm initialization and topology optimization specialist",
+    "ko": "스웜 초기화 및 토폴로지 최적화 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/github-pr-manager.md": {
+    "en": "Complete pull request lifecycle management and GitHub workflow coordination",
+    "ko": "풀 리퀘스트 전체 수명 주기 관리와 GitHub 워크플로 조율",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/implementer-sparc-coder.md": {
+    "en": "Transform specifications into working code with TDD practices",
+    "ko": "TDD 방식으로 명세를 동작하는 코드로 변환합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/memory-coordinator.md": {
+    "en": "Manage persistent memory across sessions and facilitate cross-agent memory sharing",
+    "ko": "세션 간 영속 메모리를 관리하고 에이전트 간 메모리 공유를 지원합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/orchestrator-task.md": {
+    "en": "Central coordination agent for task decomposition, execution planning, and result synthesis",
+    "ko": "작업 분해, 실행 계획, 결과 종합을 위한 중앙 조율 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/performance-analyzer.md": {
+    "en": "Performance bottleneck analyzer for identifying and resolving workflow inefficiencies",
+    "ko": "워크플로 비효율을 찾아 해결하는 성능 병목 분석기",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/templates/sparc-coordinator.md": {
+    "en": "SPARC methodology orchestrator with hierarchical coordination and self-learning",
+    "ko": "계층형 조율과 자가 학습을 갖춘 SPARC 방법론 오케스트레이터",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/testing/production-validator.md": {
+    "en": "Production validation specialist ensuring applications are fully implemented and deployment-ready",
+    "ko": "애플리케이션이 완전히 구현되어 배포할 준비가 되었는지 확인하는 프로덕션 검증 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/testing/tdd-london-swarm.md": {
+    "en": "TDD London School specialist for mock-driven development within swarm coordination",
+    "ko": "스웜 조율 안에서 목(mock) 주도 개발을 하는 TDD 런던 학파 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/aidefence-guardian.md": {
+    "en": "AI Defense Guardian agent that monitors all agent inputs/outputs for manipulation attempts using AIMDS",
+    "ko": "AIMDS를 사용해 모든 에이전트 입출력에서 조작 시도를 모니터링하는 AI 방어 가디언 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/claims-authorizer.md": {
+    "en": "V3 Claims-based authorization specialist implementing ADR-010 for fine-grained access control across swarm agents and MCP tools",
+    "ko": "스웜 에이전트와 MCP 도구 전반의 세밀한 접근 제어를 위해 ADR-010을 구현하는 V3 클레임 기반 권한 부여 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/collective-intelligence-coordinator.md": {
+    "en": "Hive-mind collective decision making with Byzantine fault-tolerant consensus, attention-based coordination, and emergent intelligence patterns",
+    "ko": "Byzantine 장애 허용 합의, 어텐션 기반 조율, 창발적 지능 패턴을 갖춘 하이브마인드 집단 의사결정",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/ddd-domain-expert.md": {
+    "en": "V3 Domain-Driven Design specialist for bounded context identification, aggregate design, domain modeling, and ubiquitous language enforcement",
+    "ko": "바운디드 컨텍스트 식별, 애그리거트 설계, 도메인 모델링, 유비쿼터스 언어 적용을 위한 V3 도메인 주도 설계(DDD) 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/injection-analyst.md": {
+    "en": "Deep analysis specialist for prompt injection and jailbreak attempts with pattern learning",
+    "ko": "패턴 학습을 갖춘, 프롬프트 인젝션과 탈옥(jailbreak) 시도 심층 분석 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/performance-engineer.md": {
+    "en": "V3 Performance Engineering Agent specialized in Flash Attention optimization (2.49x-7.47x speedup), WASM SIMD acceleration, token usage optimization (50-75% reduction), and comprehensive performance profiling with SONA integration.",
+    "ko": "Flash Attention 최적화(2.49배~7.47배 가속), WASM SIMD 가속, 토큰 사용량 최적화(50~75% 절감), SONA 통합 종합 성능 프로파일링을 전문으로 하는 V3 성능 엔지니어링 에이전트입니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/pii-detector.md": {
+    "en": "Specialized PII detection agent that scans code and data for sensitive information leaks",
+    "ko": "코드와 데이터에서 민감 정보 유출을 스캔하는 PII 감지 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/reasoningbank-learner.md": {
+    "en": "V3 ReasoningBank integration specialist for trajectory tracking, verdict judgment, pattern distillation, and experience replay using HNSW-indexed memory",
+    "ko": "HNSW 인덱스 메모리를 사용한 궤적 추적, 판정(verdict judgment), 패턴 증류, 경험 재생을 위한 V3 ReasoningBank 통합 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/security-architect-aidefence.md": {
+    "en": "Enhanced V3 Security Architecture specialist with AIMDS (AI Manipulation Defense System)\nintegration. Combines ReasoningBank learning with real-time prompt injection detection,\nbehavioral analysis, and 25-level meta-learning adaptive mitigation.",
+    "ko": "AIMDS(AI Manipulation Defense System) 통합을 갖춘 강화된 V3 보안 아키텍처 전문가입니다.\nReasoningBank 학습과 실시간(real-time) 프롬프트 인젝션 감지,\n행동 분석, 25단계 메타 학습 적응형 완화를 결합합니다.",
+    "synth": false,
+    "style": "block"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/security-architect.md": {
+    "en": "V3 Security Architecture specialist with ReasoningBank learning, HNSW threat pattern search, and zero-trust design capabilities",
+    "ko": "ReasoningBank 학습, HNSW 위협 패턴 검색, 제로 트러스트 설계 역량을 갖춘 V3 보안 아키텍처 전문가",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/swarm-memory-manager.md": {
+    "en": "V3 distributed memory manager for cross-agent state synchronization, CRDT replication, and namespace coordination across the swarm",
+    "ko": "스웜 전반의 에이전트 간 상태 동기화, CRDT 복제, 네임스페이스 조율을 위한 V3 분산 메모리 관리자",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/agents/v3/v3-integration-architect.md": {
+    "en": "V3 deep agentic-flow@alpha integration specialist implementing ADR-001 for eliminating duplicate code and building claude-flow as a specialized extension",
+    "ko": "중복 코드를 제거하고 claude-flow를 전문 확장으로 만드는 ADR-001을 구현하는 V3 agentic-flow@alpha 심층 통합 전문가",
+    "synth": false,
+    "style": "plain"
+  }
+}

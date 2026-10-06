@@ -1,0 +1,397 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/mission-control.ts",
+  "entries": [
+    {
+      "key": "Evidence",
+      "ko": "증거",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:21 label"
+      ]
+    },
+    {
+      "key": "Record",
+      "ko": "기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:23 label"
+      ]
+    },
+    {
+      "key": "Mission options",
+      "ko": "미션 옵션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:58 section()"
+      ]
+    },
+    {
+      "key": "{0} skills, run in the main Claude UI · ★ suits {1}",
+      "ko": "스킬 {0}개, 메인 Claude UI에서 실행 · ★ {1}에 적합",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:58 section()"
+      ]
+    },
+    {
+      "key": "{0} not offered by this session: install {1} (Plugin Catalog), then /reload-plugins",
+      "ko": "이 세션에서 제공되지 않음 {0}: {1} 설치(플러그인 카탈로그) 후 /reload-plugins",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:58 text()"
+      ]
+    },
+    {
+      "key": "each runs /{0}:<skill> on the goal now, or prepares it in the prompt box while a turn runs",
+      "ko": "각각 목표에 /{0}:<skill>을 지금 실행하거나, 턴이 실행 중이면 프롬프트 입력란에 준비해 둡니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:58 text()"
+      ]
+    },
+    {
+      "key": "Plan options",
+      "ko": "계획 옵션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:67 section()"
+      ]
+    },
+    {
+      "key": "rigor",
+      "ko": "엄밀도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:71 text()"
+      ]
+    },
+    {
+      "key": "type a goal above: the planner finds the cheapest SPARC action sequence that reaches it",
+      "ko": "위에 목표를 입력하세요: 플래너가 목표에 도달하는 가장 저렴한 SPARC 동작 순서를 찾습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:82 text()"
+      ]
+    },
+    {
+      "key": "SPARC plan",
+      "ko": "SPARC 계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:88 rule()"
+      ]
+    },
+    {
+      "key": "wave {0} · {1} in parallel",
+      "ko": "웨이브 {0} · 병렬 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:93 text()"
+      ]
+    },
+    {
+      "key": "Acceptance",
+      "ko": "인수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:104 section()"
+      ]
+    },
+    {
+      "key": "{0} criteria",
+      "ko": "기준 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:104 section()"
+      ]
+    },
+    {
+      "key": "↻ ask again",
+      "ko": "↻ 다시 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:116 button()"
+      ]
+    },
+    {
+      "key": "■ stop",
+      "ko": "■ 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:116 button()"
+      ]
+    },
+    {
+      "key": "waiting for the first words…",
+      "ko": "첫 응답을 기다리는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:117 text()"
+      ]
+    },
+    {
+      "key": "✦ Claude guidance",
+      "ko": "✦ Claude 안내",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:120 section()"
+      ]
+    },
+    {
+      "key": "{0} · after {1} · {2} · next",
+      "ko": "{0} · {1} 이후 · {2} · 다음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:131 children"
+      ]
+    },
+    {
+      "key": "● done  ◐ running  ○ ready  · waiting on a dependency  ✖ failed  ⊘ cancelled · status is the ruflo task store’s",
+      "ko": "● 완료  ◐ 실행 중  ○ 준비됨  · 의존성 대기  ✖ 실패  ⊘ 취소됨 · 상태는 ruflo 작업 저장소 기준입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:142 text()"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} tasks done · no swarm agent of this type (Claude plays the role)",
+      "ko": "{0} 작업 {2}개 중 {1}개 완료 · 이 유형의 스웜 에이전트 없음 (Claude가 역할 수행)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:156 text()"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} tasks done · {3} swarm agent: {4}",
+      "ko": "{0} 작업 {2}개 중 {1}개 완료 · 스웜 에이전트 {3}개: {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:156 text()"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} tasks done · {3} swarm agents: {4}",
+      "ko": "{0} 작업 {2}개 중 {1}개 완료 · 스웜 에이전트 {3}개: {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:156 text()"
+      ]
+    },
+    {
+      "key": "no task is complete yet: what Claude records with task_complete appears here",
+      "ko": "완료된 작업이 아직 없습니다: Claude가 task_complete로 기록한 내용이 여기에 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:166 text()"
+      ]
+    },
+    {
+      "key": "● {0} {1}  · done {2} · ref task:{3}",
+      "ko": "● {0} {1}  · 완료 {2} · 참조 task:{3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:171 text()"
+      ]
+    },
+    {
+      "key": "● {0} {1}  · done {2} · ref task:?",
+      "ko": "● {0} {1}  · 완료 {2} · 참조 task:?",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:171 text()"
+      ]
+    },
+    {
+      "key": "● {0} {1}  · done · ref task:{2}",
+      "ko": "● {0} {1}  · 완료 · 참조 task:{2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:171 text()"
+      ]
+    },
+    {
+      "key": "● {0} {1}  · done · ref task:?",
+      "ko": "● {0} {1}  · 완료 · 참조 task:?",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:171 text()"
+      ]
+    },
+    {
+      "key": "no result text recorded",
+      "ko": "기록된 결과 텍스트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:172 text()"
+      ]
+    },
+    {
+      "key": "Acceptance criteria",
+      "ko": "인수 기준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:175 section()"
+      ]
+    },
+    {
+      "key": "recorded is not verified: only an independent check closes a criterion",
+      "ko": "기록은 검증이 아닙니다: 독립적인 확인만 기준을 충족시킵니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:176 text()"
+      ]
+    },
+    {
+      "key": "Run next task",
+      "ko": "다음 작업 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:196 label"
+      ]
+    },
+    {
+      "key": "Cancel",
+      "ko": "취소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:198 button()"
+      ]
+    },
+    {
+      "key": "a question about the current work: /btw answers beside the task, outside the conversation (Enter)",
+      "ko": "현재 작업에 대한 질문: /btw가 대화 밖에서 작업 옆에 답합니다 (Enter)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:203 box()"
+      ]
+    },
+    {
+      "key": "a visible instruction to the Claude session: it asks first (Enter)",
+      "ko": "Claude 세션에 보이는 지시: 먼저 묻습니다 (Enter)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:204 box()"
+      ]
+    },
+    {
+      "key": "last",
+      "ko": "마지막",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:205 text()"
+      ]
+    },
+    {
+      "key": "edit",
+      "ko": "편집",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:205 button()",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:229 button()",
+        "plugins/ruflo-console/hooks/views/skills.ts:45 label"
+      ]
+    },
+    {
+      "key": "research → create (ADRs, SOP) → build → test → validate → secure → benchmark → learn",
+      "ko": "조사 → 작성(ADR, SOP) → 구현 → 테스트 → 유효성 검사 → 보안 → 벤치마크 → 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:213 const"
+      ]
+    },
+    {
+      "key": "Mission Control",
+      "ko": "미션 컨트롤",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:225 rule()"
+      ]
+    },
+    {
+      "key": "goal → SPARC plan → tasks → Claude",
+      "ko": "목표 → SPARC 계획 → 작업 → Claude",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:225 rule()"
+      ]
+    },
+    {
+      "key": "what should get done? e.g. add a dark mode toggle to settings (Enter plans it)",
+      "ko": "무엇을 할까요? 예: 설정에 다크 모드 토글 추가 (Enter로 계획)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:227 box()"
+      ]
+    },
+    {
+      "key": "planned: {0} — type another goal to re-plan",
+      "ko": "계획됨: {0} — 다른 목표를 입력하면 다시 계획합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:227 box()"
+      ]
+    },
+    {
+      "key": "goal",
+      "ko": "목표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:229 text()"
+      ]
+    },
+    {
+      "key": "▓▒░ MISSION CONTROL ░▒▓",
+      "ko": "▓▒░ 미션 컨트롤 ░▒▓",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:256 expr",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:305 children"
+      ]
+    },
+    {
+      "key": "run next",
+      "ko": "다음 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:285 label",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:338 label",
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:64 label"
+      ]
+    },
+    {
+      "key": "(1) open Missions",
+      "ko": "(1) 미션 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:306 label"
+      ]
+    },
+    {
+      "key": "what do you want done? e.g. add a dark mode toggle to settings",
+      "ko": "무엇을 하고 싶나요? 예: 설정에 다크 모드 토글 추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:309 box()"
+      ]
+    },
+    {
+      "key": "a new goal, planned in place of this one",
+      "ko": "새 목표: 이 목표 대신 계획합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:309 box()"
+      ]
+    },
+    {
+      "key": "{0}  {1} {2}/{3}  · paused",
+      "ko": "{0}  {1} {2}/{3}  · 일시 중지됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-control.ts:333 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

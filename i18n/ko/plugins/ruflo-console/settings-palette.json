@@ -1,0 +1,66 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/settings-palette.ts",
+  "entries": [
+    {
+      "key": "settings",
+      "ko": "설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings-palette.ts:11 group",
+        "plugins/ruflo-console/hooks/settings-palette.ts:26 group",
+        "plugins/ruflo-console/hooks/settings-palette.ts:39 group"
+      ]
+    },
+    {
+      "key": "settings-set <plugin> <option> <value>: set a plugin option (asks first)",
+      "ko": "settings-set <plugin> <option> <value>: 플러그인 옵션 설정 (먼저 확인 요청)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings-palette.ts:12 label"
+      ]
+    },
+    {
+      "key": "open Settings first so {0}’s options are read, then name a plugin, an option and a value it accepts",
+      "ko": "먼저 설정을 열어 {0}의 옵션을 읽은 다음, 플러그인과 옵션, 허용되는 값을 지정하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings-palette.ts:21 expr"
+      ]
+    },
+    {
+      "key": "the plugin",
+      "ko": "해당 플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings-palette.ts:21 plain()"
+      ]
+    },
+    {
+      "key": "settings-core <key> <value>: set a ruflo config key from the curated list (asks first)",
+      "ko": "settings-core <key> <value>: 엄선한 목록의 ruflo 설정 키 지정 (먼저 확인 요청)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings-palette.ts:27 label"
+      ]
+    },
+    {
+      "key": "a ruflo config key from Settings (swarm.topology, swarm.maxAgents, memory.backend, …) and a value it accepts",
+      "ko": "설정 화면의 ruflo 설정 키(swarm.topology, swarm.maxAgents, memory.backend, …)와 허용되는 값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings-palette.ts:36 expr"
+      ]
+    },
+    {
+      "key": "open Settings",
+      "ko": "설정 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings-palette.ts:39 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

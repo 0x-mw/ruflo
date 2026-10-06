@@ -1,6 +1,6 @@
 ---
 name: managed-agent
-description: Run an Anthropic Claude Managed Agent — a cloud agent harness (container + filesystem + tools), the cloud counterpart of the local wasm-agent runtime
+description: Anthropic Claude Managed Agent를 실행합니다 — 컨테이너 + 파일 시스템 + 도구로 이루어진 클라우드 에이전트 하네스(harness)이며, 로컬 wasm-agent 런타임의 클라우드 대응 기능
 argument-hint: "<create|prompt|status|events|list|terminate> [options]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__managed_agent_create mcp__plugin_ruflo-core_ruflo__managed_agent_prompt mcp__plugin_ruflo-core_ruflo__managed_agent_status mcp__plugin_ruflo-core_ruflo__managed_agent_events mcp__plugin_ruflo-core_ruflo__managed_agent_list mcp__plugin_ruflo-core_ruflo__managed_agent_terminate mcp__plugin_ruflo-core_ruflo__wasm_agent_create Bash
 ---

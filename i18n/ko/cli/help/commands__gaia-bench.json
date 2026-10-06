@@ -1,0 +1,240 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/gaia-bench.ts",
+  "entries": [
+    {
+      "key": "Run GAIA benchmark questions against one or more models",
+      "ko": "하나 이상의 모델에 GAIA 벤치마크 문제를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:117 description"
+      ]
+    },
+    {
+      "key": "GAIA difficulty level: 1 (easiest), 2, or 3",
+      "ko": "GAIA 난이도 수준: 1(가장 쉬움), 2, 3",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:123 description"
+      ]
+    },
+    {
+      "key": "Maximum number of questions to run (default: all)",
+      "ko": "실행할 최대 문제 수 (기본값: 전체)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:130 description"
+      ]
+    },
+    {
+      "key": "Comma-separated list of model IDs to test",
+      "ko": "테스트할 모델 ID 목록 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:136 description"
+      ]
+    },
+    {
+      "key": "Output format: text or json",
+      "ko": "출력 형식: text 또는 json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:143 description"
+      ]
+    },
+    {
+      "key": "Number of questions to run in parallel (default: 3)",
+      "ko": "병렬로 실행할 문제 수 (기본값: 3)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:150 description"
+      ]
+    },
+    {
+      "key": "Use the 5-question smoke fixture instead of real HF dataset (no HF token required)",
+      "ko": "실제 HF 데이터셋 대신 5문항 스모크 픽스처를 사용합니다 (HF 토큰 불필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:156 description"
+      ]
+    },
+    {
+      "key": "Maximum agent turns per question (default: 12). Overridden per-question when --hardness-routing is enabled.",
+      "ko": "문제당 최대 에이전트 턴 수 (기본값: 12). `--hardness-routing`을 켜면 문제마다 덮어씁니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:162 description"
+      ]
+    },
+    {
+      "key": "Model for LLM-as-judge scoring (default: claude-sonnet-4-6)",
+      "ko": "LLM 심사(LLM-as-judge) 채점에 쓸 모델 (기본값: claude-sonnet-4-6)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:168 description"
+      ]
+    },
+    {
+      "key": "Number of parallel attempts for majority-vote self-consistency (default: 1 = no voting). N>1 costs Nx per question. Recommended: 3 (+5-10pp L1 lift per ADR-135 Track A). Overridden per-question when --hardness-routing is enabled.",
+      "ko": "majority-vote 자기 일관성을 위한 병렬 시도 횟수 (기본값: 1 = 투표 안 함). N>1이면 문제당 비용이 Nx가 됩니다. 권장값: 3 (ADR-135 Track A 기준 L1 +5-10pp 향상). `--hardness-routing`을 켜면 문제마다 덮어씁니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:174 description"
+      ]
+    },
+    {
+      "key": "ADR-136 Track Q: enable hardness-based compute routing. Trains a linear classifier from historical result JSONs and allocates: easy=Haiku/4t/1-attempt, medium=Sonnet/8t/1-attempt, hard=Sonnet/12t/3-vote. Overrides --max-turns and --voting-attempts per question.",
+      "ko": "ADR-136 Track Q: 난이도 기반 연산 라우팅을 활성화합니다. 과거 결과 JSON으로 선형 분류기를 학습시켜 easy=Haiku/4t/1-attempt, medium=Sonnet/8t/1-attempt, hard=Sonnet/12t/3-vote로 할당합니다. 문제마다 `--max-turns`와 `--voting-attempts`를 덮어씁니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:180 description"
+      ]
+    },
+    {
+      "key": "ADR-136 Track Q: log hardness prediction for each question (requires --hardness-routing).",
+      "ko": "ADR-136 Track Q: 문제마다 난이도 예측을 로그로 남깁니다 (`--hardness-routing` 필요).",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:186 description"
+      ]
+    },
+    {
+      "key": "ADR-135 Track D: enable adversarial critic review after agent answer (+3-5pp L1 lift expected). Skipped when --voting-attempts > 1 (cost containment — voting takes precedence).",
+      "ko": "ADR-135 Track D: 에이전트 답변 뒤에 적대적 비평가 리뷰를 활성화합니다 (L1 +3-5pp 향상 기대). `--voting-attempts` > 1이면 비용 억제를 위해 투표가 우선하므로 건너뜁니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:192 description"
+      ]
+    },
+    {
+      "key": "ADR-135 Track E: decompose complex questions into 1-5 sub-questions before solving (+5-10pp on multi-step Qs, ~30-40% of L1 set). Each sub-question runs through voting/critic/plain independently; sub-answers are synthesized before judging.",
+      "ko": "ADR-135 Track E: 복잡한 문제를 풀기 전에 1-5개의 하위 문제로 분해합니다 (다단계 문제에서 +5-10pp, L1 세트의 약 30-40%). 각 하위 문제는 voting/critic/plain 방식으로 독립 실행되며, 하위 답변은 채점 전에 종합됩니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:198 description"
+      ]
+    },
+    {
+      "key": "ADR-135 Track B: inject a planning checkpoint every N tool_use turns (default: 4, set 0 to disable). Based on smolagents finding — prevents tunnel-vision on bad strategies.",
+      "ko": "ADR-135 Track B: tool_use 턴 N번마다 계획 체크포인트를 주입합니다 (기본값: 4, 0이면 비활성화). smolagents의 발견에 기반하며, 잘못된 전략에 갇히는 것을 막습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:204 description"
+      ]
+    },
+    {
+      "key": "iter 62: enable convergence layer — forces a final commit when max_turns, loop, or token_overflow is detected (default: true). Disabling is for ablation only.",
+      "ko": "iter 62: 수렴 계층을 활성화합니다 — max_turns, 루프, token_overflow가 감지되면 최종 답을 강제로 확정합니다 (기본값: true). 끄는 것은 어블레이션 용도뿐입니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:210 description"
+      ]
+    },
+    {
+      "key": "Run 10 Level-1 questions with Haiku, JSON output",
+      "ko": "Haiku로 Level-1 문제 10개를 실행하고 JSON으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:217 description"
+      ]
+    },
+    {
+      "key": "Compare Haiku vs Sonnet on 10 Level-1 questions",
+      "ko": "Level-1 문제 10개로 Haiku와 Sonnet 비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:221 description"
+      ]
+    },
+    {
+      "key": "Quick smoke test (5 fixture questions, no HF token needed)",
+      "ko": "빠른 스모크 테스트 (픽스처 문제 5개, HF 토큰 불필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:225 description"
+      ]
+    },
+    {
+      "key": "Self-consistency voting: run each question 3x, majority-vote (ADR-135 Track A, +5-10pp expected)",
+      "ko": "자기 일관성 투표: 문제마다 3x 실행해 majority-vote (ADR-135 Track A, +5-10pp 기대)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:229 description"
+      ]
+    },
+    {
+      "key": "ADR-136 Track Q: auto-route questions to Haiku/Sonnet based on predicted difficulty",
+      "ko": "ADR-136 Track Q: 예측된 난이도에 따라 문제를 Haiku/Sonnet으로 자동 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:233 description"
+      ]
+    },
+    {
+      "key": "ADR-135 Track D: adversarial critic reviews each answer before submission (+3-5pp expected)",
+      "ko": "ADR-135 Track D: 제출 전에 적대적 비평가가 각 답변을 리뷰 (+3-5pp 기대)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:237 description"
+      ]
+    },
+    {
+      "key": "ADR-135 Track E: decompose complex questions into sub-questions (+5-10pp on multi-step Qs)",
+      "ko": "ADR-135 Track E: 복잡한 문제를 하위 문제로 분해 (다단계 문제에서 +5-10pp)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:241 description"
+      ]
+    },
+    {
+      "key": "Recommended config: hardness routing + critic + planning checkpoints (~$2/run est.)",
+      "ko": "권장 설정: 난이도 라우팅 + 비평가 + 계획 체크포인트 (실행당 약 $2 예상)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:245 description"
+      ]
+    },
+    {
+      "key": "GAIA benchmark harness -- measure agent pass-rate on real GAIA questions",
+      "ko": "GAIA 벤치마크 하네스(harness) -- 실제 GAIA 문제에서 에이전트 통과율 측정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:674 description"
+      ]
+    },
+    {
+      "key": "Mini Level-1 run with Haiku, JSON output",
+      "ko": "Haiku로 미니 Level-1 실행, JSON 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:679 description"
+      ]
+    },
+    {
+      "key": "Quick smoke test with built-in fixture (no HF token)",
+      "ko": "내장 픽스처로 빠른 스모크 테스트 (HF 토큰 불필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:683 description"
+      ]
+    },
+    {
+      "key": "ADR-136 Track Q: tiered compute routing by predicted question difficulty",
+      "ko": "ADR-136 Track Q: 예측된 문제 난이도에 따른 티어별 연산 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:687 description"
+      ]
+    },
+    {
+      "key": "Recommended config: all tracks active, ~$2/run estimated",
+      "ko": "권장 설정: 모든 Track 활성화, 실행당 약 $2 예상",
+      "kind": "text",
+      "ctx": [
+        "src/commands/gaia-bench.ts:691 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

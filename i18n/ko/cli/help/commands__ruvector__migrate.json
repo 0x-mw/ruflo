@@ -1,0 +1,73 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/migrate.ts",
+  "entries": [
+    {
+      "key": "Run database migrations",
+      "ko": "데이터베이스 마이그레이션을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:182 description"
+      ]
+    },
+    {
+      "key": "Run pending migrations (default)",
+      "ko": "대기 중인 마이그레이션을 실행합니다 (기본값)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:186 description"
+      ]
+    },
+    {
+      "key": "Rollback last migration",
+      "ko": "마지막 마이그레이션을 롤백합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:192 description",
+        "src/commands/ruvector/migrate.ts:260 description"
+      ]
+    },
+    {
+      "key": "Migrate to specific version",
+      "ko": "특정 버전으로 마이그레이션합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:198 description"
+      ]
+    },
+    {
+      "key": "Show SQL without executing",
+      "ko": "실행하지 않고 SQL을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:203 description"
+      ]
+    },
+    {
+      "key": "Force migration even if dirty",
+      "ko": "상태가 불완전해도 강제로 마이그레이션합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:209 description"
+      ]
+    },
+    {
+      "key": "Migrate to version 1.2.0",
+      "ko": "1.2.0 버전으로 마이그레이션합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:261 description"
+      ]
+    },
+    {
+      "key": "Preview migration SQL",
+      "ko": "마이그레이션 SQL을 미리 봅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/migrate.ts:262 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

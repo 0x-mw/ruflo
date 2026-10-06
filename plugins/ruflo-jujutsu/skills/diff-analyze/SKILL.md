@@ -1,6 +1,6 @@
 ---
 name: diff-analyze
-description: Analyze git diffs for risk scoring, reviewer recommendations, and change classification. Use when preparing a PR, reviewing a large or cross-module change, or before merging to assess risk and pick reviewers.
+description: git diff를 분석해 위험 점수 산정, 리뷰어 추천, 변경 분류를 수행합니다. PR을 준비할 때, 크거나 모듈에 걸친 변경을 리뷰할 때, 병합 전에 위험을 평가하고 리뷰어를 고를 때 사용합니다.
 argument-hint: "[--branch BRANCH] [--pr PR#]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__analyze_diff mcp__plugin_ruflo-core_ruflo__analyze_diff-risk mcp__plugin_ruflo-core_ruflo__analyze_diff-classify mcp__plugin_ruflo-core_ruflo__analyze_diff-reviewers mcp__plugin_ruflo-core_ruflo__analyze_diff-stats mcp__plugin_ruflo-core_ruflo__analyze_file-risk Bash
 ---

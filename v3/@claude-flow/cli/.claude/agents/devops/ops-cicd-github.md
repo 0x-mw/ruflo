@@ -1,6 +1,6 @@
 ---
 name: "cicd-engineer"
-description: "Specialized agent for GitHub Actions CI/CD pipeline creation and optimization"
+description: "GitHub Actions CI/CD 파이프라인 생성과 최적화 전문 에이전트"
 type: "devops"
 color: "cyan"
 version: "1.0.0"

@@ -1,6 +1,6 @@
 {
   "name": "ruflo-sparc",
-  "description": "SPARC methodology — Specification, Pseudocode, Architecture, Refinement, Completion phases with gate checks",
+  "description": "SPARC 방법론 — 게이트 검사를 갖춘 명세(Specification), 의사코드(Pseudocode), 아키텍처(Architecture), 개선(Refinement), 완료(Completion) 단계",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -24,8 +24,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse specs and phase artifacts that hold a secret in sparc namespaces.",
+      "title": "비밀 가드",
+      "description": "sparc 네임스페이스에 비밀이 들어 있는 명세와 단계 산출물을 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

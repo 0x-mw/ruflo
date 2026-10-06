@@ -1,6 +1,6 @@
 ---
 name: researcher
-description: Collects source-grounded evidence for one bounded team task.
+description: 범위가 정해진 팀 작업 하나에 대해 출처에 근거한 증거를 수집합니다.
 model: sonnet
 ---
 

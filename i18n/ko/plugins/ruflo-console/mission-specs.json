@@ -1,0 +1,330 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-specs.ts",
+  "entries": [
+    {
+      "key": "create the mission and its {0} tasks: {1}",
+      "ko": "미션과 작업 {0}개 생성: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:46 label"
+      ]
+    },
+    {
+      "key": "mission_create → mission_plan → task_create × {0}, each `ruflo mcp exec -t <tool>` ({1}, {2}; ceiling {3} {4}, a record, not a charge)",
+      "ko": "mission_create → mission_plan → task_create × {0}, 각각 `ruflo mcp exec -t <tool>` ({1}, {2}; 상한 {3} {4}, 기록일 뿐 청구 아님)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:50 shows"
+      ]
+    },
+    {
+      "key": "a planned mission and its tasks in the ruflo task store",
+      "ko": "ruflo 작업 저장소의 계획된 미션과 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:51 expect"
+      ]
+    },
+    {
+      "key": "Writes the mission record and one task per plan node to this project’s ruflo stores. It runs no agent and spends nothing.",
+      "ko": "미션 기록과 계획 노드마다 작업 하나를 이 프로젝트의 ruflo 저장소에 기록합니다. 에이전트를 실행하지 않으며 비용도 들지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:52 note"
+      ]
+    },
+    {
+      "key": "not created",
+      "ko": "생성하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:55 label"
+      ]
+    },
+    {
+      "key": "the goal changed since you asked; ask again",
+      "ko": "요청한 뒤 목표가 바뀌었습니다. 다시 요청하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:55 detail"
+      ]
+    },
+    {
+      "key": "creating the mission failed",
+      "ko": "미션을 생성하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:60 label"
+      ]
+    },
+    {
+      "key": "mission_create failed",
+      "ko": "mission_create 실패",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:77 fail()"
+      ]
+    },
+    {
+      "key": "no answer",
+      "ko": "응답 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:77 String()",
+        "plugins/ruflo-console/hooks/mission-specs.ts:82 String()",
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:214 tidy()"
+      ]
+    },
+    {
+      "key": "mission_plan refused the plan",
+      "ko": "mission_plan 이 계획을 거부했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:82 fail()"
+      ]
+    },
+    {
+      "key": "mission creation failed in the console",
+      "ko": "콘솔에서 미션 생성에 실패했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:102 reason"
+      ]
+    },
+    {
+      "key": "{0} of {1} tasks could not be created",
+      "ko": "작업 {1}개 중 {0}개를 생성하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:104 fail()"
+      ]
+    },
+    {
+      "key": "mission {0} exists without tasks; the tasks that were made were cancelled. Ask again.",
+      "ko": "미션 {0} 이(가) 작업 없이 존재합니다. 만들어진 작업은 취소했습니다. 다시 요청하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:104 fail()"
+      ]
+    },
+    {
+      "key": "mission {0} planned",
+      "ko": "미션 {0} 계획됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:128 label"
+      ]
+    },
+    {
+      "key": "{0} tasks in the ruflo task store; ▶ Run next hands the first to Claude",
+      "ko": "ruflo 작업 저장소에 작업 {0}개; ▶ 다음 실행 이 첫 작업을 Claude에게 인계합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:128 detail"
+      ]
+    },
+    {
+      "key": "hand task {0} to Claude: {1}",
+      "ko": "작업 {0}을 Claude에게 인계: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:146 label"
+      ]
+    },
+    {
+      "key": "task_update {0} in_progress, then this prompt to the Claude Code session: “{1}…”",
+      "ko": "task_update {0} in_progress, 이어서 Claude Code 세션에 이 프롬프트 전송: “{1}…”",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:149 shows"
+      ]
+    },
+    {
+      "key": "task_update  in_progress, then this prompt to the Claude Code session: “{0}…”",
+      "ko": "task_update  in_progress, 이어서 Claude Code 세션에 이 프롬프트 전송: “{0}…”",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:149 shows"
+      ]
+    },
+    {
+      "key": "a visible prompt in the transcript; the task in progress",
+      "ko": "대화 기록에 보이는 프롬프트; 작업이 진행 중이 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:150 expect"
+      ]
+    },
+    {
+      "key": "Starts a Claude Code turn on your plan (billed as any turn is); the prompt is visible and Claude records the result with task_complete.",
+      "ko": "계획에 따라 Claude Code 턴을 시작합니다 (다른 턴과 같이 과금됨). 프롬프트는 화면에 보이며 Claude가 task_complete 로 결과를 기록합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:151 note"
+      ]
+    },
+    {
+      "key": "task {0} not handed over",
+      "ko": "작업 {0}을 인계하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:155 label"
+      ]
+    },
+    {
+      "key": "the mission changed since you asked (paused, cancelled, or that task already went)",
+      "ko": "요청한 뒤 미션이 바뀌었습니다 (일시 중지, 취소, 또는 해당 작업이 이미 인계됨)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:155 detail"
+      ]
+    },
+    {
+      "key": "task {0} was not sent",
+      "ko": "작업 {0}을 전송하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:175 label"
+      ]
+    },
+    {
+      "key": "task {0} handed to Claude",
+      "ko": "작업 {0}을 Claude에게 인계했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:181 label"
+      ]
+    },
+    {
+      "key": "it is in the transcript now; the pane follows the task store",
+      "ko": "이제 대화 기록에 있습니다. 패널이 작업 저장소를 따라갑니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:181 detail"
+      ]
+    },
+    {
+      "key": "paused: no more tasks are handed out",
+      "ko": "일시 중지됨: 더 이상 작업을 인계하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:195 label"
+      ]
+    },
+    {
+      "key": "resumed",
+      "ko": "재개했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:195 label"
+      ]
+    },
+    {
+      "key": "a task already handed to Claude finishes first",
+      "ko": "이미 Claude에게 인계한 작업이 먼저 끝납니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:195 detail"
+      ]
+    },
+    {
+      "key": "Run next hands out the next ready task",
+      "ko": "다음 실행 이 다음 준비된 작업을 인계합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:195 detail"
+      ]
+    },
+    {
+      "key": "cancel mission {0} ({1} open tasks)",
+      "ko": "미션 {0} 취소 (미완료 작업 {1}개)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:205 label"
+      ]
+    },
+    {
+      "key": "task_cancel × {0}, then mission_request_action cancel (the record may refuse from its state)",
+      "ko": "task_cancel × {0}, 이어서 mission_request_action cancel (기록 상태에 따라 거부될 수 있음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:208 shows"
+      ]
+    },
+    {
+      "key": "every open task cancelled",
+      "ko": "미완료 작업을 모두 취소했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:209 expect"
+      ]
+    },
+    {
+      "key": "Cancels this mission’s open tasks in the ruflo task store. A task already finished stays finished.",
+      "ko": "ruflo 작업 저장소에서 이 미션의 미완료 작업을 취소합니다. 이미 끝난 작업은 그대로 완료로 남습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:210 note"
+      ]
+    },
+    {
+      "key": "mission cancelled from the console",
+      "ko": "콘솔에서 미션을 취소했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:212 reason"
+      ]
+    },
+    {
+      "key": "cancelled from the console",
+      "ko": "콘솔에서 취소했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:214 reason"
+      ]
+    },
+    {
+      "key": "record cancelled",
+      "ko": "기록 취소됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:217 note"
+      ]
+    },
+    {
+      "key": "record: {0}",
+      "ko": "기록: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:217 note"
+      ]
+    },
+    {
+      "key": "mission {0} cancelled",
+      "ko": "미션 {0} 취소됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:218 label"
+      ]
+    },
+    {
+      "key": "{0} tasks cancelled",
+      "ko": "작업 {0}개 취소됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:218 detail"
+      ]
+    },
+    {
+      "key": "{0} tasks cancelled; the record said: {1}",
+      "ko": "작업 {0}개 취소됨; 기록 응답: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-specs.ts:218 detail"
+      ]
+    }
+  ],
+  "obsolete": []
+}

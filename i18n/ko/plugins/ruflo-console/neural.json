@@ -1,0 +1,339 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/neural.ts",
+  "entries": [
+    {
+      "key": "local compute that reads the repository and writes the intelligence store (patterns, no model calls)",
+      "ko": "저장소를 읽어 인텔리전스 저장소(패턴)에 쓰는 로컬 연산이며 모델 호출은 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:16 const"
+      ]
+    },
+    {
+      "key": "local compute, seconds to minutes; writes .claude-flow/neural (patterns.json and a checkpoint); no model calls",
+      "ko": "로컬 연산이며 수 초에서 수 분이 걸립니다. .claude-flow/neural(patterns.json과 체크포인트)에 쓰며 모델 호출은 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:17 const"
+      ]
+    },
+    {
+      "key": "train {0} patterns for {1} epochs",
+      "ko": "{0} 패턴을 {1} 에폭 학습",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:33 autoSpec()"
+      ]
+    },
+    {
+      "key": "{0} · {1}% · {2} · pattern {3}",
+      "ko": "{0} · {1}% · {2} · 패턴 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:57 const"
+      ]
+    },
+    {
+      "key": "{0} · {1} · pattern {2}",
+      "ko": "{0} · {1} · 패턴 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:57 const"
+      ]
+    },
+    {
+      "key": "which agent for \"{0}\"",
+      "ko": "\"{0}\"에 맞는 에이전트",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:73 autoSpec()"
+      ]
+    },
+    {
+      "key": "search patterns for \"{0}\"",
+      "ko": "\"{0}\" 패턴 검색",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:79 autoSpec()"
+      ]
+    },
+    {
+      "key": "store the pattern \"{0}\"",
+      "ko": "패턴 \"{0}\" 저장",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:85 autoSpec()"
+      ]
+    },
+    {
+      "key": "local; adds one pattern to the ReasoningBank (HNSW-indexed) the router and recall read",
+      "ko": "로컬 실행이며 라우터와 리콜이 읽는 ReasoningBank(HNSW 인덱스)에 패턴 하나를 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:85 note"
+      ]
+    },
+    {
+      "key": "explain the routing of \"{0}\"",
+      "ko": "\"{0}\"의 라우팅 설명",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:91 autoSpec()"
+      ]
+    },
+    {
+      "key": "predict for \"{0}\"",
+      "ko": "\"{0}\" 예측",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:97 autoSpec()"
+      ]
+    },
+    {
+      "key": "neural status: every learning component and whether it is loaded",
+      "ko": "뉴럴 상태: 모든 학습 구성 요소와 로드 여부",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:103 const"
+      ]
+    },
+    {
+      "key": "neural status",
+      "ko": "뉴럴 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:103 autoSpec()",
+        "plugins/ruflo-console/hooks/optimizer.ts:72 fix()"
+      ]
+    },
+    {
+      "key": "neural patterns: the stored patterns, their confidence and use",
+      "ko": "뉴럴 패턴: 저장된 패턴과 그 신뢰도·사용 횟수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:104 const"
+      ]
+    },
+    {
+      "key": "neural patterns",
+      "ko": "뉴럴 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:104 autoSpec()"
+      ]
+    },
+    {
+      "key": "neural optimize --method analyze: pattern memory by component",
+      "ko": "neural optimize --method analyze: 구성 요소별 패턴 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:105 const"
+      ]
+    },
+    {
+      "key": "pattern memory analysis",
+      "ko": "패턴 메모리 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:105 autoSpec()"
+      ]
+    },
+    {
+      "key": "hooks intelligence stats: SONA, MoE, EWC++, LoRA and the router",
+      "ko": "hooks intelligence stats: SONA, MoE, EWC++, LoRA, 라우터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:106 const"
+      ]
+    },
+    {
+      "key": "intelligence stats",
+      "ko": "인텔리전스 통계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:106 autoSpec()",
+        "plugins/ruflo-console/hooks/views/neural.ts:22 label"
+      ]
+    },
+    {
+      "key": "hooks pretrain (shallow): bootstrap intelligence from this repository, quickly",
+      "ko": "hooks pretrain (shallow): 이 저장소로 인텔리전스를 빠르게 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:107 const"
+      ]
+    },
+    {
+      "key": "pretrain from the repository (shallow)",
+      "ko": "저장소 사전 학습 (얕게)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:107 autoSpec()"
+      ]
+    },
+    {
+      "key": "hooks pretrain (medium): the default depth",
+      "ko": "hooks pretrain (medium): 기본 깊이",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:108 const"
+      ]
+    },
+    {
+      "key": "pretrain from the repository (medium)",
+      "ko": "저장소 사전 학습 (보통)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:108 autoSpec()"
+      ]
+    },
+    {
+      "key": "hooks pretrain (deep): the whole repository, slower",
+      "ko": "hooks pretrain (deep): 저장소 전체, 더 느립니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:109 const"
+      ]
+    },
+    {
+      "key": "pretrain from the repository (deep)",
+      "ko": "저장소 사전 학습 (깊게)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:109 autoSpec()"
+      ]
+    },
+    {
+      "key": "agentdb consolidate: ask AgentDB to consolidate retained memories",
+      "ko": "agentdb consolidate: AgentDB에 보존된 메모리를 통합하도록 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:110 const"
+      ]
+    },
+    {
+      "key": "consolidate retained memories",
+      "ko": "보존 메모리 통합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:110 autoSpec()",
+        "plugins/ruflo-console/hooks/views/neural.ts:80 label"
+      ]
+    },
+    {
+      "key": "local; rewrites AgentDB’s retained memories (it refuses when the bridge is unavailable)",
+      "ko": "로컬 실행이며 AgentDB의 보존된 메모리를 다시 씁니다(브리지를 쓸 수 없으면 거부합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:110 note"
+      ]
+    },
+    {
+      "key": "neural optimize --method quantize: patterns to Int8",
+      "ko": "neural optimize --method quantize: 패턴을 Int8로 변환",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:111 const"
+      ]
+    },
+    {
+      "key": "quantize the stored patterns to Int8",
+      "ko": "저장된 패턴을 Int8로 양자화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:111 autoSpec()"
+      ]
+    },
+    {
+      "key": "local compute; rewrites the stored pattern embeddings as Int8 (about 4x smaller, slightly less exact)",
+      "ko": "로컬 연산이며 저장된 패턴 임베딩을 Int8로 다시 씁니다(약 4배 작아지고 정확도는 조금 떨어집니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:111 note"
+      ]
+    },
+    {
+      "key": "neural_compress quantize: compress the neural store",
+      "ko": "neural_compress quantize: 뉴럴 저장소 압축",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:112 const"
+      ]
+    },
+    {
+      "key": "compress the neural store (quantize)",
+      "ko": "뉴럴 저장소 압축 (양자화)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:112 autoSpec()"
+      ]
+    },
+    {
+      "key": "local compute; rewrites the neural store in .claude-flow/neural (needs memory init first)",
+      "ko": "로컬 연산이며 .claude-flow/neural의 뉴럴 저장소를 다시 씁니다(먼저 memory init이 필요합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:112 note"
+      ]
+    },
+    {
+      "key": "train {0} patterns, {1} epochs",
+      "ko": "{0} 패턴, {1} 에폭 학습",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:117 label"
+      ]
+    },
+    {
+      "key": "nn-train <pattern> [epochs]: train neural patterns",
+      "ko": "nn-train <pattern> [epochs]: 뉴럴 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:120 label"
+      ]
+    },
+    {
+      "key": "nn-pattern-search <query>: search the stored patterns by meaning",
+      "ko": "nn-pattern-search <query>: 저장된 패턴을 의미로 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:121 label"
+      ]
+    },
+    {
+      "key": "nn-pattern-store <text>: store a pattern in the ReasoningBank",
+      "ko": "nn-pattern-store <text>: ReasoningBank에 패턴 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:122 label"
+      ]
+    },
+    {
+      "key": "nn-route <task>: which agent for this task?",
+      "ko": "nn-route <task>: 이 작업에 맞는 에이전트는?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:123 label"
+      ]
+    },
+    {
+      "key": "nn-explain <task>: why the router picks that agent",
+      "ko": "nn-explain <task>: 라우터가 그 에이전트를 고르는 이유",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:124 label"
+      ]
+    },
+    {
+      "key": "nn-predict <text>: the trained models’ top predictions",
+      "ko": "nn-predict <text>: 학습된 모델의 상위 예측",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/neural.ts:125 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

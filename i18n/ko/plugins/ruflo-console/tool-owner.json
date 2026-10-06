@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/tool-owner.ts",
+  "entries": [
+    {
+      "key": "↳ mission task: {0} ({1})",
+      "ko": "↳ 미션 작업: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/tool-owner.ts:48 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: plugin-developer
-description: Plugin development specialist for scaffolding, validating, and publishing Claude Code plugins
+description: Claude Code 플러그인을 스캐폴딩, 검증, 게시하는 플러그인 개발 전문 에이전트
 model: sonnet
 ---
 

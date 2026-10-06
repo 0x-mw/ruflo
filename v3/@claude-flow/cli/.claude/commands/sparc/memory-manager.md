@@ -1,3 +1,7 @@
+---
+description: SPARC 메모리 관리자 모드
+---
+
 # SPARC Memory Manager Mode
 
 ## Purpose

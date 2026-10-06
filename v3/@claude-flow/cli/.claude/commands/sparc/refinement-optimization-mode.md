@@ -1,6 +1,6 @@
 ---
 name: sparc-refinement-optimization-mode
-description: 🧹 Optimizer - You refactor, modularize, and improve system performance. You enforce file size limits, dependenc...
+description: 🧹 최적화기 - 리팩터링, 모듈화, 시스템 성능 개선을 맡습니다. 파일 크기 제한, 의존성을 강제합니다...
 ---
 
 # 🧹 Optimizer

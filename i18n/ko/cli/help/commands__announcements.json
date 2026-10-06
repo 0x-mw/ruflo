@@ -1,0 +1,92 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/announcements.ts",
+  "entries": [
+    {
+      "key": "Add ruflo's curated announcements to Claude Code's startup rotation",
+      "ko": "ruflo가 엄선한 공지를 Claude Code의 시작 공지 순환에 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:126 description"
+      ]
+    },
+    {
+      "key": "Remove ruflo announcements (user-authored ones preserved)",
+      "ko": "ruflo 공지를 제거합니다 (사용자가 작성한 공지는 유지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:175 description"
+      ]
+    },
+    {
+      "key": "Show ruflo's announcement pool and what's currently installed",
+      "ko": "ruflo의 공지 풀과 현재 설치된 공지를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:200 description"
+      ]
+    },
+    {
+      "key": "Output as JSON",
+      "ko": "JSON으로 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:202 description",
+        "src/commands/appliance.ts:152 description",
+        "src/commands/autopilot.ts:142 description"
+      ]
+    },
+    {
+      "key": "Restore the most recent settings.json backup (destructive)",
+      "ko": "가장 최근의 settings.json 백업을 복원합니다 (되돌릴 수 없음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:237 description",
+        "src/commands/spinner.ts:296 description"
+      ]
+    },
+    {
+      "key": "Manage ruflo entries in Claude Code's companyAnnouncements startup rotation (ADR-319)",
+      "ko": "Claude Code의 companyAnnouncements 시작 순환에서 ruflo 항목을 관리합니다 (ADR-319)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:265 description"
+      ]
+    },
+    {
+      "key": "Show ruflo pool + what's currently installed",
+      "ko": "ruflo 풀과 현재 설치된 항목 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:268 description"
+      ]
+    },
+    {
+      "key": "Append ruflo announcements to settings.json",
+      "ko": "settings.json에 ruflo 공지 추가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:269 description"
+      ]
+    },
+    {
+      "key": "Remove ruflo announcements, keep user-authored",
+      "ko": "ruflo 공지 제거, 사용자 작성 공지는 유지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:270 description"
+      ]
+    },
+    {
+      "key": "Restore the most recent settings.json backup",
+      "ko": "가장 최근의 settings.json 백업 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/announcements.ts:271 description",
+        "src/commands/spinner.ts:331 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

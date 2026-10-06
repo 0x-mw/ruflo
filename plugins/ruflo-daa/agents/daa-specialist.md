@@ -1,6 +1,6 @@
 ---
 name: daa-specialist
-description: Dynamic Agentic Architecture specialist for adaptive agents, cognitive patterns, and knowledge sharing
+description: 적응형 에이전트, 인지 패턴, 지식 공유를 위한 동적 에이전트 아키텍처 전문 에이전트
 model: sonnet
 ---
 

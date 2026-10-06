@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 생성
+---
+
 # hive-mind-spawn
 
 Spawn a Hive Mind swarm with queen-led coordination.

@@ -1,6 +1,6 @@
 ---
 name: list
-description: List all active agents
+description: 활성 에이전트를 모두 표시합니다
 aliases: [ls]
 type: command
 ---

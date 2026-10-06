@@ -1,6 +1,6 @@
 ---
 name: iot-register
-description: Register a Cognitum Seed device by endpoint and establish agent bridge
+description: 엔드포인트로 Cognitum Seed 기기를 등록하고 에이전트 브리지를 구성
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_store Read
 argument-hint: "[endpoint] [--token PAIRING_TOKEN]"
 ---

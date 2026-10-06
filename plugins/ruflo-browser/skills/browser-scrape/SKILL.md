@@ -1,6 +1,6 @@
 ---
 name: browser-scrape
-description: DEPRECATED in v0.2.0 -- use browser-extract instead; this is a thin shim for backward compatibility, removed in v0.3.0
+description: v0.2.0에서 지원 중단 -- 대신 browser-extract를 사용하세요. 하위 호환을 위한 얇은 심이며 v0.3.0에서 제거됩니다
 argument-hint: "<url>"
 allowed-tools: Bash Read
 ---

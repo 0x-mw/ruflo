@@ -1,3 +1,7 @@
+---
+description: 스웜 초기화
+---
+
 # swarm-init
 
 Initialize a new swarm with specified topology.

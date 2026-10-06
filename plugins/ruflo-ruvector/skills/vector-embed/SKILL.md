@@ -1,6 +1,6 @@
 ---
 name: vector-embed
-description: Generate embeddings via npx ruvector@0.2.25 embed text (ONNX all-MiniLM-L6-v2, 384-dim), normalize, and store in HNSW index
+description: npx ruvector@0.2.25 embed text(ONNX all-MiniLM-L6-v2, 384차원)로 임베딩을 생성하고, 정규화하고, HNSW 인덱스에 저장
 argument-hint: "<text-or-file>"
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search
 ---

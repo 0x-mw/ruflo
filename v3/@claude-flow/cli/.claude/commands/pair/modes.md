@@ -1,3 +1,7 @@
+---
+description: 페어 프로그래밍 모드
+---
+
 # Pair Programming Modes
 
 Detailed guide to pair programming modes and their optimal use cases.

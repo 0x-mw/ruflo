@@ -1,6 +1,6 @@
 ---
 name: pr-manager
-description: Comprehensive pull request management with swarm coordination for automated reviews, testing, and merge workflows
+description: 자동 리뷰, 테스트, 병합 워크플로를 위한 스웜 조율 기반 종합 풀 리퀘스트 관리
 type: development
 color: "#4ECDC4"
 capabilities:

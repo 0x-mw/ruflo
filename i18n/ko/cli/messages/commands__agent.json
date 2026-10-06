@@ -1,0 +1,711 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/agent.ts",
+  "entries": [
+    {
+      "key": "Select agent type:",
+      "ko": "에이전트 유형 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:130 select.message"
+      ]
+    },
+    {
+      "key": "Agent type is required. Use --type or -t flag.",
+      "ko": "에이전트 유형이 필요합니다. --type 또는 -t 플래그를 사용하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:136 printError"
+      ]
+    },
+    {
+      "key": "Spawning {0} agent: {1}",
+      "ko": "{0} 에이전트를 생성하는 중: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:145 printInfo"
+      ]
+    },
+    {
+      "key": "Agent {0} spawned successfully",
+      "ko": "에이전트를 생성했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:188 printSuccess"
+      ]
+    },
+    {
+      "key": "Failed to spawn agent: {0}",
+      "ko": "에이전트를 생성하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:200 printError"
+      ]
+    },
+    {
+      "key": "Unexpected error: {0}",
+      "ko": "예기치 않은 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:202 printError",
+        "src/commands/agent.ts:297 printError",
+        "src/commands/agent.ts:393 printError"
+      ]
+    },
+    {
+      "key": "Active Agents",
+      "ko": "활성 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:259 bold"
+      ]
+    },
+    {
+      "key": "No agents found matching criteria",
+      "ko": "조건에 맞는 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:263 printInfo"
+      ]
+    },
+    {
+      "key": "Type",
+      "ko": "유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:281 printTable.header",
+        "src/commands/agent.ts:359 printBox.content",
+        "src/commands/agent.ts:674 printTable.header"
+      ]
+    },
+    {
+      "key": "Status",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:282 printTable.header",
+        "src/commands/agent.ts:791 printTable.header",
+        "src/commands/session.ts:152 printTable.header"
+      ]
+    },
+    {
+      "key": "Created",
+      "ko": "생성 시각",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:283 printTable.header"
+      ]
+    },
+    {
+      "key": "Last Activity",
+      "ko": "마지막 활동",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:284 printTable.header"
+      ]
+    },
+    {
+      "key": "Total: {0} agents",
+      "ko": "총 에이전트 {0}개",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:290 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to list agents: {0}",
+      "ko": "에이전트 목록을 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:295 printError"
+      ]
+    },
+    {
+      "key": "Enter agent ID:",
+      "ko": "에이전트 ID 입력:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:320 input.message"
+      ]
+    },
+    {
+      "key": "Agent ID is required",
+      "ko": "에이전트 ID가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:326 printError",
+        "src/commands/agent.ts:424 printError"
+      ]
+    },
+    {
+      "key": "Status: {0}",
+      "ko": "상태: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:359 printBox.content",
+        "src/commands/task.ts:741 printInfo"
+      ]
+    },
+    {
+      "key": "Created: {0}",
+      "ko": "생성 시각: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:359 printBox.content"
+      ]
+    },
+    {
+      "key": "Last Activity: {0}",
+      "ko": "마지막 활동: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:359 printBox.content"
+      ]
+    },
+    {
+      "key": "Agent",
+      "ko": "에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:365 printBox.title",
+        "src/commands/agent.ts:699 printTable.header",
+        "src/commands/status.ts:616 printTable.header"
+      ]
+    },
+    {
+      "key": "Metrics",
+      "ko": "지표",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:370 bold",
+        "src/commands/task.ts:470 bold"
+      ]
+    },
+    {
+      "key": "Metric",
+      "ko": "지표",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:375 printTable.header",
+        "src/commands/agent.ts:658 printTable.header",
+        "src/commands/memory-distill.ts:214 printTable.header"
+      ]
+    },
+    {
+      "key": "Failed to get agent status: {0}",
+      "ko": "에이전트 상태를 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:391 printError",
+        "src/commands/status.ts:569 printError"
+      ]
+    },
+    {
+      "key": "Are you sure you want to stop agent {0}?",
+      "ko": "에이전트 {0}을(를) 중지하시겠습니까?",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:432 confirm.message"
+      ]
+    },
+    {
+      "key": "Operation cancelled",
+      "ko": "작업을 취소했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:437 printInfo",
+        "src/commands/memory.ts:977 printInfo",
+        "src/commands/memory.ts:1083 printInfo"
+      ]
+    },
+    {
+      "key": "Stopping agent {0}...",
+      "ko": "에이전트를 중지하는 중: {0}...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:442 printInfo"
+      ]
+    },
+    {
+      "key": "Completing current task...",
+      "ko": "현재 작업을 마무리하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:457 dim"
+      ]
+    },
+    {
+      "key": "Saving state...",
+      "ko": "상태를 저장하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:458 dim"
+      ]
+    },
+    {
+      "key": "Releasing resources...",
+      "ko": "리소스를 해제하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:459 dim"
+      ]
+    },
+    {
+      "key": "Agent {0} stopped successfully",
+      "ko": "에이전트를 중지했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:462 printSuccess"
+      ]
+    },
+    {
+      "key": "Failed to stop agent: {0}",
+      "ko": "에이전트를 중지하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:474 printError"
+      ]
+    },
+    {
+      "key": "Agent Metrics ({0})",
+      "ko": "에이전트 지표 ({0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:653 bold"
+      ]
+    },
+    {
+      "key": "By Agent Type",
+      "ko": "에이전트 유형별",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:671 bold"
+      ]
+    },
+    {
+      "key": "Count",
+      "ko": "개수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:675 printTable.header",
+        "src/commands/memory.ts:1471 printTable.header",
+        "src/commands/status.ts:270 printTable.header"
+      ]
+    },
+    {
+      "key": "Tasks",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:676 printTable.header",
+        "src/commands/agent.ts:905 printTable.header",
+        "src/commands/session.ts:154 printTable.header"
+      ]
+    },
+    {
+      "key": "Success",
+      "ko": "성공",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:677 printTable.header",
+        "src/commands/status.ts:554 printTable.header"
+      ]
+    },
+    {
+      "key": "Memory",
+      "ko": "메모리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:688 bold",
+        "src/commands/agent.ts:900 printTable.header",
+        "src/commands/status.ts:298 bold"
+      ]
+    },
+    {
+      "key": "Vectors: {0}",
+      "ko": "벡터: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:690 printList",
+        "src/commands/memory.ts:1743 printList",
+        "src/commands/memory.ts:1821 printList"
+      ]
+    },
+    {
+      "key": "Backend: {0}",
+      "ko": "백엔드: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:691 printList",
+        "src/commands/memory.ts:772 dim"
+      ]
+    },
+    {
+      "key": "Pheromone Scheduling (dry run)",
+      "ko": "페로몬 스케줄링 (예행 실행)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:696 bold"
+      ]
+    },
+    {
+      "key": "Pheromone Scheduling (live)",
+      "ko": "페로몬 스케줄링 (실제 실행)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:696 bold"
+      ]
+    },
+    {
+      "key": "Role",
+      "ko": "역할",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:700 printTable.header",
+        "src/commands/swarm.ts:656 printTable.header",
+        "src/commands/swarm.ts:1021 printTable.header"
+      ]
+    },
+    {
+      "key": "EMA Score",
+      "ko": "EMA 점수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:701 printTable.header"
+      ]
+    },
+    {
+      "key": "Samples",
+      "ko": "표본 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:702 printTable.header"
+      ]
+    },
+    {
+      "key": "Eligibility",
+      "ko": "자격",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:703 printTable.header"
+      ]
+    },
+    {
+      "key": "Pool ID: {0}",
+      "ko": "풀 ID: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:773 printBox.content"
+      ]
+    },
+    {
+      "key": "Current Size: {0}",
+      "ko": "현재 크기: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:773 printBox.content"
+      ]
+    },
+    {
+      "key": "Auto-Scale: Yes",
+      "ko": "자동 확장: 예",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:773 printBox.content"
+      ]
+    },
+    {
+      "key": "Utilization: {0}%",
+      "ko": "사용률: {0}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:773 printBox.content"
+      ]
+    },
+    {
+      "key": "Agent Pool",
+      "ko": "에이전트 풀",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:780 printBox.title"
+      ]
+    },
+    {
+      "key": "Pool Agents",
+      "ko": "풀 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:786 bold"
+      ]
+    },
+    {
+      "key": "Pool error: {0}",
+      "ko": "풀 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:800 printError"
+      ]
+    },
+    {
+      "key": "Agent Health",
+      "ko": "에이전트 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:874 bold"
+      ]
+    },
+    {
+      "key": "Healthy: {0}  |  Degraded: {1}  |  Unhealthy: {2}  |  Avg CPU: {3}%  |  Avg Memory: {4}%",
+      "ko": "정상: {0}  |  저하: {1}  |  비정상: {2}  |  평균 CPU: {3}%  |  평균 메모리: {4}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:882 printBox.content"
+      ]
+    },
+    {
+      "key": "Overall Status",
+      "ko": "전체 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:889 printBox.title"
+      ]
+    },
+    {
+      "key": "Health",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:898 printTable.header"
+      ]
+    },
+    {
+      "key": "CPU %",
+      "ko": "CPU %",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:899 printTable.header"
+      ]
+    },
+    {
+      "key": "Detailed Metrics",
+      "ko": "상세 지표",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:916 bold"
+      ]
+    },
+    {
+      "key": "Uptime: {0} min",
+      "ko": "가동 시간: {0}분",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:925 printList"
+      ]
+    },
+    {
+      "key": "Latency: avg {0}ms, p99 {1}ms",
+      "ko": "지연 시간: 평균 {0}ms, p99 {1}ms",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:926 printList"
+      ]
+    },
+    {
+      "key": "Tasks: {0} completed, {1} failed, {2} queued",
+      "ko": "작업: 완료 {0}, 실패 {1}, 대기 {2}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:927 printList"
+      ]
+    },
+    {
+      "key": "Errors: {0} ({1})",
+      "ko": "오류: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:928 printList"
+      ]
+    },
+    {
+      "key": "Errors: {0}",
+      "ko": "오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:928 printList"
+      ]
+    },
+    {
+      "key": "Health check error: {0}",
+      "ko": "상태 점검 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:936 printError"
+      ]
+    },
+    {
+      "key": "Agent ID is required. Use --id or -i",
+      "ko": "에이전트 ID가 필요합니다. --id 또는 -i 를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:995 printError"
+      ]
+    },
+    {
+      "key": "Logs for {0}",
+      "ko": "로그: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1022 bold"
+      ]
+    },
+    {
+      "key": "Showing {0} of {1} entries",
+      "ko": "{1}개 중 {0}개 항목 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1023 dim",
+        "src/commands/memory.ts:887 printInfo"
+      ]
+    },
+    {
+      "key": "Logs error: {0}",
+      "ko": "로그 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1038 printError"
+      ]
+    },
+    {
+      "key": "Agent Management Commands",
+      "ko": "에이전트 관리 명령",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:1090 bold"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow agent <subcommand> [options]",
+      "ko": "사용법: claude-flow agent <subcommand> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:1092 writeln"
+      ]
+    },
+    {
+      "key": "Subcommands:",
+      "ko": "하위 명령:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:1094 writeln",
+        "src/commands/hooks.ts:5717 writeln",
+        "src/commands/mcp.ts:869 writeln"
+      ]
+    },
+    {
+      "key": "{0}         - Spawn a new agent",
+      "ko": "{0}         - 새 에이전트 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1096 printList"
+      ]
+    },
+    {
+      "key": "{0}          - List all active agents",
+      "ko": "{0}          - 활성 에이전트 전체 목록 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1097 printList"
+      ]
+    },
+    {
+      "key": "{0}        - Show detailed agent status",
+      "ko": "{0}        - 에이전트 상세 상태 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1098 printList"
+      ]
+    },
+    {
+      "key": "{0}          - Stop a running agent",
+      "ko": "{0}          - 실행 중인 에이전트 중지",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1099 printList"
+      ]
+    },
+    {
+      "key": "{0}       - Show agent metrics",
+      "ko": "{0}       - 에이전트 지표 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1100 printList"
+      ]
+    },
+    {
+      "key": "{0}          - Manage agent pool",
+      "ko": "{0}          - 에이전트 풀 관리",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1101 printList"
+      ]
+    },
+    {
+      "key": "{0}        - Show agent health",
+      "ko": "{0}        - 에이전트 상태 점검 결과 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1102 printList"
+      ]
+    },
+    {
+      "key": "{0}          - Show agent logs",
+      "ko": "{0}          - 에이전트 로그 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1103 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Check WASM runtime availability",
+      "ko": "{0}   - WASM 런타임 사용 가능 여부 점검",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1104 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Create a WASM-sandboxed agent",
+      "ko": "{0}   - WASM 샌드박스 에이전트 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1105 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Send a prompt to a WASM agent",
+      "ko": "{0}   - WASM 에이전트에 프롬프트 전송",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1106 printList"
+      ]
+    },
+    {
+      "key": "{0}  - List WASM agent gallery templates",
+      "ko": "{0}  - WASM 에이전트 갤러리 템플릿 목록 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent.ts:1107 printList"
+      ]
+    },
+    {
+      "key": "Run \"claude-flow agent <subcommand> --help\" for subcommand help",
+      "ko": "하위 명령 도움말은 \"claude-flow agent <subcommand> --help\" 를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:1110 writeln"
+      ]
+    }
+  ],
+  "obsolete": []
+}

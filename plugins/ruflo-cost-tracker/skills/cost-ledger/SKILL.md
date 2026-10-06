@@ -1,6 +1,6 @@
 ---
 name: cost-ledger
-description: One cost view across Claude Code and Codex on this machine — spend, tokens, cache hit ratio per provider and model, with unpriced models flagged. Use when asked "what did I spend", "how much did Codex cost", or to compare providers. Local logs only, nothing is sent.
+description: 이 머신의 Claude Code와 Codex를 아우르는 하나의 비용 보기 — 프로바이더와 모델별 지출, 토큰, 캐시 적중률이며, 가격이 없는 모델은 표시. "얼마 썼어"("what did I spend"), "Codex 비용이 얼마야"("how much did Codex cost")라고 묻거나 프로바이더를 비교할 때 사용합니다. 로컬 로그만 쓰며 아무것도 전송하지 않습니다.
 argument-hint: "[--since 7d|24h|all] [--from <ISO> --to <ISO>] [--project <path>] [--provider claude|codex|all] [--format json|markdown]"
 allowed-tools: Bash
 ---

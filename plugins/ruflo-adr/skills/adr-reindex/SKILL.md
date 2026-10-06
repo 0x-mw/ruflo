@@ -1,6 +1,6 @@
 ---
 name: adr-reindex
-description: Reconcile the ADR index against a DELETED ADR file or relation line by dropping and rebuilding adr-patterns + adr-edges from scratch (scripts/reindex.mjs). Use when adr-index alone leaves stale rows behind.
+description: adr-patterns + adr-edges를 처음부터 삭제하고 다시 만들어(scripts/reindex.mjs) 삭제된 ADR 파일이나 관계 줄을 ADR 인덱스와 조정합니다. adr-index만으로는 오래된 행이 남을 때 사용합니다.
 argument-hint: ""
 allowed-tools: Bash mcp__plugin_ruflo-core_ruflo__memory_list
 ---

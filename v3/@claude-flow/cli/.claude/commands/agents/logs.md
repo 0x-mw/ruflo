@@ -1,6 +1,6 @@
 ---
 name: logs
-description: Show agent activity logs
+description: 에이전트 활동 로그를 표시합니다
 type: command
 ---
 

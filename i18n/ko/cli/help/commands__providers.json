@@ -1,0 +1,235 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/providers.ts",
+  "entries": [
+    {
+      "key": "List available AI providers and models",
+      "ko": "사용 가능한 AI 프로바이더와 모델 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:135 description"
+      ]
+    },
+    {
+      "key": "Filter by type: llm, embedding, image",
+      "ko": "유형으로 필터링: llm, embedding, image",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:137 description"
+      ]
+    },
+    {
+      "key": "Show only active providers",
+      "ko": "활성 프로바이더만 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:138 description"
+      ]
+    },
+    {
+      "key": "List all providers",
+      "ko": "모든 프로바이더 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:141 description",
+        "src/commands/providers.ts:540 description"
+      ]
+    },
+    {
+      "key": "List embedding providers",
+      "ko": "임베딩 프로바이더 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:142 description"
+      ]
+    },
+    {
+      "key": "Configure provider settings and API keys",
+      "ko": "프로바이더 설정과 API 키를 구성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:246 description"
+      ]
+    },
+    {
+      "key": "Provider name",
+      "ko": "프로바이더 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:248 description"
+      ]
+    },
+    {
+      "key": "API key",
+      "ko": "API 키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:249 description"
+      ]
+    },
+    {
+      "key": "Default model",
+      "ko": "기본 모델",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:250 description"
+      ]
+    },
+    {
+      "key": "Custom endpoint URL",
+      "ko": "사용자 지정 엔드포인트 URL",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:251 description"
+      ]
+    },
+    {
+      "key": "Set OpenAI key",
+      "ko": "OpenAI 키를 설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:254 description"
+      ]
+    },
+    {
+      "key": "Set default model",
+      "ko": "기본 모델을 설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:255 description"
+      ]
+    },
+    {
+      "key": "Test provider connectivity and API access",
+      "ko": "프로바이더 연결과 API 접근을 테스트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:319 description"
+      ]
+    },
+    {
+      "key": "Provider to test",
+      "ko": "테스트할 프로바이더",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:321 description"
+      ]
+    },
+    {
+      "key": "Test all configured providers",
+      "ko": "구성된 모든 프로바이더를 테스트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:322 description"
+      ]
+    },
+    {
+      "key": "Test OpenAI connection",
+      "ko": "OpenAI 연결을 테스트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:325 description"
+      ]
+    },
+    {
+      "key": "Test all providers",
+      "ko": "모든 프로바이더를 테스트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:326 description",
+        "src/commands/providers.ts:542 description"
+      ]
+    },
+    {
+      "key": "List and manage available models",
+      "ko": "사용 가능한 모델을 조회하고 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:449 description"
+      ]
+    },
+    {
+      "key": "Filter by provider",
+      "ko": "프로바이더로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:451 description",
+        "src/commands/providers.ts:491 description"
+      ]
+    },
+    {
+      "key": "Filter by capability: chat, completion, embedding",
+      "ko": "기능으로 필터링: chat, completion, embedding",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:452 description"
+      ]
+    },
+    {
+      "key": "List all models",
+      "ko": "모든 모델 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:455 description"
+      ]
+    },
+    {
+      "key": "List Anthropic models",
+      "ko": "Anthropic 모델 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:456 description"
+      ]
+    },
+    {
+      "key": "View provider usage and costs",
+      "ko": "프로바이더 사용량과 비용을 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:489 description"
+      ]
+    },
+    {
+      "key": "Timeframe: 24h, 7d, 30d",
+      "ko": "기간: 24h, 7d, 30d",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:492 description"
+      ]
+    },
+    {
+      "key": "View all usage",
+      "ko": "전체 사용량을 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:495 description"
+      ]
+    },
+    {
+      "key": "View 30-day usage",
+      "ko": "30일 사용량을 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:496 description"
+      ]
+    },
+    {
+      "key": "Manage AI providers, models, and configurations",
+      "ko": "AI 프로바이더, 모델, 설정을 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:537 description"
+      ]
+    },
+    {
+      "key": "Configure OpenAI",
+      "ko": "OpenAI를 구성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/providers.ts:541 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

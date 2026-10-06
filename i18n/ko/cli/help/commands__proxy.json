@@ -1,0 +1,232 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/proxy.ts",
+  "entries": [
+    {
+      "key": "Toggle cloud routing and its tier selection (ADR-304/321) — local backends only by default",
+      "ko": "클라우드 라우팅과 티어 선택을 전환합니다 (ADR-304/321) — 기본값은 로컬 백엔드만 사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:192 description"
+      ]
+    },
+    {
+      "key": "Enable cloud routing (requires cloud-routing consent)",
+      "ko": "클라우드 라우팅을 활성화합니다 (클라우드 라우팅 동의 필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:194 description"
+      ]
+    },
+    {
+      "key": "Disable cloud routing; route to your own local backend",
+      "ko": "클라우드 라우팅을 비활성화하고 사용자의 로컬 백엔드로 라우팅합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:195 description"
+      ]
+    },
+    {
+      "key": "Disable cloud routing; route to your own Claude subscription (meta-proxy's own default)",
+      "ko": "클라우드 라우팅을 비활성화하고 사용자의 Claude 구독으로 라우팅합니다 (meta-proxy 자체 기본값)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:198 description"
+      ]
+    },
+    {
+      "key": "How the cloud plane picks a tier: {0} (default: auto)",
+      "ko": "클라우드 플레인이 티어를 고르는 방식: {0} (기본값: auto)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/proxy.ts:204 description"
+      ]
+    },
+    {
+      "key": "Opt into Cognitum-sponsored downtime capacity (ADR-313)",
+      "ko": "Cognitum이 후원하는 유휴 시간 용량 사용에 동의합니다 (ADR-313)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:354 description"
+      ]
+    },
+    {
+      "key": "Revoke sponsored-downtime consent and stop using sponsored capacity",
+      "ko": "후원 유휴 시간 동의를 철회하고 후원 용량 사용을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:381 description"
+      ]
+    },
+    {
+      "key": "Show sponsored-downtime consent + rate-limit flag state",
+      "ko": "후원 유휴 시간 동의 및 속도 제한 플래그 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:393 description"
+      ]
+    },
+    {
+      "key": "Clear the rate-limited flag (your Claude limit has reset)",
+      "ko": "rate-limited 플래그를 비웁니다 (Claude 한도가 재설정됨)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:411 description"
+      ]
+    },
+    {
+      "key": "Opt into power saver mode — route everyday requests through your own Cognitum account (ADR-314)",
+      "ko": "절전 모드 사용에 동의합니다 — 일상적인 요청을 사용자의 Cognitum 계정을 통해 라우팅합니다 (ADR-314)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:438 description"
+      ]
+    },
+    {
+      "key": "Revoke power-saver consent and stop routing through Cognitum for cost savings",
+      "ko": "절전 모드 동의를 철회하고 비용 절감을 위한 Cognitum 경유 라우팅을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:465 description"
+      ]
+    },
+    {
+      "key": "Show power-saver consent + quota-low flag state",
+      "ko": "절전 모드 동의 및 quota-low 플래그 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:477 description"
+      ]
+    },
+    {
+      "key": "Clear the quota-low flag",
+      "ko": "quota-low 플래그를 비웁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:495 description"
+      ]
+    },
+    {
+      "key": "Opt into sharing sponsored-plane interaction content for meta-llm training (ADR-315)",
+      "ko": "meta-llm 학습을 위한 후원 플레인 상호작용 내용 공유에 동의합니다 (ADR-315)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:525 description"
+      ]
+    },
+    {
+      "key": "Revoke training-data-sharing consent — stop sending the training consent header",
+      "ko": "학습 데이터 공유 동의를 철회합니다 — 학습 동의 헤더 전송을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:552 description"
+      ]
+    },
+    {
+      "key": "Show training-data-sharing consent state",
+      "ko": "학습 데이터 공유 동의 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:564 description"
+      ]
+    },
+    {
+      "key": "Meta LLM Proxy — install/lifecycle + sponsored downtime + power saver + training-data sharing (ADR-304/307/313/314/315)",
+      "ko": "Meta LLM 프록시 — 설치/수명 주기 + 후원 유휴 시간 + 절전 모드 + 학습 데이터 공유 (ADR-304/307/313/314/315)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:577 description"
+      ]
+    },
+    {
+      "key": "Install the signed Meta-Proxy v{0} binary",
+      "ko": "서명된 Meta-Proxy v{0} 바이너리를 설치합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/proxy.ts:586 description"
+      ]
+    },
+    {
+      "key": "Start meta-proxy in the foreground",
+      "ko": "meta-proxy를 포그라운드로 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:587 description"
+      ]
+    },
+    {
+      "key": "Show install + process status",
+      "ko": "설치 및 프로세스 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:588 description"
+      ]
+    },
+    {
+      "key": "Enable cloud routing (ADR-304)",
+      "ko": "클라우드 라우팅을 활성화합니다 (ADR-304)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:589 description"
+      ]
+    },
+    {
+      "key": "Pin the cloud tier instead of auto (ADR-321)",
+      "ko": "auto 대신 클라우드 티어를 고정합니다 (ADR-321)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:590 description"
+      ]
+    },
+    {
+      "key": "Turn cloud routing off, back to your Claude subscription",
+      "ko": "클라우드 라우팅을 끄고 Claude 구독으로 되돌립니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:591 description"
+      ]
+    },
+    {
+      "key": "Revert to local-only routing",
+      "ko": "로컬 전용 라우팅으로 되돌립니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:592 description"
+      ]
+    },
+    {
+      "key": "Show current sponsored-mode state",
+      "ko": "현재 후원 모드 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:593 description"
+      ]
+    },
+    {
+      "key": "Opt into sponsored downtime capacity",
+      "ko": "후원 유휴 시간 용량 사용에 동의합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:594 description"
+      ]
+    },
+    {
+      "key": "Opt into power saver mode",
+      "ko": "절전 모드 사용에 동의합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:595 description"
+      ]
+    },
+    {
+      "key": "Opt into training-data sharing (ADR-315)",
+      "ko": "학습 데이터 공유에 동의합니다 (ADR-315)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy.ts:596 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

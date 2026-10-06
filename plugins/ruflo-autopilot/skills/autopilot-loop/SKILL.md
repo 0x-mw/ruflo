@@ -1,6 +1,6 @@
 ---
 name: autopilot-loop
-description: Run an autonomous /loop iteration -- check progress, work on next task, schedule next wake
+description: 자율 /loop 반복을 실행 -- 진행 상황 확인, 다음 작업 수행, 다음 깨우기 예약
 argument-hint: ""
 allowed-tools: mcp__plugin_ruflo-core_ruflo__autopilot_status mcp__plugin_ruflo-core_ruflo__autopilot_predict mcp__plugin_ruflo-core_ruflo__autopilot_log mcp__plugin_ruflo-core_ruflo__autopilot_progress mcp__plugin_ruflo-core_ruflo__autopilot_disable ScheduleWakeup Agent
 ---

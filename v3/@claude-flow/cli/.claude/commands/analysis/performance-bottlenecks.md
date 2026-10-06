@@ -1,3 +1,7 @@
+---
+description: 성능 병목 분석
+---
+
 # Performance Bottleneck Analysis
 
 ## Purpose

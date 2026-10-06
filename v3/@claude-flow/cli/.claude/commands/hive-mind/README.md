@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 명령어
+---
+
 # Hive-mind Commands
 
 Commands for hive-mind operations in Claude Flow.

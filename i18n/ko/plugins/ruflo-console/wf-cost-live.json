@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/wf-cost-live.ts",
+  "entries": [
+    {
+      "key": "prices not read yet",
+      "ko": "가격을 아직 읽지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-cost-live.ts:46 bookWhy"
+      ]
+    },
+    {
+      "key": "the ruflo-cost-tracker plugin is not installed, so tokens have no price",
+      "ko": "ruflo-cost-tracker 플러그인이 설치되어 있지 않아 토큰 가격이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-cost-live.ts:108 why"
+      ]
+    },
+    {
+      "key": "the price book was not read ({0})",
+      "ko": "가격표를 읽지 못했습니다 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-cost-live.ts:114 why"
+      ]
+    },
+    {
+      "key": "the price book is not in the expected shape",
+      "ko": "가격표가 예상한 형식이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-cost-live.ts:114 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

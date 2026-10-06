@@ -1,0 +1,136 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/cleanup.ts",
+  "entries": [
+    {
+      "key": "Ruflo hook scripts",
+      "ko": "Ruflo 훅 스크립트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:20 description"
+      ]
+    },
+    {
+      "key": "Capabilities and configuration",
+      "ko": "기능 및 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:27 description"
+      ]
+    },
+    {
+      "key": "Memory databases",
+      "ko": "메모리 데이터베이스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:28 description"
+      ]
+    },
+    {
+      "key": "Swarm state",
+      "ko": "스웜 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:29 description"
+      ]
+    },
+    {
+      "key": "Consensus state",
+      "ko": "합의 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:30 description"
+      ]
+    },
+    {
+      "key": "Coordination data",
+      "ko": "조율 데이터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:31 description"
+      ]
+    },
+    {
+      "key": "Memory storage",
+      "ko": "메모리 저장소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:32 description"
+      ]
+    },
+    {
+      "key": "Claude Flow configuration",
+      "ko": "Claude Flow 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:36 description"
+      ]
+    },
+    {
+      "key": "Remove project artifacts created by claude-flow/ruflo",
+      "ko": "claude-flow/ruflo가 만든 프로젝트 산출물을 제거합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:86 description"
+      ]
+    },
+    {
+      "key": "Show what would be removed without deleting (default behavior)",
+      "ko": "삭제하지 않고 제거될 항목만 표시합니다 (기본 동작)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:92 description"
+      ]
+    },
+    {
+      "key": "Actually delete the artifacts",
+      "ko": "산출물을 실제로 삭제합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:99 description"
+      ]
+    },
+    {
+      "key": "Preserve claude-flow.config.json and .claude/settings.json",
+      "ko": "claude-flow.config.json과 .claude/settings.json을 유지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:106 description"
+      ]
+    },
+    {
+      "key": "Show what would be removed (dry run)",
+      "ko": "제거될 항목 표시 (드라이런)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:114 description"
+      ]
+    },
+    {
+      "key": "Remove all claude-flow artifacts",
+      "ko": "claude-flow 산출물 모두 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:118 description"
+      ]
+    },
+    {
+      "key": "Remove artifacts but keep configuration files",
+      "ko": "설정 파일은 두고 산출물만 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:122 description"
+      ]
+    },
+    {
+      "key": "Remove ruflo hooks/claudeFlow blocks (preserves rest)",
+      "ko": "ruflo 훅/claudeFlow 블록 제거 (나머지는 유지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/cleanup.ts:154 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

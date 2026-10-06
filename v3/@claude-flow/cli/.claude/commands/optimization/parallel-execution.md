@@ -1,3 +1,7 @@
+---
+description: 병렬 작업 실행
+---
+
 # Parallel Task Execution
 
 ## Purpose

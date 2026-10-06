@@ -1,3 +1,7 @@
+---
+description: 병렬 실행
+---
+
 # parallel-execute
 
 Execute tasks in parallel for maximum efficiency.

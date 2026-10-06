@@ -1,3 +1,7 @@
+---
+description: 성능 보고서
+---
+
 # performance-report
 
 Generate comprehensive performance reports for swarm operations.

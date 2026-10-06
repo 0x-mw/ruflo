@@ -1,6 +1,6 @@
 ---
 name: loop-worker
-description: Run Ruflo background workers using Claude Code native /loop scheduling
+description: Claude Code 네이티브 /loop 예약으로 Ruflo 백그라운드 워커를 실행
 argument-hint: "<worker-name>"
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__hooks_worker-dispatch mcp__plugin_ruflo-core_ruflo__hooks_worker-status ScheduleWakeup
 ---

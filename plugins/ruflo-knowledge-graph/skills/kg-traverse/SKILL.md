@@ -1,6 +1,6 @@
 ---
 name: kg-traverse
-description: Pathfinder traversal of the knowledge graph starting from a seed entity
+description: 시드 엔티티에서 시작하는 지식 그래프의 패스파인더 순회
 argument-hint: "<entity> [--depth N]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-recall mcp__plugin_ruflo-core_ruflo__agentdb_causal-edge mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_context-synthesize Bash
 ---

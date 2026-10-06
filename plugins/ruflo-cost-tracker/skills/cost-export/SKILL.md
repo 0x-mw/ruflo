@@ -1,6 +1,6 @@
 ---
 name: cost-export
-description: Export cost-tracking telemetry in Prometheus textfile or webhook JSON formats — for external observability (Grafana, Datadog, custom dashboards)
+description: 비용 추적 텔레메트리를 Prometheus textfile 또는 웹훅 JSON 형식으로 내보냄 — 외부 관측(Grafana, Datadog, 사용자 지정 대시보드)용
 argument-hint: "[--prometheus <path>] [--webhook <url>]"
 allowed-tools: Bash
 ---

@@ -1,6 +1,6 @@
 {
   "name": "ruflo-aidefence",
-  "description": "AI safety scanning, PII detection, prompt injection defense, and adaptive threat learning",
+  "description": "AI 안전 스캔, PII 탐지, 프롬프트 인젝션 방어, 적응형 위협 학습",
   "version": "0.3.2",
   "author": {
     "name": "ruvnet",
@@ -24,8 +24,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "AIDefence guard",
-      "description": "Refuse what aidefence_learn teaches the detector (patterns persist and are shown back later) that hold a key, token or password.",
+      "title": "AIDefence 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는, aidefence_learn이 탐지기에 가르치는 내용(패턴은 저장되어 나중에 다시 표시됨)을 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

@@ -1,3 +1,7 @@
+---
+description: SPARC TDD 모드
+---
+
 # SPARC TDD Mode
 
 ## Purpose

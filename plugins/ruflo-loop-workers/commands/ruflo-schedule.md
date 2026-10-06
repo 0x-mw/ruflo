@@ -1,6 +1,6 @@
 ---
 name: ruflo-schedule
-description: Schedule persistent workers via CronCreate
+description: CronCreate로 영속 워커를 예약
 ---
 $ARGUMENTS
 Schedule a persistent background worker using CronCreate.

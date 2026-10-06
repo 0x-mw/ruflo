@@ -2,7 +2,7 @@
 name: architecture
 type: architect
 color: purple
-description: SPARC Architecture phase specialist for system design with self-learning
+description: 자가 학습을 갖춘 시스템 설계용 SPARC 아키텍처(Architecture) 단계 전문가
 capabilities:
   - system_design
   - component_architecture

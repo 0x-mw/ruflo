@@ -1,0 +1,162 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/agent-wasm.ts",
+  "entries": [
+    {
+      "key": "Check rvagent-wasm availability, version, and capabilities",
+      "ko": "rvagent-wasm의 사용 가능 여부, 버전, 기능을 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:23 description"
+      ]
+    },
+    {
+      "key": "Check WASM agent runtime status",
+      "ko": "WASM 에이전트 런타임 상태 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:26 description"
+      ]
+    },
+    {
+      "key": "Create a WASM-sandboxed agent",
+      "ko": "WASM 샌드박스 에이전트를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:111 description"
+      ]
+    },
+    {
+      "key": "Gallery template (coder, researcher, tester, reviewer, security, swarm)",
+      "ko": "갤러리 템플릿 (coder, researcher, tester, reviewer, security, swarm)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:116 description"
+      ]
+    },
+    {
+      "key": "Model identifier (default: anthropic:claude-sonnet-4-6)",
+      "ko": "모델 식별자 (기본값: anthropic:claude-sonnet-4-6)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:122 description"
+      ]
+    },
+    {
+      "key": "System instructions for the agent",
+      "ko": "에이전트용 시스템 지침",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:128 description"
+      ]
+    },
+    {
+      "key": "Maximum conversation turns (default: 50)",
+      "ko": "최대 대화 턴 수 (기본값: 50)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:133 description"
+      ]
+    },
+    {
+      "key": "Create a default WASM agent",
+      "ko": "기본 WASM 에이전트 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:139 description"
+      ]
+    },
+    {
+      "key": "Create from gallery template",
+      "ko": "갤러리 템플릿으로 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:140 description"
+      ]
+    },
+    {
+      "key": "Create with custom config",
+      "ko": "사용자 지정 설정으로 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:141 description"
+      ]
+    },
+    {
+      "key": "Send a prompt to a WASM agent",
+      "ko": "WASM 에이전트에 프롬프트를 보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:203 description"
+      ]
+    },
+    {
+      "key": "WASM agent ID (required)",
+      "ko": "WASM 에이전트 ID (필수)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:208 description"
+      ]
+    },
+    {
+      "key": "Prompt text to send",
+      "ko": "보낼 프롬프트 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:214 description"
+      ]
+    },
+    {
+      "key": "Send prompt to WASM agent",
+      "ko": "WASM 에이전트에 프롬프트 보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:219 description"
+      ]
+    },
+    {
+      "key": "List available WASM agent gallery templates",
+      "ko": "사용 가능한 WASM 에이전트 갤러리 템플릿 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:273 description"
+      ]
+    },
+    {
+      "key": "Search templates by query",
+      "ko": "쿼리로 템플릿을 검색합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:278 description"
+      ]
+    },
+    {
+      "key": "Filter by category",
+      "ko": "카테고리로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:284 description",
+        "src/commands/mcp.ts:465 description",
+        "src/commands/plugins.ts:33 description"
+      ]
+    },
+    {
+      "key": "List all gallery templates",
+      "ko": "모든 갤러리 템플릿 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:289 description"
+      ]
+    },
+    {
+      "key": "Search gallery templates",
+      "ko": "갤러리 템플릿 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:290 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,813 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/ap-panel.ts",
+  "entries": [
+    {
+      "key": "not wired into this console yet",
+      "ko": "이 콘솔에 아직 연결되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:64 return"
+      ]
+    },
+    {
+      "key": "no {0} to load",
+      "ko": "불러올 {0}이(가) 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:68 return"
+      ]
+    },
+    {
+      "key": "the draft file was refused: {0}",
+      "ko": "초안 파일이 거부되었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:68 return"
+      ]
+    },
+    {
+      "key": "the draft file is not JSON",
+      "ko": "초안 파일이 JSON이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:75 return"
+      ]
+    },
+    {
+      "key": "the draft file does not validate: {0}",
+      "ko": "초안 파일이 유효성 검사를 통과하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:80 return"
+      ]
+    },
+    {
+      "key": "draft loaded",
+      "ko": "초안을 불러왔습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:88 return"
+      ]
+    },
+    {
+      "key": "Anatole",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:104 kv()"
+      ]
+    },
+    {
+      "key": "on",
+      "ko": "켜짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:104 kv()",
+        "plugins/ruflo-console/hooks/views/control.ts:27 rule()"
+      ]
+    },
+    {
+      "key": "OFF: autopilot pauses",
+      "ko": "꺼짐: 오토파일럿이 일시 중지됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:104 kv()"
+      ]
+    },
+    {
+      "key": "permissions",
+      "ko": "권한",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "preflight not wired: the engine still decides every call, never bypassed",
+      "ko": "사전 점검이 연결되지 않았습니다. 엔진이 모든 호출을 계속 판단하며 우회되지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "your settings allow every class",
+      "ko": "설정이 모든 클래스를 허용합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "would ask or deny: {0} (parked)",
+      "ko": "확인 요청 또는 거부될 항목: {0} (보류됨)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:105 kv()"
+      ]
+    },
+    {
+      "key": "spend",
+      "ko": "지출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:106 kv()",
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:19 kv()"
+      ]
+    },
+    {
+      "key": "hour {0}/{1} · day {2}/{3} · total {4}/{5} (ledger not read)",
+      "ko": "시간 {0}/{1} · 일 {2}/{3} · 합계 {4}/{5} (원장을 읽지 못함)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:106 kv()"
+      ]
+    },
+    {
+      "key": "hour {0}/{1} · day {2}/{3} · total {4}/{5} (list-price estimate, whole project)",
+      "ko": "시간 {0}/{1} · 일 {2}/{3} · 합계 {4}/{5} (정가 기준 추정, 프로젝트 전체)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:106 kv()"
+      ]
+    },
+    {
+      "key": "journal",
+      "ko": "저널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:107 kv()"
+      ]
+    },
+    {
+      "key": "{0} kB of 1500 kB cap · {1} unusable lines",
+      "ko": "상한 1500 kB 중 {0} kB · 사용할 수 없는 줄 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:107 kv()"
+      ]
+    },
+    {
+      "key": "no envelope approved yet: set one below and press Start",
+      "ko": "승인된 엔벨로프가 아직 없습니다. 아래에서 설정하고 시작을 누르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:114 text()"
+      ]
+    },
+    {
+      "key": "envelope refused: {0}",
+      "ko": "엔벨로프가 거부되었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:114 text()"
+      ]
+    },
+    {
+      "key": "\"{0}\" revision {1} · hash {2} · approved {3}",
+      "ko": "\"{0}\" 리비전 {1} · 해시 {2} · 승인 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:119 text()"
+      ]
+    },
+    {
+      "key": "classes {0} · up to {1} at once · {2} d · {3} verify command",
+      "ko": "클래스 {0} · 동시 최대 {1}개 · {2}일 · 검증 명령 {3}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:120 text()"
+      ]
+    },
+    {
+      "key": "classes {0} · up to {1} at once · {2} d · {3} verify commands",
+      "ko": "클래스 {0} · 동시 최대 {1}개 · {2}일 · 검증 명령 {3}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:120 text()"
+      ]
+    },
+    {
+      "key": "classes none · up to {0} at once · {1} d · {2} verify command",
+      "ko": "클래스 없음 · 동시 최대 {0}개 · {1}일 · 검증 명령 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:120 text()"
+      ]
+    },
+    {
+      "key": "classes none · up to {0} at once · {1} d · {2} verify commands",
+      "ko": "클래스 없음 · 동시 최대 {0}개 · {1}일 · 검증 명령 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:120 text()"
+      ]
+    },
+    {
+      "key": "folders {0}",
+      "ko": "폴더 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:121 text()"
+      ]
+    },
+    {
+      "key": "network {0} · repos {1} · secret names {2}",
+      "ko": "네트워크 {0} · 저장소 {1} · 비밀 이름 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "network {0} · repos {1} · secret names none",
+      "ko": "네트워크 {0} · 저장소 {1} · 비밀 이름 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "network {0} · repos none · secret names {1}",
+      "ko": "네트워크 {0} · 저장소 없음 · 비밀 이름 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "network {0} · repos none · secret names none",
+      "ko": "네트워크 {0} · 저장소 없음 · 비밀 이름 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "network none · repos {0} · secret names {1}",
+      "ko": "네트워크 없음 · 저장소 {0} · 비밀 이름 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "network none · repos {0} · secret names none",
+      "ko": "네트워크 없음 · 저장소 {0} · 비밀 이름 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "network none · repos none · secret names {0}",
+      "ko": "네트워크 없음 · 저장소 없음 · 비밀 이름 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "network none · repos none · secret names none",
+      "ko": "네트워크 없음 · 저장소 없음 · 비밀 이름 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:122 text()"
+      ]
+    },
+    {
+      "key": "checked against what a task SAYS: its class, paths, URLs and repos",
+      "ko": "작업이 선언한 내용(클래스, 경로, URL, 저장소)을 기준으로 검사합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:123 text()"
+      ]
+    },
+    {
+      "key": "enforced: spend, concurrency, duration, verify. Secret names are a record only.",
+      "ko": "강제 적용: 지출, 동시 실행, 기간, 검증. 비밀 이름은 기록용일 뿐입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:124 text()"
+      ]
+    },
+    {
+      "key": "never granted: {0}",
+      "ko": "절대 부여하지 않음: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:125 text()"
+      ]
+    },
+    {
+      "key": "classes",
+      "ko": "클래스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:141 text()"
+      ]
+    },
+    {
+      "key": "at once",
+      "ko": "동시 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:147 text()"
+      ]
+    },
+    {
+      "key": "duration",
+      "ko": "기간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:147 text()"
+      ]
+    },
+    {
+      "key": "● accept running without Anatole",
+      "ko": "● Anatole 없이 실행 허용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:148 button()"
+      ]
+    },
+    {
+      "key": "○ accept running without Anatole",
+      "ko": "○ Anatole 없이 실행 허용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:148 button()"
+      ]
+    },
+    {
+      "key": "load draft file",
+      "ko": "초안 파일 불러오기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:148 button()"
+      ]
+    },
+    {
+      "key": "{0} holds paths, repos, network, verify",
+      "ko": "{0}에 경로, 저장소, 네트워크, 검증이 들어 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:149 text()"
+      ]
+    },
+    {
+      "key": "draft is valid · hash {0} · {1}",
+      "ko": "초안이 유효합니다 · 해시 {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:150 text()"
+      ]
+    },
+    {
+      "key": "draft is valid · hash {0} · from file · {1}",
+      "ko": "초안이 유효합니다 · 해시 {0} · 파일에서 · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:150 text()"
+      ]
+    },
+    {
+      "key": "draft is not valid: {0}",
+      "ko": "초안이 유효하지 않습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:150 text()"
+      ]
+    },
+    {
+      "key": "no adaptation yet: it needs 6 or more verified steps on a setting that is failing (or 12 clean ones) before it proposes anything",
+      "ko": "아직 적응 내용이 없습니다. 실패하는 설정에서 검증된 단계가 6개 이상(또는 문제없는 단계 12개) 쌓여야 제안합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:159 text()"
+      ]
+    },
+    {
+      "key": "now: parallelism {0} · retries {1} · default tier {2} · chain intact",
+      "ko": "현재: 병렬도 {0} · 재시도 {1} · 기본 티어 {2} · 체인 정상",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:164 text()"
+      ]
+    },
+    {
+      "key": "now: parallelism {0} · retries {1} · default tier {2} · chain BROKEN at {3}",
+      "ko": "현재: 병렬도 {0} · 재시도 {1} · 기본 티어 {2} · 체인 끊김 위치 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:164 text()"
+      ]
+    },
+    {
+      "key": "now: parallelism {0} · retries {1} · default tier {2} · {3} · chain intact",
+      "ko": "현재: 병렬도 {0} · 재시도 {1} · 기본 티어 {2} · {3} · 체인 정상",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:164 text()"
+      ]
+    },
+    {
+      "key": "now: parallelism {0} · retries {1} · default tier {2} · {3} · chain BROKEN at {4}",
+      "ko": "현재: 병렬도 {0} · 재시도 {1} · 기본 티어 {2} · {3} · 체인 끊김 위치 {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:164 text()"
+      ]
+    },
+    {
+      "key": "autopilot: not wired into this console yet (wireAutopilot)",
+      "ko": "오토파일럿: 이 콘솔에 아직 연결되지 않았습니다 (wireAutopilot)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:174 text()"
+      ]
+    },
+    {
+      "key": "autopilot is off · KILL flag present",
+      "ko": "오토파일럿이 꺼져 있습니다 · KILL 플래그 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:180 text()"
+      ]
+    },
+    {
+      "key": "autopilot is off",
+      "ko": "오토파일럿이 꺼져 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:180 text()",
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:307 return"
+      ]
+    },
+    {
+      "key": "{0} · KILL flag present",
+      "ko": "{0} · KILL 플래그 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:180 text()"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} running · {3} done ({4} unverified) · {5} failed · read {6}",
+      "ko": "{0} · {1} · 실행 중 {2} · 완료 {3} (미검증 {4}) · 실패 {5} · 읽음 {6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:182 text()"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} running · {3} done ({4} unverified) · {5} failed",
+      "ko": "{0} · {1} · 실행 중 {2} · 완료 {3} (미검증 {4}) · 실패 {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:182 text()"
+      ]
+    },
+    {
+      "key": "{0}: {1} · {2} · {3} running · {4} done ({5} unverified) · {6} failed · read {7}",
+      "ko": "{0}: {1} · {2} · 실행 중 {3} · 완료 {4} (미검증 {5}) · 실패 {6} · 읽음 {7}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:182 text()"
+      ]
+    },
+    {
+      "key": "{0}: {1} · {2} · {3} running · {4} done ({5} unverified) · {6} failed",
+      "ko": "{0}: {1} · {2} · 실행 중 {3} · 완료 {4} (미검증 {5}) · 실패 {6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:182 text()"
+      ]
+    },
+    {
+      "key": "Stop (9)",
+      "ko": "중지 (9)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:187 button()"
+      ]
+    },
+    {
+      "key": "Pause",
+      "ko": "일시 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:188 button()",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:197 button()"
+      ]
+    },
+    {
+      "key": "Resume",
+      "ko": "재개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:189 button()",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:197 button()"
+      ]
+    },
+    {
+      "key": "Check now",
+      "ko": "지금 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:190 button()"
+      ]
+    },
+    {
+      "key": "Start is the action row (key 8) and asks first · Stop asks nothing",
+      "ko": "시작은 작업 행(8번 키)에 있으며 먼저 확인합니다 · 중지는 확인하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:192 text()"
+      ]
+    },
+    {
+      "key": "next envelope (a change asks again):",
+      "ko": "다음 엔벨로프 (변경하면 다시 확인합니다):",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:195 text()"
+      ]
+    },
+    {
+      "key": "Inside the envelope autopilot does not ask this console. It never bypasses Claude Code's permission dialog.",
+      "ko": "엔벨로프 안에서는 오토파일럿이 이 콘솔에 확인을 요청하지 않습니다. Claude Code의 권한 대화상자는 절대 우회하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:196 text()"
+      ]
+    },
+    {
+      "key": "It is not a sandbox (the envelope gates what a task says) and not a scheduler: it runs while the session lives.",
+      "ko": "샌드박스가 아니며(엔벨로프는 작업이 선언한 내용을 거릅니다) 스케줄러도 아닙니다. 세션이 살아 있는 동안에만 실행됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:197 text()"
+      ]
+    },
+    {
+      "key": "start autopilot \"{0}\" ({1} · up to {2} · {3} d)",
+      "ko": "오토파일럿 시작 \"{0}\" ({1} · 최대 {2} · {3}일)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:222 label"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; no verify commands (steps will be unverified); repos {8}; secret env names {9}; Anatole {10}; never: {11}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 {8}; 비밀 환경 변수 이름 {9}; Anatole {10}; 금지: {11}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; no verify commands (steps will be unverified); repos {8}; secret env names none; Anatole {9}; never: {10}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 {8}; 비밀 환경 변수 이름 없음; Anatole {9}; 금지: {10}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; no verify commands (steps will be unverified); repos none; secret env names {8}; Anatole {9}; never: {10}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 없음; 비밀 환경 변수 이름 {8}; Anatole {9}; 금지: {10}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; no verify commands (steps will be unverified); repos none; secret env names none; Anatole {8}; never: {9}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 없음; 비밀 환경 변수 이름 없음; Anatole {8}; 금지: {9}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; verify commands run by this console after each step: {8}; repos {9}; secret env names {10}; Anatole {11}; never: {12}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {8}; 저장소 {9}; 비밀 환경 변수 이름 {10}; Anatole {11}; 금지: {12}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; verify commands run by this console after each step: {8}; repos {9}; secret env names none; Anatole {10}; never: {11}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {8}; 저장소 {9}; 비밀 환경 변수 이름 없음; Anatole {10}; 금지: {11}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; verify commands run by this console after each step: {8}; repos none; secret env names {9}; Anatole {10}; never: {11}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {8}; 저장소 없음; 비밀 환경 변수 이름 {9}; Anatole {10}; 금지: {11}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network {3}; {4}/h {5}/day {6} total; {7} at once; verify commands run by this console after each step: {8}; repos none; secret env names none; Anatole {9}; never: {10}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 {3}; 시간당 {4} / 일 {5} / 합계 {6}; 동시 {7}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {8}; 저장소 없음; 비밀 환경 변수 이름 없음; Anatole {9}; 금지: {10}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; no verify commands (steps will be unverified); repos {7}; secret env names {8}; Anatole {9}; never: {10}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 {7}; 비밀 환경 변수 이름 {8}; Anatole {9}; 금지: {10}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; no verify commands (steps will be unverified); repos {7}; secret env names none; Anatole {8}; never: {9}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 {7}; 비밀 환경 변수 이름 없음; Anatole {8}; 금지: {9}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; no verify commands (steps will be unverified); repos none; secret env names {7}; Anatole {8}; never: {9}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 없음; 비밀 환경 변수 이름 {7}; Anatole {8}; 금지: {9}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; no verify commands (steps will be unverified); repos none; secret env names none; Anatole {7}; never: {8}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 검증 명령 없음 (단계가 검증되지 않음); 저장소 없음; 비밀 환경 변수 이름 없음; Anatole {7}; 금지: {8}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; verify commands run by this console after each step: {7}; repos {8}; secret env names {9}; Anatole {10}; never: {11}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {7}; 저장소 {8}; 비밀 환경 변수 이름 {9}; Anatole {10}; 금지: {11}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; verify commands run by this console after each step: {7}; repos {8}; secret env names none; Anatole {9}; never: {10}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {7}; 저장소 {8}; 비밀 환경 변수 이름 없음; Anatole {9}; 금지: {10}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; verify commands run by this console after each step: {7}; repos none; secret env names {8}; Anatole {9}; never: {10}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {7}; 저장소 없음; 비밀 환경 변수 이름 {8}; Anatole {9}; 금지: {10}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "envelope {0}: classes {1}; folders {2}; network none; {3}/h {4}/day {5} total; {6} at once; verify commands run by this console after each step: {7}; repos none; secret env names none; Anatole {8}; never: {9}",
+      "ko": "엔벨로프 {0}: 클래스 {1}; 폴더 {2}; 네트워크 없음; 시간당 {3} / 일 {4} / 합계 {5}; 동시 {6}개; 이 콘솔이 각 단계 뒤에 실행하는 검증 명령: {7}; 저장소 없음; 비밀 환경 변수 이름 없음; Anatole {8}; 금지: {9}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:226 shows"
+      ]
+    },
+    {
+      "key": "a start line in the autopilot journal, then steps handed to the session",
+      "ko": "오토파일럿 저널에 시작 줄이 기록되고, 이어서 단계가 세션에 전달됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:227 expect"
+      ]
+    },
+    {
+      "key": "After this, steps inside the envelope run WITHOUT asking this console, for days if the session lives, and spend money. Claude Code's own permission dialog still applies and is never bypassed: anything it would ask about is parked. Stop, the KILL file or /ruflo autopilot stop halts it within one tick.",
+      "ko": "이후 엔벨로프 안의 단계는 이 콘솔에 확인하지 않고 실행되며, 세션이 살아 있으면 며칠 동안 이어지고 비용이 발생합니다. Claude Code 자체의 권한 대화상자는 그대로 적용되며 우회되지 않습니다. 확인을 요구하는 항목은 보류됩니다. 중지, KILL 파일, /ruflo autopilot stop 중 하나로 한 틱 안에 멈춥니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:228 note"
+      ]
+    },
+    {
+      "key": "not started: Project Anatole is off; turn it on, or accept running without it in the envelope",
+      "ko": "시작하지 못했습니다: Project Anatole이 꺼져 있습니다. 켜거나 엔벨로프에서 Anatole 없이 실행을 허용하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:235 expr"
+      ]
+    },
+    {
+      "key": "not started: Project Anatole is not installed; turn it on, or accept running without it in the envelope",
+      "ko": "시작하지 못했습니다: Project Anatole이 설치되지 않았습니다. 켜거나 엔벨로프에서 Anatole 없이 실행을 허용하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:235 expr"
+      ]
+    },
+    {
+      "key": "not started: the envelope could not be written",
+      "ko": "시작하지 못했습니다: 엔벨로프를 기록하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:242 expr"
+      ]
+    },
+    {
+      "key": "Mission autopilot",
+      "ko": "미션 오토파일럿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:271 title"
+      ]
+    },
+    {
+      "key": "autopilot stop",
+      "ko": "오토파일럿 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:272 label"
+      ]
+    },
+    {
+      "key": "start autopilot",
+      "ko": "오토파일럿 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:278 label"
+      ]
+    },
+    {
+      "key": "the envelope draft is not valid, or nothing changed since the running one, or autopilot is not wired into this console",
+      "ko": "엔벨로프 초안이 유효하지 않거나, 실행 중인 것과 달라진 점이 없거나, 오토파일럿이 이 콘솔에 연결되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:278 why"
+      ]
+    },
+    {
+      "key": "stopped by command",
+      "ko": "명령으로 중지됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:301 stopNow()"
+      ]
+    },
+    {
+      "key": "autopilot stopped; the KILL flag is set until the next confirmed start",
+      "ko": "오토파일럿이 중지되었습니다. 다음에 확인을 거쳐 시작할 때까지 KILL 플래그가 설정됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:301 expr"
+      ]
+    },
+    {
+      "key": "paused by command",
+      "ko": "명령으로 일시 중지됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:302 pauseNow()"
+      ]
+    },
+    {
+      "key": "autopilot paused",
+      "ko": "오토파일럿이 일시 중지되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:302 expr"
+      ]
+    },
+    {
+      "key": "resume asked; the next tick re-checks every gate",
+      "ko": "재개를 요청했습니다. 다음 틱에 모든 게이트를 다시 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:303 expr"
+      ]
+    },
+    {
+      "key": "usage: /ruflo autopilot stop | pause | resume | status (start is on the Workflows page and asks first)",
+      "ko": "사용법: /ruflo autopilot stop | pause | resume | status (시작은 워크플로 화면에 있으며 먼저 확인합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:307 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

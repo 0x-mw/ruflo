@@ -1,0 +1,811 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/automate.ts",
+  "entries": [
+    {
+      "key": "its output in the result panel",
+      "ko": "결과 패널에 표시되는 출력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:32 expect",
+        "plugins/ruflo-console/hooks/secure.ts:274 expect"
+      ]
+    },
+    {
+      "key": "its result in the result panel; {0}",
+      "ko": "결과 패널에 표시되는 결과. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:32 expect",
+        "plugins/ruflo-console/hooks/secure.ts:274 expect"
+      ]
+    },
+    {
+      "key": "its result in the result panel",
+      "ko": "결과 패널에 표시되는 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:32 expect",
+        "plugins/ruflo-console/hooks/secure.ts:274 expect"
+      ]
+    },
+    {
+      "key": "writes a job file to .claude-flow/daemon-queue for the daemon; with no daemon running nothing executes, and a --headless daemon may call claude under its AI budget",
+      "ko": ".claude-flow/daemon-queue에 데몬용 작업 파일을 씁니다. 데몬이 실행 중이 아니면 아무것도 실행되지 않으며, --headless 데몬은 AI 예산 한도 안에서 claude를 호출할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:69 const"
+      ]
+    },
+    {
+      "key": "n/a: hooks worker status and cancel keep workers in a per-process map, so a fresh ruflo run never sees a worker another run dispatched; the cards read .claude-flow/daemon-state.json instead",
+      "ko": "해당 없음: hooks worker status와 cancel은 워커를 프로세스별 맵에 보관하므로, 새로 실행한 ruflo는 다른 실행이 배치한 워커를 볼 수 없습니다. 카드는 대신 .claude-flow/daemon-state.json을 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:70 const"
+      ]
+    },
+    {
+      "key": "workflows: list them with their status",
+      "ko": "워크플로: 상태와 함께 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:78 spec()"
+      ]
+    },
+    {
+      "key": "(no workflows yet: create one below)",
+      "ko": "(워크플로가 아직 없습니다: 아래에서 생성하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:79 keep()"
+      ]
+    },
+    {
+      "key": "workflow templates: list the saved ones",
+      "ko": "워크플로 템플릿: 저장된 항목 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:81 spec()"
+      ]
+    },
+    {
+      "key": "(no templates: ▸ tpl saves a workflow as one)",
+      "ko": "(템플릿이 없습니다: ▸ tpl로 워크플로를 템플릿으로 저장합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:82 keep()"
+      ]
+    },
+    {
+      "key": "dispatch the {0} worker ({1})",
+      "ko": "{0} 워커 배치 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:86 spec()"
+      ]
+    },
+    {
+      "key": "the worker queued for the daemon",
+      "ko": "데몬 대기열에 들어간 워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:86 expect"
+      ]
+    },
+    {
+      "key": "workers: the twelve, their priority and time",
+      "ko": "워커: 12개의 우선순위와 시간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:89 spec()"
+      ]
+    },
+    {
+      "key": "workers: status of this process’s dispatches",
+      "ko": "워커: 이 프로세스가 배치한 워커의 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:90 spec()"
+      ]
+    },
+    {
+      "key": "workers",
+      "ko": "워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:91 group",
+        "plugins/ruflo-console/hooks/views/hive.ts:194 kv()"
+      ]
+    },
+    {
+      "key": "cancel a running worker",
+      "ko": "실행 중인 워커 취소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:91 label"
+      ]
+    },
+    {
+      "key": "daemon: its status and every worker’s runs",
+      "ko": "데몬: 상태와 모든 워커의 실행 내역",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:92 spec()"
+      ]
+    },
+    {
+      "key": "start the worker daemon (local-only workers)",
+      "ko": "워커 데몬 시작 (로컬 전용 워커)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:93 spec()"
+      ]
+    },
+    {
+      "key": "starts a background process for this project that runs the enabled workers on their schedule, local-only (no --headless, so no model calls), until ruflo daemon stop or its 12 h TTL",
+      "ko": "이 프로젝트용 백그라운드 프로세스를 시작해 활성화된 워커를 일정에 따라 로컬 전용으로 실행합니다 (--headless 없음, 모델 호출 없음). ruflo daemon stop 또는 12 h TTL까지 실행됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:94 note"
+      ]
+    },
+    {
+      "key": "stop the worker daemon",
+      "ko": "워커 데몬 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:97 spec()"
+      ]
+    },
+    {
+      "key": "stops this project’s daemon and its workers",
+      "ko": "이 프로젝트의 데몬과 워커를 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:97 note"
+      ]
+    },
+    {
+      "key": "autopilot: enabled, iterations, task progress",
+      "ko": "오토파일럿: 활성 여부, 반복 횟수, 작업 진행률",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:99 spec()"
+      ]
+    },
+    {
+      "key": "ENABLED · iteration {0}/{1} · timeout {2} min",
+      "ko": "활성 · 반복 {0}/{1} · 타임아웃 {2} min",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:106 return"
+      ]
+    },
+    {
+      "key": "disabled · iteration {0}/{1} · timeout {2} min",
+      "ko": "비활성 · 반복 {0}/{1} · 타임아웃 {2} min",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:106 return"
+      ]
+    },
+    {
+      "key": "tasks {0}/{1} ({2}%) · sources {3}",
+      "ko": "작업 {0}/{1} ({2}%) · 소스 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:106 return"
+      ]
+    },
+    {
+      "key": "tasks {0}/{1} ({2}%) · sources n/a",
+      "ko": "작업 {0}/{1} ({2}%) · 소스 해당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:106 return"
+      ]
+    },
+    {
+      "key": "enable autopilot: keep agents working until every task is done",
+      "ko": "오토파일럿 활성화: 모든 작업이 끝날 때까지 에이전트를 계속 일하게 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:109 spec()"
+      ]
+    },
+    {
+      "key": "writes .claude-flow/data/autopilot-state.json; the stop hook then re-engages the session until its tasks are done or the iteration cap is hit",
+      "ko": ".claude-flow/data/autopilot-state.json을 씁니다. 이후 stop 훅이 작업이 끝나거나 반복 한도에 도달할 때까지 세션을 다시 이어 갑니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:109 note"
+      ]
+    },
+    {
+      "key": "disable autopilot",
+      "ko": "오토파일럿 비활성화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:110 spec()"
+      ]
+    },
+    {
+      "key": "writes .claude-flow/data/autopilot-state.json",
+      "ko": ".claude-flow/data/autopilot-state.json을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:110 note",
+        "plugins/ruflo-console/hooks/automate.ts:111 note"
+      ]
+    },
+    {
+      "key": "reset autopilot’s iteration counter and timer",
+      "ko": "오토파일럿의 반복 횟수와 타이머 재설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:111 spec()"
+      ]
+    },
+    {
+      "key": "autopilot predict: the next best action",
+      "ko": "오토파일럿 predict: 다음 최선의 행동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:112 spec()"
+      ]
+    },
+    {
+      "key": "autopilot learn: success patterns from past completions",
+      "ko": "오토파일럿 learn: 과거 완료 사례의 성공 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:113 spec()"
+      ]
+    },
+    {
+      "key": "autopilot log: the last 20 events",
+      "ko": "오토파일럿 log: 최근 이벤트 20개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:114 spec()"
+      ]
+    },
+    {
+      "key": "autopilot",
+      "ko": "오토파일럿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:115 group",
+        "plugins/ruflo-console/hooks/views/ap-panel.ts:32 name"
+      ]
+    },
+    {
+      "key": "auto-ap-history <query>: search past completions",
+      "ko": "auto-ap-history <query>: 과거 완료 사례 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:115 label"
+      ]
+    },
+    {
+      "key": "sessions: list the saved ones",
+      "ko": "세션: 저장된 항목 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:117 spec()"
+      ]
+    },
+    {
+      "key": "(no saved sessions: save one below)",
+      "ko": "(저장된 세션이 없습니다: 아래에서 저장하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:118 keep()"
+      ]
+    },
+    {
+      "key": "session: the current one",
+      "ko": "세션: 현재 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:120 spec()"
+      ]
+    },
+    {
+      "key": "sessions",
+      "ko": "세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:121 group",
+        "plugins/ruflo-console/hooks/automate.ts:331 group"
+      ]
+    },
+    {
+      "key": "auto-ses-save <name>: save memory, agents and tasks as a session",
+      "ko": "auto-ses-save <name>: 메모리, 에이전트, 작업을 세션으로 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:121 label"
+      ]
+    },
+    {
+      "key": "config: every key, secrets masked",
+      "ko": "설정: 모든 키 (비밀 값은 가림)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:123 spec()"
+      ]
+    },
+    {
+      "key": "(no config values)",
+      "ko": "(설정 값이 없습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:124 keep()"
+      ]
+    },
+    {
+      "key": "config",
+      "ko": "설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:126 group",
+        "plugins/ruflo-console/hooks/automate.ts:127 group",
+        "plugins/ruflo-console/hooks/data/snapshot.ts:131 text()"
+      ]
+    },
+    {
+      "key": "auto-cfg-get <key>: one config value (secrets masked)",
+      "ko": "auto-cfg-get <key>: 설정 값 하나 (비밀 값은 가림)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:126 label"
+      ]
+    },
+    {
+      "key": "auto-cfg-set <key> <value>: set a config value",
+      "ko": "auto-cfg-set <key> <value>: 설정 값 지정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:127 label"
+      ]
+    },
+    {
+      "key": "tasks: list them with status and agents",
+      "ko": "작업: 상태 및 에이전트와 함께 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:129 spec()"
+      ]
+    },
+    {
+      "key": "tasks",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:130 group",
+        "plugins/ruflo-console/hooks/automate.ts:335 group",
+        "plugins/ruflo-console/hooks/data/snapshot.ts:118 text()"
+      ]
+    },
+    {
+      "key": "auto-task-new [type:] <description>: create a task",
+      "ko": "auto-task-new [type:] <description>: 작업 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:130 label"
+      ]
+    },
+    {
+      "key": "workflows",
+      "ko": "워크플로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:131 group",
+        "plugins/ruflo-console/hooks/automate.ts:132 group",
+        "plugins/ruflo-console/hooks/automate.ts:321 group"
+      ]
+    },
+    {
+      "key": "auto-wf-new <prompt>: a one-step workflow for an agent",
+      "ko": "auto-wf-new <prompt>: 에이전트용 한 스텝 워크플로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:131 label"
+      ]
+    },
+    {
+      "key": "auto-wf-validate <file>: check a workflow file’s structure",
+      "ko": "auto-wf-validate <file>: 워크플로 파일의 구조 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:132 label"
+      ]
+    },
+    {
+      "key": "autopilot history for \"{0}\"",
+      "ko": "\"{0}\"의 오토파일럿 이력",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:140 autoSpec()"
+      ]
+    },
+    {
+      "key": "save the session \"{0}\"",
+      "ko": "세션 \"{0}\" 저장",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:148 autoSpec()"
+      ]
+    },
+    {
+      "key": "writes a session file in .claude-flow/sessions holding memory, agents and tasks",
+      "ko": "메모리, 에이전트, 작업을 담은 세션 파일을 .claude-flow/sessions에 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:149 note"
+      ]
+    },
+    {
+      "key": "source {0} · {1}",
+      "ko": "소스 {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:168 return"
+      ]
+    },
+    {
+      "key": "source {0}",
+      "ko": "소스 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:168 return"
+      ]
+    },
+    {
+      "key": "config value of {0}",
+      "ko": "{0}의 설정 값",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:174 autoSpec()"
+      ]
+    },
+    {
+      "key": "set config {0} to {1}",
+      "ko": "설정 {0}을 {1}(으)로 지정",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:183 autoSpec()"
+      ]
+    },
+    {
+      "key": "writes .claude-flow/config.json",
+      "ko": ".claude-flow/config.json을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:183 note"
+      ]
+    },
+    {
+      "key": "create a {0} task \"{1}\"",
+      "ko": "{0} 작업 \"{1}\" 생성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:196 autoSpec()"
+      ]
+    },
+    {
+      "key": "writes .claude-flow/tasks/store.json",
+      "ko": ".claude-flow/tasks/store.json을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:197 note",
+        "plugins/ruflo-console/hooks/automate.ts:252 note",
+        "plugins/ruflo-console/hooks/automate.ts:254 note"
+      ]
+    },
+    {
+      "key": "the task on the board as pending",
+      "ko": "보드에 대기 중으로 표시되는 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:198 expect"
+      ]
+    },
+    {
+      "key": "create a workflow \"{0}\" (no agent yet: a run needs one)",
+      "ko": "워크플로 \"{0}\" 생성 (아직 에이전트 없음: 실행하려면 필요합니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:210 autoSpec()"
+      ]
+    },
+    {
+      "key": "create a workflow \"{0}\" for {1}",
+      "ko": "{1}용 워크플로 \"{0}\" 생성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:210 autoSpec()"
+      ]
+    },
+    {
+      "key": "task",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:210 name",
+        "plugins/ruflo-console/hooks/views/claims.ts:64 button()",
+        "plugins/ruflo-console/hooks/views/loops.ts:43 text()"
+      ]
+    },
+    {
+      "key": "writes .claude-flow/workflows/store.json; nothing runs until ▸ run",
+      "ko": ".claude-flow/workflows/store.json을 씁니다. ▸ 실행을 누르기 전에는 아무것도 실행되지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:211 note"
+      ]
+    },
+    {
+      "key": "validate the workflow file {0}",
+      "ko": "워크플로 파일 {0} 유효성 검사",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:223 autoSpec()"
+      ]
+    },
+    {
+      "key": "assign task {0} to {1}",
+      "ko": "작업 {0}을 {1}에 할당",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:252 autoSpec()"
+      ]
+    },
+    {
+      "key": "mark task {0} complete",
+      "ko": "작업 {0} 완료 처리",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:254 autoSpec()"
+      ]
+    },
+    {
+      "key": "cancel task {0}",
+      "ko": "작업 {0} 취소",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:256 autoSpec()"
+      ]
+    },
+    {
+      "key": "cancelled from ruflo-console",
+      "ko": "ruflo-console에서 취소함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:256 reason",
+        "plugins/ruflo-console/hooks/automate.ts:284 reason"
+      ]
+    },
+    {
+      "key": "retry task {0} as a new pending task",
+      "ko": "작업 {0}을 새 대기 작업으로 재시도",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:258 autoSpec()"
+      ]
+    },
+    {
+      "key": "writes .claude-flow/tasks/store.json: a new pending copy of the task",
+      "ko": ".claude-flow/tasks/store.json을 씁니다: 작업의 새 대기 복사본",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:258 note"
+      ]
+    },
+    {
+      "key": "writes .claude-flow/workflows/store.json",
+      "ko": ".claude-flow/workflows/store.json을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:262 const"
+      ]
+    },
+    {
+      "key": "status of workflow {0}",
+      "ko": "워크플로 {0}의 상태",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:272 autoSpec()"
+      ]
+    },
+    {
+      "key": "run workflow {0} (its task steps call a model)",
+      "ko": "워크플로 {0} 실행 (작업 스텝이 모델을 호출합니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:274 autoSpec()"
+      ]
+    },
+    {
+      "key": "COSTS MONEY: each task step calls the agent’s configured model (agent_execute) until the workflow ends, fails or is paused",
+      "ko": "비용 발생: 워크플로가 끝나거나 실패하거나 일시 중지될 때까지 각 작업 스텝이 에이전트에 설정된 모델을 호출합니다 (agent_execute)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:275 note"
+      ]
+    },
+    {
+      "key": "pause workflow {0}",
+      "ko": "워크플로 {0} 일시 중지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:280 autoSpec()"
+      ]
+    },
+    {
+      "key": "{0}; a run stops before its next step",
+      "ko": "{0}. 실행은 다음 스텝 전에 멈춥니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:280 note"
+      ]
+    },
+    {
+      "key": "resume workflow {0}",
+      "ko": "워크플로 {0} 재개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:282 autoSpec()"
+      ]
+    },
+    {
+      "key": "{0}; marks it running, its steps do not execute until ▸ run",
+      "ko": "{0}. 실행 중으로 표시하지만 ▸ 실행을 누르기 전에는 스텝이 실행되지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:282 note"
+      ]
+    },
+    {
+      "key": "cancel workflow {0}",
+      "ko": "워크플로 {0} 취소",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:284 autoSpec()"
+      ]
+    },
+    {
+      "key": "{0}; skips its remaining steps",
+      "ko": "{0}. 남은 스텝을 건너뜁니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:284 note"
+      ]
+    },
+    {
+      "key": "save workflow {0} as a template",
+      "ko": "워크플로 {0}을 템플릿으로 저장",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:286 autoSpec()"
+      ]
+    },
+    {
+      "key": "restore session {0}",
+      "ko": "세션 {0} 복원",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:298 autoSpec()"
+      ]
+    },
+    {
+      "key": "OVERWRITES this project’s current memory, agents and tasks with the saved ones",
+      "ko": "이 프로젝트의 현재 메모리, 에이전트, 작업을 저장된 내용으로 덮어씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:298 note"
+      ]
+    },
+    {
+      "key": "writes session-{0}.json in the project; it holds the session’s memory entries",
+      "ko": "프로젝트에 session-{0}.json을 씁니다. 세션의 메모리 항목이 들어 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:302 note"
+      ]
+    },
+    {
+      "key": "exported {0}",
+      "ko": "{0}을 내보냈습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:306 return"
+      ]
+    },
+    {
+      "key": "delete session {0}",
+      "ko": "세션 {0} 삭제",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:310 autoSpec()"
+      ]
+    },
+    {
+      "key": "DELETES the saved session file; it cannot be undone",
+      "ko": "저장된 세션 파일을 삭제합니다. 되돌릴 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:310 note"
+      ]
+    },
+    {
+      "key": "{0} workflow {1}",
+      "ko": "{0} 워크플로 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:321 label"
+      ]
+    },
+    {
+      "key": "that workflow id cannot be passed to ruflo",
+      "ko": "해당 워크플로 ID를 ruflo에 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:321 why"
+      ]
+    },
+    {
+      "key": "new workflow from template {0}",
+      "ko": "템플릿 {0}에서 새 워크플로 생성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:327 label",
+        "plugins/ruflo-console/hooks/automate.ts:327 autoSpec()"
+      ]
+    },
+    {
+      "key": "that template id cannot be passed to ruflo",
+      "ko": "해당 템플릿 ID를 ruflo에 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:327 why"
+      ]
+    },
+    {
+      "key": "{0} session {1}",
+      "ko": "{0} 세션 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:331 label"
+      ]
+    },
+    {
+      "key": "that session id cannot be passed to ruflo",
+      "ko": "해당 세션 ID를 ruflo에 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:331 why"
+      ]
+    },
+    {
+      "key": "no agent to assign it to: spawn one (Swarm)",
+      "ko": "할당할 에이전트가 없습니다: 하나 생성하세요 (스웜)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:335 why"
+      ]
+    },
+    {
+      "key": "that task id cannot be passed to ruflo",
+      "ko": "해당 작업 ID를 ruflo에 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/automate.ts:335 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 {
   "name": "ruflo-cost-tracker",
-  "description": "Token usage tracking, model cost attribution per agent, budget alerts, and optimization recommendations — uses memory_* (namespace-routed) for cost-tracking and cost-patterns; pairs with federation budget circuit breaker (ADR-097)",
+  "description": "토큰 사용량 추적, 에이전트별 모델 비용 귀속, 예산 경고, 최적화 권장 사항 — 비용 추적과 비용 패턴에 memory_*(네임스페이스 라우팅)를 사용하며 페더레이션 예산 차단기(ADR-097)와 함께 동작",
   "version": "0.27.1",
   "author": {
     "name": "ruvnet",

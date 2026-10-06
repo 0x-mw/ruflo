@@ -1,0 +1,56 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-events.ts",
+  "entries": [
+    {
+      "key": "workflow {0} looks stuck: nothing written for {1} min",
+      "ko": "워크플로 {0}이(가) 멈춘 것 같습니다: {1}분간 기록된 내용이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-events.ts:35 text"
+      ]
+    },
+    {
+      "key": "{0} (mission {1}, task {2})",
+      "ko": "{0} (미션 {1}, 작업 {2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-events.ts:46 const"
+      ]
+    },
+    {
+      "key": "failed: {0}",
+      "ko": "실패: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-events.ts:52 const"
+      ]
+    },
+    {
+      "key": "looks stuck ({0} min quiet): {1}",
+      "ko": "멈춘 것 같음 ({0}분간 조용함): {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-events.ts:52 const"
+      ]
+    },
+    {
+      "key": "finished: {0}",
+      "ko": "완료: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-events.ts:52 const"
+      ]
+    },
+    {
+      "key": "workflow agent {0}",
+      "ko": "워크플로 에이전트 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-events.ts:55 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

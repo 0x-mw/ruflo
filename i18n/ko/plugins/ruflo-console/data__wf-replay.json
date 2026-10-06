@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-replay.ts",
+  "entries": [
+    {
+      "key": "the ruflo swarm has no run history to replay: ruflo records no start or end per agent",
+      "ko": "ruflo 스웜에는 다시 재생할 실행 이력이 없습니다: ruflo는 에이전트별 시작과 종료를 기록하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-replay.ts:38 empty()"
+      ]
+    },
+    {
+      "key": "this run has no agents yet",
+      "ko": "이 실행에는 아직 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-replay.ts:55 empty()"
+      ]
+    },
+    {
+      "key": "no agent of this run has a start time, so there is no order to replay",
+      "ko": "이 실행의 에이전트에 시작 시각이 없어 재생할 순서가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-replay.ts:55 empty()"
+      ]
+    },
+    {
+      "key": "before the first agent started",
+      "ko": "첫 에이전트가 시작되기 전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-replay.ts:198 return"
+      ]
+    },
+    {
+      "key": "{0} started ({1})",
+      "ko": "{0} 시작됨 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-replay.ts:198 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

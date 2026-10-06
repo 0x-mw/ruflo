@@ -1,6 +1,6 @@
 ---
 name: intelligence-transfer
-description: Publish or fetch learned patterns across projects via IPFS (Pinata) -- the cross-project pattern transfer that hooks_transfer enables
+description: IPFS(Pinata)를 통해 프로젝트 간에 학습된 패턴을 게시하거나 가져옴 -- hooks_transfer가 가능하게 하는 프로젝트 간 패턴 전송
 argument-hint: "<store|load|from-project> [--cid <ipfs-cid>] [--source <project-path>]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__hooks_transfer mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-search mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-store mcp__plugin_ruflo-core_ruflo__neural_patterns mcp__plugin_ruflo-core_ruflo__neural_status Bash
 ---

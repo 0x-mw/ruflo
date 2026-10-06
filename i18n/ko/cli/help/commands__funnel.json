@@ -1,0 +1,136 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/funnel.ts",
+  "entries": [
+    {
+      "key": "Show effective funnel state and which source decided it",
+      "ko": "실제 적용 중인 퍼널 상태와 그것을 결정한 소스를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:48 description"
+      ]
+    },
+    {
+      "key": "Disable all funnel surfaces (user-level, persists across projects)",
+      "ko": "모든 퍼널 노출 지점을 비활성화합니다 (사용자 수준, 프로젝트 간 유지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:82 description"
+      ]
+    },
+    {
+      "key": "Re-enable funnel surfaces at the user tier (env/enterprise disables still win)",
+      "ko": "사용자 티어에서 퍼널 노출 지점을 다시 활성화합니다 (환경 변수/엔터프라이즈의 비활성화가 우선)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:94 description"
+      ]
+    },
+    {
+      "key": "Acknowledge the disclosure so rotation starts immediately (skips the 24h grace window)",
+      "ko": "고지를 확인해 순환을 즉시 시작합니다 (24h 유예 기간 건너뜀)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:113 description"
+      ]
+    },
+    {
+      "key": "Open the currently-shown statusline promo URL in the default browser",
+      "ko": "현재 표시 중인 상태 표시줄 프로모션 URL을 기본 브라우저에서 엽니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:184 description"
+      ]
+    },
+    {
+      "key": "Opt in to the 50/50 revenue share on Cognitum sponsor spend (ADR-317, Phase 0)",
+      "ko": "Cognitum 스폰서 지출의 50/50 수익 공유에 참여합니다 (ADR-317, 0단계)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:228 description"
+      ]
+    },
+    {
+      "key": "Show accrued and paid revenue-share balance (ADR-317)",
+      "ko": "누적된 수익 공유 잔액과 지급된 금액을 표시합니다 (ADR-317)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:262 description"
+      ]
+    },
+    {
+      "key": "Revoke rev-share enrollment locally (funnel itself stays enabled)",
+      "ko": "수익 공유 등록을 로컬에서 철회합니다 (퍼널 자체는 계속 활성화)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:298 description"
+      ]
+    },
+    {
+      "key": "Print the pseudonymous funnel ID (exists only with telemetry consent)",
+      "ko": "가명 퍼널 ID를 출력합니다 (텔레메트리에 동의한 경우에만 존재)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:316 description"
+      ]
+    },
+    {
+      "key": "Control the Cognitum lifecycle funnel surfaces (tips, enrollment, notices)",
+      "ko": "Cognitum 수명 주기 퍼널 노출 지점(팁, 등록, 공지)을 제어합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:330 description"
+      ]
+    },
+    {
+      "key": "Effective state + deciding source",
+      "ko": "적용 중인 상태와 결정 소스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:333 description"
+      ]
+    },
+    {
+      "key": "Skip the 24h grace so rotation starts now",
+      "ko": "24h 유예를 건너뛰고 지금 순환 시작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:334 description"
+      ]
+    },
+    {
+      "key": "Open the current promo URL in the browser",
+      "ko": "현재 프로모션 URL을 브라우저에서 열기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:335 description"
+      ]
+    },
+    {
+      "key": "Opt in to 50/50 rev share (ADR-317)",
+      "ko": "50/50 수익 공유 참여 (ADR-317)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:336 description"
+      ]
+    },
+    {
+      "key": "Show accrued and paid balance",
+      "ko": "누적 잔액과 지급 잔액 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:337 description"
+      ]
+    },
+    {
+      "key": "Turn off every funnel surface",
+      "ko": "모든 퍼널 노출 지점 끄기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/funnel.ts:338 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

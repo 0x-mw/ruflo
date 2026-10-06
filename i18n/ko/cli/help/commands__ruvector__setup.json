@@ -1,0 +1,65 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/setup.ts",
+  "entries": [
+    {
+      "key": "Output Docker files and SQL for RuVector PostgreSQL setup",
+      "ko": "RuVector PostgreSQL 설정용 Docker 파일과 SQL을 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/setup.ts:662 description"
+      ]
+    },
+    {
+      "key": "Output directory (default: ./ruvector-postgres)",
+      "ko": "출력 디렉터리 (기본값: ./ruvector-postgres)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/setup.ts:668 description"
+      ]
+    },
+    {
+      "key": "Print to stdout instead of writing files",
+      "ko": "파일을 쓰지 않고 stdout으로 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/setup.ts:675 description"
+      ]
+    },
+    {
+      "key": "Overwrite existing files",
+      "ko": "기존 파일을 덮어씁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/setup.ts:682 description",
+        "src/commands/ruvector/setup.ts:691 description"
+      ]
+    },
+    {
+      "key": "Output files to ./ruvector-postgres/",
+      "ko": "./ruvector-postgres/에 파일을 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/setup.ts:688 description"
+      ]
+    },
+    {
+      "key": "Output to custom directory",
+      "ko": "사용자 지정 디렉터리에 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/setup.ts:689 description"
+      ]
+    },
+    {
+      "key": "Print files to stdout",
+      "ko": "파일을 stdout으로 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/setup.ts:690 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

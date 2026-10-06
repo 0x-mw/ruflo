@@ -1,3 +1,7 @@
+---
+description: 페어 프로그래밍 명령어 참조
+---
+
 # Pair Programming Commands Reference
 
 Complete reference for all pair programming session commands.

@@ -1,6 +1,6 @@
 ---
 name: workflow-specialist
-description: Workflow automation specialist for creating, executing, and managing multi-step processes
+description: 다단계 프로세스를 생성, 실행, 관리하는 워크플로 자동화 전문 에이전트
 model: sonnet
 ---
 

@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/sentries.ts",
+  "entries": [
+    {
+      "key": "on change",
+      "ko": "변경 시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sentries.ts:12 expr"
+      ]
+    },
+    {
+      "key": "start",
+      "ko": "시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sentries.ts:33 label"
+      ]
+    },
+    {
+      "key": "list / stop my sentries",
+      "ko": "내 센트리 목록 / 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sentries.ts:49 button()"
+      ]
+    },
+    {
+      "key": "asks Claude to list the scheduled loops and stop the ones you name",
+      "ko": "Claude에게 예약된 루프를 나열하고 지정한 루프를 중지하도록 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sentries.ts:50 text()"
+      ]
+    },
+    {
+      "key": "watch: reads and reports, edits nothing · fix: edits only in a new branch and never pushes · each tick is a billed turn; it asks first",
+      "ko": "감시: 읽고 보고만 하며 아무것도 수정하지 않습니다 · 수정: 새 브랜치에서만 수정하고 푸시하지 않습니다 · 매 틱이 과금되는 턴이므로 먼저 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sentries.ts:60 text()"
+      ]
+    },
+    {
+      "key": "Sentries",
+      "ko": "센트리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sentries.ts:62 section()"
+      ]
+    },
+    {
+      "key": "{0} watch · {1} find and fix · real time, or on a schedule",
+      "ko": "감시 {0} · 발견 및 수정 {1} · 실시간(real-time) 또는 일정에 따라",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sentries.ts:62 section()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: rvf
-description: RVF memory management -- list entries, show stats, manage sessions
+description: RVF 메모리 관리 -- 항목 목록 조회, 통계 표시, 세션 관리
 ---
 
 RVF memory management:

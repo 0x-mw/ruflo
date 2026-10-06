@@ -1,6 +1,6 @@
 ---
 name: aidefence
-description: AIDefence status, detection stats, and threat analysis dashboard
+description: AIDefence 상태, 탐지 통계, 위협 분석 대시보드
 allowed-tools: mcp__plugin_ruflo-core_ruflo__aidefence_stats
 ---
 

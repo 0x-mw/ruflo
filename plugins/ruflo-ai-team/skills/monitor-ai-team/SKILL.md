@@ -1,6 +1,6 @@
 ---
 name: monitor-ai-team
-description: Report a RuFlo AI team's progress, blockers, task ownership, and remaining planned budget.
+description: RuFlo AI 팀의 진행 상황, 막힌 부분, 작업 담당, 남은 계획 예산을 보고합니다.
 allowed-tools: mcp__plugin_ruflo-ai-team_ruflo-ai-team__team_get mcp__plugin_ruflo-ai-team_ruflo-ai-team__task_list mcp__plugin_ruflo-ai-team_ruflo-ai-team__evidence_export
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: Orchestrate multi-phase deep research with web search, memory retrieval, pattern matching, and synthesis into structured findings
+description: 웹 검색, 메모리 조회, 패턴 매칭, 종합을 구조화된 결과로 엮는 다단계 심층 리서치를 오케스트레이션
 argument-hint: "<topic> [--cap-usd <n>] [--depth quick|standard|deep]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_search_unified mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-store mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-recall mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__neural_predict mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-search mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-store mcp__plugin_ruflo-core_ruflo__task_create mcp__plugin_ruflo-core_ruflo__task_list mcp__plugin_ruflo-core_ruflo__task_summary Bash mcp__plugin_ruflo-core_ruflo__aidefence_scan mcp__plugin_ruflo-core_ruflo__aidefence_is_safe WebSearch WebFetch Read Write
 ---

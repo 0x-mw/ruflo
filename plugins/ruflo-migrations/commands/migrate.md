@@ -1,6 +1,6 @@
 ---
 name: migrate
-description: Database migration operations — create, apply, rollback, validate, and inspect migration history
+description: 데이터베이스 마이그레이션 작업 — 마이그레이션 생성, 적용, 롤백, 검증, 이력 조회
 ---
 
 Migration commands:

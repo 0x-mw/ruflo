@@ -1,3 +1,7 @@
+---
+description: SPARC 워크플로 관리자 모드
+---
+
 # SPARC Workflow Manager Mode
 
 ## Purpose

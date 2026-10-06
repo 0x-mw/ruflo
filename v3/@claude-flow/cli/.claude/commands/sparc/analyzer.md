@@ -1,3 +1,7 @@
+---
+description: SPARC 분석기 모드
+---
+
 # SPARC Analyzer Mode
 
 ## Purpose

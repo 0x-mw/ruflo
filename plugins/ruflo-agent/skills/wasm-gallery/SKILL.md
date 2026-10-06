@@ -1,6 +1,6 @@
 ---
 name: wasm-gallery
-description: Browse, publish, and install WASM agents from the community gallery
+description: 커뮤니티 갤러리에서 WASM 에이전트를 탐색, 게시, 설치
 argument-hint: "[search-query]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__wasm_gallery_list mcp__plugin_ruflo-core_ruflo__wasm_gallery_search mcp__plugin_ruflo-core_ruflo__wasm_gallery_create mcp__plugin_ruflo-core_ruflo__wasm_agent_create mcp__plugin_ruflo-core_ruflo__wasm_agent_export Bash
 ---

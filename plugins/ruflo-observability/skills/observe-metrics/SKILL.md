@@ -1,6 +1,6 @@
 ---
 name: observe-metrics
-description: Aggregate and display system metrics with anomaly detection for a time period
+description: 특정 기간의 시스템 메트릭을 이상 탐지와 함께 집계해 표시
 argument-hint: "[--period 1h]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__agentdb_semantic-route Bash
 ---

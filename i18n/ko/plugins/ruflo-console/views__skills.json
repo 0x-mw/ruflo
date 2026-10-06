@@ -1,0 +1,272 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/skills.ts",
+  "entries": [
+    {
+      "key": "{0} project · {1} global · {2}",
+      "ko": "프로젝트 {0} · 전역 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:29 const"
+      ]
+    },
+    {
+      "key": "{0} list unreadable: {1}",
+      "ko": "{0} 목록을 읽을 수 없습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:32 text()"
+      ]
+    },
+    {
+      "key": "asking npx -y skills ls --json (project) and ls -g --json (global)… the first run downloads the CLI",
+      "ko": "npx -y skills ls --json(프로젝트)과 ls -g --json(전역)을 요청하는 중… 처음 실행하면 CLI를 내려받습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:35 text()"
+      ]
+    },
+    {
+      "key": "not listed yet: r lists them (npx -y skills ls --json)",
+      "ko": "아직 나열하지 않음: r을 누르면 나열합니다 (npx -y skills ls --json)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:35 text()"
+      ]
+    },
+    {
+      "key": "no skills in this project or globally: search below and ▸ add one",
+      "ko": "이 프로젝트와 전역에 스킬이 없습니다. 아래에서 검색하고 ▸ 추가하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:37 text()"
+      ]
+    },
+    {
+      "key": "global  · {0}",
+      "ko": "전역  · {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:42 leader()"
+      ]
+    },
+    {
+      "key": "global  · no agent links",
+      "ko": "전역  · 에이전트 연결 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:42 leader()"
+      ]
+    },
+    {
+      "key": "project · {0}",
+      "ko": "프로젝트 · {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:42 leader()"
+      ]
+    },
+    {
+      "key": "project · no agent links",
+      "ko": "프로젝트 · 에이전트 연결 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:42 leader()"
+      ]
+    },
+    {
+      "key": "update",
+      "ko": "업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:43 label"
+      ]
+    },
+    {
+      "key": "remove",
+      "ko": "제거",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:44 label"
+      ]
+    },
+    {
+      "key": "+{0} more: npx skills ls shows them all",
+      "ko": "+{0}개 더 있음: npx skills ls로 전체를 볼 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:52 text()"
+      ]
+    },
+    {
+      "key": "skills.sh · npx skills find · most installed first",
+      "ko": "skills.sh · npx skills find · 설치 많은 순",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:59 rule()"
+      ]
+    },
+    {
+      "key": "skills.sh · npx skills find · as found",
+      "ko": "skills.sh · npx skills find · 검색된 순",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:59 rule()"
+      ]
+    },
+    {
+      "key": "a word or two: react, testing · owner:vercel-labs deploy narrows to one GitHub owner",
+      "ko": "한두 단어: react, testing · owner:vercel-labs deploy 로 GitHub 소유자 한 곳으로 좁힙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:66 placeholder"
+      ]
+    },
+    {
+      "key": "this surface has no text field: run npx skills find <query> instead",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다. 대신 npx skills find <query>를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:74 text()"
+      ]
+    },
+    {
+      "key": "asking skills.sh for \"{0}\"…",
+      "ko": "skills.sh에 \"{0}\"을(를) 요청하는 중…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:77 text()"
+      ]
+    },
+    {
+      "key": "search failed: {0}",
+      "ko": "검색하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:78 text()"
+      ]
+    },
+    {
+      "key": "no skills found for \"{0}\"",
+      "ko": "\"{0}\"에 대한 스킬이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:79 text()"
+      ]
+    },
+    {
+      "key": "Enter searches skills.sh (it is on the network, so nothing is asked until you do)",
+      "ko": "Enter를 누르면 skills.sh를 검색합니다 (네트워크를 사용하므로 누르기 전에는 요청하지 않습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:80 text()"
+      ]
+    },
+    {
+      "key": "{0} installs",
+      "ko": "설치 {0}회",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:84 leader()"
+      ]
+    },
+    {
+      "key": "installs n/a",
+      "ko": "설치 수 n/a",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:84 leader()"
+      ]
+    },
+    {
+      "key": "preview",
+      "ko": "미리보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:86 label"
+      ]
+    },
+    {
+      "key": "add",
+      "ko": "추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:87 label"
+      ]
+    },
+    {
+      "key": "sort: as found",
+      "ko": "정렬: 검색된 순",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:95 label"
+      ]
+    },
+    {
+      "key": "sort: most installed",
+      "ko": "정렬: 설치 많은 순",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:95 label"
+      ]
+    },
+    {
+      "key": "▸ use hands the skill to claude without installing · ▸ preview lists its repo · ▸ add installs to {0} (asks first)",
+      "ko": "▸ use는 설치 없이 스킬을 claude에게 넘깁니다 · ▸ preview는 저장소를 나열합니다 · ▸ add는 {0}에 설치합니다 (먼저 확인)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:96 text()"
+      ]
+    },
+    {
+      "key": "my-skill: makes my-skill/SKILL.md in this project",
+      "ko": "my-skill: 이 프로젝트에 my-skill/SKILL.md를 만듭니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:113 placeholder"
+      ]
+    },
+    {
+      "key": "create",
+      "ko": "생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:115 submitLabel"
+      ]
+    },
+    {
+      "key": "Enter shows the command, Enter again (or y) runs it · ▸ edit opens a skill in the AI terminal with claude",
+      "ko": "Enter로 명령을 보고, 한 번 더 Enter(또는 y)로 실행합니다 · ▸ edit은 claude로 AI 터미널에서 스킬을 엽니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:122 text()"
+      ]
+    },
+    {
+      "key": "running: {0}…",
+      "ko": "실행하는 중: {0}…",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:138 text()"
+      ]
+    },
+    {
+      "key": "{0} · listed: {1} ({2})",
+      "ko": "{0} · 등재됨: {1} ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:140 text()"
+      ]
+    },
+    {
+      "key": "{0} · not listed: {1} ({2})",
+      "ko": "{0} · 미등재: {1} ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/skills.ts:140 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

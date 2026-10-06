@@ -1,6 +1,6 @@
 ---
 name: agent-capabilities
-description: Capability matrix for all agent types
+description: 모든 에이전트 유형의 역량 매트릭스
 type: reference
 ---
 

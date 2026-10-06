@@ -1,0 +1,160 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-templates.ts",
+  "entries": [
+    {
+      "key": "{0}: this surface has no text field, so the default is used: none (required)",
+      "ko": "{0}: 이 화면에는 텍스트 입력란이 없어 기본값을 씁니다: 없음 (필수)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:62 text()"
+      ]
+    },
+    {
+      "key": "{0}: this surface has no text field, so the default is used: {1}",
+      "ko": "{0}: 이 화면에는 텍스트 입력란이 없어 기본값을 씁니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:62 text()"
+      ]
+    },
+    {
+      "key": "{0} (required)",
+      "ko": "{0} (필수)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:63 placeholder"
+      ]
+    },
+    {
+      "key": "template",
+      "ko": "템플릿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:75 text()"
+      ]
+    },
+    {
+      "key": "dry run: {0} agents in {1} phases ({2}), at most {3} at once",
+      "ko": "드라이런: {1}단계({2})에 에이전트 {0}개, 동시 최대 {3}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:78 text()"
+      ]
+    },
+    {
+      "key": "counts only: tokens, time and cost are not estimated, nothing has measured them for this template",
+      "ko": "개수만 표시: 토큰, 시간, 비용은 추정하지 않습니다. 이 템플릿에 대해 측정된 값이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:79 text()"
+      ]
+    },
+    {
+      "key": "over the {0}-agent ceiling: lower a count before launching",
+      "ko": "에이전트 {0}개 상한을 넘었습니다. 시작하기 전에 개수를 줄이세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:80 text()"
+      ]
+    },
+    {
+      "key": "needs",
+      "ko": "필요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:81 text()"
+      ]
+    },
+    {
+      "key": "something in the text looked like a credential: it is masked in what is sent",
+      "ko": "텍스트에 자격 증명처럼 보이는 내용이 있어 전송 내용에서 가렸습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:82 text()"
+      ]
+    },
+    {
+      "key": "launch (the action row) sends this as a visible prompt after you confirm; the workflow then appears in the board above",
+      "ko": "시작(액션 줄)은 확인 후 이것을 보이는 프롬프트로 전송하며, 그러면 워크플로가 위의 보드에 나타납니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:83 text()"
+      ]
+    },
+    {
+      "key": "launch workflow template {0} ({1} agents, {2} phases)",
+      "ko": "워크플로 템플릿 {0} 시작 (에이전트 {1}개, {2}단계)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:100 label"
+      ]
+    },
+    {
+      "key": "to Claude Code as a visible prompt: “{0}”",
+      "ko": "Claude Code에 보이는 프롬프트로 전송: “{0}”",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:104 shows"
+      ]
+    },
+    {
+      "key": "the prompt in the transcript, then a workflow run on this page",
+      "ko": "대화 기록에 프롬프트가 남고, 이어서 이 화면에 워크플로 실행이 나타납니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:105 expect"
+      ]
+    },
+    {
+      "key": "Starts a Claude Code turn (billed as any turn is), and then up to {0} agents it spawns, which spend money: the cost is not estimated. Mid-turn it is only prepared in the prompt box.",
+      "ko": "Claude Code 턴을 시작하며(일반 턴과 같이 과금), 이어서 생성되는 최대 {0}개 에이전트가 비용을 씁니다. 비용은 추정하지 않습니다. 턴 도중에는 프롬프트 입력란에 준비만 합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:106 note"
+      ]
+    },
+    {
+      "key": "launch workflow template",
+      "ko": "워크플로 템플릿 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:112 label"
+      ]
+    },
+    {
+      "key": "Workflow templates (dry run, then a confirmed launch)",
+      "ko": "워크플로 템플릿 (드라이런 후 확인을 거쳐 시작)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:121 title"
+      ]
+    },
+    {
+      "key": "next template",
+      "ko": "다음 템플릿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:122 label"
+      ]
+    },
+    {
+      "key": "launch template",
+      "ko": "템플릿 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:123 label"
+      ]
+    },
+    {
+      "key": "nothing to launch: a required value is empty, the plan is over the agent ceiling, or the console is not wired for launching",
+      "ko": "시작할 수 없습니다: 필수 값이 비었거나, 계획이 에이전트 상한을 넘었거나, 콘솔이 시작 기능에 연결되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-templates.ts:123 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

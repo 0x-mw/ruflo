@@ -1,0 +1,249 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-text.ts",
+  "entries": [
+    {
+      "key": "make no commits: leave changes in the worktree for review",
+      "ko": "커밋하지 않습니다: 변경 사항은 리뷰를 위해 워크트리에 남깁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:14 const"
+      ]
+    },
+    {
+      "key": "each writer in its own git worktree; at most {0} concurrent writers on disjoint files",
+      "ko": "작성자마다 자기 git 워크트리 사용; 서로 겹치지 않는 파일에 최대 {0}명 동시 작성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:17 const"
+      ]
+    },
+    {
+      "key": "writers share the checkout, one at a time; at most {0} concurrent writers on disjoint files",
+      "ko": "작성자가 체크아웃을 공유하며 한 번에 한 명씩; 서로 겹치지 않는 파일에 최대 {0}명 동시 작성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:17 const"
+      ]
+    },
+    {
+      "key": "LOOP: {0}  (every {1}, bounded: it ends at the finish condition or the stop rule)",
+      "ko": "LOOP: {0}  ({1}마다, 범위 제한: 종료 조건이나 중지 규칙에서 끝남)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:20 return"
+      ]
+    },
+    {
+      "key": "each tick: 1 check progress against the plan; 2 fix what failed; 3 run the gates; 4 repeat until every phase is complete and green",
+      "ko": "틱마다: 1 계획 대비 진행 상황 확인; 2 실패한 부분 수정; 3 게이트 실행; 4 모든 단계가 완료되고 통과할 때까지 반복",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:21 return"
+      ]
+    },
+    {
+      "key": "gates: {0}; a gate counts only when its real output was read, and a fix is mutation-checked (break it once, see the test fail, restore)",
+      "ko": "게이트: {0}; 게이트는 실제 출력을 읽었을 때만 인정하고, 수정은 변이 검사(한 번 망가뜨려 테스트 실패를 확인한 뒤 복원)를 거칩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:22 return"
+      ]
+    },
+    {
+      "key": "finish when: every phase’s acceptance checks pass and every gate is green on the same clean commit; then stop the loop and report",
+      "ko": "종료 조건: 모든 단계의 인수 확인이 통과하고 모든 게이트가 같은 깨끗한 커밋에서 통과; 그다음 루프를 중지하고 보고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:23 return"
+      ]
+    },
+    {
+      "key": "defaults taken, not asked: {0} interval; {1}; {2}; {3}; {4}",
+      "ko": "묻지 않고 적용한 기본값: 간격 {0}; {1}; {2}; {3}; {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:24 return"
+      ]
+    },
+    {
+      "key": "stop and ask only when: a gate fails the same way three ticks running, an acceptance check cannot be met within the scope, or an action would leave the branch without its setting",
+      "ko": "멈추고 묻는 경우: 게이트가 세 틱 연속 같은 방식으로 실패할 때, 범위 안에서 인수 확인을 충족할 수 없을 때, 설정 없이 동작이 브랜치를 벗어나게 될 때만",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:25 return"
+      ]
+    },
+    {
+      "key": "accept: {0}",
+      "ko": "인수: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:31 const"
+      ]
+    },
+    {
+      "key": "owns: its own files, disjoint from the other writers in this wave, in its own worktree",
+      "ko": "담당: 이 웨이브의 다른 작성자와 겹치지 않는 자기 파일, 자기 워크트리에서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:35 return"
+      ]
+    },
+    {
+      "key": "owns: its own files, disjoint from the other writers in this wave",
+      "ko": "담당: 이 웨이브의 다른 작성자와 겹치지 않는 자기 파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:35 return"
+      ]
+    },
+    {
+      "key": "owns: the files it changes, in its own worktree",
+      "ko": "담당: 변경하는 파일, 자기 워크트리에서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:35 return"
+      ]
+    },
+    {
+      "key": "owns: the files it changes",
+      "ko": "담당: 변경하는 파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:35 return"
+      ]
+    },
+    {
+      "key": "SPARC plan ({0}, {1}) for: {2}",
+      "ko": "SPARC 계획 ({0}, {1}): {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:40 const"
+      ]
+    },
+    {
+      "key": "{0} tasks · cost {1} · critical path {2} · {3} waves",
+      "ko": "작업 {0}개 · 비용 {1} · 임계 경로 {2} · 웨이브 {3}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:40 const",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:88 rule()"
+      ]
+    },
+    {
+      "key": "lifecycle: {0}",
+      "ko": "수명 주기: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:40 const"
+      ]
+    },
+    {
+      "key": "wave {0}: ({1} of {2} writers at a time)",
+      "ko": "웨이브 {0}: (작성자 {2}명 중 {1}명씩 동시에)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:46 push()"
+      ]
+    },
+    {
+      "key": "No active mission. /ruflo plan <goal> shows a SPARC plan; the Missions view creates the mission from it.",
+      "ko": "활성 미션이 없습니다. /ruflo plan <goal> 은 SPARC 계획을 표시하며, 미션 화면에서 그 계획으로 미션을 생성합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:61 return"
+      ]
+    },
+    {
+      "key": "cancelled · {0}/{1} tasks done · auto-run on",
+      "ko": "취소됨 · 작업 {0}/{1} 완료 · 자동 실행 켜짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "cancelled · {0}/{1} tasks done",
+      "ko": "취소됨 · 작업 {0}/{1} 완료",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "paused · {0}/{1} tasks done · auto-run on",
+      "ko": "일시 중지됨 · 작업 {0}/{1} 완료 · 자동 실행 켜짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "paused · {0}/{1} tasks done",
+      "ko": "일시 중지됨 · 작업 {0}/{1} 완료",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "complete · {0}/{1} tasks done · auto-run on",
+      "ko": "완료 · 작업 {0}/{1} 완료 · 자동 실행 켜짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "complete · {0}/{1} tasks done",
+      "ko": "완료 · 작업 {0}/{1} 완료",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "running · {0}/{1} tasks done · auto-run on",
+      "ko": "실행 중 · 작업 {0}/{1} 완료 · 자동 실행 켜짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "running · {0}/{1} tasks done",
+      "ko": "실행 중 · 작업 {0}/{1} 완료",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "next: nothing to hand out now",
+      "ko": "다음: 지금 인계할 작업이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:71 push()"
+      ]
+    },
+    {
+      "key": "next: {0} {1} (/ruflo run mission-next hands it to Claude)",
+      "ko": "다음: {0} {1} (/ruflo run mission-next 가 Claude에게 인계합니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:71 push()"
+      ]
+    },
+    {
+      "key": "type a goal after the id: /ruflo plan <goal>",
+      "ko": "id 뒤에 목표를 입력하세요: /ruflo plan <goal>",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-text.ts:82 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 {
   "name": "ruflo-goals",
-  "description": "Long-horizon goal planning, deep research orchestration, and adaptive replanning using GOAP algorithms",
+  "description": "GOAP 알고리즘을 활용한 장기 목표 계획, 심층 리서치 오케스트레이션, 적응형 재계획",
   "version": "0.4.2",
   "author": {
     "name": "ruvnet",
@@ -29,8 +29,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Write guard",
-      "description": "Refuse writes and commands on this plugin's own tools that hold a key, token or password.",
+      "title": "쓰기 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 자체 도구에 대한 쓰기와 명령을 거부합니다.",
       "required": false,
       "default": "on",
       "options": [
@@ -40,8 +40,8 @@
     },
     "personal": {
       "type": "string",
-      "title": "Dossier ID screen",
-      "description": "Refuse dossier and research writes that hold a government ID number (SSN shape).",
+      "title": "자료 ID 차단",
+      "description": "정부 발급 ID 번호(SSN 형식)가 들어 있는 자료 및 리서치 쓰기를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

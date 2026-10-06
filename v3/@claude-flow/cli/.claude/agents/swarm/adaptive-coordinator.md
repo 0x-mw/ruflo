@@ -2,7 +2,7 @@
 name: adaptive-coordinator
 type: coordinator
 color: "#9C27B0"  
-description: Dynamic topology switching coordinator with self-organizing swarm patterns and real-time optimization
+description: 자기 조직화 스웜 패턴과 실시간(real-time) 최적화를 갖춘 동적 토폴로지 전환 코디네이터
 capabilities:
   - topology_adaptation
   - performance_optimization

@@ -1,6 +1,6 @@
 ---
 name: federation
-description: Manage cross-installation agent federation
+description: 설치 간 에이전트 페더레이션 관리
 ---
 $ARGUMENTS
 Manage federation peers, trust, and audit logs. Parse subcommand from $ARGUMENTS.

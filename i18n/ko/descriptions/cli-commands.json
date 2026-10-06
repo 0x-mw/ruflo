@@ -1,0 +1,1004 @@
+{
+  "v3/@claude-flow/cli/.claude/commands/agents/README.md": {
+    "en": "Agents Commands",
+    "ko": "에이전트 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/agent-capabilities.md": {
+    "en": "Capability matrix for all agent types",
+    "ko": "모든 에이전트 유형의 역량 매트릭스",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/agent-coordination.md": {
+    "en": "agent-coordination",
+    "ko": "에이전트 조율",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/agent-spawning.md": {
+    "en": "agent-spawning",
+    "ko": "에이전트 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/agent-types.md": {
+    "en": "Complete guide to all 87 available agent types in Claude Flow V3",
+    "ko": "Claude Flow V3에서 사용할 수 있는 에이전트 유형 87종 전체 가이드",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/health.md": {
+    "en": "Show agent health and metrics",
+    "ko": "에이전트 상태와 메트릭을 표시합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/list.md": {
+    "en": "List all active agents",
+    "ko": "활성 에이전트를 모두 표시합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/logs.md": {
+    "en": "Show agent activity logs",
+    "ko": "에이전트 활동 로그를 표시합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/metrics.md": {
+    "en": "Show agent performance metrics",
+    "ko": "에이전트 성능 메트릭을 표시합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/pool.md": {
+    "en": "Manage agent pool for scaling",
+    "ko": "확장을 위해 에이전트 풀을 관리합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/spawn.md": {
+    "en": "Spawn a new agent with V3 capabilities",
+    "ko": "V3 역량을 갖춘 새 에이전트를 생성합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/status.md": {
+    "en": "Show detailed status of an agent",
+    "ko": "에이전트의 상세 상태를 표시합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/agents/stop.md": {
+    "en": "Stop a running agent",
+    "ko": "실행 중인 에이전트를 중지합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/analysis/COMMAND_COMPLIANCE_REPORT.md": {
+    "en": "Analysis Commands Compliance Report",
+    "ko": "분석 명령어 규정 준수 보고서",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/analysis/README.md": {
+    "en": "Analysis Commands",
+    "ko": "분석 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/analysis/bottleneck-detect.md": {
+    "en": "bottleneck detect",
+    "ko": "병목 감지",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/analysis/performance-bottlenecks.md": {
+    "en": "Performance Bottleneck Analysis",
+    "ko": "성능 병목 분석",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/analysis/performance-report.md": {
+    "en": "performance-report",
+    "ko": "성능 보고서",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/analysis/token-efficiency.md": {
+    "en": "Token Usage Optimization",
+    "ko": "토큰 사용량 최적화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/analysis/token-usage.md": {
+    "en": "token-usage",
+    "ko": "토큰 사용량",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/automation/README.md": {
+    "en": "Automation Commands",
+    "ko": "자동화 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/automation/auto-agent.md": {
+    "en": "auto agent",
+    "ko": "에이전트 자동 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/automation/self-healing.md": {
+    "en": "Self-Healing Workflows",
+    "ko": "자가 복구 워크플로",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/automation/session-memory.md": {
+    "en": "Cross-Session Memory",
+    "ko": "세션 간 메모리",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/automation/smart-agents.md": {
+    "en": "Smart Agent Auto-Spawning",
+    "ko": "스마트 에이전트 자동 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/automation/smart-spawn.md": {
+    "en": "smart-spawn",
+    "ko": "스마트 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/automation/workflow-select.md": {
+    "en": "workflow-select",
+    "ko": "워크플로 선택",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/claude-flow-help.md": {
+    "en": "Show Claude-Flow commands and usage",
+    "ko": "Claude-Flow 명령어와 사용법을 표시합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/claude-flow-memory.md": {
+    "en": "Interact with Claude-Flow memory system",
+    "ko": "Claude-Flow 메모리 시스템과 상호작용합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/claude-flow-swarm.md": {
+    "en": "Coordinate multi-agent swarms for complex tasks",
+    "ko": "복잡한 작업을 위해 멀티 에이전트 스웜을 조율합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/coordination/README.md": {
+    "en": "Coordination Commands",
+    "ko": "조율 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/coordination/agent-spawn.md": {
+    "en": "agent-spawn",
+    "ko": "에이전트 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/coordination/init.md": {
+    "en": "Initialize Coordination Framework",
+    "ko": "조율 프레임워크 초기화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/coordination/orchestrate.md": {
+    "en": "Coordinate Task Execution",
+    "ko": "작업 실행 조율",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/coordination/spawn.md": {
+    "en": "Create Cognitive Patterns",
+    "ko": "인지 패턴 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/coordination/swarm-init.md": {
+    "en": "swarm init",
+    "ko": "스웜 초기화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/coordination/task-orchestrate.md": {
+    "en": "task-orchestrate",
+    "ko": "작업 오케스트레이션",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/README.md": {
+    "en": "Github Commands",
+    "ko": "GitHub 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/code-review-swarm.md": {
+    "en": "Code Review Swarm - Automated Code Review with AI Agents",
+    "ko": "코드 리뷰 스웜 - AI 에이전트를 활용한 자동 코드 리뷰",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/code-review.md": {
+    "en": "code-review",
+    "ko": "코드 리뷰 (code-review)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/github-modes.md": {
+    "en": "GitHub Integration Modes",
+    "ko": "GitHub 통합 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/github-swarm.md": {
+    "en": "github swarm",
+    "ko": "GitHub 스웜",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/issue-tracker.md": {
+    "en": "GitHub Issue Tracker",
+    "ko": "GitHub 이슈 트래커",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/issue-triage.md": {
+    "en": "issue-triage",
+    "ko": "이슈 분류",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/multi-repo-swarm.md": {
+    "en": "Multi-Repo Swarm - Cross-Repository Swarm Orchestration",
+    "ko": "멀티 저장소 스웜 - 저장소 간 스웜 오케스트레이션",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/pr-enhance.md": {
+    "en": "pr-enhance",
+    "ko": "PR 개선",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/pr-manager.md": {
+    "en": "GitHub PR Manager",
+    "ko": "GitHub PR 관리자",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/project-board-sync.md": {
+    "en": "Project Board Sync - GitHub Projects Integration",
+    "ko": "프로젝트 보드 동기화 - GitHub Projects 통합",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/release-manager.md": {
+    "en": "GitHub Release Manager",
+    "ko": "GitHub 릴리스 관리자",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/release-swarm.md": {
+    "en": "Release Swarm - Intelligent Release Automation",
+    "ko": "릴리스 스웜 - 지능형 릴리스 자동화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/repo-analyze.md": {
+    "en": "repo-analyze",
+    "ko": "저장소 분석",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/repo-architect.md": {
+    "en": "GitHub Repository Architect",
+    "ko": "GitHub 저장소 아키텍트",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/swarm-issue.md": {
+    "en": "Swarm Issue - Issue-Based Swarm Coordination",
+    "ko": "스웜 이슈 - 이슈 기반 스웜 조율",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/swarm-pr.md": {
+    "en": "Swarm PR - Managing Swarms through Pull Requests",
+    "ko": "스웜 PR - 풀 리퀘스트로 스웜 관리",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/sync-coordinator.md": {
+    "en": "GitHub Sync Coordinator",
+    "ko": "GitHub 동기화 코디네이터",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/github/workflow-automation.md": {
+    "en": "Workflow Automation - GitHub Actions Integration",
+    "ko": "워크플로 자동화 - GitHub Actions 통합",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/README.md": {
+    "en": "Hive-mind Commands",
+    "ko": "하이브마인드 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-consensus.md": {
+    "en": "hive-mind-consensus",
+    "ko": "하이브마인드 합의",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-init.md": {
+    "en": "hive-mind-init",
+    "ko": "하이브마인드 초기화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-memory.md": {
+    "en": "hive-mind-memory",
+    "ko": "하이브마인드 메모리",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-metrics.md": {
+    "en": "hive-mind-metrics",
+    "ko": "하이브마인드 메트릭",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-resume.md": {
+    "en": "hive-mind-resume",
+    "ko": "하이브마인드 재개",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-sessions.md": {
+    "en": "hive-mind-sessions",
+    "ko": "하이브마인드 세션",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-spawn.md": {
+    "en": "hive-mind-spawn",
+    "ko": "하이브마인드 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-status.md": {
+    "en": "hive-mind-status",
+    "ko": "하이브마인드 상태",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-stop.md": {
+    "en": "hive-mind-stop",
+    "ko": "하이브마인드 중지",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind-wizard.md": {
+    "en": "hive-mind-wizard",
+    "ko": "하이브마인드 마법사",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hive-mind/hive-mind.md": {
+    "en": "hive-mind",
+    "ko": "하이브마인드 (hive-mind)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/README.md": {
+    "en": "Hooks Commands",
+    "ko": "훅 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/overview.md": {
+    "en": "Claude Code Hooks for claude-flow",
+    "ko": "claude-flow용 Claude Code 훅",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/post-edit.md": {
+    "en": "hook post-edit",
+    "ko": "편집 후 훅 (post-edit)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/post-task.md": {
+    "en": "hook post-task",
+    "ko": "작업 후 훅 (post-task)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/pre-edit.md": {
+    "en": "hook pre-edit",
+    "ko": "편집 전 훅 (pre-edit)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/pre-task.md": {
+    "en": "hook pre-task",
+    "ko": "작업 전 훅 (pre-task)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/session-end.md": {
+    "en": "hook session-end",
+    "ko": "세션 종료 훅 (session-end)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/hooks/setup.md": {
+    "en": "Setting Up ruv-swarm Hooks",
+    "ko": "ruv-swarm 훅 설정",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/memory/README.md": {
+    "en": "Memory Commands",
+    "ko": "메모리 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/memory/memory-persist.md": {
+    "en": "memory-persist",
+    "ko": "메모리 영속화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/memory/memory-search.md": {
+    "en": "memory-search",
+    "ko": "메모리 검색",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/memory/memory-usage.md": {
+    "en": "memory-usage",
+    "ko": "메모리 사용량",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/memory/neural.md": {
+    "en": "Neural Pattern Training",
+    "ko": "뉴럴 패턴 학습",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/monitoring/README.md": {
+    "en": "Monitoring Commands",
+    "ko": "모니터링 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/monitoring/agent-metrics.md": {
+    "en": "agent-metrics",
+    "ko": "에이전트 메트릭",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/monitoring/agents.md": {
+    "en": "List Active Patterns",
+    "ko": "활성 패턴 목록",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/monitoring/real-time-view.md": {
+    "en": "real-time-view",
+    "ko": "실시간 보기",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/monitoring/status.md": {
+    "en": "Check Coordination Status",
+    "ko": "조율 상태 확인",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/monitoring/swarm-monitor.md": {
+    "en": "swarm-monitor",
+    "ko": "스웜 모니터링",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/optimization/README.md": {
+    "en": "Optimization Commands",
+    "ko": "최적화 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/optimization/auto-topology.md": {
+    "en": "Automatic Topology Selection",
+    "ko": "토폴로지 자동 선택",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/optimization/cache-manage.md": {
+    "en": "cache-manage",
+    "ko": "캐시 관리",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/optimization/parallel-execute.md": {
+    "en": "parallel-execute",
+    "ko": "병렬 실행",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/optimization/parallel-execution.md": {
+    "en": "Parallel Task Execution",
+    "ko": "병렬 작업 실행",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/optimization/topology-optimize.md": {
+    "en": "topology-optimize",
+    "ko": "토폴로지 최적화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/pair/README.md": {
+    "en": "👥 Pair Programming Command",
+    "ko": "👥 페어 프로그래밍 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/pair/commands.md": {
+    "en": "Pair Programming Commands Reference",
+    "ko": "페어 프로그래밍 명령어 참조",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/pair/config.md": {
+    "en": "Pair Programming Configuration",
+    "ko": "페어 프로그래밍 설정",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/pair/examples.md": {
+    "en": "Pair Programming Examples",
+    "ko": "페어 프로그래밍 예시",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/pair/modes.md": {
+    "en": "Pair Programming Modes",
+    "ko": "페어 프로그래밍 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/pair/session.md": {
+    "en": "Pair Programming Session Management",
+    "ko": "페어 프로그래밍 세션 관리",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/pair/start.md": {
+    "en": "pair --start",
+    "ko": "페어 프로그래밍 시작 (--start)",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc.md": {
+    "en": "Execute SPARC methodology workflows with Claude-Flow",
+    "ko": "Claude-Flow로 SPARC 방법론 워크플로를 실행합니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/analyzer.md": {
+    "en": "SPARC Analyzer Mode",
+    "ko": "SPARC 분석기 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/architect.md": {
+    "en": "SPARC Architect Mode",
+    "ko": "SPARC 아키텍트 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/ask.md": {
+    "en": "❓Ask - You are a task-formulation guide that helps users navigate, ask, and delegate tasks to the correc...",
+    "ko": "❓질문 - 사용자가 작업을 탐색하고, 질문하고, 알맞은 전문 모드에 위임하도록 돕는 작업 구성 안내자입니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/batch-executor.md": {
+    "en": "SPARC Batch Executor Mode",
+    "ko": "SPARC 배치 실행기 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/code.md": {
+    "en": "🧠 Auto-Coder - You write clean, efficient, modular code based on pseudocode and architecture. You use configurat...",
+    "ko": "🧠 자동 코더 - 의사코드와 아키텍처를 바탕으로 깔끔하고 효율적인 모듈형 코드를 작성합니다. 설정 파일을 사용합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/coder.md": {
+    "en": "SPARC Coder Mode",
+    "ko": "SPARC 코더 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/debug.md": {
+    "en": "🪲 Debugger - You troubleshoot runtime bugs, logic errors, or integration failures by tracing, inspecting, and ...",
+    "ko": "🪲 디버거 - 추적, 점검, 격리를 통해 런타임 버그, 로직 오류, 통합 실패를 해결합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/debugger.md": {
+    "en": "SPARC Debugger Mode",
+    "ko": "SPARC 디버거 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/designer.md": {
+    "en": "SPARC Designer Mode",
+    "ko": "SPARC 디자이너 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/devops.md": {
+    "en": "🚀 DevOps - You are the DevOps automation and infrastructure specialist responsible for deploying, managing, ...",
+    "ko": "🚀 DevOps - 배포, 관리를 맡는 DevOps 자동화 및 인프라 전문가입니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/docs-writer.md": {
+    "en": "📚 Documentation Writer - You write concise, clear, and modular Markdown documentation that explains usage, integration, se...",
+    "ko": "📚 문서 작성자 - 사용법, 통합, 설정을 설명하는 간결하고 명확한 모듈형 Markdown 문서를 작성합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/documenter.md": {
+    "en": "SPARC Documenter Mode",
+    "ko": "SPARC 문서화 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/innovator.md": {
+    "en": "SPARC Innovator Mode",
+    "ko": "SPARC 혁신가 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/integration.md": {
+    "en": "🔗 System Integrator - You merge the outputs of all modes into a working, tested, production-ready system. You ensure co...",
+    "ko": "🔗 시스템 통합자 - 모든 모드의 출력을 병합해 동작하고 테스트를 거친 프로덕션급 시스템으로 만듭니다. 일관성을 보장합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/mcp.md": {
+    "en": "♾️ MCP Integration - You are the MCP (Management Control Panel) integration specialist responsible for connecting to a...",
+    "ko": "♾️ MCP 통합 - 연결을 담당하는 MCP(Management Control Panel) 통합 전문가입니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/memory-manager.md": {
+    "en": "SPARC Memory Manager Mode",
+    "ko": "SPARC 메모리 관리자 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/optimizer.md": {
+    "en": "SPARC Optimizer Mode",
+    "ko": "SPARC 최적화기 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/orchestrator.md": {
+    "en": "SPARC Orchestrator Mode",
+    "ko": "SPARC 오케스트레이터 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/post-deployment-monitoring-mode.md": {
+    "en": "📈 Deployment Monitor - You observe the system post-launch, collecting performance, logs, and user feedback. You flag reg...",
+    "ko": "📈 배포 모니터 - 출시 후 시스템을 관찰하며 성능, 로그, 사용자 피드백을 수집합니다. 회귀를 표시합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/refinement-optimization-mode.md": {
+    "en": "🧹 Optimizer - You refactor, modularize, and improve system performance. You enforce file size limits, dependenc...",
+    "ko": "🧹 최적화기 - 리팩터링, 모듈화, 시스템 성능 개선을 맡습니다. 파일 크기 제한, 의존성을 강제합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/researcher.md": {
+    "en": "SPARC Researcher Mode",
+    "ko": "SPARC 리서처 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/reviewer.md": {
+    "en": "SPARC Reviewer Mode",
+    "ko": "SPARC 리뷰어 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/security-review.md": {
+    "en": "🛡️ Security Reviewer - You perform static and dynamic audits to ensure secure code practices. You flag secrets, poor mod...",
+    "ko": "🛡️ 보안 리뷰어 - 정적·동적 감사를 수행해 안전한 코드 관행을 보장합니다. 비밀 정보, 부실한 모듈화를 표시합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/sparc-modes.md": {
+    "en": "SPARC Modes Overview",
+    "ko": "SPARC 모드 개요",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/sparc.md": {
+    "en": "⚡️ SPARC Orchestrator - You are SPARC, the orchestrator of complex workflows. You break down large objectives into delega...",
+    "ko": "⚡️ SPARC 오케스트레이터 - 복잡한 워크플로를 조율하는 SPARC입니다. 큰 목표를 위임 가능한 작업으로 분해합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/spec-pseudocode.md": {
+    "en": "📋 Specification Writer - You capture full project context—functional requirements, edge cases, constraints—and translate t...",
+    "ko": "📋 명세 작성자 - 기능 요구사항, 엣지 케이스, 제약 조건 등 프로젝트 전체 맥락을 파악해 변환합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/supabase-admin.md": {
+    "en": "🔐 Supabase Admin - You are the Supabase database, authentication, and storage specialist. You design and implement d...",
+    "ko": "🔐 Supabase 관리자 - Supabase 데이터베이스, 인증, 스토리지 전문가입니다. 설계하고 구현합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/swarm-coordinator.md": {
+    "en": "SPARC Swarm Coordinator Mode",
+    "ko": "SPARC 스웜 코디네이터 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/tdd.md": {
+    "en": "SPARC TDD Mode",
+    "ko": "SPARC TDD 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/tester.md": {
+    "en": "SPARC Tester Mode",
+    "ko": "SPARC 테스터 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/tutorial.md": {
+    "en": "📘 SPARC Tutorial - You are the SPARC onboarding and education assistant. Your job is to guide users through the full...",
+    "ko": "📘 SPARC 튜토리얼 - SPARC 온보딩 및 교육 도우미입니다. 사용자가 전체 과정을 따라가도록 안내합니다...",
+    "synth": false,
+    "style": "plain"
+  },
+  "v3/@claude-flow/cli/.claude/commands/sparc/workflow-manager.md": {
+    "en": "SPARC Workflow Manager Mode",
+    "ko": "SPARC 워크플로 관리자 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/stream-chain/pipeline.md": {
+    "en": "stream-chain pipeline",
+    "ko": "stream-chain 파이프라인",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/stream-chain/run.md": {
+    "en": "stream-chain run",
+    "ko": "stream-chain 실행",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/README.md": {
+    "en": "Swarm Commands",
+    "ko": "스웜 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/analysis.md": {
+    "en": "Analysis Swarm Strategy",
+    "ko": "분석 스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/development.md": {
+    "en": "Development Swarm Strategy",
+    "ko": "개발 스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/examples.md": {
+    "en": "Examples Swarm Strategy",
+    "ko": "예시 스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/maintenance.md": {
+    "en": "Maintenance Swarm Strategy",
+    "ko": "유지 관리 스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/optimization.md": {
+    "en": "Optimization Swarm Strategy",
+    "ko": "최적화 스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/research.md": {
+    "en": "Research Swarm Strategy",
+    "ko": "연구 스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-analysis.md": {
+    "en": "swarm-analysis",
+    "ko": "스웜 분석",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-background.md": {
+    "en": "swarm-background",
+    "ko": "스웜 백그라운드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-init.md": {
+    "en": "swarm-init",
+    "ko": "스웜 초기화",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-modes.md": {
+    "en": "swarm-modes",
+    "ko": "스웜 모드",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-monitor.md": {
+    "en": "swarm-monitor",
+    "ko": "스웜 모니터링",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-spawn.md": {
+    "en": "swarm-spawn",
+    "ko": "스웜 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-status.md": {
+    "en": "swarm-status",
+    "ko": "스웜 상태",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm-strategies.md": {
+    "en": "swarm-strategies",
+    "ko": "스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/swarm.md": {
+    "en": "/swarm",
+    "ko": null,
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/swarm/testing.md": {
+    "en": "Testing Swarm Strategy",
+    "ko": "테스트 스웜 전략",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/training/README.md": {
+    "en": "Training Commands",
+    "ko": "학습 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/training/model-update.md": {
+    "en": "model-update",
+    "ko": "모델 업데이트",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/training/neural-patterns.md": {
+    "en": "Neural Pattern Training",
+    "ko": "뉴럴 패턴 학습",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/training/neural-train.md": {
+    "en": "neural-train",
+    "ko": "뉴럴 학습",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/training/pattern-learn.md": {
+    "en": "pattern-learn",
+    "ko": "패턴 학습",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/training/specialization.md": {
+    "en": "Agent Specialization Training",
+    "ko": "에이전트 전문화 학습",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/truth/start.md": {
+    "en": "📊 Truth Command",
+    "ko": "📊 진실 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/verify/check.md": {
+    "en": "verify check",
+    "ko": "검증 확인",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/verify/start.md": {
+    "en": "🔍 Verification Commands",
+    "ko": "🔍 검증 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/workflows/README.md": {
+    "en": "Workflows Commands",
+    "ko": "워크플로 명령어",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/workflows/development.md": {
+    "en": "Development Workflow Coordination",
+    "ko": "개발 워크플로 조율",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/workflows/research.md": {
+    "en": "Research Workflow Coordination",
+    "ko": "연구 워크플로 조율",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/workflows/workflow-create.md": {
+    "en": "workflow-create",
+    "ko": "워크플로 생성",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/workflows/workflow-execute.md": {
+    "en": "workflow-execute",
+    "ko": "워크플로 실행",
+    "synth": true,
+    "style": "synth"
+  },
+  "v3/@claude-flow/cli/.claude/commands/workflows/workflow-export.md": {
+    "en": "workflow-export",
+    "ko": "워크플로 내보내기",
+    "synth": true,
+    "style": "synth"
+  }
+}

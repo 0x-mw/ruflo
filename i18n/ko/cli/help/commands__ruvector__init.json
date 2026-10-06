@@ -1,0 +1,88 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/init.ts",
+  "entries": [
+    {
+      "key": "Database password (or use PGPASSWORD env)",
+      "ko": "데이터베이스 비밀번호 (또는 PGPASSWORD 환경변수 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:71 description"
+      ]
+    },
+    {
+      "key": "Enable SSL connection",
+      "ko": "SSL 연결을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:76 description"
+      ]
+    },
+    {
+      "key": "Schema name for RuVector tables",
+      "ko": "RuVector 테이블용 스키마 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:83 description"
+      ]
+    },
+    {
+      "key": "Force re-initialization (drops existing schema)",
+      "ko": "강제로 다시 초기화합니다 (기존 스키마 삭제)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:90 description"
+      ]
+    },
+    {
+      "key": "Default vector dimensions",
+      "ko": "기본 벡터 차원 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:96 description"
+      ]
+    },
+    {
+      "key": "Default index type (hnsw, ivfflat)",
+      "ko": "기본 인덱스 유형 (hnsw, ivfflat)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:102 description"
+      ]
+    },
+    {
+      "key": "Initialize with database name",
+      "ko": "데이터베이스 이름을 지정해 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:109 description"
+      ]
+    },
+    {
+      "key": "Remote with SSL",
+      "ko": "SSL을 사용하는 원격 연결",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:110 description"
+      ]
+    },
+    {
+      "key": "Force re-initialization",
+      "ko": "강제로 다시 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:111 description"
+      ]
+    },
+    {
+      "key": "Custom vector dimensions",
+      "ko": "사용자 지정 벡터 차원 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/init.ts:112 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

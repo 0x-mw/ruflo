@@ -1,6 +1,6 @@
 ---
 name: neural-train
-description: Train SONA + MicroLoRA neural patterns from successful task completions; runs the DISTILL + CONSOLIDATE phases of the 4-step pipeline
+description: 성공한 작업 완료 사례로 SONA + MicroLoRA 뉴럴 패턴을 학습시키며, 4단계 파이프라인의 DISTILL + CONSOLIDATE 단계를 실행
 argument-hint: "[--pattern-type coordination|edit|task] [--epochs N] [--microlora]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__neural_train mcp__plugin_ruflo-core_ruflo__neural_status mcp__plugin_ruflo-core_ruflo__neural_patterns mcp__plugin_ruflo-core_ruflo__neural_predict mcp__plugin_ruflo-core_ruflo__neural_optimize mcp__plugin_ruflo-core_ruflo__neural_compress mcp__plugin_ruflo-core_ruflo__hooks_pretrain mcp__plugin_ruflo-core_ruflo__hooks_build-agents mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-start mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-step mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-end mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-store mcp__plugin_ruflo-core_ruflo__hooks_intelligence_learn mcp__plugin_ruflo-core_ruflo__hooks_intelligence-reset mcp__plugin_ruflo-core_ruflo__ruvllm_sona_create mcp__plugin_ruflo-core_ruflo__ruvllm_sona_adapt mcp__plugin_ruflo-core_ruflo__ruvllm_microlora_create mcp__plugin_ruflo-core_ruflo__ruvllm_microlora_adapt mcp__plugin_ruflo-core_ruflo__agentdb_consolidate Bash
 ---

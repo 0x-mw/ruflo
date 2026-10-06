@@ -1,0 +1,109 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/snapshot.ts",
+  "entries": [
+    {
+      "key": "swarm",
+      "ko": "스웜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:105 text()",
+        "plugins/ruflo-console/hooks/harness.ts:26 label",
+        "plugins/ruflo-console/hooks/views/frames.ts:52 label"
+      ]
+    },
+    {
+      "key": "pointer",
+      "ko": "포인터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:106 text()"
+      ]
+    },
+    {
+      "key": "agents",
+      "ko": "에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:117 text()",
+        "plugins/ruflo-console/hooks/views/skills-more.ts:26 text()"
+      ]
+    },
+    {
+      "key": "claims",
+      "ko": "클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:119 text()",
+        "plugins/ruflo-console/hooks/data/snapshot.ts:131 text()",
+        "plugins/ruflo-console/hooks/views/agent.ts:32 kv()"
+      ]
+    },
+    {
+      "key": "hive",
+      "ko": "하이브",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:120 text()",
+        "plugins/ruflo-console/hooks/views/hive.ts:352 col()",
+        "plugins/ruflo-console/hooks/views/hive.ts:373 col()"
+      ]
+    },
+    {
+      "key": "activity",
+      "ko": "활동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:122 text()"
+      ]
+    },
+    {
+      "key": "daemon",
+      "ko": "데몬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:123 text()",
+        "plugins/ruflo-console/hooks/data/snapshot.ts:131 text()",
+        "plugins/ruflo-console/hooks/views/overview.ts:36 kv()"
+      ]
+    },
+    {
+      "key": "neural",
+      "ko": "뉴럴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:124 text()",
+        "plugins/ruflo-console/hooks/neural.ts:114 group",
+        "plugins/ruflo-console/hooks/neural.ts:117 group"
+      ]
+    },
+    {
+      "key": "router",
+      "ko": "라우터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:125 text()"
+      ]
+    },
+    {
+      "key": "outcomes",
+      "ko": "결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:126 text()"
+      ]
+    },
+    {
+      "key": "missions",
+      "ko": "미션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/snapshot.ts:141 text()",
+        "plugins/ruflo-console/hooks/mission-palette.ts:17 group",
+        "plugins/ruflo-console/hooks/mission-palette.ts:18 group"
+      ]
+    }
+  ],
+  "obsolete": []
+}

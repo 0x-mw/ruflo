@@ -1,6 +1,6 @@
 ---
 name: metaharness-architect
-description: MetaHarness integration architect for ruflo. Surfaces score/genome/mint/mcp-scan/threat-model upstream capabilities via skills; enforces ADR-150 architectural constraint (MetaHarness as removable augmentation, never required runtime dep); coordinates Phase 1 MVP rollout
+description: ruflo용 MetaHarness 통합 설계자. 스킬을 통해 score/genome/mint/mcp-scan/threat-model 업스트림 기능을 제공하고, ADR-150 아키텍처 제약(MetaHarness는 제거 가능한 확장이며 필수 런타임 의존성이 아님)을 강제하며, 1단계 MVP 롤아웃을 조율
 model: haiku
 ---
 

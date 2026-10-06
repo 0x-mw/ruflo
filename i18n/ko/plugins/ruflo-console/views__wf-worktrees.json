@@ -1,0 +1,344 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-worktrees.ts",
+  "entries": [
+    {
+      "key": "dirty ?",
+      "ko": "변경 ?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:83 const"
+      ]
+    },
+    {
+      "key": "200+ changed",
+      "ko": "200+ 변경됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:83 const"
+      ]
+    },
+    {
+      "key": "{0} changed",
+      "ko": "{0} 변경됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:83 const"
+      ]
+    },
+    {
+      "key": "age ?",
+      "ko": "경과 ?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:84 const"
+      ]
+    },
+    {
+      "key": "{0} · {1} (by name)",
+      "ko": "{0} · {1} (이름 기준)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:85 const"
+      ]
+    },
+    {
+      "key": "worktrees: not wired into this console yet (wireWfWorktrees)",
+      "ko": "워크트리: 아직 이 콘솔에 연결되지 않았습니다 (wireWfWorktrees)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:113 text()"
+      ]
+    },
+    {
+      "key": "the last read failed ({0})",
+      "ko": "마지막 읽기에 실패했습니다 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:115 text()"
+      ]
+    },
+    {
+      "key": "reading the worktrees…",
+      "ko": "워크트리를 읽는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:116 text()"
+      ]
+    },
+    {
+      "key": "not read yet: it reads while this page is open, or press the read button (w)",
+      "ko": "아직 읽지 않았습니다. 이 화면이 열려 있는 동안 읽거나 읽기 버튼 (w)을 누르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:116 text()"
+      ]
+    },
+    {
+      "key": "press the read button (w) to try again",
+      "ko": "읽기 버튼 (w)을 눌러 다시 시도하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:116 text()"
+      ]
+    },
+    {
+      "key": "{0} · read {1} · origin/main as last fetched n/a (nothing is fetched here)",
+      "ko": "{0} · 읽음 {1} · 마지막으로 가져온 origin/main 해당 없음 (여기서는 가져오지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:122 text()"
+      ]
+    },
+    {
+      "key": "{0} · read {1} · origin/main as last fetched {2} (nothing is fetched here)",
+      "ko": "{0} · 읽음 {1} · 마지막으로 가져온 origin/main {2} (여기서는 가져오지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:122 text()"
+      ]
+    },
+    {
+      "key": "+{0} more worktrees not drawn (the list is cut at {1} rows)",
+      "ko": "+워크트리 {0}개는 표시하지 않음 (목록은 {1}행에서 잘림)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:124 text()"
+      ]
+    },
+    {
+      "key": "live processes: not checked (the read button, w, checks them; the timer never does)",
+      "ko": "실행 중 프로세스: 확인 안 함 (읽기 버튼 w로 확인하며 타이머는 확인하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:126 text()"
+      ]
+    },
+    {
+      "key": "live processes: {0} working directories seen, {1}, your own processes only",
+      "ko": "실행 중 프로세스: 작업 디렉터리 {0}개 확인, {1}, 내 프로세스만",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:126 text()"
+      ]
+    },
+    {
+      "key": "live processes: {0}",
+      "ko": "실행 중 프로세스: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:126 text()"
+      ]
+    },
+    {
+      "key": "live processes: unknown",
+      "ko": "실행 중 프로세스: 알 수 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:126 text()"
+      ]
+    },
+    {
+      "key": "cleanup: {0} worktree ready to remove ({1} more after these {2}); the button lists them first",
+      "ko": "정리: 제거 가능한 워크트리 {0}개 (이 {2}개 이후 {1}개 더). 버튼이 먼저 목록을 표시합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:127 text()"
+      ]
+    },
+    {
+      "key": "cleanup: {0} worktree ready to remove; the button lists them first",
+      "ko": "정리: 제거 가능한 워크트리 {0}개. 버튼이 먼저 목록을 표시합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:127 text()"
+      ]
+    },
+    {
+      "key": "cleanup: {0} worktrees ready to remove ({1} more after these {2}); the button lists them first",
+      "ko": "정리: 제거 가능한 워크트리 {0}개 (이 {2}개 이후 {1}개 더). 버튼이 먼저 목록을 표시합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:127 text()"
+      ]
+    },
+    {
+      "key": "cleanup: {0} worktrees ready to remove; the button lists them first",
+      "ko": "정리: 제거 가능한 워크트리 {0}개. 버튼이 먼저 목록을 표시합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:127 text()"
+      ]
+    },
+    {
+      "key": "cleanup: {0}",
+      "ko": "정리: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:127 text()"
+      ]
+    },
+    {
+      "key": "cleanup: nothing to remove",
+      "ko": "정리: 제거할 항목이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:127 text()"
+      ]
+    },
+    {
+      "key": "removed: the directory only, never the branch, never with --force; each is re-checked just before it goes",
+      "ko": "제거 대상: 디렉터리만이며 브랜치는 제거하지 않고 --force도 쓰지 않습니다. 각 항목은 제거 직전에 다시 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:128 text()"
+      ]
+    },
+    {
+      "key": "read worktrees + live processes",
+      "ko": "워크트리와 실행 중 프로세스 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:129 button()"
+      ]
+    },
+    {
+      "key": "remove {0} merged, clean worktree",
+      "ko": "병합되고 깨끗한 워크트리 {0}개 제거",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:155 label"
+      ]
+    },
+    {
+      "key": "remove {0} merged, clean worktrees",
+      "ko": "병합되고 깨끗한 워크트리 {0}개 제거",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:155 label"
+      ]
+    },
+    {
+      "key": "each directory gone and no longer in git worktree list",
+      "ko": "각 디렉터리가 사라지고 git worktree list에 더 이상 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:160 expect"
+      ]
+    },
+    {
+      "key": "Removes only these {0} worktree directory (branches stay; files git ignores, such as build output, go with the directory). Each is re-checked just before it goes, one at a time, with no --force: git refuses a dirty or locked one. {1} more qualify and wait for the next confirm.",
+      "ko": "이 워크트리 디렉터리 {0}개만 제거합니다 (브랜치는 남고, 빌드 출력처럼 git이 무시하는 파일은 디렉터리와 함께 삭제됨). 각 항목은 제거 직전에 하나씩 다시 확인하며 --force는 쓰지 않으므로 변경되었거나 잠긴 항목은 git이 거부합니다. {1}개가 더 해당되며 다음 확인을 기다립니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:161 note"
+      ]
+    },
+    {
+      "key": "Removes only these {0} worktree directory (branches stay; files git ignores, such as build output, go with the directory). Each is re-checked just before it goes, one at a time, with no --force: git refuses a dirty or locked one.",
+      "ko": "이 워크트리 디렉터리 {0}개만 제거합니다 (브랜치는 남고, 빌드 출력처럼 git이 무시하는 파일은 디렉터리와 함께 삭제됨). 각 항목은 제거 직전에 하나씩 다시 확인하며 --force는 쓰지 않으므로 변경되었거나 잠긴 항목은 git이 거부합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:161 note"
+      ]
+    },
+    {
+      "key": "Removes only these {0} worktree directories (branches stay; files git ignores, such as build output, go with the directory). Each is re-checked just before it goes, one at a time, with no --force: git refuses a dirty or locked one. {1} more qualify and wait for the next confirm.",
+      "ko": "이 워크트리 디렉터리 {0}개만 제거합니다 (브랜치는 남고, 빌드 출력처럼 git이 무시하는 파일은 디렉터리와 함께 삭제됨). 각 항목은 제거 직전에 하나씩 다시 확인하며 --force는 쓰지 않으므로 변경되었거나 잠긴 항목은 git이 거부합니다. {1}개가 더 해당되며 다음 확인을 기다립니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:161 note"
+      ]
+    },
+    {
+      "key": "Removes only these {0} worktree directories (branches stay; files git ignores, such as build output, go with the directory). Each is re-checked just before it goes, one at a time, with no --force: git refuses a dirty or locked one.",
+      "ko": "이 워크트리 디렉터리 {0}개만 제거합니다 (브랜치는 남고, 빌드 출력처럼 git이 무시하는 파일은 디렉터리와 함께 삭제됨). 각 항목은 제거 직전에 하나씩 다시 확인하며 --force는 쓰지 않으므로 변경되었거나 잠긴 항목은 git이 거부합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:161 note"
+      ]
+    },
+    {
+      "key": "no longer listed under the same main worktree",
+      "ko": "같은 메인 워크트리 아래 더 이상 목록에 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:175 const"
+      ]
+    },
+    {
+      "key": "{0}: git said {1}",
+      "ko": "{0}: git 응답 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:185 push()"
+      ]
+    },
+    {
+      "key": "{0}: git said exit {1}",
+      "ko": "{0}: git 종료 코드 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:185 push()"
+      ]
+    },
+    {
+      "key": "remove worktrees",
+      "ko": "워크트리 제거",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:196 label"
+      ]
+    },
+    {
+      "key": "{0} removed, {1} kept",
+      "ko": "{0}개 제거, {1}개 유지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:196 detail"
+      ]
+    },
+    {
+      "key": "removed {0}",
+      "ko": "{0} 제거함",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:196 expr"
+      ]
+    },
+    {
+      "key": "Worktrees (read-only list; one confirm-gated removal)",
+      "ko": "워크트리 (읽기 전용 목록, 확인 후 제거 한 가지)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:204 title"
+      ]
+    },
+    {
+      "key": "worktrees",
+      "ko": "워크트리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:205 label"
+      ]
+    },
+    {
+      "key": "clean worktrees",
+      "ko": "깨끗한 워크트리 제거",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:206 label"
+      ]
+    },
+    {
+      "key": "nothing to remove: read the worktrees and live processes first (w); only clean worktrees fully inside origin/main, older than a day, with no live process, outside this session, qualify",
+      "ko": "제거할 항목이 없습니다. 먼저 워크트리와 실행 중 프로세스를 읽으세요 (w). origin/main에 완전히 포함되고, 하루 넘게 지났고, 실행 중 프로세스가 없고, 이 세션 밖에 있는 깨끗한 워크트리만 해당됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:206 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,379 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/anatole.ts",
+  "entries": [
+    {
+      "key": "Anatole does nothing: it records nothing and raises nothing.",
+      "ko": "Anatole이 아무 일도 하지 않습니다. 기록도 경고도 하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:11 off"
+      ]
+    },
+    {
+      "key": "Learning only (the default): it records the baseline of what is normal here and says nothing.",
+      "ko": "학습 전용(기본값): 여기서 정상으로 보는 기준선을 기록만 하고 아무 말도 하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:12 learn"
+      ]
+    },
+    {
+      "key": "Raises alerts and never blocks anything. Run replay first to see what it would say.",
+      "ko": "경고만 띄우고 아무것도 차단하지 않습니다. 먼저 replay를 실행해 어떤 경고가 나올지 확인하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:13 notify"
+      ]
+    },
+    {
+      "key": "Rules set to block deny the tool call, and the reason names the rule and how to allow it. Switching to enforce asks first.",
+      "ko": "차단으로 설정된 규칙은 도구 호출을 거부하며, 사유에 규칙 이름과 허용 방법이 표시됩니다. enforce로 전환하기 전에 먼저 확인합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:14 enforce"
+      ]
+    },
+    {
+      "key": "Project Anatole open alerts: {0} ({1})",
+      "ko": "Project Anatole 열린 경고: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:47 return"
+      ]
+    },
+    {
+      "key": "no readable status.json yet (refused: too large, not a regular file, or an unknown shape)",
+      "ko": "읽을 수 있는 status.json이 아직 없습니다 (거부됨: 너무 크거나, 일반 파일이 아니거나, 알 수 없는 형식)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:58 text()"
+      ]
+    },
+    {
+      "key": "no readable status.json yet: start a session with the plugin loaded",
+      "ko": "읽을 수 있는 status.json이 아직 없습니다. 플러그인을 불러온 상태로 세션을 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:58 text()"
+      ]
+    },
+    {
+      "key": "mode {0} (rules.json asks for {1})",
+      "ko": "모드 {0} (rules.json 요청: {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:70 text()"
+      ]
+    },
+    {
+      "key": "mode unknown (rules.json asks for {0})",
+      "ko": "모드 알 수 없음 (rules.json 요청: {0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:70 text()"
+      ]
+    },
+    {
+      "key": "mode unknown",
+      "ko": "모드 알 수 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:70 text()"
+      ]
+    },
+    {
+      "key": "baseline n/a",
+      "ko": "기준선 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:71 text()"
+      ]
+    },
+    {
+      "key": "baseline {0} {1}%",
+      "ko": "기준선 {0} {1}%",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:71 text()"
+      ]
+    },
+    {
+      "key": "{0} events · {1} sessions",
+      "ko": "이벤트 {0}건 · 세션 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:73 text()"
+      ]
+    },
+    {
+      "key": "blocked {0} · calls {1}",
+      "ko": "차단 {0} · 호출 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:80 text()"
+      ]
+    },
+    {
+      "key": "{0} · written {1} (an earlier session)",
+      "ko": "{0} · 기록 {1} (이전 세션)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:84 text()"
+      ]
+    },
+    {
+      "key": "{0} · written {1}",
+      "ko": "{0} · 기록 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:84 text()"
+      ]
+    },
+    {
+      "key": "Rules",
+      "ko": "규칙",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:95 subhead()"
+      ]
+    },
+    {
+      "key": "{0} · {1} block · {2} notify · {3} off",
+      "ko": "{0} · 차단 {1} · 알림 {2} · 끔 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:95 subhead()"
+      ]
+    },
+    {
+      "key": "ID",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:96 text()"
+      ]
+    },
+    {
+      "key": "SEVERITY",
+      "ko": "심각도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:96 expr"
+      ]
+    },
+    {
+      "key": "RULE",
+      "ko": "규칙",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:96 expr"
+      ]
+    },
+    {
+      "key": "OWASP",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:96 expr"
+      ]
+    },
+    {
+      "key": "MODE · RECORD",
+      "ko": "모드 · 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:96 text()"
+      ]
+    },
+    {
+      "key": "{0} hits · auto-demoted to notify",
+      "ko": "적중 {0}건 · 알림으로 자동 강등",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:104 text()"
+      ]
+    },
+    {
+      "key": "{0} hits · changed from default",
+      "ko": "적중 {0}건 · 기본값에서 변경됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:104 text()"
+      ]
+    },
+    {
+      "key": "{0} hits · {1}% acked · auto-demoted to notify",
+      "ko": "적중 {0}건 · 확인(ack) {1}% · 알림으로 자동 강등",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:104 text()"
+      ]
+    },
+    {
+      "key": "{0} hits · {1}% acked · changed from default",
+      "ko": "적중 {0}건 · 확인(ack) {1}% · 기본값에서 변경됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:104 text()"
+      ]
+    },
+    {
+      "key": "{0} hits · {1}% acked",
+      "ko": "적중 {0}건 · 확인(ack) {1}%",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:104 text()"
+      ]
+    },
+    {
+      "key": "Hits and acked share count the last 200 alerts the mod logged. A rule set to block takes effect only in mode enforce.",
+      "ko": "적중과 확인(ack) 비율은 mod가 기록한 최근 경고 200건 기준입니다. 차단으로 설정한 규칙은 enforce 모드에서만 적용됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:107 note()"
+      ]
+    },
+    {
+      "key": "Open alerts",
+      "ko": "열린 경고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:114 subhead()"
+      ]
+    },
+    {
+      "key": "no open alerts",
+      "ko": "열린 경고가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:116 text()"
+      ]
+    },
+    {
+      "key": "{0} notified",
+      "ko": "{0}회 알림",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:123 text()"
+      ]
+    },
+    {
+      "key": "ack",
+      "ko": "확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:125 button()"
+      ]
+    },
+    {
+      "key": "allow",
+      "ko": "허용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:126 button()"
+      ]
+    },
+    {
+      "key": "Project Anatole",
+      "ko": "Project Anatole",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:140 section()",
+        "plugins/ruflo-console/hooks/views/anatole.ts:162 section()"
+      ]
+    },
+    {
+      "key": "{0} · {1} open · degraded",
+      "ko": "{0} · 열림 {1} · 성능 저하",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:144 const"
+      ]
+    },
+    {
+      "key": "no status · {0} open · degraded",
+      "ko": "상태 없음 · 열림 {0} · 성능 저하",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:144 const"
+      ]
+    },
+    {
+      "key": "no status · {0} open",
+      "ko": "상태 없음 · 열림 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:144 const"
+      ]
+    },
+    {
+      "key": "not reported yet",
+      "ko": "아직 보고되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:147 subhead()"
+      ]
+    },
+    {
+      "key": "run",
+      "ko": "실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:151 button()",
+        "plugins/ruflo-console/hooks/views/automate.ts:116 label",
+        "plugins/ruflo-console/hooks/views/devtools.ts:63 label"
+      ]
+    },
+    {
+      "key": "replay",
+      "ko": "재생",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:151 button()"
+      ]
+    },
+    {
+      "key": "run  scans the Claude configuration (settings, hooks, helpers) for exposure. The result opens in the Result panel.",
+      "ko": "실행  Claude 설정(settings, hooks, helpers)에 노출된 항목이 있는지 스캔합니다. 결과는 결과 패널에 열립니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:152 note()"
+      ]
+    },
+    {
+      "key": "replay  shows what the recorded events would have fired under the current rules and baseline.",
+      "ko": "재생  기록된 이벤트가 현재 규칙과 기준선에서 어떤 경고를 냈을지 표시합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:153 note()"
+      ]
+    },
+    {
+      "key": "Mode",
+      "ko": "모드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:154 subhead()"
+      ]
+    },
+    {
+      "key": "⌫ reset baseline",
+      "ko": "⌫ 기준선 재설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:157 button()"
+      ]
+    },
+    {
+      "key": "Reset baseline forgets everything learned and starts again. It asks first.",
+      "ko": "기준선 재설정은 학습한 내용을 모두 지우고 처음부터 다시 시작합니다. 실행 전에 먼저 확인합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/anatole.ts:158 note()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

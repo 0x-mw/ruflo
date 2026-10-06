@@ -1,3 +1,7 @@
+---
+description: 저장소 분석
+---
+
 # repo-analyze
 
 Deep analysis of GitHub repository with AI insights.

@@ -1,6 +1,6 @@
 ---
 name: release-swarm
-description: Orchestrate complex software releases using AI swarms that handle everything from changelog generation to multi-platform deployment
+description: 변경 로그 생성부터 멀티 플랫폼 배포까지 모두 처리하는 AI 스웜으로 복잡한 소프트웨어 릴리스를 오케스트레이션합니다
 type: coordination
 color: "#4ECDC4"
 tools:

@@ -1,0 +1,708 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/swarm.ts",
+  "entries": [
+    {
+      "key": "V3 Mode: Using hierarchical-mesh topology with 15-agent coordination",
+      "ko": "V3 모드: 에이전트 15개 조율에 hierarchical-mesh 토폴로지를 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:434 printInfo"
+      ]
+    },
+    {
+      "key": "Creating coordination topology...",
+      "ko": "조율 토폴로지를 생성하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:491 dim"
+      ]
+    },
+    {
+      "key": "Initializing memory namespace...",
+      "ko": "메모리 네임스페이스를 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:492 dim"
+      ]
+    },
+    {
+      "key": "Setting up communication channels...",
+      "ko": "통신 채널을 설정하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:493 dim"
+      ]
+    },
+    {
+      "key": "Enabling Flash Attention (2.49x-7.47x speedup)...",
+      "ko": "Flash Attention을 활성화하는 중 (2.49x-7.47x 속도 향상)...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:496 dim"
+      ]
+    },
+    {
+      "key": "Configuring AgentDB integration (150x faster)...",
+      "ko": "AgentDB 연동을 설정하는 중 (150x 빠름)...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:497 dim"
+      ]
+    },
+    {
+      "key": "Initializing SONA learning system...",
+      "ko": "SONA 학습 시스템을 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:498 dim"
+      ]
+    },
+    {
+      "key": "Swarm initialized successfully",
+      "ko": "스웜을 초기화했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:521 printSuccess"
+      ]
+    },
+    {
+      "key": "Wrote permission manifest (preset: {0}, {1} roles) → .swarm/permissions.jsonl",
+      "ko": "권한 매니페스트를 기록했습니다 (프리셋: {0}, 역할 {1}개) → .swarm/permissions.jsonl",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:566 dim"
+      ]
+    },
+    {
+      "key": "Audit trail seeded → .swarm/permission-audit.jsonl",
+      "ko": "감사 추적을 초기화했습니다 → .swarm/permission-audit.jsonl",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:567 dim"
+      ]
+    },
+    {
+      "key": "permission manifest skipped: {0}",
+      "ko": "권한 매니페스트를 건너뛰었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:569 dim"
+      ]
+    },
+    {
+      "key": "Failed to initialize swarm: {0}",
+      "ko": "스웜을 초기화하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:580 printError"
+      ]
+    },
+    {
+      "key": "Objective is required. Use -o or provide as argument.",
+      "ko": "목표가 필요합니다. -o를 사용하거나 인자로 전달하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:631 printError"
+      ]
+    },
+    {
+      "key": "Select execution strategy:",
+      "ko": "실행 전략 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:638 select.message"
+      ]
+    },
+    {
+      "key": "Starting swarm with objective: {0}",
+      "ko": "스웜을 시작하는 중, 목표: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:647 printInfo"
+      ]
+    },
+    {
+      "key": "Agent Deployment Plan",
+      "ko": "에이전트 배포 계획",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:653 bold"
+      ]
+    },
+    {
+      "key": "Deploy {0} agents?",
+      "ko": "에이전트 {0}개를 배포하시겠습니까?",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:667 confirm.message"
+      ]
+    },
+    {
+      "key": "Swarm execution cancelled",
+      "ko": "스웜 실행을 취소했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:672 printInfo"
+      ]
+    },
+    {
+      "key": "Initializing swarm via MCP...",
+      "ko": "MCP로 스웜을 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:682 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Swarm initialized via MCP",
+      "ko": "MCP로 스웜을 초기화했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:692 spinner.succeed"
+      ]
+    },
+    {
+      "key": "MCP swarm_init failed — swarm metadata saved locally only",
+      "ko": "MCP swarm_init에 실패했습니다 — 스웜 메타데이터는 로컬에만 저장했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:694 spinner.fail"
+      ]
+    },
+    {
+      "key": "The MCP server may not be running. Start it with: claude mcp add claude-flow -- npx -y ruflo@latest mcp start",
+      "ko": "MCP 서버가 실행 중이 아닐 수 있습니다. 다음으로 시작하세요: claude mcp add claude-flow -- npx -y ruflo@latest mcp start",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:700 dim"
+      ]
+    },
+    {
+      "key": "Swarm {0} initialized with {1} agent slots",
+      "ko": "스웜 {0}을(를) 에이전트 슬롯 {1}개로 초기화했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:727 printSuccess"
+      ]
+    },
+    {
+      "key": "This CLI coordinates agent state. Execution happens via:",
+      "ko": "이 CLI는 에이전트 상태를 조율합니다. 실행은 다음을 통해 이루어집니다:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:728 dim"
+      ]
+    },
+    {
+      "key": "Claude Code Agent tool (interactive)",
+      "ko": "Claude Code Agent 도구 (대화형)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:729 dim"
+      ]
+    },
+    {
+      "key": "hive-mind spawn --claude (autonomous)",
+      "ko": "hive-mind spawn --claude (자율)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:731 dim"
+      ]
+    },
+    {
+      "key": "Monitor: claude-flow swarm status {0}",
+      "ko": "모니터링: claude-flow swarm status {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:732 dim"
+      ]
+    },
+    {
+      "key": "No active swarm",
+      "ko": "활성 스웜이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:757 warning"
+      ]
+    },
+    {
+      "key": "Start a swarm with:",
+      "ko": "다음으로 스웜을 시작하세요:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:759 dim"
+      ]
+    },
+    {
+      "key": "Swarm Status: {0}",
+      "ko": "스웜 상태: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:766 bold"
+      ]
+    },
+    {
+      "key": "unknown id",
+      "ko": "알 수 없는 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:766 dim"
+      ]
+    },
+    {
+      "key": "Overall Progress: {0}",
+      "ko": "전체 진행률: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:770 writeln"
+      ]
+    },
+    {
+      "key": "Active",
+      "ko": "활성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:783 success"
+      ]
+    },
+    {
+      "key": "Idle",
+      "ko": "유휴",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:784 warning"
+      ]
+    },
+    {
+      "key": "Completed",
+      "ko": "완료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:785 dim",
+        "src/commands/swarm.ts:800 success"
+      ]
+    },
+    {
+      "key": "In Progress",
+      "ko": "진행 중",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:801 info"
+      ]
+    },
+    {
+      "key": "Pending",
+      "ko": "대기 중",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:802 dim"
+      ]
+    },
+    {
+      "key": "Performance Metrics",
+      "ko": "성능 메트릭",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:810 bold"
+      ]
+    },
+    {
+      "key": "Tokens Used: {0}",
+      "ko": "사용한 토큰: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:812 printList"
+      ]
+    },
+    {
+      "key": "Avg Response Time: {0}",
+      "ko": "평균 응답 시간: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:813 printList"
+      ]
+    },
+    {
+      "key": "no data",
+      "ko": "데이터 없음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:813 dim",
+        "src/commands/swarm.ts:814 dim",
+        "src/commands/swarm.ts:815 dim"
+      ]
+    },
+    {
+      "key": "Success Rate: {0}",
+      "ko": "성공률: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:814 printList"
+      ]
+    },
+    {
+      "key": "Elapsed Time: {0}",
+      "ko": "경과 시간: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:815 printList"
+      ]
+    },
+    {
+      "key": "Coordination",
+      "ko": "조율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:821 bold"
+      ]
+    },
+    {
+      "key": "Consensus Rounds: {0}",
+      "ko": "합의 라운드: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:823 printList"
+      ]
+    },
+    {
+      "key": "Messages Sent: {0}",
+      "ko": "전송한 메시지: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:824 printList"
+      ]
+    },
+    {
+      "key": "Conflicts Resolved: {0}",
+      "ko": "해결한 충돌: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:825 printList"
+      ]
+    },
+    {
+      "key": "No swarm found to stop",
+      "ko": "중지할 스웜이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:859 printError"
+      ]
+    },
+    {
+      "key": "Find an id with: claude-flow swarm status --format json   (the \"id\" field)",
+      "ko": "ID 찾기: claude-flow swarm status --format json   (\"id\" 필드)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:860 dim",
+        "src/commands/swarm.ts:935 dim"
+      ]
+    },
+    {
+      "key": "Or pass one:     claude-flow swarm stop <swarm-id>",
+      "ko": "또는 직접 지정:  claude-flow swarm stop <swarm-id>",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:861 dim"
+      ]
+    },
+    {
+      "key": "Or start one:    claude-flow swarm init",
+      "ko": "또는 새로 시작:  claude-flow swarm init",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:862 dim"
+      ]
+    },
+    {
+      "key": "Stop swarm {0}? Progress will be saved.",
+      "ko": "스웜 {0}을(를) 중지하시겠습니까? 진행 상황은 저장됩니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:868 confirm.message"
+      ]
+    },
+    {
+      "key": "Stopping swarm {0}...",
+      "ko": "스웜 {0}을(를) 중지하는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:878 printInfo"
+      ]
+    },
+    {
+      "key": "Swarm state updated",
+      "ko": "스웜 상태를 업데이트했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:888 dim"
+      ]
+    },
+    {
+      "key": "Could not update swarm state file",
+      "ko": "스웜 상태 파일을 업데이트하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:890 dim"
+      ]
+    },
+    {
+      "key": "MCP swarm stopped",
+      "ko": "MCP 스웜을 중지했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:897 dim"
+      ]
+    },
+    {
+      "key": "Swarm {0} stopped",
+      "ko": "스웜 {0}을(를) 중지했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:902 printSuccess"
+      ]
+    },
+    {
+      "key": "No swarm found to scale",
+      "ko": "확장할 스웜이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:934 printError"
+      ]
+    },
+    {
+      "key": "Or pass one:     claude-flow swarm scale <swarm-id> --agents N",
+      "ko": "또는 직접 지정:  claude-flow swarm scale <swarm-id> --agents N",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:936 dim"
+      ]
+    },
+    {
+      "key": "Target agent count required. Use --agents or -a",
+      "ko": "목표 에이전트 수가 필요합니다. --agents 또는 -a를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:941 printError"
+      ]
+    },
+    {
+      "key": "Scaling swarm {0} to {1} agents...",
+      "ko": "스웜 {0}을(를) 에이전트 {1}개로 확장하는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:945 printInfo"
+      ]
+    },
+    {
+      "key": "Spawning {0} new agents...",
+      "ko": "새 에이전트 {0}개를 생성하는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:961 dim"
+      ]
+    },
+    {
+      "key": "Gracefully stopping {0} agents...",
+      "ko": "에이전트 {0}개를 정상 종료하는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:963 dim"
+      ]
+    },
+    {
+      "key": "Swarm already at target size",
+      "ko": "스웜이 이미 목표 크기입니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:965 printInfo"
+      ]
+    },
+    {
+      "key": "Swarm scaled to {0} agents",
+      "ko": "스웜을 에이전트 {0}개로 확장했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:969 printSuccess"
+      ]
+    },
+    {
+      "key": "V3 15-Agent Hierarchical Mesh Coordination",
+      "ko": "V3 에이전트 15개 계층형 메시 조율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:996 bold"
+      ]
+    },
+    {
+      "key": "Domain",
+      "ko": "도메인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1022 printTable.header"
+      ]
+    },
+    {
+      "key": "Swarm coordination initialized with {0} agent slots via MCP",
+      "ko": "MCP로 에이전트 슬롯 {0}개의 스웜 조율을 초기화했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1040 printSuccess"
+      ]
+    },
+    {
+      "key": "MCP unavailable — showing agent plan only (no active coordination)",
+      "ko": "MCP를 사용할 수 없습니다 — 에이전트 계획만 표시합니다 (활성 조율 없음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1042 printWarning"
+      ]
+    },
+    {
+      "key": "Note: Use Claude Code Task tool or hive-mind spawn --claude to",
+      "ko": "참고: Claude Code Task 도구 또는 hive-mind spawn --claude로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1046 dim"
+      ]
+    },
+    {
+      "key": "drive actual agent execution. This command sets up the topology.",
+      "ko": "실제 에이전트 실행을 진행하세요. 이 명령어는 토폴로지만 설정합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1047 dim"
+      ]
+    },
+    {
+      "key": "Failed to read {0}: {1}",
+      "ko": "{0}을(를) 읽지 못했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1085 printError"
+      ]
+    },
+    {
+      "key": "No message provided. Use --message \"...\" or --message-file <path>.",
+      "ko": "메시지가 없습니다. --message \"...\" 또는 --message-file <path>를 사용하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1091 printError"
+      ]
+    },
+    {
+      "key": "Original: {0} tokens · Compressed: {1} tokens",
+      "ko": "원본: 토큰 {0}개 · 압축: 토큰 {1}개",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1105 printBox.content"
+      ]
+    },
+    {
+      "key": "Sentences kept: {0}/{1} · Preserved spans: {2}",
+      "ko": "유지한 문장: {0}/{1} · 보존한 구간: {2}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1105 printBox.content"
+      ]
+    },
+    {
+      "key": "Info retained (top-quartile): {0}%",
+      "ko": "유지된 정보 (상위 4분위): {0}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1105 printBox.content"
+      ]
+    },
+    {
+      "key": "Message Compressor (#2727 IB+VQ MVP)",
+      "ko": "메시지 압축기 (#2727 IB+VQ MVP)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1109 printBox.title"
+      ]
+    },
+    {
+      "key": "Compressed message",
+      "ko": "압축된 메시지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1112 bold"
+      ]
+    },
+    {
+      "key": "Swarm Coordination Commands",
+      "ko": "스웜 조율 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1159 bold"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow swarm <subcommand> [options]",
+      "ko": "사용법: claude-flow swarm <subcommand> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1161 writeln"
+      ]
+    },
+    {
+      "key": "{0}        - Initialize a new swarm",
+      "ko": "{0}        - 새 스웜 초기화",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1165 printList"
+      ]
+    },
+    {
+      "key": "{0}       - Start swarm execution",
+      "ko": "{0}       - 스웜 실행 시작",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1166 printList"
+      ]
+    },
+    {
+      "key": "{0}      - Show swarm status",
+      "ko": "{0}      - 스웜 상태 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1167 printList"
+      ]
+    },
+    {
+      "key": "{0}        - Stop swarm execution",
+      "ko": "{0}        - 스웜 실행 중지",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1168 printList"
+      ]
+    },
+    {
+      "key": "{0}       - Scale swarm agent count",
+      "ko": "{0}       - 스웜 에이전트 수 확장",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1169 printList"
+      ]
+    },
+    {
+      "key": "{0}  - V3 15-agent coordination",
+      "ko": "{0}  - V3 에이전트 15개 조율",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1170 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Inspect/update adaptive pheromone state",
+      "ko": "{0}   - 적응형 페로몬 상태 조회/업데이트",
+      "kind": "template",
+      "ctx": [
+        "src/commands/swarm.ts:1171 printList"
+      ]
+    }
+  ],
+  "obsolete": []
+}

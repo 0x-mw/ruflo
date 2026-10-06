@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/mcp-client.ts",
+  "entries": [
+    {
+      "key": "Missing required field: {0}",
+      "ko": "필수 필드가 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/mcp-client.ts:458 errors.push"
+      ]
+    }
+  ],
+  "obsolete": []
+}

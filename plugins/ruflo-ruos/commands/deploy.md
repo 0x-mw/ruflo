@@ -1,6 +1,6 @@
 ---
 name: deploy
-description: Read-only deploy hand-off after a swarm finishes on a ruOS desktop — report what would ship, never push
+description: ruOS 데스크톱에서 스웜이 끝난 뒤의 읽기 전용 배포 인계 — 배포될 내용을 보고하며 절대 푸시하지 않음
 ---
 $ARGUMENTS
 

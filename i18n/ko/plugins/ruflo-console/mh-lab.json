@@ -1,0 +1,993 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mh-lab.ts",
+  "entries": [
+    {
+      "key": "Lab · inspect",
+      "ko": "랩 · 조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:38 title"
+      ]
+    },
+    {
+      "key": "local · $0 · read-only · runs at once",
+      "ko": "로컬 · $0 · 읽기 전용 · 바로 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:38 right"
+      ]
+    },
+    {
+      "key": "Lab · record",
+      "ko": "랩 · 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:39 title"
+      ]
+    },
+    {
+      "key": "$0 · writes a file or memory · asks first",
+      "ko": "$0 · 파일 또는 메모리에 기록 · 먼저 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:39 right"
+      ]
+    },
+    {
+      "key": "Lab · evolve & test",
+      "ko": "랩 · 진화 & 테스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:40 title"
+      ]
+    },
+    {
+      "key": "compute or models · asks first",
+      "ko": "연산 또는 모델 사용 · 먼저 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:40 right"
+      ]
+    },
+    {
+      "key": "needs two stored audits (metaharness audit-list): run \"MetaHarness audit (oia-audit)\" twice",
+      "ko": "저장된 감사가 두 개 필요합니다 (metaharness audit-list): \"MetaHarness audit (oia-audit)\"을 두 번 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:57 const"
+      ]
+    },
+    {
+      "key": "SCORE",
+      "ko": "점수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:60 name"
+      ]
+    },
+    {
+      "key": "five readiness axes and the est. cost per run",
+      "ko": "준비도 5개 축과 실행당 예상 비용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:60 about"
+      ]
+    },
+    {
+      "key": "score the harness now (metaharness score)",
+      "ko": "하네스 점수 매기기 (metaharness score)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:60 label"
+      ]
+    },
+    {
+      "key": "GENOME",
+      "ko": "지놈",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:61 name"
+      ]
+    },
+    {
+      "key": "repo type, topology, risk, MCP surface, verdict",
+      "ko": "저장소 유형, 토폴로지, 위험, MCP 표면, 판정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:61 about"
+      ]
+    },
+    {
+      "key": "genome: the seven-section readiness report",
+      "ko": "genome: 7개 섹션 준비도 보고서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:61 label"
+      ]
+    },
+    {
+      "key": "MCP-SCAN",
+      "ko": "MCP 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:62 name"
+      ]
+    },
+    {
+      "key": "static findings on the MCP surface, by severity",
+      "ko": "MCP 표면의 정적 분석 결과 (심각도별)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:62 about"
+      ]
+    },
+    {
+      "key": "mcp-scan: static MCP findings by severity",
+      "ko": "mcp-scan: 심각도별 MCP 정적 분석 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:62 label"
+      ]
+    },
+    {
+      "key": "THREAT-MODEL",
+      "ko": "위협 모델",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:63 name"
+      ]
+    },
+    {
+      "key": "the worst severity, access flags and findings",
+      "ko": "최악의 심각도, 접근 플래그, 발견 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:63 about"
+      ]
+    },
+    {
+      "key": "threat-model: worst severity and its findings",
+      "ko": "threat-model: 최악의 심각도와 발견 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:63 label"
+      ]
+    },
+    {
+      "key": "DOCTOR",
+      "ko": "닥터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:64 name",
+        "plugins/ruflo-console/hooks/secure.ts:227 name"
+      ]
+    },
+    {
+      "key": "is MetaHarness installed, its packages and scripts intact",
+      "ko": "MetaHarness 설치 여부와 패키지·스크립트 무결성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:64 about"
+      ]
+    },
+    {
+      "key": "doctor --component metaharness: installed and intact?",
+      "ko": "doctor --component metaharness: 설치되어 있고 온전한가?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:64 label"
+      ]
+    },
+    {
+      "key": "AUDIT-TREND",
+      "ko": "감사 추이",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:65 name"
+      ]
+    },
+    {
+      "key": "the newest stored audit against the one before",
+      "ko": "저장된 최신 감사와 그 직전 감사 비교",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:65 about"
+      ]
+    },
+    {
+      "key": "audit-trend: the newest audit against the one before",
+      "ko": "audit-trend: 최신 감사와 직전 감사 비교",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:65 label"
+      ]
+    },
+    {
+      "key": "SIMILARITY",
+      "ko": "유사도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:66 name"
+      ]
+    },
+    {
+      "key": "how alike the newest two audits are, per dimension",
+      "ko": "최신 감사 두 개가 차원별로 얼마나 비슷한지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:66 about"
+      ]
+    },
+    {
+      "key": "similarity: the newest two audits, per dimension",
+      "ko": "similarity: 최신 감사 두 개, 차원별",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:66 label"
+      ]
+    },
+    {
+      "key": "DRIFT",
+      "ko": "드리프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:67 name",
+        "plugins/ruflo-console/hooks/vector.ts:77 name"
+      ]
+    },
+    {
+      "key": "a fresh audit against the newest stored one, not stored",
+      "ko": "새 감사를 저장된 최신 감사와 비교 (저장하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:67 about"
+      ]
+    },
+    {
+      "key": "drift-from-history: a fresh audit against the last (dry run)",
+      "ko": "drift-from-history: 새 감사와 마지막 감사 비교 (드라이런)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:67 label"
+      ]
+    },
+    {
+      "key": "every flywheel evaluation receipt and its state",
+      "ko": "모든 플라이휠 평가 영수증과 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:68 about"
+      ]
+    },
+    {
+      "key": "flywheel receipts: each evaluation receipt and its state",
+      "ko": "flywheel receipts: 평가 영수증별 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:68 label"
+      ]
+    },
+    {
+      "key": "GEPA GENOME",
+      "ko": "GEPA 지놈",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:69 name"
+      ]
+    },
+    {
+      "key": "load and validate the shipped cand-6 genome",
+      "ko": "함께 제공되는 cand-6 지놈을 불러와 검증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:69 about"
+      ]
+    },
+    {
+      "key": "gepa genome: load and validate the shipped genome",
+      "ko": "gepa genome: 제공되는 지놈을 불러와 검증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:69 label"
+      ]
+    },
+    {
+      "key": "GEPA RENDER",
+      "ko": "GEPA 렌더",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:70 name"
+      ]
+    },
+    {
+      "key": "the system prompt that genome compiles to",
+      "ko": "지놈이 컴파일되는 시스템 프롬프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:70 about"
+      ]
+    },
+    {
+      "key": "gepa render: the system prompt the genome compiles to",
+      "ko": "gepa render: 지놈이 컴파일되는 시스템 프롬프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:70 label"
+      ]
+    },
+    {
+      "key": "GEPA ANALYZE",
+      "ko": "GEPA 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:71 name"
+      ]
+    },
+    {
+      "key": "failure classes in a transcript: type its path",
+      "ko": "대화 기록의 실패 유형: 경로를 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:71 about"
+      ]
+    },
+    {
+      "key": "gepa analyze: failure classes in a transcript file",
+      "ko": "gepa analyze: 대화 기록 파일의 실패 유형",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:71 label"
+      ]
+    },
+    {
+      "key": "{0} gepa --op analyze --format json --transcript",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:71 types"
+      ]
+    },
+    {
+      "key": "BENCH VERIFY",
+      "ko": "벤치 검증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:72 name"
+      ]
+    },
+    {
+      "key": "check .metaharness/bench/suite.json is well-formed",
+      "ko": ".metaharness/bench/suite.json 형식이 올바른지 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:72 about"
+      ]
+    },
+    {
+      "key": "bench verify: check .metaharness/bench/suite.json",
+      "ko": "bench verify: .metaharness/bench/suite.json 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:72 label"
+      ]
+    },
+    {
+      "key": "EVOLVE PLAN",
+      "ko": "진화 계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:73 name"
+      ]
+    },
+    {
+      "key": "what an evolution would run, without --confirm",
+      "ko": "--confirm 없이 진화가 실행할 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:73 about"
+      ]
+    },
+    {
+      "key": "evolve plan: what an evolution would run ($0 dry run)",
+      "ko": "evolve plan: 진화가 실행할 내용 ($0 드라이런)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:73 label"
+      ]
+    },
+    {
+      "key": "LEARN PLAN",
+      "ko": "학습 계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:74 name"
+      ]
+    },
+    {
+      "key": "price a GEPA learning run, no model calls",
+      "ko": "GEPA 학습 실행 비용 산출, 모델 호출 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:74 about"
+      ]
+    },
+    {
+      "key": "learn dry run: price a GEPA learning run ($0)",
+      "ko": "learn dry run: GEPA 학습 실행 비용 산출 ($0)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:74 label"
+      ]
+    },
+    {
+      "key": "REDBLUE ATTACKS",
+      "ko": "REDBLUE 공격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:75 name"
+      ]
+    },
+    {
+      "key": "three prompt attacks it would send, no target called",
+      "ko": "전송할 프롬프트 공격 3개, 대상 호출 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:75 about"
+      ]
+    },
+    {
+      "key": "redblue attack preview: three prompt attacks, nothing sent",
+      "ko": "redblue attack preview: 프롬프트 공격 3개, 전송 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:75 label"
+      ]
+    },
+    {
+      "key": "REDBLUE MOCK",
+      "ko": "REDBLUE 모의",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:76 name"
+      ]
+    },
+    {
+      "key": "ten attacks judged by the marker fixture, $0",
+      "ko": "표식 픽스처가 판정하는 공격 10개, $0",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:76 about"
+      ]
+    },
+    {
+      "key": "redblue run, mock judge: ten tests at $0",
+      "ko": "redblue run, 모의 판정: 테스트 10개 ($0)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:76 label"
+      ]
+    },
+    {
+      "key": "$0: the mock judge is a marker fixture, no model is called",
+      "ko": "$0: 모의 판정은 표식 픽스처이며 모델을 호출하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:76 note"
+      ]
+    },
+    {
+      "key": "record",
+      "ko": "기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:77 group",
+        "plugins/ruflo-console/hooks/mh-lab.ts:78 group",
+        "plugins/ruflo-console/hooks/mh-lab.ts:79 group"
+      ]
+    },
+    {
+      "key": "OIA AUDIT",
+      "ko": "OIA 감사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:77 name"
+      ]
+    },
+    {
+      "key": "oia + threat-model + mcp-scan, stored as one record",
+      "ko": "oia + threat-model + mcp-scan 을 한 기록으로 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:77 about"
+      ]
+    },
+    {
+      "key": "run a MetaHarness audit (oia-audit)",
+      "ko": "MetaHarness 감사 실행 (oia-audit)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:77 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes one record to memory namespace metaharness-audit",
+      "ko": "$0, 로컬: 메모리 네임스페이스 metaharness-audit 에 기록 하나를 저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:77 note"
+      ]
+    },
+    {
+      "key": "BENCH CREATE",
+      "ko": "벤치 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:78 name"
+      ]
+    },
+    {
+      "key": "scaffold a bench suite from this repo’s tests",
+      "ko": "이 저장소의 테스트로 벤치 스위트 스캐폴드 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:78 about"
+      ]
+    },
+    {
+      "key": "bench create: scaffold .metaharness/bench/suite.json",
+      "ko": "bench create: .metaharness/bench/suite.json 스캐폴드 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:78 label"
+      ]
+    },
+    {
+      "key": "$0, local: writes .metaharness/bench/suite.json",
+      "ko": "$0, 로컬: .metaharness/bench/suite.json 을 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:78 note"
+      ]
+    },
+    {
+      "key": "REDBLUE INIT",
+      "ko": "REDBLUE 초기화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:79 name"
+      ]
+    },
+    {
+      "key": "a sample redblue.yaml, loopback targets only",
+      "ko": "샘플 redblue.yaml, 루프백 대상만",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:79 about"
+      ]
+    },
+    {
+      "key": "redblue init: write a sample redblue.yaml here",
+      "ko": "redblue init: 여기에 샘플 redblue.yaml 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:79 label"
+      ]
+    },
+    {
+      "key": "$0: writes ./redblue.yaml",
+      "ko": "$0: ./redblue.yaml 을 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:79 note"
+      ]
+    },
+    {
+      "key": "evolve",
+      "ko": "진화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:80 group",
+        "plugins/ruflo-console/hooks/mh-lab.ts:81 group",
+        "plugins/ruflo-console/hooks/mh-lab.ts:82 group"
+      ]
+    },
+    {
+      "key": "REDBLUE JUDGED",
+      "ko": "REDBLUE 판정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:80 name"
+      ]
+    },
+    {
+      "key": "ten attacks judged by a real model, capped at $3",
+      "ko": "실제 모델이 판정하는 공격 10개, 최대 $3",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:80 about"
+      ]
+    },
+    {
+      "key": "redblue run with a real model judge (spends, capped at $3)",
+      "ko": "실제 모델 판정으로 redblue run (비용 발생, 최대 $3)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:80 label"
+      ]
+    },
+    {
+      "key": "COSTS MONEY: a real model judges each attack (OPENROUTER_API_KEY, redblue.yaml), capped at $3 by --max-cost-usd",
+      "ko": "비용이 발생합니다: 실제 모델이 공격마다 판정합니다 (OPENROUTER_API_KEY, redblue.yaml), --max-cost-usd 로 최대 $3",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:80 note"
+      ]
+    },
+    {
+      "key": "LEARN RUN",
+      "ko": "학습 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:81 name"
+      ]
+    },
+    {
+      "key": "a GEPA learning run on a slice: type its path",
+      "ko": "슬라이스에 대한 GEPA 학습 실행: 경로를 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:81 about"
+      ]
+    },
+    {
+      "key": "learn run: a GEPA learning run on a slice (spends)",
+      "ko": "learn run: 슬라이스에 대한 GEPA 학습 실행 (비용 발생)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:81 label"
+      ]
+    },
+    {
+      "key": "{0} learn --run --format json --host claude-code --model haiku --slice",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:81 types"
+      ]
+    },
+    {
+      "key": "COSTS MONEY: model calls and Docker sandboxes; needs a metaharness checkout",
+      "ko": "비용이 발생합니다: 모델 호출과 Docker 샌드박스; metaharness 체크아웃이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:81 note"
+      ]
+    },
+    {
+      "key": "EVOLVE",
+      "ko": "진화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:82 name"
+      ]
+    },
+    {
+      "key": "3 generations × 3 children, each sandbox-scored",
+      "ko": "3세대 × 자식 3개, 각각 샌드박스에서 채점",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:82 about"
+      ]
+    },
+    {
+      "key": "evolve: 3 generations × 3 children, sandbox-scored",
+      "ko": "evolve: 3세대 × 자식 3개, 샌드박스 채점",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:82 label"
+      ]
+    },
+    {
+      "key": "local, minutes: runs your test command for each of ~9 variants and writes .metaharness/; the deterministic mutator calls no model",
+      "ko": "로컬, 수 분 소요: 변형 약 9개마다 테스트 명령을 실행하고 .metaharness/ 를 기록; 결정적 변이기는 모델을 호출하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:82 note"
+      ]
+    },
+    {
+      "key": "SECURITY BENCH",
+      "ko": "보안 벤치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:83 name"
+      ]
+    },
+    {
+      "key": "Darwin Shield on a 10-vuln / 9-decoy corpus",
+      "ko": "취약점 10개 / 미끼 9개 코퍼스에서 Darwin Shield 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:83 about"
+      ]
+    },
+    {
+      "key": "security bench: Darwin Shield against four baselines",
+      "ko": "security bench: Darwin Shield 대 기준선 4개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:83 label"
+      ]
+    },
+    {
+      "key": "may call models: its B1 baseline is an LLM single pass; about 2-3 minutes",
+      "ko": "모델을 호출할 수 있음: B1 기준선은 LLM 단일 패스; 약 2-3분",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:83 note"
+      ]
+    },
+    {
+      "key": "FLYWHEEL RUN",
+      "ko": "플라이휠 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:84 name"
+      ]
+    },
+    {
+      "key": "evaluate candidates into receipts, never promotes",
+      "ko": "후보를 평가해 영수증으로 기록하며 승격은 하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:84 about"
+      ]
+    },
+    {
+      "key": "flywheel run: evaluate candidates into receipts (local proposer)",
+      "ko": "flywheel run: 후보를 평가해 영수증으로 기록 (로컬 제안기)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:84 label"
+      ]
+    },
+    {
+      "key": "local: evaluates up to 40 harvested samples and writes receipts to .claude-flow/flywheel-v1; it never changes the champion",
+      "ko": "로컬: 수집한 샘플을 최대 40개 평가해 영수증을 .claude-flow/flywheel-v1 에 기록; 챔피언은 절대 바꾸지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:84 note"
+      ]
+    },
+    {
+      "key": "type it in the terminal (i): ruflo {0}<path>",
+      "ko": "터미널(i)에 입력하세요: ruflo {0}<path>",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:105 expr"
+      ]
+    },
+    {
+      "key": "worst {0} · verdict {1} · {2} finding",
+      "ko": "최악 {0} · 판정 {1} · 발견 {2}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:155 const"
+      ]
+    },
+    {
+      "key": "worst {0} · verdict {1} · {2} findings",
+      "ko": "최악 {0} · 판정 {1} · 발견 {2}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:155 const"
+      ]
+    },
+    {
+      "key": "worst {0} · {1} finding",
+      "ko": "최악 {0} · 발견 {1}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:155 const"
+      ]
+    },
+    {
+      "key": "worst {0} · {1} findings",
+      "ko": "최악 {0} · 발견 {1}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:155 const"
+      ]
+    },
+    {
+      "key": "by severity: {0}",
+      "ko": "심각도별: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:155 const",
+        "plugins/ruflo-console/hooks/secure.ts:107 return"
+      ]
+    },
+    {
+      "key": "tools allowed {0} · denied {1}",
+      "ko": "도구 허용 {0} · 거부 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:162 push()"
+      ]
+    },
+    {
+      "key": "tests {0} · failures {1} · critical {2} · high {3} · med {4} · low {5}",
+      "ko": "테스트 {0} · 실패 {1} · critical {2} · high {3} · med {4} · low {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:170 const"
+      ]
+    },
+    {
+      "key": "cost ${0} · gates passed · block production yes",
+      "ko": "비용 ${0} · 게이트 통과 · 프로덕션 차단 예",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "cost ${0} · gates passed · block production no",
+      "ko": "비용 ${0} · 게이트 통과 · 프로덕션 차단 아니요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "cost ${0} · gates FAILED · block production yes",
+      "ko": "비용 ${0} · 게이트 실패 · 프로덕션 차단 예",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "cost ${0} · gates FAILED · block production no",
+      "ko": "비용 ${0} · 게이트 실패 · 프로덕션 차단 아니요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "cost $n/a · gates passed · block production yes",
+      "ko": "비용 $n/a · 게이트 통과 · 프로덕션 차단 예",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "cost $n/a · gates passed · block production no",
+      "ko": "비용 $n/a · 게이트 통과 · 프로덕션 차단 아니요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "cost $n/a · gates FAILED · block production yes",
+      "ko": "비용 $n/a · 게이트 실패 · 프로덕션 차단 예",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "cost $n/a · gates FAILED · block production no",
+      "ko": "비용 $n/a · 게이트 실패 · 프로덕션 차단 아니요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:171 const"
+      ]
+    },
+    {
+      "key": "(none yet)",
+      "ko": "(아직 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:188 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} · signed",
+      "ko": "{0} · {1} · {2} · 서명됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:193 return"
+      ]
+    },
+    {
+      "key": "{0} chars from {1}",
+      "ko": "{1} 에서 {0}자",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:212 return"
+      ]
+    },
+    {
+      "key": "{0} chars from",
+      "ko": "{0}자 출처",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:212 return"
+      ]
+    },
+    {
+      "key": "the genome",
+      "ko": "지놈",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:212 String()"
+      ]
+    },
+    {
+      "key": "valid yes · {0} errors",
+      "ko": "유효 예 · 오류 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:220 return"
+      ]
+    },
+    {
+      "key": "valid NO · {0} errors",
+      "ko": "유효 아니요 · 오류 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:220 return"
+      ]
+    },
+    {
+      "key": "genome {0} (parent {1}, mutated {2})",
+      "ko": "지놈 {0} (부모 {1}, 변이 {2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:220 return"
+      ]
+    },
+    {
+      "key": "components: {0}",
+      "ko": "구성 요소: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:220 return"
+      ]
+    },
+    {
+      "key": "{0}: printed nothing",
+      "ko": "{0}: 출력 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:241 expr"
+      ]
+    },
+    {
+      "key": "{0} · exit n/a · {1}",
+      "ko": "{0} · 종료 코드 해당 없음 · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:250 expr",
+        "plugins/ruflo-console/hooks/xruv.ts:452 expr"
+      ]
+    },
+    {
+      "key": "{0} · exit n/a",
+      "ko": "{0} · 종료 코드 해당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mh-lab.ts:250 expr",
+        "plugins/ruflo-console/hooks/xruv.ts:452 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

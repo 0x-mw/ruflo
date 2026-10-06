@@ -1,0 +1,224 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/commands.ts",
+  "entries": [
+    {
+      "key": "/ruflo — the ruflo console and every ruflo mod command",
+      "ko": "/ruflo — ruflo 콘솔과 모든 ruflo mod 명령어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:107 expr"
+      ]
+    },
+    {
+      "key": "Open and switch",
+      "ko": "열기와 전환",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:109 expr"
+      ]
+    },
+    {
+      "key": "/ruflo                     open the cockpit (also opens by itself where it can dock, panel=auto)",
+      "ko": "/ruflo                     콕핏을 엽니다 (도킹할 수 있으면 저절로 열리기도 합니다, panel=auto)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:110 expr"
+      ]
+    },
+    {
+      "key": "/ruflo agent <id|name>     drill into one agent: role, task, claims, activity, logs, timeline",
+      "ko": "/ruflo agent <id|name>     에이전트 하나를 자세히 봅니다: 역할, 작업, 클레임, 활동, 로그, 타임라인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:112 expr"
+      ]
+    },
+    {
+      "key": "/ruflo back | close | status",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:113 expr"
+      ]
+    },
+    {
+      "key": "/ruflo dump <view>         a view as plain text, without the pane (for claude -p and scripts)",
+      "ko": "/ruflo dump <view>         패널 없이 화면을 일반 텍스트로 출력합니다 (claude -p와 스크립트용)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:114 expr"
+      ]
+    },
+    {
+      "key": "/ruflo commands [word]     browse the ruflo command catalog (ADR-406): every command, who owns it, how it runs",
+      "ko": "/ruflo commands [word]     ruflo 명령어 카탈로그를 둘러봅니다 (ADR-406): 모든 명령어, 소유자, 실행 방식",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:115 expr"
+      ]
+    },
+    {
+      "key": "The band above the prompt",
+      "ko": "프롬프트 위 띠",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:117 expr"
+      ]
+    },
+    {
+      "key": "/ruflo band [auto|on|off|compact|full|reset]   show, hide or shrink the band for this session (compact = one row)",
+      "ko": "/ruflo band [auto|on|off|compact|full|reset]   이 세션에서 띠를 표시, 숨김 또는 축소합니다 (compact = 한 줄)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:118 expr"
+      ]
+    },
+    {
+      "key": "/ruflo notices [clear]     the last ten announcements (approvals, alerts, a mission finishing, a long turn ending, Anatole blocking a call)",
+      "ko": "/ruflo notices [clear]     최근 알림 10개 (승인, 경고, 미션 완료, 긴 턴 종료, Anatole의 호출 차단)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:119 expr"
+      ]
+    },
+    {
+      "key": "/ruflo quiet [minutes|off] silence the band's notice row for a while; notices are still recorded",
+      "ko": "/ruflo quiet [minutes|off] 띠의 알림 줄을 한동안 숨깁니다. 알림은 계속 기록됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:120 expr"
+      ]
+    },
+    {
+      "key": "/ruflo autopilot [status|pause|resume|stop]   the mission autopilot (ADR-466); it never starts one: Start is on the Workflows page and asks first",
+      "ko": "/ruflo autopilot [status|pause|resume|stop]   미션 오토파일럿 (ADR-466). 직접 시작하지는 않습니다: 시작은 워크플로 화면에 있으며 먼저 묻습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:121 expr"
+      ]
+    },
+    {
+      "key": "Act (each change asks to confirm; /ruflo yes or /ruflo no answers without focus)",
+      "ko": "실행 (변경마다 확인을 묻습니다. /ruflo yes 또는 /ruflo no로 포커스 없이 답할 수 있습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:123 expr"
+      ]
+    },
+    {
+      "key": "/ruflo palette [query]     the command palette (key p): spawn, claims, swarm, votes, workers, memory",
+      "ko": "/ruflo palette [query]     명령 팔레트 (p 키): 생성, 클레임, 스웜, 투표, 워커, 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:124 expr"
+      ]
+    },
+    {
+      "key": "/ruflo run <entry> [text]  run a palette entry by id, e.g. run spawn-coder, run route fix the login bug",
+      "ko": "/ruflo run <entry> [text]  ID로 팔레트 항목을 실행합니다. 예: run spawn-coder, run route fix the login bug",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:125 expr"
+      ]
+    },
+    {
+      "key": "/ruflo next | prev         move the selection (keys j / k)",
+      "ko": "/ruflo next | prev         선택을 이동합니다 (j / k 키)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:126 expr"
+      ]
+    },
+    {
+      "key": "/ruflo filter <kind>       events view filter: all, swarm, claims, federation, learning, tools, mods, missions",
+      "ko": "/ruflo filter <kind>       이벤트 화면 필터: all, swarm, claims, federation, learning, tools, mods, missions",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:127 expr"
+      ]
+    },
+    {
+      "key": "Other mods (answered by their own plugin)",
+      "ko": "다른 mod (각자의 플러그인이 응답)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:129 expr"
+      ]
+    },
+    {
+      "key": "/ruflo mods                ruflo-mods: what this session routed, recorded and tightened (was /ruflo-mods)",
+      "ko": "/ruflo mods                ruflo-mods: 이 세션이 라우팅, 기록, 강화한 내용 (이전 /ruflo-mods)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:130 expr"
+      ]
+    },
+    {
+      "key": "/ruflo swarm pane|status|topology|claims|consensus   ruflo-swarm (was /ruflo-swarm-*)",
+      "ko": "/ruflo swarm pane|status|topology|claims|consensus   ruflo-swarm (이전 /ruflo-swarm-*)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:131 expr"
+      ]
+    },
+    {
+      "key": "Pane keys (while it holds the keyboard: /ruflo opens it with the keys, or click it; ctrl+x tab reaches the band, not the pane)",
+      "ko": "패널 키 (패널이 키보드를 잡고 있는 동안: /ruflo로 키와 함께 열거나 클릭하세요. ctrl+x tab은 패널이 아니라 띠에 닿습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:133 expr"
+      ]
+    },
+    {
+      "key": "0 main menu · 1-9 views · g timeline · q approvals · e events · m plugin catalog · w x.ruv.io · i terminal · p palette · x actions for the selection",
+      "ko": "0 메인 메뉴 · 1-9 화면 · g 타임라인 · q 승인 · e 이벤트 · m 플러그인 카탈로그 · w x.ruv.io · i 터미널 · p 팔레트 · x 선택 항목 동작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:134 expr"
+      ]
+    },
+    {
+      "key": "terminal: the field takes the keys; /codex /claude /swarm /ruflo switch harness, /new starts over · sessions remember the conversation per project; the first message asks, then Enter sends · Tab to s stop, o new, z clear",
+      "ko": "터미널: 입력란이 키를 받습니다. /codex /claude /swarm /ruflo로 하네스를 전환하고 /new로 새로 시작합니다 · 세션은 프로젝트별로 대화를 기억합니다. 첫 메시지는 먼저 묻고, 이후 Enter로 전송합니다 · Tab 후 s 중지, o 새로 시작, z 비우기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:135 expr"
+      ]
+    },
+    {
+      "key": "workflows (no key; nav SWARM, menu, or /ruflo workflows): j/k move · b/l phases or agents column · u/i switch run · d inspect · /ruflo next|prev = j/k",
+      "ko": "워크플로 (키 없음. 탐색 SWARM, 메뉴 또는 /ruflo workflows): j/k 이동 · b/l 단계 또는 에이전트 열 · u/i 실행 전환 · d 살펴보기 · /ruflo next|prev = j/k",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:136 expr"
+      ]
+    },
+    {
+      "key": "j/k select · d drill in · b back · r refresh · h help · f event filter · y/n confirm",
+      "ko": "j/k 선택 · d 자세히 보기 · b 뒤로 · r 새로고침 · h 도움말 · f 이벤트 필터 · y/n 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:137 expr"
+      ]
+    },
+    {
+      "key": "Esc: a pane /ruflo opened closes; one that opened by itself (panel=auto) only hands the keys back. ✕ or /ruflo close closes either",
+      "ko": "Esc: /ruflo가 연 패널은 닫히고, 저절로 열린 패널(panel=auto)은 키만 돌려줍니다. ✕ 또는 /ruflo close는 둘 다 닫습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:138 expr"
+      ]
+    },
+    {
+      "key": "(? and Enter cannot be pane hotkeys in this Claude Code build: use h, and d to drill in)",
+      "ko": "(이 Claude Code 빌드에서는 ?와 Enter를 패널 단축키로 쓸 수 없습니다: h와, 자세히 보려면 d를 사용하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/commands.ts:139 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

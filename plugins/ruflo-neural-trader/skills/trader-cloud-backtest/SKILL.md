@@ -1,6 +1,6 @@
 ---
 name: trader-cloud-backtest
-description: Run a heavy neural-trader job (long walk-forward, big Monte-Carlo, parameter sweep, model training) on the Anthropic Managed Agent cloud runtime instead of locally
+description: 무거운 neural-trader 작업(긴 워크포워드, 대규모 몬테카를로, 파라미터 스윕, 모델 학습)을 로컬 대신 Anthropic Managed Agent 클라우드 런타임에서 실행
 allowed-tools: mcp__plugin_ruflo-core_ruflo__managed_agent_create mcp__plugin_ruflo-core_ruflo__managed_agent_prompt mcp__plugin_ruflo-core_ruflo__managed_agent_events mcp__plugin_ruflo-core_ruflo__managed_agent_status mcp__plugin_ruflo-core_ruflo__managed_agent_terminate mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store Bash Read
 argument-hint: "<backtest|train|sweep> <strategy-or-model> --symbol <TICKER> [--period 2020-2024] [--mc-paths 1000]"
 ---

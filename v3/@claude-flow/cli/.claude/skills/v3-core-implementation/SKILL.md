@@ -1,6 +1,6 @@
 ---
 name: "V3 Core Implementation"
-description: "Core module implementation for claude-flow v3. Implements DDD domains, clean architecture patterns, dependency injection, and modular TypeScript codebase with comprehensive testing."
+description: "claude-flow v3의 핵심 모듈 구현입니다. DDD 도메인, 클린 아키텍처 패턴, 의존성 주입, 종합 테스트를 갖춘 모듈형 TypeScript 코드베이스를 구현합니다."
 ---
 
 # V3 Core Implementation

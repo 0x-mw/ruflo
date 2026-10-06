@@ -1,0 +1,123 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/loops.ts",
+  "entries": [
+    {
+      "key": "{0}: use the palette (p)",
+      "ko": "{0}: 팔레트(p)를 사용하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:13 text()",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:35 text()"
+      ]
+    },
+    {
+      "key": "tier",
+      "ko": "티어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:25 text()"
+      ]
+    },
+    {
+      "key": "use",
+      "ko": "사용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:33 label",
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:50 label",
+        "plugins/ruflo-console/hooks/views/skills.ts:85 label"
+      ]
+    },
+    {
+      "key": "pick a preset above, or type a task below",
+      "ko": "위에서 프리셋을 고르거나 아래에 작업을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:40 text()"
+      ]
+    },
+    {
+      "key": "every",
+      "ko": "주기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:42 text()"
+      ]
+    },
+    {
+      "key": "Loop Manager",
+      "ko": "루프 관리자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:49 section()"
+      ]
+    },
+    {
+      "key": "{0} presets, practical to exotic · starts a /loop in the Claude UI (asks first)",
+      "ko": "프리셋 {0}개, 실용적인 것부터 이색적인 것까지 · Claude UI에서 /loop 시작 (먼저 묻습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:50 section()"
+      ]
+    },
+    {
+      "key": "what each tick should do (or /plugin:command)",
+      "ko": "틱마다 할 일 (또는 /plugin:command)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:55 field()"
+      ]
+    },
+    {
+      "key": "until 09:00 · after 12 runs · when done (optional)",
+      "ko": "09:00까지 · 12회 실행 후 · 완료 시 (선택)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:56 field()"
+      ]
+    },
+    {
+      "key": "will send: {0}",
+      "ko": "전송 예정: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:57 text()"
+      ]
+    },
+    {
+      "key": "not ready: {0}",
+      "ko": "준비 안 됨: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:57 text()"
+      ]
+    },
+    {
+      "key": "Start loop in Claude",
+      "ko": "Claude에서 루프 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:61 label"
+      ]
+    },
+    {
+      "key": "List / stop my loops",
+      "ko": "내 루프 목록 / 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:62 label"
+      ]
+    },
+    {
+      "key": "each tick is a Claude Code turn: it asks first and says what it costs",
+      "ko": "틱마다 Claude Code 턴이 실행됩니다: 먼저 묻고 비용을 알려줍니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/loops.ts:63 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

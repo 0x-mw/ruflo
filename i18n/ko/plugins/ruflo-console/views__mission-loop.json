@@ -1,0 +1,105 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/mission-loop.ts",
+  "entries": [
+    {
+      "key": "Loop manager",
+      "ko": "루프 관리자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:14 rule()"
+      ]
+    },
+    {
+      "key": "ticks",
+      "ko": "틱",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:17 kv()"
+      ]
+    },
+    {
+      "key": "last tick",
+      "ko": "마지막 틱",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:18 kv()"
+      ]
+    },
+    {
+      "key": "none yet",
+      "ko": "아직 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:18 kv()",
+        "plugins/ruflo-console/hooks/views/overview.ts:76 kv()"
+      ]
+    },
+    {
+      "key": "time to expiry",
+      "ko": "만료까지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:19 kv()"
+      ]
+    },
+    {
+      "key": "expired",
+      "ko": "만료됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:19 kv()"
+      ]
+    },
+    {
+      "key": "Expires within 24 hours: re-arm before it goes.",
+      "ko": "24시간 내에 만료됩니다: 만료 전에 다시 설정하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:20 text()"
+      ]
+    },
+    {
+      "key": "Start loop",
+      "ko": "루프 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:27 button()"
+      ]
+    },
+    {
+      "key": "Stop loop",
+      "ko": "루프 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:28 button()"
+      ]
+    },
+    {
+      "key": "Re-arm loop",
+      "ko": "루프 재설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:29 button()"
+      ]
+    },
+    {
+      "key": "Claude owns the schedule; the console only",
+      "ko": "일정은 Claude가 관리하고 콘솔은",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:32 text()"
+      ]
+    },
+    {
+      "key": "prepares and watches it.",
+      "ko": "준비와 감시만 합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-loop.ts:33 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

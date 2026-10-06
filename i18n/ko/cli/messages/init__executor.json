@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/init/executor.ts",
+  "entries": [
+    {
+      "key": "Settings merge failed: {0}",
+      "ko": "설정을 병합하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/init/executor.ts:749 errors.push"
+      ]
+    },
+    {
+      "key": "Add missing failed: {0}",
+      "ko": "누락 항목을 추가하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/init/executor.ts:872 errors.push"
+      ]
+    },
+    {
+      "key": "Could not find source skills directory",
+      "ko": "원본 스킬 디렉터리를 찾을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/init/executor.ts:1155 errors.push"
+      ]
+    },
+    {
+      "key": "Could not find source commands directory",
+      "ko": "원본 명령어 디렉터리를 찾을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/init/executor.ts:1219 errors.push"
+      ]
+    },
+    {
+      "key": "Could not find source agents directory",
+      "ko": "원본 에이전트 디렉터리를 찾을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/init/executor.ts:1279 errors.push"
+      ]
+    }
+  ],
+  "obsolete": []
+}

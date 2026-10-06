@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/doctor.ts",
+  "entries": [
+    {
+      "key": "System diagnostics and health checks",
+      "ko": "시스템 진단과 상태 점검",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2586 description"
+      ]
+    },
+    {
+      "key": "Print suggested fix commands (does not auto-apply — copy/paste them yourself)",
+      "ko": "권장 수정 명령어를 출력합니다 (자동으로 적용하지 않으므로 직접 복사해 붙여넣으세요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2594 description"
+      ]
+    },
+    {
+      "key": "Auto-install missing dependencies (Claude Code CLI)",
+      "ko": "빠진 의존성(Claude Code CLI)을 자동으로 설치합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2601 description"
+      ]
+    },
+    {
+      "key": "Check specific component (version, node, npm, config, daemon, memory, api, git, mcp, mcp-overhead, claude, browser, disk, typescript, agentic-flow, encryption, federation, funnel, proxy, auth, typesafe, mods, metaharness)",
+      "ko": "특정 구성 요소를 점검합니다 (version, node, npm, config, daemon, memory, api, git, mcp, mcp-overhead, claude, browser, disk, typescript, agentic-flow, encryption, federation, funnel, proxy, auth, typesafe, mods, metaharness)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2608 description"
+      ]
+    },
+    {
+      "key": "Windows only: kill orphaned conhost.exe processes leaked by Claude Code (mitigation for anthropics/claude-code#67888)",
+      "ko": "Windows 전용: Claude Code가 남긴 고아 conhost.exe 프로세스를 종료합니다 (anthropics/claude-code#67888 완화책)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2628 description"
+      ]
+    },
+    {
+      "key": "Run full health check",
+      "ko": "전체 상태 점검 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2634 description"
+      ]
+    },
+    {
+      "key": "Print suggested fix commands (does not auto-apply)",
+      "ko": "권장 수정 명령어 출력 (자동으로 적용하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2635 description"
+      ]
+    },
+    {
+      "key": "Auto-install missing dependencies",
+      "ko": "빠진 의존성 자동 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2636 description"
+      ]
+    },
+    {
+      "key": "Check for stale npx cache",
+      "ko": "오래된 npx 캐시 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2637 description"
+      ]
+    },
+    {
+      "key": "Check Claude Code CLI only",
+      "ko": "Claude Code CLI만 점검",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2638 description"
+      ]
+    },
+    {
+      "key": "Windows: kill leaked conhost.exe from Claude Code sessions",
+      "ko": "Windows: Claude Code 세션에서 남은 conhost.exe 종료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2639 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: pod-sales
-description: Run one tick of the sales business-pod (ADR-164 §4.1, Phase 2). Loads templates/sales.json, validates it against the pod-schema, resolves agents against ruflo's agent registry, reserves budget via the Phase-2 file-based stub ledger (atomic SQLite tracker is Phase 3 per ADR-164.1), constructs per-agent dry-run prompts, posts a summary envelope to room "sales" via the federation_bbs_publish JSONL backing store, and emits a structured {podName, tickId, agentsRan, totalUsd, envelopeId, status} line for /loop ingestion. Dry-run by default; --live is reserved for Phase 3.
+description: 영업 비즈니스 팟(ADR-164 §4.1, 2단계)을 한 틱 실행합니다. templates/sales.json을 불러와 pod-schema로 검증하고, ruflo의 에이전트 레지스트리와 대조해 에이전트를 확정하고, 2단계 파일 기반 스텁 원장으로 예산을 확보하고(원자적 SQLite 추적기는 ADR-164.1의 3단계), 에이전트별 드라이런 프롬프트를 구성하고, federation_bbs_publish JSONL 백업 저장소를 통해 "sales" 룸에 요약 엔벨로프를 게시하며, /loop 수집용 구조화 줄 {podName, tickId, agentsRan, totalUsd, envelopeId, status}를 출력합니다. 기본은 드라이런이며 --live는 3단계용으로 예약되어 있습니다.
 argument-hint: "[--pod-template <path>] [--base-path <dir>] [--dry-run|--live] [--budget-cap-usd <amt>] [--tick-id <id>]"
 allowed-tools: Bash
 ---

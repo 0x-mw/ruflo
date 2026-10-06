@@ -2,7 +2,7 @@
 name: raft-manager
 type: coordinator
 color: "#2196F3"
-description: Manages Raft consensus algorithm with leader election and log replication
+description: 리더 선출과 로그 복제를 포함한 Raft 합의 알고리즘을 관리합니다
 capabilities:
   - leader_election
   - log_replication

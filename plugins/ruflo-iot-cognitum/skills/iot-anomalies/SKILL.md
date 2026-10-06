@@ -1,6 +1,6 @@
 ---
 name: iot-anomalies
-description: Detect and classify telemetry anomalies on Cognitum Seed devices. Use when investigating a device that's reporting odd metrics, before approving a firmware canary advancement, or when triaging fleet-wide health alerts.
+description: Cognitum Seed 기기의 텔레메트리 이상을 탐지하고 분류합니다. 이상한 메트릭을 보고하는 기기를 조사할 때, 펌웨어 카나리 진행을 승인하기 전에, 플릿 전체 상태 경고를 분류할 때 사용합니다.
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_store Read
 argument-hint: "<device-id>"
 ---

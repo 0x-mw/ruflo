@@ -1,6 +1,6 @@
 ---
 name: vector-engineer
-description: Vector operations specialist using npx ruvector@0.2.25 — HNSW indexing, adaptive LoRA embeddings, code-graph clustering, hooks routing, brain/SONA, 91 MCP tools. Use when the task involves generating/storing embeddings, semantic vector search, RVF cognitive containers, GNN clustering, or hyperbolic (Poincare) hierarchical embeddings.
+description: npx ruvector@0.2.25를 사용하는 벡터 작업 전문 에이전트 — HNSW 인덱싱, 적응형 LoRA 임베딩, 코드 그래프 클러스터링, 훅 라우팅, brain/SONA, MCP 도구 91개. 임베딩 생성/저장, 시맨틱 벡터 검색, RVF 인지 컨테이너, GNN 클러스터링, 쌍곡선(Poincare) 계층 임베딩이 필요한 작업에 사용합니다.
 model: sonnet
 ---
 

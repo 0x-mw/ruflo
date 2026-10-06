@@ -1,0 +1,183 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/benchmark.ts",
+  "entries": [
+    {
+      "key": "Benchmark self-learning pre-training system (SONA, EWC++, MoE)",
+      "ko": "자가 학습 사전 학습 시스템(SONA, EWC++, MoE)을 벤치마크합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:19 description"
+      ]
+    },
+    {
+      "key": "Benchmark iterations",
+      "ko": "벤치마크 반복 횟수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:21 description",
+        "src/commands/benchmark.ts:91 description",
+        "src/commands/benchmark.ts:277 description"
+      ]
+    },
+    {
+      "key": "Warmup iterations",
+      "ko": "워밍업 반복 횟수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:22 description",
+        "src/commands/performance.ts:21 description"
+      ]
+    },
+    {
+      "key": "Save results to file",
+      "ko": "결과를 파일로 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:24 description",
+        "src/commands/benchmark.ts:408 description"
+      ]
+    },
+    {
+      "key": "Run pre-training benchmarks",
+      "ko": "사전 학습 벤치마크 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:28 description"
+      ]
+    },
+    {
+      "key": "Extended benchmark with results saved",
+      "ko": "확장 벤치마크를 실행하고 결과 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:29 description"
+      ]
+    },
+    {
+      "key": "Output results as JSON",
+      "ko": "결과를 JSON으로 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:30 description"
+      ]
+    },
+    {
+      "key": "Benchmark neural operations (embeddings, WASM, Flash Attention)",
+      "ko": "뉴럴 연산(임베딩, WASM, Flash Attention)을 벤치마크합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:89 description"
+      ]
+    },
+    {
+      "key": "Embedding dimension",
+      "ko": "임베딩 차원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:92 description"
+      ]
+    },
+    {
+      "key": "Number of test vectors",
+      "ko": "테스트 벡터 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:93 description",
+        "src/commands/ruvector/benchmark.ts:57 description"
+      ]
+    },
+    {
+      "key": "Run neural benchmarks",
+      "ko": "뉴럴 벤치마크 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:97 description"
+      ]
+    },
+    {
+      "key": "Higher dimension, more vectors",
+      "ko": "더 높은 차원, 더 많은 벡터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:98 description"
+      ]
+    },
+    {
+      "key": "Benchmark memory operations (HNSW search, store, retrieve)",
+      "ko": "메모리 연산(HNSW 검색, 저장, 조회)을 벤치마크합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:275 description"
+      ]
+    },
+    {
+      "key": "Run memory benchmarks",
+      "ko": "메모리 벤치마크 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:281 description"
+      ]
+    },
+    {
+      "key": "Run all benchmark suites",
+      "ko": "모든 벤치마크 스위트를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:404 description"
+      ]
+    },
+    {
+      "key": "Run all benchmarks",
+      "ko": "모든 벤치마크 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:411 description",
+        "src/commands/benchmark.ts:491 description"
+      ]
+    },
+    {
+      "key": "Run all and save results",
+      "ko": "모두 실행하고 결과 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:412 description"
+      ]
+    },
+    {
+      "key": "Performance benchmarking for self-learning and neural systems",
+      "ko": "자가 학습 및 뉴럴 시스템의 성능 벤치마킹",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:480 description"
+      ]
+    },
+    {
+      "key": "Benchmark pre-training system",
+      "ko": "사전 학습 시스템 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:488 description"
+      ]
+    },
+    {
+      "key": "Benchmark neural operations",
+      "ko": "뉴럴 연산 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:489 description",
+        "src/commands/performance.ts:25 description"
+      ]
+    },
+    {
+      "key": "Benchmark memory operations",
+      "ko": "메모리 연산 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/benchmark.ts:490 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

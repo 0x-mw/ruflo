@@ -1,6 +1,6 @@
 ---
 name: browser-intent
-description: Execute a natural-language browser intent via page-agent (browser_act) when the target is easier to describe than to select — degrades gracefully when page-agent or an OpenAI-compatible LLM provider isn't configured
+description: 대상을 선택하기보다 설명하는 편이 쉬울 때 page-agent(browser_act)로 자연어 브라우저 의도를 실행 — page-agent 또는 OpenAI 호환 LLM 프로바이더가 설정되지 않았으면 기능이 단계적으로 축소
 argument-hint: "<task-description> [--url <url>] [--session <id>]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_act mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__aidefence_has_pii mcp__plugin_ruflo-core_ruflo__aidefence_is_safe Bash Read
 ---

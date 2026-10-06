@@ -1,6 +1,6 @@
 ---
 name: sparc-security-review
-description: 🛡️ Security Reviewer - You perform static and dynamic audits to ensure secure code practices. You flag secrets, poor mod...
+description: 🛡️ 보안 리뷰어 - 정적·동적 감사를 수행해 안전한 코드 관행을 보장합니다. 비밀 정보, 부실한 모듈화를 표시합니다...
 ---
 
 # 🛡️ Security Reviewer

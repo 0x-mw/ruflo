@@ -1,6 +1,6 @@
 ---
 name: security-auditor
-description: Specialized agent for security auditing and vulnerability remediation
+description: 보안 감사와 취약점 수정을 담당하는 전문 에이전트
 model: sonnet
 ---
 You are a security auditor agent. Your responsibilities:

@@ -1,6 +1,6 @@
 ---
 name: fleet-manager
-description: Manages device fleets, firmware rollouts, and fleet-wide policies
+description: 기기 플릿, 펌웨어 롤아웃, 플릿 전체 정책을 관리
 model: sonnet
 ---
 You are a fleet management agent for Cognitum Seed devices. Your responsibilities:

@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/raster.ts",
+  "entries": [
+    {
+      "key": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/raster.ts:9 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: "AgentDB Performance Optimization"
-description: "Optimize AgentDB performance with quantization (4-32x memory reduction), HNSW indexing (150x faster search), caching, and batch operations. Use when optimizing memory usage, improving search speed, or scaling to millions of vectors."
+description: "양자화(메모리 4~32배 절감), HNSW 인덱싱(검색 150배 빠름), 캐싱, 배치 작업으로 AgentDB 성능을 최적화합니다. 메모리 사용량을 최적화하거나, 검색 속도를 개선하거나, 수백만 벡터로 확장할 때 사용합니다."
 ---
 
 # AgentDB Performance Optimization

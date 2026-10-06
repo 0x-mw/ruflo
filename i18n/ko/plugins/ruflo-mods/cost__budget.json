@@ -1,0 +1,50 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-mods/hooks/cost/budget.ts",
+  "entries": [
+    {
+      "key": "HARD_STOP",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/cost/budget.ts:11 level"
+      ]
+    },
+    {
+      "key": "CRITICAL",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/cost/budget.ts:12 level"
+      ]
+    },
+    {
+      "key": "WARNING",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/cost/budget.ts:13 level"
+      ]
+    },
+    {
+      "key": "INFO",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/cost/budget.ts:14 level"
+      ]
+    },
+    {
+      "key": "OK",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/cost/budget.ts:20 return",
+        "plugins/ruflo-mods/hooks/cost/index.ts:18 level",
+        "plugins/ruflo-mods/hooks/cost/index.ts:19 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

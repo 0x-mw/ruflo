@@ -1,6 +1,6 @@
 ---
 name: pii-detect
-description: Detect and flag personally identifiable information (PII) in text, code, and configurations. Use before committing code, writing logs, storing data, or sending model responses that might contain emails, phone numbers, SSNs, API keys, or passwords.
+description: 텍스트, 코드, 설정에서 개인 식별 정보(PII)를 탐지하고 표시합니다. 이메일, 전화번호, SSN, API 키, 비밀번호가 들어 있을 수 있는 코드를 커밋하거나, 로그를 쓰거나, 데이터를 저장하거나, 모델 응답을 보내기 전에 사용합니다.
 argument-hint: "<input-text>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__aidefence_has_pii mcp__plugin_ruflo-core_ruflo__aidefence_scan mcp__plugin_ruflo-core_ruflo__aidefence_analyze mcp__plugin_ruflo-core_ruflo__transfer_detect-pii Bash
 ---

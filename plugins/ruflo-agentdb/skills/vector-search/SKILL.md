@@ -1,6 +1,6 @@
 ---
 name: vector-search
-description: Vector search via embeddings_* (large-scale HNSW) and ruvllm_hnsw_* (WASM router for ≤11 hot patterns), with RaBitQ 1-bit quantization for 32× memory reduction
+description: embeddings_*(대규모 HNSW)와 ruvllm_hnsw_*(핫 패턴 11개 이하를 위한 WASM 라우터)를 통한 벡터 검색이며, 메모리를 32배 줄이는 RaBitQ 1비트 양자화 지원
 argument-hint: "<query> [--limit N] [--quantized]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__embeddings_generate mcp__plugin_ruflo-core_ruflo__embeddings_search mcp__plugin_ruflo-core_ruflo__embeddings_compare mcp__plugin_ruflo-core_ruflo__embeddings_init mcp__plugin_ruflo-core_ruflo__embeddings_status mcp__plugin_ruflo-core_ruflo__embeddings_hyperbolic mcp__plugin_ruflo-core_ruflo__embeddings_neural mcp__plugin_ruflo-core_ruflo__embeddings_rabitq_build mcp__plugin_ruflo-core_ruflo__embeddings_rabitq_search mcp__plugin_ruflo-core_ruflo__embeddings_rabitq_status mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_create mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_add mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_route mcp__plugin_ruflo-core_ruflo__memory_search_unified Bash
 ---

@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 중지
+---
+
 # hive-mind-stop
 
 Command documentation for hive-mind-stop in category hive-mind.

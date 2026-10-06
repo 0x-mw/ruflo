@@ -1,6 +1,6 @@
 ---
 name: adr-create
-description: Create a new Architecture Decision Record with sequential numbering and AgentDB registration
+description: 순차 번호 부여와 AgentDB 등록으로 새 아키텍처 결정 기록(ADR)을 생성
 argument-hint: "<title>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-store mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-query mcp__plugin_ruflo-core_ruflo__agentdb_causal-edge mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search Bash Read Write Edit Grep Glob
 ---

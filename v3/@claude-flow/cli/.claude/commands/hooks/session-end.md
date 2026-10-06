@@ -1,3 +1,7 @@
+---
+description: 세션 종료 훅 (session-end)
+---
+
 # hook session-end
 
 Cleanup and persist session state before ending work.

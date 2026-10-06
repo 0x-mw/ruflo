@@ -1,0 +1,383 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/agent.ts",
+  "entries": [
+    {
+      "key": "Spawn a new agent",
+      "ko": "새 에이전트를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:73 description",
+        "src/commands/mcp.ts:497 description"
+      ]
+    },
+    {
+      "key": "Agent type to spawn",
+      "ko": "생성할 에이전트 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:78 description"
+      ]
+    },
+    {
+      "key": "Agent name/identifier",
+      "ko": "에이전트 이름/식별자",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:85 description"
+      ]
+    },
+    {
+      "key": "Provider to use (anthropic, openrouter, ollama)",
+      "ko": "사용할 프로바이더 (anthropic, openrouter, ollama)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:91 description"
+      ]
+    },
+    {
+      "key": "Model to use",
+      "ko": "사용할 모델",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:98 description",
+        "src/commands/embeddings.ts:35 description"
+      ]
+    },
+    {
+      "key": "Initial task for the agent",
+      "ko": "에이전트의 초기 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:103 description"
+      ]
+    },
+    {
+      "key": "Agent timeout in seconds",
+      "ko": "에이전트 타임아웃(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:108 description"
+      ]
+    },
+    {
+      "key": "Enable automatic tool usage",
+      "ko": "도구 자동 사용을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:114 description"
+      ]
+    },
+    {
+      "key": "Spawn a coder agent",
+      "ko": "coder 에이전트 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:120 description",
+        "src/commands/agent.ts:1083 description"
+      ]
+    },
+    {
+      "key": "Spawn researcher with task",
+      "ko": "작업을 지정해 researcher 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:121 description"
+      ]
+    },
+    {
+      "key": "List all active agents",
+      "ko": "활성 에이전트 목록을 모두 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:213 description"
+      ]
+    },
+    {
+      "key": "Include inactive agents",
+      "ko": "비활성 에이전트도 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:218 description"
+      ]
+    },
+    {
+      "key": "Filter by agent type",
+      "ko": "에이전트 유형으로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:225 description",
+        "src/commands/issues.ts:334 description"
+      ]
+    },
+    {
+      "key": "Filter by status",
+      "ko": "상태로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:231 description",
+        "src/commands/issues.ts:35 description",
+        "src/commands/task.ts:237 description"
+      ]
+    },
+    {
+      "key": "Show detailed status of an agent",
+      "ko": "에이전트의 상세 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:307 description"
+      ]
+    },
+    {
+      "key": "Agent ID",
+      "ko": "에이전트 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:311 description",
+        "src/commands/agent.ts:953 description",
+        "src/commands/agent.ts:896 printTable.header"
+      ]
+    },
+    {
+      "key": "Stop a running agent",
+      "ko": "실행 중인 에이전트를 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:404 description"
+      ]
+    },
+    {
+      "key": "Force stop without graceful shutdown",
+      "ko": "정상 종료 없이 강제로 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:409 description",
+        "src/commands/mcp.ts:307 description",
+        "src/commands/start.ts:282 description"
+      ]
+    },
+    {
+      "key": "Graceful shutdown timeout in seconds",
+      "ko": "정상 종료 타임아웃(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:415 description"
+      ]
+    },
+    {
+      "key": "Show agent performance metrics",
+      "ko": "에이전트 성능 메트릭을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:486 description"
+      ]
+    },
+    {
+      "key": "Time period (1h, 24h, 7d, 30d)",
+      "ko": "기간 (1h, 24h, 7d, 30d)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:491 description"
+      ]
+    },
+    {
+      "key": "Manage agent pool for scaling",
+      "ko": "확장을 위해 에이전트 풀을 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:716 description"
+      ]
+    },
+    {
+      "key": "Pool size",
+      "ko": "풀 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:721 description"
+      ]
+    },
+    {
+      "key": "Minimum pool size",
+      "ko": "최소 풀 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:726 description"
+      ]
+    },
+    {
+      "key": "Maximum pool size",
+      "ko": "최대 풀 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:732 description"
+      ]
+    },
+    {
+      "key": "Enable auto-scaling",
+      "ko": "자동 확장을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:739 description"
+      ]
+    },
+    {
+      "key": "Set pool size",
+      "ko": "풀 크기 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:745 description"
+      ]
+    },
+    {
+      "key": "Configure auto-scaling",
+      "ko": "자동 확장 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:746 description"
+      ]
+    },
+    {
+      "key": "Show agent health and metrics",
+      "ko": "에이전트 상태와 메트릭을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:812 description"
+      ]
+    },
+    {
+      "key": "Agent ID (all if not specified)",
+      "ko": "에이전트 ID (지정하지 않으면 전체)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:817 description"
+      ]
+    },
+    {
+      "key": "Show detailed health metrics",
+      "ko": "상세 상태 메트릭을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:823 description"
+      ]
+    },
+    {
+      "key": "Watch mode (refresh every 5s)",
+      "ko": "감시 모드 (5초마다 새로고침)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:830 description"
+      ]
+    },
+    {
+      "key": "Show all agents health",
+      "ko": "모든 에이전트의 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:836 description"
+      ]
+    },
+    {
+      "key": "Detailed health for specific agent",
+      "ko": "특정 에이전트의 상세 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:837 description"
+      ]
+    },
+    {
+      "key": "Show agent activity logs",
+      "ko": "에이전트 활동 로그를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:948 description"
+      ]
+    },
+    {
+      "key": "Number of recent entries",
+      "ko": "최근 항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:959 description"
+      ]
+    },
+    {
+      "key": "Minimum log level",
+      "ko": "최소 로그 수준",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:966 description",
+        "src/commands/process.ts:605 description"
+      ]
+    },
+    {
+      "key": "Follow log output",
+      "ko": "로그 출력을 따라갑니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:974 description",
+        "src/commands/mcp.ts:758 description",
+        "src/commands/process.ts:599 description"
+      ]
+    },
+    {
+      "key": "Show logs since (e.g., \"1h\", \"30m\")",
+      "ko": "지정한 시점 이후의 로그를 표시합니다 (예: \"1h\", \"30m\")",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:980 description"
+      ]
+    },
+    {
+      "key": "Show agent logs",
+      "ko": "에이전트 로그 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:985 description"
+      ]
+    },
+    {
+      "key": "Follow agent logs",
+      "ko": "에이전트 로그 따라가기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:986 description"
+      ]
+    },
+    {
+      "key": "Show errors from last hour",
+      "ko": "최근 1시간의 오류 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:987 description"
+      ]
+    },
+    {
+      "key": "Agent management commands",
+      "ko": "에이전트 관리 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:1079 description"
+      ]
+    },
+    {
+      "key": "List all agents",
+      "ko": "모든 에이전트 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:1084 description",
+        "src/commands/mcp.ts:498 description",
+        "src/commands/route.ts:262 description"
+      ]
+    },
+    {
+      "key": "Show agent status",
+      "ko": "에이전트 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:1085 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

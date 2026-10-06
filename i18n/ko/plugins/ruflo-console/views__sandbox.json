@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/sandbox.ts",
+  "entries": [
+    {
+      "key": "tmux is not installed on this machine: its rows are n/a",
+      "ko": "이 머신에 tmux가 설치되어 있지 않아 해당 행은 n/a입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sandbox.ts:24 const"
+      ]
+    },
+    {
+      "key": "isolated places to try things: tmux sessions · RVF copy-on-write branches · RVM. $0 reads run at once; the rest ask first",
+      "ko": "무언가 시험해 볼 격리된 공간: tmux 세션 · RVF 쓰기 시 복사(copy-on-write) 브랜치 · RVM. $0 읽기는 즉시 실행되고 나머지는 먼저 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sandbox.ts:29 text()"
+      ]
+    },
+    {
+      "key": "RVF sandboxes · copy-on-write branches",
+      "ko": "RVF 샌드박스 · 쓰기 시 복사(copy-on-write) 브랜치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sandbox.ts:31 section()"
+      ]
+    },
+    {
+      "key": "{0} · an .rvf file · writes ask",
+      "ko": "{0} · .rvf 파일 · 쓰기는 먼저 확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sandbox.ts:31 section()"
+      ]
+    },
+    {
+      "key": "branch it, try things on the branch, then ROLLBACK to throw them away or PROMOTE to keep them (the same rows as Dev Tools)",
+      "ko": "브랜치를 만들어 시험한 뒤 ROLLBACK으로 버리거나 PROMOTE로 유지하세요 (개발 도구와 같은 행)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sandbox.ts:31 text()"
+      ]
+    },
+    {
+      "key": "every row is a palette id too: /ruflo run dt-sb-new demo, /ruflo run dt-sb-capture demo",
+      "ko": "모든 행은 팔레트 ID이기도 합니다: /ruflo run dt-sb-new demo, /ruflo run dt-sb-capture demo",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sandbox.ts:34 text()"
+      ]
+    },
+    {
+      "key": "sandbox",
+      "ko": "샌드박스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/sandbox.ts:36 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

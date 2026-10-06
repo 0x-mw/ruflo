@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/ap-journal.ts",
+  "entries": [
+    {
+      "key": "the mission refused the hand-over",
+      "ko": "미션이 인계를 거부했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-journal.ts:17 const"
+      ]
+    },
+    {
+      "key": "an event was too long to journal",
+      "ko": "이벤트가 너무 길어 저널에 기록하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-journal.ts:153 reason"
+      ]
+    }
+  ],
+  "obsolete": []
+}

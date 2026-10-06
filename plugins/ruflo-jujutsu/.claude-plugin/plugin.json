@@ -1,6 +1,6 @@
 {
   "name": "ruflo-jujutsu",
-  "description": "Advanced git workflows with diff analysis, risk scoring, change classification (feature/bugfix/refactor/...), and reviewer recommendations — wraps 6 analyze_* MCP tools (diff, diff-risk, diff-classify, diff-reviewers, file-risk, diff-stats). As a mod (ADR-445): a PR-text and merge/close guard, /jujutsu-mod, and a status file the console shows",
+  "description": "diff 분석, 위험 점수 산정, 변경 분류(feature/bugfix/refactor/...), 리뷰어 추천을 갖춘 고급 git 워크플로 — analyze_* MCP 도구 6개(diff, diff-risk, diff-classify, diff-reviewers, file-risk, diff-stats)를 감쌉니다. mod(ADR-445)로서 PR 텍스트 및 병합/닫기 가드, /jujutsu-mod, 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -25,8 +25,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Guard",
-      "description": "Refuse tool calls that are clearly harmful in this plugin's domain (see README, As a mod).",
+      "title": "가드",
+      "description": "이 플러그인 영역에서 명백히 해로운 도구 호출을 거부합니다(README의 'As a mod' 참조).",
       "required": false,
       "default": "on",
       "options": [
@@ -36,8 +36,8 @@
     },
     "confirmPrActions": {
       "type": "string",
-      "title": "Confirm PR merge and close",
-      "description": "Require confirm: true on github_pr_manage merge and close.",
+      "title": "PR 병합 및 닫기 확인",
+      "description": "github_pr_manage의 병합(merge)과 닫기(close)에 confirm: true를 요구합니다.",
       "required": false,
       "default": "on",
       "options": [

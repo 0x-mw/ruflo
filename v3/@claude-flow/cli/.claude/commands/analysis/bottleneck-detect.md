@@ -1,3 +1,7 @@
+---
+description: 병목 감지
+---
+
 # bottleneck detect
 
 Analyze performance bottlenecks in swarm operations and suggest optimizations.

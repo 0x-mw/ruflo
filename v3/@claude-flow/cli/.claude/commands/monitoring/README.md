@@ -1,3 +1,7 @@
+---
+description: 모니터링 명령어
+---
+
 # Monitoring Commands
 
 Commands for monitoring operations in Claude Flow.

@@ -1,6 +1,6 @@
 ---
 name: cost-anomaly
-description: MAD-based outlier detection on session spend. Robust to the very outliers it hunts (unlike mean+sigma). Surfaces specific anomalous sessions with modified-z scores; optional --alert-on-outliers exit code for CI gates. Distinct from cost-burn (aggregate trend) — this answers "which INDIVIDUAL session is the outlier?".
+description: 세션 지출에 대한 MAD 기반 이상치 탐지. 찾으려는 바로 그 이상치에 강건합니다(평균+시그마와 다름). 수정 z 점수와 함께 구체적인 이상 세션을 드러내며, CI 게이트용으로 선택적 --alert-on-outliers 종료 코드 제공. cost-burn(집계 추세)과 달리 "어떤 개별 세션이 이상치인가?"에 답합니다.
 argument-hint: "[--since 7d] [--threshold 3.5] [--alert-on-outliers N] [--format table|json]"
 allowed-tools: Bash
 ---

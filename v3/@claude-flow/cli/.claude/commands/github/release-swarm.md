@@ -1,3 +1,7 @@
+---
+description: 릴리스 스웜 - 지능형 릴리스 자동화
+---
+
 # Release Swarm - Intelligent Release Automation
 
 ## Overview

@@ -2,7 +2,7 @@
 name: byzantine-coordinator
 type: coordinator
 color: "#9C27B0"
-description: Coordinates Byzantine fault-tolerant consensus protocols with malicious actor detection
+description: 악의적 행위자 감지 기능으로 Byzantine 장애 허용 합의 프로토콜을 조율합니다
 capabilities:
   - pbft_consensus
   - malicious_detection

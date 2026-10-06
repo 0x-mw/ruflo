@@ -1,6 +1,6 @@
 ---
 name: market
-description: Market data operations — ingest feeds, detect patterns, and search historical data
+description: 시장 데이터 작업 — 피드 수집, 패턴 탐지, 과거 데이터 검색
 ---
 
 Market data commands:

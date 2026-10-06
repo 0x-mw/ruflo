@@ -1,0 +1,297 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/perf.ts",
+  "entries": [
+    {
+      "key": "event-loop latency {0} · heap {1} of {2} · rss {3}",
+      "ko": "이벤트 루프 지연 {0} · 힙 {1} / {2} · rss {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:73 return"
+      ]
+    },
+    {
+      "key": "system memory {0}% · load {1}",
+      "ko": "시스템 메모리 {0}% · 부하 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:74 return"
+      ]
+    },
+    {
+      "key": "system memory n/a · load {0}",
+      "ko": "시스템 메모리 없음 · 부하 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:74 return"
+      ]
+    },
+    {
+      "key": "embedding cache ~{0} entries · HNSW {1} entries",
+      "ko": "임베딩 캐시 약 {0}개 항목 · HNSW {1}개 항목",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:75 return"
+      ]
+    },
+    {
+      "key": "measured in the CLI process at the moment it ran: one sample per run",
+      "ko": "실행 시점의 CLI 프로세스에서 측정합니다: 실행당 샘플 하나",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:76 return"
+      ]
+    },
+    {
+      "key": "suite {0} · {1} iterations · {2}",
+      "ko": "스위트 {0} · 반복 {1}회 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:88 return"
+      ]
+    },
+    {
+      "key": "{0} mean {1} · p95 {2} · p99 {3} · {4}",
+      "ko": "{0} 평균 {1} · p95 {2} · p99 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:89 expr"
+      ]
+    },
+    {
+      "key": "cpu {0}% of {1} cores · memory {2} of {3} MB · heap {4} MB",
+      "ko": "cpu {0}% ({1}코어) · 메모리 {2} / {3} MB · 힙 {4} MB",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:114 return"
+      ]
+    },
+    {
+      "key": "cpu n/a of {0} cores · memory {1} of {2} MB · heap {3} MB",
+      "ko": "cpu 없음 ({0}코어) · 메모리 {1} / {2} MB · 힙 {3} MB",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:114 return"
+      ]
+    },
+    {
+      "key": "latency avg {0} · p50 {1} · p95 {2} · p99 {3}",
+      "ko": "지연 평균 {0} · p50 {1} · p95 {2} · p99 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:115 return"
+      ]
+    },
+    {
+      "key": "history: {0} stored sample in .claude-flow/performance/metrics.json",
+      "ko": "이력: .claude-flow/performance/metrics.json에 저장된 샘플 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:116 return"
+      ]
+    },
+    {
+      "key": "history: {0} stored samples in .claude-flow/performance/metrics.json",
+      "ko": "이력: .claude-flow/performance/metrics.json에 저장된 샘플 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:116 return"
+      ]
+    },
+    {
+      "key": "$0, local: measures in-process and writes nothing",
+      "ko": "$0, 로컬: 프로세스 안에서 측정하며 아무것도 쓰지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:121 const"
+      ]
+    },
+    {
+      "key": "$0, local: writes and removes a 4 KB probe file in .claude-flow/performance/",
+      "ko": "$0, 로컬: .claude-flow/performance/에 4 KB 탐침 파일을 쓰고 지웁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:122 const"
+      ]
+    },
+    {
+      "key": "heap, rss, load and event-loop latency, now",
+      "ko": "힙, rss, 부하, 이벤트 루프 지연 (현재)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:125 about"
+      ]
+    },
+    {
+      "key": "performance metrics: memory, load and latency now",
+      "ko": "성능 지표: 메모리, 부하, 지연 (현재)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:125 label"
+      ]
+    },
+    {
+      "key": "PROFILE",
+      "ko": "프로파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:126 name"
+      ]
+    },
+    {
+      "key": "CPU, heap and event-loop lag over a short sample",
+      "ko": "짧은 샘플 동안의 CPU, 힙, 이벤트 루프 지연",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:126 about"
+      ]
+    },
+    {
+      "key": "performance profile: CPU, heap and lag over 1 s",
+      "ko": "성능 프로파일: 1 s 동안의 CPU, 힙, 지연",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:126 label"
+      ]
+    },
+    {
+      "key": "BENCH WASM",
+      "ko": "벤치 WASM",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:127 name"
+      ]
+    },
+    {
+      "key": "flash-attention batch search, 100 iterations",
+      "ko": "flash-attention 일괄 검색, 100회 반복",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:127 about"
+      ]
+    },
+    {
+      "key": "performance benchmark, wasm suite: pure compute",
+      "ko": "성능 벤치마크, wasm 스위트: 순수 연산",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:127 label"
+      ]
+    },
+    {
+      "key": "BENCH ALL",
+      "ko": "벤치 전체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:128 name"
+      ]
+    },
+    {
+      "key": "embeddings, search, flash attention, SONA, memory",
+      "ko": "임베딩, 검색, flash attention, SONA, 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:128 about"
+      ]
+    },
+    {
+      "key": "performance benchmark, every suite (writes memory, may download a model)",
+      "ko": "성능 벤치마크, 모든 스위트 (메모리에 쓰며 모델을 내려받을 수 있음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:128 label"
+      ]
+    },
+    {
+      "key": "local CPU for a minute or more: stores entries in memory namespace benchmark, and the first embedding may download the transformers.js model (network)",
+      "ko": "로컬 CPU를 1분 이상 사용합니다: 메모리 네임스페이스 benchmark에 항목을 저장하며, 첫 임베딩에서 transformers.js 모델을 내려받을 수 있습니다(네트워크)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:128 note"
+      ]
+    },
+    {
+      "key": "REPORT",
+      "ko": "리포트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:129 name",
+        "plugins/ruflo-console/hooks/views/secure.ts:253 naRow()"
+      ]
+    },
+    {
+      "key": "a sample appended to the stored history, and trends",
+      "ko": "저장된 이력에 샘플 하나를 추가하고 추세를 보여 줍니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:129 about"
+      ]
+    },
+    {
+      "key": "performance_report: sample, store and trend (writes metrics.json)",
+      "ko": "performance_report: 샘플, 저장, 추세 (metrics.json에 씀)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:129 label"
+      ]
+    },
+    {
+      "key": "$0, local: appends one sample to .claude-flow/performance/metrics.json (keeps 100)",
+      "ko": "$0, 로컬: .claude-flow/performance/metrics.json에 샘플 하나를 추가합니다 (100개 유지)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:129 note"
+      ]
+    },
+    {
+      "key": "BOTTLENECK",
+      "ko": "병목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:130 name"
+      ]
+    },
+    {
+      "key": "measured disk, heap and benchmark-history hot spots",
+      "ko": "측정한 디스크, 힙, 벤치마크 이력의 핫스팟",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:130 about"
+      ]
+    },
+    {
+      "key": "performance_bottleneck: measured hot spots",
+      "ko": "performance_bottleneck: 측정한 핫스팟",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:130 label"
+      ]
+    },
+    {
+      "key": "OPTIMIZE",
+      "ko": "최적화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:131 name"
+      ]
+    },
+    {
+      "key": "measured recommendations, nothing aggressive applied",
+      "ko": "측정에 따른 권장 사항이며 공격적인 변경은 적용하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:131 about"
+      ]
+    },
+    {
+      "key": "performance_optimize: measured recommendations",
+      "ko": "performance_optimize: 측정에 따른 권장 사항",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/perf.ts:131 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

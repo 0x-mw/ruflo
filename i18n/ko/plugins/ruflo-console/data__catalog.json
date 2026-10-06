@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/catalog.ts",
+  "entries": [
+    {
+      "key": "{0} of {1} commands in the ruflo command catalog (ADR-406, source {2})",
+      "ko": "ruflo 명령어 카탈로그의 명령어 {1}개 중 {0}개 (ADR-406, 출처 {2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/catalog.ts:73 const"
+      ]
+    },
+    {
+      "key": "{0} of {1} commands in the ruflo command catalog",
+      "ko": "ruflo 명령어 카탈로그의 명령어 {1}개 중 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/catalog.ts:73 const"
+      ]
+    },
+    {
+      "key": "{0} ruflo mod commands (the command catalog is not readable here, so this is the built-in list)",
+      "ko": "ruflo mod 명령어 {0}개 (명령어 카탈로그를 읽을 수 없어 내장 목록을 표시합니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/catalog.ts:74 const"
+      ]
+    },
+    {
+      "key": "view: runs here · delegate: a prompt workflow you type yourself (never submitted for you) · legacy: documentation",
+      "ko": "view: 여기서 실행 · delegate: 직접 입력하는 프롬프트 워크플로 (대신 제출하지 않음) · legacy: 문서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/catalog.ts:76 expr"
+      ]
+    },
+    {
+      "key": "+{0} more: /ruflo commands <word>",
+      "ko": "+{0}개 더: /ruflo commands <word>",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/catalog.ts:76 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

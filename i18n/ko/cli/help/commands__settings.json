@@ -1,0 +1,105 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/settings.ts",
+  "entries": [
+    {
+      "key": "Show whether notices are on and which source decided it",
+      "ko": "알림이 켜져 있는지와 어떤 소스가 결정했는지 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:53 description"
+      ]
+    },
+    {
+      "key": "Turn off statusline notices (persistent, user-level)",
+      "ko": "상태줄 알림을 끕니다 (영구 적용, 사용자 수준)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:66 description"
+      ]
+    },
+    {
+      "key": "Re-enable statusline notices",
+      "ko": "상태줄 알림을 다시 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:78 description"
+      ]
+    },
+    {
+      "key": "Print the pseudonymous notices ID (telemetry consent required)",
+      "ko": "가명 알림 ID를 출력합니다 (텔레메트리 동의 필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:96 description"
+      ]
+    },
+    {
+      "key": "Manually flag that you have hit a Claude usage limit (ADR-312 Phase 0)",
+      "ko": "Claude 사용 한도에 도달했음을 수동으로 표시합니다 (ADR-312 Phase 0)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:106 description"
+      ]
+    },
+    {
+      "key": "Clear the flag",
+      "ko": "플래그를 비웁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:108 description",
+        "src/commands/settings.ts:142 description"
+      ]
+    },
+    {
+      "key": "Manually flag that your Claude quota is running low (ADR-314 power saver)",
+      "ko": "Claude 할당량이 부족함을 수동으로 표시합니다 (ADR-314 절전 모드)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:140 description"
+      ]
+    },
+    {
+      "key": "Control the statusline notices row",
+      "ko": "상태줄 알림 행을 제어합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:175 description"
+      ]
+    },
+    {
+      "key": "View and change user preferences (notices, consents)",
+      "ko": "사용자 환경설정(알림, 동의)을 조회하고 변경합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:204 description"
+      ]
+    },
+    {
+      "key": "Overview + current state",
+      "ko": "개요 및 현재 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:207 description"
+      ]
+    },
+    {
+      "key": "Turn off statusline notices",
+      "ko": "상태줄 알림을 끕니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:208 description"
+      ]
+    },
+    {
+      "key": "Show current notices state",
+      "ko": "현재 알림 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/settings.ts:209 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

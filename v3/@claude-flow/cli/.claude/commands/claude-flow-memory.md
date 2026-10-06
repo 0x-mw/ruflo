@@ -1,6 +1,6 @@
 ---
 name: claude-flow-memory
-description: Interact with Claude-Flow memory system
+description: Claude-Flow 메모리 시스템과 상호작용합니다
 ---
 
 # 🧠 Claude-Flow Memory System

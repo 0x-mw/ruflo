@@ -1,6 +1,6 @@
 ---
 name: nested-subagents
-description: Spawn nested sub-agents (agents that spawn sub-agents, up to depth=5) via Claude Code's native Task tool — for context-managed deep delegation
+description: Claude Code 네이티브 Task 도구로 중첩 서브 에이전트(서브 에이전트를 생성하는 에이전트, 최대 depth=5)를 생성 — 컨텍스트를 관리하는 깊은 위임용
 argument-hint: "<problem-statement>"
 allowed-tools: Task TodoWrite Read Grep Glob Bash
 ---

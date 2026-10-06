@@ -1,6 +1,6 @@
 {
   "name": "ruflo-ai-team",
-  "description": "Give Claude a tenant-isolated AI team that divides work, coordinates progress, recalls approved context, and returns evidence-backed results.",
+  "description": "Claude에게 작업을 나누고, 진행 상황을 조율하고, 승인된 컨텍스트를 불러오고, 근거 기반 결과를 돌려주는 테넌트 격리형 AI 팀을 제공합니다.",
   "version": "0.2.2",
   "author": {
     "name": "ruvnet",
@@ -27,8 +27,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "AI Team guard",
-      "description": "Refuse what goes into team memory and task or run records (memory_remember, task_create, task_update, run_create on the ruflo-ai-team server) that hold a key, token or password.",
+      "title": "AI Team 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 팀 메모리와 작업/실행 기록(ruflo-ai-team 서버의 memory_remember, task_create, task_update, run_create) 쓰기를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

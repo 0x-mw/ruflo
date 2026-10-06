@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/controller.ts",
+  "entries": [
+    {
+      "key": "router picked {0} ({1}%)",
+      "ko": "라우터가 {0} 선택 ({1}%)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/controller.ts:136 text"
+      ]
+    },
+    {
+      "key": "not placed",
+      "ko": "배치 안 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/controller.ts:385 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

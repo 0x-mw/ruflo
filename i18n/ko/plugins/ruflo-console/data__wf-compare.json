@@ -1,0 +1,72 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-compare.ts",
+  "entries": [
+    {
+      "key": "only Claude Code workflow runs compare: the ruflo swarm is one live roster, not a run",
+      "ko": "Claude Code 워크플로 실행끼리만 비교할 수 있습니다: ruflo 스웜은 실행이 아니라 하나의 실시간 명단입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:89 why"
+      ]
+    },
+    {
+      "key": "that is the same run",
+      "ko": "같은 실행입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:90 why"
+      ]
+    },
+    {
+      "key": "different workflows: \"{0}\" and \"{1}\"",
+      "ko": "서로 다른 워크플로: \"{0}\", \"{1}\"",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:91 why"
+      ]
+    },
+    {
+      "key": "tokens marked ≥ are a floor (a long transcript was only read from its end), so a token difference may be larger than it looks",
+      "ko": "≥로 표시된 토큰은 하한값입니다 (긴 대화 기록은 끝부분만 읽었습니다). 실제 토큰 차이는 보이는 것보다 클 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:102 push()"
+      ]
+    },
+    {
+      "key": "both runs are derived from journal and transcripts, not a finished run record: figures can still move",
+      "ko": "두 실행 모두 완료된 실행 기록이 아니라 저널과 대화 기록에서 도출한 값입니다: 수치가 바뀔 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:103 push()"
+      ]
+    },
+    {
+      "key": "run B is derived from journal and transcripts, not a finished run record: figures can still move",
+      "ko": "실행 B는 완료된 실행 기록이 아니라 저널과 대화 기록에서 도출한 값입니다: 수치가 바뀔 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:103 push()"
+      ]
+    },
+    {
+      "key": "run A is derived from journal and transcripts, not a finished run record: figures can still move",
+      "ko": "실행 A는 완료된 실행 기록이 아니라 저널과 대화 기록에서 도출한 값입니다: 수치가 바뀔 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:103 push()"
+      ]
+    },
+    {
+      "key": "result text differs between the two (it always can; only the agents' own words are compared, not their meaning)",
+      "ko": "두 결과 텍스트가 다릅니다 (늘 다를 수 있으며, 의미가 아니라 에이전트가 쓴 말만 비교합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-compare.ts:104 push()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: "V3 CLI Modernization"
-description: "CLI modernization and hooks system enhancement for claude-flow v3. Implements interactive prompts, command decomposition, enhanced hooks integration, and intelligent workflow automation."
+description: "claude-flow v3의 CLI 현대화와 훅 시스템 개선입니다. 대화형 프롬프트, 명령어 분해, 향상된 훅 통합, 지능형 워크플로 자동화를 구현합니다."
 ---
 
 # V3 CLI Modernization

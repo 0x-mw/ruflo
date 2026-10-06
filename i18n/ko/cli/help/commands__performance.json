@@ -1,0 +1,256 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/performance.ts",
+  "entries": [
+    {
+      "key": "Run performance benchmarks",
+      "ko": "성능 벤치마크 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:17 description"
+      ]
+    },
+    {
+      "key": "Benchmark suite: all, wasm, neural, memory, search",
+      "ko": "벤치마크 스위트: all, wasm, neural, memory, search",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:19 description"
+      ]
+    },
+    {
+      "key": "Output format: text, json, csv",
+      "ko": "출력 형식: text, json, csv",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:22 description"
+      ]
+    },
+    {
+      "key": "Run with 1000 iterations",
+      "ko": "1000회 반복으로 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:26 description"
+      ]
+    },
+    {
+      "key": "Profile application performance",
+      "ko": "애플리케이션 성능 프로파일링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:260 description"
+      ]
+    },
+    {
+      "key": "Profile type: cpu, memory, io, all",
+      "ko": "프로파일 유형: cpu, memory, io, all",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:262 description"
+      ]
+    },
+    {
+      "key": "Duration in seconds",
+      "ko": "기간(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:263 description"
+      ]
+    },
+    {
+      "key": "Output file for profile data",
+      "ko": "프로파일 데이터 출력 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:264 description"
+      ]
+    },
+    {
+      "key": "Profile CPU usage",
+      "ko": "CPU 사용량 프로파일링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:267 description"
+      ]
+    },
+    {
+      "key": "Profile for 60 seconds",
+      "ko": "60초 동안 프로파일링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:268 description"
+      ]
+    },
+    {
+      "key": "View and export performance metrics",
+      "ko": "성능 메트릭 조회 및 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:342 description"
+      ]
+    },
+    {
+      "key": "Timeframe: 1h, 24h, 7d, 30d",
+      "ko": "기간: 1h, 24h, 7d, 30d",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:344 description"
+      ]
+    },
+    {
+      "key": "Output format: text, json, prometheus",
+      "ko": "출력 형식: text, json, prometheus",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:345 description"
+      ]
+    },
+    {
+      "key": "Component to filter",
+      "ko": "필터링할 구성 요소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:346 description"
+      ]
+    },
+    {
+      "key": "Show 7-day metrics",
+      "ko": "7일 메트릭 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:349 description"
+      ]
+    },
+    {
+      "key": "Export as Prometheus format",
+      "ko": "Prometheus 형식으로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:350 description"
+      ]
+    },
+    {
+      "key": "Run performance optimization recommendations",
+      "ko": "성능 최적화 권장 사항 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:531 description"
+      ]
+    },
+    {
+      "key": "Target: memory, cpu, latency, all",
+      "ko": "대상: memory, cpu, latency, all",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:533 description"
+      ]
+    },
+    {
+      "key": "Apply recommended optimizations",
+      "ko": "권장 최적화 적용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:534 description"
+      ]
+    },
+    {
+      "key": "Show changes without applying",
+      "ko": "적용하지 않고 변경 사항 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:535 description"
+      ]
+    },
+    {
+      "key": "Optimize memory usage",
+      "ko": "메모리 사용량 최적화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:538 description"
+      ]
+    },
+    {
+      "key": "Apply all optimizations",
+      "ko": "모든 최적화 적용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:539 description"
+      ]
+    },
+    {
+      "key": "Identify performance bottlenecks",
+      "ko": "성능 병목 식별",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:580 description"
+      ]
+    },
+    {
+      "key": "Component to analyze",
+      "ko": "분석할 구성 요소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:582 description"
+      ]
+    },
+    {
+      "key": "Analysis depth: quick, full",
+      "ko": "분석 깊이: quick, full",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:583 description"
+      ]
+    },
+    {
+      "key": "Find bottlenecks",
+      "ko": "병목 찾기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:586 description"
+      ]
+    },
+    {
+      "key": "Full analysis",
+      "ko": "전체 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:587 description"
+      ]
+    },
+    {
+      "key": "Performance profiling, benchmarking, optimization, metrics",
+      "ko": "성능 프로파일링, 벤치마킹, 최적화, 메트릭",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:621 description"
+      ]
+    },
+    {
+      "key": "Run benchmarks",
+      "ko": "벤치마크 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:625 description"
+      ]
+    },
+    {
+      "key": "Profile application",
+      "ko": "애플리케이션 프로파일링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:626 description"
+      ]
+    },
+    {
+      "key": "View metrics (alias)",
+      "ko": "메트릭 조회 (별칭)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/performance.ts:627 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,836 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/memory.ts",
+  "entries": [
+    {
+      "key": "Override DB file path (also: CLAUDE_FLOW_DB_PATH env var). Precedence: --path > CLAUDE_FLOW_DB_PATH > CLAUDE_FLOW_MEMORY_PATH/memory.db > cwd/.swarm/memory.db",
+      "ko": "DB 파일 경로 재정의 (환경변수 CLAUDE_FLOW_DB_PATH도 가능). 우선순위: --path > CLAUDE_FLOW_DB_PATH > CLAUDE_FLOW_MEMORY_PATH/memory.db > cwd/.swarm/memory.db",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:73 description"
+      ]
+    },
+    {
+      "key": "Store data in memory",
+      "ko": "메모리에 데이터 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:82 description"
+      ]
+    },
+    {
+      "key": "Storage key/namespace",
+      "ko": "저장 키/네임스페이스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:87 description"
+      ]
+    },
+    {
+      "key": "Value to store (use --value)",
+      "ko": "저장할 값 (--value 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:94 description"
+      ]
+    },
+    {
+      "key": "Memory namespace",
+      "ko": "메모리 네임스페이스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:100 description",
+        "src/commands/memory.ts:329 description",
+        "src/commands/memory.ts:436 description"
+      ]
+    },
+    {
+      "key": "Time to live in seconds",
+      "ko": "유지 시간(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:106 description"
+      ]
+    },
+    {
+      "key": "Comma-separated tags",
+      "ko": "쉼표로 구분한 태그",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:111 description",
+        "src/commands/task.ts:103 description"
+      ]
+    },
+    {
+      "key": "Store as vector embedding",
+      "ko": "벡터 임베딩으로 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:116 description"
+      ]
+    },
+    {
+      "key": "Update if key exists (default; pass --no-upsert for strict insert)",
+      "ko": "키가 있으면 업데이트 (기본값, 엄격한 삽입은 --no-upsert)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:126 description"
+      ]
+    },
+    {
+      "key": "Scan the value for injection payloads before persisting (dream-cycle #2752 MemPoison gate)",
+      "ko": "저장하기 전에 값에서 인젝션 페이로드 검사 (dream-cycle #2752 MemPoison 게이트)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:140 description"
+      ]
+    },
+    {
+      "key": "Who/what produced this value: user_claim | agent_output | system_observation | tool_result | unknown (default: unknown) — ADR-323",
+      "ko": "이 값을 만든 주체: user_claim | agent_output | system_observation | tool_result | unknown (기본값: unknown) — ADR-323",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:149 description"
+      ]
+    },
+    {
+      "key": "Store text",
+      "ko": "텍스트 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:156 description"
+      ]
+    },
+    {
+      "key": "Store vector",
+      "ko": "벡터 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:157 description"
+      ]
+    },
+    {
+      "key": "Strict insert (fail if key exists)",
+      "ko": "엄격한 삽입 (키가 있으면 실패)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:158 description"
+      ]
+    },
+    {
+      "key": "Store with typed provenance (ADR-323)",
+      "ko": "유형이 지정된 출처(provenance)와 함께 저장 (ADR-323)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:159 description"
+      ]
+    },
+    {
+      "key": "Retrieve data from memory",
+      "ko": "메모리에서 데이터 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:318 description"
+      ]
+    },
+    {
+      "key": "Storage key",
+      "ko": "저장 키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:323 description",
+        "src/commands/memory.ts:935 description"
+      ]
+    },
+    {
+      "key": "Print only the stored value to stdout (no wrapper)",
+      "ko": "래퍼 없이 저장된 값만 stdout으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:342 description"
+      ]
+    },
+    {
+      "key": "Search memory with semantic/vector search",
+      "ko": "시맨틱/벡터 검색으로 메모리 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:424 description"
+      ]
+    },
+    {
+      "key": "Maximum results",
+      "ko": "최대 결과 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:442 description",
+        "src/commands/plugins.ts:784 description",
+        "src/commands/transfer-store.ts:28 description"
+      ]
+    },
+    {
+      "key": "Search type (semantic, keyword, hybrid)",
+      "ko": "검색 유형 (semantic, keyword, hybrid)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:462 description"
+      ]
+    },
+    {
+      "key": "Build/rebuild HNSW index before searching",
+      "ko": "검색 전에 HNSW 인덱스 빌드/재빌드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:469 description"
+      ]
+    },
+    {
+      "key": "Use SmartRetrieval pipeline (query expansion, RRF, MMR, recency)",
+      "ko": "SmartRetrieval 파이프라인 사용 (쿼리 확장, RRF, MMR, 최신성)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:476 description"
+      ]
+    },
+    {
+      "key": "Route query to intent-mapped namespaces (auto | mixed | episodic | semantic | procedural) — dream-cycle #2760",
+      "ko": "쿼리를 의도에 맞는 네임스페이스로 라우팅 (auto | mixed | episodic | semantic | procedural) — dream-cycle #2760",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:486 description"
+      ]
+    },
+    {
+      "key": "Comma-separated provenance types to restrict results to: user_claim,agent_output,system_observation,tool_result,unknown — ADR-323",
+      "ko": "결과를 제한할 출처 유형 (쉼표로 구분): user_claim,agent_output,system_observation,tool_result,unknown — ADR-323",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:497 description"
+      ]
+    },
+    {
+      "key": "Keyword search",
+      "ko": "키워드 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:504 description"
+      ]
+    },
+    {
+      "key": "Build HNSW index and search",
+      "ko": "HNSW 인덱스를 빌드하고 검색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:505 description"
+      ]
+    },
+    {
+      "key": "SmartRetrieval with RRF + MMR",
+      "ko": "RRF + MMR 기반 SmartRetrieval",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:506 description"
+      ]
+    },
+    {
+      "key": "SCM-routed retrieval (dream-cycle #2760)",
+      "ko": "SCM 라우팅 검색 (dream-cycle #2760)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:507 description"
+      ]
+    },
+    {
+      "key": "Only trust agent/tool-sourced entries (ADR-323)",
+      "ko": "에이전트/도구가 출처인 항목만 신뢰 (ADR-323)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:508 description"
+      ]
+    },
+    {
+      "key": "Filter by namespace",
+      "ko": "네임스페이스로 필터링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:815 description"
+      ]
+    },
+    {
+      "key": "Filter by tags (comma-separated)",
+      "ko": "태그로 필터링 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:821 description",
+        "src/commands/transfer-store.ts:132 description"
+      ]
+    },
+    {
+      "key": "Maximum entries",
+      "ko": "최대 항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:827 description"
+      ]
+    },
+    {
+      "key": "Delete a memory entry from the default store and its AgentDB mirror (use --path to select one store)",
+      "ko": "기본 저장소와 AgentDB 미러에서 메모리 항목 삭제 (--path로 저장소 하나 선택)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:930 description"
+      ]
+    },
+    {
+      "key": "Delete entry with default namespace",
+      "ko": "기본 네임스페이스의 항목 삭제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:955 description"
+      ]
+    },
+    {
+      "key": "Delete entry from specific namespace",
+      "ko": "특정 네임스페이스의 항목 삭제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:956 description"
+      ]
+    },
+    {
+      "key": "Delete without confirmation",
+      "ko": "확인 없이 삭제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:957 description",
+        "src/commands/session.ts:524 description"
+      ]
+    },
+    {
+      "key": "Permanently delete a namespace from the default store and its AgentDB mirror (use --path to select one store)",
+      "ko": "기본 저장소와 AgentDB 미러에서 네임스페이스를 영구 삭제 (--path로 저장소 하나 선택)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1023 description"
+      ]
+    },
+    {
+      "key": "Namespace to purge (required — no default, to avoid an accidental whole-namespace wipe)",
+      "ko": "완전 삭제(purge)할 네임스페이스 (필수 — 네임스페이스 전체가 실수로 지워지지 않도록 기본값 없음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1028 description"
+      ]
+    },
+    {
+      "key": "Report how many entries would be deleted, without deleting them",
+      "ko": "삭제하지 않고 삭제될 항목 수만 보고",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1034 description"
+      ]
+    },
+    {
+      "key": "Preview a purge",
+      "ko": "완전 삭제 미리 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1048 description"
+      ]
+    },
+    {
+      "key": "Purge without confirmation (e.g. in a script)",
+      "ko": "확인 없이 완전 삭제 (예: 스크립트에서)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1049 description"
+      ]
+    },
+    {
+      "key": "Show memory statistics",
+      "ko": "메모리 통계 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1116 description"
+      ]
+    },
+    {
+      "key": "Configure memory backend",
+      "ko": "메모리 백엔드 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1287 description"
+      ]
+    },
+    {
+      "key": "Memory backend",
+      "ko": "메모리 백엔드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1292 description"
+      ]
+    },
+    {
+      "key": "Storage path",
+      "ko": "저장 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1298 description"
+      ]
+    },
+    {
+      "key": "Cache size in MB",
+      "ko": "캐시 크기(MB)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1303 description"
+      ]
+    },
+    {
+      "key": "HNSW ef parameter",
+      "ko": "HNSW ef 매개변수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1314 description"
+      ]
+    },
+    {
+      "key": "Clean up stale and expired memory entries",
+      "ko": "오래되거나 만료된 메모리 항목 정리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1368 description"
+      ]
+    },
+    {
+      "key": "Show what would be deleted",
+      "ko": "삭제될 항목 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1373 description"
+      ]
+    },
+    {
+      "key": "Delete entries older than (e.g., \"7d\", \"30d\")",
+      "ko": "지정한 기간보다 오래된 항목 삭제 (예: \"7d\", \"30d\")",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1380 description"
+      ]
+    },
+    {
+      "key": "Only delete expired TTL entries",
+      "ko": "만료된 TTL 항목만 삭제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1386 description"
+      ]
+    },
+    {
+      "key": "Delete low quality patterns (threshold)",
+      "ko": "품질이 낮은 패턴 삭제 (임계값)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1393 description"
+      ]
+    },
+    {
+      "key": "Clean specific namespace only",
+      "ko": "특정 네임스페이스만 정리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1399 description"
+      ]
+    },
+    {
+      "key": "Preview cleanup",
+      "ko": "정리 미리 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1411 description"
+      ]
+    },
+    {
+      "key": "Delete entries older than 30 days",
+      "ko": "30일보다 오래된 항목 삭제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1412 description"
+      ]
+    },
+    {
+      "key": "Clean expired entries",
+      "ko": "만료된 항목 정리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1413 description"
+      ]
+    },
+    {
+      "key": "Compress and optimize memory storage",
+      "ko": "메모리 저장소 압축 및 최적화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1520 description"
+      ]
+    },
+    {
+      "key": "Compression level (fast, balanced, max)",
+      "ko": "압축 수준 (fast, balanced, max)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1525 description"
+      ]
+    },
+    {
+      "key": "Target (vectors, text, patterns, all)",
+      "ko": "대상 (vectors, text, patterns, all)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1533 description"
+      ]
+    },
+    {
+      "key": "Enable vector quantization (reduces memory 4-32x)",
+      "ko": "벡터 양자화 활성화 (메모리 4~32배 절감)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1541 description"
+      ]
+    },
+    {
+      "key": "Quantization bits (4, 8, 16)",
+      "ko": "양자화 비트 (4, 8, 16)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1547 description"
+      ]
+    },
+    {
+      "key": "Rebuild HNSW index after compression",
+      "ko": "압축 후 HNSW 인덱스 재빌드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1554 description"
+      ]
+    },
+    {
+      "key": "Balanced compression",
+      "ko": "균형 압축",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1560 description"
+      ]
+    },
+    {
+      "key": "4-bit quantization (32x reduction)",
+      "ko": "4비트 양자화 (32배 절감)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1561 description"
+      ]
+    },
+    {
+      "key": "Max compression on vectors",
+      "ko": "벡터 최대 압축",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1562 description"
+      ]
+    },
+    {
+      "key": "Export memory to file",
+      "ko": "메모리를 파일로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1678 description"
+      ]
+    },
+    {
+      "key": "Export format (json, csv, binary)",
+      "ko": "내보내기 형식 (json, csv, binary)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1690 description"
+      ]
+    },
+    {
+      "key": "Export specific namespace",
+      "ko": "특정 네임스페이스 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1698 description"
+      ]
+    },
+    {
+      "key": "Include vector embeddings",
+      "ko": "벡터 임베딩 포함",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1703 description"
+      ]
+    },
+    {
+      "key": "Export all to JSON",
+      "ko": "전체를 JSON으로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1709 description"
+      ]
+    },
+    {
+      "key": "Export to CSV",
+      "ko": "CSV로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1710 description"
+      ]
+    },
+    {
+      "key": "Import memory from file",
+      "ko": "파일에서 메모리 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1763 description"
+      ]
+    },
+    {
+      "key": "Input file path",
+      "ko": "입력 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1768 description",
+        "src/commands/route.ts:559 description",
+        "src/commands/ruvector/backup.ts:404 description"
+      ]
+    },
+    {
+      "key": "Merge with existing (skip duplicates)",
+      "ko": "기존 항목과 병합 (중복은 건너뜀)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1775 description"
+      ]
+    },
+    {
+      "key": "Import into specific namespace",
+      "ko": "특정 네임스페이스로 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1782 description"
+      ]
+    },
+    {
+      "key": "Import from file",
+      "ko": "파일에서 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1788 description",
+        "src/commands/neural.ts:1526 description"
+      ]
+    },
+    {
+      "key": "Import to namespace",
+      "ko": "네임스페이스로 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1789 description"
+      ]
+    },
+    {
+      "key": "Initialize memory database with sql.js (WASM SQLite) - includes vector embeddings, pattern learning, temporal decay",
+      "ko": "sql.js(WASM SQLite)로 메모리 데이터베이스 초기화 - 벡터 임베딩, 패턴 학습, 시간 감쇠 포함",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1842 description"
+      ]
+    },
+    {
+      "key": "Backend type: hybrid (default), sqlite, or agentdb",
+      "ko": "백엔드 유형: hybrid (기본값), sqlite 또는 agentdb",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1847 description"
+      ]
+    },
+    {
+      "key": "Overwrite existing database",
+      "ko": "기존 데이터베이스 덮어쓰기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1860 description"
+      ]
+    },
+    {
+      "key": "Show detailed initialization output",
+      "ko": "상세 초기화 출력 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1866 description"
+      ]
+    },
+    {
+      "key": "Run verification tests after initialization",
+      "ko": "초기화 후 검증 테스트 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1872 description"
+      ]
+    },
+    {
+      "key": "Pre-load ONNX embedding model (lazy by default)",
+      "ko": "ONNX 임베딩 모델 사전 로드 (기본값은 지연 로드)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1878 description"
+      ]
+    },
+    {
+      "key": "Initialize hybrid backend with all features",
+      "ko": "모든 기능을 갖춘 하이브리드 백엔드 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1884 description"
+      ]
+    },
+    {
+      "key": "Initialize AgentDB backend",
+      "ko": "AgentDB 백엔드 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1885 description"
+      ]
+    },
+    {
+      "key": "Reinitialize at custom path",
+      "ko": "사용자 지정 경로에서 재초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1886 description"
+      ]
+    },
+    {
+      "key": "Initialize with full verification",
+      "ko": "전체 검증과 함께 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1887 description"
+      ]
+    },
+    {
+      "key": "Pick the highest-value consolidation operator that fits a budget (OAS, dream-cycle #2763)",
+      "ko": "예산에 맞는 가장 가치 높은 통합 연산자 선택 (OAS, dream-cycle #2763)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2121 description"
+      ]
+    },
+    {
+      "key": "Budget in abstract operator points (1 point ≈ 1 Haiku call)",
+      "ko": "추상 연산자 점수 단위의 예산 (1점 ≈ Haiku 호출 1회)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2123 description"
+      ]
+    },
+    {
+      "key": "Number of entries to consolidate",
+      "ko": "통합할 항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2124 description"
+      ]
+    },
+    {
+      "key": "Entry-shape hint",
+      "ko": "항목 형태 힌트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2125 description"
+      ]
+    },
+    {
+      "key": "Pick operator for 200 entries within 50 points",
+      "ko": "50점 안에서 항목 200개에 쓸 연산자 선택",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2128 description"
+      ]
+    },
+    {
+      "key": "JSON for pipelines",
+      "ko": "파이프라인용 JSON",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2129 description",
+        "src/commands/swarm.ts:1070 description"
+      ]
+    },
+    {
+      "key": "Classify a query into episodic/semantic/procedural intent (SCM router, dream-cycle #2760)",
+      "ko": "쿼리를 episodic/semantic/procedural 의도로 분류 (SCM 라우터, dream-cycle #2760)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2188 description"
+      ]
+    },
+    {
+      "key": "Query text to classify",
+      "ko": "분류할 쿼리 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2190 description"
+      ]
+    },
+    {
+      "key": "Force a specific intent (default: auto)",
+      "ko": "특정 의도 강제 (기본값: auto)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2191 description"
+      ]
+    },
+    {
+      "key": "Auto-classify (should return episodic)",
+      "ko": "자동 분류 (episodic이 반환되어야 함)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2194 description"
+      ]
+    },
+    {
+      "key": "JSON output for pipelines",
+      "ko": "파이프라인용 JSON 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2195 description"
+      ]
+    },
+    {
+      "key": "Memory management commands",
+      "ko": "메모리 관리 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2231 description"
+      ]
+    },
+    {
+      "key": "Store data",
+      "ko": "데이터 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2235 description"
+      ]
+    },
+    {
+      "key": "Show statistics",
+      "ko": "통계 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2237 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

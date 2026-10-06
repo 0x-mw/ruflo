@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/index.ts",
+  "entries": [
+    {
+      "key": "RuFlo V3 - AI Agent Orchestration Platform",
+      "ko": "RuFlo V3 - AI 에이전트 오케스트레이션 플랫폼",
+      "kind": "text",
+      "ctx": [
+        "src/index.ts:63 this.description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

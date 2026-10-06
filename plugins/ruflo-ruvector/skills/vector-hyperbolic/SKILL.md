@@ -1,6 +1,6 @@
 ---
 name: vector-hyperbolic
-description: Embed hierarchical data via npx ruvector@0.2.25 embed text and project into the Poincare ball in user code (no --model poincare flag in 0.2.25)
+description: npx ruvector@0.2.25 embed text로 계층 데이터를 임베딩하고 사용자 코드에서 푸앵카레 볼(Poincare ball)에 투영(0.2.25에는 --model poincare 플래그 없음)
 argument-hint: "<text> [--model poincare]"
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search
 ---

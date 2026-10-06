@@ -1,6 +1,6 @@
 ---
 name: manage-team-lifecycle
-description: Pause, resume, or complete a RuFlo AI team while preserving its tenant-local evidence.
+description: 테넌트 로컬 증거를 보존하면서 RuFlo AI 팀을 일시 중지, 재개, 완료합니다.
 allowed-tools: mcp__plugin_ruflo-ai-team_ruflo-ai-team__team_get mcp__plugin_ruflo-ai-team_ruflo-ai-team__team_update mcp__plugin_ruflo-ai-team_ruflo-ai-team__evidence_export
 ---
 

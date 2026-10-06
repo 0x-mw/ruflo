@@ -1,0 +1,72 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-mods/hooks/delivery/screen.ts",
+  "entries": [
+    {
+      "key": "mode switch",
+      "ko": "모드 전환",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:11 const"
+      ]
+    },
+    {
+      "key": "goal replacement",
+      "ko": "목표 교체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:12 const"
+      ]
+    },
+    {
+      "key": "authority reassignment",
+      "ko": "권한 재지정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:13 const"
+      ]
+    },
+    {
+      "key": "skip safeguards",
+      "ko": "안전장치 건너뛰기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:14 const"
+      ]
+    },
+    {
+      "key": "prompt disclosure",
+      "ko": "프롬프트 노출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:15 const"
+      ]
+    },
+    {
+      "key": "rules pretended away",
+      "ko": "규칙을 없는 것처럼 가장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:16 const"
+      ]
+    },
+    {
+      "key": "covert action",
+      "ko": "은밀한 행동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:17 const"
+      ]
+    },
+    {
+      "key": "us social security number",
+      "ko": "미국 사회보장번호",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/delivery/screen.ts:43 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

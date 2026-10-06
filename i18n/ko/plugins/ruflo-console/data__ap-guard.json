@@ -1,0 +1,42 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/ap-guard.ts",
+  "entries": [
+    {
+      "key": "Read",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-guard.ts:108 read"
+      ]
+    },
+    {
+      "key": "Bash",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-guard.ts:108 test",
+        "plugins/ruflo-console/hooks/data/ap-guard.ts:108 git-local",
+        "plugins/ruflo-console/hooks/data/ap-guard.ts:108 git-branch"
+      ]
+    },
+    {
+      "key": "Edit",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-guard.ts:108 edit"
+      ]
+    },
+    {
+      "key": "WebFetch",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-guard.ts:108 network"
+      ]
+    }
+  ],
+  "obsolete": []
+}

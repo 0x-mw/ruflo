@@ -1,0 +1,282 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/transfer-store.ts",
+  "entries": [
+    {
+      "key": "List patterns from decentralized registry",
+      "ko": "분산 레지스트리의 패턴 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:21 description"
+      ]
+    },
+    {
+      "key": "Registry name (default: claude-flow-official)",
+      "ko": "레지스트리 이름 (기본값: claude-flow-official)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:23 description"
+      ]
+    },
+    {
+      "key": "Show featured patterns",
+      "ko": "추천 패턴을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:25 description"
+      ]
+    },
+    {
+      "key": "Show trending patterns",
+      "ko": "인기 패턴을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:26 description"
+      ]
+    },
+    {
+      "key": "Show newest patterns",
+      "ko": "최신 패턴을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:27 description"
+      ]
+    },
+    {
+      "key": "List routing patterns",
+      "ko": "라우팅 패턴 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:32 description"
+      ]
+    },
+    {
+      "key": "List featured patterns",
+      "ko": "추천 패턴 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:33 description"
+      ]
+    },
+    {
+      "key": "Search patterns in the decentralized registry",
+      "ko": "분산 레지스트리에서 패턴을 검색합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:126 description"
+      ]
+    },
+    {
+      "key": "Filter by language",
+      "ko": "언어로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:130 description"
+      ]
+    },
+    {
+      "key": "Filter by framework",
+      "ko": "프레임워크로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:131 description"
+      ]
+    },
+    {
+      "key": "Minimum rating (0-5)",
+      "ko": "최소 평점 (0-5)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:133 description"
+      ]
+    },
+    {
+      "key": "Only verified patterns",
+      "ko": "검증된 패턴만 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:134 description"
+      ]
+    },
+    {
+      "key": "Search for routing patterns",
+      "ko": "라우팅 패턴을 검색합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:138 description"
+      ]
+    },
+    {
+      "key": "Search with filters",
+      "ko": "필터를 적용해 검색합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:139 description"
+      ]
+    },
+    {
+      "key": "Download a pattern from the registry",
+      "ko": "레지스트리에서 패턴을 다운로드합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:208 description"
+      ]
+    },
+    {
+      "key": "Pattern name or ID",
+      "ko": "패턴 이름 또는 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:210 description",
+        "src/commands/transfer-store.ts:376 description"
+      ]
+    },
+    {
+      "key": "Verify checksum",
+      "ko": "체크섬을 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:212 description"
+      ]
+    },
+    {
+      "key": "Import after download",
+      "ko": "다운로드 후 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:213 description"
+      ]
+    },
+    {
+      "key": "Download and import",
+      "ko": "다운로드하고 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:217 description"
+      ]
+    },
+    {
+      "key": "Publish a pattern to the decentralized registry",
+      "ko": "분산 레지스트리에 패턴을 게시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:290 description"
+      ]
+    },
+    {
+      "key": "Input CFP file path",
+      "ko": "입력 CFP 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:292 description"
+      ]
+    },
+    {
+      "key": "Pattern name",
+      "ko": "패턴 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:293 description"
+      ]
+    },
+    {
+      "key": "Pattern description",
+      "ko": "패턴 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:294 description"
+      ]
+    },
+    {
+      "key": "Categories (comma-separated)",
+      "ko": "카테고리 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:295 description"
+      ]
+    },
+    {
+      "key": "Tags (comma-separated)",
+      "ko": "태그 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:296 description"
+      ]
+    },
+    {
+      "key": "SPDX license",
+      "ko": "SPDX 라이선스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:297 description"
+      ]
+    },
+    {
+      "key": "Anonymization level",
+      "ko": "익명화 수준",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:298 description"
+      ]
+    },
+    {
+      "key": "Primary language",
+      "ko": "주 언어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:299 description"
+      ]
+    },
+    {
+      "key": "Primary framework",
+      "ko": "주 프레임워크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:300 description"
+      ]
+    },
+    {
+      "key": "Publish pattern",
+      "ko": "패턴을 게시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:303 description",
+        "src/commands/transfer-store.ts:468 description"
+      ]
+    },
+    {
+      "key": "Show detailed information about a pattern",
+      "ko": "패턴의 상세 정보를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:374 description"
+      ]
+    },
+    {
+      "key": "Show pattern info",
+      "ko": "패턴 정보를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:379 description"
+      ]
+    },
+    {
+      "key": "Pattern marketplace - list, search, download, publish",
+      "ko": "패턴 마켓플레이스 - 목록, 검색, 다운로드, 게시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:456 description"
+      ]
+    },
+    {
+      "key": "List patterns",
+      "ko": "패턴 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/transfer-store.ts:465 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

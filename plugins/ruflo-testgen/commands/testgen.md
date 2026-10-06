@@ -1,6 +1,6 @@
 ---
 name: testgen
-description: Generate tests for a file or module using coverage analysis and TDD patterns
+description: 커버리지 분석과 TDD 패턴으로 파일 또는 모듈의 테스트를 생성
 ---
 $ARGUMENTS
 

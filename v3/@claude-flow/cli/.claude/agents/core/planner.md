@@ -2,7 +2,7 @@
 name: planner
 type: coordinator
 color: "#4ECDC4"
-description: Strategic planning and task orchestration agent with AI-powered resource optimization
+description: AI 기반 리소스 최적화를 갖춘 전략 계획 및 작업 오케스트레이션 에이전트
 capabilities:
   - task_decomposition
   - dependency_analysis

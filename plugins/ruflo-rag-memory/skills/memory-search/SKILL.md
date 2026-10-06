@@ -1,6 +1,6 @@
 ---
 name: memory-search
-description: SOTA semantic search — hybrid (sparse+dense), Graph RAG multi-hop, MMR diversity reranking, recency weighting
+description: 최신 수준(SOTA) 시맨틱 검색 — 하이브리드(sparse+dense), Graph RAG 다중 홉(multi-hop), MMR 다양성 재순위화, 최신성 가중치
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_search_unified mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_context-synthesize
 argument-hint: "<query> [--hybrid] [--graph-rag] [--namespace NAME]"
 ---

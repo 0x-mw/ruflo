@@ -1,6 +1,6 @@
 {
   "name": "ruflo-console",
-  "description": "ruflo's cockpit inside Claude Code and the one /ruflo command for every ruflo mod (function hooks, early access). Views: overview with health alerts, swarm topology graph, claims flow with TTL rings, federation map, plugin health matrix, learning curve and pipeline, MetaHarness radar and audit trend, memory, cost gauge, agent timeline, approvals queue, event stream, a main menu, an x.ruv.io federation board, an AI terminal (codex, claude or both in remembered sessions, streamed), Skills (npx skills), a Hive-Mind view, a MetaHarness lab, agent drill-down; a command palette for confirm-gated actions through the ruflo CLI; a band above the prompt. Reads ruflo's files and the CLI's local JSON; anything not measured reads n/a. The one network call it makes by itself is a daily read of the published plugin.json at github.com/ruvnet/ruflo to offer an update (Settings → Updates: ask, auto, or off); it installs only through Claude Code's own claude plugin update, and never a new major version without asking.",
+  "description": "Claude Code 안의 ruflo 콕핏과 모든 ruflo mod(함수 훅, 얼리 액세스)를 위한 단일 /ruflo 명령. 화면: 상태 경고 개요, 스웜 토폴로지 그래프, TTL 링이 있는 클레임 흐름, 페더레이션 지도, 플러그인 상태 매트릭스, 학습 곡선과 파이프라인, MetaHarness 레이더와 감사 추세, 메모리, 비용 게이지, 에이전트 타임라인, 승인 대기열, 이벤트 스트림, 메인 메뉴, x.ruv.io 페더레이션 보드, AI 터미널(codex, claude 또는 둘 다, 기억된 세션에서 스트리밍), 스킬(npx skills), 하이브마인드 화면, MetaHarness 랩, 에이전트 상세 보기. ruflo CLI를 통한 확인 필요 작업용 명령 팔레트와 프롬프트 위 띠도 제공합니다. ruflo의 파일과 CLI의 로컬 JSON을 읽으며, 측정되지 않은 값은 n/a로 표시됩니다. 스스로 하는 유일한 네트워크 호출은 github.com/ruvnet/ruflo에 게시된 plugin.json을 하루 한 번 읽어 업데이트를 제안하는 것이며(설정 → 업데이트: ask, auto, off), Claude Code 자체의 claude plugin update로만 설치하고 새 메이저 버전은 묻지 않고 설치하지 않습니다.",
   "version": "0.34.0",
   "author": {
     "name": "ruvnet",
@@ -26,14 +26,14 @@
   "userConfig": {
     "convoTargets": {
       "type": "string",
-      "title": "Conversation targets",
-      "description": "endpoint:<name>=<base-url>|<KEY_ENV>|<model>; bbs:<room>; x:<channel>. Names of environment variables, never keys. Default empty: only OpenRouter (OPENROUTER_API_KEY) is offered.",
+      "title": "대화 대상",
+      "description": "endpoint:<name>=<base-url>|<KEY_ENV>|<model>; bbs:<room>; x:<channel>. 키가 아니라 환경 변수 이름을 씁니다. 기본값은 비어 있음: OpenRouter(OPENROUTER_API_KEY)만 제공됩니다.",
       "default": ""
     },
     "cli": {
       "type": "string",
       "title": "ruflo CLI",
-      "description": "How the console reaches ruflo. npx-offline (default) uses the locally cached @claude-flow/cli and never touches the network; npx may download it; ruflo and claude-flow use a global install.",
+      "description": "콘솔이 ruflo에 접근하는 방식입니다. npx-offline(기본값)은 로컬에 캐시된 @claude-flow/cli를 사용하며 네트워크에 접근하지 않고, npx는 다운로드할 수 있으며, ruflo와 claude-flow는 전역 설치를 사용합니다.",
       "default": "npx-offline",
       "options": [
         "npx-offline",
@@ -44,20 +44,20 @@
     },
     "refreshSeconds": {
       "type": "number",
-      "title": "Disk refresh (seconds)",
-      "description": "How often ruflo's files are re-read (2 to 60). Unchanged files are not read again. CLI probes keep their own slower cadence and run only for the view in front.",
+      "title": "디스크 새로 고침(초)",
+      "description": "ruflo 파일을 다시 읽는 주기(2~60)입니다. 변경되지 않은 파일은 다시 읽지 않습니다. CLI 조사는 자체의 더 느린 주기를 유지하며 앞에 있는 화면에 대해서만 실행됩니다.",
       "default": 3
     },
     "fps": {
       "type": "number",
-      "title": "Animation frames per second",
-      "description": "Frame cap while the pane is shown and holds the keys (0 to 12; 0 turns motion off). Hidden, unfocused or closed, nothing animates.",
+      "title": "초당 애니메이션 프레임",
+      "description": "패널이 표시되고 키 입력을 받는 동안의 프레임 상한입니다(0~12, 0이면 모션 끔). 숨김, 포커스 없음, 닫힘 상태에서는 아무것도 움직이지 않습니다.",
       "default": 8
     },
     "bar": {
       "type": "string",
-      "title": "Band above the prompt",
-      "description": "auto shows the one-line ruflo band in a ruflo project; on shows it everywhere; off hides it (the console then adds a 'console' segment to ruflo-mods' status line instead).",
+      "title": "프롬프트 위 띠",
+      "description": "auto는 ruflo 프로젝트에서 한 줄짜리 ruflo 띠를 표시하고, on은 어디서나 표시하며, off는 숨깁니다(그러면 콘솔이 대신 ruflo-mods의 상태 줄에 'console' 세그먼트를 추가합니다).",
       "default": "auto",
       "options": [
         "auto",
@@ -67,8 +67,8 @@
     },
     "panel": {
       "type": "string",
-      "title": "Cockpit pane",
-      "description": "auto opens the cockpit at session start where it docks beside the transcript (a terminal 144 columns or wider), never taking the keys; elsewhere the band says /ruflo to open. command opens it only with /ruflo. off never opens it unasked.",
+      "title": "콕핏 패널",
+      "description": "auto는 세션 시작 시 콘솔이 대화 기록 옆에 도킹되는 환경(폭 144열 이상의 터미널)에서 콕핏을 열되 키 입력은 가져가지 않으며, 그 외에는 띠에 /ruflo로 열라고 안내합니다. command는 /ruflo로만 엽니다. off는 요청 없이는 열지 않습니다.",
       "default": "auto",
       "options": [
         "auto",
@@ -78,14 +78,14 @@
     },
     "federationNetwork": {
       "type": "boolean",
-      "title": "Ask the federation relay",
-      "description": "Lets the federation and x.ruv.io views ask the public relay (wss://relay.ruv.io) for the roster and the x.ruv.io gateway for its registry. Off by default: without it the console makes no network request.",
+      "title": "페더레이션 릴레이에 요청",
+      "description": "페더레이션 및 x.ruv.io 화면이 공개 릴레이(wss://relay.ruv.io)에 명단을, x.ruv.io 게이트웨이에 레지스트리를 요청하도록 허용합니다. 기본값은 꺼짐: 켜지 않으면 콘솔은 네트워크 요청을 하지 않습니다.",
       "default": false
     },
     "look": {
       "type": "string",
-      "title": "Look",
-      "description": "bbs is the neon BBS look: an ASCII-art banner, ▓▒░ section headers and a cyberpunk palette. plain uses your terminal theme colours and plain rules (better on light backgrounds).",
+      "title": "룩",
+      "description": "bbs는 네온 BBS 룩으로, ASCII 아트 배너, ▓▒░ 섹션 머리글, 사이버펑크 팔레트를 씁니다. plain은 터미널 테마 색상과 단순한 구분선을 씁니다(밝은 배경에서 더 좋음).",
       "default": "bbs",
       "options": [
         "bbs",
@@ -94,26 +94,26 @@
     },
     "boot": {
       "type": "boolean",
-      "title": "Boot screen",
-      "description": "With the bbs look, play a dial-up boot screen (modem connect, the RUFLO logo drawing in, every area of the console coming online in a log, a loading bar for the first ruflo reads) when the cockpit opens. At least 5.4 s, at most 8 s.",
+      "title": "부팅 화면",
+      "description": "bbs 룩에서 콕핏이 열릴 때 다이얼업 부팅 화면(모뎀 연결, RUFLO 로고 그리기, 콘솔의 각 영역이 로그에 온라인으로 표시됨, 첫 ruflo 읽기용 로딩 바)을 재생합니다. 최소 5.4초, 최대 8초입니다.",
       "default": true
     },
     "wfBudgetRunUsd": {
       "type": "number",
-      "title": "Workflow budget per run (USD)",
-      "description": "The Workflows page flags a run whose measured cost passes this many dollars (0.01 to 10000; 0 turns the guard off). It only warns: the console cannot stop a running workflow.",
+      "title": "실행당 워크플로 예산(USD)",
+      "description": "워크플로 페이지에서 측정된 비용이 이 금액(달러, 0.01~10000, 0이면 가드 끔)을 넘은 실행을 표시합니다. 경고만 하며, 콘솔은 실행 중인 워크플로를 멈출 수 없습니다.",
       "default": 0
     },
     "wfBudgetDayUsd": {
       "type": "number",
-      "title": "Workflow budget per day (USD)",
-      "description": "The Workflows page flags the day's measured workflow cost past this many dollars (0.01 to 10000; 0 turns the guard off). It only warns.",
+      "title": "일일 워크플로 예산(USD)",
+      "description": "워크플로 페이지에서 하루 동안 측정된 워크플로 비용이 이 금액(달러, 0.01~10000, 0이면 가드 끔)을 넘으면 표시합니다. 경고만 합니다.",
       "default": 0
     },
     "wfAlertRules": {
       "type": "string",
-      "title": "Workflow alert rules",
-      "description": "Space-separated rules for the Workflows page: stuck>20m (no progress for 20 minutes), tokens>2M (agent context size), dirty (a worktree has uncommitted changes). Empty turns them all off.",
+      "title": "워크플로 경고 규칙",
+      "description": "워크플로 페이지의 규칙을 공백으로 구분해 적습니다: stuck>20m(20분간 진행 없음), tokens>2M(에이전트 컨텍스트 크기), dirty(워크트리에 커밋되지 않은 변경 있음). 비워 두면 모두 꺼집니다.",
       "default": ""
     }
   }

@@ -1,3 +1,7 @@
+---
+description: SPARC 리서처 모드
+---
+
 # SPARC Researcher Mode
 
 ## Purpose

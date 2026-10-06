@@ -1,0 +1,89 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/hive.ts",
+  "entries": [
+    {
+      "key": "vote for {0} ({1}) as worker {2}",
+      "ko": "워커 {2}로 {0} ({1})에 찬성 투표",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:32 label"
+      ]
+    },
+    {
+      "key": "vote against {0} ({1}) as worker {2}",
+      "ko": "워커 {2}로 {0} ({1})에 반대 투표",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:32 label"
+      ]
+    },
+    {
+      "key": "{0}'s ballot on the proposal, or the proposal decided",
+      "ko": "제안에 대한 {0}의 투표 또는 확정된 제안",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:35 expect"
+      ]
+    },
+    {
+      "key": "propose {0}: \"{1}\" ({2})",
+      "ko": "{0} 제안: \"{1}\" ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:50 label"
+      ]
+    },
+    {
+      "key": "propose {0}: \"{1}\" (raft, the tool default)",
+      "ko": "{0} 제안: \"{1}\" (raft, 도구 기본값)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:50 label"
+      ]
+    },
+    {
+      "key": "a new pending proposal in .claude-flow/hive-mind/state.json",
+      "ko": ".claude-flow/hive-mind/state.json 에 대기 중인 새 제안이 추가됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:52 expect"
+      ]
+    },
+    {
+      "key": "broadcast \"{0}\" to the hive",
+      "ko": "하이브에 \"{0}\" 브로드캐스트",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:64 label"
+      ]
+    },
+    {
+      "key": "the message in the shared memory broadcasts",
+      "ko": "공유 메모리 브로드캐스트의 메시지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:66 expect"
+      ]
+    },
+    {
+      "key": "spawn a hive {0} and join it",
+      "ko": "하이브 {0} 생성 후 참여",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:77 label",
+        "plugins/ruflo-console/hooks/palette.ts:140 add()"
+      ]
+    },
+    {
+      "key": "one more worker in the hive",
+      "ko": "하이브에 워커 1개 추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/hive.ts:79 expect"
+      ]
+    }
+  ],
+  "obsolete": []
+}

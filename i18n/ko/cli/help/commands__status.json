@@ -1,0 +1,107 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/status.ts",
+  "entries": [
+    {
+      "key": "Show detailed agent status",
+      "ko": "에이전트 상태를 상세하게 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:519 description",
+        "src/commands/status.ts:752 description"
+      ]
+    },
+    {
+      "key": "Show detailed task status",
+      "ko": "작업 상태를 상세하게 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:581 description",
+        "src/commands/status.ts:753 description"
+      ]
+    },
+    {
+      "key": "Show detailed memory status",
+      "ko": "메모리 상태를 상세하게 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:644 description",
+        "src/commands/status.ts:754 description"
+      ]
+    },
+    {
+      "key": "Show system status",
+      "ko": "시스템 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:722 description"
+      ]
+    },
+    {
+      "key": "Watch mode - continuously update status",
+      "ko": "감시 모드 - 상태를 계속 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:728 description"
+      ]
+    },
+    {
+      "key": "Watch mode update interval in seconds",
+      "ko": "감시 모드 업데이트 간격(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:735 description"
+      ]
+    },
+    {
+      "key": "Perform health checks and exit",
+      "ko": "상태 점검을 수행하고 종료합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:741 description"
+      ]
+    },
+    {
+      "key": "Show current system status",
+      "ko": "현재 시스템 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:747 description"
+      ]
+    },
+    {
+      "key": "Watch mode with live updates",
+      "ko": "실시간 업데이트가 있는 감시 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:748 description"
+      ]
+    },
+    {
+      "key": "Watch mode updating every 5 seconds",
+      "ko": "5초마다 업데이트하는 감시 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:749 description"
+      ]
+    },
+    {
+      "key": "Run health checks",
+      "ko": "상태 점검을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:750 description"
+      ]
+    },
+    {
+      "key": "Output status as JSON",
+      "ko": "상태를 JSON으로 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:751 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

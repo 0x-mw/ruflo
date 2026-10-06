@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-neural
-description: Train and deploy neural networks in distributed E2B sandboxes with Flow Nexus
+description: Flow Nexus로 분산 E2B 샌드박스에서 신경망을 학습시키고 배포합니다
 ---
 
 # Flow Nexus Neural Networks

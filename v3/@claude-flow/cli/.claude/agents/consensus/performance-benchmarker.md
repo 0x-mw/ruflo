@@ -2,7 +2,7 @@
 name: performance-benchmarker
 type: analyst
 color: "#607D8B"
-description: Implements comprehensive performance benchmarking for distributed consensus protocols
+description: 분산 합의 프로토콜을 위한 종합 성능 벤치마킹을 구현합니다
 capabilities:
   - throughput_measurement
   - latency_analysis

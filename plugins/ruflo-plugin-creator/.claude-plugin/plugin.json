@@ -1,6 +1,6 @@
 {
   "name": "ruflo-plugin-creator",
-  "description": "Scaffold, validate, and publish new Claude Code plugins with the canonical plugin contract — now including governed Claude Code mods (function hooks), ADR + smoke + Compatibility + namespace coordination + MCP-tool drift warnings. As a mod (ADR-445): /creator-mod (status, reserved names, a plugin contract check) and a status file the console shows",
+  "description": "표준 플러그인 계약에 따라 새 Claude Code 플러그인을 스캐폴딩, 검증, 게시 — 이제 관리되는 Claude Code mod(함수 훅), ADR + 스모크 + 호환성 + 네임스페이스 조율 + MCP 도구 드리프트 경고도 포함. mod(ADR-445)로서 /creator-mod(상태, 예약된 이름, 플러그인 계약 검사)와 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.4.1",
   "author": {
     "name": "ruvnet",

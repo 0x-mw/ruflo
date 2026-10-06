@@ -1,0 +1,200 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/views/model.ts",
+  "entries": [
+    {
+      "key": "swarm store",
+      "ko": "스웜 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:40 swarm"
+      ]
+    },
+    {
+      "key": "swarm pointer",
+      "ko": "스웜 포인터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:41 pointer"
+      ]
+    },
+    {
+      "key": "agent store",
+      "ko": "에이전트 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:42 agents"
+      ]
+    },
+    {
+      "key": "task store",
+      "ko": "작업 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:43 tasks"
+      ]
+    },
+    {
+      "key": "ruOS hosts: not on disk ({0} agent name one)",
+      "ko": "ruOS 호스트: 디스크에 없음 (에이전트 {0}개가 지목)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:69 return"
+      ]
+    },
+    {
+      "key": "ruOS hosts: not on disk ({0} agents name one)",
+      "ko": "ruOS 호스트: 디스크에 없음 (에이전트 {0}개가 지목)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:69 return"
+      ]
+    },
+    {
+      "key": "heartbeat {0} ago",
+      "ko": "하트비트 {0} 전",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:74 const"
+      ]
+    },
+    {
+      "key": "no heartbeat",
+      "ko": "하트비트 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:74 const"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} agents",
+      "ko": "{0} · {1} · 에이전트 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:76 return"
+      ]
+    },
+    {
+      "key": "+{0} more hosts",
+      "ko": "+호스트 {0}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:78 return"
+      ]
+    },
+    {
+      "key": "no ruOS hosts",
+      "ko": "ruOS 호스트 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:79 return"
+      ]
+    },
+    {
+      "key": "usage: not read yet",
+      "ko": "사용량: 아직 읽지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:89 return"
+      ]
+    },
+    {
+      "key": "cost {0} · context {1}",
+      "ko": "비용 {0} · 컨텍스트 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:97 return"
+      ]
+    },
+    {
+      "key": "router: no pick seen yet",
+      "ko": "라우터: 아직 선택 기록 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:106 return"
+      ]
+    },
+    {
+      "key": "router: no match (best {0} {1}){2}",
+      "ko": "라우터: 일치 없음 (최상 {0} {1}){2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:115 return"
+      ]
+    },
+    {
+      "key": "router: below threshold {0}% (best {1} {2}){3}",
+      "ko": "라우터: 임계값 {0}% 미만 (최상 {1} {2}){3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:119 return"
+      ]
+    },
+    {
+      "key": "router: {0} {1} ({2}){3}",
+      "ko": "라우터: {0} {1} ({2}){3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:120 return"
+      ]
+    },
+    {
+      "key": "router: {0} {1}",
+      "ko": "라우터: {0} {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:120 return"
+      ]
+    },
+    {
+      "key": "no swarm on disk here: start one",
+      "ko": "이곳 디스크에 스웜이 없습니다: 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:127 why"
+      ]
+    },
+    {
+      "key": "the swarm has no ruflo agents yet",
+      "ko": "스웜에 ruflo 에이전트가 아직 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:131 why"
+      ]
+    },
+    {
+      "key": "no tasks on the board",
+      "ko": "보드에 작업이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:135 why"
+      ]
+    },
+    {
+      "key": "{0} task waiting and none claimed",
+      "ko": "작업 {0}개 대기 중, 클레임 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:139 why"
+      ]
+    },
+    {
+      "key": "{0} tasks waiting and none claimed",
+      "ko": "작업 {0}개 대기 중, 클레임 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:139 why"
+      ]
+    },
+    {
+      "key": "hive-mind · {0}",
+      "ko": "하이브마인드(hive-mind) · {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/views/model.ts:194 title"
+      ]
+    }
+  ],
+  "obsolete": []
+}

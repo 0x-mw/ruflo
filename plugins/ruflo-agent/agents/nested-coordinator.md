@@ -1,6 +1,6 @@
 ---
 name: nested-coordinator
-description: Orchestrator that spawns nested sub-agents (up to depth=5) via Claude Code's native Task tool — for deep delegation where context isolation matters more than throughput
+description: Claude Code 네이티브 Task 도구로 중첩 서브 에이전트(최대 depth=5)를 생성하는 오케스트레이터 — 처리량보다 컨텍스트 격리가 더 중요한 깊은 위임용
 model: sonnet
 tools:
   - Task

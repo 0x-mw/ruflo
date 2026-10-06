@@ -1,6 +1,6 @@
 ---
 name: horizon-track
-description: Track long-horizon objectives across multiple sessions with milestone checkpoints, progress persistence, and drift detection
+description: 마일스톤 체크포인트, 진행 상황 영속화, 드리프트 탐지로 여러 세션에 걸친 장기 목표를 추적
 argument-hint: "<objective-name>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__task_list mcp__plugin_ruflo-core_ruflo__task_summary mcp__plugin_ruflo-core_ruflo__progress_check mcp__plugin_ruflo-core_ruflo__progress_summary mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-store mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-recall mcp__plugin_ruflo-core_ruflo__hooks_intelligence_pattern-store mcp__plugin_ruflo-core_ruflo__session_save mcp__plugin_ruflo-core_ruflo__session_restore Bash Read Write
 ---

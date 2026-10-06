@@ -1,7 +1,7 @@
 ---
 name: swarm-advanced
 description: |
-  Advanced swarm orchestration patterns for research, development, testing, and complex distributed workflows
+  연구, 개발, 테스트, 복잡한 분산 워크플로를 위한 고급 스웜 오케스트레이션 패턴
 ---
 
 # Advanced Swarm Orchestration

@@ -1,10 +1,7 @@
 ---
 name: cross-host-federation
 description: >
-  Join and operate a signed cross-host agentbbs federation, and coordinate work claims across nodes.
-  Use when: connecting ruflo agents across machines, sharing status/tasks/results between hosts,
-  propagating work claims across a swarm, or standing up a federation hub.
-  Skip when: single-host local work with no other nodes to coordinate with.
+  서명된 호스트 간 agentbbs 페더레이션에 참여해 운영하고, 노드 간 작업 클레임을 조율합니다. 사용: 여러 머신의 ruflo 에이전트를 연결할 때, 호스트 간에 상태/작업/결과(status/tasks/results)를 공유할 때, 스웜 전반에 작업 클레임을 전파할 때, 페더레이션 허브를 세울 때. 제외: 조율할 다른 노드가 없는 단일 호스트 로컬 작업.
 allowed-tools: mcp__plugin_ruflo-core_ruflo__federation_bbs_identity mcp__plugin_ruflo-core_ruflo__federation_bbs_peer_add mcp__plugin_ruflo-core_ruflo__federation_bbs_peers mcp__plugin_ruflo-core_ruflo__federation_bbs_serve mcp__plugin_ruflo-core_ruflo__federation_bbs_register mcp__plugin_ruflo-core_ruflo__federation_bbs_publish mcp__plugin_ruflo-core_ruflo__federation_bbs_sync mcp__plugin_ruflo-core_ruflo__federation_bbs_watch Read
 argument-hint: "[join|serve|status] [--hub <url>]"
 ---

@@ -1,6 +1,6 @@
 ---
 name: sona-learning-optimizer
-description: SONA-powered self-optimizing agent with LoRA fine-tuning and EWC++ memory preservation
+description: LoRA 파인튜닝과 EWC++ 메모리 보존을 갖춘 SONA 기반 자가 최적화 에이전트
 type: adaptive-learning
 capabilities:
   - sona_adaptive_learning

@@ -2,7 +2,7 @@
 name: Performance Monitor
 type: agent
 category: optimization
-description: Real-time metrics collection, bottleneck analysis, SLA monitoring and anomaly detection
+description: 실시간 메트릭 수집, 병목 분석, SLA 모니터링, 이상 감지
 ---
 
 # Performance Monitor Agent

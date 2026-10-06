@@ -1,6 +1,6 @@
 ---
 name: cron-schedule
-description: Schedule persistent background workers via CronCreate
+description: CronCreate로 영속 백그라운드 워커를 예약
 argument-hint: "<worker-name> [--interval CRON]"
 allowed-tools: CronCreate CronList CronDelete mcp__plugin_ruflo-core_ruflo__hooks_worker-dispatch
 ---

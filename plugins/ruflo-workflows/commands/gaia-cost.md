@@ -1,6 +1,6 @@
 ---
 name: gaia-cost
-description: Report cumulative GAIA API spend and project cost for planned configurations
+description: 누적 GAIA API 지출을 보고하고 계획된 구성의 비용을 예측
 argument-hint: "[--level=1] [--limit=53] [--models=haiku,sonnet] [--voting=1]"
 ---
 

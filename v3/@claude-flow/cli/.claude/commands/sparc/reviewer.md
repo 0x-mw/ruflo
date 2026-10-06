@@ -1,3 +1,7 @@
+---
+description: SPARC 리뷰어 모드
+---
+
 # SPARC Reviewer Mode
 
 ## Purpose

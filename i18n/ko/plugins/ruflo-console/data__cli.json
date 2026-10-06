@@ -1,0 +1,60 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/cli.ts",
+  "entries": [
+    {
+      "key": "(none)",
+      "ko": "(없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/cli.ts:162 const",
+        "plugins/ruflo-console/hooks/data/memmap.ts:35 namespace",
+        "plugins/ruflo-console/hooks/data/memory-health.ts:65 namespace"
+      ]
+    },
+    {
+      "key": "off (not enabled)",
+      "ko": "꺼짐 (활성화되지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/cli.ts:322 expr"
+      ]
+    },
+    {
+      "key": "unavailable: {0}",
+      "ko": "사용할 수 없음: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/cli.ts:492 return"
+      ]
+    },
+    {
+      "key": "unavailable: degraded",
+      "ko": "사용할 수 없음: 성능 저하",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/cli.ts:492 return"
+      ]
+    },
+    {
+      "key": "no JSON in the CLI output",
+      "ko": "CLI 출력에 JSON이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/cli.ts:492 return"
+      ]
+    },
+    {
+      "key": "exit {0}: no message",
+      "ko": "종료 코드 {0}: 메시지 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/cli.ts:496 return",
+        "plugins/ruflo-console/hooks/skills.ts:38 expr",
+        "plugins/ruflo-console/hooks/skills.ts:91 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

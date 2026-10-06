@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-challenges
-description: Coding challenges and gamification specialist. Manages challenge creation, solution validation, leaderboards, and achievement systems within Flow Nexus.
+description: 코딩 챌린지와 게이미피케이션 전문가입니다. Flow Nexus 안에서 챌린지 생성, 솔루션 검증, 리더보드, 업적 시스템을 관리합니다.
 color: yellow
 ---
 

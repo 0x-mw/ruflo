@@ -1,6 +1,6 @@
 ---
 name: wasm-specialist
-description: WASM sandbox specialist for creating, managing, and sharing isolated agent environments
+description: 격리된 에이전트 환경을 생성, 관리, 공유하는 WASM 샌드박스 전문 에이전트
 model: sonnet
 ---
 

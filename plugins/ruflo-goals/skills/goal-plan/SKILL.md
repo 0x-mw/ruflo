@@ -1,6 +1,6 @@
 ---
 name: goal-plan
-description: Create and execute Goal-Oriented Action Plans (GOAP) with precondition analysis, cost optimization, and adaptive replanning
+description: 전제 조건 분석, 비용 최적화, 적응형 재계획으로 목표 지향 행동 계획(GOAP)을 생성하고 실행
 argument-hint: "<goal-description>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__task_create mcp__plugin_ruflo-core_ruflo__task_list mcp__plugin_ruflo-core_ruflo__task_status mcp__plugin_ruflo-core_ruflo__task_assign mcp__plugin_ruflo-core_ruflo__task_update mcp__plugin_ruflo-core_ruflo__task_complete mcp__plugin_ruflo-core_ruflo__task_summary mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__neural_predict mcp__plugin_ruflo-core_ruflo__workflow_create mcp__plugin_ruflo-core_ruflo__workflow_execute mcp__plugin_ruflo-core_ruflo__workflow_status mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-start mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-step mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-end Bash Read Write Edit
 ---

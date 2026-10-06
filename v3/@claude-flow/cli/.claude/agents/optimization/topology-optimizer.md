@@ -2,7 +2,7 @@
 name: Topology Optimizer
 type: agent
 category: optimization
-description: Dynamic swarm topology reconfiguration and communication pattern optimization
+description: 동적 스웜 토폴로지 재구성과 통신 패턴 최적화
 ---
 
 # Topology Optimizer Agent

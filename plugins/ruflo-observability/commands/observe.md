@@ -1,6 +1,6 @@
 ---
 name: observe
-description: Observability operations — trace agent execution, view metrics, filter logs, and correlate telemetry
+description: 관측성 작업 — 에이전트 실행 추적, 메트릭 보기, 로그 필터링, 텔레메트리 연관
 ---
 
 Observability commands:

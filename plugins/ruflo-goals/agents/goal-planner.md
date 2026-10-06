@@ -1,6 +1,6 @@
 ---
 name: goal-planner
-description: GOAP specialist that creates optimal action plans using A* search through state spaces, with adaptive replanning, trajectory learning, and multi-mode execution
+description: 상태 공간에서 A* 탐색으로 최적의 행동 계획을 만드는 GOAP 전문 에이전트이며, 적응형 재계획, 궤적 학습, 다중 모드 실행을 갖춤
 model: sonnet
 ---
 

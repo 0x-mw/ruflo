@@ -1,6 +1,6 @@
 {
   "name": "ruflo-music",
-  "description": "AI music generation via Cognitum Music (cogmusic MCP) — compose lyrics/prompts, generate tracks, separate stems, extract MIDI, and master through your own music.cognitum.one account. As a mod (ADR-445): a tighten-only guard on its tools, /music-mod, and a status file the console shows",
+  "description": "Cognitum Music(cogmusic MCP)을 통한 AI 음악 생성 — 가사/프롬프트 작성, 트랙 생성, 스템 분리, MIDI 추출, 본인 music.cognitum.one 계정으로 마스터링. mod(ADR-445)로서 도구에 대한 강화 전용 가드, /music-mod, 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.2.3",
   "author": {
     "name": "ruvnet",
@@ -27,8 +27,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Guard",
-      "description": "Refuse calls and memory writes that hold a secret. On by default.",
+      "title": "가드",
+      "description": "비밀이 들어 있는 호출과 메모리 쓰기를 거부합니다. 기본값은 켜짐.",
       "required": false,
       "default": "on",
       "options": [

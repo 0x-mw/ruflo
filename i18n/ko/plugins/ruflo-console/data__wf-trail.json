@@ -1,0 +1,99 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-trail.ts",
+  "entries": [
+    {
+      "key": "Call",
+      "ko": "호출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:14 item"
+      ]
+    },
+    {
+      "key": "Activity",
+      "ko": "활동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:18 activity",
+        "plugins/ruflo-console/hooks/views/overview.ts:102 rule()"
+      ]
+    },
+    {
+      "key": "Log",
+      "ko": "로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:18 log"
+      ]
+    },
+    {
+      "key": "Files",
+      "ko": "파일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:18 files"
+      ]
+    },
+    {
+      "key": "Result",
+      "ko": "결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:18 result",
+        "plugins/ruflo-console/hooks/views/automate.ts:58 rule()",
+        "plugins/ruflo-console/hooks/views/devtools.ts:157 section()"
+      ]
+    },
+    {
+      "key": "No agent has started in this phase yet, so there is nothing deeper.",
+      "ko": "이 단계에서는 아직 시작한 에이전트가 없어 더 들어갈 곳이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:64 said"
+      ]
+    },
+    {
+      "key": "This phase has no agent to open.",
+      "ko": "이 단계에는 열어 볼 에이전트가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:66 said"
+      ]
+    },
+    {
+      "key": "A ruflo agent keeps no transcript, worktree or return: there is nothing deeper than its row.",
+      "ko": "ruflo 에이전트는 대화 기록, 워크트리, 반환값을 남기지 않아 해당 행보다 더 들어갈 곳이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:68 said"
+      ]
+    },
+    {
+      "key": "Files and Result have no deeper level: pick Activity or Log for a call or message.",
+      "ko": "파일과 결과에는 더 깊은 수준이 없습니다. 호출이나 메시지는 활동 또는 로그를 고르세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:72 said"
+      ]
+    },
+    {
+      "key": "No call or message has been read for this agent.",
+      "ko": "이 에이전트에서 읽은 호출이나 메시지가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:72 said"
+      ]
+    },
+    {
+      "key": "This is the deepest level: one call or message in full.",
+      "ko": "가장 깊은 수준입니다: 호출 또는 메시지 하나의 전체 내용입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-trail.ts:75 said"
+      ]
+    }
+  ],
+  "obsolete": []
+}

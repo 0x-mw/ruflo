@@ -1,3 +1,7 @@
+---
+description: 토폴로지 자동 선택
+---
+
 # Automatic Topology Selection
 
 ## Purpose

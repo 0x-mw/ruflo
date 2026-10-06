@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/plugin-map.ts",
+  "entries": [
+    {
+      "key": "this mod: it is the console",
+      "ko": "이 mod: 바로 콘솔입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-map.ts:27 catalog()"
+      ]
+    },
+    {
+      "key": "a device fleet with firmware writes: launched from the Plugin Catalog until the Domains view",
+      "ko": "펌웨어를 쓰는 기기 플릿: 도메인 화면이 생기기 전까지 플러그인 카탈로그에서 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-map.ts:38 catalog()"
+      ]
+    },
+    {
+      "key": "a market-data domain plugin: launched from the Plugin Catalog until the Domains view",
+      "ko": "시장 데이터 도메인 플러그인: 도메인 화면이 생기기 전까지 플러그인 카탈로그에서 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-map.ts:42 catalog()"
+      ]
+    },
+    {
+      "key": "a creative-domain plugin that may spend on generation: launched from the Plugin Catalog until the Domains view",
+      "ko": "생성에 비용이 들 수 있는 창작 도메인 플러그인: 도메인 화면이 생기기 전까지 플러그인 카탈로그에서 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-map.ts:46 catalog()"
+      ]
+    },
+    {
+      "key": "a trading domain plugin (never live from the console): launched from the Plugin Catalog until the Domains view",
+      "ko": "트레이딩 도메인 플러그인(콘솔에서 실거래는 절대 하지 않음): 도메인 화면이 생기기 전까지 플러그인 카탈로그에서 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-map.ts:47 catalog()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

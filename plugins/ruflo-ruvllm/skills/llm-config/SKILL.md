@@ -1,6 +1,6 @@
 ---
 name: llm-config
-description: Configure RuVLLM local inference with model selection, MicroLoRA fine-tuning, and SONA adaptation
+description: 모델 선택, MicroLoRA 파인튜닝, SONA 적응으로 RuVLLM 로컬 추론을 설정
 argument-hint: "[--model MODEL] [--adapter microlora|sona]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__ruvllm_generate_config mcp__plugin_ruflo-core_ruflo__ruvllm_status mcp__plugin_ruflo-core_ruflo__ruvllm_microlora_create mcp__plugin_ruflo-core_ruflo__ruvllm_microlora_adapt mcp__plugin_ruflo-core_ruflo__ruvllm_sona_create mcp__plugin_ruflo-core_ruflo__ruvllm_sona_adapt Bash
 ---

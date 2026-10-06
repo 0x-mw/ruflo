@@ -1,6 +1,6 @@
 ---
 name: audit
-description: Run a security audit on the project
+description: 프로젝트에 대해 보안 감사를 실행
 ---
 $ARGUMENTS
 Run a Ruflo security audit. Accepts optional flags:

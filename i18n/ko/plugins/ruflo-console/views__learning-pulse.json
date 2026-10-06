@@ -1,0 +1,153 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/learning-pulse.ts",
+  "entries": [
+    {
+      "key": "Pipeline",
+      "ko": "파이프라인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:24 subhead()",
+        "plugins/ruflo-console/hooks/views/learning.ts:142 section()"
+      ]
+    },
+    {
+      "key": "learning now",
+      "ko": "지금 학습 중",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:24 subhead()"
+      ]
+    },
+    {
+      "key": "the marker shows the active stage",
+      "ko": "마커가 활성 단계를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:24 subhead()"
+      ]
+    },
+    {
+      "key": "Model mix",
+      "ko": "모델 구성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:51 subhead()"
+      ]
+    },
+    {
+      "key": "share of {0} routed task",
+      "ko": "라우팅된 작업 {0}개의 비율",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:51 subhead()"
+      ]
+    },
+    {
+      "key": "share of {0} routed tasks",
+      "ko": "라우팅된 작업 {0}개의 비율",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:51 subhead()"
+      ]
+    },
+    {
+      "key": "+ {0} more model",
+      "ko": "+ 모델 {0}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:56 note()"
+      ]
+    },
+    {
+      "key": "+ {0} more models",
+      "ko": "+ 모델 {0}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:56 note()"
+      ]
+    },
+    {
+      "key": "no .swarm/model-router-state.json: nothing routed yet",
+      "ko": ".swarm/model-router-state.json 이 없습니다. 아직 라우팅된 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:57 note()"
+      ]
+    },
+    {
+      "key": "Outcomes",
+      "ko": "결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:63 subhead()"
+      ]
+    },
+    {
+      "key": "{0} of the last {1} succeeded · {2}%",
+      "ko": "최근 {1}건 중 {0}건 성공 · {2}%",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:63 subhead()"
+      ]
+    },
+    {
+      "key": "last outcomes",
+      "ko": "최근 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:67 chart()"
+      ]
+    },
+    {
+      "key": "fewer than two routed outcomes so far",
+      "ko": "지금까지 라우팅 결과가 2건 미만입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:68 note()"
+      ]
+    },
+    {
+      "key": "Store",
+      "ko": "저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:76 subhead()"
+      ]
+    },
+    {
+      "key": "bars are relative to the largest",
+      "ko": "막대는 가장 큰 값을 기준으로 한 비율입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:76 subhead()"
+      ]
+    },
+    {
+      "key": "Learning pulse",
+      "ko": "학습 펄스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:82 section()"
+      ]
+    },
+    {
+      "key": "{0} learning now · the marker quickens",
+      "ko": "지금 학습 중 {0} · 마커가 빨라집니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:82 section()"
+      ]
+    },
+    {
+      "key": "live: the pipeline marker moves; the bars are what ruflo measured",
+      "ko": "실시간(live): 파이프라인 마커가 움직이며 막대는 ruflo 가 측정한 값입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/learning-pulse.ts:82 section()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

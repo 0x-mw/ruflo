@@ -1,0 +1,348 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/ap-loop.ts",
+  "entries": [
+    {
+      "key": "needs \"{0}\", which autopilot can never do. Do it yourself, or deny it.",
+      "ko": "\"{0}\"이(가) 필요하지만 오토파일럿은 절대 할 수 없습니다. 직접 하거나 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:217 return"
+      ]
+    },
+    {
+      "key": "cannot tell which kind of action this needs, and autopilot does not guess. Which class is it?",
+      "ko": "어떤 종류의 행동이 필요한지 알 수 없으며 오토파일럿은 추측하지 않습니다. 어느 클래스인가요?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:218 return"
+      ]
+    },
+    {
+      "key": "needs \"{0}\", which the envelope does not allow. Approve once, or deny.",
+      "ko": "\"{0}\"이(가) 필요하지만 엔벨로프가 허용하지 않습니다. 한 번 승인하거나 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:219 return"
+      ]
+    },
+    {
+      "key": "touches {0}, outside the envelope's folders (or in one that is never granted). Approve once, or deny.",
+      "ko": "{0}에 접근하며, 이는 엔벨로프의 폴더 밖이거나 절대 부여되지 않는 폴더입니다. 한 번 승인하거나 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:221 return"
+      ]
+    },
+    {
+      "key": "names the host {0}, which is not on the envelope's network list. Approve once, or deny.",
+      "ko": "호스트 {0}을(를) 지정했으며, 이는 엔벨로프의 네트워크 목록에 없습니다. 한 번 승인하거나 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:225 return"
+      ]
+    },
+    {
+      "key": "names the repository {0}, which is not on the envelope's repo list. Approve once, or deny.",
+      "ko": "저장소 {0}을(를) 지정했으며, 이는 엔벨로프의 저장소 목록에 없습니다. 한 번 승인하거나 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:229 return"
+      ]
+    },
+    {
+      "key": "your permission settings deny \"{0}\", which autopilot can never do on your behalf. Change your settings, or deny it.",
+      "ko": "권한 설정이 \"{0}\"을(를) 거부하며, 오토파일럿은 사용자 대신 절대 할 수 없습니다. 설정을 바꾸거나 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:231 return"
+      ]
+    },
+    {
+      "key": "your permission settings would ask before \"{0}\". Approve once here (the engine still decides), or deny.",
+      "ko": "권한 설정에 따라 \"{0}\" 전에 확인을 요청합니다. 여기서 한 번 승인하거나(최종 판단은 엔진이 합니다) 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:232 return"
+      ]
+    },
+    {
+      "key": "stopped: stopped",
+      "ko": "중지됨: 중지됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:241 idle()"
+      ]
+    },
+    {
+      "key": "the task reported failure",
+      "ko": "작업이 실패를 보고했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:260 why"
+      ]
+    },
+    {
+      "key": "timed out",
+      "ko": "시간 초과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:264 why",
+        "plugins/ruflo-console/hooks/update-flow.ts:71 new Error",
+        "plugins/ruflo-console/hooks/views/hive.ts:161 expr"
+      ]
+    },
+    {
+      "key": "lost on restart: no effect found",
+      "ko": "재시작 중 유실됨: 반영된 흔적이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:268 why"
+      ]
+    },
+    {
+      "key": "paused: {0}",
+      "ko": "일시 중지됨: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:274 idle()",
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:277 status"
+      ]
+    },
+    {
+      "key": "paused: paused",
+      "ko": "일시 중지됨: 일시 중지됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:274 idle()"
+      ]
+    },
+    {
+      "key": "the envelope is missing, invalid or was changed outside the console",
+      "ko": "엔벨로프가 없거나 유효하지 않거나 콘솔 밖에서 변경되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:280 stopWith()"
+      ]
+    },
+    {
+      "key": "the envelope's maximum duration passed",
+      "ko": "엔벨로프의 최대 기간이 지났습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:281 stopWith()"
+      ]
+    },
+    {
+      "key": "Project Anatole is off",
+      "ko": "Project Anatole이 꺼져 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:282 pauseWith()"
+      ]
+    },
+    {
+      "key": "Project Anatole is not installed",
+      "ko": "Project Anatole이 설치되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:282 pauseWith()"
+      ]
+    },
+    {
+      "key": "waiting: spend not read yet",
+      "ko": "기다리는 중: 지출을 아직 읽지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:285 status"
+      ]
+    },
+    {
+      "key": "total spend ceiling reached",
+      "ko": "총 지출 한도에 도달했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:286 stopWith()"
+      ]
+    },
+    {
+      "key": "80% of the total spend ceiling",
+      "ko": "총 지출 한도의 80%",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:287 pauseWith()"
+      ]
+    },
+    {
+      "key": "waiting: day spend ceiling",
+      "ko": "기다리는 중: 일일 지출 한도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:288 status"
+      ]
+    },
+    {
+      "key": "waiting: hour spend ceiling",
+      "ko": "기다리는 중: 시간당 지출 한도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:289 status"
+      ]
+    },
+    {
+      "key": "{0} failures in a row",
+      "ko": "{0}회 연속 실패",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:292 pauseWith()"
+      ]
+    },
+    {
+      "key": "backing off after {0} failure",
+      "ko": "{0}회 실패 후 대기하는 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:294 status"
+      ]
+    },
+    {
+      "key": "backing off after {0} failures",
+      "ko": "{0}회 실패 후 대기하는 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:294 status"
+      ]
+    },
+    {
+      "key": "{0} step running",
+      "ko": "스텝 {0}개 실행 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:297 status"
+      ]
+    },
+    {
+      "key": "{0} steps running",
+      "ko": "스텝 {0}개 실행 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:297 status"
+      ]
+    },
+    {
+      "key": "nothing ready",
+      "ko": "준비된 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:304 status",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:337 text()"
+      ]
+    },
+    {
+      "key": "task {0} already has a step",
+      "ko": "작업 {0}에는 이미 스텝이 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:308 status"
+      ]
+    },
+    {
+      "key": "failed {0} times, past the retry policy. Retry once, or deny.",
+      "ko": "{0}회 실패하여 재시도 정책을 넘었습니다. 한 번 재시도하거나 거부하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:315 const"
+      ]
+    },
+    {
+      "key": "a step for this task was in flight when the console restarted and may have run: check the work, then retry once, or deny.",
+      "ko": "콘솔이 재시작될 때 이 작업의 스텝이 진행 중이었고 실행되었을 수 있습니다. 작업을 확인한 뒤 한 번 재시도하거나 거부하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:323 park()"
+      ]
+    },
+    {
+      "key": "started {0}",
+      "ko": "{0} 시작함",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:332 status"
+      ]
+    },
+    {
+      "key": "parked {0}",
+      "ko": "{0} 보류함",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:340 status"
+      ]
+    },
+    {
+      "key": "$n/a/$n/a",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:366 const"
+      ]
+    },
+    {
+      "key": "autopilot{0} day {1} · {2} · {3} parked",
+      "ko": "오토파일럿{0} 일 {1} · {2} · 보류 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:369 return"
+      ]
+    },
+    {
+      "key": "autopilot{0} day n/a · {1} · {2} parked",
+      "ko": "오토파일럿{0} 일 해당 없음 · {1} · 보류 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:369 return"
+      ]
+    },
+    {
+      "key": "failed",
+      "ko": "실패",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:386 why"
+      ]
+    },
+    {
+      "key": "autopilot digest: {0} verified, {1} unverified, {2} failed · {3} parked · {4} adaptation · spend n/a",
+      "ko": "오토파일럿 요약: 검증 {0}, 미검증 {1}, 실패 {2} · 보류 {3} · 적응 {4} · 지출 해당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:404 return"
+      ]
+    },
+    {
+      "key": "autopilot digest: {0} verified, {1} unverified, {2} failed · {3} parked · {4} adaptation · spend ${5}",
+      "ko": "오토파일럿 요약: 검증 {0}, 미검증 {1}, 실패 {2} · 보류 {3} · 적응 {4} · 지출 ${5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:404 return"
+      ]
+    },
+    {
+      "key": "autopilot digest: {0} verified, {1} unverified, {2} failed · {3} parked · {4} adaptations · spend n/a",
+      "ko": "오토파일럿 요약: 검증 {0}, 미검증 {1}, 실패 {2} · 보류 {3} · 적응 {4} · 지출 해당 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:404 return"
+      ]
+    },
+    {
+      "key": "autopilot digest: {0} verified, {1} unverified, {2} failed · {3} parked · {4} adaptations · spend ${5}",
+      "ko": "오토파일럿 요약: 검증 {0}, 미검증 {1}, 실패 {2} · 보류 {3} · 적응 {4} · 지출 ${5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:404 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

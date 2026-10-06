@@ -1,6 +1,6 @@
 {
   "name": "ruflo-federation",
-  "description": "Cross-installation agent federation with zero-trust security, peer discovery, consensus-based task routing, and per-call budget circuit breaker (ADR-097)",
+  "description": "제로 트러스트 보안, 피어 검색, 합의 기반 작업 라우팅, 호출별 예산 차단기(ADR-097)를 갖춘 설치 간 에이전트 페더레이션",
   "version": "0.3.4",
   "author": {
     "name": "ruvnet",
@@ -29,8 +29,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse outbound federation messages (secrets and obvious PII) that hold a key, token or password. On by default; it only ever tightens.",
+      "title": "비밀 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 외부 전송 페더레이션 메시지(비밀과 명백한 PII)를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
       "required": false,
       "default": "on",
       "options": [

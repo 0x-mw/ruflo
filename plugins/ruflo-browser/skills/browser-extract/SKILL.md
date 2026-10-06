@@ -1,6 +1,6 @@
 ---
 name: browser-extract
-description: Extract structured data via stored browser-templates or one-shot DOM queries, with mandatory AIDefence PII + prompt-injection gates before content reaches the model
+description: 저장된 browser-templates 또는 일회성 DOM 쿼리로 구조화된 데이터를 추출하며, 콘텐츠가 모델에 도달하기 전에 AIDefence PII + 프롬프트 인젝션 게이트를 반드시 거침
 argument-hint: "<url> [--template <name>] [--save-template <name>]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__browser_get-text mcp__plugin_ruflo-core_ruflo__browser_get-value mcp__plugin_ruflo-core_ruflo__browser_eval mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__browser_screenshot mcp__plugin_ruflo-core_ruflo__browser_scroll mcp__plugin_ruflo-core_ruflo__browser_wait mcp__plugin_ruflo-core_ruflo__browser_click mcp__plugin_ruflo-core_ruflo__aidefence_has_pii mcp__plugin_ruflo-core_ruflo__aidefence_is_safe mcp__plugin_ruflo-core_ruflo__aidefence_scan Bash Read Write
 ---

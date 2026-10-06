@@ -1,6 +1,6 @@
 ---
 name: kg
-description: Knowledge graph operations — extract entities, traverse relations, and search the graph
+description: 지식 그래프 작업 — 엔티티 추출, 관계 순회, 그래프 검색
 ---
 
 Knowledge graph commands:

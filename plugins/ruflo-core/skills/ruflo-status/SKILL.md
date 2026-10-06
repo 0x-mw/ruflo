@@ -1,6 +1,6 @@
 ---
 name: ruflo-status
-description: Diagnose Ruflo health, then report system, MCP server, and active-agent status without changing the installation
+description: Ruflo 상태를 진단한 뒤, 설치를 변경하지 않고 시스템, MCP 서버, 활성 에이전트 상태를 보고
 argument-hint: "[--fix]"
 allowed-tools: Bash(npx *)
 ---

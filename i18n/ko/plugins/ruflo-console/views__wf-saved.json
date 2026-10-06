@@ -1,0 +1,176 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-saved.ts",
+  "entries": [
+    {
+      "key": "File {0} (≤ {1} kB, versioned) · not saved yet · change waiting to be written",
+      "ko": "파일 {0} (≤ {1} kB, 버전 관리) · 아직 저장 안 됨 · 변경 쓰기 대기 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:31 text()"
+      ]
+    },
+    {
+      "key": "File {0} (≤ {1} kB, versioned) · not saved yet",
+      "ko": "파일 {0} (≤ {1} kB, 버전 관리) · 아직 저장 안 됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:31 text()"
+      ]
+    },
+    {
+      "key": "File {0} (≤ {1} kB, versioned) · saved {2} · change waiting to be written",
+      "ko": "파일 {0} (≤ {1} kB, 버전 관리) · 저장 {2} · 변경 쓰기 대기 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:31 text()"
+      ]
+    },
+    {
+      "key": "File {0} (≤ {1} kB, versioned) · saved {2}",
+      "ko": "파일 {0} (≤ {1} kB, 버전 관리) · 저장 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:31 text()"
+      ]
+    },
+    {
+      "key": "Remembers the cursor (run, phase, agent by name), filters and search, and pins. Written by the console itself, only there; forgetting asks first.",
+      "ko": "커서(실행, 단계, 에이전트 이름), 필터와 검색, 고정 항목을 기억합니다. 콘솔이 직접 그곳에만 쓰며, 지우기 전에 먼저 확인을 요청합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:32 text()"
+      ]
+    },
+    {
+      "key": "The last write failed ({0}): the change is kept and tried again.",
+      "ko": "마지막 쓰기에 실패했습니다 ({0}). 변경 내용은 보관되며 다시 시도합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:34 text()"
+      ]
+    },
+    {
+      "key": "The cursor was put back where you left it.",
+      "ko": "커서를 마지막 위치로 되돌렸습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:35 text()"
+      ]
+    },
+    {
+      "key": "That run is gone: the cursor went to the newest run of the same workflow.",
+      "ko": "그 실행이 없어졌습니다. 같은 워크플로의 최신 실행으로 커서를 옮겼습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:35 text()"
+      ]
+    },
+    {
+      "key": "The run you left on is no longer among the runs read: the cursor is where it was.",
+      "ko": "마지막에 보던 실행이 읽은 실행 목록에 더 이상 없습니다. 커서는 그대로 둡니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:35 text()"
+      ]
+    },
+    {
+      "key": "search: none · filters: none",
+      "ko": "검색: 없음 · 필터: 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:36 text()"
+      ]
+    },
+    {
+      "key": "search: none · filters: {0}",
+      "ko": "검색: 없음 · 필터: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:36 text()"
+      ]
+    },
+    {
+      "key": "search: \"{0}\" · filters: none",
+      "ko": "검색: \"{0}\" · 필터: 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:36 text()"
+      ]
+    },
+    {
+      "key": "search: \"{0}\" · filters: {1}",
+      "ko": "검색: \"{0}\" · 필터: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:36 text()"
+      ]
+    },
+    {
+      "key": "Unpin this run",
+      "ko": "이 실행 고정 해제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:38 button()"
+      ]
+    },
+    {
+      "key": "Pin this run",
+      "ko": "이 실행 고정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:38 button()"
+      ]
+    },
+    {
+      "key": "Forget saved views",
+      "ko": "저장된 화면 지우기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:39 button()"
+      ]
+    },
+    {
+      "key": "No pinned runs (up to {0}).",
+      "ko": "고정된 실행이 없습니다 (최대 {0}개).",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:42 text()"
+      ]
+    },
+    {
+      "key": "◌ {0} · not among the runs read now",
+      "ko": "◌ {0} · 지금 읽은 실행에 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:42 text()"
+      ]
+    },
+    {
+      "key": "{0} · {1}/{2} agents",
+      "ko": "{0} · 에이전트 {1}/{2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:42 text()"
+      ]
+    },
+    {
+      "key": "Saved views and pins",
+      "ko": "저장된 화면과 고정 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:54 title"
+      ]
+    },
+    {
+      "key": "{0} pinned · the cursor is remembered across restarts",
+      "ko": "{0}개 고정 · 커서는 재시작 후에도 기억됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-saved.ts:59 fold()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

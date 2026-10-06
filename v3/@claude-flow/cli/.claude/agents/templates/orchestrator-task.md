@@ -2,7 +2,7 @@
 name: task-orchestrator
 color: "indigo"
 type: orchestration
-description: Central coordination agent for task decomposition, execution planning, and result synthesis
+description: 작업 분해, 실행 계획, 결과 종합을 위한 중앙 조율 에이전트
 capabilities:
   - task_decomposition
   - execution_planning

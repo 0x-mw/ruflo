@@ -1,0 +1,200 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/events.ts",
+  "entries": [
+    {
+      "key": "swarm {0} ({1}) appeared",
+      "ko": "스웜 {0} ({1}) 나타남",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:33 ev()"
+      ]
+    },
+    {
+      "key": "swarm {0} (was {1})",
+      "ko": "스웜 {0} (이전 {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:35 ev()"
+      ]
+    },
+    {
+      "key": "agent {0} spawned ({1})",
+      "ko": "에이전트 {0} 생성됨 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:41 ev()"
+      ]
+    },
+    {
+      "key": "agent {0} left the store",
+      "ko": "에이전트 {0} 저장소에서 사라짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:46 ev()"
+      ]
+    },
+    {
+      "key": "{0} claimed by {1}",
+      "ko": "{0} 클레임됨: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:56 ev()"
+      ]
+    },
+    {
+      "key": "{0} now held by {1}",
+      "ko": "{0} 현재 보유: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:57 ev()"
+      ]
+    },
+    {
+      "key": "{0} progress {1}%",
+      "ko": "{0} 진행률 {1}%",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:59 ev()"
+      ]
+    },
+    {
+      "key": "{0} released",
+      "ko": "{0} 해제됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:63 ev()"
+      ]
+    },
+    {
+      "key": "task {0} created: {1}",
+      "ko": "작업 {0} 생성됨: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:69 ev()"
+      ]
+    },
+    {
+      "key": "proposal {0} ({1}) opened",
+      "ko": "제안 {0} ({1}) 열림",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:76 ev()"
+      ]
+    },
+    {
+      "key": "proposal {0} decided: {1} ({2}/{3})",
+      "ko": "제안 {0} 결정됨: {1} ({2}/{3})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:80 ev()"
+      ]
+    },
+    {
+      "key": "{0} voted for {1} ({2})",
+      "ko": "{0} 찬성 투표: {1} ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:90 ev()"
+      ]
+    },
+    {
+      "key": "{0} voted against {1} ({2})",
+      "ko": "{0} 반대 투표: {1} ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:90 ev()"
+      ]
+    },
+    {
+      "key": "{0} joined the hive",
+      "ko": "{0} 하이브에 합류",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:97 ev()"
+      ]
+    },
+    {
+      "key": "{0} left the hive",
+      "ko": "{0} 하이브에서 이탈",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:98 ev()"
+      ]
+    },
+    {
+      "key": "+{0} pattern learned",
+      "ko": "패턴 +{0}개 학습",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:102 ev()"
+      ]
+    },
+    {
+      "key": "+{0} patterns learned",
+      "ko": "패턴 +{0}개 학습",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:102 ev()"
+      ]
+    },
+    {
+      "key": "+{0} routed outcome judged",
+      "ko": "라우팅 결과 +{0}건 판정",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:106 ev()"
+      ]
+    },
+    {
+      "key": "+{0} routed outcomes judged",
+      "ko": "라우팅 결과 +{0}건 판정",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:106 ev()"
+      ]
+    },
+    {
+      "key": "federation keys: {0} node ids on disk",
+      "ko": "페더레이션 키: 디스크에 노드 ID {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:107 ev()"
+      ]
+    },
+    {
+      "key": "mission {0} ({1}): {2}",
+      "ko": "미션 {0} ({1}): {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:113 ev()"
+      ]
+    },
+    {
+      "key": "mission {0}: {1} → {2}",
+      "ko": "미션 {0}: {1} → {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:114 ev()"
+      ]
+    },
+    {
+      "key": "mission {0}: {1}/{2} evidence verified",
+      "ko": "미션 {0}: 증거 {1}/{2} 검증됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:115 ev()"
+      ]
+    },
+    {
+      "key": "a nostr identity appeared (~/.ruflo/nostr.key)",
+      "ko": "nostr 신원이 생겼습니다 (~/.ruflo/nostr.key)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/events.ts:118 ev()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

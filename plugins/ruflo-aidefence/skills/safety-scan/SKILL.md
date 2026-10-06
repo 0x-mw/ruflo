@@ -1,6 +1,6 @@
 ---
 name: safety-scan
-description: Scan inputs for prompt injection, unsafe content, and adversarial attacks using AIDefence. Use when processing untrusted input (user submissions, API payloads, webhook data, tool outputs) before passing it to a model or executing it.
+description: AIDefence로 입력에서 프롬프트 인젝션, 안전하지 않은 콘텐츠, 적대적 공격을 스캔합니다. 신뢰할 수 없는 입력(사용자 제출물, API 페이로드, 웹훅 데이터, 도구 출력)을 모델에 전달하거나 실행하기 전에 처리할 때 사용합니다.
 argument-hint: "<input-text>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__aidefence_scan mcp__plugin_ruflo-core_ruflo__aidefence_analyze mcp__plugin_ruflo-core_ruflo__aidefence_is_safe mcp__plugin_ruflo-core_ruflo__aidefence_learn mcp__plugin_ruflo-core_ruflo__aidefence_stats Bash
 ---

@@ -1,6 +1,6 @@
 ---
 name: github-code-review
-description: Comprehensive GitHub code review with AI-powered swarm coordination
+description: AI 기반 스웜 조율을 활용한 종합 GitHub 코드 리뷰
 ---
 
 # GitHub Code Review Skill

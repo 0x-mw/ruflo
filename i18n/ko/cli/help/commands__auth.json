@@ -1,0 +1,146 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/auth.ts",
+  "entries": [
+    {
+      "key": "Sign in to Cognitum (PKCE browser flow, OOB manual flow, or --token-stdin)",
+      "ko": "Cognitum에 로그인합니다 (PKCE 브라우저 흐름, OOB 수동 흐름, 또는 `--token-stdin`)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:86 description"
+      ]
+    },
+    {
+      "key": "Named profile to store this login under",
+      "ko": "이 로그인을 저장할 프로필 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:88 description"
+      ]
+    },
+    {
+      "key": "Force the headless OOB copy-paste flow",
+      "ko": "헤드리스 OOB 복사/붙여넣기 흐름을 강제로 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:89 description"
+      ]
+    },
+    {
+      "key": "Read a pre-obtained token as JSON from stdin (CI/automation)",
+      "ko": "미리 발급받은 토큰을 stdin에서 JSON으로 읽습니다 (CI/자동화)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:90 description"
+      ]
+    },
+    {
+      "key": "Sign out — clears the local session, keychain entry, and account consent",
+      "ko": "로그아웃합니다 — 로컬 세션, 키체인 항목, 계정 동의를 비웁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:132 description"
+      ]
+    },
+    {
+      "key": "Profile to log out of",
+      "ko": "로그아웃할 프로필",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:134 description"
+      ]
+    },
+    {
+      "key": "Log out of every profile",
+      "ko": "모든 프로필에서 로그아웃합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:135 description"
+      ]
+    },
+    {
+      "key": "Show signed-in profile(s), scopes, and expiry",
+      "ko": "로그인된 프로필, 스코프, 만료 시각을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:189 description"
+      ]
+    },
+    {
+      "key": "Show only this profile",
+      "ko": "이 프로필만 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:191 description"
+      ]
+    },
+    {
+      "key": "Machine-readable output",
+      "ko": "기계가 읽을 수 있는 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:192 description",
+        "src/commands/catalog.ts:53 description",
+        "src/commands/proxy-lifecycle.ts:272 description"
+      ]
+    },
+    {
+      "key": "Validate credentials now; silently refresh from the OS keychain when needed",
+      "ko": "자격 증명을 지금 검증하고, 필요하면 OS 키체인에서 조용히 갱신합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:195 description"
+      ]
+    },
+    {
+      "key": "Cognitum identity — login, logout, status (ADR-306)",
+      "ko": "Cognitum 신원 — 로그인, 로그아웃, 상태 (ADR-306)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:271 description"
+      ]
+    },
+    {
+      "key": "Sign in via the browser PKCE flow",
+      "ko": "브라우저 PKCE 흐름으로 로그인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:274 description"
+      ]
+    },
+    {
+      "key": "Sign in via the headless OOB copy-paste flow",
+      "ko": "헤드리스 OOB 복사/붙여넣기 흐름으로 로그인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:275 description"
+      ]
+    },
+    {
+      "key": "Show signed-in profile(s)",
+      "ko": "로그인된 프로필 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:276 description"
+      ]
+    },
+    {
+      "key": "Validate or silently refresh credentials now",
+      "ko": "자격 증명을 지금 검증하거나 조용히 갱신",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:277 description"
+      ]
+    },
+    {
+      "key": "Sign out of the default profile",
+      "ko": "기본 프로필에서 로그아웃",
+      "kind": "text",
+      "ctx": [
+        "src/commands/auth.ts:278 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

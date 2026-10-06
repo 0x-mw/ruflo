@@ -1,6 +1,6 @@
 ---
 name: nested-queen-reviewer
-description: Tier-2 recursive reviewer — find-and-verify like nested-reviewer, but with hive-mind byzantine consensus on findings (replaces inline majority voting), AIDefence-screened evidence, and trajectory learning across review runs
+description: "2티어 재귀 리뷰어 — nested-reviewer처럼 찾고 검증하되, 발견 사항에 대한 하이브마인드(hive-mind) 비잔틴 합의(인라인 다수결 대체), AIDefence로 걸러낸 증거, 리뷰 실행 간 궤적 학습을 갖춤"
 model: sonnet
 tools:
   - Task

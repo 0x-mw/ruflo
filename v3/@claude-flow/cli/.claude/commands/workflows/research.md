@@ -1,3 +1,7 @@
+---
+description: 연구 워크플로 조율
+---
+
 # Research Workflow Coordination
 
 ## Purpose

@@ -1,0 +1,272 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/starts.ts",
+  "entries": [
+    {
+      "key": "init ruflo here",
+      "ko": "여기서 ruflo 초기화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:30 init"
+      ]
+    },
+    {
+      "key": "start the daemon",
+      "ko": "데몬 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:31 daemon"
+      ]
+    },
+    {
+      "key": "start a swarm",
+      "ko": "스웜 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:32 swarm"
+      ]
+    },
+    {
+      "key": "spawn a coder",
+      "ko": "코더 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:33 spawn-coder"
+      ]
+    },
+    {
+      "key": "spawn a tester",
+      "ko": "테스터 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:34 spawn-tester"
+      ]
+    },
+    {
+      "key": "spawn a reviewer",
+      "ko": "리뷰어 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:35 spawn-reviewer"
+      ]
+    },
+    {
+      "key": "start a hive-mind (raft)",
+      "ko": "하이브마인드(hive-mind) 시작 (raft)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:36 hive"
+      ]
+    },
+    {
+      "key": "spawn 3 hive workers",
+      "ko": "하이브 워커 3개 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:37 hive-workers"
+      ]
+    },
+    {
+      "key": "pretrain on this repo",
+      "ko": "이 저장소로 사전 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:38 pretrain"
+      ]
+    },
+    {
+      "key": "join the federation",
+      "ko": "페더레이션 가입",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:39 federation-join"
+      ]
+    },
+    {
+      "key": "read pub:announce",
+      "ko": "pub:announce 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:40 channel-read"
+      ]
+    },
+    {
+      "key": "add the ruflo marketplace",
+      "ko": "ruflo 마켓플레이스 추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:41 marketplace"
+      ]
+    },
+    {
+      "key": "create the mission",
+      "ko": "미션 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:42 mission"
+      ]
+    },
+    {
+      "key": "create the task",
+      "ko": "작업 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:43 task"
+      ]
+    },
+    {
+      "key": "initialise ruflo in this project (.claude-flow, .claude settings and the mods)",
+      "ko": "이 프로젝트에서 ruflo를 초기화합니다 (.claude-flow, .claude 설정, mod)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:51 label"
+      ]
+    },
+    {
+      "key": "start the ruflo daemon (background workers: map, audit, optimize, consolidate, testgaps)",
+      "ko": "ruflo 데몬을 시작합니다 (백그라운드 워커: map, audit, optimize, consolidate, testgaps)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:57 label"
+      ]
+    },
+    {
+      "key": "daemon-state.json saying running",
+      "ko": "daemon-state.json이 실행 중으로 표시됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:57 expect"
+      ]
+    },
+    {
+      "key": "start a hive-mind: a queen with raft consensus",
+      "ko": "하이브마인드(hive-mind)를 시작합니다: raft 합의를 쓰는 퀸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:66 label"
+      ]
+    },
+    {
+      "key": "a queen in .claude-flow/hive-mind/state.json",
+      "ko": ".claude-flow/hive-mind/state.json의 퀸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:68 expect"
+      ]
+    },
+    {
+      "key": "spawn 3 hive workers (they vote; the CLI counts only registered workers)",
+      "ko": "하이브 워커 3개를 생성합니다 (투표에 참여하며, CLI는 등록된 워커만 셉니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:73 label"
+      ]
+    },
+    {
+      "key": "three workers in the hive",
+      "ko": "하이브의 워커 3개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:75 expect"
+      ]
+    },
+    {
+      "key": "pretrain the learning loop on this repository (local, shallow)",
+      "ko": "이 저장소로 학습 루프를 사전 학습합니다 (로컬(local), 얕게(shallow))",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:80 label"
+      ]
+    },
+    {
+      "key": "patterns learned from the repo",
+      "ko": "저장소에서 학습한 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:82 expect"
+      ]
+    },
+    {
+      "key": "join the open federation with your own key (makes ~/.ruflo/nostr.key, registers on x.ruv.io: network)",
+      "ko": "자신의 키로 오픈 페더레이션에 가입합니다 (~/.ruflo/nostr.key를 만들고 x.ruv.io에 등록: 네트워크)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:87 label"
+      ]
+    },
+    {
+      "key": "a local Nostr key (the CLI reports registration separately)",
+      "ko": "로컬 Nostr 키 (등록 결과는 CLI가 따로 알려 줍니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:89 expect"
+      ]
+    },
+    {
+      "key": "read the pub:announce channel (network)",
+      "ko": "pub:announce 채널을 읽습니다 (네트워크)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:98 label"
+      ]
+    },
+    {
+      "key": "the latest announcements",
+      "ko": "최신 공지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:98 expect"
+      ]
+    },
+    {
+      "key": "add the ruflo marketplace to Claude Code and install the ruflo mods (ruflo mods install: settings.local.json + claude plugin install)",
+      "ko": "Claude Code에 ruflo 마켓플레이스를 추가하고 ruflo mod를 설치합니다 (ruflo mods install: settings.local.json + claude plugin install)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:101 label"
+      ]
+    },
+    {
+      "key": "the ruflo marketplace in known_marketplaces.json",
+      "ko": "known_marketplaces.json의 ruflo 마켓플레이스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:103 expect"
+      ]
+    },
+    {
+      "key": "create a task: {0}",
+      "ko": "작업 생성: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:112 label"
+      ]
+    },
+    {
+      "key": "the task in .claude-flow/tasks/store.json",
+      "ko": ".claude-flow/tasks/store.json의 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:114 expect"
+      ]
+    },
+    {
+      "key": "create a mission: {0}",
+      "ko": "미션 생성: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:124 label"
+      ]
+    },
+    {
+      "key": "the mission in .claude-flow/missions",
+      "ko": ".claude-flow/missions의 미션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/starts.ts:126 expect"
+      ]
+    }
+  ],
+  "obsolete": []
+}

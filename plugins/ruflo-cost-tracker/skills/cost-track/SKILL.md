@@ -1,6 +1,6 @@
 ---
 name: cost-track
-description: Auto-capture per-session token usage from the Claude Code session jsonl and persist to the cost-tracking namespace
+description: Claude Code 세션 jsonl에서 세션별 토큰 사용량을 자동 캡처해 cost-tracking 네임스페이스에 영속화
 argument-hint: ""
 allowed-tools: Bash mcp__plugin_ruflo-core_ruflo__memory_store
 ---

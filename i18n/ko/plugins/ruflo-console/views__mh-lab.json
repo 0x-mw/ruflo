@@ -1,0 +1,49 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/mh-lab.ts",
+  "entries": [
+    {
+      "key": "run an entry: a $0 read shows here at once; the rest show here after you confirm (y)",
+      "ko": "항목을 실행하세요: $0 읽기는 여기에 바로 표시되고 나머지는 확인(y) 후 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mh-lab.ts:55 text()",
+        "plugins/ruflo-console/hooks/views/secure.ts:90 text()"
+      ]
+    },
+    {
+      "key": "$0 read, runs at once · wr writes · cpu minutes of local work · $$ may spend: each of these asks, its cost on the confirm row",
+      "ko": "$0 읽기는 바로 실행 · wr 쓰기 · cpu 몇 분간의 로컬 작업 · $$ 비용 발생 가능: 이들은 모두 먼저 묻고 비용은 확인 행에 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mh-lab.ts:97 text()"
+      ]
+    },
+    {
+      "key": "a policy act · never from this pane",
+      "ko": "정책 행위 · 이 패널에서는 실행하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mh-lab.ts:104 section()"
+      ]
+    },
+    {
+      "key": "Promotion needs a receipt id, an approved Ed25519 public key and --confirm, and passes the policy gate:",
+      "ko": "승격에는 영수증 id, 승인된 Ed25519 공개 키, --confirm이 필요하며 정책 게이트를 통과합니다:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mh-lab.ts:106 text()"
+      ]
+    },
+    {
+      "key": "Review the receipt (▸ RECEIPTS), then run it yourself in a terminal. The console proposes and evaluates; it never promotes.",
+      "ko": "영수증(▸ RECEIPTS)을 검토한 뒤 터미널에서 직접 실행하세요. 콘솔은 제안하고 평가할 뿐 승격하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mh-lab.ts:108 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

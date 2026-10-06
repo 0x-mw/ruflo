@@ -1,6 +1,6 @@
 ---
 name: iot-fleet
-description: Create and manage Cognitum Seed device fleets with firmware policies
+description: 펌웨어 정책이 있는 Cognitum Seed 기기 플릿을 생성하고 관리
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search Read
 argument-hint: "<create|list|add|remove|delete> [options]"
 ---

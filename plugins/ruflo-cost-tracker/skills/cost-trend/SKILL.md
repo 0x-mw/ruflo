@@ -1,6 +1,6 @@
 ---
 name: cost-trend
-description: Read every docs/benchmarks/runs/*.json and surface drift in win rate, latency, escalation rate, and LLM-baseline cost over time
+description: docs/benchmarks/runs/*.json을 모두 읽어 승률, 지연 시간, 상향 비율, LLM 기준선 비용의 시간에 따른 드리프트를 보여 줌
 argument-hint: ""
 allowed-tools: Bash
 ---

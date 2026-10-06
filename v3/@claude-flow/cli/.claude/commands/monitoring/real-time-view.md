@@ -1,3 +1,7 @@
+---
+description: 실시간 보기
+---
+
 # real-time-view
 
 Real-time view of swarm activity.

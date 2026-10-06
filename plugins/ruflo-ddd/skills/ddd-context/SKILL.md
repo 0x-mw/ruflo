@@ -1,6 +1,6 @@
 ---
 name: ddd-context
-description: Create and manage a DDD bounded context with standard directory structure. Use when starting a new subdomain, splitting a monolith into bounded contexts, or scaffolding the domain/application/infrastructure layout for a fresh module.
+description: 표준 디렉터리 구조로 DDD 바운디드 컨텍스트를 생성하고 관리합니다. 새 서브도메인을 시작할 때, 모놀리스를 바운디드 컨텍스트로 쪼갤 때, 새 모듈의 domain/application/infrastructure 레이아웃을 스캐폴딩할 때 사용합니다.
 argument-hint: "<context-name>"
 allowed-tools: Bash Read Write Edit Grep Glob mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-store
 ---

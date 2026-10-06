@@ -2,7 +2,7 @@
 name: perf-analyzer
 color: "amber"
 type: analysis
-description: Performance bottleneck analyzer for identifying and resolving workflow inefficiencies
+description: 워크플로 비효율을 찾아 해결하는 성능 병목 분석기
 capabilities:
   - performance_analysis
   - bottleneck_detection

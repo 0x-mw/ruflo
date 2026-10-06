@@ -1,3 +1,7 @@
+---
+description: 페어 프로그래밍 세션 관리
+---
+
 # Pair Programming Session Management
 
 Complete guide to managing pair programming sessions.

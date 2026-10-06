@@ -1,0 +1,496 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-drill-body.ts",
+  "entries": [
+    {
+      "key": "all lines",
+      "ko": "전체 줄",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:29 all"
+      ]
+    },
+    {
+      "key": "messages",
+      "ko": "메시지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:29 text"
+      ]
+    },
+    {
+      "key": "errors only",
+      "ko": "오류만",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:29 error"
+      ]
+    },
+    {
+      "key": "(the read failed)",
+      "ko": "(읽지 못했습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:34 const"
+      ]
+    },
+    {
+      "key": "(reading…)",
+      "ko": "(읽는 중…)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:34 const"
+      ]
+    },
+    {
+      "key": "{0} is not in memory{1}.",
+      "ko": "{0}이(가) 메모리에 없습니다{1}.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:37 text()"
+      ]
+    },
+    {
+      "key": "Read it (up to {0}; the last {1} KB of a larger file)",
+      "ko": "읽기 (최대 {0}, 더 큰 파일은 마지막 {1} KB)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:39 button()"
+      ]
+    },
+    {
+      "key": "The page reads a live run's transcripts as it refreshes; a finished run's figures come from its record, so they are not read. Reading them on demand needs the drill bound to the host (ADR-459).",
+      "ko": "이 화면은 새로고침할 때 실행 중인 실행의 대화 기록을 읽습니다. 끝난 실행의 수치는 기록에서 가져오므로 읽지 않습니다. 필요할 때 읽으려면 자세히 보기가 호스트에 연결되어 있어야 합니다 (ADR-459).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:40 text()"
+      ]
+    },
+    {
+      "key": "the last {0} KB of a file over the {1} read cap (earlier calls are not here)",
+      "ko": "읽기 한도 {1}을 넘는 파일의 마지막 {0} KB (앞선 호출은 여기 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:51 const"
+      ]
+    },
+    {
+      "key": "whole file, {0} of the {1} read cap",
+      "ko": "파일 전체, 읽기 한도 {1} 중 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:51 const"
+      ]
+    },
+    {
+      "key": "transcript: {0} · {1} entries (newest {2} of {3}) · {4} tool calls",
+      "ko": "대화 기록: {0} · {1}개 항목 (최신 {2}/{3}) · 도구 호출 {4}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:53 text()"
+      ]
+    },
+    {
+      "key": "transcript: {0} · {1} entries · {2} tool calls",
+      "ko": "대화 기록: {0} · {1}개 항목 · 도구 호출 {2}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:53 text()"
+      ]
+    },
+    {
+      "key": "No tool call in the part of the transcript read.",
+      "ko": "읽은 대화 기록 부분에 도구 호출이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:60 text()"
+      ]
+    },
+    {
+      "key": "{0} earlier · {1} later · call {2} of {3} · the run says {4} in all · open it for the full input and output",
+      "ko": "이전 {0} · 이후 {1} · 호출 {2}/{3} · 실행 기록상 총 {4}건 · 열면 전체 입력과 출력을 볼 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:78 text()"
+      ]
+    },
+    {
+      "key": "{0} earlier · {1} later · call {2} of {3} · open it for the full input and output",
+      "ko": "이전 {0} · 이후 {1} · 호출 {2}/{3} · 열면 전체 입력과 출력을 볼 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:78 text()"
+      ]
+    },
+    {
+      "key": "{0} later · call {1} of {2} · the run says {3} in all · open it for the full input and output",
+      "ko": "이후 {0} · 호출 {1}/{2} · 실행 기록상 총 {3}건 · 열면 전체 입력과 출력을 볼 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:78 text()"
+      ]
+    },
+    {
+      "key": "{0} later · call {1} of {2} · open it for the full input and output",
+      "ko": "이후 {0} · 호출 {1}/{2} · 열면 전체 입력과 출력을 볼 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:78 text()"
+      ]
+    },
+    {
+      "key": "● following",
+      "ko": "● 따라가는 중",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:84 button()"
+      ]
+    },
+    {
+      "key": "○ follow",
+      "ko": "○ 따라가기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:84 button()"
+      ]
+    },
+    {
+      "key": "scope: whole phase",
+      "ko": "범위: 단계 전체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:86 button()"
+      ]
+    },
+    {
+      "key": "scope: this agent",
+      "ko": "범위: 이 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:86 button()"
+      ]
+    },
+    {
+      "key": "No line in the part of the transcript read.",
+      "ko": "읽은 대화 기록 부분에 줄이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:89 text()"
+      ]
+    },
+    {
+      "key": "No {0} among the lines read: change the level.",
+      "ko": "읽은 줄에 {0}이(가) 없습니다. 수준을 바꾸세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:89 text()"
+      ]
+    },
+    {
+      "key": "{0} above · {1} below · line {2} of {3} · {4} agents of the phase not in memory",
+      "ko": "위 {0} · 아래 {1} · 줄 {2}/{3} · 이 단계의 에이전트 {4}개가 메모리에 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:105 text()"
+      ]
+    },
+    {
+      "key": "{0} above · {1} below · line {2} of {3}",
+      "ko": "위 {0} · 아래 {1} · 줄 {2}/{3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:105 text()"
+      ]
+    },
+    {
+      "key": "follow pins the newest line and is re-drawn on this page's refresh; it is not a stream",
+      "ko": "따라가기는 최신 줄에 고정하며 이 화면을 새로고침할 때 다시 그립니다. 스트림이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:106 text()"
+      ]
+    },
+    {
+      "key": "The agent ran in a worktree whose path its metadata does not name: no diff stat.",
+      "ko": "이 에이전트는 메타데이터에 경로가 없는 워크트리에서 실행되어 diff 통계가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:118 text()"
+      ]
+    },
+    {
+      "key": "This agent has no worktree, so there is no diff stat: the list below is only the files its tool inputs name.",
+      "ko": "이 에이전트는 워크트리가 없어 diff 통계가 없습니다. 아래 목록은 도구 입력에 이름이 나온 파일뿐입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:118 text()"
+      ]
+    },
+    {
+      "key": "worktree {0} · {1} changed files vs HEAD (tracked files only; `git diff --numstat`)",
+      "ko": "워크트리 {0} · HEAD 대비 변경 파일 {1}개 (추적 파일만, `git diff --numstat`)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:119 text()"
+      ]
+    },
+    {
+      "key": "worktree {0}",
+      "ko": "워크트리 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:120 text()"
+      ]
+    },
+    {
+      "key": "Read diff stat",
+      "ko": "diff 통계 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:120 button()"
+      ]
+    },
+    {
+      "key": "diff stat: n/a (host not bound)",
+      "ko": "diff 통계: 해당 없음 (호스트 연결 안 됨)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:120 text()"
+      ]
+    },
+    {
+      "key": "diff stat not read: {0}",
+      "ko": "diff 통계를 읽지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:122 text()"
+      ]
+    },
+    {
+      "key": "diff stat not read: failed",
+      "ko": "diff 통계를 읽지 못했습니다: 실패",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:122 text()"
+      ]
+    },
+    {
+      "key": "edit×{0} write×{1} read×{2}",
+      "ko": "편집×{0} 쓰기×{1} 읽기×{2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:129 expr"
+      ]
+    },
+    {
+      "key": "edit×{0} write×{1}",
+      "ko": "편집×{0} 쓰기×{1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:129 expr"
+      ]
+    },
+    {
+      "key": "edit×{0} read×{1}",
+      "ko": "편집×{0} 읽기×{1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:129 expr"
+      ]
+    },
+    {
+      "key": "write×{0} read×{1}",
+      "ko": "쓰기×{0} 읽기×{1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:129 expr"
+      ]
+    },
+    {
+      "key": "No tool input names a file in the part of the transcript read.",
+      "ko": "읽은 대화 기록 부분에 파일을 지정한 도구 입력이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:138 text()"
+      ]
+    },
+    {
+      "key": "+{0} more files named",
+      "ko": "+파일 {0}개 더 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:139 text()"
+      ]
+    },
+    {
+      "key": "also changed in the worktree, not named by a tool input (e.g. by a shell command): {0} +{1} more",
+      "ko": "워크트리에서 함께 변경됐지만 도구 입력에 이름이 없는 파일 (예: 셸 명령으로 변경): {0} +{1}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:144 text()"
+      ]
+    },
+    {
+      "key": "also changed in the worktree, not named by a tool input (e.g. by a shell command): {0}",
+      "ko": "워크트리에서 함께 변경됐지만 도구 입력에 이름이 없는 파일 (예: 셸 명령으로 변경): {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:144 text()"
+      ]
+    },
+    {
+      "key": "preview: {0}",
+      "ko": "미리보기: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:156 text()"
+      ]
+    },
+    {
+      "key": "The agent's return",
+      "ko": "에이전트의 반환값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:157 unread()"
+      ]
+    },
+    {
+      "key": "Read the journal (up to 1.0 MB)",
+      "ko": "저널 읽기 (최대 1.0 MB)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:158 button()"
+      ]
+    },
+    {
+      "key": "Reading the journal needs the drill bound to the host (ADR-459).",
+      "ko": "저널을 읽으려면 자세히 보기가 호스트에 연결되어 있어야 합니다 (ADR-459).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:158 text()"
+      ]
+    },
+    {
+      "key": "The journal holds no result for this agent.",
+      "ko": "저널에 이 에이전트의 결과가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:162 text()"
+      ]
+    },
+    {
+      "key": "No result yet: the agent is {0}.",
+      "ko": "아직 결과가 없습니다: 에이전트 상태 {0}.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:162 text()"
+      ]
+    },
+    {
+      "key": "{0} · first {1} of {2} characters (cap {3}) · lines {4}–{5} of {6}",
+      "ko": "{0} · {2}자 중 처음 {1}자 (한도 {3}) · 줄 {4}–{5}/{6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:172 text()"
+      ]
+    },
+    {
+      "key": "{0} · {1} characters · lines {2}–{3} of {4}",
+      "ko": "{0} · {1}자 · 줄 {2}–{3}/{4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:172 text()"
+      ]
+    },
+    {
+      "key": "A ruflo agent keeps no transcript, worktree or return: its row on the board is everything the store records.",
+      "ko": "ruflo 에이전트는 대화 기록, 워크트리, 반환값을 남기지 않습니다. 보드의 해당 행이 저장소에 기록된 전부입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:186 text()"
+      ]
+    },
+    {
+      "key": "This agent's transcript",
+      "ko": "이 에이전트의 대화 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:194 unread()"
+      ]
+    },
+    {
+      "key": "tool call {0}",
+      "ko": "도구 호출 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:201 expr"
+      ]
+    },
+    {
+      "key": "{0} message",
+      "ko": "{0} 메시지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:201 expr"
+      ]
+    },
+    {
+      "key": "That line is from agent {0}: go back to Agents and open that agent to see it in full.",
+      "ko": "이 줄은 에이전트 {0}의 것입니다. 에이전트 화면으로 돌아가 해당 에이전트를 열어 전체를 확인하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:208 text()"
+      ]
+    },
+    {
+      "key": "Nothing is selected: go back and pick a call or a line.",
+      "ko": "선택한 항목이 없습니다. 뒤로 가서 호출이나 줄을 고르세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:212 text()"
+      ]
+    },
+    {
+      "key": "No result for this call in the part of the transcript read (it may still be running, or lie before the tail).",
+      "ko": "읽은 대화 기록 부분에 이 호출의 결과가 없습니다 (아직 실행 중이거나 읽은 끝부분보다 앞에 있을 수 있음).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:229 text()"
+      ]
+    },
+    {
+      "key": "No output.",
+      "ko": "출력이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:229 text()"
+      ]
+    },
+    {
+      "key": "▴ up",
+      "ko": "▴ 위",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:231 button()"
+      ]
+    },
+    {
+      "key": "▾ down",
+      "ko": "▾ 아래",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:231 button()"
+      ]
+    },
+    {
+      "key": "{0} lines in all",
+      "ko": "총 {0}줄",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-drill-body.ts:231 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: sparc-supabase-admin
-description: 🔐 Supabase Admin - You are the Supabase database, authentication, and storage specialist. You design and implement d...
+description: 🔐 Supabase 관리자 - Supabase 데이터베이스, 인증, 스토리지 전문가입니다. 설계하고 구현합니다...
 ---
 
 # 🔐 Supabase Admin

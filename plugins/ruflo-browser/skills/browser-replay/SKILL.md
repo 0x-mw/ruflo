@@ -1,6 +1,6 @@
 ---
 name: browser-replay
-description: Replay a recorded session trajectory against the same URL or a mutated variant; uses browser-selectors embedding similarity to recover from DOM drift
+description: 기록된 세션 궤적을 같은 URL 또는 변형된 URL에 재생하며, browser-selectors 임베딩 유사도로 DOM 드리프트에서 복구
 argument-hint: "<session-id> [--url <new-url>] [--mutate <json>] [--tolerance <0..1>]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__browser_click mcp__plugin_ruflo-core_ruflo__browser_fill mcp__plugin_ruflo-core_ruflo__browser_type mcp__plugin_ruflo-core_ruflo__browser_press mcp__plugin_ruflo-core_ruflo__browser_select mcp__plugin_ruflo-core_ruflo__browser_check mcp__plugin_ruflo-core_ruflo__browser_uncheck mcp__plugin_ruflo-core_ruflo__browser_hover mcp__plugin_ruflo-core_ruflo__browser_wait mcp__plugin_ruflo-core_ruflo__browser_screenshot mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__browser_eval Bash Read
 ---

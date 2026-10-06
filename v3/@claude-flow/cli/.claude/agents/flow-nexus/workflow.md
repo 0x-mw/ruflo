@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-workflow
-description: Event-driven workflow automation specialist. Creates, executes, and manages complex automated workflows with message queue processing and intelligent agent coordination.
+description: 이벤트 기반 워크플로 자동화 전문가입니다. 메시지 큐 처리와 지능형 에이전트 조율로 복잡한 자동화 워크플로를 생성, 실행, 관리합니다.
 color: teal
 ---
 

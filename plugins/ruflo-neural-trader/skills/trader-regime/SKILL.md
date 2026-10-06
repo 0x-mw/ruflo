@@ -1,6 +1,6 @@
 ---
 name: trader-regime
-description: Detect current market regime using npx neural-trader — bull/bear/ranging/volatile classification with recommended strategy. Use when the user asks about market conditions, wants to pick a strategy for current conditions, or before running a backtest/signal that should be regime-aware.
+description: npx neural-trader로 현재 시장 국면을 탐지합니다 — 추천 전략과 함께 강세/약세/횡보/변동성(bull/bear/ranging/volatile) 분류. 사용자가 시장 상황을 묻거나, 현재 상황에 맞는 전략을 고르려 하거나, 국면을 인식해야 하는 백테스트/시그널을 실행하기 전에 사용합니다.
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__neural_predict
 argument-hint: "[--symbol SPY] [--symbols AAPL,MSFT]"
 ---

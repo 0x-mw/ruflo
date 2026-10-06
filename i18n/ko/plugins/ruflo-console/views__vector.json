@@ -1,0 +1,112 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/vector.ts",
+  "entries": [
+    {
+      "key": "pub",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:17 text"
+      ]
+    },
+    {
+      "key": "a query · a memory id · a domain · source target · title :: content",
+      "ko": "쿼리 · 메모리 ID · 도메인 · 소스 대상 · 제목 :: 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:24 placeholder"
+      ]
+    },
+    {
+      "key": "path/to/store.rvf (inside this project)",
+      "ko": "path/to/store.rvf (이 프로젝트 안)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:26 placeholder"
+      ]
+    },
+    {
+      "key": "with",
+      "ko": "입력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:27 label"
+      ]
+    },
+    {
+      "key": "query: 0.1,0.2,… · ingest: vectors.json · derive: child.rvf · create: 384",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:27 placeholder"
+      ]
+    },
+    {
+      "key": "query",
+      "ko": "쿼리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:29 label"
+      ]
+    },
+    {
+      "key": "SELECT … · MATCH (n) RETURN n · SELECT ?s WHERE { ?s ?p ?o }",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:29 placeholder"
+      ]
+    },
+    {
+      "key": "./dist/index.js (a file here) · lodash@4.17.21 (an npm package)",
+      "ko": "./dist/index.js (여기 있는 파일) · lodash@4.17.21 (npm 패키지)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:30 placeholder"
+      ]
+    },
+    {
+      "key": "what a background worker should analyse",
+      "ko": "백그라운드 워커가 분석할 대상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:31 placeholder"
+      ]
+    },
+    {
+      "key": "a task to route · words to recall · a note to remember",
+      "ko": "라우팅할 작업 · 회상할 단어 · 기억할 메모",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:32 placeholder"
+      ]
+    },
+    {
+      "key": "this surface has no text field: /ruflo run <vec-id> <text> takes the text instead",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다. 대신 /ruflo run <vec-id> <text> 로 텍스트를 전달하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:82 text()"
+      ]
+    },
+    {
+      "key": "run shows a local read here at once; ▸ asks shows the exact command first (y runs it, n cancels)",
+      "ko": "실행은 로컬 읽기 결과를 여기에 바로 보여 줍니다. ▸ asks는 정확한 명령을 먼저 보여 줍니다 (y는 실행, n은 취소)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:108 text()"
+      ]
+    },
+    {
+      "key": "$0 local read, runs at once · wr writes here · net asks a remote host · pub publishes · $$ may spend · del cannot be undone: all but $0 ask first",
+      "ko": "$0 로컬 읽기, 즉시 실행 · wr 여기에 쓰기 · net 원격 호스트에 요청 · pub 게시 · $$ 비용 발생 가능 · del 되돌릴 수 없음: $0을 제외하고 모두 먼저 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/vector.ts:141 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

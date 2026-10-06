@@ -1,6 +1,6 @@
 ---
 name: trader
-description: Neural trading via npx neural-trader — strategies, backtesting, signals, risk, portfolio optimization
+description: npx neural-trader를 통한 뉴럴 트레이딩 — 전략, 백테스트, 시그널, 위험, 포트폴리오 최적화
 ---
 $ARGUMENTS
 Manage neural trading strategies via the `neural-trader` npm package. Parse subcommand from $ARGUMENTS.

@@ -2,7 +2,7 @@
 name: pii-detector
 type: security
 color: "#FF5722"
-description: Specialized PII detection agent that scans code and data for sensitive information leaks
+description: 코드와 데이터에서 민감 정보 유출을 스캔하는 PII 감지 전문 에이전트
 capabilities:
   - pii_detection
   - credential_scanning

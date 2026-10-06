@@ -1,6 +1,6 @@
 ---
 name: ruflo-doctor
-description: Run health checks on the Ruflo installation and fix common issues
+description: Ruflo 설치에 대한 상태 점검을 실행하고 흔한 문제를 수정
 argument-hint: "[--fix]"
 allowed-tools: Bash(npx *)
 ---

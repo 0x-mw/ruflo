@@ -1,0 +1,536 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/session.ts",
+  "entries": [
+    {
+      "key": "Sessions",
+      "ko": "세션",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:139 bold"
+      ]
+    },
+    {
+      "key": "No sessions found",
+      "ko": "세션이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:143 printInfo"
+      ]
+    },
+    {
+      "key": "Run \"claude-flow session save\" to create a session",
+      "ko": "세션을 만들려면 \"claude-flow session save\" 를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:144 printInfo"
+      ]
+    },
+    {
+      "key": "Last Updated",
+      "ko": "마지막 수정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:155 printTable.header"
+      ]
+    },
+    {
+      "key": "Showing {0} of {1} sessions",
+      "ko": "세션 {1}개 중 {0}개 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:168 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to list sessions: {0}",
+      "ko": "세션 목록을 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:173 printError"
+      ]
+    },
+    {
+      "key": "Session name:",
+      "ko": "세션 이름:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:226 input.message"
+      ]
+    },
+    {
+      "key": "Session description (optional):",
+      "ko": "세션 설명 (선택):",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:234 input.message"
+      ]
+    },
+    {
+      "key": "Saving session...",
+      "ko": "세션을 저장하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:239 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Failed to save session",
+      "ko": "세션을 저장하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:272 spinner.fail",
+        "src/commands/session.ts:312 spinner.fail"
+      ]
+    },
+    {
+      "key": "Session saved",
+      "ko": "세션을 저장했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:277 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Memory was requested but could not be captured: {0}",
+      "ko": "메모리 저장을 요청했지만 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:299 printWarning"
+      ]
+    },
+    {
+      "key": "Session saved: {0}",
+      "ko": "세션을 저장했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:303 printSuccess"
+      ]
+    },
+    {
+      "key": "Restore with: claude-flow session restore {0}",
+      "ko": "복원하려면: claude-flow session restore {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:304 printInfo",
+        "src/commands/session.ts:836 printInfo"
+      ]
+    },
+    {
+      "key": "Error",
+      "ko": "오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:314 printError",
+        "src/commands/session.ts:506 printError",
+        "src/commands/session.ts:724 printError"
+      ]
+    },
+    {
+      "key": "No saved sessions found",
+      "ko": "저장된 세션이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:367 printWarning"
+      ]
+    },
+    {
+      "key": "Select session to restore:",
+      "ko": "복원할 세션 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:372 select.message"
+      ]
+    },
+    {
+      "key": "Session ID is required",
+      "ko": "세션 ID가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:389 printError",
+        "src/commands/session.ts:534 printError"
+      ]
+    },
+    {
+      "key": "This will overwrite current state. Continue?",
+      "ko": "현재 상태를 덮어씁니다. 계속하시겠습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:396 confirm.message"
+      ]
+    },
+    {
+      "key": "Restoring session...",
+      "ko": "세션을 복원하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:406 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Failed to restore session",
+      "ko": "세션을 복원하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:440 spinner.fail",
+        "src/commands/session.ts:504 spinner.fail"
+      ]
+    },
+    {
+      "key": "Session restored with memory errors",
+      "ko": "세션을 복원했지만 메모리 오류가 있었습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:448 spinner.fail"
+      ]
+    },
+    {
+      "key": "Session restored",
+      "ko": "세션을 복원했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:450 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Partial",
+      "ko": "일부",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:456 error"
+      ]
+    },
+    {
+      "key": "Restored",
+      "ko": "복원됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:456 success",
+        "src/commands/session.ts:475 success",
+        "src/commands/session.ts:480 success"
+      ]
+    },
+    {
+      "key": "Not in session",
+      "ko": "세션에 없음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:457 dim"
+      ]
+    },
+    {
+      "key": "Skipped",
+      "ko": "건너뜀",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:457 dim",
+        "src/commands/session.ts:475 dim",
+        "src/commands/session.ts:480 dim"
+      ]
+    },
+    {
+      "key": "Component",
+      "ko": "구성 요소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:461 printTable.header"
+      ]
+    },
+    {
+      "key": "Items",
+      "ko": "항목",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:463 printTable.header"
+      ]
+    },
+    {
+      "key": "{0} memory entries could not be restored: {1}",
+      "ko": "메모리 항목 {0}개를 복원하지 못했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:489 printWarning"
+      ]
+    },
+    {
+      "key": "{0} memory entries could not be restored",
+      "ko": "메모리 항목 {0}개를 복원하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:489 printWarning"
+      ]
+    },
+    {
+      "key": "Session {0} restored successfully",
+      "ko": "세션을 복원했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:493 printSuccess"
+      ]
+    },
+    {
+      "key": "Delete session {0}? This cannot be undone.",
+      "ko": "세션 {0}을(를) 삭제하시겠습니까? 되돌릴 수 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:540 confirm.message"
+      ]
+    },
+    {
+      "key": "Failed to delete session: {0}",
+      "ko": "세션을 삭제하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:559 printError",
+        "src/commands/session.ts:573 printError"
+      ]
+    },
+    {
+      "key": "Session {0} deleted",
+      "ko": "세션을 삭제했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:564 printSuccess"
+      ]
+    },
+    {
+      "key": "Session ID is required. Pass a session id, or --latest to export the most recently saved session.",
+      "ko": "세션 ID가 필요합니다. 세션 ID를 지정하거나, 가장 최근에 저장한 세션을 내보내려면 --latest 를 사용하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:630 printError"
+      ]
+    },
+    {
+      "key": "No saved sessions to export.",
+      "ko": "내보낼 저장된 세션이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:636 printError",
+        "src/commands/session.ts:641 printError"
+      ]
+    },
+    {
+      "key": "Exporting session...",
+      "ko": "세션을 내보내는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:652 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Failed to export session",
+      "ko": "세션을 내보내지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:673 spinner.fail",
+        "src/commands/session.ts:722 spinner.fail"
+      ]
+    },
+    {
+      "key": "The export returned no session data",
+      "ko": "내보내기 결과에 세션 데이터가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:674 printError"
+      ]
+    },
+    {
+      "key": "Session exported",
+      "ko": "세션을 내보냈습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:693 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Session exported to {0}",
+      "ko": "세션을 내보냈습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:715 printSuccess"
+      ]
+    },
+    {
+      "key": "File path is required",
+      "ko": "파일 경로가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:757 printError"
+      ]
+    },
+    {
+      "key": "File not found: {0}",
+      "ko": "파일을 찾을 수 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:766 printError"
+      ]
+    },
+    {
+      "key": "Importing session...",
+      "ko": "세션을 가져오는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:770 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Failed to import session",
+      "ko": "세션을 가져오지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:780 spinner.fail",
+        "src/commands/session.ts:808 spinner.fail",
+        "src/commands/session.ts:845 spinner.fail"
+      ]
+    },
+    {
+      "key": "YAML session import is not supported. Export with --format json and import that file.",
+      "ko": "YAML 세션 가져오기는 지원하지 않습니다. --format json 으로 내보낸 뒤 그 파일을 가져오세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:781 printError"
+      ]
+    },
+    {
+      "key": "Session imported",
+      "ko": "세션을 가져왔습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:813 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Session imported: {0}",
+      "ko": "세션을 가져왔습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:833 printSuccess"
+      ]
+    },
+    {
+      "key": "Invalid file format. Expected JSON or YAML.",
+      "ko": "파일 형식이 올바르지 않습니다. JSON 또는 YAML이어야 합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:849 printError"
+      ]
+    },
+    {
+      "key": "No active session",
+      "ko": "활성 세션이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:880 printWarning",
+        "src/commands/session.ts:915 printWarning"
+      ]
+    },
+    {
+      "key": "Save one with \"claude-flow session save\"",
+      "ko": "\"claude-flow session save\" 로 저장하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:881 printInfo"
+      ]
+    },
+    {
+      "key": "Current Session",
+      "ko": "현재 세션",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:891 bold"
+      ]
+    },
+    {
+      "key": "Start a session with \"claude-flow start\"",
+      "ko": "\"claude-flow start\" 로 세션을 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:916 printInfo"
+      ]
+    },
+    {
+      "key": "Session Management Commands",
+      "ko": "세션 관리 명령",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:1005 bold"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow session <subcommand> [options]",
+      "ko": "사용법: claude-flow session <subcommand> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:1007 writeln"
+      ]
+    },
+    {
+      "key": "{0}    - List all sessions",
+      "ko": "{0}    - 전체 세션 목록 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:1011 printList"
+      ]
+    },
+    {
+      "key": "{0}    - Save current session state",
+      "ko": "{0}    - 현재 세션 상태 저장",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:1012 printList"
+      ]
+    },
+    {
+      "key": "{0} - Restore a saved session",
+      "ko": "{0} - 저장된 세션 복원",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:1013 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Delete a saved session",
+      "ko": "{0}  - 저장된 세션 삭제",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:1014 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Export session to file",
+      "ko": "{0}  - 세션을 파일로 내보내기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:1015 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Import session from file",
+      "ko": "{0}  - 파일에서 세션 가져오기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:1016 printList"
+      ]
+    },
+    {
+      "key": "{0} - Show current active session",
+      "ko": "{0} - 현재 활성 세션 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/session.ts:1017 printList"
+      ]
+    },
+    {
+      "key": "Run \"claude-flow session <subcommand> --help\" for subcommand help",
+      "ko": "하위 명령 도움말은 \"claude-flow session <subcommand> --help\" 를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:1020 writeln"
+      ]
+    }
+  ],
+  "obsolete": []
+}

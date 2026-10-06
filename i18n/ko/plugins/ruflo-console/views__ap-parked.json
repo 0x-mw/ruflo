@@ -1,0 +1,80 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/ap-parked.ts",
+  "entries": [
+    {
+      "key": "autopilot has not started: nothing is parked",
+      "ko": "오토파일럿이 시작되지 않았습니다. 보류된 항목이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:25 text()"
+      ]
+    },
+    {
+      "key": "nothing parked · {0} answered earlier",
+      "ko": "보류 항목 없음 · 앞서 응답한 항목 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:26 text()"
+      ]
+    },
+    {
+      "key": "nothing parked",
+      "ko": "보류 항목 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:26 text()"
+      ]
+    },
+    {
+      "key": "approve once",
+      "ko": "한 번 승인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:35 button()"
+      ]
+    },
+    {
+      "key": "deny",
+      "ko": "거부",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:36 button()"
+      ]
+    },
+    {
+      "key": "never grantable",
+      "ko": "승인 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:37 text()"
+      ]
+    },
+    {
+      "key": "once = this task only, then the envelope applies again",
+      "ko": "한 번 = 이 작업에만 적용되고, 이후에는 엔벨로프가 다시 적용됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:37 text()"
+      ]
+    },
+    {
+      "key": "+{0} more parked, not drawn",
+      "ko": "+{0}건 더 보류됨(표시 안 함)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:41 text()"
+      ]
+    },
+    {
+      "key": "Autopilot, parked for you",
+      "ko": "오토파일럿, 사용자 확인 대기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/ap-parked.ts:47 title"
+      ]
+    }
+  ],
+  "obsolete": []
+}

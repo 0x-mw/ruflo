@@ -1,0 +1,346 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-targets.ts",
+  "entries": [
+    {
+      "key": "openrouter",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:45 name"
+      ]
+    },
+    {
+      "key": "OPENROUTER_API_KEY",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:45 keyEnv"
+      ]
+    },
+    {
+      "key": "endpoint \"{0}\": the name is a lowercase word (endpoint:<name>=<base-url>|<KEY_ENV>|<model>)",
+      "ko": "엔드포인트 \"{0}\": 이름은 영문 소문자 단어여야 합니다 (endpoint:<name>=<base-url>|<KEY_ENV>|<model>)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:103 push()"
+      ]
+    },
+    {
+      "key": "endpoint {0}: the base URL must be https (or http to a local or tailnet address), with no credentials, query or fragment",
+      "ko": "엔드포인트 {0}: 기본 URL은 https여야 하며 (로컬 또는 tailnet 주소는 http 가능) 자격 증명, 쿼리, 프래그먼트가 없어야 합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:104 push()"
+      ]
+    },
+    {
+      "key": "endpoint {0}: the key is named by an environment variable (UPPER_SNAKE), or NONE; a key itself is never accepted here",
+      "ko": "엔드포인트 {0}: 키는 환경 변수 이름(UPPER_SNAKE) 또는 NONE으로 지정합니다. 키 자체는 여기서 받지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:105 push()"
+      ]
+    },
+    {
+      "key": "endpoint {0}: {1} is not a model key; an endpoint is only given the key of a model provider",
+      "ko": "엔드포인트 {0}: {1}은(는) 모델 키가 아닙니다. 엔드포인트에는 모델 프로바이더의 키만 줄 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:106 push()"
+      ]
+    },
+    {
+      "key": "endpoint {0}: no model named",
+      "ko": "엔드포인트 {0}: 지정된 모델이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:107 push()"
+      ]
+    },
+    {
+      "key": "endpoint {0}: named twice",
+      "ko": "엔드포인트 {0}: 이름이 두 번 지정되었습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:108 push()"
+      ]
+    },
+    {
+      "key": "\"{0}\" is not endpoint:, bbs: or x: with a valid value",
+      "ko": "\"{0}\"은(는) 유효한 값이 있는 endpoint:, bbs:, x: 중 어느 것도 아닙니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:112 push()"
+      ]
+    },
+    {
+      "key": "Claude (this session)",
+      "ko": "Claude (이 세션)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:145 label"
+      ]
+    },
+    {
+      "key": "nothing beyond what a turn of this session sends to the model",
+      "ko": "이 세션의 턴이 모델에 보내는 것 외에는 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:145 leavesText"
+      ]
+    },
+    {
+      "key": "a visible turn of this session, billed as any turn is",
+      "ko": "이 세션의 보이는 턴 하나, 다른 턴과 똑같이 과금",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:145 costText"
+      ]
+    },
+    {
+      "key": "its answer is the next turn in the transcript, not captured here",
+      "ko": "응답은 대화 기록의 다음 턴으로 나타나며 여기서는 수집하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:145 arrivalText"
+      ]
+    },
+    {
+      "key": "nothing: queued inside this session",
+      "ko": "없음: 이 세션 안에서 대기열에 넣음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:151 leavesText"
+      ]
+    },
+    {
+      "key": "the agent's own next turn",
+      "ko": "에이전트의 다음 턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:151 costText"
+      ]
+    },
+    {
+      "key": "queued for its next tool round; its answer is not routed back here",
+      "ko": "다음 도구 라운드를 위해 대기열에 넣음. 응답은 여기로 돌아오지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:151 arrivalText"
+      ]
+    },
+    {
+      "key": "nothing: written to the hive's shared memory",
+      "ko": "없음: 하이브 공유 메모리에 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:154 leavesText"
+      ]
+    },
+    {
+      "key": "no model call",
+      "ko": "모델 호출 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:154 costText",
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:156 costText",
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:158 costText"
+      ]
+    },
+    {
+      "key": "appended to the hive memory; a worker sees it only if its own turn reads it (a proposal needs votes)",
+      "ko": "하이브 메모리에 추가됨. 워커가 자기 차례에 읽을 때만 보게 됨 (제안은 투표가 필요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:154 arrivalText"
+      ]
+    },
+    {
+      "key": "nothing: a proposal in the hive state",
+      "ko": "없음: 하이브 상태의 제안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:156 leavesText"
+      ]
+    },
+    {
+      "key": "workers vote on it; a pass binds no agent",
+      "ko": "워커가 투표하며, 통과해도 에이전트에게 의무가 생기지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:156 arrivalText"
+      ]
+    },
+    {
+      "key": "nothing: written to the task store",
+      "ko": "없음: 작업 저장소에 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:158 leavesText"
+      ]
+    },
+    {
+      "key": "the task record changes; an agent sees it only when it reads the task",
+      "ko": "작업 기록이 바뀜. 에이전트는 작업을 읽을 때만 보게 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:158 arrivalText"
+      ]
+    },
+    {
+      "key": "agentbbs room {0}",
+      "ko": "agentbbs 룸 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:160 label"
+      ]
+    },
+    {
+      "key": "a message in the room log on this machine, and to its peers if the room syncs",
+      "ko": "이 머신의 룸 로그에 메시지를 남기고, 룸이 동기화되면 피어에게도 전달",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:160 leavesText"
+      ]
+    },
+    {
+      "key": "read back with federation_bbs_watch while the thread is open",
+      "ko": "스레드가 열려 있는 동안 federation_bbs_watch로 다시 읽음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:160 arrivalText"
+      ]
+    },
+    {
+      "key": "x channel {0}",
+      "ko": "x 채널 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:162 label"
+      ]
+    },
+    {
+      "key": "a message to the relay (encrypted under the channel key) signed with your key",
+      "ko": "릴레이로 가는 메시지 (채널 키로 암호화), 내 키로 서명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:162 leavesText"
+      ]
+    },
+    {
+      "key": "a message to the relay (PUBLIC: anyone can read it) signed with your key",
+      "ko": "릴레이로 가는 메시지 (공개: 누구나 읽을 수 있음), 내 키로 서명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:162 leavesText"
+      ]
+    },
+    {
+      "key": "read back with x_federation_channel_read while the thread is open",
+      "ko": "스레드가 열려 있는 동안 x_federation_channel_read로 다시 읽음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:162 arrivalText"
+      ]
+    },
+    {
+      "key": "peer {0} (not trusted: needs your confirm)",
+      "ko": "피어 {0} (신뢰하지 않음: 확인이 필요)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:164 label"
+      ]
+    },
+    {
+      "key": "the prompt, over ssh to {0}, run as `claude -p` there with that machine's own permissions and files",
+      "ko": "프롬프트를 ssh로 {0}에 보내, 그 머신 자체의 권한과 파일로 `claude -p`로 실행",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:164 leavesText"
+      ]
+    },
+    {
+      "key": "a headless Claude run on {0}, billed to that machine's login",
+      "ko": "{0}에서의 헤드리스 Claude 실행, 그 머신의 로그인에 과금",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:164 costText"
+      ]
+    },
+    {
+      "key": "the peer's stdout comes back when it finishes (up to 10 minutes)",
+      "ko": "피어의 stdout이 끝나면 돌아옴 (최대 10분)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:164 arrivalText"
+      ]
+    },
+    {
+      "key": "Codex (codex exec, read-only)",
+      "ko": "Codex (codex exec, 읽기 전용)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:166 label"
+      ]
+    },
+    {
+      "key": "the prompt, to OpenAI via the codex CLI, run in a read-only sandbox here",
+      "ko": "프롬프트를 codex CLI로 OpenAI에 보내며, 여기서는 읽기 전용 샌드박스로 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:166 leavesText"
+      ]
+    },
+    {
+      "key": "the codex CLI's own login; its usage is not read here",
+      "ko": "codex CLI 자체 로그인, 사용량은 여기서 읽지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:166 costText"
+      ]
+    },
+    {
+      "key": "its final message comes back when it finishes (up to 5 minutes)",
+      "ko": "끝나면 마지막 메시지가 돌아옴 (최대 5분)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:166 arrivalText"
+      ]
+    },
+    {
+      "key": "the prompt, to {0} with no key",
+      "ko": "프롬프트를 키 없이 {0}에 전송",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:168 leavesText"
+      ]
+    },
+    {
+      "key": "the prompt, to {0}, with the key from ${1} (never shown or stored)",
+      "ko": "프롬프트를 ${1}의 키와 함께 {0}에 전송 (표시하거나 저장하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:168 leavesText"
+      ]
+    },
+    {
+      "key": "metered by the provider; the tokens it reports are shown, a price is not guessed",
+      "ko": "프로바이더가 계량하며, 보고된 토큰은 표시하지만 가격은 추측하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:168 costText"
+      ]
+    },
+    {
+      "key": "the answer comes back in the same request",
+      "ko": "응답은 같은 요청으로 돌아옴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-targets.ts:168 arrivalText"
+      ]
+    }
+  ],
+  "obsolete": []
+}

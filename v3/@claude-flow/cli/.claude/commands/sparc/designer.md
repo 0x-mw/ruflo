@@ -1,3 +1,7 @@
+---
+description: SPARC 디자이너 모드
+---
+
 # SPARC Designer Mode
 
 ## Purpose

@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-mods/hooks/protector.ts",
+  "entries": [
+    {
+      "key": "protector:   Project Anatole {0} · {1} open alert · {2} blocked · degraded (reported by the mod, unauthenticated)",
+      "ko": "protector:   Project Anatole {0} · 열린 경고 {1}건 · {2} 차단됨 · 성능 저하 (mod가 보고, 인증되지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/protector.ts:20 return"
+      ]
+    },
+    {
+      "key": "protector:   Project Anatole {0} · {1} open alert · {2} blocked (reported by the mod, unauthenticated)",
+      "ko": "protector:   Project Anatole {0} · 열린 경고 {1}건 · {2} 차단됨 (mod가 보고, 인증되지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/protector.ts:20 return"
+      ]
+    },
+    {
+      "key": "protector:   Project Anatole {0} · {1} open alerts · {2} blocked · degraded (reported by the mod, unauthenticated)",
+      "ko": "protector:   Project Anatole {0} · 열린 경고 {1}건 · {2} 차단됨 · 성능 저하 (mod가 보고, 인증되지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/protector.ts:20 return"
+      ]
+    },
+    {
+      "key": "protector:   Project Anatole {0} · {1} open alerts · {2} blocked (reported by the mod, unauthenticated)",
+      "ko": "protector:   Project Anatole {0} · 열린 경고 {1}건 · {2} 차단됨 (mod가 보고, 인증되지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/protector.ts:20 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/actions/controller.ts",
+  "entries": [
+    {
+      "key": "expected {0}",
+      "ko": "예상값 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:72 detail"
+      ]
+    },
+    {
+      "key": "nothing to act on",
+      "ko": "처리할 대상이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:89 detail"
+      ]
+    },
+    {
+      "key": "no tool calls seen yet",
+      "ko": "아직 확인된 도구 호출이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:121 return"
+      ]
+    },
+    {
+      "key": "activity of {0}",
+      "ko": "{0}의 활동",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:193 title"
+      ]
+    },
+    {
+      "key": "activity of {0} ({1})",
+      "ko": "{0}의 활동 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:193 title"
+      ]
+    },
+    {
+      "key": "pause claim",
+      "ko": "클레임 일시 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:199 go()",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:139 jsx"
+      ]
+    },
+    {
+      "key": "resume claim",
+      "ko": "클레임 재개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:204 go()",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:140 jsx"
+      ]
+    },
+    {
+      "key": "claim task",
+      "ko": "작업 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:210 go()",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:136 jsx"
+      ]
+    },
+    {
+      "key": "offer task",
+      "ko": "작업 내놓기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:215 go()"
+      ]
+    },
+    {
+      "key": "steal task",
+      "ko": "작업 가로채기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:221 go()",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:137 jsx"
+      ]
+    },
+    {
+      "key": "hand off",
+      "ko": "인계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:229 go()"
+      ]
+    },
+    {
+      "key": "Next",
+      "ko": "다음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:280 toast()",
+        "plugins/ruflo-swarm/hooks/actions/controller.ts:283 toast()",
+        "plugins/ruflo-swarm/hooks/views/pane.tsx:293 jsx"
+      ]
+    }
+  ],
+  "obsolete": []
+}

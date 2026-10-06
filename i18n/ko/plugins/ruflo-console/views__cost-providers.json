@@ -1,0 +1,189 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/cost-providers.ts",
+  "entries": [
+    {
+      "key": "{0} credits",
+      "ko": "크레딧 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:12 expr"
+      ]
+    },
+    {
+      "key": "saving n/a",
+      "ko": "절감 정보 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:21 expr"
+      ]
+    },
+    {
+      "key": "Across providers",
+      "ko": "프로바이더 전체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:28 rule()"
+      ]
+    },
+    {
+      "key": "Claude Code + Codex · local logs",
+      "ko": "Claude Code + Codex · 로컬 로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:28 rule()"
+      ]
+    },
+    {
+      "key": "last {0} · local logs · list-price estimates",
+      "ko": "최근 {0} · 로컬 로그 · 정가 기준 추정",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:28 rule()"
+      ]
+    },
+    {
+      "key": "ledger",
+      "ko": "원장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:35 kv()",
+        "plugins/ruflo-console/hooks/views/evolve.ts:71 kv()",
+        "plugins/ruflo-console/hooks/views/metaharness.ts:40 kv()"
+      ]
+    },
+    {
+      "key": "n/a — {0} {1} is installed; needs {2} or newer",
+      "ko": "사용 불가 — {0} {1} 이(가) 설치되어 있습니다. {2} 이상이 필요합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:35 kv()"
+      ]
+    },
+    {
+      "key": "n/a — {0} is not installed",
+      "ko": "사용 불가 — {0} 이(가) 설치되어 있지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:35 kv()",
+        "plugins/ruflo-console/hooks/views/research-section.ts:29 text()"
+      ]
+    },
+    {
+      "key": "It shows Claude Code and Codex spend, cache hit ratio and savings here. Nothing is sent anywhere.",
+      "ko": "여기에 Claude Code 와 Codex 의 지출, 캐시 적중률, 절감액을 표시합니다. 외부로 전송되는 것은 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:36 text()"
+      ]
+    },
+    {
+      "key": "Plugins: update it",
+      "ko": "플러그인: 업데이트하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:37 button()",
+        "plugins/ruflo-console/hooks/views/research-section.ts:30 button()"
+      ]
+    },
+    {
+      "key": "Plugin Catalog: ruflo-cost-tracker",
+      "ko": "플러그인 카탈로그: ruflo-cost-tracker",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:37 button()"
+      ]
+    },
+    {
+      "key": "ledger: cost-tracker plugin, {0}",
+      "ko": "원장: cost-tracker 플러그인, {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:44 text()"
+      ]
+    },
+    {
+      "key": "{0} · cache hit n/a",
+      "ko": "{0} · 캐시 적중 정보 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "{0} · cache hit {1}",
+      "ko": "{0} · 캐시 적중 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "USD / day",
+      "ko": "USD / 일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:48 kv()"
+      ]
+    },
+    {
+      "key": "Unpriced, NOT counted as $0: {0}",
+      "ko": "가격 미정, $0 으로 계산하지 않음: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:52 text()"
+      ]
+    },
+    {
+      "key": "Add them to data/prices.json in the plugin.",
+      "ko": "플러그인의 data/prices.json 에 추가하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:53 text()"
+      ]
+    },
+    {
+      "key": "List-price estimates ({0}), not bills.",
+      "ko": "정가 기준 추정치({0})이며 청구액이 아닙니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:54 text()"
+      ]
+    },
+    {
+      "key": "USD and credits are never added together.",
+      "ko": "USD 와 크레딧은 합산하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:55 text()",
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:35 text()"
+      ]
+    },
+    {
+      "key": "Savings you can act on",
+      "ko": "실행 가능한 절감 방안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:58 rule()"
+      ]
+    },
+    {
+      "key": "evidence from your logs · nothing is changed for you",
+      "ko": "로그에서 얻은 근거 · 자동으로 바뀌는 것은 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:58 rule()"
+      ]
+    },
+    {
+      "key": "Same tokens at another rate; quality is not predicted. /cost-advise shows the evidence.",
+      "ko": "같은 토큰을 다른 요금으로 처리한 경우이며 품질은 예측하지 않습니다. /cost-advise 에서 근거를 확인할 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost-providers.ts:63 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

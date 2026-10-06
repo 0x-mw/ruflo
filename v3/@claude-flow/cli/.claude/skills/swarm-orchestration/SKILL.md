@@ -1,6 +1,6 @@
 ---
 name: "Swarm Orchestration"
-description: "Orchestrate multi-agent swarms with agentic-flow for parallel task execution, dynamic topology, and intelligent coordination. Use when scaling beyond single agents, implementing complex workflows, or building distributed AI systems."
+description: "agentic-flow로 멀티 에이전트 스웜을 오케스트레이션해 병렬 작업 실행, 동적 토폴로지, 지능형 조율을 제공합니다. 단일 에이전트를 넘어 확장하거나, 복잡한 워크플로를 구현하거나, 분산 AI 시스템을 구축할 때 사용합니다."
 ---
 
 # Swarm Orchestration

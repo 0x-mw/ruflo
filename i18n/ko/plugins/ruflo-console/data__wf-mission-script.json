@@ -1,0 +1,280 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-mission-script.ts",
+  "entries": [
+    {
+      "key": "the mission has no tasks to run",
+      "ko": "실행할 작업이 미션에 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:94 why"
+      ]
+    },
+    {
+      "key": "{0} tasks is more than the {1} one reviewed script holds",
+      "ko": "작업 {0}개는 검토된 스크립트 하나가 담을 수 있는 {1}개를 넘습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:95 why"
+      ]
+    },
+    {
+      "key": "two tasks share an id",
+      "ko": "두 작업이 같은 ID를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:96 why"
+      ]
+    },
+    {
+      "key": "the tasks depend on each other in a circle",
+      "ko": "작업들이 서로 순환 의존합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:100 why"
+      ]
+    },
+    {
+      "key": "task {0} depends on {1}, which the plan does not have: ignored",
+      "ko": "작업 {0}이(가) 계획에 없는 {1}에 의존합니다: 무시했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:105 push()"
+      ]
+    },
+    {
+      "key": "task {0} has an id that cannot be tagged: its agent will show as unlinked",
+      "ko": "작업 {0}의 ID는 태그를 붙일 수 없습니다: 해당 에이전트는 연결 안 됨으로 표시됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:114 push()"
+      ]
+    },
+    {
+      "key": "Mission: {0}",
+      "ko": "미션: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:120 expr"
+      ]
+    },
+    {
+      "key": "Your task {0}: {1}",
+      "ko": "당신의 작업 {0}: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:120 expr"
+      ]
+    },
+    {
+      "key": "It is done when: {0}",
+      "ko": "완료 조건: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:120 expr"
+      ]
+    },
+    {
+      "key": "Report done=true only if that is true, with a short summary and the evidence (files, commands, test output).",
+      "ko": "위 조건이 참일 때만 done=true로 보고하고, 짧은 요약과 증거(파일, 명령어, 테스트 출력)를 함께 제시하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:120 expr"
+      ]
+    },
+    {
+      "key": "Run",
+      "ko": "실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:124 expr"
+      ]
+    },
+    {
+      "key": "// Drafted by ruflo-console from mission {0}. Review it, then run it with Workflow({ scriptPath }).",
+      "ko": "// ruflo-console이 미션 {0}에서 초안을 작성했습니다. 검토한 뒤 Workflow({ scriptPath })로 실행하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:130 expr"
+      ]
+    },
+    {
+      "key": "description: {0},",
+      "ko": "description: {0},",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:133 expr"
+      ]
+    },
+    {
+      "key": "Run mission: {0}",
+      "ko": "미션 실행: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:133 clip()"
+      ]
+    },
+    {
+      "key": "phases: {0},",
+      "ko": "phases: {0},",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:134 expr"
+      ]
+    },
+    {
+      "key": "const MISSION = {0}",
+      "ko": "const MISSION = {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:137 expr"
+      ]
+    },
+    {
+      "key": "const TASKS = {0}",
+      "ko": "const TASKS = {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:138 expr"
+      ]
+    },
+    {
+      "key": "const LEVELS = {0}",
+      "ko": "const LEVELS = {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:139 expr"
+      ]
+    },
+    {
+      "key": "const SCHEMA = { type: 'object', additionalProperties: false, required: ['done', 'summary', 'evidence'], properties: { done: { type: 'boolean' }, summary: { type: 'string' }, evidence: { type: 'string' } } }",
+      "ko": "const SCHEMA = { type: 'object', additionalProperties: false, required: ['done', 'summary', 'evidence'], properties: { done: { type: 'boolean' }, summary: { type: 'string' }, evidence: { type: 'string' } } }",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:140 expr"
+      ]
+    },
+    {
+      "key": "const results = []",
+      "ko": "const results = []",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:142 expr"
+      ]
+    },
+    {
+      "key": "for (const level of LEVELS) {",
+      "ko": "for (const level of LEVELS) {",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:143 expr"
+      ]
+    },
+    {
+      "key": "const batch = await parallel(level.ids.map((i) => () => {",
+      "ko": "const batch = await parallel(level.ids.map((i) => () => {",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:145 expr"
+      ]
+    },
+    {
+      "key": "const t = TASKS[i]",
+      "ko": "const t = TASKS[i]",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:146 expr"
+      ]
+    },
+    {
+      "key": "const before = t.needs.map((n) => `${TASKS[n].id}: ${(results[n] && results[n].summary) || 'no report'}`).join('\\n')",
+      "ko": "const before = t.needs.map((n) => `${TASKS[n].id}: ${(results[n] && results[n].summary) || 'no report'}`).join('\\n')",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:147 expr"
+      ]
+    },
+    {
+      "key": "const prompt = before ? `${t.prompt}\\n\\nAlready done before you:\\n${before}` : t.prompt",
+      "ko": "const prompt = before ? `${t.prompt}\\n\\nAlready done before you:\\n${before}` : t.prompt",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:148 expr"
+      ]
+    },
+    {
+      "key": "return agent(prompt, { label: t.label, phase: level.phase, schema: SCHEMA, ...(t.agentType ? { agentType: t.agentType } : {}) })",
+      "ko": "return agent(prompt, { label: t.label, phase: level.phase, schema: SCHEMA, ...(t.agentType ? { agentType: t.agentType } : {}) })",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:149 expr"
+      ]
+    },
+    {
+      "key": "level.ids.forEach((i, k) => { results[i] = batch[k] })",
+      "ko": "level.ids.forEach((i, k) => { results[i] = batch[k] })",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:151 expr"
+      ]
+    },
+    {
+      "key": "const notDone = TASKS.filter((_, i) => !results[i] || !results[i].done).map((t) => t.id)",
+      "ko": "const notDone = TASKS.filter((_, i) => !results[i] || !results[i].done).map((t) => t.id)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:154 expr"
+      ]
+    },
+    {
+      "key": "log(`mission ${MISSION}: ${TASKS.length - notDone.length}/${TASKS.length} tasks reported done`)",
+      "ko": "log(`mission ${MISSION}: ${TASKS.length - notDone.length}/${TASKS.length} tasks reported done`)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:155 expr"
+      ]
+    },
+    {
+      "key": "return { mission: MISSION, notDone, results: TASKS.map((t, i) => ({ id: t.id, report: results[i] || null })) }",
+      "ko": "return { mission: MISSION, notDone, results: TASKS.map((t, i) => ({ id: t.id, report: results[i] || null })) }",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:156 expr"
+      ]
+    },
+    {
+      "key": "{0} agents in {1} level, at most {2} at once · phases: {3}",
+      "ko": "에이전트 {0}개, 레벨 {1}개, 동시 최대 {2}개 · 단계: {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:168 return"
+      ]
+    },
+    {
+      "key": "{0} agents in {1} levels, at most {2} at once · phases: {3}",
+      "ko": "에이전트 {0}개, 레벨 {1}개, 동시 최대 {2}개 · 단계: {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:168 return"
+      ]
+    },
+    {
+      "key": "{0} of {1} carry a subagent type; the rest take their role from the prompt",
+      "ko": "{1}개 중 {0}개는 서브에이전트 유형이 있고, 나머지는 프롬프트에서 역할을 받습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:169 return"
+      ]
+    },
+    {
+      "key": "tokens, time and cost: n/a (the console has no measurement of a script that has not run)",
+      "ko": "토큰, 시간, 비용: 해당 없음 (콘솔은 아직 실행되지 않은 스크립트를 측정하지 않습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-mission-script.ts:170 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

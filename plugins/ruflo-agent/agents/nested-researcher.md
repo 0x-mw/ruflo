@@ -1,6 +1,6 @@
 ---
 name: nested-researcher
-description: Recursive research orchestrator — fans out into sub-research branches when an investigation deepens, keeping each branch in its own context window
+description: 재귀 리서치 오케스트레이터 — 조사가 깊어지면 하위 리서치 분기로 퍼져 나가며, 각 분기를 자체 컨텍스트 윈도에 유지
 model: sonnet
 tools:
   - Task

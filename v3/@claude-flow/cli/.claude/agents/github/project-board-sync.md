@@ -1,6 +1,6 @@
 ---
 name: project-board-sync
-description: Synchronize AI swarms with GitHub Projects for visual task management, progress tracking, and team coordination
+description: 시각적 작업 관리, 진행 상황 추적, 팀 조율을 위해 AI 스웜을 GitHub Projects와 동기화합니다
 type: coordination
 color: "#A8E6CF"
 tools:

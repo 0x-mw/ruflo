@@ -1,6 +1,6 @@
 {
   "name": "ruflo-protector",
-  "description": "Project Anatole: an optional, learning watchdog for unattended agents. Deterministic OWASP-mapped rules, a per-project behavioural baseline, four modes (off, learn, notify, enforce), alerts you can read later.",
+  "description": "Project Anatole: 무인 에이전트를 위한 선택적 학습형 감시 도구. 결정적인 OWASP 매핑 규칙, 프로젝트별 행동 기준선, 네 가지 모드(off, learn, notify, enforce), 나중에 읽을 수 있는 경고를 제공합니다.",
   "version": "0.1.0",
   "author": {
     "name": "ruvnet",
@@ -23,16 +23,16 @@
   "userConfig": {
     "mode": {
       "type": "string",
-      "title": "Project Anatole mode",
-      "description": "off: do nothing. learn (default): record the baseline and say nothing. notify: alert, never block. enforce: rules marked block deny. A mode set with /protector mode overrides this.",
+      "title": "Project Anatole 모드",
+      "description": "off: 아무것도 하지 않음. learn(기본값): 기준선을 기록하고 아무 말도 하지 않음. notify: 경고하되 차단하지 않음. enforce: block으로 표시된 규칙을 거부. /protector mode로 설정한 모드가 이 값을 덮어씁니다.",
       "required": false,
       "default": "learn",
       "options": ["off", "learn", "notify", "enforce"]
     },
     "autoGraduate": {
       "type": "string",
-      "title": "Graduate learn to notify",
-      "description": "When the baseline is mature (200 events, 3 sessions, 24 hours), move learn to notify. Never moves to enforce.",
+      "title": "learn을 notify로 승격",
+      "description": "기준선이 충분히 쌓이면(이벤트 200개, 세션 3개, 24시간) learn을 notify로 옮깁니다. enforce로는 옮기지 않습니다.",
       "required": false,
       "default": "on",
       "options": ["on", "off"]

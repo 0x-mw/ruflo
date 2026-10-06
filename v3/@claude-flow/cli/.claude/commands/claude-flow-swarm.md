@@ -1,6 +1,6 @@
 ---
 name: claude-flow-swarm
-description: Coordinate multi-agent swarms for complex tasks
+description: 복잡한 작업을 위해 멀티 에이전트 스웜을 조율합니다
 ---
 
 # 🐝 Claude-Flow Swarm Coordination

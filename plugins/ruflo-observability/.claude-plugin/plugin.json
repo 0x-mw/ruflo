@@ -1,6 +1,6 @@
 {
   "name": "ruflo-observability",
-  "description": "Structured logging, distributed tracing, and metrics — correlate agent swarm activity with application telemetry. As a mod (ADR-445): a tighten-only guard on its tools, /observe-mod, and a status file the console shows",
+  "description": "구조화 로깅, 분산 트레이싱, 메트릭 — 에이전트 스웜 활동을 애플리케이션 텔레메트리와 연관. mod(ADR-445)로서 도구에 대한 강화 전용 가드, /observe-mod, 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -25,8 +25,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Guard",
-      "description": "Refuse calls and memory writes that hold a secret, SSN or card number. On by default.",
+      "title": "가드",
+      "description": "비밀, SSN, 카드 번호가 들어 있는 호출과 메모리 쓰기를 거부합니다. 기본값은 켜짐.",
       "required": false,
       "default": "on",
       "options": [

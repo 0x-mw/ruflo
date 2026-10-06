@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/neon.ts",
+  "entries": [
+    {
+      "key": "Ruflo",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/neon.ts:42 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

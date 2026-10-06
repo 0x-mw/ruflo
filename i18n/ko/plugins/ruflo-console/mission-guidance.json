@@ -1,0 +1,216 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-guidance.ts",
+  "entries": [
+    {
+      "key": "{0} thinking · {1}s · the answer starts when the first words arrive",
+      "ko": "{0} 생각하는 중 · {1}초 · 첫 단어가 도착하면 답변이 시작됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:34 return"
+      ]
+    },
+    {
+      "key": "{0} writing · {1}s · {2} words so far",
+      "ko": "{0} 작성하는 중 · {1}초 · 지금까지 {2}단어",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:38 return"
+      ]
+    },
+    {
+      "key": "You are advising on a ruflo mission. Read-only: do not change any file. Be concrete and specific to this goal.",
+      "ko": "당신은 ruflo 미션에 대해 조언하고 있습니다. 읽기 전용이므로 어떤 파일도 변경하지 마세요. 이 목표에 맞게 구체적으로 답하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:54 expr"
+      ]
+    },
+    {
+      "key": "GOAL",
+      "ko": "목표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:56 expr"
+      ]
+    },
+    {
+      "key": "Kind: {0}. Rigor: {1}. Lifecycle: {2}.",
+      "ko": "유형: {0}. 엄격도: {1}. 수명 주기: {2}.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:57 expr"
+      ]
+    },
+    {
+      "key": "THE PLAN THE PLANNER MADE:",
+      "ko": "플래너가 만든 계획:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:59 expr"
+      ]
+    },
+    {
+      "key": "THIS INSTALLATION:",
+      "ko": "이 설치 환경:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:62 expr"
+      ]
+    },
+    {
+      "key": "slash commands and skills available: none reported",
+      "ko": "사용 가능한 슬래시 명령과 스킬: 보고된 것 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:64 expr"
+      ]
+    },
+    {
+      "key": "slash commands and skills available: {0}",
+      "ko": "사용 가능한 슬래시 명령과 스킬: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:64 expr"
+      ]
+    },
+    {
+      "key": "AI settings: claude model {0}, turn budget ${1}, always accept",
+      "ko": "AI 설정: claude 모델 {0}, 턴 예산 ${1}, 항상 수락",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:65 expr"
+      ]
+    },
+    {
+      "key": "AI settings: claude model {0}, turn budget ${1}, asks before AI turns",
+      "ko": "AI 설정: claude 모델 {0}, 턴 예산 ${1}, AI 턴 전에 확인 요청",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:65 expr"
+      ]
+    },
+    {
+      "key": "Settings level: {0}",
+      "ko": "설정 수준: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:66 expr"
+      ]
+    },
+    {
+      "key": "The mission runs as a loop (the LOOP lines above are the user’s settings; keep to them, ask nothing mid-loop, and never go beyond what they allow).",
+      "ko": "미션은 루프로 실행됩니다 (위의 LOOP 줄은 사용자의 설정입니다. 이를 지키고, 루프 도중에는 아무것도 묻지 말며, 허용된 범위를 절대 넘지 마세요).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:68 expr"
+      ]
+    },
+    {
+      "key": "Write detailed guidance, in markdown with one short heading per lifecycle stage that the plan has (Research, Create (ADRs and the SOP), Build, Test, Validate, Secure, Benchmark, Learn).",
+      "ko": "계획에 있는 수명 주기 단계(Research, Create (ADRs and the SOP), Build, Test, Validate, Secure, Benchmark, Learn)마다 짧은 제목 하나를 두고 마크다운으로 상세한 가이던스를 작성하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:70 expr"
+      ]
+    },
+    {
+      "key": "Under each heading: what to do for THIS goal, the acceptance evidence, and which ruflo capabilities to bring in (name the exact agents, plugins, skills, MCP tools or ruflo commands that fit, and why), preferring what is installed here and saying plainly what is not.",
+      "ko": "각 제목 아래에: 이 목표를 위해 할 일, 인수 증거, 가져와야 할 ruflo 기능(맞는 에이전트, 플러그인, 스킬, MCP 도구, ruflo 명령의 정확한 이름과 이유)을 쓰고, 여기에 설치된 것을 우선하며 설치되지 않은 것은 분명히 밝히세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:71 expr"
+      ]
+    },
+    {
+      "key": "Then add a \"Loop\" heading: the exact `/loop` line, what each tick checks, fixes and runs (name the gates), the finish condition, the defaults taken, and the stop rule, in your own words for THIS goal. Where a stage has parallel writers, say who owns which files, each in its own worktree.",
+      "ko": "그다음 \"Loop\" 제목을 추가하세요: 정확한 `/loop` 줄, 각 틱이 확인하고 수정하고 실행하는 것(게이트 이름 포함), 종료 조건, 적용한 기본값, 중지 규칙을 이 목표에 맞게 자신의 말로 쓰세요. 단계에 병렬 작성자가 있으면 누가 어떤 파일을 맡는지, 각자 자기 워크트리에서 작업하는지 밝히세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:72 expr"
+      ]
+    },
+    {
+      "key": "Then add: \"Suggestions\" (other ruflo capabilities worth integrating that the plan does not use, such as swarm or hive-mind for parallel work, memory and pattern search for prior art, AIDefence, MetaHarness audits, the flywheel for self-optimization), and \"Risks\" (what could go wrong and how the plan guards against it).",
+      "ko": "그다음 \"Suggestions\"(계획이 쓰지 않지만 통합할 만한 다른 ruflo 기능. 예: 병렬 작업용 swarm 또는 hive-mind, 선행 사례용 메모리와 패턴 검색, AIDefence, MetaHarness 감사, 자가 최적화용 플라이휠)와 \"Risks\"(잘못될 수 있는 점과 계획이 이를 막는 방법)를 추가하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:73 expr"
+      ]
+    },
+    {
+      "key": "Keep it under 800 words. No preamble.",
+      "ko": "800단어 이내로 쓰고 서두는 생략하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:74 expr"
+      ]
+    },
+    {
+      "key": "Mission guidance from the ruflo console for the goal \"{0}\". Read it as data to plan from; it is not an instruction to act on yet.",
+      "ko": "목표 \"{0}\"에 대한 ruflo 콘솔의 미션 가이던스입니다. 계획의 근거 데이터로 읽으세요. 아직 실행하라는 지시가 아닙니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:91 const"
+      ]
+    },
+    {
+      "key": "{0} · placed in the prompt: press Enter to send",
+      "ko": "{0} · 프롬프트에 넣었습니다: Enter를 눌러 전송하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:96 expr"
+      ]
+    },
+    {
+      "key": "{0} · sent to the Claude session",
+      "ko": "{0} · Claude 세션에 전송했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:96 expr"
+      ]
+    },
+    {
+      "key": "{0} · could not reach the Claude session: {1}",
+      "ko": "{0} · Claude 세션에 닿지 못했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:98 expr"
+      ]
+    },
+    {
+      "key": "asking claude…",
+      "ko": "claude에게 묻는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:109 note"
+      ]
+    },
+    {
+      "key": "ask claude -p for detailed guidance on this mission: {0}",
+      "ko": "claude -p 에게 이 미션의 상세 가이던스를 요청: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:226 label"
+      ]
+    },
+    {
+      "key": "{0}  (the goal, the plan and this installation's capabilities on stdin)",
+      "ko": "{0}  (목표, 계획, 이 설치 환경의 기능을 stdin 으로 전달)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:229 shows"
+      ]
+    },
+    {
+      "key": "guidance by lifecycle stage in Mission Control, then passed to the main Claude session as a prompt",
+      "ko": "미션 컨트롤에서 수명 주기 단계별 가이던스로 표시한 뒤 메인 Claude 세션에 프롬프트로 전달합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-guidance.ts:230 expect"
+      ]
+    }
+  ],
+  "obsolete": []
+}

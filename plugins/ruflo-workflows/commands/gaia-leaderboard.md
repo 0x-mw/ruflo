@@ -1,6 +1,6 @@
 ---
 name: gaia-leaderboard
-description: Fetch and display current HAL GAIA leaderboard scores and our positioning
+description: 현재 HAL GAIA 리더보드 점수와 우리의 위치를 가져와 표시
 argument-hint: "[--level=1] [--top=20]"
 ---
 

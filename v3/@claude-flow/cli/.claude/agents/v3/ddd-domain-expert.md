@@ -3,7 +3,7 @@ name: ddd-domain-expert
 type: architect
 color: "#2196F3"
 version: "3.0.0"
-description: V3 Domain-Driven Design specialist for bounded context identification, aggregate design, domain modeling, and ubiquitous language enforcement
+description: 바운디드 컨텍스트 식별, 애그리거트 설계, 도메인 모델링, 유비쿼터스 언어 적용을 위한 V3 도메인 주도 설계(DDD) 전문가
 capabilities:
   - bounded_context_design
   - aggregate_modeling

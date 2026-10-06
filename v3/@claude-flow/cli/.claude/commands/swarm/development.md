@@ -1,3 +1,7 @@
+---
+description: 개발 스웜 전략
+---
+
 # Development Swarm Strategy
 
 ## Purpose

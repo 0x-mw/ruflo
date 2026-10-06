@@ -1,6 +1,6 @@
 ---
 name: jujutsu
-description: Git diff analysis with risk scoring and change classification
+description: 위험 점수 산정과 변경 분류를 포함한 Git diff 분석
 ---
 
 Analyze current git changes:

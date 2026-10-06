@@ -1,6 +1,6 @@
 ---
 name: deepseek-architect
-description: DeepSeek harness architect for ruflo. Surfaces DeepSeek's chat and reasoning models via skills; enforces the ADR-150 removability contract (this plugin as optional augmentation, never a required runtime dep); routes between deepseek-chat and deepseek-reasoner based on task shape
+description: ruflo용 DeepSeek 하네스 설계자. 스킬을 통해 DeepSeek의 채팅 및 추론 모델을 제공하고, ADR-150 제거 가능성 계약(이 플러그인은 선택적 확장이며 필수 런타임 의존성이 아님)을 강제하며, 작업 형태에 따라 deepseek-chat과 deepseek-reasoner 사이를 라우팅
 model: haiku
 ---
 

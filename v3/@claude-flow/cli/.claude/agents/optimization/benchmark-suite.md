@@ -2,7 +2,7 @@
 name: Benchmark Suite
 type: agent
 category: optimization
-description: Comprehensive performance benchmarking, regression detection and performance validation
+description: 종합 성능 벤치마킹, 회귀 감지, 성능 검증
 ---
 
 # Benchmark Suite Agent

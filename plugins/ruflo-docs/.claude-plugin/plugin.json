@@ -1,6 +1,6 @@
 {
   "name": "ruflo-docs",
-  "description": "Documentation generation, API docs (JSDoc/TSDoc/OpenAPI), and drift detection — drives the `document` background worker via hooks_worker-dispatch; uses Haiku model for cost-efficient docs work",
+  "description": "문서 생성, API 문서(JSDoc/TSDoc/OpenAPI), 드리프트 탐지 — hooks_worker-dispatch를 통해 `document` 백그라운드 워커를 구동하며, 비용 효율적인 문서 작업에 Haiku 모델을 사용",
   "version": "0.3.2",
   "author": {
     "name": "ruvnet",
@@ -23,8 +23,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse docs memory writes and the document worker that hold a key, token or password. On by default; it only ever tightens.",
+      "title": "비밀 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 문서 메모리 쓰기와 document 워커를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
       "required": false,
       "default": "on",
       "options": [

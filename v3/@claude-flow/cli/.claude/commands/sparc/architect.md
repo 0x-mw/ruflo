@@ -1,3 +1,7 @@
+---
+description: SPARC 아키텍트 모드
+---
+
 # SPARC Architect Mode
 
 ## Purpose

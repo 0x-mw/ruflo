@@ -1,3 +1,7 @@
+---
+description: 조율 상태 확인
+---
+
 # Check Coordination Status
 
 ## 🎯 Key Principle

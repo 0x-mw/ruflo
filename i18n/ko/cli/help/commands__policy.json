@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/policy.ts",
+  "entries": [
+    {
+      "key": "Agentic policy engine — evaluate actions, manage rules/approvals, and verify the decision ledger (ADR-324)",
+      "ko": "에이전트 정책 엔진 — 행동을 평가하고, 규칙/승인을 관리하며, 결정 원장을 검증합니다 (ADR-324)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/policy.ts:39 description"
+      ]
+    },
+    {
+      "key": "Policy mode: legacy | observe | enforce",
+      "ko": "정책 모드: legacy | observe | enforce",
+      "kind": "text",
+      "ctx": [
+        "src/commands/policy.ts:41 description"
+      ]
+    },
+    {
+      "key": "Project root containing .claude-flow/policy",
+      "ko": ".claude-flow/policy가 있는 프로젝트 루트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/policy.ts:42 description"
+      ]
+    },
+    {
+      "key": "Show policy mode and ledger health",
+      "ko": "정책 모드와 원장 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/policy.ts:116 description"
+      ]
+    },
+    {
+      "key": "Migrate an existing install without blocking legacy actions",
+      "ko": "기존 설치를 레거시 행동을 차단하지 않고 마이그레이션합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/policy.ts:117 description"
+      ]
+    },
+    {
+      "key": "Set an atomic policy budget ceiling",
+      "ko": "원자적 정책 예산 상한을 설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/policy.ts:118 description"
+      ]
+    },
+    {
+      "key": "Evaluate an action and write a decision receipt",
+      "ko": "행동을 평가하고 결정 영수증을 기록합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/policy.ts:119 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

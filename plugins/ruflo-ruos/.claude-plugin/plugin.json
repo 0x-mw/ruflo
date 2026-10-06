@@ -1,6 +1,6 @@
 {
   "name": "ruflo-ruos",
-  "description": "Run ruflo swarm agents on your own ruOS cloud desktops via the tenant-authenticated fleet MCP or per-tenant SSH; optional and removable (ADR-405)",
+  "description": "테넌트 인증 플릿 MCP 또는 테넌트별 SSH를 통해 본인의 ruOS 클라우드 데스크톱에서 ruflo 스웜 에이전트를 실행합니다. 선택적이며 제거 가능(ADR-405)",
   "version": "0.1.1",
   "author": {
     "name": "ruvnet",

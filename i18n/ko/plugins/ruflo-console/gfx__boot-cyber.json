@@ -1,0 +1,174 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/boot-cyber.ts",
+  "entries": [
+    {
+      "key": "Harness",
+      "ko": "하네스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 MetaHarness",
+        "plugins/ruflo-console/hooks/views/terminal.ts:197 section()"
+      ]
+    },
+    {
+      "key": "Evolution",
+      "ko": "진화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 Self-Evolution"
+      ]
+    },
+    {
+      "key": "Plugins",
+      "ko": "플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 Plugins & Mods",
+        "plugins/ruflo-console/hooks/state.ts:50 label",
+        "plugins/ruflo-console/hooks/views/plugin-catalog.ts:161 rule()"
+      ]
+    },
+    {
+      "key": "Catalog",
+      "ko": "카탈로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 Plugin Catalog"
+      ]
+    },
+    {
+      "key": "Cost",
+      "ko": "비용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 Cost & Budget",
+        "plugins/ruflo-console/hooks/state.ts:54 label",
+        "plugins/ruflo-console/hooks/views/bar.ts:183 label"
+      ]
+    },
+    {
+      "key": "Perf",
+      "ko": "성능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 Performance"
+      ]
+    },
+    {
+      "key": "Terminal",
+      "ko": "터미널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 AI Terminal",
+        "plugins/ruflo-console/hooks/state.ts:60 label"
+      ]
+    },
+    {
+      "key": "{0}  =  rUv · the stars were always there",
+      "ko": "{0}  =  rUv · 별들은 언제나 그곳에 있었다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:73 return"
+      ]
+    },
+    {
+      "key": "no live swarm data yet: a quiet project is a clean slate",
+      "ko": "아직 실시간 스웜 데이터가 없습니다: 조용한 프로젝트는 백지 상태입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:148 text()"
+      ]
+    },
+    {
+      "key": "▌ {0} ▐  {1} · ruflo v{2}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:179 fit()"
+      ]
+    },
+    {
+      "key": "▌ RUV.NET // RUVECTOR ▐  {0} · v{1}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:179 fit()"
+      ]
+    },
+    {
+      "key": "{0} failed · {1} star dark",
+      "ko": "실패 {0} · 꺼진 별 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:217 const"
+      ]
+    },
+    {
+      "key": "{0} failed · {1} stars dark",
+      "ko": "실패 {0} · 꺼진 별 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:217 const"
+      ]
+    },
+    {
+      "key": "{0} star dark",
+      "ko": "꺼진 별 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:217 const"
+      ]
+    },
+    {
+      "key": "{0} stars dark",
+      "ko": "꺼진 별 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:217 const"
+      ]
+    },
+    {
+      "key": "ALL STARS ALIGNED · {0} areas verified · press a key or click",
+      "ko": "모든 별 정렬 완료 · 영역 {0}개 검증됨 · 아무 키나 누르거나 클릭하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:221 fit()"
+      ]
+    },
+    {
+      "key": "ALL STARS ALIGNED · {0} verified · press a key",
+      "ko": "모든 별 정렬 완료 · {0}개 검증됨 · 아무 키나 누르세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:221 fit()"
+      ]
+    },
+    {
+      "key": "ALL STARS ALIGNED",
+      "ko": "모든 별 정렬 완료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:221 fit()"
+      ]
+    },
+    {
+      "key": "READY · {0} of {1} areas verified{2} · press a key or click",
+      "ko": "준비 완료 · 영역 {1}개 중 {0}개 검증됨{2} · 아무 키나 누르거나 클릭하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:222 fit()"
+      ]
+    },
+    {
+      "key": "READY · {0}/{1} verified{2} · press a key",
+      "ko": "준비 완료 · {0}/{1} 검증됨{2} · 아무 키나 누르세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:222 fit()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

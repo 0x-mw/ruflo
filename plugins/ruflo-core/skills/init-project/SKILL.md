@@ -1,6 +1,6 @@
 ---
 name: init-project
-description: Initialize a new Ruflo project with MCP tools, hooks, and agent configuration. Use when setting up Ruflo in a fresh repo, or when the user says "init ruflo", "set up ruflo", or asks how to bootstrap the MCP server, hooks, and agent configs from scratch.
+description: MCP 도구, 훅, 에이전트 설정으로 새 Ruflo 프로젝트를 초기화합니다. 새 저장소에 Ruflo를 설정할 때, 또는 사용자가 "init ruflo"("ruflo 초기화"), "set up ruflo"("ruflo 설정")라고 하거나 MCP 서버, 훅, 에이전트 설정을 처음부터 부트스트랩하는 방법을 물을 때 사용합니다.
 argument-hint: "[--preset standard|minimal|full]"
 allowed-tools: Bash(npx *) Read Write Edit
 ---

@@ -1,0 +1,388 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/manage.ts",
+  "entries": [
+    {
+      "key": "last {0} · observed since the console loaded",
+      "ko": "최근 {0} · 콘솔 로드 이후 관찰",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:31 rule()"
+      ]
+    },
+    {
+      "key": "last 15 min · observed since the console loaded",
+      "ko": "최근 15분 · 콘솔 로드 이후 관찰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:31 rule()"
+      ]
+    },
+    {
+      "key": "look back",
+      "ko": "조회 기간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:33 text()"
+      ]
+    },
+    {
+      "key": "no agents and no tool calls seen yet",
+      "ko": "아직 확인된 에이전트와 도구 호출이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:34 picture()"
+      ]
+    },
+    {
+      "key": "{0} agents",
+      "ko": "에이전트 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:34 picture()"
+      ]
+    },
+    {
+      "key": "█ busy · ▁ idle (ruflo agent status, as each read saw it) · ▮ a tool call Claude Code made (main session and subagents)",
+      "ko": "█ 작업 중 · ▁ 유휴 (ruflo agent status, 읽을 때마다 본 상태) · ▮ Claude Code가 한 도구 호출 (메인 세션과 서브에이전트)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:35 text()"
+      ]
+    },
+    {
+      "key": "Who was busy",
+      "ko": "누가 바빴나",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:39 rule()"
+      ]
+    },
+    {
+      "key": "a share of the time each lane was observed in this window",
+      "ko": "이 구간에서 각 레인을 관찰한 시간 중 비율",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:39 rule()"
+      ]
+    },
+    {
+      "key": "no status seen of {0} min",
+      "ko": "{0}분 동안 확인된 상태 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:50 children"
+      ]
+    },
+    {
+      "key": "no status seen",
+      "ko": "확인된 상태 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:50 children",
+        "plugins/ruflo-console/hooks/views/room.ts:121 children"
+      ]
+    },
+    {
+      "key": "busy {0}% of {1} min",
+      "ko": "{1}분 중 {0}% 작업 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:50 children"
+      ]
+    },
+    {
+      "key": "{0} tool call",
+      "ko": "도구 호출 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:51 children",
+        "plugins/ruflo-console/hooks/views/room.ts:121 children"
+      ]
+    },
+    {
+      "key": "{0} tool calls",
+      "ko": "도구 호출 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:51 children",
+        "plugins/ruflo-console/hooks/views/room.ts:121 children"
+      ]
+    },
+    {
+      "key": "✦ ask Claude",
+      "ko": "✦ Claude에게 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:52 label",
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:43 label",
+        "plugins/ruflo-console/hooks/views/optimizer.ts:29 label"
+      ]
+    },
+    {
+      "key": "In my ruflo swarm, the agent \"{0}\" was busy {1}% of {2} minutes with {3} tool calls. Is that healthy, and what should I look at?",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:52 ask()"
+      ]
+    },
+    {
+      "key": "In my ruflo swarm, the agent \"{0}\" was busy n/a% of {1} minutes with {2} tool calls. Is that healthy, and what should I look at?",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:52 ask()"
+      ]
+    },
+    {
+      "key": "timeline",
+      "ko": "타임라인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:60 col()",
+        "plugins/ruflo-console/hooks/watch.ts:123 ask()"
+      ]
+    },
+    {
+      "key": "nothing waiting",
+      "ko": "대기 중인 항목 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:66 rule()"
+      ]
+    },
+    {
+      "key": "{0} waiting · j/k pick",
+      "ko": "{0}건 대기 · j/k로 선택",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:66 rule()"
+      ]
+    },
+    {
+      "key": "No hive-mind proposals, stealable claims, refused mods, permission denies or budget alerts waiting.",
+      "ko": "대기 중인 하이브마인드(hive-mind) 제안, 가로챌 수 있는 클레임, 거부된 mod, 권한 거부, 예산 경고가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:69 text()"
+      ]
+    },
+    {
+      "key": "each action asks y/n before it runs; a permission deny is shown, never loosened from here",
+      "ko": "각 동작은 실행 전에 y/n을 묻습니다. 권한 거부는 표시만 하며 여기서 완화하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:85 text()"
+      ]
+    },
+    {
+      "key": "approvals",
+      "ko": "승인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:87 col()"
+      ]
+    },
+    {
+      "key": "{0} shown · every kind · live",
+      "ko": "{0}개 표시 · 모든 유형 · 실시간(live)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · every kind · paused ({1} new)",
+      "ko": "{0}개 표시 · 모든 유형 · 일시 중지됨 (새 {1}건)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · every kind · \"{1}\" · live",
+      "ko": "{0}개 표시 · 모든 유형 · \"{1}\" · 실시간(live)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · every kind · \"{1}\" · paused ({2} new)",
+      "ko": "{0}개 표시 · 모든 유형 · \"{1}\" · 일시 중지됨 (새 {2}건)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · {1} · live",
+      "ko": "{0}개 표시 · {1} · 실시간(live)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · {1} · paused ({2} new)",
+      "ko": "{0}개 표시 · {1} · 일시 중지됨 (새 {2}건)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · {1} · \"{2}\" · live",
+      "ko": "{0}개 표시 · {1} · \"{2}\" · 실시간(live)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "{0} shown · {1} · \"{2}\" · paused ({3} new)",
+      "ko": "{0}개 표시 · {1} · \"{2}\" · 일시 중지됨 (새 {3}건)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "kind",
+      "ko": "유형",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:106 text()",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:70 text()"
+      ]
+    },
+    {
+      "key": "find",
+      "ko": "찾기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:115 label",
+        "plugins/ruflo-console/hooks/views/manage.ts:115 submitLabel",
+        "plugins/ruflo-console/hooks/views/room.ts:84 label"
+      ]
+    },
+    {
+      "key": "words in an event, or a kind (Enter)",
+      "ko": "이벤트 속 단어나 유형 (Enter)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:115 placeholder"
+      ]
+    },
+    {
+      "key": "pause",
+      "ko": "일시 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:116 label",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:286 label",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:339 label"
+      ]
+    },
+    {
+      "key": "resume",
+      "ko": "재개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:116 label",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:286 label",
+        "plugins/ruflo-console/hooks/views/mission-control.ts:339 label"
+      ]
+    },
+    {
+      "key": "✕ clear find",
+      "ko": "✕ 찾기 지우기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:117 label",
+        "plugins/ruflo-console/hooks/views/room.ts:78 label"
+      ]
+    },
+    {
+      "key": "last 15 min, per minute  {0}  now",
+      "ko": "최근 15분, 분당  {0}  지금",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:122 text()"
+      ]
+    },
+    {
+      "key": "Nothing has changed since the console loaded. Events are what changed between reads, and what this session did.",
+      "ko": "콘솔 로드 이후 바뀐 것이 없습니다. 이벤트는 읽는 사이 바뀐 것과 이 세션이 한 일입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:124 text()"
+      ]
+    },
+    {
+      "key": "no event matches this filter and search",
+      "ko": "이 필터와 검색에 맞는 이벤트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:124 text()"
+      ]
+    },
+    {
+      "key": "✦ ask Claude about this event",
+      "ko": "✦ 이 이벤트를 Claude에게 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:145 label"
+      ]
+    },
+    {
+      "key": "This event appeared in my ruflo console: \"{0}\" (kind {1}). What does it mean, and should I do anything?",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:145 ask()"
+      ]
+    },
+    {
+      "key": "older ▸",
+      "ko": "이전 ▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:150 button()",
+        "plugins/ruflo-console/hooks/views/memory.ts:128 button()",
+        "plugins/ruflo-console/hooks/views/room.ts:111 button()"
+      ]
+    },
+    {
+      "key": "◂ newer",
+      "ko": "◂ 최신",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:150 button()",
+        "plugins/ruflo-console/hooks/views/memory.ts:127 button()",
+        "plugins/ruflo-console/hooks/views/room.ts:111 button()"
+      ]
+    },
+    {
+      "key": "Filter: {0} (cycle)",
+      "ko": "필터: {0} (순환)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:153 button()"
+      ]
+    },
+    {
+      "key": "events",
+      "ko": "이벤트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/manage.ts:155 col()",
+        "plugins/ruflo-console/hooks/views/room.ts:16 label",
+        "plugins/ruflo-console/hooks/watch.ts:123 ask()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

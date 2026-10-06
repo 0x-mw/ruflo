@@ -1,3 +1,7 @@
+---
+description: 최적화 명령어
+---
+
 # Optimization Commands
 
 Commands for optimization operations in Claude Flow.

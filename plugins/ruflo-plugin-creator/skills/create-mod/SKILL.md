@@ -1,6 +1,6 @@
 ---
 name: create-mod
-description: Scaffold a Claude Code mod (a plugin with a function-hooks module) from ruflo's governed template — hybrid hooks.json with a classic fallback, a host adapter over literal $ calls, userConfig options, engine-kit tests and a tsconfig — then validate and test it. Use when the user asks for a mod, a function hook, or wants Claude Code to modify itself.
+description: ruflo의 관리되는 템플릿으로 Claude Code mod(함수 훅 모듈이 있는 플러그인)를 스캐폴딩하고 — 기존 훅 대체 경로가 있는 하이브리드 hooks.json, 리터럴 $ 호출 위의 호스트 어댑터, userConfig 옵션, engine-kit 테스트, tsconfig — 이를 검증하고 테스트합니다. 사용자가 mod나 함수 훅을 요청하거나 Claude Code가 스스로를 수정하게 하려 할 때 사용합니다.
 argument-hint: "<mod-name>"
 allowed-tools: Bash Read Write Edit
 ---

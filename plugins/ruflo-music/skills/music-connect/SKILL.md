@@ -1,6 +1,6 @@
 ---
 name: music-connect
-description: One-time setup — mint a Cognitum Music personal access token and register the cogmusic MCP server with Claude Code
+description: 최초 1회 설정 — Cognitum Music 개인 액세스 토큰을 발급하고 cogmusic MCP 서버를 Claude Code에 등록
 allowed-tools: Bash WebFetch
 argument-hint: "[--token cogmcp_...]"
 ---

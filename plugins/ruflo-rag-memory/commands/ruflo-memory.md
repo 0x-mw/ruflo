@@ -1,6 +1,6 @@
 ---
 name: ruflo-memory
-description: SOTA memory CRUD — store, search (hybrid/graph-rag/dense), retrieve, list, consolidate
+description: 최신 수준(SOTA) 메모리 CRUD — 저장, 검색(hybrid/graph-rag/dense), 조회, 목록, 통합
 ---
 $ARGUMENTS
 

@@ -1,0 +1,185 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/memory-lines.ts",
+  "entries": [
+    {
+      "key": "{0}/{1} · {2} chars · read {3}× · has a vector · updated {4}",
+      "ko": "{0}/{1} · {2}자 · 읽기 {3}× · 벡터 있음 · 수정 {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} · {2} chars · read {3}× · has a vector",
+      "ko": "{0}/{1} · {2}자 · 읽기 {3}× · 벡터 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} · {2} chars · read {3}× · no vector · updated {4}",
+      "ko": "{0}/{1} · {2}자 · 읽기 {3}× · 벡터 없음 · 수정 {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} · {2} chars · read {3}× · no vector",
+      "ko": "{0}/{1} · {2}자 · 읽기 {3}× · 벡터 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} · {2} chars · read n/a× · has a vector · updated {3}",
+      "ko": "{0}/{1} · {2}자 · 읽기 해당 없음× · 벡터 있음 · 수정 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} · {2} chars · read n/a× · has a vector",
+      "ko": "{0}/{1} · {2}자 · 읽기 해당 없음× · 벡터 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} · {2} chars · read n/a× · no vector · updated {3}",
+      "ko": "{0}/{1} · {2}자 · 읽기 해당 없음× · 벡터 없음 · 수정 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0}/{1} · {2} chars · read n/a× · no vector",
+      "ko": "{0}/{1} · {2}자 · 읽기 해당 없음× · 벡터 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:67 const"
+      ]
+    },
+    {
+      "key": "{0} hit · {1} · {2} · searched {3}",
+      "ko": "{0}건 일치 · {1} · {2} · 검색 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+      ]
+    },
+    {
+      "key": "{0} hit · {1} · searched {2}",
+      "ko": "{0}건 일치 · {1} · 검색 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+      ]
+    },
+    {
+      "key": "{0} hit · searched {1}",
+      "ko": "{0}건 일치 · 검색 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+      ]
+    },
+    {
+      "key": "{0} hits · {1} · {2} · searched {3}",
+      "ko": "{0}건 일치 · {1} · {2} · 검색 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+      ]
+    },
+    {
+      "key": "{0} hits · {1} · searched {2}",
+      "ko": "{0}건 일치 · {1} · 검색 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+      ]
+    },
+    {
+      "key": "{0} hits · searched {1}",
+      "ko": "{0}건 일치 · 검색 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+      ]
+    },
+    {
+      "key": "degraded: {0}",
+      "ko": "성능 저하: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:76 expr",
+        "plugins/ruflo-console/hooks/views/anatole.ts:81 text()"
+      ]
+    },
+    {
+      "key": "(no matches)",
+      "ko": "(일치 항목 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:78 return"
+      ]
+    },
+    {
+      "key": "(no entries)",
+      "ko": "(항목 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:96 return"
+      ]
+    },
+    {
+      "key": "{0} entries",
+      "ko": "항목 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:99 return"
+      ]
+    },
+    {
+      "key": "AgentDB available · {0}/{1} controllers on",
+      "ko": "AgentDB 사용 가능 · 컨트롤러 {0}/{1} 켜짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:113 return"
+      ]
+    },
+    {
+      "key": "AgentDB NOT available · {0}/{1} controllers on",
+      "ko": "AgentDB 사용 불가 · 컨트롤러 {0}/{1} 켜짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:113 return"
+      ]
+    },
+    {
+      "key": "{0} dimensions · norm {1} · {2}",
+      "ko": "{0}차원 · 노름 {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:125 return"
+      ]
+    },
+    {
+      "key": "{0} dimensions · norm {1}",
+      "ko": "{0}차원 · 노름 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/memory-lines.ts:125 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

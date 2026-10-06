@@ -1,0 +1,1394 @@
+{
+  "plugin:ruflo-adr": {
+    "en": "ADR lifecycle management — create, index, reconcile, supersede, check compliance, and link Architecture Decision Records to code via AgentDB hierarchical store + causal edges (supersedes/amends/depends-on/related)",
+    "ko": "ADR 수명 주기 관리 — AgentDB 계층형 저장소와 인과 엣지(supersedes/amends/depends-on/related)를 통해 아키텍처 결정 기록(ADR)을 생성, 인덱싱, 조정, 대체하고 규정 준수를 확인하며 코드에 연결",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-adr#userConfig.guard.description": {
+    "en": "Refuse ADR writes (agentdb_hierarchical-store, agentdb_causal-edge, memory_store into an adr* namespace) that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 ADR 쓰기(agentdb_hierarchical-store, agentdb_causal-edge, adr* 네임스페이스로의 memory_store)를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-adr#userConfig.guard.title": {
+    "en": "ADR guard",
+    "ko": "ADR 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agent": {
+    "en": "Agent runtimes for ruflo — local WASM-sandboxed agents (rvagent: 10 wasm_agent_*/wasm_gallery_* MCP tools, built on @ruvector/rvagent-wasm + @ruvector/ruvllm-wasm per ADR-070) plus Anthropic Claude Managed Agents as a cloud backend (managed_agent_* MCP tools per ADR-115). One interface, local-vs-cloud runtimes.",
+    "ko": "ruflo용 에이전트 런타임 — 로컬 WASM 샌드박스 에이전트(rvagent: ADR-070에 따라 @ruvector/rvagent-wasm + @ruvector/ruvllm-wasm 기반으로 만든 wasm_agent_*/wasm_gallery_* MCP 도구 10개)와 클라우드 백엔드인 Anthropic Claude Managed Agents(ADR-115의 managed_agent_* MCP 도구). 하나의 인터페이스로 로컬/클라우드 런타임을 지원합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agent#userConfig.guard.description": {
+    "en": "Refuse text sent into an agent runtime (wasm_agent_prompt, wasm_agent_tool, wasm_agent_create, wasm_gallery_create, managed_agent_create, managed_agent_prompt) that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 에이전트 런타임 입력 텍스트(wasm_agent_prompt, wasm_agent_tool, wasm_agent_create, wasm_gallery_create, managed_agent_create, managed_agent_prompt)를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agent#userConfig.guard.title": {
+    "en": "Agent guard",
+    "ko": "에이전트 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb": {
+    "en": "Substrate plugin for Ruflo memory: AgentDB controller bridge (15 agentdb_* MCP tools), RuVector ONNX embeddings (10 embeddings_* tools incl. RaBitQ 32x quantization), and WASM HNSW pattern router (3 ruvllm_hnsw_* tools). As a mod (ADR-445): opt-in safe recall into the prompt, a write guard that keeps secrets out of memory, /agentdb, and a status file the console shows",
+    "ko": "Ruflo 메모리의 기반 플러그인: AgentDB 컨트롤러 브리지(agentdb_* MCP 도구 15개), RuVector ONNX 임베딩(RaBitQ 32배 양자화를 포함한 embeddings_* 도구 10개), WASM HNSW 패턴 라우터(ruvllm_hnsw_* 도구 3개). mod(ADR-445)로서 프롬프트에 안전하게 메모리를 불러오는 옵트인 기능, 비밀이 메모리에 들어가지 않게 하는 쓰기 가드, /agentdb, 콘솔이 보여 주는 상태 파일을 제공",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.guard.description": {
+    "en": "Refuse memory writes that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 메모리 쓰기를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.recall.description": {
+    "en": "Attach the best few matching memories to each prompt as retrieved data. Off by default: it adds tokens to every prompt.",
+    "ko": "일치하는 메모리 중 가장 좋은 몇 개를 조회된 데이터로 각 프롬프트에 첨부합니다. 기본값은 꺼짐: 모든 프롬프트에 토큰이 추가됩니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.recall.title": {
+    "en": "Recall into prompts",
+    "ko": "프롬프트에 메모리 불러오기",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.recallDeadlineMs.description": {
+    "en": "Give up and send the prompt without memory after this long, 200 to 3000.",
+    "ko": "이 시간(200~3000)이 지나면 포기하고 메모리 없이 프롬프트를 보냅니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.recallDeadlineMs.title": {
+    "en": "Recall deadline (ms)",
+    "ko": "불러오기 제한 시간(ms)",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.recallLimit.description": {
+    "en": "How many memories to attach, 1 to 5.",
+    "ko": "첨부할 메모리 개수(1~5)입니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.recallLimit.title": {
+    "en": "Memories per prompt",
+    "ko": "프롬프트당 메모리 수",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.source.description": {
+    "en": "Which connected tool to read: auto (AgentDB, then ruvector), agentdb, ruvector, or none.",
+    "ko": "읽어 올 연결된 도구: auto(AgentDB, 그다음 ruvector), agentdb, ruvector, none 중 하나입니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agentdb#userConfig.source.title": {
+    "en": "Memory source",
+    "ko": "메모리 소스",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-agntcy": {
+    "en": "AGNTCY/Outshift Internet-of-Cognition runtime integration for Ruflo — SLIM secure transport for cross-host agent coordination, CASA intent-scoped tool authorization enforcement, optional IOC Layer 9 coordination events, and AGNTCY identity/observability spans (ADR-380). Optional, removable augmentation per ADR-150; degrades gracefully when AGNTCY/SLIM packages are not installed.",
+    "ko": "Ruflo용 AGNTCY/Outshift Internet-of-Cognition 런타임 통합 — 호스트 간 에이전트 조율을 위한 SLIM 보안 전송, CASA 의도 범위 도구 권한 부여 강제, 선택적 IOC Layer 9 조율 이벤트, AGNTCY 신원/관측 스팬(ADR-380). ADR-150에 따른 선택적이며 제거 가능한 확장 기능이고, AGNTCY/SLIM 패키지가 설치되지 않으면 기능이 단계적으로 축소됩니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ai-team": {
+    "en": "Give Claude a tenant-isolated AI team that divides work, coordinates progress, recalls approved context, and returns evidence-backed results.",
+    "ko": "Claude에게 작업을 나누고, 진행 상황을 조율하고, 승인된 컨텍스트를 불러오고, 근거 기반 결과를 돌려주는 테넌트 격리형 AI 팀을 제공합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ai-team#userConfig.guard.description": {
+    "en": "Refuse what goes into team memory and task or run records (memory_remember, task_create, task_update, run_create on the ruflo-ai-team server) that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 팀 메모리와 작업/실행 기록(ruflo-ai-team 서버의 memory_remember, task_create, task_update, run_create) 쓰기를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ai-team#userConfig.guard.title": {
+    "en": "AI Team guard",
+    "ko": "AI Team 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-aidefence": {
+    "en": "AI safety scanning, PII detection, prompt injection defense, and adaptive threat learning",
+    "ko": "AI 안전 스캔, PII 탐지, 프롬프트 인젝션 방어, 적응형 위협 학습",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-aidefence#userConfig.guard.description": {
+    "en": "Refuse what aidefence_learn teaches the detector (patterns persist and are shown back later) that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, aidefence_learn이 탐지기에 가르치는 내용(패턴은 저장되어 나중에 다시 표시됨)을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-aidefence#userConfig.guard.title": {
+    "en": "AIDefence guard",
+    "ko": "AIDefence 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-arena": {
+    "en": "Competitive ruliology for Ruflo swarms — arenas, tournaments, and adaptive co-evolution of program strategies (ADR-147/148). Strategies-as-programs compete under payoff games; tournaments produce Wolfram-style competitive arrays; hill-climb and mutual co-evolution discover winners empirically.",
+    "ko": "Ruflo 스웜을 위한 경쟁적 룰리올로지 — 아레나, 토너먼트, 프로그램 전략의 적응형 공진화(ADR-147/148). 프로그램으로 표현된 전략이 보상 게임에서 경쟁하며, 토너먼트는 울프럼 방식의 경쟁 배열을 만들고, 힐 클라이밍과 상호 공진화로 승자를 경험적으로 찾아냅니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-autopilot": {
+    "en": "Autonomous /loop-driven task completion with learning, prediction, and progress tracking — wraps 10 autopilot_* MCP tools (status/enable/disable/config/reset/log/progress/learn/history/predict)",
+    "ko": "학습, 예측, 진행 상황 추적을 갖춘 /loop-driven 방식의 자율 작업 완료 — autopilot_* MCP 도구 10개(status/enable/disable/config/reset/log/progress/learn/history/predict)를 감쌉니다",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-autopilot#userConfig.guard.description": {
+    "en": "Refuse the autopilot log and learned patterns (autopilot_log, autopilot_learn) and a runaway loop limit on autopilot_config (maxIterations over the cap) that hold a key, token or password, and a loop limit over the cap.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 오토파일럿 로그와 학습된 패턴(autopilot_log, autopilot_learn), 그리고 상한을 넘는 폭주 루프 제한(autopilot_config의 maxIterations)을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-autopilot#userConfig.guard.title": {
+    "en": "Autopilot guard",
+    "ko": "오토파일럿 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-autopilot#userConfig.iterationCap.description": {
+    "en": "Refuse an autopilot_config maxIterations above this (10 to 100000).",
+    "ko": "이 값(10~100000)을 넘는 autopilot_config maxIterations를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-autopilot#userConfig.iterationCap.title": {
+    "en": "Iteration cap",
+    "ko": "반복 상한",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-bbs-federation": {
+    "en": "AgentBBS cross-host agent federation for ruflo (ADR-164). Phase 1 exposes room coordination — federation_bbs_register / federation_bbs_publish / federation_bbs_watch / federation_bbs_human_join. Phase 2 (v3.40.0) adds signed cross-host federation — federation_bbs_identity (persistent Ed25519 node identity), federation_bbs_peer_add (pin a peer by nodeId + public key), federation_bbs_peers (audit/unpin), federation_bbs_serve (read-only pull endpoint), and federation_bbs_sync (pull pinned peers and union-merge what verifies). Every merged envelope is Ed25519-verified against a pinned key; unsigned/misattributed/oversize/over-hop envelopes are dropped and counted. Transport is HTTP pull and works on any network (Tailscale, LAN, VPN, loopback) — no tailnet required. Coordinates work ownership via claim messages (ClaimIssued/Released/Handoff/Ack). agentbbs lives in optionalDependencies; every handler gracefully degrades to {degraded:true} when the package is missing (ADR-150 pattern). As a mod (ADR-445 pattern): a tighten-only tool guard, a local slash command, and a status file the console shows.",
+    "ko": "ruflo용 AgentBBS 호스트 간 에이전트 페더레이션(ADR-164). 1단계는 룸 조율(federation_bbs_register / federation_bbs_publish / federation_bbs_watch / federation_bbs_human_join)을 제공합니다. 2단계(v3.40.0)는 서명된 호스트 간 페더레이션을 추가합니다 — federation_bbs_identity(영속 Ed25519 노드 신원), federation_bbs_peer_add(nodeId + 공개 키로 피어 고정), federation_bbs_peers(감사/고정 해제), federation_bbs_serve(읽기 전용 가져오기 엔드포인트), federation_bbs_sync(고정된 피어에서 가져와 검증된 항목을 합집합 병합). 병합되는 모든 엔벨로프는 고정된 키로 Ed25519 검증되며, 서명되지 않았거나 출처가 잘못되었거나 크기 또는 홉 수를 초과한(unsigned/misattributed/oversize/over-hop) 엔벨로프는 버려지고 집계됩니다. 전송은 HTTP 가져오기 방식이며 모든 네트워크(Tailscale, LAN, VPN, 루프백)에서 동작해 tailnet이 필요 없습니다. 클레임 메시지(ClaimIssued/Released/Handoff/Ack)로 작업 소유권을 조율합니다. agentbbs는 optionalDependencies에 있으며, 패키지가 없으면 모든 핸들러가 {degraded:true}로 단계적으로 축소됩니다(ADR-150 패턴). mod(ADR-445 패턴)로서 강화 전용 도구 가드, 로컬 슬래시 명령, 콘솔이 보여 주는 상태 파일을 제공합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-bbs-federation#userConfig.allowWildcardBind.description": {
+    "en": "Let federation_bbs_serve listen on every interface (0.0.0.0). Off by default: bind one routable address.",
+    "ko": "federation_bbs_serve가 모든 인터페이스(0.0.0.0)에서 수신하도록 허용합니다. 기본값은 꺼짐: 라우팅 가능한 주소 하나에 바인딩합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-bbs-federation#userConfig.allowWildcardBind.title": {
+    "en": "Allow wildcard serve bind",
+    "ko": "와일드카드 serve 바인드 허용",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-bbs-federation#userConfig.guard.description": {
+    "en": "Refuse clearly harmful calls to this plugin's tools (tighten-only: it can only deny, never allow).",
+    "ko": "이 플러그인 도구에 대한 명백히 해로운 호출을 거부합니다(강화 전용: 거부만 가능하며 허용은 하지 않음).",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-bbs-federation#userConfig.guard.title": {
+    "en": "Tool guard",
+    "ko": "도구 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-browser": {
+    "en": "Session-as-skill browser automation: Playwright + RVF cognitive containers + ruvector trajectories + AgentDB selector memory + AIDefence PII/injection gates As a mod (ADR-445 pattern): a tighten-only tool guard, a local slash command, and a status file the console shows.",
+    "ko": "스킬로서의 세션 브라우저 자동화: Playwright + RVF 인지 컨테이너 + ruvector 궤적 + AgentDB 선택자 메모리 + AIDefence PII/인젝션 게이트. mod(ADR-445 패턴)로서 강화 전용 도구 가드, 로컬 슬래시 명령, 콘솔이 보여 주는 상태 파일을 제공합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-browser#userConfig.guard.description": {
+    "en": "Refuse clearly harmful calls to this plugin's tools (tighten-only: it can only deny, never allow).",
+    "ko": "이 플러그인 도구에 대한 명백히 해로운 호출을 거부합니다(강화 전용: 거부만 가능하며 허용은 하지 않음).",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-browser#userConfig.guard.title": {
+    "en": "Tool guard",
+    "ko": "도구 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-browser#userConfig.strictUrls.description": {
+    "en": "Also refuse plain http URLs outside localhost.",
+    "ko": "localhost 밖의 일반 http URL도 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-browser#userConfig.strictUrls.title": {
+    "en": "Strict URLs",
+    "ko": "엄격한 URL",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-business-pods": {
+    "en": "ADR-164 Phase 2 — business-domain pod templates for the federated business autopilot. Ships the sales pod template (templates/sales.json) and a single-tick runner (scripts/pod-tick.mjs) that pre-flights templates via business_pod_validate, reserves budget through a file-based stub ledger (atomic SQLite tracker is Phase 3 per ADR-164.1), resolves each agent role against ruflo's agent registry, constructs dry-run prompts, and posts an envelope summary to the room via federation_bbs_publish. Dry-run by default — --live is reserved for Phase 3 Managed-Agent + claude-p wiring. As a mod (ADR-445 pattern): a tighten-only tool guard, a local slash command, and a status file the console shows.",
+    "ko": "ADR-164 2단계 — 연합형 비즈니스 오토파일럿을 위한 비즈니스 도메인 팟 템플릿. 영업 팟 템플릿(templates/sales.json)과 단일 틱 실행기(scripts/pod-tick.mjs)를 제공하며, 실행기는 business_pod_validate로 템플릿을 사전 점검하고, 파일 기반 스텁 원장으로 예산을 확보하고(원자적 SQLite 추적기는 ADR-164.1의 3단계), 각 에이전트 역할을 ruflo의 에이전트 레지스트리와 대조해 확정하고, 드라이런 프롬프트를 구성하고, federation_bbs_publish로 룸에 엔벨로프 요약을 게시합니다. 기본은 드라이런이며 --live는 3단계 Managed-Agent + claude-p 연동을 위해 예약되어 있습니다. mod(ADR-445 패턴)로서 강화 전용 도구 가드, 로컬 슬래시 명령, 콘솔이 보여 주는 상태 파일을 제공합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-business-pods#userConfig.guard.description": {
+    "en": "Refuse clearly harmful calls to this plugin's tools (tighten-only: it can only deny, never allow).",
+    "ko": "이 플러그인 도구에 대한 명백히 해로운 호출을 거부합니다(강화 전용: 거부만 가능하며 허용은 하지 않음).",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-business-pods#userConfig.guard.title": {
+    "en": "Tool guard",
+    "ko": "도구 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-chatgpt-federation": {
+    "en": "Dedicated ChatGPT Federation MCP publisher with isolated Nostr signing-key custody, OAuth-scoped publishing, and signed public-channel coordination over the Ruflo relay. As a mod (ADR-445 pattern): a tighten-only tool guard, a local slash command, and a status file the console shows.",
+    "ko": "격리된 Nostr 서명 키 보관, OAuth 범위 게시, Ruflo 릴레이를 통한 서명된 공개 채널 조율을 갖춘 전용 ChatGPT Federation MCP 게시자. mod(ADR-445 패턴)로서 강화 전용 도구 가드, 로컬 슬래시 명령, 콘솔이 보여 주는 상태 파일을 제공합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-chatgpt-federation#userConfig.guard.description": {
+    "en": "Refuse clearly harmful calls to this plugin's tools (tighten-only: it can only deny, never allow).",
+    "ko": "이 플러그인 도구에 대한 명백히 해로운 호출을 거부합니다(강화 전용: 거부만 가능하며 허용은 하지 않음).",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-chatgpt-federation#userConfig.guard.title": {
+    "en": "Tool guard",
+    "ko": "도구 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-chatgpt-federation#userConfig.maxPayloadBytes.description": {
+    "en": "Refuse channel_publish payloads larger than this, 256 to 65536.",
+    "ko": "이 크기(256~65536)보다 큰 channel_publish 페이로드를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-chatgpt-federation#userConfig.maxPayloadBytes.title": {
+    "en": "Max publish payload (bytes)",
+    "ko": "게시 페이로드 최대 크기(바이트)",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console": {
+    "en": "ruflo's cockpit inside Claude Code and the one /ruflo command for every ruflo mod (function hooks, early access). Views: overview with health alerts, swarm topology graph, claims flow with TTL rings, federation map, plugin health matrix, learning curve and pipeline, MetaHarness radar and audit trend, memory, cost gauge, agent timeline, approvals queue, event stream, a main menu, an x.ruv.io federation board, an AI terminal (codex, claude or both in remembered sessions, streamed), Skills (npx skills), a Hive-Mind view, a MetaHarness lab, agent drill-down; a command palette for confirm-gated actions through the ruflo CLI; a band above the prompt. Reads ruflo's files and the CLI's local JSON; anything not measured reads n/a. The one network call it makes by itself is a daily read of the published plugin.json at github.com/ruvnet/ruflo to offer an update (Settings → Updates: ask, auto, or off); it installs only through Claude Code's own claude plugin update, and never a new major version without asking.",
+    "ko": "Claude Code 안의 ruflo 콕핏과 모든 ruflo mod(함수 훅, 얼리 액세스)를 위한 단일 /ruflo 명령. 화면: 상태 경고 개요, 스웜 토폴로지 그래프, TTL 링이 있는 클레임 흐름, 페더레이션 지도, 플러그인 상태 매트릭스, 학습 곡선과 파이프라인, MetaHarness 레이더와 감사 추세, 메모리, 비용 게이지, 에이전트 타임라인, 승인 대기열, 이벤트 스트림, 메인 메뉴, x.ruv.io 페더레이션 보드, AI 터미널(codex, claude 또는 둘 다, 기억된 세션에서 스트리밍), 스킬(npx skills), 하이브마인드 화면, MetaHarness 랩, 에이전트 상세 보기. ruflo CLI를 통한 확인 필요 작업용 명령 팔레트와 프롬프트 위 띠도 제공합니다. ruflo의 파일과 CLI의 로컬 JSON을 읽으며, 측정되지 않은 값은 n/a로 표시됩니다. 스스로 하는 유일한 네트워크 호출은 github.com/ruvnet/ruflo에 게시된 plugin.json을 하루 한 번 읽어 업데이트를 제안하는 것이며(설정 → 업데이트: ask, auto, off), Claude Code 자체의 claude plugin update로만 설치하고 새 메이저 버전은 묻지 않고 설치하지 않습니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.bar.description": {
+    "en": "auto shows the one-line ruflo band in a ruflo project; on shows it everywhere; off hides it (the console then adds a 'console' segment to ruflo-mods' status line instead).",
+    "ko": "auto는 ruflo 프로젝트에서 한 줄짜리 ruflo 띠를 표시하고, on은 어디서나 표시하며, off는 숨깁니다(그러면 콘솔이 대신 ruflo-mods의 상태 줄에 'console' 세그먼트를 추가합니다).",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.bar.title": {
+    "en": "Band above the prompt",
+    "ko": "프롬프트 위 띠",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.boot.description": {
+    "en": "With the bbs look, play a dial-up boot screen (modem connect, the RUFLO logo drawing in, every area of the console coming online in a log, a loading bar for the first ruflo reads) when the cockpit opens. At least 5.4 s, at most 8 s.",
+    "ko": "bbs 룩에서 콕핏이 열릴 때 다이얼업 부팅 화면(모뎀 연결, RUFLO 로고 그리기, 콘솔의 각 영역이 로그에 온라인으로 표시됨, 첫 ruflo 읽기용 로딩 바)을 재생합니다. 최소 5.4초, 최대 8초입니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.boot.title": {
+    "en": "Boot screen",
+    "ko": "부팅 화면",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.cli.description": {
+    "en": "How the console reaches ruflo. npx-offline (default) uses the locally cached @claude-flow/cli and never touches the network; npx may download it; ruflo and claude-flow use a global install.",
+    "ko": "콘솔이 ruflo에 접근하는 방식입니다. npx-offline(기본값)은 로컬에 캐시된 @claude-flow/cli를 사용하며 네트워크에 접근하지 않고, npx는 다운로드할 수 있으며, ruflo와 claude-flow는 전역 설치를 사용합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.cli.title": {
+    "en": "ruflo CLI",
+    "ko": "ruflo CLI",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.convoTargets.description": {
+    "en": "endpoint:<name>=<base-url>|<KEY_ENV>|<model>; bbs:<room>; x:<channel>. Names of environment variables, never keys. Default empty: only OpenRouter (OPENROUTER_API_KEY) is offered.",
+    "ko": "endpoint:<name>=<base-url>|<KEY_ENV>|<model>; bbs:<room>; x:<channel>. 키가 아니라 환경 변수 이름을 씁니다. 기본값은 비어 있음: OpenRouter(OPENROUTER_API_KEY)만 제공됩니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.convoTargets.title": {
+    "en": "Conversation targets",
+    "ko": "대화 대상",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.federationNetwork.description": {
+    "en": "Lets the federation and x.ruv.io views ask the public relay (wss://relay.ruv.io) for the roster and the x.ruv.io gateway for its registry. Off by default: without it the console makes no network request.",
+    "ko": "페더레이션 및 x.ruv.io 화면이 공개 릴레이(wss://relay.ruv.io)에 명단을, x.ruv.io 게이트웨이에 레지스트리를 요청하도록 허용합니다. 기본값은 꺼짐: 켜지 않으면 콘솔은 네트워크 요청을 하지 않습니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.federationNetwork.title": {
+    "en": "Ask the federation relay",
+    "ko": "페더레이션 릴레이에 요청",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.fps.description": {
+    "en": "Frame cap while the pane is shown and holds the keys (0 to 12; 0 turns motion off). Hidden, unfocused or closed, nothing animates.",
+    "ko": "패널이 표시되고 키 입력을 받는 동안의 프레임 상한입니다(0~12, 0이면 모션 끔). 숨김, 포커스 없음, 닫힘 상태에서는 아무것도 움직이지 않습니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.fps.title": {
+    "en": "Animation frames per second",
+    "ko": "초당 애니메이션 프레임",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.look.description": {
+    "en": "bbs is the neon BBS look: an ASCII-art banner, ▓▒░ section headers and a cyberpunk palette. plain uses your terminal theme colours and plain rules (better on light backgrounds).",
+    "ko": "bbs는 네온 BBS 룩으로, ASCII 아트 배너, ▓▒░ 섹션 머리글, 사이버펑크 팔레트를 씁니다. plain은 터미널 테마 색상과 단순한 구분선을 씁니다(밝은 배경에서 더 좋음).",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.look.title": {
+    "en": "Look",
+    "ko": "룩",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.panel.description": {
+    "en": "auto opens the cockpit at session start where it docks beside the transcript (a terminal 144 columns or wider), never taking the keys; elsewhere the band says /ruflo to open. command opens it only with /ruflo. off never opens it unasked.",
+    "ko": "auto는 세션 시작 시 콘솔이 대화 기록 옆에 도킹되는 환경(폭 144열 이상의 터미널)에서 콕핏을 열되 키 입력은 가져가지 않으며, 그 외에는 띠에 /ruflo로 열라고 안내합니다. command는 /ruflo로만 엽니다. off는 요청 없이는 열지 않습니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.panel.title": {
+    "en": "Cockpit pane",
+    "ko": "콕핏 패널",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.refreshSeconds.description": {
+    "en": "How often ruflo's files are re-read (2 to 60). Unchanged files are not read again. CLI probes keep their own slower cadence and run only for the view in front.",
+    "ko": "ruflo 파일을 다시 읽는 주기(2~60)입니다. 변경되지 않은 파일은 다시 읽지 않습니다. CLI 조사는 자체의 더 느린 주기를 유지하며 앞에 있는 화면에 대해서만 실행됩니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.refreshSeconds.title": {
+    "en": "Disk refresh (seconds)",
+    "ko": "디스크 새로 고침(초)",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.wfAlertRules.description": {
+    "en": "Space-separated rules for the Workflows page: stuck>20m (no progress for 20 minutes), tokens>2M (agent context size), dirty (a worktree has uncommitted changes). Empty turns them all off.",
+    "ko": "워크플로 페이지의 규칙을 공백으로 구분해 적습니다: stuck>20m(20분간 진행 없음), tokens>2M(에이전트 컨텍스트 크기), dirty(워크트리에 커밋되지 않은 변경 있음). 비워 두면 모두 꺼집니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.wfAlertRules.title": {
+    "en": "Workflow alert rules",
+    "ko": "워크플로 경고 규칙",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.wfBudgetDayUsd.description": {
+    "en": "The Workflows page flags the day's measured workflow cost past this many dollars (0.01 to 10000; 0 turns the guard off). It only warns.",
+    "ko": "워크플로 페이지에서 하루 동안 측정된 워크플로 비용이 이 금액(달러, 0.01~10000, 0이면 가드 끔)을 넘으면 표시합니다. 경고만 합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.wfBudgetDayUsd.title": {
+    "en": "Workflow budget per day (USD)",
+    "ko": "일일 워크플로 예산(USD)",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.wfBudgetRunUsd.description": {
+    "en": "The Workflows page flags a run whose measured cost passes this many dollars (0.01 to 10000; 0 turns the guard off). It only warns: the console cannot stop a running workflow.",
+    "ko": "워크플로 페이지에서 측정된 비용이 이 금액(달러, 0.01~10000, 0이면 가드 끔)을 넘은 실행을 표시합니다. 경고만 하며, 콘솔은 실행 중인 워크플로를 멈출 수 없습니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-console#userConfig.wfBudgetRunUsd.title": {
+    "en": "Workflow budget per run (USD)",
+    "ko": "실행당 워크플로 예산(USD)",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-core": {
+    "en": "Foundation plugin — registers the ruflo MCP server (300+ tools across memory/agentdb/embeddings/hooks/aidefence/neural/autopilot/browser/agent/swarm), provides 4 generalist agents (coder/researcher/reviewer/witness-curator), 5 skills (discover-plugins/init-project/ruflo-doctor/ruflo-status/witness), and a curated plugin-discovery catalog",
+    "ko": "기반 플러그인 — ruflo MCP 서버(memory/agentdb/embeddings/hooks/aidefence/neural/autopilot/browser/agent/swarm 전반의 도구 300개 이상)를 등록하고, 범용 에이전트 4개(coder/researcher/reviewer/witness-curator), 스킬 5개(discover-plugins/init-project/ruflo-doctor/ruflo-status/witness), 엄선한 플러그인 검색 카탈로그를 제공",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-cost-tracker": {
+    "en": "Token usage tracking, model cost attribution per agent, budget alerts, and optimization recommendations — uses memory_* (namespace-routed) for cost-tracking and cost-patterns; pairs with federation budget circuit breaker (ADR-097)",
+    "ko": "토큰 사용량 추적, 에이전트별 모델 비용 귀속, 예산 경고, 최적화 권장 사항 — 비용 추적과 비용 패턴에 memory_*(네임스페이스 라우팅)를 사용하며 페더레이션 예산 차단기(ADR-097)와 함께 동작",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-daa": {
+    "en": "Dynamic Agentic Architecture — 8 daa_* MCP tools for adaptive agents (create/adapt), cognitive patterns, workflows (create/execute), knowledge sharing, and learning/performance metrics. Feeds the JUDGE phase of the 4-step intelligence pipeline.",
+    "ko": "동적 에이전트 아키텍처 — 적응형 에이전트(create/adapt), 인지 패턴, 워크플로(create/execute), 지식 공유, 학습/성능 메트릭을 위한 daa_* MCP 도구 8개. 4단계 인텔리전스 파이프라인의 JUDGE 단계에 입력을 제공합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-daa#userConfig.guard.description": {
+    "en": "Refuse daa_* tool calls that hold a key, token or password. On by default; it only ever tightens.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 daa_* 도구 호출을 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-daa#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ddd": {
+    "en": "Domain-Driven Design scaffolding — bounded contexts, aggregate roots, domain events, value objects, repositories, and anti-corruption layers; navigable domain graph stored in AgentDB",
+    "ko": "도메인 주도 설계 스캐폴딩 — 바운디드 컨텍스트, 애그리게이트 루트, 도메인 이벤트, 값 객체, 리포지토리, 부패 방지 계층, AgentDB에 저장된 탐색 가능한 도메인 그래프",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ddd#userConfig.guard.description": {
+    "en": "Refuse domain-model memory writes that hold a key, token or password. On by default; it only ever tightens.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 도메인 모델 메모리 쓰기를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-ddd#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-deepseek-harness": {
+    "en": "DeepSeek model harness for ruflo — agents, commands, scripts, and skills for running and evaluating DeepSeek-backed workflows within the ruflo swarm.",
+    "ko": "ruflo용 DeepSeek 모델 하네스(harness) — ruflo 스웜 안에서 DeepSeek 기반 워크플로를 실행하고 평가하기 위한 에이전트, 명령, 스크립트, 스킬",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-deepseek-harness#userConfig.guard.description": {
+    "en": "Refuse prompts sent to the DeepSeek API that hold a key, token or password. On by default; it only ever tightens.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, DeepSeek API로 보내는 프롬프트를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-deepseek-harness#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-docs": {
+    "en": "Documentation generation, API docs (JSDoc/TSDoc/OpenAPI), and drift detection — drives the `document` background worker via hooks_worker-dispatch; uses Haiku model for cost-efficient docs work",
+    "ko": "문서 생성, API 문서(JSDoc/TSDoc/OpenAPI), 드리프트 탐지 — hooks_worker-dispatch를 통해 `document` 백그라운드 워커를 구동하며, 비용 효율적인 문서 작업에 Haiku 모델을 사용",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-docs#userConfig.guard.description": {
+    "en": "Refuse docs memory writes and the document worker that hold a key, token or password. On by default; it only ever tightens.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 문서 메모리 쓰기와 document 워커를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-docs#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-federation": {
+    "en": "Cross-installation agent federation with zero-trust security, peer discovery, consensus-based task routing, and per-call budget circuit breaker (ADR-097)",
+    "ko": "제로 트러스트 보안, 피어 검색, 합의 기반 작업 라우팅, 호출별 예산 차단기(ADR-097)를 갖춘 설치 간 에이전트 페더레이션",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-federation#userConfig.guard.description": {
+    "en": "Refuse outbound federation messages (secrets and obvious PII) that hold a key, token or password. On by default; it only ever tightens.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는 외부 전송 페더레이션 메시지(비밀과 명백한 PII)를 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-federation#userConfig.guard.title": {
+    "en": "Secret guard",
+    "ko": "비밀 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-goals": {
+    "en": "Long-horizon goal planning, deep research orchestration, and adaptive replanning using GOAP algorithms",
+    "ko": "GOAP 알고리즘을 활용한 장기 목표 계획, 심층 리서치 오케스트레이션, 적응형 재계획",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-goals#userConfig.guard.description": {
+    "en": "Refuse writes and commands on this plugin's own tools that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 자체 도구에 대한 쓰기와 명령을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-goals#userConfig.guard.title": {
+    "en": "Write guard",
+    "ko": "쓰기 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-goals#userConfig.personal.description": {
+    "en": "Refuse dossier and research writes that hold a government ID number (SSN shape).",
+    "ko": "정부 발급 ID 번호(SSN 형식)가 들어 있는 자료 및 리서치 쓰기를 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-goals#userConfig.personal.title": {
+    "en": "Dossier ID screen",
+    "ko": "자료 ID 차단",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-graph-intelligence": {
+    "en": "RuFlo Graph Intelligence Engine — real-time relationship intelligence with complexity-aware execution. Single-entry personalized PageRank, streaming delta updates, witness-signed reasoning artifacts, federation-distributable PR vectors. Built on sublinear-time-solver@1.7.0.",
+    "ko": "RuFlo 그래프 인텔리전스 엔진 — 복잡도 인식 실행을 갖춘 실시간(real-time) 관계 인텔리전스. 단일 진입점 개인화 PageRank, 스트리밍 델타 업데이트, 위트니스 서명 추론 산출물, 페더레이션 배포 가능 PR 벡터. sublinear-time-solver@1.7.0 기반으로 만들었습니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-graph-intelligence#userConfig.guard.description": {
+    "en": "Refuse writes and commands on this plugin's own tools that hold a key, token or password.",
+    "ko": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 자체 도구에 대한 쓰기와 명령을 거부합니다.",
+    "synth": false,
+    "style": "json"
+  },
+  "plugin:ruflo-graph-intelligence#userConfig.guard.title": {
+    "en": "Write guard",
+    "ko": "쓰기 가드",
+    "synth": false,
+    "style": "json"
+  },
+  "plugins/ruflo-adr/agents/adr-architect.md": {
+    "en": "ADR lifecycle manager -- create, index, supersede, and link Architecture Decision Records to code",
+    "ko": "ADR 수명 주기 관리자 -- 아키텍처 결정 기록(ADR)을 생성, 인덱싱, 대체하고 코드에 연결",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-adr/commands/adr.md": {
+    "en": "Architecture Decision Record lifecycle management",
+    "ko": "아키텍처 결정 기록(ADR) 수명 주기 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-adr/skills/adr-create/SKILL.md": {
+    "en": "Create a new Architecture Decision Record with sequential numbering and AgentDB registration",
+    "ko": "순차 번호 부여와 AgentDB 등록으로 새 아키텍처 결정 기록(ADR)을 생성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-adr/skills/adr-index/SKILL.md": {
+    "en": "Build or rebuild the ADR index + dependency graph by running scripts/import.mjs (handles v3-style and plugin-style ADR formats; one Bash call vs hundreds of MCP round-trips)",
+    "ko": "scripts/import.mjs를 실행해 ADR 인덱스와 의존성 그래프를 만들거나 다시 만듭니다(v3 스타일과 플러그인 스타일 ADR 형식을 모두 처리하며, 수백 번의 MCP 왕복 대신 Bash 호출 한 번으로 처리)",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-adr/skills/adr-reindex/SKILL.md": {
+    "en": "Reconcile the ADR index against a DELETED ADR file or relation line by dropping and rebuilding adr-patterns + adr-edges from scratch (scripts/reindex.mjs). Use when adr-index alone leaves stale rows behind.",
+    "ko": "adr-patterns + adr-edges를 처음부터 삭제하고 다시 만들어(scripts/reindex.mjs) 삭제된 ADR 파일이나 관계 줄을 ADR 인덱스와 조정합니다. adr-index만으로는 오래된 행이 남을 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-adr/skills/adr-review/SKILL.md": {
+    "en": "Review code changes against accepted ADRs for compliance violations",
+    "ko": "승인된 ADR 대비 코드 변경을 검토해 규정 준수 위반을 찾음",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-adr/skills/adr-verify/SKILL.md": {
+    "en": "Read back adr-patterns + adr-edges namespaces, surface dangling refs / supersede cycles / status mismatches; exit 1 on cycles",
+    "ko": "adr-patterns + adr-edges 네임스페이스를 다시 읽어 끊긴 참조 / 대체 순환 / 상태 불일치를 찾아냅니다. 순환이 있으면 exit 1",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-coordinator.md": {
+    "en": "Orchestrator that spawns nested sub-agents (up to depth=5) via Claude Code's native Task tool — for deep delegation where context isolation matters more than throughput",
+    "ko": "Claude Code 네이티브 Task 도구로 중첩 서브 에이전트(최대 depth=5)를 생성하는 오케스트레이터 — 처리량보다 컨텍스트 격리가 더 중요한 깊은 위임용",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-leaf.md": {
+    "en": "Leaf-worker template for nested spawn trees — performs one focused task and returns a structured summary. Deliberately does NOT have the Task tool (least-privilege boundary)",
+    "ko": "중첩 생성 트리용 리프 워커 템플릿 — 집중된 작업 하나를 수행하고 구조화된 요약을 돌려줍니다. 의도적으로 Task 도구가 없습니다(최소 권한 경계)",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-queen-leaf.md": {
+    "en": "Tier-2 leaf — bottom of a queen-led tree. Deliberately no Task tool (least-privilege), but DOES record trajectory steps, AIDefence-scan its own inbound prompt, and report cost — so the queen's intelligence pipeline learns from every leaf outcome",
+    "ko": "2티어 리프 — 퀸이 이끄는 트리의 맨 아래. 의도적으로 Task 도구가 없지만(최소 권한), 궤적 단계를 기록하고, 자신에게 들어오는 프롬프트를 AIDefence로 스캔하고, 비용을 보고하므로 퀸의 인텔리전스 파이프라인이 모든 리프의 결과에서 학습",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-queen-researcher.md": {
+    "en": "Tier-2 recursive researcher — nested-researcher's role with HNSW pattern retrieval, AIDefence-gated web content, hive-mind consensus on which followups to pursue, and full trajectory recording",
+    "ko": "2티어 재귀 리서처 — HNSW 패턴 검색, AIDefence 검문을 거친 웹 콘텐츠, 후속 조사 선택에 대한 하이브마인드(hive-mind) 합의, 전체 궤적 기록을 갖춘 nested-researcher의 역할",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-queen-reviewer.md": {
+    "en": "Tier-2 recursive reviewer — find-and-verify like nested-reviewer, but with hive-mind byzantine consensus on findings (replaces inline majority voting), AIDefence-screened evidence, and trajectory learning across review runs",
+    "ko": "2티어 재귀 리뷰어 — nested-reviewer처럼 찾고 검증하되, 발견 사항에 대한 하이브마인드(hive-mind) 비잔틴 합의(인라인 다수결 대체), AIDefence로 걸러낸 증거, 리뷰 실행 간 궤적 학습을 갖춤",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-queen.md": {
+    "en": "Heavyweight nested orchestrator — wires Claude Code's depth=5 nesting onto ruflo's hive-mind, swarm, intelligence pipeline, claims/AuthScope, AIDefence, and cost-budget machinery. Use when depth alone isn't enough.",
+    "ko": "대규모 중첩 오케스트레이터 — Claude Code의 depth=5 중첩을 ruflo의 하이브마인드(hive-mind), 스웜, 인텔리전스 파이프라인, 클레임/AuthScope, AIDefence, 비용 예산 체계에 연결합니다. depth만으로 부족할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-researcher.md": {
+    "en": "Recursive research orchestrator — fans out into sub-research branches when an investigation deepens, keeping each branch in its own context window",
+    "ko": "재귀 리서치 오케스트레이터 — 조사가 깊어지면 하위 리서치 분기로 퍼져 나가며, 각 분기를 자체 컨텍스트 윈도에 유지",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/nested-reviewer.md": {
+    "en": "Recursive review orchestrator — each finding can spawn an adversarial verifier in its own context, so review remains thorough without bloating the top-level reviewer",
+    "ko": "재귀 리뷰 오케스트레이터 — 각 발견 사항이 자체 컨텍스트에서 적대적 검증자를 생성할 수 있어, 최상위 리뷰어를 비대하게 만들지 않고도 철저한 리뷰를 유지",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/agents/wasm-specialist.md": {
+    "en": "WASM sandbox specialist for creating, managing, and sharing isolated agent environments",
+    "ko": "격리된 에이전트 환경을 생성, 관리, 공유하는 WASM 샌드박스 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/commands/managed-agent.md": {
+    "en": "Anthropic Claude Managed Agents (cloud runtime) — list cloud sessions, check status, fetch a transcript, clean up",
+    "ko": "Anthropic Claude Managed Agents(클라우드 런타임) — 클라우드 세션 목록 조회, 상태 확인, 대화 기록 가져오기, 정리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/commands/wasm.md": {
+    "en": "WASM agent management -- list running agents, check status, browse gallery",
+    "ko": "WASM 에이전트 관리 -- 실행 중인 에이전트 목록 조회, 상태 확인, 갤러리 탐색",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/skills/managed-agent/SKILL.md": {
+    "en": "Run an Anthropic Claude Managed Agent — a cloud agent harness (container + filesystem + tools), the cloud counterpart of the local wasm-agent runtime",
+    "ko": "Anthropic Claude Managed Agent를 실행합니다 — 컨테이너 + 파일 시스템 + 도구로 이루어진 클라우드 에이전트 하네스(harness)이며, 로컬 wasm-agent 런타임의 클라우드 대응 기능",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/skills/nested-subagents/SKILL.md": {
+    "en": "Spawn nested sub-agents (agents that spawn sub-agents, up to depth=5) via Claude Code's native Task tool — for context-managed deep delegation",
+    "ko": "Claude Code 네이티브 Task 도구로 중첩 서브 에이전트(서브 에이전트를 생성하는 에이전트, 최대 depth=5)를 생성 — 컨텍스트를 관리하는 깊은 위임용",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/skills/wasm-agent/SKILL.md": {
+    "en": "Create and manage sandboxed WASM agents for isolated code execution",
+    "ko": "격리된 코드 실행을 위한 샌드박스 WASM 에이전트를 생성하고 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agent/skills/wasm-gallery/SKILL.md": {
+    "en": "Browse, publish, and install WASM agents from the community gallery",
+    "ko": "커뮤니티 갤러리에서 WASM 에이전트를 탐색, 게시, 설치",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agentdb/agents/agentdb-specialist.md": {
+    "en": "AgentDB and RuVector specialist for memory operations, HNSW indexing, RaBitQ quantization, and semantic search across the controller bridge",
+    "ko": "컨트롤러 브리지 전반에서 메모리 작업, HNSW 인덱싱, RaBitQ 양자화, 시맨틱 검색을 다루는 AgentDB 및 RuVector 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agentdb/commands/agentdb.md": {
+    "en": "AgentDB health, controller status, and session management",
+    "ko": "AgentDB 상태, 컨트롤러 상태, 세션 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agentdb/commands/embeddings.md": {
+    "en": "RuVector embedding engine status and operations -- ONNX, HNSW, RaBitQ quantization",
+    "ko": "RuVector 임베딩 엔진 상태와 작업 -- ONNX, HNSW, RaBitQ 양자화",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agentdb/skills/agentdb-query/SKILL.md": {
+    "en": "Query AgentDB through the controller bridge -- semantic routing, hierarchical recall, causal graphs, context synthesis, pattern store/search",
+    "ko": "컨트롤러 브리지를 통해 AgentDB를 쿼리 -- 시맨틱 라우팅, 계층형 불러오기, 인과 그래프, 컨텍스트 합성, 패턴 저장/검색",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agentdb/skills/vector-search/SKILL.md": {
+    "en": "Vector search via embeddings_* (large-scale HNSW) and ruvllm_hnsw_* (WASM router for ≤11 hot patterns), with RaBitQ 1-bit quantization for 32× memory reduction",
+    "ko": "embeddings_*(대규모 HNSW)와 ruvllm_hnsw_*(핫 패턴 11개 이하를 위한 WASM 라우터)를 통한 벡터 검색이며, 메모리를 32배 줄이는 RaBitQ 1비트 양자화 지원",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-agntcy/skills/agntcy-status/SKILL.md": {
+    "en": "Show AGNTCY/SLIM/CASA integration status — whether upstream AGNTCY packages are installed, which transport (local vs SLIM) is active, and whether CASA enforcement is enabled. Use when the user asks \"is AGNTCY configured?\", \"show SLIM/CASA status\", or \"is AGNTCY/IOC integration active?\".",
+    "ko": "AGNTCY/SLIM/CASA 통합 상태를 보여 줍니다 — 업스트림 AGNTCY 패키지가 설치되어 있는지, 어떤 전송(로컬 또는 SLIM)이 활성인지, CASA 강제가 켜져 있는지. 사용자가 \"AGNTCY 설정돼 있어?\"(\"is AGNTCY configured?\"), \"SLIM/CASA 상태 보여 줘\"(\"show SLIM/CASA status\"), \"AGNTCY/IOC 통합이 활성이야?\"(\"is AGNTCY/IOC integration active?\")라고 물을 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/agents/builder.md": {
+    "en": "Produces a bounded artifact for an approved RuFlo team task.",
+    "ko": "승인된 RuFlo 팀 작업에 대해 범위가 정해진 산출물을 만듭니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/agents/researcher.md": {
+    "en": "Collects source-grounded evidence for one bounded team task.",
+    "ko": "범위가 정해진 팀 작업 하나에 대해 출처에 근거한 증거를 수집합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/agents/team-coordinator.md": {
+    "en": "Decomposes an approved objective, assigns bounded tasks, tracks dependencies, and prevents team drift.",
+    "ko": "승인된 목표를 분해하고, 범위가 정해진 작업을 배정하고, 의존성을 추적하고, 팀 드리프트를 방지합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/agents/verifier.md": {
+    "en": "Independently checks RuFlo team results against acceptance criteria and evidence.",
+    "ko": "RuFlo 팀 결과를 인수 기준과 증거에 비추어 독립적으로 확인합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/commands/team-review.md": {
+    "en": "Verify a RuFlo AI Team's deliverables and unresolved work.",
+    "ko": "RuFlo AI 팀의 산출물과 미해결 작업을 검증합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/commands/team-start.md": {
+    "en": "Plan and create a bounded RuFlo AI Team for a goal.",
+    "ko": "목표를 위해 범위가 정해진 RuFlo AI 팀을 계획하고 생성합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/commands/team-status.md": {
+    "en": "Summarize a RuFlo AI Team's progress and blockers.",
+    "ko": "RuFlo AI 팀의 진행 상황과 막힌 부분을 요약합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/commands/team-stop.md": {
+    "en": "Pause a RuFlo AI Team without deleting its evidence.",
+    "ko": "증거를 삭제하지 않고 RuFlo AI 팀을 일시 중지합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/skills/coordinate-team-work/SKILL.md": {
+    "en": "Divide approved work among specialized RuFlo roles and keep task state synchronized.",
+    "ko": "승인된 작업을 전문화된 RuFlo 역할에 나누고 작업 상태를 동기화합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/skills/launch-ai-team/SKILL.md": {
+    "en": "Turn a reviewed goal into a bounded RuFlo AI team, run, and task plan without external side effects.",
+    "ko": "검토된 목표를 외부 부작용 없이 범위가 정해진 RuFlo AI 팀, 실행, 작업 계획으로 바꿉니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/skills/manage-team-lifecycle/SKILL.md": {
+    "en": "Pause, resume, or complete a RuFlo AI team while preserving its tenant-local evidence.",
+    "ko": "테넌트 로컬 증거를 보존하면서 RuFlo AI 팀을 일시 중지, 재개, 완료합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/skills/monitor-ai-team/SKILL.md": {
+    "en": "Report a RuFlo AI team's progress, blockers, task ownership, and remaining planned budget.",
+    "ko": "RuFlo AI 팀의 진행 상황, 막힌 부분, 작업 담당, 남은 계획 예산을 보고합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/skills/remember-team-context/SKILL.md": {
+    "en": "Store and retrieve approved tenant-local team context with RuVector-backed isolation and provenance.",
+    "ko": "RuVector 기반 격리와 출처(provenance)를 갖춰 승인된 테넌트 로컬 팀 컨텍스트를 저장하고 조회합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ai-team/skills/review-team-deliverables/SKILL.md": {
+    "en": "Review RuFlo team results against acceptance criteria using the evidence bundle.",
+    "ko": "증거 묶음을 사용해 RuFlo 팀 결과를 인수 기준에 비추어 검토합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-aidefence/agents/safety-specialist.md": {
+    "en": "AI safety specialist for threat detection, PII scanning, and adaptive defense training",
+    "ko": "위협 탐지, PII 스캔, 적응형 방어 학습을 담당하는 AI 안전 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-aidefence/commands/aidefence.md": {
+    "en": "AIDefence status, detection stats, and threat analysis dashboard",
+    "ko": "AIDefence 상태, 탐지 통계, 위협 분석 대시보드",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-aidefence/skills/pii-detect/SKILL.md": {
+    "en": "Detect and flag personally identifiable information (PII) in text, code, and configurations. Use before committing code, writing logs, storing data, or sending model responses that might contain emails, phone numbers, SSNs, API keys, or passwords.",
+    "ko": "텍스트, 코드, 설정에서 개인 식별 정보(PII)를 탐지하고 표시합니다. 이메일, 전화번호, SSN, API 키, 비밀번호가 들어 있을 수 있는 코드를 커밋하거나, 로그를 쓰거나, 데이터를 저장하거나, 모델 응답을 보내기 전에 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-aidefence/skills/safety-scan/SKILL.md": {
+    "en": "Scan inputs for prompt injection, unsafe content, and adversarial attacks using AIDefence. Use when processing untrusted input (user submissions, API payloads, webhook data, tool outputs) before passing it to a model or executing it.",
+    "ko": "AIDefence로 입력에서 프롬프트 인젝션, 안전하지 않은 콘텐츠, 적대적 공격을 스캔합니다. 신뢰할 수 없는 입력(사용자 제출물, API 페이로드, 웹훅 데이터, 도구 출력)을 모델에 전달하거나 실행하기 전에 처리할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-arena/commands/arena.md": {
+    "en": "Competitive ruliology — run arenas and tournaments between program strategies, evolve winners, and persist runs (ADR-147/148)",
+    "ko": "경쟁적 룰리올로지 — 프로그램 전략 간 아레나와 토너먼트를 실행하고, 승자를 진화시키고, 실행 결과를 영속화(ADR-147/148)",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-autopilot/agents/autopilot-coordinator.md": {
+    "en": "Autonomous task completion coordinator using /loop and autopilot MCP tools",
+    "ko": "/loop와 오토파일럿 MCP 도구를 사용하는 자율 작업 완료 코디네이터",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-autopilot/commands/autopilot-status.md": {
+    "en": "Quick autopilot progress summary with task completion stats",
+    "ko": "작업 완료 통계를 포함한 오토파일럿 진행 상황 간단 요약",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-autopilot/commands/autopilot.md": {
+    "en": "Enable, configure, or disable autonomous task completion",
+    "ko": "자율 작업 완료를 켜고, 설정하고, 끔",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-autopilot/skills/autopilot-loop/SKILL.md": {
+    "en": "Run an autonomous /loop iteration -- check progress, work on next task, schedule next wake",
+    "ko": "자율 /loop 반복을 실행 -- 진행 상황 확인, 다음 작업 수행, 다음 깨우기 예약",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-autopilot/skills/autopilot-predict/SKILL.md": {
+    "en": "Use learned patterns and current state to predict the optimal next action",
+    "ko": "학습된 패턴과 현재 상태를 사용해 최적의 다음 행동을 예측",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-bbs-federation/skills/cross-host-federation/SKILL.md": {
+    "en": "Join and operate a signed cross-host agentbbs federation, and coordinate work claims across nodes. Use when: connecting ruflo agents across machines, sharing status/tasks/results between hosts, propagating work claims across a swarm, or standing up a federation hub. Skip when: single-host local work with no other nodes to coordinate with.",
+    "ko": "서명된 호스트 간 agentbbs 페더레이션에 참여해 운영하고, 노드 간 작업 클레임을 조율합니다. 사용: 여러 머신의 ruflo 에이전트를 연결할 때, 호스트 간에 상태/작업/결과(status/tasks/results)를 공유할 때, 스웜 전반에 작업 클레임을 전파할 때, 페더레이션 허브를 세울 때. 제외: 조율할 다른 노드가 없는 단일 호스트 로컬 작업.",
+    "synth": false,
+    "style": "block"
+  },
+  "plugins/ruflo-browser/agents/browser-agent.md": {
+    "en": "Browser automation agent — drives Playwright via 23 MCP tools, captures every session as an RVF container with a ruvector trajectory, and gates content through AIDefence",
+    "ko": "브라우저 자동화 에이전트 — MCP 도구 23개로 Playwright를 구동하고, 모든 세션을 ruvector 궤적이 담긴 RVF 컨테이너로 캡처하며, 콘텐츠를 AIDefence로 검문",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/commands/ruflo-browser.md": {
+    "en": "Browser session lifecycle dispatcher -- ls/show/replay/export/fork/purge/doctor over RVF-backed session containers",
+    "ko": "브라우저 세션 수명 주기 디스패처 -- RVF 기반 세션 컨테이너에 대한 ls/show/replay/export/fork/purge/doctor",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-auth-flow/SKILL.md": {
+    "en": "Probe a site's authentication flow for redirect leaks, missing CSRF, weak session cookies, and OAuth misconfiguration; produces an auth findings.md",
+    "ko": "사이트 인증 흐름에서 리다이렉트 누수, 누락된 CSRF, 취약한 세션 쿠키, OAuth 설정 오류를 점검하고, 인증 findings.md를 생성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-extract/SKILL.md": {
+    "en": "Extract structured data via stored browser-templates or one-shot DOM queries, with mandatory AIDefence PII + prompt-injection gates before content reaches the model",
+    "ko": "저장된 browser-templates 또는 일회성 DOM 쿼리로 구조화된 데이터를 추출하며, 콘텐츠가 모델에 도달하기 전에 AIDefence PII + 프롬프트 인젝션 게이트를 반드시 거침",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-form-fill/SKILL.md": {
+    "en": "Fill a web form by mapping field-name → value, with optional template lookup from browser-templates for known forms",
+    "ko": "필드 이름 → 값 매핑으로 웹 폼을 채우며, 알려진 폼은 browser-templates에서 템플릿을 선택적으로 조회",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-intent/SKILL.md": {
+    "en": "Execute a natural-language browser intent via page-agent (browser_act) when the target is easier to describe than to select — degrades gracefully when page-agent or an OpenAI-compatible LLM provider isn't configured",
+    "ko": "대상을 선택하기보다 설명하는 편이 쉬울 때 page-agent(browser_act)로 자연어 브라우저 의도를 실행 — page-agent 또는 OpenAI 호환 LLM 프로바이더가 설정되지 않았으면 기능이 단계적으로 축소",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-login/SKILL.md": {
+    "en": "Drive an authentication flow once, sanitize cookies through AIDefence, and vault a reusable cookie handle in browser-cookies for future sessions",
+    "ko": "인증 흐름을 한 번 수행하고, 쿠키를 AIDefence로 정제한 뒤, 이후 세션을 위해 재사용 가능한 쿠키 핸들을 browser-cookies에 보관",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-record/SKILL.md": {
+    "en": "Open a named, traced browser session into an RVF cognitive container with a ruvector trajectory recording every action",
+    "ko": "모든 동작을 기록하는 ruvector 궤적과 함께, 이름이 붙고 추적되는 브라우저 세션을 RVF 인지 컨테이너로 엽니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-replay/SKILL.md": {
+    "en": "Replay a recorded session trajectory against the same URL or a mutated variant; uses browser-selectors embedding similarity to recover from DOM drift",
+    "ko": "기록된 세션 궤적을 같은 URL 또는 변형된 URL에 재생하며, browser-selectors 임베딩 유사도로 DOM 드리프트에서 복구",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-scrape/SKILL.md": {
+    "en": "DEPRECATED in v0.2.0 -- use browser-extract instead; this is a thin shim for backward compatibility, removed in v0.3.0",
+    "ko": "v0.2.0에서 지원 중단 -- 대신 browser-extract를 사용하세요. 하위 호환을 위한 얇은 심이며 v0.3.0에서 제거됩니다",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-screenshot-diff/SKILL.md": {
+    "en": "Visual + DOM diff between two recorded sessions at matching trajectory step ids; used for visual regression and replay verification",
+    "ko": "궤적 단계 ID가 일치하는 두 기록 세션 간의 시각 + DOM diff. 시각 회귀와 재생 검증에 사용",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-browser/skills/browser-test/SKILL.md": {
+    "en": "UI test recipe -- composes browser-record (capture) + browser-replay (verify) so every test produces a replayable RVF artifact, not an ephemeral run",
+    "ko": "UI 테스트 레시피 -- browser-record(캡처)와 browser-replay(검증)를 조합해, 모든 테스트가 일회성 실행이 아니라 재생 가능한 RVF 산출물을 만들게 함",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-business-pods/skills/pod-sales/SKILL.md": {
+    "en": "Run one tick of the sales business-pod (ADR-164 §4.1, Phase 2). Loads templates/sales.json, validates it against the pod-schema, resolves agents against ruflo's agent registry, reserves budget via the Phase-2 file-based stub ledger (atomic SQLite tracker is Phase 3 per ADR-164.1), constructs per-agent dry-run prompts, posts a summary envelope to room \"sales\" via the federation_bbs_publish JSONL backing store, and emits a structured {podName, tickId, agentsRan, totalUsd, envelopeId, status} line for /loop ingestion. Dry-run by default; --live is reserved for Phase 3.",
+    "ko": "영업 비즈니스 팟(ADR-164 §4.1, 2단계)을 한 틱 실행합니다. templates/sales.json을 불러와 pod-schema로 검증하고, ruflo의 에이전트 레지스트리와 대조해 에이전트를 확정하고, 2단계 파일 기반 스텁 원장으로 예산을 확보하고(원자적 SQLite 추적기는 ADR-164.1의 3단계), 에이전트별 드라이런 프롬프트를 구성하고, federation_bbs_publish JSONL 백업 저장소를 통해 \"sales\" 룸에 요약 엔벨로프를 게시하며, /loop 수집용 구조화 줄 {podName, tickId, agentsRan, totalUsd, envelopeId, status}를 출력합니다. 기본은 드라이런이며 --live는 3단계용으로 예약되어 있습니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/agents/coder.md": {
+    "en": "Implementation specialist for writing clean, efficient code following project patterns",
+    "ko": "프로젝트 패턴을 따라 깔끔하고 효율적인 코드를 작성하는 구현 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/agents/researcher.md": {
+    "en": "Pathfinder research specialist — traverses RuVector memory graphs and codebase to surface patterns, dependencies, and prior art",
+    "ko": "패스파인더 리서치 전문 에이전트 — RuVector 메모리 그래프와 코드베이스를 순회해 패턴, 의존성, 선행 사례를 찾아냄",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/agents/reviewer.md": {
+    "en": "Code review specialist for quality, security, and best-practice enforcement",
+    "ko": "품질, 보안, 모범 사례 준수를 담당하는 코드 리뷰 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/agents/witness-curator.md": {
+    "en": "Maintains the cryptographically-signed witness manifest. Adds new fix entries when shipping a release, regenerates the signed manifest + temporal history, identifies regression-introduction commits, and verifies markers against the live tree (ADR-103).",
+    "ko": "암호학적으로 서명된 위트니스 매니페스트를 관리합니다. 릴리스를 출시할 때 새 수정 항목을 추가하고, 서명된 매니페스트와 시간 이력을 다시 생성하고, 회귀를 도입한 커밋을 식별하고, 마커를 실제 트리와 대조해 검증합니다(ADR-103).",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/commands/ruflo-status.md": {
+    "en": "Show Ruflo system health, MCP server status, and active agents",
+    "ko": "Ruflo 시스템 상태, MCP 서버 상태, 활성 에이전트를 표시",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/commands/witness.md": {
+    "en": "Manage and verify a cryptographically-signed fix manifest with temporal history (ADR-103)",
+    "ko": "시간 이력이 있는, 암호학적으로 서명된 수정 매니페스트를 관리하고 검증(ADR-103)",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/skills/discover-plugins/SKILL.md": {
+    "en": "Discover and recommend ruflo plugins based on your workflow, installed MCP tools, and current task",
+    "ko": "워크플로, 설치된 MCP 도구, 현재 작업을 바탕으로 ruflo 플러그인을 찾아 추천",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/skills/init-project/SKILL.md": {
+    "en": "Initialize a new Ruflo project with MCP tools, hooks, and agent configuration. Use when setting up Ruflo in a fresh repo, or when the user says \"init ruflo\", \"set up ruflo\", or asks how to bootstrap the MCP server, hooks, and agent configs from scratch.",
+    "ko": "MCP 도구, 훅, 에이전트 설정으로 새 Ruflo 프로젝트를 초기화합니다. 새 저장소에 Ruflo를 설정할 때, 또는 사용자가 \"init ruflo\"(\"ruflo 초기화\"), \"set up ruflo\"(\"ruflo 설정\")라고 하거나 MCP 서버, 훅, 에이전트 설정을 처음부터 부트스트랩하는 방법을 물을 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/skills/ruflo-doctor/SKILL.md": {
+    "en": "Run health checks on the Ruflo installation and fix common issues",
+    "ko": "Ruflo 설치에 대한 상태 점검을 실행하고 흔한 문제를 수정",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/skills/ruflo-status/SKILL.md": {
+    "en": "Diagnose Ruflo health, then report system, MCP server, and active-agent status without changing the installation",
+    "ko": "Ruflo 상태를 진단한 뒤, 설치를 변경하지 않고 시스템, MCP 서버, 활성 에이전트 상태를 보고",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-core/skills/witness/SKILL.md": {
+    "en": "Sign, verify, and track fix-marker regressions over time using a deterministic Ed25519 witness manifest. Works in any project — clone the toolkit, run init, register fixes, regen on each release.",
+    "ko": "결정적 Ed25519 위트니스 매니페스트로 수정 마커 회귀를 서명, 검증, 시간에 따라 추적합니다. 어떤 프로젝트에서도 동작하며, 툴킷을 클론하고 init을 실행하고 수정 사항을 등록한 뒤 릴리스마다 재생성합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/agents/cost-analyst.md": {
+    "en": "Tracks token usage per agent and model, computes cost attribution in USD, monitors budgets, and recommends optimizations",
+    "ko": "에이전트와 모델별 토큰 사용량을 추적하고, USD 비용 귀속을 계산하고, 예산을 모니터링하고, 최적화를 권장",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/commands/ruflo-cost.md": {
+    "en": "Cost tracking operations — generate reports, view breakdowns, set budgets, and get optimization recommendations",
+    "ko": "비용 추적 작업 — 보고서 생성, 항목별 내역 조회, 예산 설정, 최적화 권장 사항 받기",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-advise/SKILL.md": {
+    "en": "Optimisation findings from your own Claude Code and Codex logs — low cache hit ratio, 1-hour cache writes that did not pay back, sub-agents on a top-tier model, Codex reasoning share, bloated sessions — each with evidence and a what-if saving. Use when asked how to cut spend or why it is high.",
+    "ko": "본인의 Claude Code 및 Codex 로그에서 최적화 결과를 도출 — 낮은 캐시 적중률, 본전을 뽑지 못한 1시간 캐시 쓰기, 최상위 티어 모델을 쓰는 서브 에이전트, Codex 추론 비중, 비대해진 세션 — 각각 증거와 가정 절감액 포함. 지출을 줄이는 방법이나 지출이 높은 이유를 물을 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-anomaly/SKILL.md": {
+    "en": "MAD-based outlier detection on session spend. Robust to the very outliers it hunts (unlike mean+sigma). Surfaces specific anomalous sessions with modified-z scores; optional --alert-on-outliers exit code for CI gates. Distinct from cost-burn (aggregate trend) — this answers \"which INDIVIDUAL session is the outlier?\".",
+    "ko": "세션 지출에 대한 MAD 기반 이상치 탐지. 찾으려는 바로 그 이상치에 강건합니다(평균+시그마와 다름). 수정 z 점수와 함께 구체적인 이상 세션을 드러내며, CI 게이트용으로 선택적 --alert-on-outliers 종료 코드 제공. cost-burn(집계 추세)과 달리 \"어떤 개별 세션이 이상치인가?\"에 답합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-benchmark/SKILL.md": {
+    "en": "Run the corpus benchmark — booster locally, optional Gemini/Sonnet/Opus baselines — and persist a verifiable measured-vs-claimed table",
+    "ko": "코퍼스 벤치마크 실행 — 로컬 booster, 선택적 Gemini/Sonnet/Opus 기준선 — 하고 검증 가능한 실측-vs-주장 표를 영속화",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-booster-edit/SKILL.md": {
+    "en": "Apply a simple code transform via agent-booster's WASM engine — sub-millisecond, deterministic, $0 (no LLM call). Companion to cost-booster-route.",
+    "ko": "agent-booster의 WASM 엔진으로 간단한 코드 변환을 적용 — 1밀리초 미만, 결정적, $0(LLM 호출 없음). cost-booster-route의 짝 기능.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-booster-route/SKILL.md": {
+    "en": "Route tasks through hooks_route, partition by Agent Booster availability, and report Tier 1 bypass utilization with $0 cost",
+    "ko": "hooks_route로 작업을 라우팅하고, Agent Booster 사용 가능 여부로 나눠, $0 비용으로 Tier 1 우회 활용률을 보고",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-budget-check/SKILL.md": {
+    "en": "Read accumulated cost-tracking spend + budget config, compute utilization, emit 50/75/90/100% alert ladder",
+    "ko": "누적된 비용 추적 지출과 예산 설정을 읽고, 사용률을 계산하고, 50/75/90/100% 경고 단계를 출력",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-burn/SKILL.md": {
+    "en": "Burn-rate trend over time with optional drift-alert exit code. Bins session spend into buckets, surfaces window-over-window delta, and can exit 1 when latest bucket exceeds prior mean by a configurable %. Distinct from `cost-trend` (benchmark drift); this tracks PRODUCTION spend trajectory.",
+    "ko": "시간에 따른 소진율 추세와 선택적 드리프트 경고 종료 코드. 세션 지출을 구간별로 묶고, 구간 간 변화량을 드러내며, 최신 구간이 이전 평균을 설정 가능한 % 이상 초과하면 exit 1 가능. `cost-trend`(벤치마크 드리프트)와 달리 실제 운영 지출의 궤적을 추적합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-compact-context/SKILL.md": {
+    "en": "Wrap getTokenOptimizer().getCompactContext() to retrieve compacted ReasoningBank context for cost-analysis queries; report bridge-reported tokensSaved",
+    "ko": "getTokenOptimizer().getCompactContext()를 감싸 비용 분석 쿼리용으로 압축된 ReasoningBank 컨텍스트를 조회하고, 브리지가 보고한 tokensSaved를 보고",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-conversation/SKILL.md": {
+    "en": "Per-conversation cost view — list every session in cost-tracking with started-at, message count, top model, and total cost",
+    "ko": "대화별 비용 보기 — 비용 추적에 있는 모든 세션을 시작 시각, 메시지 수, 상위 모델, 총비용과 함께 나열",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-counterfactual/SKILL.md": {
+    "en": "Multi-baseline counterfactual cost analysis. Compares actual session spend to hypothetical always-haiku / always-sonnet / always-opus routing baselines. Answers \"is the routing earning its keep?\" Negative savings flag over-escalation; positive savings quantify the router's win.",
+    "ko": "다중 기준선 반사실 비용 분석. 실제 세션 지출을 항상 haiku / 항상 sonnet / 항상 opus로 라우팅했을 가정 기준선과 비교합니다. \"라우팅이 제값을 하는가?\"(\"is the routing earning its keep?\")에 답하며, 음수 절감은 과도한 상향을, 양수 절감은 라우터의 이득을 수치화합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-diff/SKILL.md": {
+    "en": "Snapshot delta between two cost-summary JSON outputs. PR-level cost regression detection — answers \"what changed between these two specific snapshots?\". Pairs with cost-summary's stable JSON contract.",
+    "ko": "두 cost-summary JSON 출력 간 스냅샷 변화량. PR 수준 비용 회귀 탐지 — \"이 두 스냅샷 사이에 무엇이 바뀌었나?\"(\"what changed between these two specific snapshots?\")에 답합니다. cost-summary의 안정적인 JSON 계약과 짝을 이룹니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-export/SKILL.md": {
+    "en": "Export cost-tracking telemetry in Prometheus textfile or webhook JSON formats — for external observability (Grafana, Datadog, custom dashboards)",
+    "ko": "비용 추적 텔레메트리를 Prometheus textfile 또는 웹훅 JSON 형식으로 내보냄 — 외부 관측(Grafana, Datadog, 사용자 지정 대시보드)용",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-federation/SKILL.md": {
+    "en": "Consumer-side wiring for ADR-097 Phase 3 federation_spend events — per-peer rolling windows + suspension-threshold check",
+    "ko": "ADR-097 3단계 federation_spend 이벤트의 소비자 측 연결 — 피어별 롤링 윈도 + 중단 임계값 확인",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-health/SKILL.md": {
+    "en": "Composite CI gate — runs cost-budget-check + cost-burn + cost-anomaly + cost-projection in parallel and surfaces a single combined health status with max exit code. The operationally-useful entry point — one shell-out covers all four alert ladders.",
+    "ko": "복합 CI 게이트 — cost-budget-check + cost-burn + cost-anomaly + cost-projection을 병렬로 실행해 최대 종료 코드를 가진 하나의 통합 상태로 보여 줍니다. 운영상 유용한 진입점 — 셸 호출 한 번으로 경고 단계 네 가지를 모두 다룹니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-ledger/SKILL.md": {
+    "en": "One cost view across Claude Code and Codex on this machine — spend, tokens, cache hit ratio per provider and model, with unpriced models flagged. Use when asked \"what did I spend\", \"how much did Codex cost\", or to compare providers. Local logs only, nothing is sent.",
+    "ko": "이 머신의 Claude Code와 Codex를 아우르는 하나의 비용 보기 — 프로바이더와 모델별 지출, 토큰, 캐시 적중률이며, 가격이 없는 모델은 표시. \"얼마 썼어\"(\"what did I spend\"), \"Codex 비용이 얼마야\"(\"how much did Codex cost\")라고 묻거나 프로바이더를 비교할 때 사용합니다. 로컬 로그만 쓰며 아무것도 전송하지 않습니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-local/SKILL.md": {
+    "en": "Cost per million tokens on hardware you own (Ollama, llama.cpp, vLLM, LM Studio) from watts, electricity price, hardware price and measured tokens/second, and the utilisation at which local beats a hosted model. Use for local-vs-API break-even questions.",
+    "ko": "소유한 하드웨어(Ollama, llama.cpp, vLLM, LM Studio)의 백만 토큰당 비용을 전력(W), 전기 요금, 하드웨어 가격, 실측 토큰/초로 계산하고, 로컬이 호스팅 모델보다 유리해지는 활용률을 구합니다. 로컬 대 API 손익분기 질문에 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-optimize/SKILL.md": {
+    "en": "Analyze token usage patterns and recommend cost optimizations with estimated savings",
+    "ko": "토큰 사용 패턴을 분석하고 예상 절감액과 함께 비용 최적화를 권장",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-projection/SKILL.md": {
+    "en": "Forward-looking spend extrapolation. Computes a USD-per-day rate from the recent measurement window, projects to 7d/30d/90d/365d horizons, and surfaces \"days until budget exhausted\" when a budget is configured. Predictive counterpart to `cost-budget-check` (reactive).",
+    "ko": "미래 지향 지출 외삽. 최근 측정 구간에서 일일 USD 비율을 계산해 7d/30d/90d/365d(7일/30일/90일/365일) 기간으로 투영하고, 예산이 설정되어 있으면 \"예산 소진까지 남은 일수\"(\"days until budget exhausted\")를 보여 줍니다. `cost-budget-check`(사후 대응)의 예측형 짝 기능.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-report/SKILL.md": {
+    "en": "Generate a cost report showing token usage and USD costs by agent and model",
+    "ko": "에이전트와 모델별 토큰 사용량과 USD 비용을 보여 주는 비용 보고서를 생성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-session/SKILL.md": {
+    "en": "Per-message cost breakdown within a single session. The drill-down companion to cost-anomaly — when an outlier session is flagged, this surfaces the specific expensive messages so operators can see whether the cost came from output tokens, cache writes, or model escalations.",
+    "ko": "단일 세션 내 메시지별 비용 내역. cost-anomaly의 드릴다운 짝 기능 — 이상치 세션이 표시되면, 비용이 출력 토큰, 캐시 쓰기, 모델 상향 중 어디서 나왔는지 운영자가 볼 수 있도록 비싼 메시지를 구체적으로 드러냅니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-summary/SKILL.md": {
+    "en": "Single-shot programmatic dump of all cost data — total spend, per-tier, top session, budget status, federation aggregate. JSON or markdown.",
+    "ko": "모든 비용 데이터를 한 번에 프로그램용으로 덤프 — 총지출, 티어별, 상위 세션, 예산 상태, 페더레이션 집계. JSON 또는 markdown.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-track/SKILL.md": {
+    "en": "Auto-capture per-session token usage from the Claude Code session jsonl and persist to the cost-tracking namespace",
+    "ko": "Claude Code 세션 jsonl에서 세션별 토큰 사용량을 자동 캡처해 cost-tracking 네임스페이스에 영속화",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-cost-tracker/skills/cost-trend/SKILL.md": {
+    "en": "Read every docs/benchmarks/runs/*.json and surface drift in win rate, latency, escalation rate, and LLM-baseline cost over time",
+    "ko": "docs/benchmarks/runs/*.json을 모두 읽어 승률, 지연 시간, 상향 비율, LLM 기준선 비용의 시간에 따른 드리프트를 보여 줌",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-daa/agents/daa-specialist.md": {
+    "en": "Dynamic Agentic Architecture specialist for adaptive agents, cognitive patterns, and knowledge sharing",
+    "ko": "적응형 에이전트, 인지 패턴, 지식 공유를 위한 동적 에이전트 아키텍처 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-daa/commands/daa.md": {
+    "en": "Dynamic Agentic Architecture status -- learning metrics, active agents, cognitive patterns",
+    "ko": "동적 에이전트 아키텍처 상태 -- 학습 메트릭, 활성 에이전트, 인지 패턴",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-daa/skills/cognitive-pattern/SKILL.md": {
+    "en": "Define and manage cognitive patterns for agent reasoning and decision-making",
+    "ko": "에이전트 추론과 의사 결정을 위한 인지 패턴을 정의하고 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-daa/skills/daa-agent/SKILL.md": {
+    "en": "Create and adapt Dynamic Agentic Architecture agents that learn and evolve",
+    "ko": "학습하고 진화하는 동적 에이전트 아키텍처 에이전트를 생성하고 적응시킴",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ddd/agents/domain-modeler.md": {
+    "en": "Domain-Driven Design specialist -- maps domains to bounded contexts, designs aggregate roots, defines domain events, and generates anti-corruption layers",
+    "ko": "도메인 주도 설계 전문 에이전트 -- 도메인을 바운디드 컨텍스트에 매핑하고, 애그리게이트 루트를 설계하고, 도메인 이벤트를 정의하고, 부패 방지 계층을 생성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ddd/commands/ddd.md": {
+    "en": "Domain-Driven Design scaffolding and boundary enforcement",
+    "ko": "도메인 주도 설계 스캐폴딩과 경계 강제",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ddd/skills/ddd-aggregate/SKILL.md": {
+    "en": "Scaffold an aggregate root with entity, value objects, repository interface, domain events, and test stubs. Use when adding a new aggregate to an existing bounded context, modeling a new business concept that owns invariants, or generating the boilerplate for an entity + repo + events triplet.",
+    "ko": "엔티티, 값 객체, 리포지토리 인터페이스, 도메인 이벤트, 테스트 스텁이 있는 애그리게이트 루트를 스캐폴딩합니다. 기존 바운디드 컨텍스트에 새 애그리게이트를 추가할 때, 불변식을 소유하는 새 비즈니스 개념을 모델링할 때, 엔티티 + 리포지토리 + 이벤트 3종 세트의 보일러플레이트를 생성할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ddd/skills/ddd-context/SKILL.md": {
+    "en": "Create and manage a DDD bounded context with standard directory structure. Use when starting a new subdomain, splitting a monolith into bounded contexts, or scaffolding the domain/application/infrastructure layout for a fresh module.",
+    "ko": "표준 디렉터리 구조로 DDD 바운디드 컨텍스트를 생성하고 관리합니다. 새 서브도메인을 시작할 때, 모놀리스를 바운디드 컨텍스트로 쪼갤 때, 새 모듈의 domain/application/infrastructure 레이아웃을 스캐폴딩할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-ddd/skills/ddd-validate/SKILL.md": {
+    "en": "Validate domain boundaries -- detect cross-context import violations and aggregate invariant issues. Use when auditing a DDD codebase for leaks between bounded contexts, before merging cross-cutting changes, or as a CI gate to catch boundary erosion early.",
+    "ko": "도메인 경계를 검증 -- 컨텍스트 간 import 위반과 애그리게이트 불변식 문제를 탐지합니다. 바운디드 컨텍스트 간 누수에 대해 DDD 코드베이스를 감사할 때, 횡단 변경을 병합하기 전에, 경계 침식을 일찍 잡는 CI 게이트로 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-deepseek-harness/agents/deepseek-architect.md": {
+    "en": "DeepSeek harness architect for ruflo. Surfaces DeepSeek's chat and reasoning models via skills; enforces the ADR-150 removability contract (this plugin as optional augmentation, never a required runtime dep); routes between deepseek-chat and deepseek-reasoner based on task shape",
+    "ko": "ruflo용 DeepSeek 하네스 설계자. 스킬을 통해 DeepSeek의 채팅 및 추론 모델을 제공하고, ADR-150 제거 가능성 계약(이 플러그인은 선택적 확장이며 필수 런타임 의존성이 아님)을 강제하며, 작업 형태에 따라 deepseek-chat과 deepseek-reasoner 사이를 라우팅",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-deepseek-harness/commands/ruflo-deepseek-harness.md": {
+    "en": "DeepSeek harness integration — chat and reasoning-mode completions via the OpenAI-compatible DeepSeek API, wrapped as ruflo skills with graceful degradation (ADR-150 pattern)",
+    "ko": "DeepSeek 하네스 통합 — OpenAI 호환 DeepSeek API를 통한 채팅 및 추론 모드 완성을 ruflo 스킬로 감싸고 기능이 단계적으로 축소되게 함(ADR-150 패턴)",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-deepseek-harness/skills/deepseek-chat/SKILL.md": {
+    "en": "One-shot chat completion against DeepSeek's `deepseek-chat` model via the OpenAI-compatible /v1/chat/completions endpoint. Reads DEEPSEEK_API_KEY from the environment; degrades gracefully (exit 0 with a JSON status:degraded envelope) when the key is missing or the API is unreachable. Use for non-reasoning tasks — summarization, extraction, quick classification — where deepseek-reasoner would be overkill.",
+    "ko": "OpenAI 호환 /v1/chat/completions 엔드포인트로 DeepSeek의 `deepseek-chat` 모델에 일회성 채팅 완성을 요청합니다. 환경 변수에서 DEEPSEEK_API_KEY를 읽으며, 키가 없거나 API에 접근할 수 없으면 JSON status:degraded 엔벨로프와 함께 exit 0으로 단계적으로 축소됩니다. deepseek-reasoner가 과한 비추론 작업(요약, 추출, 빠른 분류)에 사용합니다.",
+    "synth": false,
+    "style": "double"
+  },
+  "plugins/ruflo-deepseek-harness/skills/deepseek-reason/SKILL.md": {
+    "en": "Reasoning-mode completion against DeepSeek's `deepseek-reasoner` model (R1) via /v1/chat/completions. Surfaces the model's chain-of-thought (`reasoning_content`) separately from the final answer (`content`), so callers can display or discard the CoT without re-parsing. Reads DEEPSEEK_API_KEY; degrades gracefully (exit 0 with status:degraded envelope) when unset or the API is unreachable. Ignores temperature/top_p per DeepSeek's spec for reasoner models.",
+    "ko": "/v1/chat/completions로 DeepSeek의 `deepseek-reasoner` 모델(R1)에 추론 모드 완성을 요청합니다. 모델의 사고 연쇄(`reasoning_content`)를 최종 답(`content`)과 분리해 제공하므로, 호출자가 다시 파싱하지 않고도 사고 연쇄를 표시하거나 버릴 수 있습니다. DEEPSEEK_API_KEY를 읽으며, 설정되지 않았거나 API에 접근할 수 없으면 status:degraded 엔벨로프와 함께 exit 0으로 단계적으로 축소됩니다. DeepSeek 명세에 따라 reasoner 모델의 temperature/top_p는 무시합니다.",
+    "synth": false,
+    "style": "double"
+  },
+  "plugins/ruflo-docs/agents/docs-writer.md": {
+    "en": "Documentation specialist -- generates and maintains project documentation",
+    "ko": "문서 전문 에이전트 -- 프로젝트 문서를 생성하고 유지 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-docs/commands/ruflo-docs.md": {
+    "en": "Generate or update documentation for a file, module, or the entire project",
+    "ko": "파일, 모듈 또는 프로젝트 전체의 문서를 생성하거나 업데이트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-docs/skills/api-docs/SKILL.md": {
+    "en": "Generate API documentation from source code with JSDoc and OpenAPI support",
+    "ko": "JSDoc과 OpenAPI 지원으로 소스 코드에서 API 문서를 생성",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-docs/skills/doc-gen/SKILL.md": {
+    "en": "Generate and maintain documentation with drift detection. Use when the user asks to write/update/refresh docs, detect doc drift against code, or schedule recurring documentation maintenance.",
+    "ko": "드리프트 탐지와 함께 문서를 생성하고 유지 관리합니다. 사용자가 문서를 작성/업데이트/새로 고치라고(write/update/refresh) 하거나, 코드 대비 문서 드리프트를 탐지하라고 하거나, 반복되는 문서 유지 관리를 예약하라고 할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-federation/agents/federation-coordinator.md": {
+    "en": "Orchestrates cross-installation agent federation with zero-trust security",
+    "ko": "제로 트러스트 보안으로 설치 간 에이전트 페더레이션을 오케스트레이션",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-federation/commands/federation.md": {
+    "en": "Manage cross-installation agent federation",
+    "ko": "설치 간 에이전트 페더레이션 관리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-federation/skills/federation-audit/SKILL.md": {
+    "en": "Query federation audit logs with compliance filtering",
+    "ko": "규정 준수 필터링으로 페더레이션 감사 로그를 쿼리",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-federation/skills/federation-init/SKILL.md": {
+    "en": "Initialize federation on this node — generate keypair and configure peers",
+    "ko": "이 노드에서 페더레이션을 초기화 — 키 쌍을 생성하고 피어를 설정",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-federation/skills/federation-status/SKILL.md": {
+    "en": "Show federation health — peers, sessions, trust levels, and message metrics. Use when the user asks \"is federation healthy?\", \"show peers\", \"federation status\", or wants to inspect cross-installation agent connectivity.",
+    "ko": "페더레이션 상태를 보여 줍니다 — 피어, 세션, 신뢰 수준, 메시지 메트릭. 사용자가 \"페더레이션 정상이야?\"(\"is federation healthy?\"), \"피어 보여 줘\"(\"show peers\"), \"페더레이션 상태\"(\"federation status\")라고 묻거나 설치 간 에이전트 연결 상태를 점검하려 할 때 사용합니다.",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/agents/deep-researcher.md": {
+    "en": "Multi-source research specialist that gathers, cross-references, and synthesizes information with evidence grading and contradiction resolution",
+    "ko": "증거 등급 평가와 모순 해소로 정보를 수집하고, 교차 참조하고, 종합하는 다중 소스 리서치 전문 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/agents/dossier-investigator.md": {
+    "en": "Recursive parallel multi-source investigator that fans out across web, memory, knowledge-graph, codebase, and ADR index to build a graph-structured dossier on a seed entity, with budget caps, de-duplication, and provenance per claim",
+    "ko": "웹, 메모리, 지식 그래프, 코드베이스, ADR 인덱스 전반으로 퍼져 나가 시드 엔티티에 대한 그래프 구조 자료(dossier)를 만드는 재귀적 병렬 다중 소스 조사 에이전트이며, 예산 상한, 중복 제거, 주장별 출처(provenance)를 갖춤",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/agents/goal-planner.md": {
+    "en": "GOAP specialist that creates optimal action plans using A* search through state spaces, with adaptive replanning, trajectory learning, and multi-mode execution",
+    "ko": "상태 공간에서 A* 탐색으로 최적의 행동 계획을 만드는 GOAP 전문 에이전트이며, 적응형 재계획, 궤적 학습, 다중 모드 실행을 갖춤",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/agents/horizon-tracker.md": {
+    "en": "Long-horizon objective tracker that persists progress across sessions with milestone checkpoints, drift detection, and adaptive timeline management",
+    "ko": "마일스톤 체크포인트, 드리프트 탐지, 적응형 일정 관리로 세션 간 진행 상황을 영속화하는 장기 목표 추적 에이전트",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/commands/goals.md": {
+    "en": "List active horizons, check goal progress, and view research findings",
+    "ko": "활성 지평 목록 조회, 목표 진행 상황 확인, 리서치 결과 보기",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/skills/deep-research/SKILL.md": {
+    "en": "Orchestrate multi-phase deep research with web search, memory retrieval, pattern matching, and synthesis into structured findings",
+    "ko": "웹 검색, 메모리 조회, 패턴 매칭, 종합을 구조화된 결과로 엮는 다단계 심층 리서치를 오케스트레이션",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/skills/dossier-collect/SKILL.md": {
+    "en": "Build a graph-structured dossier on a seed entity via parallel fan-out + recursive expansion across web, memory, knowledge-graph, codebase, ADR index, and git intel",
+    "ko": "웹, 메모리, 지식 그래프, 코드베이스, ADR 인덱스, git 인텔리전스 전반에 대한 병렬 팬아웃 + 재귀 확장으로 시드 엔티티에 대한 그래프 구조 자료(dossier)를 구축",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/skills/goal-plan/SKILL.md": {
+    "en": "Create and execute Goal-Oriented Action Plans (GOAP) with precondition analysis, cost optimization, and adaptive replanning",
+    "ko": "전제 조건 분석, 비용 최적화, 적응형 재계획으로 목표 지향 행동 계획(GOAP)을 생성하고 실행",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/skills/horizon-track/SKILL.md": {
+    "en": "Track long-horizon objectives across multiple sessions with milestone checkpoints, progress persistence, and drift detection",
+    "ko": "마일스톤 체크포인트, 진행 상황 영속화, 드리프트 탐지로 여러 세션에 걸친 장기 목표를 추적",
+    "synth": false,
+    "style": "plain"
+  },
+  "plugins/ruflo-goals/skills/research-synthesize/SKILL.md": {
+    "en": "Synthesize research findings from memory into structured reports with evidence grading, contradiction resolution, and actionable recommendations",
+    "ko": "증거 등급 평가, 모순 해소, 실행 가능한 권장 사항으로 메모리의 리서치 결과를 구조화된 보고서로 종합",
+    "synth": false,
+    "style": "plain"
+  }
+}

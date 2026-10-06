@@ -1,3 +1,7 @@
+---
+description: 페어 프로그래밍 설정
+---
+
 # Pair Programming Configuration
 
 Complete configuration guide for pair programming sessions.

@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/benchmark.ts",
+  "entries": [
+    {
+      "key": "Performance benchmarking",
+      "ko": "성능 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:52 description"
+      ]
+    },
+    {
+      "key": "Vector dimensions",
+      "ko": "벡터 차원 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:63 description"
+      ]
+    },
+    {
+      "key": "Number of test queries",
+      "ko": "테스트 쿼리 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:70 description"
+      ]
+    },
+    {
+      "key": "Top-k results to retrieve",
+      "ko": "조회할 상위 k개 결과",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:76 description"
+      ]
+    },
+    {
+      "key": "Distance metric",
+      "ko": "거리 측정 방식",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:83 description"
+      ]
+    },
+    {
+      "key": "Index type to test",
+      "ko": "테스트할 인덱스 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:91 description"
+      ]
+    },
+    {
+      "key": "Batch size for inserts",
+      "ko": "삽입 배치 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:98 description"
+      ]
+    },
+    {
+      "key": "Clean up test data after benchmark",
+      "ko": "벤치마크 후 테스트 데이터를 정리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:104 description"
+      ]
+    },
+    {
+      "key": "Benchmark with 50k vectors",
+      "ko": "벡터 50k개로 벤치마크합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:155 description"
+      ]
+    },
+    {
+      "key": "Test IVFFlat index",
+      "ko": "IVFFlat 인덱스를 테스트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:156 description"
+      ]
+    },
+    {
+      "key": "Custom dimensions and metric",
+      "ko": "사용자 지정 차원 수와 측정 방식",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/benchmark.ts:157 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

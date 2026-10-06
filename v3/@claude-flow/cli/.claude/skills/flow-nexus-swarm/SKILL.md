@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-swarm
-description: Cloud-based AI swarm deployment and event-driven workflow automation with Flow Nexus platform
+description: Flow Nexus 플랫폼의 클라우드 기반 AI 스웜 배포와 이벤트 기반 워크플로 자동화
 ---
 
 # Flow Nexus Swarm & Workflow Orchestration

@@ -1,6 +1,6 @@
 ---
 name: harness-similarity
-description: ADR-152 — weighted similarity between two harness fingerprints (genome + score JSON). Returns overall score in [0,1] plus per-component breakdown (cosine over 9 numerics, categorical agreement over 4 enums, jaccard over agent_topology). Unblocks ADR-151 §3.2 Recommender, §3.3 Drift Detection, §3.5 Plugin Compat. Pure-TS, no `@metaharness/*` dep — preserves ADR-150's four architectural constraints.
+description: ADR-152 — 두 하네스 지문(genome + score JSON) 간 가중 유사도. [0,1] 범위의 전체 점수와 구성 요소별 내역(숫자 9개에 대한 코사인, 열거형 4개에 대한 범주 일치도, agent_topology에 대한 jaccard)을 반환합니다. ADR-151 §3.2 추천기, §3.3 드리프트 탐지, §3.5 플러그인 호환성의 막힌 부분을 풉니다. 순수 TS이며 `@metaharness/*` 의존성이 없어 ADR-150의 아키텍처 제약 네 가지를 지킵니다.
 argument-hint: "(--a a.json --b b.json | --a-key X --b-key Y) [--per-dimension] [--alert-below 0.5] [--format json|table]"
 allowed-tools: Bash
 ---

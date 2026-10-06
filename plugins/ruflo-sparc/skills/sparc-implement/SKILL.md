@@ -1,6 +1,6 @@
 ---
 name: sparc-implement
-description: Run the SPARC Pseudocode and Architecture phases (2 and 3) — write algorithm pseudocode, design module boundaries and API contracts, then implement
+description: SPARC 의사코드 및 아키텍처 단계(2, 3단계)를 실행 — 알고리즘 의사코드를 작성하고, 모듈 경계와 API 계약을 설계한 뒤 구현
 argument-hint: ""
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__task_create mcp__plugin_ruflo-core_ruflo__task_update mcp__plugin_ruflo-core_ruflo__task_complete mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-step mcp__plugin_ruflo-core_ruflo__neural_predict mcp__plugin_ruflo-core_ruflo__workflow_create Bash Read Write Edit
 ---

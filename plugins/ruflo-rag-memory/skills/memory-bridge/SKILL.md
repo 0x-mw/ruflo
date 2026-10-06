@@ -1,6 +1,6 @@
 ---
 name: memory-bridge
-description: Bridge Claude Code auto-memory into AgentDB with ONNX embeddings, deduplicate, and enable unified cross-project search
+description: Claude Code 자동 메모리를 ONNX 임베딩으로 AgentDB에 연결하고, 중복을 제거하며, 프로젝트 간 통합 검색을 활성화
 argument-hint: "[--all-projects] [--dedupe]"
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_import_claude mcp__plugin_ruflo-core_ruflo__memory_bridge_status mcp__plugin_ruflo-core_ruflo__memory_search_unified
 ---

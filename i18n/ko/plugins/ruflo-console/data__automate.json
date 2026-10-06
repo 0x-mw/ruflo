@@ -1,0 +1,104 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/automate.ts",
+  "entries": [
+    {
+      "key": "deep knowledge acquisition",
+      "ko": "심층 지식 습득",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:45 ultralearn"
+      ]
+    },
+    {
+      "key": "performance optimization",
+      "ko": "성능 최적화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:46 optimize"
+      ]
+    },
+    {
+      "key": "memory consolidation",
+      "ko": "메모리 통합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:47 consolidate"
+      ]
+    },
+    {
+      "key": "predictive preloading",
+      "ko": "예측 프리로딩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:48 predict"
+      ]
+    },
+    {
+      "key": "security analysis",
+      "ko": "보안 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:49 audit"
+      ]
+    },
+    {
+      "key": "codebase mapping",
+      "ko": "코드베이스 매핑",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:50 map"
+      ]
+    },
+    {
+      "key": "resource preloading",
+      "ko": "리소스 프리로딩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:51 preload"
+      ]
+    },
+    {
+      "key": "deep code analysis",
+      "ko": "심층 코드 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:52 deepdive"
+      ]
+    },
+    {
+      "key": "refactoring suggestions",
+      "ko": "리팩터링 제안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:54 refactor"
+      ]
+    },
+    {
+      "key": "performance benchmarking",
+      "ko": "성능 벤치마킹",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:55 benchmark"
+      ]
+    },
+    {
+      "key": "test coverage analysis",
+      "ko": "테스트 커버리지 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:56 testgaps"
+      ]
+    },
+    {
+      "key": "(hidden)",
+      "ko": "(숨김)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/automate.ts:88 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

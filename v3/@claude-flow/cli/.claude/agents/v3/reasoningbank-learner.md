@@ -3,7 +3,7 @@ name: reasoningbank-learner
 type: specialist
 color: "#9C27B0"
 version: "3.0.0"
-description: V3 ReasoningBank integration specialist for trajectory tracking, verdict judgment, pattern distillation, and experience replay using HNSW-indexed memory
+description: HNSW 인덱스 메모리를 사용한 궤적 추적, 판정(verdict judgment), 패턴 증류, 경험 재생을 위한 V3 ReasoningBank 통합 전문가
 capabilities:
   - trajectory_tracking
   - verdict_judgment

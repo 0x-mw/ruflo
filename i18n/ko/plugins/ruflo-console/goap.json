@@ -1,0 +1,778 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/goap.ts",
+  "entries": [
+    {
+      "key": "feature",
+      "ko": "기능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:22 label"
+      ]
+    },
+    {
+      "key": "research, specify, design + ADRs, tests first, build, validate, secure, benchmark, learn",
+      "ko": "조사, 명세, 설계 + ADR, 테스트 우선, 구현, 검증, 보안, 벤치마크, 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:22 about"
+      ]
+    },
+    {
+      "key": "bug fix",
+      "ko": "버그 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:23 label"
+      ]
+    },
+    {
+      "key": "research, reproduce, diagnose, a regression test first, fix, validate, secure, learn",
+      "ko": "조사, 재현, 진단, 회귀 테스트 우선, 수정, 검증, 보안, 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:23 about"
+      ]
+    },
+    {
+      "key": "refactor",
+      "ko": "리팩터링",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:24 label"
+      ]
+    },
+    {
+      "key": "research, pin behaviour, redesign + ADRs, change, validate, secure, benchmark, learn",
+      "ko": "조사, 동작 고정, 재설계 + ADR, 변경, 검증, 보안, 벤치마크, 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:24 about"
+      ]
+    },
+    {
+      "key": "security",
+      "ko": "보안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:25 label"
+      ]
+    },
+    {
+      "key": "research, threat model, design + ADRs, tests first, build, secure, benchmark, learn",
+      "ko": "조사, 위협 모델링, 설계 + ADR, 테스트 우선, 구현, 보안, 벤치마크, 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:25 about"
+      ]
+    },
+    {
+      "key": "research",
+      "ko": "조사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:26 label"
+      ]
+    },
+    {
+      "key": "research the prior art, specify the question, investigate, write it up, learn",
+      "ko": "선행 사례 조사, 질문 명세, 탐구, 정리, 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:26 about"
+      ]
+    },
+    {
+      "key": "Specification",
+      "ko": "명세",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:30 S"
+      ]
+    },
+    {
+      "key": "Pseudocode",
+      "ko": "의사코드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:30 P"
+      ]
+    },
+    {
+      "key": "Architecture",
+      "ko": "아키텍처",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:30 A"
+      ]
+    },
+    {
+      "key": "Refinement",
+      "ko": "정제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:30 R"
+      ]
+    },
+    {
+      "key": "Completion",
+      "ko": "완료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:30 C"
+      ]
+    },
+    {
+      "key": "Gate",
+      "ko": "게이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:30 X"
+      ]
+    },
+    {
+      "key": "Research prior art, existing ADRs and memory",
+      "ko": "선행 사례, 기존 ADR, 메모리 조사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:38 act()"
+      ]
+    },
+    {
+      "key": "what already exists (code, ADRs, memory patterns) and what is reusable, with sources",
+      "ko": "이미 있는 것(코드, ADR, 메모리 패턴)과 재사용 가능한 것을 출처와 함께 정리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:38 act()"
+      ]
+    },
+    {
+      "key": "Specify the requirements and acceptance criteria",
+      "ko": "요구사항과 인수 기준 명세",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:39 act()"
+      ]
+    },
+    {
+      "key": "a written specification with testable acceptance criteria",
+      "ko": "테스트할 수 있는 인수 기준이 담긴 명세서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:39 act()"
+      ]
+    },
+    {
+      "key": "Reproduce the problem with a failing case",
+      "ko": "실패하는 사례로 문제 재현",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:40 act()"
+      ]
+    },
+    {
+      "key": "a deterministic failing reproduction",
+      "ko": "항상 같게 실패하는 재현 사례",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:40 act()"
+      ]
+    },
+    {
+      "key": "Diagnose the root cause",
+      "ko": "근본 원인 진단",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:41 act()"
+      ]
+    },
+    {
+      "key": "the root cause named, with evidence from the code",
+      "ko": "코드상의 증거와 함께 밝혀 낸 근본 원인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:41 act()"
+      ]
+    },
+    {
+      "key": "Pin current behaviour with characterization tests",
+      "ko": "특성화 테스트로 현재 동작 고정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:42 act()"
+      ]
+    },
+    {
+      "key": "tests that pass on the unchanged code and fail if behaviour moves",
+      "ko": "변경 전 코드에서는 통과하고 동작이 바뀌면 실패하는 테스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:42 act()"
+      ]
+    },
+    {
+      "key": "Threat-model the change",
+      "ko": "변경에 대한 위협 모델링",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:43 act()"
+      ]
+    },
+    {
+      "key": "a threat list with the mitigation each one needs",
+      "ko": "위협 목록과 위협별로 필요한 완화책",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:43 act()"
+      ]
+    },
+    {
+      "key": "Investigate the question",
+      "ko": "질문 탐구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:44 act()"
+      ]
+    },
+    {
+      "key": "findings with sources, and what is still unknown",
+      "ko": "출처가 있는 조사 결과와 아직 모르는 것",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:44 act()"
+      ]
+    },
+    {
+      "key": "Write the pseudocode for the core logic",
+      "ko": "핵심 로직의 의사코드 작성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:45 act()"
+      ]
+    },
+    {
+      "key": "step-by-step logic covering every acceptance criterion",
+      "ko": "모든 인수 기준을 다루는 단계별 로직",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:45 act()"
+      ]
+    },
+    {
+      "key": "Design the smallest fix",
+      "ko": "최소 수정 설계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:46 act()"
+      ]
+    },
+    {
+      "key": "the minimal change that removes the cause",
+      "ko": "원인을 없애는 최소한의 변경",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:46 act()"
+      ]
+    },
+    {
+      "key": "Design the architecture and interfaces",
+      "ko": "아키텍처와 인터페이스 설계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:47 act()"
+      ]
+    },
+    {
+      "key": "modules, interfaces and data flow, with the decisions recorded",
+      "ko": "결정 사항이 기록된 모듈, 인터페이스, 데이터 흐름",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:47 act()"
+      ]
+    },
+    {
+      "key": "Design the target structure",
+      "ko": "목표 구조 설계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:48 act()"
+      ]
+    },
+    {
+      "key": "the target structure and the steps to reach it",
+      "ko": "목표 구조와 거기에 이르는 단계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:48 act()"
+      ]
+    },
+    {
+      "key": "Design the secure structure",
+      "ko": "안전한 구조 설계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:49 act()"
+      ]
+    },
+    {
+      "key": "a design that closes each modeled threat",
+      "ko": "모델링한 위협을 하나씩 막는 설계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:49 act()"
+      ]
+    },
+    {
+      "key": "Record the decisions as ADRs and write the SOP",
+      "ko": "결정을 ADR로 기록하고 SOP 작성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:50 act()"
+      ]
+    },
+    {
+      "key": "an ADR per decision and a short SOP for running and changing it, linked from the code",
+      "ko": "결정마다 ADR 하나, 운영과 변경 방법을 담은 짧은 SOP, 코드에서 연결",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:50 act()"
+      ]
+    },
+    {
+      "key": "Write the failing tests first",
+      "ko": "실패하는 테스트 먼저 작성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:51 act()"
+      ]
+    },
+    {
+      "key": "tests that fail for the right reason before the change",
+      "ko": "변경 전에 올바른 이유로 실패하는 테스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:51 act()"
+      ]
+    },
+    {
+      "key": "Implement until the tests pass",
+      "ko": "테스트가 통과할 때까지 구현",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:52 act()"
+      ]
+    },
+    {
+      "key": "the change, with the new tests passing and no others broken",
+      "ko": "새 테스트는 통과하고 다른 테스트는 깨지지 않은 변경",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:52 act()"
+      ]
+    },
+    {
+      "key": "Run the full test suite",
+      "ko": "전체 테스트 스위트 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:53 act()"
+      ]
+    },
+    {
+      "key": "the whole suite green, the output kept as evidence",
+      "ko": "전체 스위트 통과, 출력은 증거로 보관",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:53 act()"
+      ]
+    },
+    {
+      "key": "Review the change",
+      "ko": "변경 리뷰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:54 act()"
+      ]
+    },
+    {
+      "key": "a review with every finding resolved or accepted",
+      "ko": "모든 지적을 해결했거나 수용한 리뷰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:54 act()"
+      ]
+    },
+    {
+      "key": "Security review",
+      "ko": "보안 리뷰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:55 act()"
+      ]
+    },
+    {
+      "key": "no open high-severity finding",
+      "ko": "해결되지 않은 고위험 지적 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:55 act()"
+      ]
+    },
+    {
+      "key": "Benchmark against the baseline",
+      "ko": "기준선 대비 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:56 act()"
+      ]
+    },
+    {
+      "key": "measurements no worse than the baseline",
+      "ko": "기준선보다 나빠지지 않은 측정값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:56 act()"
+      ]
+    },
+    {
+      "key": "Document the change",
+      "ko": "변경 문서화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:57 act()"
+      ]
+    },
+    {
+      "key": "the docs match the shipped behaviour",
+      "ko": "문서가 배포된 동작과 일치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:57 act()"
+      ]
+    },
+    {
+      "key": "Integrate: build and CI",
+      "ko": "통합: 빌드와 CI",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:58 act()"
+      ]
+    },
+    {
+      "key": "the build and CI checks pass",
+      "ko": "빌드와 CI 점검 통과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:58 act()"
+      ]
+    },
+    {
+      "key": "Validate the result against the goal",
+      "ko": "목표 대비 결과 검증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:59 act()"
+      ]
+    },
+    {
+      "key": "every acceptance criterion checked by something other than the author",
+      "ko": "모든 인수 기준을 작성자가 아닌 쪽에서 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:59 act()"
+      ]
+    },
+    {
+      "key": "Learn: store the outcome and self-optimize",
+      "ko": "학습: 결과 저장 및 자가 최적화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:60 act()"
+      ]
+    },
+    {
+      "key": "the outcome stored as patterns (memory and trajectory) and routing trained on it, so the next mission starts better",
+      "ko": "결과를 패턴(메모리와 궤적)으로 저장하고 라우팅을 학습시켜 다음 미션이 더 잘 시작되게 함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:60 act()"
+      ]
+    },
+    {
+      "key": "Learn: store the findings and self-optimize",
+      "ko": "학습: 조사 결과 저장 및 자가 최적화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:61 act()"
+      ]
+    },
+    {
+      "key": "the findings stored as patterns with their sources, so the next investigation starts better",
+      "ko": "조사 결과를 출처와 함께 패턴으로 저장해 다음 조사가 더 잘 시작되게 함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:61 act()"
+      ]
+    },
+    {
+      "key": "Write up the findings",
+      "ko": "조사 결과 정리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:62 act()"
+      ]
+    },
+    {
+      "key": "a readable write-up a reader can act on",
+      "ko": "읽는 사람이 바로 행동할 수 있는 읽기 쉬운 정리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:62 act()"
+      ]
+    },
+    {
+      "key": "Create",
+      "ko": "구현",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:66 const",
+        "plugins/ruflo-console/hooks/goap.ts:71 specify",
+        "plugins/ruflo-console/hooks/goap.ts:71 pseudocode"
+      ]
+    },
+    {
+      "key": "Test",
+      "ko": "테스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:66 const",
+        "plugins/ruflo-console/hooks/goap.ts:73 verify-tests",
+        "plugins/ruflo-console/hooks/goap.ts:73 integrate"
+      ]
+    },
+    {
+      "key": "Validate",
+      "ko": "검증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:66 const",
+        "plugins/ruflo-console/hooks/goap.ts:74 review",
+        "plugins/ruflo-console/hooks/goap.ts:74 verify"
+      ]
+    },
+    {
+      "key": "Secure",
+      "ko": "보안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:66 const",
+        "plugins/ruflo-console/hooks/goap.ts:75 security-review"
+      ]
+    },
+    {
+      "key": "Benchmark",
+      "ko": "벤치마크",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:66 const",
+        "plugins/ruflo-console/hooks/goap.ts:76 benchmark"
+      ]
+    },
+    {
+      "key": "Learn",
+      "ko": "학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:66 const",
+        "plugins/ruflo-console/hooks/goap.ts:77 learn",
+        "plugins/ruflo-console/hooks/goap.ts:77 learn-findings"
+      ]
+    },
+    {
+      "key": "a specification exists and every requirement has a testable acceptance criterion",
+      "ko": "명세가 있고 모든 요구사항에 테스트 가능한 인수 기준이 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:272 specified"
+      ]
+    },
+    {
+      "key": "the problem is reproduced by a deterministic failing case",
+      "ko": "문제가 항상 같게 실패하는 사례로 재현됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:273 reproduced"
+      ]
+    },
+    {
+      "key": "the root cause is identified with evidence",
+      "ko": "근본 원인이 증거와 함께 파악됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:274 diagnosed"
+      ]
+    },
+    {
+      "key": "characterization tests pass on the unchanged code",
+      "ko": "특성화 테스트가 변경 전 코드에서 통과함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:275 baselined"
+      ]
+    },
+    {
+      "key": "a threat model lists each threat and its mitigation",
+      "ko": "위협 모델에 각 위협과 완화책이 나열됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:276 threat-modeled"
+      ]
+    },
+    {
+      "key": "the design is written down: modules, interfaces and decisions",
+      "ko": "설계가 기록됨: 모듈, 인터페이스, 결정 사항",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:277 architected"
+      ]
+    },
+    {
+      "key": "findings are recorded with their sources",
+      "ko": "조사 결과가 출처와 함께 기록됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:278 researched"
+      ]
+    },
+    {
+      "key": "the whole test suite passes, including the new tests",
+      "ko": "새 테스트를 포함한 전체 테스트 스위트가 통과함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:279 tested"
+      ]
+    },
+    {
+      "key": "review findings are resolved or explicitly accepted",
+      "ko": "리뷰 지적이 해결되었거나 명시적으로 수용됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:280 reviewed"
+      ]
+    },
+    {
+      "key": "no open high-severity security finding",
+      "ko": "해결되지 않은 고위험 보안 지적 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:281 secured"
+      ]
+    },
+    {
+      "key": "measurements are no worse than the baseline",
+      "ko": "측정값이 기준선보다 나빠지지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:282 benchmarked"
+      ]
+    },
+    {
+      "key": "documentation matches the shipped behaviour",
+      "ko": "문서가 배포된 동작과 일치함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:283 documented"
+      ]
+    },
+    {
+      "key": "build and CI checks pass",
+      "ko": "빌드와 CI 점검이 통과함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:284 integrated"
+      ]
+    },
+    {
+      "key": "every acceptance criterion is checked by something other than the author",
+      "ko": "모든 인수 기준을 작성자가 아닌 쪽에서 확인함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:285 verified"
+      ]
+    },
+    {
+      "key": "prior art, existing ADRs and memory are searched and what is reusable is recorded",
+      "ko": "선행 사례, 기존 ADR, 메모리를 조사하고 재사용 가능한 것을 기록함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:286 context-researched"
+      ]
+    },
+    {
+      "key": "each decision is an ADR and a short SOP says how to run and change it",
+      "ko": "결정마다 ADR이 있고 짧은 SOP에 운영과 변경 방법이 적혀 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:287 adr-recorded"
+      ]
+    },
+    {
+      "key": "the outcome is stored as patterns and routing is trained on it",
+      "ko": "결과가 패턴으로 저장되고 라우팅이 이를 학습함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:288 learned"
+      ]
+    },
+    {
+      "key": "USD",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:318 currency"
+      ]
+    },
+    {
+      "key": "the full test suite",
+      "ko": "전체 테스트 스위트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:348 const"
+      ]
+    },
+    {
+      "key": "the build and smoke checks",
+      "ko": "빌드와 스모크 점검",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:351 add()"
+      ]
+    },
+    {
+      "key": "the review",
+      "ko": "리뷰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:352 add()"
+      ]
+    },
+    {
+      "key": "the security review",
+      "ko": "보안 리뷰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:353 add()"
+      ]
+    },
+    {
+      "key": "the benchmark against the baseline",
+      "ko": "기준선 대비 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/goap.ts:354 add()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

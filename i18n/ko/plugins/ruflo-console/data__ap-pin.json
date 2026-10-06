@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/ap-pin.ts",
+  "entries": [
+    {
+      "key": "no recorded approval for this run: confirm Start again",
+      "ko": "이 실행에 기록된 승인이 없습니다: 시작을 다시 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-pin.ts:27 why"
+      ]
+    },
+    {
+      "key": "the journal names an envelope other than the one you approved: it was changed outside the console",
+      "ko": "저널이 승인한 것과 다른 엔벨로프를 가리킵니다: 콘솔 밖에서 변경되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-pin.ts:28 why"
+      ]
+    },
+    {
+      "key": "the journal reads as running, but a stop was recorded: its stop line was removed outside the console",
+      "ko": "저널은 실행 중으로 보이지만 중지가 기록되어 있습니다: 중지 줄이 콘솔 밖에서 제거되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-pin.ts:29 why"
+      ]
+    },
+    {
+      "key": "the journal holds {0} start lines, you confirmed {1}: one was added or removed outside the console",
+      "ko": "저널의 시작 줄은 {0}개인데 확인한 것은 {1}개입니다: 콘솔 밖에서 하나가 추가되거나 제거되었습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/ap-pin.ts:30 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

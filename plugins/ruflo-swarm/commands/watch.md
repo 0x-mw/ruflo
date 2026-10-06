@@ -1,6 +1,6 @@
 ---
 name: watch
-description: Live-stream swarm events and agent activity in real time
+description: 스웜 이벤트와 에이전트 활동을 실시간으로 라이브 스트리밍
 ---
 $ARGUMENTS
 

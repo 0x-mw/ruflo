@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-strip.ts",
+  "entries": [
+    {
+      "key": "no tasks yet: plan the goal first",
+      "ko": "아직 작업이 없습니다: 먼저 목표를 계획하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-strip.ts:22 text"
+      ]
+    },
+    {
+      "key": "every task is done",
+      "ko": "모든 작업을 완료했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-strip.ts:23 text"
+      ]
+    },
+    {
+      "key": "paused: resume to carry on",
+      "ko": "일시 중지됨: 재개하면 이어서 진행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-strip.ts:24 text"
+      ]
+    },
+    {
+      "key": "◐ running {0}",
+      "ko": "◐ 실행 중 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-strip.ts:26 const"
+      ]
+    },
+    {
+      "key": "waiting: the next task needs one that is not done",
+      "ko": "기다리는 중: 다음 작업은 아직 끝나지 않은 작업이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-strip.ts:37 text"
+      ]
+    }
+  ],
+  "obsolete": []
+}

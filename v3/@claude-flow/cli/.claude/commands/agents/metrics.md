@@ -1,6 +1,6 @@
 ---
 name: metrics
-description: Show agent performance metrics
+description: 에이전트 성능 메트릭을 표시합니다
 type: command
 ---
 

@@ -1,0 +1,931 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/loops.ts",
+  "entries": [
+    {
+      "key": "Practical",
+      "ko": "실용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:37 title"
+      ]
+    },
+    {
+      "key": "everyday watching and fixing",
+      "ko": "일상적인 감시와 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:37 about"
+      ]
+    },
+    {
+      "key": "Steady",
+      "ko": "꾸준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:38 title"
+      ]
+    },
+    {
+      "key": "scheduled upkeep and autopilot",
+      "ko": "예약 유지 관리와 오토파일럿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:38 about"
+      ]
+    },
+    {
+      "key": "Exotic",
+      "ko": "실험",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:39 title"
+      ]
+    },
+    {
+      "key": "self-pacing, consensus and learning loops",
+      "ko": "자체 속도 조절, 합의, 학습 루프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:39 about"
+      ]
+    },
+    {
+      "key": "Watch CI on this branch",
+      "ko": "이 브랜치의 CI 감시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:43 title"
+      ]
+    },
+    {
+      "key": "report failures with the log lines, fix what is mine",
+      "ko": "실패는 로그 줄과 함께 보고하고 내 몫은 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:43 about"
+      ]
+    },
+    {
+      "key": "Check CI for the current branch’s pull request. If a check failed, read its log, fix the cause and push; otherwise say what is still running.",
+      "ko": "현재 브랜치의 풀 리퀘스트에 대한 CI를 확인하세요. 점검이 실패했다면 로그를 읽고 원인을 고쳐 푸시하고, 그렇지 않으면 아직 실행 중인 것이 무엇인지 알려 주세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:43 task"
+      ]
+    },
+    {
+      "key": "one short turn per tick; reads and may push fixes",
+      "ko": "틱마다 짧은 턴 1회, 읽기 및 수정 푸시 가능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:43 cost"
+      ]
+    },
+    {
+      "key": "Keep the tests green",
+      "ko": "테스트 통과 상태 유지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:44 title"
+      ]
+    },
+    {
+      "key": "run the test suite, fix a failure at a time",
+      "ko": "테스트 스위트를 실행하고 실패를 하나씩 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:44 about"
+      ]
+    },
+    {
+      "key": "Run the project’s tests. If any fail, find the cause and fix it with the smallest change, then run them again.",
+      "ko": "프로젝트의 테스트를 실행하세요. 실패가 있으면 원인을 찾아 최소한의 변경으로 고친 뒤 다시 실행하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:44 task"
+      ]
+    },
+    {
+      "key": "a turn per tick; edits files",
+      "ko": "틱마다 턴 1회, 파일 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:44 cost"
+      ]
+    },
+    {
+      "key": "Babysit open PRs",
+      "ko": "열린 PR 돌보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:45 title"
+      ]
+    },
+    {
+      "key": "rebase, answer review comments, merge when green",
+      "ko": "리베이스, 리뷰 댓글 응답, 통과하면 병합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:45 about"
+      ]
+    },
+    {
+      "key": "List my open pull requests. For each: rebase if behind, address review comments, and report when checks are green. Do not merge without asking.",
+      "ko": "내가 연 풀 리퀘스트를 나열하세요. 각각에 대해 뒤처졌으면 리베이스하고, 리뷰 댓글을 처리하고, 점검이 통과하면 보고하세요. 묻지 않고 병합하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:45 task"
+      ]
+    },
+    {
+      "key": "a turn per tick; may push",
+      "ko": "틱마다 턴 1회, 푸시 가능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:45 cost"
+      ]
+    },
+    {
+      "key": "Audit worker",
+      "ko": "감사 워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:46 title"
+      ]
+    },
+    {
+      "key": "security scanning on a schedule (ruflo-loop-workers)",
+      "ko": "일정에 따른 보안 스캔 (ruflo-loop-workers)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:46 about"
+      ]
+    },
+    {
+      "key": "the worker runs, then schedules its own next wake-up",
+      "ko": "워커가 실행된 뒤 다음 깨우기를 스스로 예약",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:46 cost",
+        "plugins/ruflo-console/hooks/loops.ts:47 cost",
+        "plugins/ruflo-console/hooks/loops.ts:48 cost"
+      ]
+    },
+    {
+      "key": "Test-gap worker",
+      "ko": "테스트 공백 워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:47 title"
+      ]
+    },
+    {
+      "key": "find untested code on a schedule",
+      "ko": "일정에 따라 테스트되지 않은 코드 탐색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:47 about"
+      ]
+    },
+    {
+      "key": "Optimize worker",
+      "ko": "최적화 워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:48 title"
+      ]
+    },
+    {
+      "key": "performance optimisation upkeep",
+      "ko": "성능 최적화 유지 관리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:48 about"
+      ]
+    },
+    {
+      "key": "Memory consolidation worker",
+      "ko": "메모리 통합 워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:49 title"
+      ]
+    },
+    {
+      "key": "keep memory compact and recallable",
+      "ko": "메모리를 간결하고 다시 불러올 수 있게 유지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:49 about"
+      ]
+    },
+    {
+      "key": "low priority; a short turn per tick",
+      "ko": "낮은 우선순위, 틱마다 짧은 턴 1회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:49 cost"
+      ]
+    },
+    {
+      "key": "Autopilot",
+      "ko": "오토파일럿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:50 title",
+        "plugins/ruflo-console/hooks/views/automate.ts:225 rule()"
+      ]
+    },
+    {
+      "key": "finish the task list on its own, supervised",
+      "ko": "감독 아래 작업 목록을 스스로 완료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:50 about"
+      ]
+    },
+    {
+      "key": "a turn per step until the list is done",
+      "ko": "목록이 끝날 때까지 스텝마다 턴 1회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:50 cost"
+      ]
+    },
+    {
+      "key": "Nightly schedule",
+      "ko": "야간 일정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:51 title"
+      ]
+    },
+    {
+      "key": "a recurring ruflo job on a cron (ruflo-schedule)",
+      "ko": "cron으로 반복되는 ruflo 작업 (ruflo-schedule)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:51 about"
+      ]
+    },
+    {
+      "key": "one turn a day",
+      "ko": "하루 턴 1회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:51 cost"
+      ]
+    },
+    {
+      "key": "Keep docs in step",
+      "ko": "문서 동기화 유지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:52 title"
+      ]
+    },
+    {
+      "key": "update docs and ADRs for what changed",
+      "ko": "변경된 내용에 맞춰 문서와 ADR 업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:52 about"
+      ]
+    },
+    {
+      "key": "Compare the last hour’s commits with the docs and ADRs; update whatever no longer matches the code, in one small commit.",
+      "ko": "지난 한 시간의 커밋을 문서와 ADR에 비교하세요. 코드와 더 이상 맞지 않는 것은 작은 커밋 하나로 업데이트하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:52 task"
+      ]
+    },
+    {
+      "key": "a turn per tick; edits docs",
+      "ko": "틱마다 턴 1회, 문서 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:52 cost"
+      ]
+    },
+    {
+      "key": "Harness drift watch",
+      "ko": "하네스 드리프트 감시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:53 title"
+      ]
+    },
+    {
+      "key": "MetaHarness drift against a baseline, alert on worsening",
+      "ko": "기준선 대비 MetaHarness 드리프트, 악화되면 경고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:53 about"
+      ]
+    },
+    {
+      "key": "Run `npx ruflo metaharness drift-from-history --alert-on-new-severity high`. Report only a change from the last tick.",
+      "ko": "`npx ruflo metaharness drift-from-history --alert-on-new-severity high`를 실행하세요. 지난 틱과 달라진 점만 보고하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:53 task"
+      ]
+    },
+    {
+      "key": "a short turn per tick; reads local files",
+      "ko": "틱마다 짧은 턴 1회, 로컬 파일 읽기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:53 cost"
+      ]
+    },
+    {
+      "key": "Dream cycle",
+      "ko": "드림 사이클",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:54 title"
+      ]
+    },
+    {
+      "key": "flywheel: evaluate candidates into receipts, never promote",
+      "ko": "플라이휠: 후보를 평가해 영수증으로 남기고 승격은 하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:54 about"
+      ]
+    },
+    {
+      "key": "Run `npx ruflo metaharness flywheel run --proposer auto --max-concurrency 2`, then list the new receipts. Do not promote anything.",
+      "ko": "`npx ruflo metaharness flywheel run --proposer auto --max-concurrency 2`를 실행한 뒤 새 영수증을 나열하세요. 아무것도 승격하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:54 task"
+      ]
+    },
+    {
+      "key": "a turn per tick; evaluation may spend on a model proposer",
+      "ko": "틱마다 턴 1회, 평가 시 모델 제안기에 비용이 들 수 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:54 cost"
+      ]
+    },
+    {
+      "key": "Hive consensus loop",
+      "ko": "하이브 합의 루프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:55 title"
+      ]
+    },
+    {
+      "key": "each tick: the hive proposes, votes and records the decision",
+      "ko": "틱마다 하이브가 제안하고 투표해 결정을 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:55 about"
+      ]
+    },
+    {
+      "key": "Use the hive-mind: propose the next most valuable improvement to this project, have the workers vote, and record the decision with its tally in memory.",
+      "ko": "hive-mind를 사용하세요. 이 프로젝트에서 다음으로 가장 가치 있는 개선안을 제안하고, 워커들이 투표하게 한 뒤, 결정과 집계 결과를 메모리에 기록하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:55 task"
+      ]
+    },
+    {
+      "key": "a longer turn per tick: several agents",
+      "ko": "틱마다 긴 턴 1회: 에이전트 여러 개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:55 cost"
+      ]
+    },
+    {
+      "key": "Long-horizon tracker",
+      "ko": "장기 목표 추적기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:56 title"
+      ]
+    },
+    {
+      "key": "checkpoint a long objective across sessions, detect drift",
+      "ko": "세션을 넘어 긴 목표를 체크포인트로 저장하고 드리프트 감지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:56 about"
+      ]
+    },
+    {
+      "key": "a turn per tick; writes memory checkpoints",
+      "ko": "틱마다 턴 1회, 메모리 체크포인트 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:56 cost"
+      ]
+    },
+    {
+      "key": "Ultralearn",
+      "ko": "울트라런",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:57 title"
+      ]
+    },
+    {
+      "key": "deep knowledge acquisition into memory and patterns",
+      "ko": "메모리와 패턴으로 지식을 깊이 습득",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:57 about"
+      ]
+    },
+    {
+      "key": "long turns; the worker schedules itself",
+      "ko": "긴 턴, 워커가 스스로 예약",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:57 cost"
+      ]
+    },
+    {
+      "key": "Sentry: live, on change",
+      "ko": "센트리: 실시간, 변경 시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:59 title"
+      ]
+    },
+    {
+      "key": "scan as files change and report only new findings",
+      "ko": "파일이 바뀔 때 스캔하고 새 지적만 보고",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:59 about"
+      ]
+    },
+    {
+      "key": "Read-only. Use the Monitor tool to watch this repo: poll `git status --porcelain` every 20 s and emit a line only when it changes. On each event run `npx ruflo security scan --depth quick --type code --output json` and report only findings that are new since the last event. Edit nothing.",
+      "ko": "읽기 전용입니다. Monitor 도구로 이 저장소를 감시하세요. 20초마다 `git status --porcelain`을 폴링하고 변경될 때만 한 줄을 출력하세요. 이벤트마다 `npx ruflo security scan --depth quick --type code --output json`을 실행해 지난 이벤트 이후 새로 나온 지적만 보고하세요. 아무것도 수정하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:59 task"
+      ]
+    },
+    {
+      "key": "a turn only when files change (events, not polling turns); edits nothing",
+      "ko": "파일이 바뀔 때만 턴 실행(폴링 턴 아님), 수정 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:59 cost"
+      ]
+    },
+    {
+      "key": "Sentry: quick scan",
+      "ko": "센트리: 빠른 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:60 title"
+      ]
+    },
+    {
+      "key": "a quick code scan, new findings only",
+      "ko": "빠른 코드 스캔, 새 지적만",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:60 about"
+      ]
+    },
+    {
+      "key": "Read-only. Run `npx ruflo security scan --depth quick --type code --output json`. Report only findings that are new since the last tick, by severity and file, and say nothing if there are none. Edit nothing.",
+      "ko": "읽기 전용입니다. `npx ruflo security scan --depth quick --type code --output json`을 실행하세요. 지난 틱 이후 새로 나온 지적만 심각도와 파일별로 보고하고, 없으면 아무 말도 하지 마세요. 아무것도 수정하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:60 task"
+      ]
+    },
+    {
+      "key": "a short turn per tick; edits nothing; writes the scan report",
+      "ko": "틱마다 짧은 턴 1회, 수정 없음, 스캔 보고서 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:60 cost"
+      ]
+    },
+    {
+      "key": "Sentry: secrets and PII",
+      "ko": "센트리: 시크릿과 PII",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:61 title"
+      ]
+    },
+    {
+      "key": "secrets, PII and injection text in the tree and recent commits",
+      "ko": "트리와 최근 커밋의 시크릿, PII, 인젝션 문구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:61 about"
+      ]
+    },
+    {
+      "key": "Read-only. Run `npx ruflo security secrets`, then check the last 20 commits and the working tree for secrets, PII or prompt-injection text. Report file and type only, and never print a value. Edit nothing.",
+      "ko": "읽기 전용입니다. `npx ruflo security secrets`를 실행한 뒤 최근 커밋 20개와 작업 트리에서 시크릿, PII, 프롬프트 인젝션 문구를 확인하세요. 파일과 유형만 보고하고 값은 절대 출력하지 마세요. 아무것도 수정하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:61 task"
+      ]
+    },
+    {
+      "key": "a short turn per tick; edits nothing; values are never shown",
+      "ko": "틱마다 짧은 턴 1회, 수정 없음, 값은 표시하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:61 cost"
+      ]
+    },
+    {
+      "key": "Sentry: nightly deep scan",
+      "ko": "센트리: 야간 정밀 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:62 title"
+      ]
+    },
+    {
+      "key": "a deep scan and STRIDE threats, grouped by root cause",
+      "ko": "정밀 스캔과 STRIDE 위협, 근본 원인별로 묶음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:62 about"
+      ]
+    },
+    {
+      "key": "Read-only. Run `npx ruflo security scan --depth deep --type code --output json` and `npx ruflo security threats`. Group the findings by root cause, rank them by risk, and say what changed since yesterday. Edit nothing.",
+      "ko": "읽기 전용입니다. `npx ruflo security scan --depth deep --type code --output json`과 `npx ruflo security threats`를 실행하세요. 지적을 근본 원인별로 묶고 위험도 순으로 정렬한 뒤 어제 이후 달라진 점을 알려 주세요. 아무것도 수정하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:62 task"
+      ]
+    },
+    {
+      "key": "one longer turn a day; edits nothing; writes the scan report",
+      "ko": "하루 긴 턴 1회, 수정 없음, 스캔 보고서 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:62 cost"
+      ]
+    },
+    {
+      "key": "Sentry: dependencies",
+      "ko": "센트리: 의존성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:63 title"
+      ]
+    },
+    {
+      "key": "known CVEs in the dependency tree, with the fixing version",
+      "ko": "의존성 트리의 알려진 CVE와 수정 버전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:63 about"
+      ]
+    },
+    {
+      "key": "Read-only. Run `npx ruflo security cve --list`. For each vulnerable dependency give the fixed version and what an upgrade could break. Propose the upgrades; change no file and open no pull request.",
+      "ko": "읽기 전용입니다. `npx ruflo security cve --list`를 실행하세요. 취약한 의존성마다 수정된 버전과 업그레이드 시 깨질 수 있는 것을 알려 주세요. 업그레이드를 제안만 하고, 파일을 바꾸거나 풀 리퀘스트를 열지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:63 task"
+      ]
+    },
+    {
+      "key": "one turn a day; reaches npm (npm audit); edits nothing",
+      "ko": "하루 턴 1회, npm에 접속(npm audit), 수정 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:63 cost"
+      ]
+    },
+    {
+      "key": "Sentry: find and fix",
+      "ko": "센트리: 찾아서 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:64 title"
+      ]
+    },
+    {
+      "key": "fix the top real finding in its own branch, never push",
+      "ko": "가장 심각한 실제 지적을 전용 브랜치에서 수정, 푸시는 하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:64 about"
+      ]
+    },
+    {
+      "key": "Never push or merge, never edit this checkout. Run `npx ruflo security scan --depth quick --type code --output json`. Take the highest-severity real finding (skip false positives), make a git worktree on branch sentry/<date>-<id>, fix it with the smallest change, run the tests, commit there, and report the branch and diff.",
+      "ko": "푸시나 병합을 하지 말고 이 체크아웃도 수정하지 마세요. `npx ruflo security scan --depth quick --type code --output json`을 실행하세요. 심각도가 가장 높은 실제 지적(오탐은 건너뜀)을 골라 브랜치 sentry/<date>-<id>에 git 워크트리를 만들고, 최소한의 변경으로 고친 뒤 테스트를 실행하고 거기에 커밋한 다음 브랜치와 diff를 보고하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:64 task"
+      ]
+    },
+    {
+      "key": "a turn per tick; edits files only in a new worktree branch and commits there; never pushes (the guard is the instruction, not a sandbox)",
+      "ko": "틱마다 턴 1회, 새 워크트리 브랜치에서만 파일을 수정하고 커밋, 푸시 안 함(가드는 샌드박스가 아니라 지시문)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:64 cost"
+      ]
+    },
+    {
+      "key": "Self-heal the swarm",
+      "ko": "스웜 자가 복구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:65 title"
+      ]
+    },
+    {
+      "key": "find stuck agents and claims, release, re-route",
+      "ko": "멈춘 에이전트와 클레임을 찾아 해제하고 다시 라우팅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:65 about"
+      ]
+    },
+    {
+      "key": "Check the swarm: find agents or claims that have made no progress for 10 minutes, release or hand them off, and say what you changed.",
+      "ko": "스웜을 점검하세요. 10분간 진척이 없는 에이전트나 클레임을 찾아 해제하거나 인계하고, 바꾼 내용을 알려 주세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:65 task"
+      ]
+    },
+    {
+      "key": "a turn per tick; writes through confirmed commands",
+      "ko": "틱마다 턴 1회, 확인된 명령어로만 쓰기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:65 cost"
+      ]
+    },
+    {
+      "key": "Stop the loop at {0} local time and report a one-line outcome.",
+      "ko": "현지 시각 {0}에 루프를 중지하고 결과를 한 줄로 보고하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:96 clause"
+      ]
+    },
+    {
+      "key": "Stop the loop after {0} runs and report a one-line outcome.",
+      "ko": "{0}회 실행 후 루프를 중지하고 결과를 한 줄로 보고하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:100 clause"
+      ]
+    },
+    {
+      "key": "Stop the loop when the work is complete and report a one-line outcome.",
+      "ko": "작업이 완료되면 루프를 중지하고 결과를 한 줄로 보고하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:101 clause"
+      ]
+    },
+    {
+      "key": "stop reads \"until 09:00\", \"after 12 runs\" or \"when done\" (or leave it empty)",
+      "ko": "중지 조건은 \"until 09:00\", \"after 12 runs\", \"when done\" 형식입니다 (비워 둘 수도 있음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:103 why"
+      ]
+    },
+    {
+      "key": "pick a preset or type what the loop should do",
+      "ko": "프리셋을 고르거나 루프가 할 일을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:110 why"
+      ]
+    },
+    {
+      "key": "pick an interval",
+      "ko": "간격을 고르세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:111 why"
+      ]
+    },
+    {
+      "key": "a task that starts with / must be one plugin command: /plugin:command and a few plain words",
+      "ko": "/로 시작하는 작업은 플러그인 명령어 하나여야 합니다: /plugin:command 와 간단한 단어 몇 개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:116 why"
+      ]
+    },
+    {
+      "key": "/{0} is not offered by this session: install its plugin (Plugin Catalog) and /reload-plugins",
+      "ko": "/{0} 은(는) 이 세션에서 제공되지 않습니다. 플러그인(플러그인 카탈로그)을 설치하고 /reload-plugins 를 실행하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:117 why"
+      ]
+    },
+    {
+      "key": "that is too long: shorten the task",
+      "ko": "너무 깁니다. 작업을 줄이세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:126 why"
+      ]
+    },
+    {
+      "key": "waiting in your prompt box",
+      "ko": "프롬프트 입력창에서 대기 중",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:158 say()"
+      ]
+    },
+    {
+      "key": "could not fill the prompt box",
+      "ko": "프롬프트 입력창을 채우지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:158 say()"
+      ]
+    },
+    {
+      "key": "Claude is mid-turn, so the command is in your prompt box.",
+      "ko": "Claude가 턴을 진행 중이라 명령어를 프롬프트 입력창에 넣어 두었습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:160 say()"
+      ]
+    },
+    {
+      "key": "the prompt box is not available (a dialog is open?); type it yourself: {0}",
+      "ko": "프롬프트 입력창을 쓸 수 없습니다(대화 상자가 열려 있나요?). 직접 입력하세요: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:160 say()"
+      ]
+    },
+    {
+      "key": "press Enter in the prompt box to start it",
+      "ko": "프롬프트 입력창에서 Enter를 눌러 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:161 say()"
+      ]
+    },
+    {
+      "key": "close the dialog, then start it again",
+      "ko": "대화 상자를 닫고 다시 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:161 say()"
+      ]
+    },
+    {
+      "key": "loop command sent",
+      "ko": "루프 명령어를 보냈습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:170 say()"
+      ]
+    },
+    {
+      "key": "Sent as /loop: it starts a Claude Code turn, and Claude reports what it scheduled in the conversation.",
+      "ko": "/loop: Claude Code 턴이 시작되며, Claude가 예약한 내용을 대화에서 보고합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:170 say()"
+      ]
+    },
+    {
+      "key": "watch the conversation; ☰ list / stop my sentries shows and stops it",
+      "ko": "대화를 지켜보세요. ☰ 내 센트리 목록 / 중지 로 확인하고 중지할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:170 say()"
+      ]
+    },
+    {
+      "key": "the loop in the main conversation",
+      "ko": "메인 대화의 루프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:179 expect"
+      ]
+    },
+    {
+      "key": "check the command is offered here (/reload-plugins), then start it again",
+      "ko": "이 명령어가 여기서 제공되는지 확인(/reload-plugins)한 뒤 다시 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:185 say()"
+      ]
+    },
+    {
+      "key": "nothing to start",
+      "ko": "시작할 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:189 ask()"
+      ]
+    },
+    {
+      "key": "loop not started",
+      "ko": "루프를 시작하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:225 say()"
+      ]
+    },
+    {
+      "key": "start a loop in the main Claude UI: {0}",
+      "ko": "메인 Claude UI에서 루프 시작: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:228 ask()"
+      ]
+    },
+    {
+      "key": "Starts a recurring /loop: a Claude Code turn on every tick, billed as any turn is; it auto-expires after 7 days. No stop condition is set.",
+      "ko": "반복 /loop: 틱마다 Claude Code 턴이 실행되고 일반 턴처럼 과금되며, 7일 후 자동 만료됩니다. 중지 조건이 설정되지 않았습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:228 expr"
+      ]
+    },
+    {
+      "key": "Starts a recurring /loop: a Claude Code turn on every tick, billed as any turn is; it auto-expires after 7 days.",
+      "ko": "반복 /loop: 틱마다 Claude Code 턴이 실행되고 일반 턴처럼 과금되며, 7일 후 자동 만료됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:228 expr"
+      ]
+    },
+    {
+      "key": "Starts a recurring /loop: a Claude Code turn on every tick, billed as any turn is ({0}); it auto-expires after 7 days. No stop condition is set.",
+      "ko": "반복 /loop: 틱마다 Claude Code 턴이 실행되고 일반 턴처럼 과금되며({0}), 7일 후 자동 만료됩니다. 중지 조건이 설정되지 않았습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:228 expr"
+      ]
+    },
+    {
+      "key": "Starts a recurring /loop: a Claude Code turn on every tick, billed as any turn is ({0}); it auto-expires after 7 days.",
+      "ko": "반복 /loop: 틱마다 Claude Code 턴이 실행되고 일반 턴처럼 과금되며({0}), 7일 후 자동 만료됩니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:228 expr"
+      ]
+    },
+    {
+      "key": "AIDefence blocked the task",
+      "ko": "AIDefence가 작업을 차단했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:233 say()"
+      ]
+    },
+    {
+      "key": "List my scheduled loops and wake-ups (CronList and any pending ScheduleWakeup), say what each does and when it next runs, and ask me which to stop before stopping any.",
+      "ko": "내가 예약한 루프와 깨우기(CronList 및 대기 중인 ScheduleWakeup)를 나열하고, 각각이 무엇을 하며 다음에 언제 실행되는지 알려 주세요. 중지하기 전에 어느 것을 중지할지 먼저 물어보세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:237 ask()"
+      ]
+    },
+    {
+      "key": "ask Claude to list my loops and stop the ones I name",
+      "ko": "Claude에게 루프 목록을 요청하고 내가 지정한 것을 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:238 ask()"
+      ]
+    },
+    {
+      "key": "Starts a Claude Code turn (billed as any turn is); it stops nothing without asking you.",
+      "ko": "Claude Code 턴을 시작합니다(일반 턴처럼 과금). 묻지 않고는 아무것도 중지하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/loops.ts:239 ask()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: ruflo-loop
-description: Start a Ruflo background worker (audit, optimize, testgaps, etc.) on a recurring schedule
+description: Ruflo 백그라운드 워커(audit, optimize, testgaps 등)를 반복 일정으로 시작
 ---
 $ARGUMENTS
 Start a cache-aware /loop worker. Parse the worker name from $ARGUMENTS.

@@ -1,0 +1,97 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/proxy-lifecycle.ts",
+  "entries": [
+    {
+      "key": "Download, verify, and install the meta-proxy binary (ADR-307)",
+      "ko": "meta-proxy 바이너리를 다운로드, 검증, 설치합니다 (ADR-307)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:126 description"
+      ]
+    },
+    {
+      "key": "Release version to install (default: {0})",
+      "ko": "설치할 릴리스 버전 (기본값: {0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:133 description",
+        "src/commands/proxy-lifecycle.ts:187 description"
+      ]
+    },
+    {
+      "key": "Re-verify and replace the installed binary with the pinned release (never automatic)",
+      "ko": "설치된 바이너리를 고정된 릴리스로 다시 검증하고 교체합니다 (자동으로 수행되지 않음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:178 description"
+      ]
+    },
+    {
+      "key": "Start meta-proxy (foreground by default; --service to detach)",
+      "ko": "meta-proxy를 시작합니다 (기본은 포그라운드, 분리하려면 --service)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:214 description"
+      ]
+    },
+    {
+      "key": "Run detached (background), survives terminal close but not a reboot — full OS-service registration is not yet implemented",
+      "ko": "분리(백그라운드)로 실행합니다. 터미널을 닫아도 유지되지만 재부팅 후에는 유지되지 않으며, 전체 OS 서비스 등록은 아직 구현되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:216 description"
+      ]
+    },
+    {
+      "key": "Internal detached supervisor for token refresh and meta-proxy lifecycle",
+      "ko": "토큰 갱신과 meta-proxy 수명 주기를 위한 내부 분리형 감독자",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:246 description"
+      ]
+    },
+    {
+      "key": "Stop a running meta-proxy process",
+      "ko": "실행 중인 meta-proxy 프로세스를 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:256 description"
+      ]
+    },
+    {
+      "key": "Show meta-proxy install + process status",
+      "ko": "meta-proxy 설치 및 프로세스 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:271 description"
+      ]
+    },
+    {
+      "key": "Show meta-proxy --service logs",
+      "ko": "meta-proxy --service 로그를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:295 description"
+      ]
+    },
+    {
+      "key": "Stream new log lines as they arrive",
+      "ko": "새 로그 줄을 도착하는 대로 스트리밍합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:297 description"
+      ]
+    },
+    {
+      "key": "Stop the proxy (if running), remove the binary, token, and consent receipt",
+      "ko": "프록시를 중지하고(실행 중인 경우) 바이너리, 토큰, 동의 영수증을 제거합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/proxy-lifecycle.ts:329 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: spawn
-description: Spawn a new agent with V3 capabilities
+description: V3 역량을 갖춘 새 에이전트를 생성합니다
 type: command
 ---
 

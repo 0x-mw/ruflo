@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-payments
-description: Credit management and billing specialist. Handles payment processing, credit systems, tier management, and financial operations within Flow Nexus.
+description: 크레딧 관리 및 청구 전문가입니다. Flow Nexus 안에서 결제 처리, 크레딧 시스템, 티어 관리, 재무 작업을 처리합니다.
 color: pink
 ---
 

@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/import.ts",
+  "entries": [
+    {
+      "key": "Import data from sql.js/JSON memory to RuVector PostgreSQL",
+      "ko": "sql.js/JSON 메모리의 데이터를 RuVector PostgreSQL로 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:120 description"
+      ]
+    },
+    {
+      "key": "Input JSON file path",
+      "ko": "입력 JSON 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:126 description"
+      ]
+    },
+    {
+      "key": "Export from current Claude-Flow memory and import",
+      "ko": "현재 Claude-Flow 메모리에서 내보낸 뒤 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:131 description"
+      ]
+    },
+    {
+      "key": "Output SQL file instead of executing (dry-run)",
+      "ko": "실행하지 않고 SQL 파일로 출력합니다 (드라이런)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:138 description"
+      ]
+    },
+    {
+      "key": "Batch size for imports",
+      "ko": "가져오기 배치 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:144 description"
+      ]
+    },
+    {
+      "key": "Database password (or use PGPASSWORD env var)",
+      "ko": "데이터베이스 비밀번호 (또는 PGPASSWORD 환경변수 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:178 description"
+      ]
+    },
+    {
+      "key": "Docker container name to exec into",
+      "ko": "exec로 접속할 Docker 컨테이너 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:184 description"
+      ]
+    },
+    {
+      "key": "Import from JSON file",
+      "ko": "JSON 파일에서 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:197 description"
+      ]
+    },
+    {
+      "key": "Generate SQL file (dry-run)",
+      "ko": "SQL 파일을 생성합니다 (드라이런)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:198 description"
+      ]
+    },
+    {
+      "key": "Export current memory and import",
+      "ko": "현재 메모리를 내보낸 뒤 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:199 description"
+      ]
+    },
+    {
+      "key": "Import using custom container",
+      "ko": "사용자 지정 컨테이너로 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/import.ts:200 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

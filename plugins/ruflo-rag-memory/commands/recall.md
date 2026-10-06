@@ -1,6 +1,6 @@
 ---
 name: recall
-description: Quick semantic recall — searches all memory namespaces with MMR diversity and recency weighting
+description: 빠른 시맨틱 조회 — MMR 다양성과 최신성 가중치로 모든 메모리 네임스페이스를 검색
 ---
 $ARGUMENTS
 

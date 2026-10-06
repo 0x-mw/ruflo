@@ -1,6 +1,6 @@
 ---
 name: launch-ai-team
-description: Turn a reviewed goal into a bounded RuFlo AI team, run, and task plan without external side effects.
+description: 검토된 목표를 외부 부작용 없이 범위가 정해진 RuFlo AI 팀, 실행, 작업 계획으로 바꿉니다.
 allowed-tools: mcp__plugin_ruflo-ai-team_ruflo-ai-team__team_templates_list mcp__plugin_ruflo-ai-team_ruflo-ai-team__team_create mcp__plugin_ruflo-ai-team_ruflo-ai-team__run_create mcp__plugin_ruflo-ai-team_ruflo-ai-team__task_create
 ---
 

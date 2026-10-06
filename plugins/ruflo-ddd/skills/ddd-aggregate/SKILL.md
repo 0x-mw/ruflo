@@ -1,6 +1,6 @@
 ---
 name: ddd-aggregate
-description: Scaffold an aggregate root with entity, value objects, repository interface, domain events, and test stubs. Use when adding a new aggregate to an existing bounded context, modeling a new business concept that owns invariants, or generating the boilerplate for an entity + repo + events triplet.
+description: 엔티티, 값 객체, 리포지토리 인터페이스, 도메인 이벤트, 테스트 스텁이 있는 애그리게이트 루트를 스캐폴딩합니다. 기존 바운디드 컨텍스트에 새 애그리게이트를 추가할 때, 불변식을 소유하는 새 비즈니스 개념을 모델링할 때, 엔티티 + 리포지토리 + 이벤트 3종 세트의 보일러플레이트를 생성할 때 사용합니다.
 argument-hint: "<context> <aggregate-name>"
 allowed-tools: Bash Read Write Edit Grep Glob mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-store mcp__plugin_ruflo-core_ruflo__hooks_pre-task mcp__plugin_ruflo-core_ruflo__hooks_post-task
 ---
