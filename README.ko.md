@@ -27,6 +27,95 @@
 
 </div>
 
+<!-- ko-fork:start — 이 절은 한국어 포크에만 있습니다(원문 README에 없음). -->
+## 한국어판(이 포크) 안내
+
+이 저장소는 [ruvnet/ruflo](https://github.com/ruvnet/ruflo)를 포크해 한국어로 옮긴 판입니다. 아래 본문은 원문 README의 번역이고, **설치와 업데이트는 이 절의 방법을 따르세요.** `npx ruflo@latest`나 `npm install -g ruflo`는 npm에 있는 원본(영어판)을 받습니다.
+
+**한국어로 바뀐 것**
+
+- CLI: 모든 명령의 도움말, 주요 9개 명령(`init`·`start`·`status`·`doctor`·`agent`·`swarm`·`memory`·`task`·`session`)의 메시지, 대화형 질문
+- Claude Code 에셋: 에이전트·명령·스킬의 머리말 `description`(본문은 영어 그대로), 플러그인 46개의 마켓플레이스 설명
+- 모드 플러그인 3종: `/ruflo` 콘솔(ruflo-console), ruflo-mods, ruflo-swarm의 화면 문구
+- `ruflo init`이 만드는 `CLAUDE.md`의 `## 언어` 절(Claude가 한국어로 답하게 함)
+- 문서: 이 README와 [입문 가이드](docs/ruflo-explained.ko.md)
+
+### 설치
+
+```bash
+git clone https://github.com/0x-mw/ruflo.git
+cd ruflo && git checkout ko
+bash scripts/i18n/install-ko.sh
+ruflo --version    # ruflo v3.53.0 (ko)
+```
+
+- 필요한 것: Node.js 20 이상, git, rsync, corepack(pnpm 8.15.0을 corepack으로 씁니다).
+- `install-ko.sh`가 하는 일: 작업본을 `~/.cache/ruflo-ko-build`에 복사해 빌드 → 번역 검사 → 릴리스 워크플로와 같은 방식으로 패키징 → `npm install -g` → 플러그인 마켓플레이스 고정 스냅숏(`~/.local/share/ruflo-ko/marketplace`) 생성. 단계마다 진행 상황을 출력하고, 실패하면 단계 이름을 알려 줍니다.
+- 옵션: `--no-global`(전역 설치 없이 패키지만 만듦), `--skip-build`, `--tools-only`(pnpm 심만 만듦), `--force`(커밋 안 된 변경·전역 점검 경고를 무시).
+
+### 프로젝트에 적용
+
+```bash
+cd <프로젝트 폴더>
+ruflo init --no-mods
+ruflo mods install --scope project --source local --marketplace-path ~/.local/share/ruflo-ko/marketplace
+```
+
+- `--no-mods`로 원본(GitHub) 플러그인 설치를 건너뛰고, 다음 줄에서 한국어 스냅숏의 모드 플러그인을 설치합니다.
+- `.mcp.json`의 MCP 서버는 전역 설치본(`ruflo mcp start`)으로 등록됩니다.
+- Claude Code를 다시 시작한 뒤 `/ruflo`를 실행하면 한국어 콘솔이 열립니다. 처음 실행할 때 폴더 신뢰와 MCP 서버(`claude-flow`) 승인을 물으면 승인합니다.
+- 터미널에서 `ruflo init`을 처음 실행하면 `--no-signup`을 줘도 Cognitum 계정 안내 질문이 한 번 나옵니다(원본 버그). Enter를 누르면 기본값(No)으로 넘어갑니다.
+- 콘솔이 원본 저장소의 새 버전을 알리며 업데이트할지 물으면 "나중에"를 고르고, 콘솔 설정의 "업데이트"를 off로 바꿔 두세요(아래 한계 참고).
+
+### 언어 바꾸기
+
+- CLI는 터미널(TTY)에 출력할 때만 한국어입니다. 파이프·리디렉션, `--json` 같은 기계용 출력, MCP 서버, 훅은 항상 영어라서 스크립트와 자동화 결과가 바뀌지 않습니다.
+- `RUFLO_LANG=en ruflo …`는 영어로, `RUFLO_LANG=ko ruflo …`는 파이프에서도 한국어로 출력합니다.
+- 콘솔 등 플러그인 화면은 Claude Code가 받은 `RUFLO_LANG`을 따릅니다. `RUFLO_LANG=en claude`로 실행하거나, 프로젝트의 `.claude/settings.local.json`에 `"env": { "RUFLO_LANG": "en" }`을 넣으면 영어로 나옵니다.
+
+### 업데이트와 되돌리기
+
+- **`npm update -g`나 `npm install -g ruflo`·`@claude-flow/cli`를 쓰지 마세요.** 패키지 이름과 버전(`@claude-flow/cli@3.53.0`)이 원본과 같아서 영어판으로 덮어씁니다. 한국어판인지는 `ruflo --version`의 `(ko)` 표시로 확인합니다.
+- 갱신: `git pull` 뒤 `bash scripts/i18n/install-ko.sh`를 다시 실행합니다. Node 버전을 바꾼 뒤에도 다시 실행해야 합니다(전역 설치 위치가 Node 버전마다 다름).
+- 원본 변경 따라가기(포크 관리자용):
+  1. `node scripts/i18n/apply-descriptions.mjs --revert` 후 커밋
+  2. `git fetch upstream && git merge upstream/main`
+  3. `node scripts/i18n/extract.mjs`로 새 문구를 샤드(`i18n/ko/`)에 넣고 번역
+  4. `node scripts/i18n/build.mjs` → `node scripts/i18n/apply-descriptions.mjs` → `node scripts/i18n/check.mjs --strict`
+  5. 커밋 후 `bash scripts/i18n/install-ko.sh`
+  - 번역 도구는 TypeScript·yaml 파서를 `~/.cache/ruflo-ko-build`에서 찾으므로 `install-ko.sh`를 한 번 실행한 뒤에 씁니다.
+- 되돌리기: 프로젝트에서 `ruflo mods uninstall` → `claude plugin marketplace remove ruflo` → `npm uninstall -g @claude-flow/cli`. 설명만 영어로 되돌리려면 `node scripts/i18n/apply-descriptions.mjs --revert`.
+
+<details>
+<summary><strong>알려진 한계</strong></summary>
+
+- **번역 범위**: 주요 9개 명령 밖의 실행 메시지, 실행 중에 조합되는 문장, `console.*`로 바로 찍히는 출력은 영어로 남습니다.
+- **사용자 데이터는 번역하지 않습니다**: 표 셀과 상태값(예: `running`)은 원문 그대로입니다. 반대로 사용자 데이터가 사전의 문구와 정확히 같으면 번역되어 보일 수 있습니다.
+- **모델이 읽는 글은 영어**: 에이전트·명령·스킬 본문, MCP 도구 설명, 헬퍼·상태줄(`.claude/helpers`, 서명된 파일)은 바꾸지 않았습니다.
+- **description 번역과 자동 선택**: 스킬·에이전트의 `description`은 Claude가 무엇을 쓸지 고르는 단서라서, 영어로 요청하면 자동 선택 정확도가 떨어질 수 있습니다. 핵심 영어 용어를 괄호로 같이 적었고 `name`은 바꾸지 않았습니다. 되돌리려면 `apply-descriptions.mjs --revert`를 씁니다.
+- **기존 CLAUDE.md**: `ruflo init`은 이미 있는 `CLAUDE.md`를 덮지 않습니다. 기존 프로젝트에는 아래 절을 직접 붙이세요. `ruflo init --force`는 기존 파일을 `CLAUDE.md.pre-ruflo`로 백업한 뒤 새로 쓰지만, 다른 init 파일도 다시 씁니다.
+
+  ```markdown
+  ## 언어
+
+  - 사용자에게 하는 모든 응답·설명·요약·질문은 한국어로 작성한다.
+  - 코드, 명령어, 파일 경로, 식별자, 로그·오류 원문, 도구 이름과 인자는 원문 그대로 둔다.
+  - 커밋 메시지와 코드 주석은 저장소의 기존 언어 관례를 따른다.
+  ```
+- **`npx ruflo@latest` 안내**: `doctor`·`swarm` 등이 출력하는 `npx -y ruflo@latest …` 안내는 원본 문구 그대로입니다. 그대로 실행하면 영어판을 받으므로 `ruflo …`로 바꿔 실행하세요.
+- **콘솔 업데이트 확인**: 콘솔의 업데이트 확인은 원본 저장소를 봅니다. 콘솔 설정에서 Updates를 꺼 두는 것을 권합니다.
+- **마켓플레이스는 설정 폴더마다 하나**: 플러그인 마켓플레이스 `ruflo`는 Claude Code 설정 폴더마다 하나만 등록됩니다. 다른 프로젝트에서 기본 옵션으로 `ruflo init`(모드 플러그인을 GitHub 원본에서 받음)을 실행하면 원본 마켓플레이스로 바뀝니다.
+- **마켓플레이스 스냅숏**: 마켓플레이스는 작업본이 아니라 설치할 때 만든 고정 스냅숏을 가리킵니다. 플러그인 변경을 반영하려면 `install-ko.sh`를 다시 실행합니다.
+- **witness 매니페스트**: `verification/*/manifest.md.json`은 원본 러너가 서명한 기록이라 갱신하지 않았습니다. 콘솔 evolve 화면에 드리프트가 보이는 것은 정상입니다.
+- **명령 카탈로그**: `catalog.generated.json`은 원본 그대로입니다. 원본에서도 이미 소스와 어긋나 있어 `ruflo catalog generate --check`가 실패하므로 다시 만들지 않았습니다. 카탈로그에는 설명 문구가 없어 화면에는 영향이 없습니다.
+- **화면 폭**: 좁은 창에서는 일부 화면(설정, room 목록 등)의 한글이 잘릴 수 있습니다.
+- **검색**: 팔레트와 도움말 검색은 원문과 번역문을 모두 찾습니다. 그 밖의 검색 입력은 영어 기준입니다.
+- **`claude -p`에서 콘솔**: 비대화형 실행에서 `dump`·`open` 응답은 영어 원문, `help`·`status` 등 나머지 응답은 한국어입니다.
+- **PATH**: 전역 설치본은 nvm의 Node 아래에 있습니다. PATH에 nvm이 없는 환경(예: 다른 PATH로 띄운 GUI)에서 Claude Code를 실행하면 `.mcp.json`의 `ruflo`와 훅이 쓰는 `node`를 찾지 못합니다. nvm이 잡힌 터미널에서 `claude`를 실행하세요.
+
+</details>
+<!-- ko-fork:end -->
+
 > **에이전트 = 모델 + 하네스.** 모델은 코드를 쓰고, 하네스는 모델이 실제로 일할 수 있도록 도구, 메모리, 루프, 샌드박스, 제어 장치를 제공합니다. **Ruflo가 바로 그 하네스입니다.** Claude Code와 Codex를 감싸는 실행 계층으로, 100개 이상의 전문 에이전트, 조율되는 스웜, 자가 학습 메모리, 머신 간 페더레이션 통신, 엔터프라이즈 보안 가드레일을 더합니다. 에이전트가 단순히 실행되는 데 그치지 않고 협업하게 됩니다.
 
 `npx ruflo init` 한 번이면 Claude Code에 신경계가 생깁니다. 에이전트가 스스로 스웜을 구성하고, 모든 작업에서 배우며, 세션이 바뀌어도 기억합니다. 페더레이션을 쓰면 데이터 유출 없이 다른 머신의 에이전트와도 안전하게 통신합니다. 코드만 계속 작성하면 됩니다. 조율은 Ruflo가 맡습니다.
