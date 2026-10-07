@@ -10,7 +10,7 @@
       "ctx": [
         "plugins/ruflo-console/hooks/gfx/boot.ts:33 name",
         "plugins/ruflo-console/hooks/state.ts:43 label",
-        "plugins/ruflo-console/hooks/views/bar.ts:179 label"
+        "plugins/ruflo-console/hooks/views/bar.ts:185 label"
       ]
     },
     {
@@ -260,7 +260,7 @@
       "ctx": [
         "plugins/ruflo-console/hooks/gfx/boot.ts:47 name",
         "plugins/ruflo-console/hooks/self-check.ts:144 expr",
-        "plugins/ruflo-console/hooks/views/bar.ts:181 label"
+        "plugins/ruflo-console/hooks/views/bar.ts:187 label"
       ]
     },
     {

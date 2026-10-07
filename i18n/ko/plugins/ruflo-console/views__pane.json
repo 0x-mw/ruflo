@@ -121,7 +121,7 @@
       "ko": "키 꺼짐",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:232 const"
+        "plugins/ruflo-console/hooks/views/pane.ts:235 const"
       ]
     },
     {
@@ -129,7 +129,7 @@
       "ko": "푸터",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:256 col()"
+        "plugins/ruflo-console/hooks/views/pane.ts:259 col()"
       ]
     },
     {
@@ -137,7 +137,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:274 children"
+        "plugins/ruflo-console/hooks/views/pane.ts:277 children"
       ]
     },
     {
@@ -145,7 +145,7 @@
       "ko": "에이전트 환영.",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:276 clip()"
+        "plugins/ruflo-console/hooks/views/pane.ts:279 clip()"
       ]
     },
     {
@@ -153,7 +153,7 @@
       "ko": "환영",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:277 row()"
+        "plugins/ruflo-console/hooks/views/pane.ts:280 row()"
       ]
     },
     {
@@ -161,7 +161,7 @@
       "ko": "네트워크:",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:285 children"
+        "plugins/ruflo-console/hooks/views/pane.ts:288 children"
       ]
     },
     {
@@ -169,8 +169,8 @@
       "ko": "부팅",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:372 col()",
-        "plugins/ruflo-console/hooks/views/pane.ts:373 col()"
+        "plugins/ruflo-console/hooks/views/pane.ts:375 col()",
+        "plugins/ruflo-console/hooks/views/pane.ts:376 col()"
       ]
     },
     {
@@ -178,7 +178,7 @@
       "ko": "RUFLO 에이전트 스웜 콘솔 · 불러오는 중…",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:373 text()"
+        "plugins/ruflo-console/hooks/views/pane.ts:376 text()"
       ]
     },
     {
@@ -186,7 +186,7 @@
       "ko": "본문",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:410 col()"
+        "plugins/ruflo-console/hooks/views/pane.ts:413 col()"
       ]
     },
     {
@@ -194,7 +194,7 @@
       "ko": "상자",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:451 element()"
+        "plugins/ruflo-console/hooks/views/pane.ts:454 element()"
       ]
     },
     {
@@ -202,7 +202,7 @@
       "ko": "텍스트",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:451 element()"
+        "plugins/ruflo-console/hooks/views/pane.ts:454 element()"
       ]
     },
     {
@@ -210,7 +210,7 @@
       "ko": "버튼",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/pane.ts:451 element()"
+        "plugins/ruflo-console/hooks/views/pane.ts:454 element()"
       ]
     }
   ],

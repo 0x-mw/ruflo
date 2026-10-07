@@ -4,6 +4,70 @@
   "source": "v3/@claude-flow/cli/src/commands/init.ts",
   "entries": [
     {
+      "key": "Unlock additional capabilities?",
+      "ko": "추가 기능을 사용해 보시겠습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Local Meta LLM Proxy",
+      "ko": "로컬 메타 LLM 프록시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Multi-model routing",
+      "ko": "멀티 모델 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Hosted memory",
+      "ko": "호스팅 메모리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Enterprise rate limits",
+      "ko": "엔터프라이즈 요청 한도",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Premium agents",
+      "ko": "프리미엄 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Cloud synchronization",
+      "ko": "클라우드 동기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Free account: https://cognitum.one",
+      "ko": "무료 계정: https://cognitum.one",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
       "key": "Create a free Cognitum account now?",
       "ko": "지금 Cognitum 무료 계정을 만드시겠습니까?",
       "kind": "text",
@@ -181,12 +245,69 @@
       ]
     },
     {
+      "key": "Files: {0} created",
+      "ko": "파일: {0}개 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:448 printBox.content",
+        "src/commands/init.ts:688 printBox.content"
+      ]
+    },
+    {
+      "key": "Skills: {0} installed",
+      "ko": "스킬: {0}개 설치",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:448 printBox.content"
+      ]
+    },
+    {
       "key": "Summary",
       "ko": "요약",
       "kind": "text",
       "ctx": [
         "src/commands/init.ts:448 printBox.title",
         "src/commands/init.ts:688 printBox.title"
+      ]
+    },
+    {
+      "key": "AGENTS.md:     Main project instructions",
+      "ko": "AGENTS.md:     주 프로젝트 지침",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": ".agents/config.toml: Project configuration",
+      "ko": ".agents/config.toml: 프로젝트 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": ".agents/skills/: {0} skills",
+      "ko": ".agents/skills/: 스킬 {0}개",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": ".codex/: Local overrides (gitignored)",
+      "ko": ".codex/: 로컬 재정의 (gitignore 대상)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": "CLAUDE.md: Claude Code compatibility",
+      "ko": "CLAUDE.md: Claude Code 호환",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
       ]
     },
     {
@@ -225,6 +346,14 @@
       ]
     },
     {
+      "key": "Review {0} for project instructions",
+      "ko": "{0}에서 프로젝트 지침을 확인하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:479 printList"
+      ]
+    },
+    {
       "key": "AGENTS.md",
       "ko": null,
       "kind": "text",
@@ -233,11 +362,35 @@
       ]
     },
     {
+      "key": "Add skills with {0} syntax",
+      "ko": "{0} 구문으로 스킬을 추가하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:480 printList"
+      ]
+    },
+    {
       "key": "$skill-name",
       "ko": null,
       "kind": "text",
       "ctx": [
         "src/commands/init.ts:480 highlight"
+      ]
+    },
+    {
+      "key": "Configure {0} for your project",
+      "ko": "프로젝트에 맞게 {0} 파일을 설정하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:481 printList"
+      ]
+    },
+    {
+      "key": "Claude Code users can use {0}",
+      "ko": "Claude Code 사용자는 {0} 파일을 쓸 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:482 printList"
       ]
     },
     {
@@ -358,6 +511,22 @@
       ]
     },
     {
+      "key": "Directories: {0} created",
+      "ko": "디렉터리: {0}개 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:688 printBox.content"
+      ]
+    },
+    {
+      "key": "Skipped: {0} (already exist)",
+      "ko": "건너뜀: {0}개 (이미 있음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:688 printBox.content"
+      ]
+    },
+    {
       "key": "Settings review recommended:",
       "ko": "설정 검토 권장:",
       "kind": "text",
@@ -365,6 +534,62 @@
         "src/commands/init.ts:694 printWarning",
         "src/commands/init.ts:1174 printWarning",
         "src/commands/init.ts:1355 printWarning"
+      ]
+    },
+    {
+      "key": "CLAUDE.md:   Swarm guidance & configuration",
+      "ko": "CLAUDE.md:   스웜 지침과 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Settings:    .claude/settings.json",
+      "ko": "설정:        .claude/settings.json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Skills:      .claude/skills/ ({0} skills)",
+      "ko": "스킬:        .claude/skills/ (스킬 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Commands:    .claude/commands/ ({0} commands)",
+      "ko": "명령어:      .claude/commands/ (명령어 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Agents:      .claude/agents/ ({0} agents)",
+      "ko": "에이전트:    .claude/agents/ (에이전트 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Helpers:     .claude/helpers/",
+      "ko": "헬퍼:        .claude/helpers/",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "MCP:         .mcp.json",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
       ]
     },
     {
@@ -522,14 +747,6 @@
       ]
     },
     {
-      "key": "Model",
-      "ko": "모델",
-      "kind": "text",
-      "ctx": [
-        "src/commands/init.ts:842 dim"
-      ]
-    },
-    {
       "key": "Hyperbolic: Enabled (Poincaré ball)",
       "ko": "쌍곡 공간: 활성화됨 (푸앵카레 볼)",
       "kind": "text",
@@ -562,11 +779,27 @@
       ]
     },
     {
+      "key": "Run {0} to start background workers",
+      "ko": "{0} 명령으로 백그라운드 워커를 시작하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:887 printList"
+      ]
+    },
+    {
       "key": "{0} daemon start",
       "ko": null,
       "kind": "template",
       "ctx": [
         "src/commands/init.ts:887 highlight"
+      ]
+    },
+    {
+      "key": "Run {0} to initialize a swarm",
+      "ko": "{0} 명령으로 스웜을 초기화하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:891 printList"
       ]
     },
     {
@@ -578,11 +811,35 @@
       ]
     },
     {
+      "key": "Or use {0} to do all of the above",
+      "ko": "또는 {0} 명령으로 위 작업을 한 번에 하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:892 printList"
+      ]
+    },
+    {
       "key": "{0} init --start-all",
       "ko": null,
       "kind": "template",
       "ctx": [
         "src/commands/init.ts:892 highlight"
+      ]
+    },
+    {
+      "key": "Review {0} for hook configurations",
+      "ko": "{0}에서 훅 설정을 확인하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:893 printList"
+      ]
+    },
+    {
+      "key": "Run {0} for a 5-dim harness readiness scorecard (ADR-150)",
+      "ko": "{0} 명령으로 5개 차원의 하네스 준비도 점수표를 확인하세요 (ADR-150)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:896 printList"
       ]
     },
     {
@@ -710,7 +967,8 @@
       "ko": "스킬",
       "kind": "text",
       "ctx": [
-        "src/commands/init.ts:1006 multiSelect.choice.label"
+        "src/commands/init.ts:1006 multiSelect.choice.label",
+        "src/commands/init.ts:1249 printTable.cell"
       ]
     },
     {
@@ -726,7 +984,8 @@
       "ko": "명령어",
       "kind": "text",
       "ctx": [
-        "src/commands/init.ts:1007 multiSelect.choice.label"
+        "src/commands/init.ts:1007 multiSelect.choice.label",
+        "src/commands/init.ts:1250 printTable.cell"
       ]
     },
     {
@@ -743,8 +1002,8 @@
       "kind": "text",
       "ctx": [
         "src/commands/init.ts:1008 multiSelect.choice.label",
-        "src/commands/session.ts:153 printTable.header",
-        "src/commands/status.ts:266 bold"
+        "src/commands/init.ts:1251 printTable.cell",
+        "src/commands/session.ts:153 printTable.header"
       ]
     },
     {
@@ -1269,6 +1528,82 @@
       "ctx": [
         "src/commands/init.ts:1237 printTable.header",
         "src/commands/memory.ts:1346 printTable.header"
+      ]
+    },
+    {
+      "key": "Preset",
+      "ko": "프리셋",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1241 printTable.cell"
+      ]
+    },
+    {
+      "key": "Topology",
+      "ko": "토폴로지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1242 printTable.cell",
+        "src/commands/status.ts:255 printTable.cell",
+        "src/commands/swarm.ts:509 printTable.cell"
+      ]
+    },
+    {
+      "key": "Max Agents",
+      "ko": "최대 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1243 printTable.cell",
+        "src/commands/swarm.ts:510 printTable.cell"
+      ]
+    },
+    {
+      "key": "Memory Backend",
+      "ko": "메모리 백엔드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1244 printTable.cell",
+        "src/commands/status.ts:438 check.name"
+      ]
+    },
+    {
+      "key": "HNSW Indexing",
+      "ko": "HNSW 인덱싱",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1245 printTable.cell"
+      ]
+    },
+    {
+      "key": "Neural Learning",
+      "ko": "뉴럴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1246 printTable.cell"
+      ]
+    },
+    {
+      "key": "Self-Learning",
+      "ko": "자가 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1247 printTable.cell"
+      ]
+    },
+    {
+      "key": "Embeddings",
+      "ko": "임베딩",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1248 printTable.cell"
+      ]
+    },
+    {
+      "key": "Hooks",
+      "ko": "훅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1252 printTable.cell"
       ]
     },
     {

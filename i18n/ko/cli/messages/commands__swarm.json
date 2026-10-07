@@ -60,6 +60,38 @@
       ]
     },
     {
+      "key": "Swarm ID",
+      "ko": "스웜 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:508 printTable.cell"
+      ]
+    },
+    {
+      "key": "Auto Scale",
+      "ko": "자동 확장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:511 printTable.cell"
+      ]
+    },
+    {
+      "key": "Protocol",
+      "ko": "프로토콜",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:512 printTable.cell"
+      ]
+    },
+    {
+      "key": "V3 Mode",
+      "ko": "V3 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:513 printTable.cell"
+      ]
+    },
+    {
       "key": "Swarm initialized successfully",
       "ko": "스웜을 초기화했습니다",
       "kind": "text",

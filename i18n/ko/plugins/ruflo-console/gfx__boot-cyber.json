@@ -45,7 +45,7 @@
       "ctx": [
         "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:29 Cost & Budget",
         "plugins/ruflo-console/hooks/state.ts:54 label",
-        "plugins/ruflo-console/hooks/views/bar.ts:183 label"
+        "plugins/ruflo-console/hooks/views/bar.ts:189 label"
       ]
     },
     {

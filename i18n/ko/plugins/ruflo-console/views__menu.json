@@ -242,8 +242,8 @@
       "kind": "text",
       "ctx": [
         "plugins/ruflo-console/hooks/views/menu.ts:227 submitLabel",
-        "plugins/ruflo-console/hooks/views/nav.ts:88 submitLabel",
-        "plugins/ruflo-console/hooks/views/palette.ts:14 text"
+        "plugins/ruflo-console/hooks/views/nav.ts:91 submitLabel",
+        "plugins/ruflo-console/hooks/views/palette.ts:24 text"
       ]
     },
     {

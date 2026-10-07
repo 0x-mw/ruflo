@@ -8,7 +8,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:211 argumentHint"
+        "plugins/ruflo-console/hooks/register.ts:210 argumentHint"
       ]
     },
     {
@@ -16,7 +16,7 @@
       "ko": "/ruflo: 와 같습니다 — ruflo 콘솔",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:214 description"
+        "plugins/ruflo-console/hooks/register.ts:213 description"
       ]
     },
     {
@@ -24,7 +24,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:214 argumentHint"
+        "plugins/ruflo-console/hooks/register.ts:213 argumentHint"
       ]
     },
     {
@@ -32,9 +32,9 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:263 component",
-        "plugins/ruflo-console/hooks/register.ts:269 component",
-        "plugins/ruflo-console/hooks/register.ts:275 component"
+        "plugins/ruflo-console/hooks/register.ts:262 component",
+        "plugins/ruflo-console/hooks/register.ts:268 component",
+        "plugins/ruflo-console/hooks/register.ts:274 component"
       ]
     },
     {
@@ -42,7 +42,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:322 component"
+        "plugins/ruflo-console/hooks/register.ts:321 component"
       ]
     },
     {
@@ -50,7 +50,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:355 component"
+        "plugins/ruflo-console/hooks/register.ts:354 component"
       ]
     },
     {
@@ -58,7 +58,7 @@
       "ko": "Claude가 턴을 마쳤습니다 · {0}s",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:386 text"
+        "plugins/ruflo-console/hooks/register.ts:385 text"
       ]
     },
     {
@@ -66,7 +66,7 @@
       "ko": "Claude가 턴을 마쳤습니다 · {0}m {1}s",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:386 text"
+        "plugins/ruflo-console/hooks/register.ts:385 text"
       ]
     },
     {
@@ -74,7 +74,7 @@
       "ko": "{0} 로드됨 ({1})",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:461 text"
+        "plugins/ruflo-console/hooks/register.ts:460 text"
       ]
     },
     {
@@ -82,7 +82,7 @@
       "ko": "{0} 거부됨 ({1})",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/register.ts:461 text"
+        "plugins/ruflo-console/hooks/register.ts:460 text"
       ]
     }
   ],

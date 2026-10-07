@@ -283,7 +283,7 @@
       "kind": "template",
       "ctx": [
         "plugins/ruflo-console/hooks/ask-claude.ts:89 expr",
-        "plugins/ruflo-console/hooks/help-docs.ts:157 expr"
+        "plugins/ruflo-console/hooks/help-docs.ts:160 expr"
       ]
     },
     {

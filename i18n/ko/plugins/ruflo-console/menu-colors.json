@@ -10,7 +10,7 @@
       "ctx": [
         "plugins/ruflo-console/hooks/menu-colors.ts:14 const",
         "plugins/ruflo-console/hooks/menu-colors.ts:46 wait",
-        "plugins/ruflo-console/hooks/views/bar.ts:175 dim"
+        "plugins/ruflo-console/hooks/views/bar.ts:181 dim"
       ]
     },
     {

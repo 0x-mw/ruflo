@@ -84,6 +84,61 @@
       ]
     },
     {
+      "key": "Key",
+      "ko": "키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:285 printTable.cell",
+        "src/commands/memory.ts:399 printBox.content",
+        "src/commands/memory.ts:786 printTable.header"
+      ]
+    },
+    {
+      "key": "Size",
+      "ko": "크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:287 printTable.cell",
+        "src/commands/memory.ts:878 printTable.header",
+        "src/commands/status.ts:307 printTable.cell"
+      ]
+    },
+    {
+      "key": "TTL",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:288 printTable.cell"
+      ]
+    },
+    {
+      "key": "Tags",
+      "ko": "태그",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:289 printTable.cell",
+        "src/commands/memory.ts:399 printBox.content",
+        "src/commands/task.ts:207 printTable.cell"
+      ]
+    },
+    {
+      "key": "Vector",
+      "ko": "벡터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:290 printTable.cell",
+        "src/commands/memory.ts:879 printTable.header"
+      ]
+    },
+    {
+      "key": "Provenance",
+      "ko": "출처",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:291 printTable.cell"
+      ]
+    },
+    {
       "key": "Data stored, but persistence is not guaranteed: {0}",
       "ko": "데이터를 저장했지만 영속성이 보장되지 않습니다: {0}",
       "kind": "template",
@@ -149,16 +204,6 @@
       ]
     },
     {
-      "key": "Key",
-      "ko": "키",
-      "kind": "text",
-      "ctx": [
-        "src/commands/memory.ts:399 printBox.content",
-        "src/commands/memory.ts:786 printTable.header",
-        "src/commands/memory.ts:876 printTable.header"
-      ]
-    },
-    {
       "key": "Size: {0} bytes",
       "ko": "크기: {0} bytes",
       "kind": "template",
@@ -170,14 +215,6 @@
       "key": "Access Count: {0}",
       "ko": "접근 횟수: {0}",
       "kind": "template",
-      "ctx": [
-        "src/commands/memory.ts:399 printBox.content"
-      ]
-    },
-    {
-      "key": "Tags",
-      "ko": "태그",
-      "kind": "text",
       "ctx": [
         "src/commands/memory.ts:399 printBox.content"
       ]
@@ -437,7 +474,9 @@
       "ko": "메모리 항목",
       "kind": "text",
       "ctx": [
-        "src/commands/memory.ts:864 bold"
+        "src/commands/memory.ts:864 bold",
+        "src/commands/session.ts:293 printTable.cell",
+        "src/commands/session.ts:709 printTable.cell"
       ]
     },
     {
@@ -454,22 +493,6 @@
       "kind": "text",
       "ctx": [
         "src/commands/memory.ts:870 printInfo"
-      ]
-    },
-    {
-      "key": "Size",
-      "ko": "크기",
-      "kind": "text",
-      "ctx": [
-        "src/commands/memory.ts:878 printTable.header"
-      ]
-    },
-    {
-      "key": "Vector",
-      "ko": "벡터",
-      "kind": "text",
-      "ctx": [
-        "src/commands/memory.ts:879 printTable.header"
       ]
     },
     {
@@ -777,6 +800,48 @@
       "kind": "text",
       "ctx": [
         "src/commands/memory.ts:1341 printInfo"
+      ]
+    },
+    {
+      "key": "Backend",
+      "ko": "백엔드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1350 printTable.cell",
+        "src/commands/status.ts:305 printTable.cell",
+        "src/commands/status.ts:679 printTable.cell"
+      ]
+    },
+    {
+      "key": "Storage Path",
+      "ko": "저장 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1351 printTable.cell"
+      ]
+    },
+    {
+      "key": "Cache Size",
+      "ko": "캐시 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1352 printTable.cell"
+      ]
+    },
+    {
+      "key": "HNSW M",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1353 printTable.cell"
+      ]
+    },
+    {
+      "key": "HNSW ef",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1354 printTable.cell"
       ]
     },
     {
@@ -1320,6 +1385,70 @@
       "key": "Migration Tracking: {0}",
       "ko": "마이그레이션 추적: {0}",
       "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "M (connections):     16",
+      "ko": "M (연결 수):         16",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "ef (construction):   200",
+      "ko": "ef (구축):           200",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "ef (search):         100",
+      "ko": "ef (검색):           100",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Metric:              cosine",
+      "ko": "거리 척도:           cosine",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Confidence scoring:  0.0 - 1.0",
+      "ko": "신뢰도 점수:         0.0 - 1.0",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Temporal decay:      Half-life 30 days",
+      "ko": "시간 감쇠:           반감기 30일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Pattern versioning:  Enabled",
+      "ko": "패턴 버전 관리:      사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Types: task-routing, error-recovery, optimization, coordination, prediction",
+      "ko": "유형: task-routing, error-recovery, optimization, coordination, prediction",
+      "kind": "text",
       "ctx": [
         "src/commands/memory.ts:1977 printBox.content"
       ]

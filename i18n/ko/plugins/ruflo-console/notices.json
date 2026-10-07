@@ -209,8 +209,8 @@
       "kind": "template",
       "ctx": [
         "plugins/ruflo-console/hooks/notices.ts:182 expr",
-        "plugins/ruflo-console/hooks/views/bar.ts:144 text",
-        "plugins/ruflo-console/hooks/views/bar.ts:144 compact"
+        "plugins/ruflo-console/hooks/views/bar.ts:150 text",
+        "plugins/ruflo-console/hooks/views/bar.ts:150 compact"
       ]
     },
     {

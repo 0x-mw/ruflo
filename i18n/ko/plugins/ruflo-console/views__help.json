@@ -8,7 +8,7 @@
       "ko": "실행",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:18 return"
+        "plugins/ruflo-console/hooks/views/help.ts:29 return"
       ]
     },
     {
@@ -16,7 +16,7 @@
       "ko": "✦ 이 문서로 Claude 에게 질문 (턴을 시작하며 먼저 확인)",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:53 button()"
+        "plugins/ruflo-console/hooks/views/help.ts:64 button()"
       ]
     },
     {
@@ -24,7 +24,7 @@
       "ko": "일치하는 가이드가 없습니다",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:56 rule()"
+        "plugins/ruflo-console/hooks/views/help.ts:67 rule()"
       ]
     },
     {
@@ -32,7 +32,7 @@
       "ko": "해당 가이드를 찾지 못했습니다. 단어를 줄이거나 바꿔 보거나 Claude 에게 질문하세요.",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:56 text()"
+        "plugins/ruflo-console/hooks/views/help.ts:67 text()"
       ]
     },
     {
@@ -40,7 +40,7 @@
       "ko": "가이드 {0}개 · 일치도 높은 순",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:62 rule()"
+        "plugins/ruflo-console/hooks/views/help.ts:73 rule()"
       ]
     },
     {
@@ -48,7 +48,7 @@
       "ko": "가이드 {0}개 · 일치도 높은 순",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:62 rule()"
+        "plugins/ruflo-console/hooks/views/help.ts:73 rule()"
       ]
     },
     {
@@ -56,7 +56,7 @@
       "ko": "전체 가이드 ({0}단계)",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:66 button()"
+        "plugins/ruflo-console/hooks/views/help.ts:77 button()"
       ]
     },
     {
@@ -64,7 +64,7 @@
       "ko": "가이드 열기",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:66 button()"
+        "plugins/ruflo-console/hooks/views/help.ts:77 button()"
       ]
     },
     {
@@ -72,7 +72,7 @@
       "ko": "함께 보기",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:67 text()"
+        "plugins/ruflo-console/hooks/views/help.ts:78 text()"
       ]
     },
     {
@@ -80,7 +80,7 @@
       "ko": "여기서 시작",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:76 rule()"
+        "plugins/ruflo-console/hooks/views/help.ts:87 rule()"
       ]
     },
     {
@@ -88,7 +88,7 @@
       "ko": "ruflo 가 처음이세요? 이 세 가지를 순서대로 읽으세요",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:76 rule()"
+        "plugins/ruflo-console/hooks/views/help.ts:87 rule()"
       ]
     },
     {
@@ -96,7 +96,7 @@
       "ko": "도움말",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:112 rule()",
+        "plugins/ruflo-console/hooks/views/help.ts:123 rule()",
         "plugins/ruflo-console/hooks/views/menu.ts:55 label",
         "plugins/ruflo-console/hooks/views/pane.ts:223 full"
       ]
@@ -106,7 +106,7 @@
       "ko": "ruHelp · 가이드 {0}개",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:112 rule()"
+        "plugins/ruflo-console/hooks/views/help.ts:123 rule()"
       ]
     },
     {
@@ -114,7 +114,7 @@
       "ko": "이 화면에는 텍스트 입력란이 없습니다. /ruflo help 를 쓰거나 아무 페이지에서 ✦ Claude에게 질문 을 누르세요",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:116 text()"
+        "plugins/ruflo-console/hooks/views/help.ts:127 text()"
       ]
     },
     {
@@ -122,7 +122,7 @@
       "ko": "ruHelp ›",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:119 label"
+        "plugins/ruflo-console/hooks/views/help.ts:130 label"
       ]
     },
     {
@@ -130,7 +130,7 @@
       "ko": "무엇이든 질문하세요: 스웜은 어떻게 시작하나요? 예산은 어떻게 설정하나요? 클레임이란 무엇인가요?",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:120 placeholder"
+        "plugins/ruflo-console/hooks/views/help.ts:131 placeholder"
       ]
     },
     {
@@ -138,7 +138,7 @@
       "ko": "◂ 전체 가이드",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:135 button()"
+        "plugins/ruflo-console/hooks/views/help.ts:146 button()"
       ]
     },
     {
@@ -146,7 +146,7 @@
       "ko": "도움말 닫기",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:137 button()"
+        "plugins/ruflo-console/hooks/views/help.ts:148 button()"
       ]
     },
     {
@@ -154,7 +154,7 @@
       "ko": "더 보기",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:138 rule()"
+        "plugins/ruflo-console/hooks/views/help.ts:149 rule()"
       ]
     },
     {
@@ -162,7 +162,7 @@
       "ko": "전체 설명: ruflo 저장소의 docs/ruflo-explained.md (github.com/ruvnet/ruflo) · 버그: github.com/ruvnet/ruflo/issues",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:139 text()"
+        "plugins/ruflo-console/hooks/views/help.ts:150 text()"
       ]
     },
     {
@@ -170,7 +170,7 @@
       "ko": "✦ Claude에게 질문 은 현재 페이지와 질문을 함께 보냅니다 · /ruflo commands 는 모든 명령을 표시합니다",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/help.ts:140 text()"
+        "plugins/ruflo-console/hooks/views/help.ts:151 text()"
       ]
     }
   ],

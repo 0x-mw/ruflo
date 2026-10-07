@@ -8,7 +8,7 @@
       "ko": "시작",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:30 const",
+        "plugins/ruflo-console/hooks/help-docs.ts:31 const",
         "plugins/ruflo-console/hooks/help-topics-core.ts:8 group",
         "plugins/ruflo-console/hooks/help-topics-core.ts:24 group"
       ]
@@ -18,7 +18,7 @@
       "ko": "진행",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:30 const",
+        "plugins/ruflo-console/hooks/help-docs.ts:31 const",
         "plugins/ruflo-console/hooks/help-topics-core.ts:103 group",
         "plugins/ruflo-console/hooks/help-topics-core.ts:119 group"
       ]
@@ -28,7 +28,7 @@
       "ko": "안전",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:30 const",
+        "plugins/ruflo-console/hooks/help-docs.ts:31 const",
         "plugins/ruflo-console/hooks/help-topics-more.ts:8 group",
         "plugins/ruflo-console/hooks/help-topics-more.ts:25 group"
       ]
@@ -38,7 +38,7 @@
       "ko": "네트워크",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:30 const",
+        "plugins/ruflo-console/hooks/help-docs.ts:31 const",
         "plugins/ruflo-console/hooks/help-topics-more.ts:118 group",
         "plugins/ruflo-console/hooks/help-topics-more.ts:133 group"
       ]
@@ -48,7 +48,7 @@
       "ko": "도구",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:30 const",
+        "plugins/ruflo-console/hooks/help-docs.ts:31 const",
         "plugins/ruflo-console/hooks/help-topics-more.ts:147 group",
         "plugins/ruflo-console/hooks/help-topics-more.ts:162 group"
       ]
@@ -58,7 +58,7 @@
       "ko": "콘솔",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:30 const",
+        "plugins/ruflo-console/hooks/help-docs.ts:31 const",
         "plugins/ruflo-console/hooks/help-topics-more.ts:207 group",
         "plugins/ruflo-console/hooks/help-topics-more.ts:224 group"
       ]
@@ -68,7 +68,7 @@
       "ko": "첫 단계와 단축키",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:34 Start"
+        "plugins/ruflo-console/hooks/help-docs.ts:35 Start"
       ]
     },
     {
@@ -76,7 +76,7 @@
       "ko": "미션, 스웜, 클레임, 자동화",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:35 Work"
+        "plugins/ruflo-console/hooks/help-docs.ts:36 Work"
       ]
     },
     {
@@ -84,7 +84,7 @@
       "ko": "학습, 메모리, 벡터, 하네스",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:36 Learn"
+        "plugins/ruflo-console/hooks/help-docs.ts:37 Learn"
       ]
     },
     {
@@ -92,7 +92,7 @@
       "ko": "보안, 예산, 성능",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:37 Safety"
+        "plugins/ruflo-console/hooks/help-docs.ts:38 Safety"
       ]
     },
     {
@@ -100,7 +100,7 @@
       "ko": "페더레이션, x.ruv.io, 샌드박스",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:38 Network"
+        "plugins/ruflo-console/hooks/help-docs.ts:39 Network"
       ]
     },
     {
@@ -108,7 +108,7 @@
       "ko": "플러그인, 스킬, 개발 도구",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:39 Tools"
+        "plugins/ruflo-console/hooks/help-docs.ts:40 Tools"
       ]
     },
     {
@@ -116,7 +116,7 @@
       "ko": "설정, 업데이트, 명령어, 문제 해결",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:40 Console"
+        "plugins/ruflo-console/hooks/help-docs.ts:41 Console"
       ]
     },
     {
@@ -124,7 +124,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:154 expr"
+        "plugins/ruflo-console/hooks/help-docs.ts:157 expr"
       ]
     },
     {
@@ -132,7 +132,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/help-docs.ts:155 expr"
+        "plugins/ruflo-console/hooks/help-docs.ts:158 expr"
       ]
     }
   ],

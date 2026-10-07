@@ -8,7 +8,7 @@
       "ko": "상세",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:16 text"
+        "plugins/ruflo-console/hooks/views/palette.ts:26 text"
       ]
     },
     {
@@ -16,7 +16,7 @@
       "ko": "명령",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:18 text"
+        "plugins/ruflo-console/hooks/views/palette.ts:28 text"
       ]
     },
     {
@@ -24,7 +24,7 @@
       "ko": "텍스트",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:20 text",
+        "plugins/ruflo-console/hooks/views/palette.ts:30 text",
         "plugins/ruflo-console/hooks/views/secure.ts:170 label"
       ]
     },
@@ -33,7 +33,7 @@
       "ko": "선택 항목 동작",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:43 rule()"
+        "plugins/ruflo-console/hooks/views/palette.ts:53 rule()"
       ]
     },
     {
@@ -41,7 +41,7 @@
       "ko": "팔레트",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:43 rule()",
+        "plugins/ruflo-console/hooks/views/palette.ts:53 rule()",
         "plugins/ruflo-console/hooks/views/pane.ts:218 full"
       ]
     },
@@ -50,7 +50,7 @@
       "ko": "입력해 필터: spawn, claim, vote, worker, route <단어>, store <텍스트>, search <검색어>…",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:50 placeholder"
+        "plugins/ruflo-console/hooks/views/palette.ts:60 placeholder"
       ]
     },
     {
@@ -58,7 +58,7 @@
       "ko": "최적 일치 실행",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:52 submitLabel"
+        "plugins/ruflo-console/hooks/views/palette.ts:62 submitLabel"
       ]
     },
     {
@@ -66,7 +66,7 @@
       "ko": "이 화면에는 텍스트 입력란이 없습니다: 아래 항목을 고르거나 /ruflo run <entry> [text]를 사용하세요",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:62 text()"
+        "plugins/ruflo-console/hooks/views/palette.ts:72 text()"
       ]
     },
     {
@@ -74,7 +74,7 @@
       "ko": "텍스트 입력",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:68 text()"
+        "plugins/ruflo-console/hooks/views/palette.ts:78 text()"
       ]
     },
     {
@@ -82,7 +82,7 @@
       "ko": "일치 항목",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:71 rule()"
+        "plugins/ruflo-console/hooks/views/palette.ts:81 rule()"
       ]
     },
     {
@@ -90,7 +90,7 @@
       "ko": "{0}개 표시 · ▶가 Enter로 실행되는 항목입니다",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:71 rule()"
+        "plugins/ruflo-console/hooks/views/palette.ts:81 rule()"
       ]
     },
     {
@@ -98,7 +98,7 @@
       "ko": "+{0}개 더: 계속 입력하세요",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:96 text()"
+        "plugins/ruflo-console/hooks/views/palette.ts:110 text()"
       ]
     },
     {
@@ -106,7 +106,7 @@
       "ko": "일치 항목이 없습니다: 글자를 줄이거나 항목 이름의 단어를 입력하세요",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:97 text()"
+        "plugins/ruflo-console/hooks/views/palette.ts:111 text()"
       ]
     },
     {
@@ -114,7 +114,7 @@
       "ko": "실행 방식",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:99 rule()"
+        "plugins/ruflo-console/hooks/views/palette.ts:113 rule()"
       ]
     },
     {
@@ -122,7 +122,7 @@
       "ko": "$0 읽기는 바로 실행 · ask 변경은 y/n을 먼저 묻습니다 · go는 화면을 엽니다 · text는 키워드 뒤에 입력한 단어를 받습니다",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:100 text()"
+        "plugins/ruflo-console/hooks/views/palette.ts:114 text()"
       ]
     },
     {
@@ -130,7 +130,7 @@
       "ko": "모든 항목은 어느 세션에서든 /ruflo run <id>로도 실행할 수 있습니다",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:101 text()"
+        "plugins/ruflo-console/hooks/views/palette.ts:115 text()"
       ]
     },
     {
@@ -138,7 +138,7 @@
       "ko": "팔레트 닫기",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:102 button()"
+        "plugins/ruflo-console/hooks/views/palette.ts:116 button()"
       ]
     },
     {
@@ -146,7 +146,7 @@
       "ko": "팔레트",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/palette.ts:104 col()"
+        "plugins/ruflo-console/hooks/views/palette.ts:118 col()"
       ]
     }
   ],

@@ -93,6 +93,32 @@
       ]
     },
     {
+      "key": "Session ID",
+      "ko": "세션 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:287 printTable.cell",
+        "src/commands/session.ts:704 printTable.cell",
+        "src/commands/session.ts:822 printTable.cell"
+      ]
+    },
+    {
+      "key": "Saved At",
+      "ko": "저장 시각",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:290 printTable.cell"
+      ]
+    },
+    {
+      "key": "Total Size",
+      "ko": "전체 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:294 printTable.cell"
+      ]
+    },
+    {
       "key": "Memory was requested but could not be captured: {0}",
       "ko": "메모리 저장을 요청했지만 가져오지 못했습니다: {0}",
       "kind": "template",
@@ -345,6 +371,30 @@
       ]
     },
     {
+      "key": "Output File",
+      "ko": "출력 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:705 printTable.cell"
+      ]
+    },
+    {
+      "key": "Format",
+      "ko": "형식",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:706 printTable.cell"
+      ]
+    },
+    {
+      "key": "File Size",
+      "ko": "파일 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:710 printTable.cell"
+      ]
+    },
+    {
       "key": "Session exported to {0}",
       "ko": "세션을 내보냈습니다: {0}",
       "kind": "template",
@@ -403,6 +453,38 @@
       ]
     },
     {
+      "key": "Source File",
+      "ko": "원본 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:824 printTable.cell"
+      ]
+    },
+    {
+      "key": "Agents Imported",
+      "ko": "가져온 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:825 printTable.cell"
+      ]
+    },
+    {
+      "key": "Tasks Imported",
+      "ko": "가져온 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:826 printTable.cell"
+      ]
+    },
+    {
+      "key": "Activated",
+      "ko": "활성화됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:828 printTable.cell"
+      ]
+    },
+    {
       "key": "Session imported: {0}",
       "ko": "세션을 가져왔습니다: {0}",
       "kind": "template",
@@ -441,6 +523,22 @@
       "kind": "text",
       "ctx": [
         "src/commands/session.ts:891 bold"
+      ]
+    },
+    {
+      "key": "Started",
+      "ko": "시작 시각",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:904 printTable.cell"
+      ]
+    },
+    {
+      "key": "Duration",
+      "ko": "소요 시간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/session.ts:905 printTable.cell"
       ]
     },
     {

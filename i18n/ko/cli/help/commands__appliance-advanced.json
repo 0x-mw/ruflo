@@ -76,7 +76,7 @@
       "ctx": [
         "src/commands/appliance-advanced.ts:108 description",
         "src/commands/agent-wasm.ts:338 printTable.header",
-        "src/commands/task.ts:318 printTable.header"
+        "src/commands/session.ts:289 printTable.cell"
       ]
     },
     {

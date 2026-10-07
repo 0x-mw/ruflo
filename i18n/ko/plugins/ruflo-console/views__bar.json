@@ -8,7 +8,7 @@
       "ko": "+{0}개 더 작업 중",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:70 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:76 text"
       ]
     },
     {
@@ -16,7 +16,7 @@
       "ko": "{0}/{1} 일시 중지 (1)",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:93 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:99 text"
       ]
     },
     {
@@ -24,7 +24,7 @@
       "ko": "승인 대기 {0} (q)",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:104 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:110 text"
       ]
     },
     {
@@ -32,7 +32,7 @@
       "ko": "경고 {0}건",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:105 text",
+        "plugins/ruflo-console/hooks/views/bar.ts:111 text",
         "plugins/ruflo-console/hooks/views/overview.ts:94 rule()"
       ]
     },
@@ -41,7 +41,7 @@
       "ko": "Claude 작업 중{0}",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:113 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:119 text"
       ]
     },
     {
@@ -49,7 +49,7 @@
       "ko": "{0} 응답 중{1}",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:117 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:123 text"
       ]
     },
     {
@@ -57,7 +57,7 @@
       "ko": "유휴 · 에이전트 {0}개 준비됨",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:128 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:134 text"
       ]
     },
     {
@@ -65,7 +65,7 @@
       "ko": "유휴 · 에이전트 {0}개 준비됨",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:128 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:134 text"
       ]
     },
     {
@@ -73,15 +73,17 @@
       "ko": "스웜, 에이전트 없음",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:128 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:134 tr()"
       ]
     },
     {
-      "key": "{0} tool calls, {1}m",
-      "ko": "도구 호출 {0}회, {1}분",
-      "kind": "template",
+      "key": "tool calls",
+      "ko": "도구 호출",
+      "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:137 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:143 tr()",
+        "plugins/ruflo-console/hooks/views/wf-control.ts:76 kv()",
+        "plugins/ruflo-console/hooks/views/workflows.ts:107 kv()"
       ]
     },
     {
@@ -89,7 +91,7 @@
       "ko": "클레임 {0}건 (가로채기 가능 {1})",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:144 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:150 text"
       ]
     },
     {
@@ -97,15 +99,17 @@
       "ko": "클레임 {0}건 (가로채기 가능 {1})",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:144 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:150 text"
       ]
     },
     {
-      "key": "{0} this session",
-      "ko": "이번 세션 {0}",
-      "kind": "template",
+      "key": "this session",
+      "ko": "이번 세션",
+      "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:147 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:153 tr()",
+        "plugins/ruflo-console/hooks/views/control.ts:30 kv()",
+        "plugins/ruflo-console/hooks/views/cost.ts:62 rule()"
       ]
     },
     {
@@ -113,7 +117,7 @@
       "ko": "ctx {0}% · 곧 /compact",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:153 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:159 text"
       ]
     },
     {
@@ -121,7 +125,7 @@
       "ko": "높음·치명 {0}건",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:159 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:165 text"
       ]
     },
     {
@@ -129,7 +133,7 @@
       "ko": "사용 가능 {0}",
       "kind": "template",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:160 text"
+        "plugins/ruflo-console/hooks/views/bar.ts:166 text"
       ]
     },
     {
@@ -137,7 +141,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:175 ground"
+        "plugins/ruflo-console/hooks/views/bar.ts:181 ground"
       ]
     },
     {
@@ -145,7 +149,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:175 border"
+        "plugins/ruflo-console/hooks/views/bar.ts:181 border"
       ]
     },
     {
@@ -153,7 +157,7 @@
       "ko": null,
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:175 text",
+        "plugins/ruflo-console/hooks/views/bar.ts:181 text",
         "plugins/ruflo-console/hooks/views/menu.ts:103 const"
       ]
     },
@@ -162,7 +166,7 @@
       "ko": "메뉴",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:184 label",
+        "plugins/ruflo-console/hooks/views/bar.ts:190 label",
         "plugins/ruflo-console/hooks/views/nav.ts:42 expr"
       ]
     },
@@ -171,7 +175,7 @@
       "ko": "콘솔 열기",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:250 label"
+        "plugins/ruflo-console/hooks/views/bar.ts:256 label"
       ]
     },
     {
@@ -179,11 +183,22 @@
       "ko": "보기",
       "kind": "text",
       "ctx": [
-        "plugins/ruflo-console/hooks/views/bar.ts:274 label",
+        "plugins/ruflo-console/hooks/views/bar.ts:280 label",
         "plugins/ruflo-console/hooks/views/memory.ts:118 label",
         "plugins/ruflo-console/hooks/views/skills.ts:46 label"
       ]
     }
   ],
-  "obsolete": []
+  "obsolete": [
+    {
+      "key": "{0} this session",
+      "ko": "이번 세션 {0}",
+      "kind": "template"
+    },
+    {
+      "key": "{0} tool calls, {1}m",
+      "ko": "도구 호출 {0}회, {1}분",
+      "kind": "template"
+    }
+  ]
 }
