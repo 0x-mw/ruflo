@@ -50,6 +50,16 @@ function tmpl(d: Dict, text: string): string | null {
   return null;
 }
 
+/** Whole-string template whose captures are inserted verbatim (no dictionary lookup of captures). */
+function tmplVerbatim(d: Dict, text: string): string | null {
+  if (text.length === 0) return null;
+  for (const t of d.templates()) {
+    const r = applyTemplate(t, text);
+    if (r !== null) return r;
+  }
+  return null;
+}
+
 /** exact, then template, for a bare core string. */
 function coreLookup(d: Dict, core: string, withTemplate: boolean): string | null {
   if (core.length === 0) return null;
@@ -196,6 +206,32 @@ export function translate(text: unknown, dict: Dict): string {
     const out = run(dict, text);
     dict.cache.set(text, out === text ? null : out);
     return out;
+  } catch {
+    return text as string;
+  }
+}
+
+/**
+ * Whole-string translation only (G1): exact match, then affix-split exact,
+ * then whole-string template (captures stay verbatim, never re-translated). No line split, no colon split, no ANSI runs.
+ * Placeholder captures stay verbatim. Never throws.
+ */
+export function translateWhole(text: unknown, dict: Dict): string {
+  try {
+    if (typeof text !== 'string') return text as string;
+    if (text.length === 0 || text.length > MAX_LEN || HANGUL.test(text)) return text;
+    if (looksLikeJson(text)) return text;
+    const e = dict.exact.get(text);
+    if (e !== undefined) return e;
+    const sp = splitAffix(text);
+    if (sp.core.length > 0) {
+      const x = dict.exact.get(sp.core);
+      if (x !== undefined) return sp.prefix + x + sp.suffix;
+      const r = tmplVerbatim(dict, sp.core);
+      if (r !== null) return sp.prefix + r + sp.suffix;
+    }
+    const r = tmplVerbatim(dict, text);
+    return r !== null ? r : text;
   } catch {
     return text as string;
   }

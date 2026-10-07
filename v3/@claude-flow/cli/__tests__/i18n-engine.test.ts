@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { translate } from '../src/i18n/translate.js';
+import { translate, translateWhole } from '../src/i18n/translate.js';
 import { buildDict, compileTemplate, applyTemplate, loadDictFrom, Lru } from '../src/i18n/dict.js';
 import { resolveLocale, tr, getLocale, isKo, __setI18nForTest } from '../src/i18n/index.js';
 import { displayWidth, padEndW, padStartW, truncateW } from '../src/i18n/width.js';
@@ -288,5 +288,47 @@ describe('A1 review fixes: ANSI colon runs', () => {
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }
+  });
+});
+
+describe('G1 translateWhole', () => {
+  const d = () => buildDict({
+    Status: '상태',
+    Done: '완료',
+    'Status: Done': '상태 완료',
+    'Run {0} to start background workers': '백그라운드 워커를 시작하려면 {0}을(를) 실행하세요',
+    'Directories: {0} created': '디렉터리 {0}개 생성',
+  });
+  it('exact, affix-split exact and whole-string template', () => {
+    expect(translateWhole('Done', d())).toBe('완료');
+    expect(translateWhole('  ✓ Done  ', d())).toBe('  ✓ 완료  ');
+    expect(translateWhole('Directories: 12 created', d())).toBe('디렉터리 12개 생성');
+    expect(translateWhole('• Run x to start background workers', d())).toBe('• 백그라운드 워커를 시작하려면 x을(를) 실행하세요');
+  });
+  it('inserts captures verbatim: a capture equal to a dictionary key is not translated', () => {
+    const dict = buildDict({ Done: '완료', 'Swarm ID:  {0}': '스웜 ID:  {0}', 'Description: {0}': '설명: {0}' });
+    expect(translateWhole('Swarm ID:  Done', dict)).toBe('스웜 ID:  Done');
+    expect(translateWhole('Description: Done', dict)).toBe('설명: Done');
+    // the full engine keeps its old behaviour
+    expect(translate('Swarm ID:  Done', dict)).toBe('스웜 ID:  완료');
+  });
+  it('keeps an ANSI capture byte for byte', () => {
+    expect(translateWhole('Run \x1b[36mfoo\x1b[0m to start background workers', d()))
+      .toBe('백그라운드 워커를 시작하려면 \x1b[36mfoo\x1b[0m을(를) 실행하세요');
+  });
+  it('does not split on colon or newline', () => {
+    expect(translateWhole('Status: Missing', d())).toBe('Status: Missing');
+    expect(translateWhole('Done: x', d())).toBe('Done: x');
+    expect(translateWhole('Done\nStatus', d())).toBe('Done\nStatus');
+    expect(translate('Done\nStatus', d())).toBe('완료\n상태'); // contrast: full engine splits lines
+  });
+  it('returns the input for non-strings, Korean, JSON, empty, oversized and never throws', () => {
+    const dict = d();
+    for (const v of [undefined, null, 5, {}, [], '', '이미 한글 Done', '{"a":1}', 'x'.repeat(2001)]) {
+      expect(() => translateWhole(v, dict)).not.toThrow();
+      expect(translateWhole(v, dict)).toBe(v as any);
+    }
+    expect(translateWhole('Done', null as any)).toBe('Done');
+    expect(translateWhole('Done', {} as any)).toBe('Done');
   });
 });

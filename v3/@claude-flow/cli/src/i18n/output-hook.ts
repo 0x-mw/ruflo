@@ -9,6 +9,7 @@
 
 import { getLocale, tr } from './index.js';
 import { getDict } from './dict.js';
+import { translateWhole } from './translate.js';
 import { displayWidth, truncateW } from './width.js';
 
 const MARK = Symbol.for('ruflo.i18n.installed');
@@ -56,6 +57,42 @@ function exactOnly(text: string): string {
     return text;
   }
 }
+
+/**
+ * Boxes whose lines carry user data verbatim (memory values, task descriptions, queries,
+ * file names). Matched on the original (untranslated) title; these use exact match only (T8).
+ * Survey of printBox calls in init/start/status/doctor/agent/swarm/memory/task/session:
+ *  - 'Memory Entry'            memory.ts:398   entry.key, tags and the stored value (entry.content)
+ *  - 'Task: <id>'              task.ts:419     "Description: ${result.description}" is free user text
+ *  - 'SCM Classifier (#2760)'  memory.ts:2215  first line echoes the user's query
+ *  - init.ts:1540-1595         lines are file / skill / agent / command / setting names
+ */
+const DATA_BOX_TITLES = new Set([
+  'Memory Entry',
+  'SCM Classifier (#2760)',
+  'Updated (latest version)',
+  'Created (new files)',
+  'Preserved (existing data kept)',
+  'Settings Updated',
+]);
+const DATA_BOX_PREFIXES = ['Task: ', 'Added Skills (', 'Added Agents (', 'Added Commands ('];
+
+function isDataBox(title: unknown): boolean {
+  return typeof title === 'string' && (DATA_BOX_TITLES.has(title) || DATA_BOX_PREFIXES.some((p) => title.startsWith(p)));
+}
+
+/** Box line: exact first, then whole-string template (captures stay verbatim). Data boxes: exact only. */
+function boxLine(text: string, dataBox: boolean): string {
+  const a = exactOnly(text);
+  if (a !== text || dataBox) return a;
+  try {
+    return translateWhole(text, getDict('ko', null));
+  } catch {
+    return text;
+  }
+}
+
+const LABEL_KEYS = ['property', 'setting'];
 
 function isSafeWrite(text: unknown): boolean {
   if (typeof text !== 'string') return false;
@@ -239,10 +276,17 @@ function buildTable(f: Fmt, options: any): string {
   const columns: any[] = (options.columns as any[]).map((c) =>
     c && typeof c.header === 'string' ? { ...c, header: tr(c.header) } : c);
 
+  // G1: label columns ('property'/'setting') are translated by exact match; other cells stay
+  const isLabel = (col: any): boolean => !!col && LABEL_KEYS.includes(col.key);
+  const cellOf = (col: any, row: any): any => {
+    const v = row[col.key];
+    return isLabel(col) && typeof v === 'string' ? exactOnly(v) : v;
+  };
+
   const widths = columns.map((col) => {
     let width = displayWidth(col.header);
     for (const row of data) {
-      let value = row[col.key];
+      let value = cellOf(col, row);
       if (col.format) value = col.format(value);
       width = Math.max(width, displayWidth(stripM(String(value ?? ''))));
     }
@@ -281,7 +325,7 @@ function buildTable(f: Fmt, options: any): string {
   for (const r of data) {
     const row = columns
       .map((col, i) => {
-        let value = r[col.key];
+        let value = cellOf(col, r);
         value = col.format ? col.format(value) : String(value ?? '');
         return pad + alignW(truncW(String(value), w[i]), w[i], col.align) + pad;
       })
@@ -294,8 +338,9 @@ function buildTable(f: Fmt, options: any): string {
 
 function buildBox(f: Fmt, content: string, title?: string): string {
   const shown = title ? tr(title) : title;
-  // data lines: exact match only (T8)
-  const lines = String(content).split('\n').map(exactOnly);
+  const dataBox = isDataBox(title);
+  // data lines: exact, then whole-line template only (T8 relaxed by G1; no colon split)
+  const lines = String(content).split('\n').map((l) => boxLine(l, dataBox));
   const maxLen = Math.max(...lines.map((l) => displayWidth(stripM(l))), shown ? displayWidth(shown) : 0);
   const width = maxLen + 4;
   const result: string[] = [];
