@@ -163,8 +163,8 @@
       "kind": "text",
       "ctx": [
         "src/commands/memory-distill.ts:338 printTable.header",
-        "src/commands/memory.ts:788 printTable.header",
-        "src/commands/memory.ts:877 printTable.header"
+        "src/commands/memory.ts:286 printTable.cell",
+        "src/commands/memory.ts:788 printTable.header"
       ]
     },
     {

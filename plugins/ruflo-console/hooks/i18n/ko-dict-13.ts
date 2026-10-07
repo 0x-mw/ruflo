@@ -236,7 +236,6 @@ export const KO_13: Record<string, string> = {
   "{0} tasks is more than the {1} one reviewed script holds": "작업 {0}개는 검토된 스크립트 하나가 담을 수 있는 {1}개를 넘습니다",
   "{0} tasks · cost {1} · critical path {2} · {3} waves": "작업 {0}개 · 비용 {1} · 임계 경로 {2} · 웨이브 {3}개",
   "{0} thinking · {1}s · the answer starts when the first words arrive": "{0} 생각하는 중 · {1}초 · 첫 단어가 도착하면 답변이 시작됩니다",
-  "{0} this session": "이번 세션 {0}",
   "{0} threat": "위협 {0}건",
   "{0} threat (worst {1})": "위협 {0}건 (최악 {1})",
   "{0} threats": "위협 {0}건",
@@ -244,7 +243,6 @@ export const KO_13: Record<string, string> = {
   "{0} to approve (q)": "승인 대기 {0} (q)",
   "{0} tool call": "도구 호출 {0}건",
   "{0} tool calls": "도구 호출 {0}건",
-  "{0} tool calls, {1}m": "도구 호출 {0}회, {1}분",
   "{0} trajectories · {1} patterns · MoE {2} decisions · EWC {3} consolidations · neural router n/a": "궤적 {0}개 · 패턴 {1}개 · MoE 결정 {2}건 · EWC 통합 {3}회 · 뉴럴 라우터 정보 없음",
   "{0} trajectories · {1} patterns · MoE {2} decisions · EWC {3} consolidations · neural router {4}": "궤적 {0}개 · 패턴 {1}개 · MoE 결정 {2}건 · EWC 통합 {3}회 · 뉴럴 라우터 {4}",
   "{0} updated": "{0} 업데이트했습니다",
@@ -450,4 +448,6 @@ export const KO_13: Record<string, string> = {
   "{0}/{1} succeeded ({2} success rate, N={3}) · last {4} · nothing recorded since": "{1}건 중 {0}건 성공 (성공률 {2}, N={3}) · 마지막 {4} · 이후 기록 없음",
   "{0}/{1} {2} · via a ruflo task assigned to it": "{0}/{1} {2} · 할당된 ruflo 작업으로 연결",
   "{0}/{1} {2} · via a ruflo task assigned to it · task {3}": "{0}/{1} {2} · 할당된 ruflo 작업으로 연결 · 작업 {3}",
+  "{0}/{1} {2} · via its label tag": "{0}/{1} {2} · 라벨 태그로 연결",
+  "{0}/{1} {2} · via its label tag · task {3}": "{0}/{1} {2} · 라벨 태그로 연결 · 작업 {3}",
 }

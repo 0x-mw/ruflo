@@ -44,6 +44,15 @@
       ]
     },
     {
+      "key": "AGNTCY/SLIM transport is not configured — see ADR-380 ({0}) for setup. Falling back to local transport.",
+      "ko": "AGNTCY/SLIM 전송이 설정되지 않았습니다. 설정 방법은 ADR-380({0})을 참고하세요. 로컬 전송으로 대체합니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agntcy/publish.ts:130 printInfo",
+        "src/commands/agntcy/swarm-join.ts:75 printInfo"
+      ]
+    },
+    {
       "key": "Validated OASF record at \"{0}\" locally (name={1}, version={2}); publish to the Directory was skipped.",
       "ko": "\"{0}\"의 OASF 레코드를 로컬에서 검증했습니다 (name={1}, version={2}). 디렉터리 게시는 건너뛰었습니다.",
       "kind": "template",

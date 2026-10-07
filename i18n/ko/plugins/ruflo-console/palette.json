@@ -290,7 +290,7 @@
       "kind": "text",
       "ctx": [
         "plugins/ruflo-console/hooks/palette.ts:195 name",
-        "plugins/ruflo-console/hooks/views/help.ts:143 col()"
+        "plugins/ruflo-console/hooks/views/help.ts:154 col()"
       ]
     },
     {

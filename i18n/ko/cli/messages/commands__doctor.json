@@ -114,9 +114,9 @@
       ]
     },
     {
-      "key": "Invalid JSON:",
-      "ko": "올바르지 않은 JSON:",
-      "kind": "text",
+      "key": "Invalid JSON: {0}",
+      "ko": "올바르지 않은 JSON: {0}",
+      "kind": "template",
       "ctx": [
         "src/commands/doctor.ts:154 check.message"
       ]
@@ -130,8 +130,8 @@
       ]
     },
     {
-      "key": "Config collision: legacy  + {0} — subsystems may disagree silently",
-      "ko": "설정 충돌: 레거시  + {0} — 하위 시스템끼리 조용히 어긋날 수 있습니다",
+      "key": "Config collision: legacy {0} + {1} — subsystems may disagree silently",
+      "ko": "설정 충돌: 레거시 {0} + {1} — 하위 시스템끼리 조용히 어긋날 수 있습니다",
       "kind": "template",
       "ctx": [
         "src/commands/doctor.ts:164 check.message"
@@ -151,7 +151,8 @@
       "kind": "text",
       "ctx": [
         "src/commands/doctor.ts:170 check.message",
-        "src/commands/doctor.ts:173 check.message"
+        "src/commands/doctor.ts:173 check.message",
+        "src/commands/doctor.ts:1334 check.message"
       ]
     },
     {
@@ -236,9 +237,9 @@
       ]
     },
     {
-      "key": "critical helpers do not match the signed manifest —",
-      "ko": "핵심 헬퍼가 서명된 매니페스트와 일치하지 않습니다 —",
-      "kind": "text",
+      "key": "critical helpers do not match the signed manifest — {0}",
+      "ko": "핵심 헬퍼가 서명된 매니페스트와 일치하지 않습니다 — {0}",
+      "kind": "template",
       "ctx": [
         "src/commands/doctor.ts:318 check.message"
       ]
@@ -252,9 +253,9 @@
       ]
     },
     {
-      "key": "locally modified helpers (auto-restore disabled by .LOCKED / RUFLO_HELPERS_LOCKED) —",
-      "ko": "로컬에서 수정된 헬퍼 (.LOCKED / RUFLO_HELPERS_LOCKED 로 자동 복원이 꺼져 있음) —",
-      "kind": "text",
+      "key": "locally modified helpers (auto-restore disabled by .LOCKED / RUFLO_HELPERS_LOCKED) — {0}",
+      "ko": "로컬에서 수정된 헬퍼 (.LOCKED / RUFLO_HELPERS_LOCKED 로 자동 복원이 꺼져 있음) — {0}",
+      "kind": "template",
       "ctx": [
         "src/commands/doctor.ts:325 check.message"
       ]
@@ -1134,14 +1135,6 @@
       ]
     },
     {
-      "key": "Found:",
-      "ko": "발견됨:",
-      "kind": "text",
-      "ctx": [
-        "src/commands/doctor.ts:1334 check.message"
-      ]
-    },
-    {
       "key": "Claude Code (managed internally)",
       "ko": "Claude Code (내부에서 관리)",
       "kind": "text",
@@ -1150,9 +1143,9 @@
       ]
     },
     {
-      "key": "Found:  (no Claude key)",
-      "ko": "발견됨:  (Claude 키 없음)",
-      "kind": "text",
+      "key": "Found: {0} (no Claude key)",
+      "ko": "발견됨: {0} (Claude 키 없음)",
+      "kind": "template",
       "ctx": [
         "src/commands/doctor.ts:1338 check.message"
       ]
@@ -1327,8 +1320,8 @@
       ]
     },
     {
-      "key": "{0} servers (ruflo configured: )",
-      "ko": "서버 {0}개 (ruflo 설정됨: )",
+      "key": "{0} servers (ruflo configured: {1})",
+      "ko": "서버 {0}개 (ruflo 설정됨: {1})",
       "kind": "template",
       "ctx": [
         "src/commands/doctor.ts:1564 check.message"
@@ -1573,12 +1566,19 @@
       ]
     },
     {
+      "key": "{0} — flagged rate-limited but sponsored capacity isn't enabled",
+      "ko": "{0} — rate-limited 로 표시되었지만 후원 용량이 켜져 있지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1865 check.message"
+      ]
+    },
+    {
       "key": "sponsored consent: granted; rate-limit flag: set (since {0})",
       "ko": "후원 동의: 허용됨; 속도 제한 플래그: 설정됨 ({0} 이후)",
       "kind": "template",
       "ctx": [
-        "src/commands/doctor.ts:1870 check.message",
-        "src/commands/doctor.ts:2092 check.message"
+        "src/commands/doctor.ts:1870 check.message"
       ]
     },
     {
@@ -1726,11 +1726,19 @@
       ]
     },
     {
-      "key": "scope granted without a matching consent receipt:",
-      "ko": "일치하는 동의 영수증 없이 부여된 범위:",
-      "kind": "text",
+      "key": "scope granted without a matching consent receipt: {0}",
+      "ko": "일치하는 동의 영수증 없이 부여된 범위: {0}",
+      "kind": "template",
       "ctx": [
         "src/commands/doctor.ts:2081 check.message"
+      ]
+    },
+    {
+      "key": "profiles: {0}",
+      "ko": "프로필: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2092 check.message"
       ]
     },
     {
@@ -2287,5 +2295,66 @@
       ]
     }
   ],
-  "obsolete": []
+  "obsolete": [
+    {
+      "key": "Config collision: legacy  + {0} — subsystems may disagree silently",
+      "ko": "설정 충돌: 레거시  + {0} — 하위 시스템끼리 조용히 어긋날 수 있습니다",
+      "kind": "template"
+    },
+    {
+      "key": "Found:",
+      "ko": "발견됨:",
+      "kind": "text"
+    },
+    {
+      "key": "Found:  (no Claude key)",
+      "ko": "발견됨:  (Claude 키 없음)",
+      "kind": "text"
+    },
+    {
+      "key": "Invalid JSON:",
+      "ko": "올바르지 않은 JSON:",
+      "kind": "text"
+    },
+    {
+      "key": "critical helpers do not match the signed manifest —",
+      "ko": "핵심 헬퍼가 서명된 매니페스트와 일치하지 않습니다 —",
+      "kind": "text"
+    },
+    {
+      "key": "locally modified helpers (auto-restore disabled by .LOCKED / RUFLO_HELPERS_LOCKED) —",
+      "ko": "로컬에서 수정된 헬퍼 (.LOCKED / RUFLO_HELPERS_LOCKED 로 자동 복원이 꺼져 있음) —",
+      "kind": "text"
+    },
+    {
+      "key": "scope granted without a matching consent receipt:",
+      "ko": "일치하는 동의 영수증 없이 부여된 범위:",
+      "kind": "text"
+    },
+    {
+      "key": "scope granted without a matching consent receipt: {0}: {1}",
+      "ko": "일치하는 동의 영수증 없이 부여된 범위: {0}: {1}",
+      "kind": "template"
+    },
+    {
+      "key": "sponsored consent: granted; rate-limit flag: set (since {0}); last capacity-exhausted: {1}; keychain backend unreachable — falling back to session-only tokens; session-only (no persisted refresh token): {2}",
+      "ko": "후원 동의: 허용됨; 속도 제한 플래그: 설정됨 ({0} 이후); 마지막 용량 소진: {1}; 키체인 백엔드에 연결할 수 없어 세션 전용 토큰으로 대체합니다; 세션 전용(저장된 갱신 토큰 없음): {2}",
+      "kind": "template"
+    },
+    {
+      "key": "sponsored consent: granted; rate-limit flag: set (since {0}); last capacity-exhausted: {1}; keychain backend unreachable — falling back to session-only tokens; session-only (no persisted refresh token): {2} — flagged rate-limited but sponsored capacity isn't enabled",
+      "ko": "후원 동의: 허용됨; 속도 제한 플래그: 설정됨 ({0} 이후); 마지막 용량 소진: {1}; 키체인 백엔드에 연결할 수 없어 세션 전용 토큰으로 대체합니다; 세션 전용(저장된 갱신 토큰 없음): {2} — rate-limited 로 표시되었지만 후원 용량이 켜져 있지 않습니다",
+      "kind": "template"
+    },
+    {
+      "key": "{0} servers (ruflo configured: )",
+      "ko": "서버 {0}개 (ruflo 설정됨: )",
+      "kind": "template"
+    },
+    {
+      "key": "{0} servers (ruflo configured: {1}: {2})",
+      "ko": "서버 {0}개 (ruflo 설정됨: {1}: {2})",
+      "kind": "template"
+    }
+  ]
 }

@@ -60,6 +60,15 @@
       ]
     },
     {
+      "key": "Assigned To",
+      "ko": "담당",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:206 printTable.cell",
+        "src/commands/task.ts:444 printTable.cell"
+      ]
+    },
+    {
       "key": "Failed to create task: {0}",
       "ko": "작업을 생성하지 못했습니다: {0}",
       "kind": "template",
@@ -147,6 +156,30 @@
       "kind": "text",
       "ctx": [
         "src/commands/task.ts:433 bold"
+      ]
+    },
+    {
+      "key": "Parent Task",
+      "ko": "상위 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:445 printTable.cell"
+      ]
+    },
+    {
+      "key": "Dependencies",
+      "ko": "선행 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:446 printTable.cell"
+      ]
+    },
+    {
+      "key": "Dependents",
+      "ko": "후행 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:447 printTable.cell"
       ]
     },
     {

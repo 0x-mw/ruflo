@@ -54,15 +54,6 @@
       ]
     },
     {
-      "key": "tool calls",
-      "ko": "도구 호출",
-      "kind": "text",
-      "ctx": [
-        "plugins/ruflo-console/hooks/views/wf-control.ts:76 kv()",
-        "plugins/ruflo-console/hooks/views/workflows.ts:107 kv()"
-      ]
-    },
-    {
       "key": "not bound in this build: only the prompt-box text is offered",
       "ko": "이 빌드에는 연결되어 있지 않습니다: 프롬프트 입력란 텍스트만 제공됩니다",
       "kind": "text",

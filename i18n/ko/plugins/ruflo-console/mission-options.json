@@ -124,7 +124,7 @@
       "ctx": [
         "plugins/ruflo-console/hooks/mission-options.ts:30 label",
         "plugins/ruflo-console/hooks/state.ts:53 label",
-        "plugins/ruflo-console/hooks/views/bar.ts:182 label"
+        "plugins/ruflo-console/hooks/views/bar.ts:188 label"
       ]
     },
     {

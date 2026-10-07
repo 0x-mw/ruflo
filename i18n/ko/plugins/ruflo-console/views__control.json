@@ -64,15 +64,6 @@
       ]
     },
     {
-      "key": "this session",
-      "ko": "이번 세션",
-      "kind": "text",
-      "ctx": [
-        "plugins/ruflo-console/hooks/views/control.ts:30 kv()",
-        "plugins/ruflo-console/hooks/views/cost.ts:62 rule()"
-      ]
-    },
-    {
       "key": "{0} action · {1}/{2} this turn",
       "ko": "동작 {0}회 · 이번 턴 {1}/{2}",
       "kind": "template",

@@ -149,7 +149,7 @@
       "kind": "text",
       "ctx": [
         "plugins/ruflo-console/hooks/views/claims.ts:62 button()",
-        "plugins/ruflo-console/hooks/views/help.ts:45 text()",
+        "plugins/ruflo-console/hooks/views/help.ts:56 text()",
         "plugins/ruflo-console/hooks/views/hive.ts:250 button()"
       ]
     },

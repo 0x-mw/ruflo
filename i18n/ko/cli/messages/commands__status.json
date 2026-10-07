@@ -20,11 +20,44 @@
       ]
     },
     {
+      "key": "Uptime",
+      "ko": "가동 시간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:257 printTable.cell",
+        "src/commands/status.ts:553 printTable.header"
+      ]
+    },
+    {
       "key": "Swarm not running",
       "ko": "스웜이 실행 중이 아닙니다",
       "kind": "text",
       "ctx": [
         "src/commands/status.ts:261 printInfo"
+      ]
+    },
+    {
+      "key": "Entries",
+      "ko": "항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:306 printTable.cell"
+      ]
+    },
+    {
+      "key": "Search Time",
+      "ko": "검색 시간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:308 printTable.cell"
+      ]
+    },
+    {
+      "key": "Cache Hit Rate",
+      "ko": "캐시 적중률",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:309 printTable.cell"
       ]
     },
     {
@@ -167,14 +200,6 @@
       ]
     },
     {
-      "key": "Memory Backend",
-      "ko": "메모리 백엔드",
-      "kind": "text",
-      "ctx": [
-        "src/commands/status.ts:438 check.name"
-      ]
-    },
-    {
       "key": "Using {0} backend",
       "ko": "{0} 백엔드 사용 중",
       "kind": "template",
@@ -271,14 +296,6 @@
       ]
     },
     {
-      "key": "Uptime",
-      "ko": "가동 시간",
-      "kind": "text",
-      "ctx": [
-        "src/commands/status.ts:553 printTable.header"
-      ]
-    },
-    {
       "key": "Task Status",
       "ko": "작업 상태",
       "kind": "text",
@@ -300,6 +317,7 @@
       "kind": "text",
       "ctx": [
         "src/commands/status.ts:615 printTable.header",
+        "src/commands/task.ts:204 printTable.cell",
         "src/commands/task.ts:319 printTable.header"
       ]
     },
@@ -327,6 +345,30 @@
       "kind": "text",
       "ctx": [
         "src/commands/status.ts:670 bold"
+      ]
+    },
+    {
+      "key": "Total Entries",
+      "ko": "전체 항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:680 printTable.cell"
+      ]
+    },
+    {
+      "key": "Storage Size",
+      "ko": "저장소 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:681 printTable.cell"
+      ]
+    },
+    {
+      "key": "HNSW Index",
+      "ko": "HNSW 인덱스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:682 printTable.cell"
       ]
     },
     {

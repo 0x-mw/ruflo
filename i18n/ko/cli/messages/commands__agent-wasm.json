@@ -52,6 +52,47 @@
       ]
     },
     {
+      "key": "Available",
+      "ko": "사용 가능",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:80 printTable.cell"
+      ]
+    },
+    {
+      "key": "Active Agents",
+      "ko": "활성 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:81 printTable.cell",
+        "src/commands/agent.ts:259 bold"
+      ]
+    },
+    {
+      "key": "Gallery Templates",
+      "ko": "갤러리 템플릿",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:82 printTable.cell"
+      ]
+    },
+    {
+      "key": "Sandbox Tools",
+      "ko": "샌드박스 도구",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:83 printTable.cell"
+      ]
+    },
+    {
+      "key": "Features",
+      "ko": "기능",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:84 printTable.cell"
+      ]
+    },
+    {
       "key": "Gallery Categories",
       "ko": "갤러리 카테고리",
       "kind": "text",
@@ -99,6 +140,59 @@
       "kind": "text",
       "ctx": [
         "src/commands/agent-wasm.ts:159 printInfo"
+      ]
+    },
+    {
+      "key": "ID",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:179 printTable.cell",
+        "src/commands/agent-wasm.ts:335 printTable.header",
+        "src/commands/agent.ts:178 printTable.cell"
+      ]
+    },
+    {
+      "key": "State",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:180 printTable.cell"
+      ]
+    },
+    {
+      "key": "Model",
+      "ko": "모델",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:181 printTable.cell",
+        "src/commands/init.ts:842 dim"
+      ]
+    },
+    {
+      "key": "Turn Count",
+      "ko": "턴 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:182 printTable.cell"
+      ]
+    },
+    {
+      "key": "File Count",
+      "ko": "파일 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:183 printTable.cell"
+      ]
+    },
+    {
+      "key": "Created",
+      "ko": "생성 시각",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:184 printTable.cell",
+        "src/commands/agent.ts:182 printTable.cell",
+        "src/commands/agent.ts:283 printTable.header"
       ]
     },
     {
@@ -190,21 +284,12 @@
       ]
     },
     {
-      "key": "ID",
-      "ko": null,
-      "kind": "text",
-      "ctx": [
-        "src/commands/agent-wasm.ts:335 printTable.header",
-        "src/commands/agent.ts:280 printTable.header",
-        "src/commands/agent.ts:789 printTable.header"
-      ]
-    },
-    {
       "key": "Name",
       "ko": "이름",
       "kind": "text",
       "ctx": [
         "src/commands/agent-wasm.ts:336 printTable.header",
+        "src/commands/agent.ts:180 printTable.cell",
         "src/commands/session.ts:151 printTable.header"
       ]
     },

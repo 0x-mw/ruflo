@@ -28,6 +28,34 @@
       ]
     },
     {
+      "key": "Type",
+      "ko": "유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:179 printTable.cell",
+        "src/commands/agent.ts:281 printTable.header",
+        "src/commands/agent.ts:359 printBox.content"
+      ]
+    },
+    {
+      "key": "Status",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:181 printTable.cell",
+        "src/commands/agent.ts:282 printTable.header",
+        "src/commands/agent.ts:791 printTable.header"
+      ]
+    },
+    {
+      "key": "Capabilities",
+      "ko": "기능",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent.ts:183 printTable.cell"
+      ]
+    },
+    {
       "key": "Agent {0} spawned successfully",
       "ko": "에이전트를 생성했습니다: {0}",
       "kind": "template",
@@ -54,47 +82,11 @@
       ]
     },
     {
-      "key": "Active Agents",
-      "ko": "활성 에이전트",
-      "kind": "text",
-      "ctx": [
-        "src/commands/agent.ts:259 bold"
-      ]
-    },
-    {
       "key": "No agents found matching criteria",
       "ko": "조건에 맞는 에이전트가 없습니다",
       "kind": "text",
       "ctx": [
         "src/commands/agent.ts:263 printInfo"
-      ]
-    },
-    {
-      "key": "Type",
-      "ko": "유형",
-      "kind": "text",
-      "ctx": [
-        "src/commands/agent.ts:281 printTable.header",
-        "src/commands/agent.ts:359 printBox.content",
-        "src/commands/agent.ts:674 printTable.header"
-      ]
-    },
-    {
-      "key": "Status",
-      "ko": "상태",
-      "kind": "text",
-      "ctx": [
-        "src/commands/agent.ts:282 printTable.header",
-        "src/commands/agent.ts:791 printTable.header",
-        "src/commands/session.ts:152 printTable.header"
-      ]
-    },
-    {
-      "key": "Created",
-      "ko": "생성 시각",
-      "kind": "text",
-      "ctx": [
-        "src/commands/agent.ts:283 printTable.header"
       ]
     },
     {
@@ -476,7 +468,8 @@
       "ko": "상태",
       "kind": "text",
       "ctx": [
-        "src/commands/agent.ts:898 printTable.header"
+        "src/commands/agent.ts:898 printTable.header",
+        "src/commands/status.ts:256 printTable.cell"
       ]
     },
     {
