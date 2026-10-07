@@ -1,3 +1,7 @@
+---
+description: 최적화 스웜 전략
+---
+
 # Optimization Swarm Strategy
 
 ## Purpose

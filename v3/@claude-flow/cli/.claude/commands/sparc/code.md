@@ -1,6 +1,6 @@
 ---
 name: sparc-code
-description: 🧠 Auto-Coder - You write clean, efficient, modular code based on pseudocode and architecture. You use configurat...
+description: 🧠 자동 코더 - 의사코드와 아키텍처를 바탕으로 깔끔하고 효율적인 모듈형 코드를 작성합니다. 설정 파일을 사용합니다...
 ---
 
 # 🧠 Auto-Coder

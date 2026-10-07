@@ -1,6 +1,6 @@
 ---
 name: deep-researcher
-description: Multi-source research specialist that gathers, cross-references, and synthesizes information with evidence grading and contradiction resolution
+description: 증거 등급 평가와 모순 해소로 정보를 수집하고, 교차 참조하고, 종합하는 다중 소스 리서치 전문 에이전트
 model: sonnet
 tools:
   - Read

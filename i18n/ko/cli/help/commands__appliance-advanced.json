@@ -1,0 +1,140 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/appliance-advanced.ts",
+  "entries": [
+    {
+      "key": "Sign an RVFA appliance with Ed25519 for tamper detection",
+      "ko": "변조를 감지하기 위해 RVFA 어플라이언스에 Ed25519로 서명합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:44 description"
+      ]
+    },
+    {
+      "key": "Path to .rvf file",
+      "ko": ".rvf 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:46 description",
+        "src/commands/appliance-advanced.ts:106 description",
+        "src/commands/appliance-advanced.ts:144 description"
+      ]
+    },
+    {
+      "key": "Path to Ed25519 private key (PEM)",
+      "ko": "Ed25519 개인 키 경로 (PEM)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:47 description"
+      ]
+    },
+    {
+      "key": "Generate a new key pair",
+      "ko": "새 키 쌍을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:48 description"
+      ]
+    },
+    {
+      "key": "Directory for key storage",
+      "ko": "키를 저장할 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:49 description"
+      ]
+    },
+    {
+      "key": "Publisher name for signature metadata",
+      "ko": "서명 메타데이터에 넣을 게시자 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:50 description"
+      ]
+    },
+    {
+      "key": "Publish an RVFA appliance to IPFS via Pinata",
+      "ko": "Pinata를 통해 RVFA 어플라이언스를 IPFS에 게시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:104 description"
+      ]
+    },
+    {
+      "key": "Publication name",
+      "ko": "게시 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:107 description"
+      ]
+    },
+    {
+      "key": "Description",
+      "ko": "설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:108 description",
+        "src/commands/agent-wasm.ts:338 printTable.header",
+        "src/commands/session.ts:289 printTable.cell"
+      ]
+    },
+    {
+      "key": "Hot-patch a section in an RVFA appliance",
+      "ko": "RVFA 어플라이언스의 섹션을 핫패치합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:142 description"
+      ]
+    },
+    {
+      "key": "Section to patch (e.g. ruflo, models)",
+      "ko": "패치할 섹션 (예: ruflo, models)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:145 description"
+      ]
+    },
+    {
+      "key": "Path to .rvfp patch file",
+      "ko": ".rvfp 패치 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:146 description"
+      ]
+    },
+    {
+      "key": "Path to new section data (creates patch automatically)",
+      "ko": "새 섹션 데이터 경로 (패치를 자동으로 생성)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:147 description"
+      ]
+    },
+    {
+      "key": "Patch version",
+      "ko": "패치 버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:148 description"
+      ]
+    },
+    {
+      "key": "Skip backup creation",
+      "ko": "백업 생성을 건너뜁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:149 description"
+      ]
+    },
+    {
+      "key": "Path to public key for patch verification",
+      "ko": "패치 검증용 공개 키 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance-advanced.ts:150 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

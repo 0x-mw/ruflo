@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "runtime:help-coverage",
+  "entries": [
+    {
+      "key": "Comma-separated task sources: team-tasks, swarm-tasks, file-checklist",
+      "ko": "쉼표로 구분한 작업 소스: team-tasks, swarm-tasks, file-checklist",
+      "kind": "text",
+      "ctx": [
+        "runtime: autopilot config --task-sources"
+      ]
+    },
+    {
+      "key": "How the cloud plane picks a tier: auto | low | mid | high (default: auto)",
+      "ko": "클라우드 플레인이 티어를 고르는 방식: auto | low | mid | high (기본값: auto)",
+      "kind": "text",
+      "ctx": [
+        "runtime: proxy config --routing-mode"
+      ]
+    },
+    {
+      "key": "Install the signed Meta-Proxy v0.7.3 binary",
+      "ko": "서명된 Meta-Proxy v0.7.3 바이너리를 설치합니다",
+      "kind": "text",
+      "ctx": [
+        "runtime: proxy (example)"
+      ]
+    },
+    {
+      "key": "Release version to install (default: 0.7.3)",
+      "ko": "설치할 릴리스 버전 (기본값: 0.7.3)",
+      "kind": "text",
+      "ctx": [
+        "runtime: proxy install --release"
+      ]
+    },
+    {
+      "key": "Verify before registering (default: true). Registry installs must match the registry sha256 checksum. Hooks and commands are withheld from a plugin that declares trustLevel \"untrusted\"/\"unverified\" or permissions beyond the default set (memory:read) unless --trust is given. --no-verify skips all of this.",
+      "ko": "등록하기 전에 검증합니다 (기본값: true). 레지스트리 설치는 레지스트리의 sha256 체크섬과 일치해야 합니다. trustLevel을 \"untrusted\"/\"unverified\"로 선언했거나 기본 권한(memory:read)을 넘어서는 권한을 요구하는 플러그인은 `--trust`를 지정하지 않으면 훅과 명령어가 제외됩니다. `--no-verify`는 이 검증을 모두 건너뜁니다.",
+      "kind": "text",
+      "ctx": [
+        "runtime: plugins install --verify"
+      ]
+    }
+  ],
+  "obsolete": []
+}

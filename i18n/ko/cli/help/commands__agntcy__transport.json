@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/agntcy/transport.ts",
+  "entries": [
+    {
+      "key": "Switch the active swarm/hive-mind transport (e.g. slim) — ADR-380 §2",
+      "ko": "활성 swarm/hive-mind 전송 방식을 전환합니다 (예: slim) — ADR-380 §2",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/transport.ts:37 description"
+      ]
+    },
+    {
+      "key": "Switch coordination transport to SLIM (opt-in, degrades to local)",
+      "ko": "조율 전송 방식을 SLIM으로 전환 (선택 사항, 실패 시 로컬로 대체)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/transport.ts:39 description"
+      ]
+    },
+    {
+      "key": "Manage the active swarm/hive-mind coordination transport (ADR-380 §2)",
+      "ko": "활성 swarm/hive-mind 조율 전송 방식을 관리합니다 (ADR-380 §2)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/transport.ts:89 description"
+      ]
+    },
+    {
+      "key": "Switch coordination transport to SLIM",
+      "ko": "조율 전송 방식을 SLIM으로 전환",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/transport.ts:92 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -5,7 +5,7 @@ import type { MemoryStats } from '../data/cli'
 import type { StartId } from '../starts'
 import { controlRows, isControlActive } from './control'
 import { optimizerRows } from './optimizer'
-import { ago, button, col, count, kv, live, row, picture, rule, sourceLine, starts, text, THEME, type Ctx } from './common'
+import { ago, button, col, count, kv, live, loc, row, picture, rule, sourceLine, starts, text, THEME, type Ctx } from './common'
 
 /** Each subsystem in one line: what it is, from where, as of when. Nothing on this view is estimated. */
 export function overviewView(ctx: Ctx): RenderElement {
@@ -94,7 +94,7 @@ export function overviewView(ctx: Ctx): RenderElement {
   rows.push(rule(ctx, 'Health', alerts.length === 0 ? 'no alerts' : `${alerts.length} alert${alerts.length === 1 ? '' : 's'}`))
 
   for (const alert of alerts.slice(0, 5)) {
-    rows.push(text(ctx, `${alert.level === 'bad' ? '✖' : alert.level === 'warn' ? '▲' : '●'} ${alert.text} — ${alert.fix}`, { color: alert.level === 'bad' ? THEME.bad : alert.level === 'warn' ? THEME.warn : THEME.info }))
+    rows.push(text(ctx, `${alert.level === 'bad' ? '✖' : alert.level === 'warn' ? '▲' : '●'} ${loc(ctx, alert.text)} — ${loc(ctx, alert.fix)}`, { color: alert.level === 'bad' ? THEME.bad : alert.level === 'warn' ? THEME.warn : THEME.info }))
   }
 
   if (alerts.length > 5) rows.push(text(ctx, `+${alerts.length - 5} more · approvals (q) lists what needs a decision`, { dimColor: true }))

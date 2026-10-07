@@ -1,4 +1,5 @@
 import type { On } from 'claude-code'
+import { t } from './i18n/translate'
 
 /**
  * The mod trust gate (ADR-404). Claude Code can now write, install and
@@ -96,7 +97,7 @@ export function registerTrust(on: On, policy: TrustPolicy, allow: ReadonlySet<st
     if (!told.has(key)) {
       told.add(key)
       try {
-        $.ui.log(trustLine(e, decision), decision.risk.length ? undefined : { to: 'debug' })
+        $.ui.log(t(trustLine(e, decision)), decision.risk.length ? undefined : { to: 'debug' })
       } catch {
         // a withheld ui.log never decides admission
       }

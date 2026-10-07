@@ -1,6 +1,6 @@
 ---
 name: music-midi
-description: Extract MIDI/score from an existing production
+description: 기존 프로덕션에서 MIDI/악보를 추출
 allowed-tools: mcp__cogmusic__extract_midi mcp__cogmusic__get_production
 argument-hint: "<production-id>"
 ---

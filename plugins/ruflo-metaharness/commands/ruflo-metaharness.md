@@ -1,6 +1,6 @@
 ---
 name: ruflo-metaharness
-description: MetaHarness integration — score, genome, mint, mcp-scan, threat-model — via subprocess invocations honoring ADR-150 architectural constraint
+description: MetaHarness 통합 — score, genome, mint, mcp-scan, threat-model — ADR-150 아키텍처 제약을 준수하는 서브프로세스 호출로 제공
 ---
 
 MetaHarness integration commands. All shell out to the PINNED

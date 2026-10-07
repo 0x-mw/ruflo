@@ -3,6 +3,7 @@ import type { EngineInterface, On } from 'claude-code'
 import type { ModOptions } from '../options'
 import type { ModState } from '../state'
 import { isKept, readUsage, type Usage } from './trim'
+import { t } from '../i18n/translate'
 
 const LEDGER = 'agentUse'
 
@@ -38,7 +39,7 @@ export function registerAgents(on: On, state: ModState, options: ModOptions) {
     state.agentTrim.hidden.add(e.agent)
     if (first) {
       try {
-        $.ui.toast('ruflo agentTrim: unused agent types are hidden from the model (see /ruflo-mods)')
+        $.ui.toast(t('ruflo agentTrim: unused agent types are hidden from the model (see /ruflo-mods)'))
       } catch {
         // a refused toast never changes the answer
       }

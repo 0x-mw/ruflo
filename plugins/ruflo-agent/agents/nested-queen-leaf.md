@@ -1,6 +1,6 @@
 ---
 name: nested-queen-leaf
-description: Tier-2 leaf — bottom of a queen-led tree. Deliberately no Task tool (least-privilege), but DOES record trajectory steps, AIDefence-scan its own inbound prompt, and report cost — so the queen's intelligence pipeline learns from every leaf outcome
+description: "2티어 리프 — 퀸이 이끄는 트리의 맨 아래. 의도적으로 Task 도구가 없지만(최소 권한), 궤적 단계를 기록하고, 자신에게 들어오는 프롬프트를 AIDefence로 스캔하고, 비용을 보고하므로 퀸의 인텔리전스 파이프라인이 모든 리프의 결과에서 학습"
 model: haiku
 tools:
   - Read

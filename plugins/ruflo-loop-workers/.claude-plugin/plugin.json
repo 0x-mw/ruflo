@@ -1,6 +1,6 @@
 {
   "name": "ruflo-loop-workers",
-  "description": "Cache-aware /loop workers and CronCreate background automation — wraps 5 hooks_worker-* MCP tools (list/dispatch/status/detect/cancel) and exposes 12 background worker triggers (ultralearn, optimize, consolidate, predict, audit, map, preload, deepdive, document, refactor, benchmark, testgaps). As a mod (ADR-445): a per-session dispatch cap, no secrets in worker context, /loop-mod, and a status file the console shows",
+  "description": "캐시 인식 /loop 워커와 CronCreate 백그라운드 자동화 — hooks_worker-* MCP 도구 5개(list/dispatch/status/detect/cancel)를 감싸고 백그라운드 워커 트리거 12개(ultralearn, optimize, consolidate, predict, audit, map, preload, deepdive, document, refactor, benchmark, testgaps)를 제공합니다. mod(ADR-445)로서 세션당 디스패치 상한, 워커 컨텍스트에 비밀 금지, /loop-mod, 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -25,8 +25,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Guard",
-      "description": "Refuse tool calls that are clearly harmful in this plugin's domain (see README, As a mod).",
+      "title": "가드",
+      "description": "이 플러그인 영역에서 명백히 해로운 도구 호출을 거부합니다(README의 'As a mod' 참조).",
       "required": false,
       "default": "on",
       "options": [
@@ -36,8 +36,8 @@
     },
     "maxDispatch": {
       "type": "number",
-      "title": "Worker dispatch cap",
-      "description": "Most hooks_worker-dispatch calls per session, 1 to 1000.",
+      "title": "워커 디스패치 상한",
+      "description": "세션당 hooks_worker-dispatch 호출 최대 횟수(1~1000)입니다.",
       "required": false,
       "default": 100
     }

@@ -1,6 +1,6 @@
 ---
 name: cost-booster-edit
-description: Apply a simple code transform via agent-booster's WASM engine — sub-millisecond, deterministic, $0 (no LLM call). Companion to cost-booster-route.
+description: agent-booster의 WASM 엔진으로 간단한 코드 변환을 적용 — 1밀리초 미만, 결정적, $0(LLM 호출 없음). cost-booster-route의 짝 기능.
 argument-hint: "<intent> <file>"
 allowed-tools: Bash
 ---

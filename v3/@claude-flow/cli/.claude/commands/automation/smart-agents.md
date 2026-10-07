@@ -1,3 +1,7 @@
+---
+description: 스마트 에이전트 자동 생성
+---
+
 # Smart Agent Auto-Spawning
 
 ## Purpose

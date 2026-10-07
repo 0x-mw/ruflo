@@ -1,0 +1,50 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/ask-palette.ts",
+  "entries": [
+    {
+      "key": "ask",
+      "ko": "질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ask-palette.ts:14 group",
+        "plugins/ruflo-console/hooks/ask-palette.ts:14 text()",
+        "plugins/ruflo-console/hooks/ask-palette.ts:15 group"
+      ]
+    },
+    {
+      "key": "ask <question>: ask the main Claude about the section that is open (asks first)",
+      "ko": "ask <question>: 열려 있는 섹션에 대해 메인 Claude에게 질문합니다 (먼저 묻습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ask-palette.ts:14 label"
+      ]
+    },
+    {
+      "key": "ask Claude",
+      "ko": "Claude에게 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ask-palette.ts:14 local()"
+      ]
+    },
+    {
+      "key": "ask-aside <question>: the same as a /btw aside beside the transcript (asks first)",
+      "ko": "ask-aside <question>: 대화 기록 옆의 /btw 곁가지와 같습니다 (먼저 묻습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ask-palette.ts:15 label"
+      ]
+    },
+    {
+      "key": "ask Claude aside",
+      "ko": "Claude에게 곁가지 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ask-palette.ts:15 local()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,3 +1,7 @@
+---
+description: 뉴럴 패턴 학습
+---
+
 # Neural Pattern Training
 
 ## 🎯 Key Principle

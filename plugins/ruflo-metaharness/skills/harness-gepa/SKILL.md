@@ -1,6 +1,6 @@
 ---
 name: harness-gepa
-description: "Inspect and audit GEPA genomes via the `@metaharness/darwin/gepa` library entry (darwin 0.8.0) — load/validate a genome (default is the shipped cand-6 promotion), render the system prompt a genome compiles to, or classify failure modes in a run transcript. The `gepaOptimize` loop itself is library-only (bring your own evaluator) and not surfaced here — use `harness-evolve` for sandbox-scored evolution. Degrades gracefully when @metaharness/darwin is absent."
+description: "`@metaharness/darwin/gepa` 라이브러리 진입점(darwin 0.8.0)으로 GEPA 지놈을 점검하고 감사합니다 — 지놈을 불러와 검증(기본값은 출시된 cand-6 승격본)하고, 지놈이 컴파일되는 시스템 프롬프트를 렌더링하거나, 실행 대화 기록의 실패 모드를 분류합니다. `gepaOptimize` 루프 자체는 라이브러리 전용(평가기는 직접 제공)이라 여기서는 제공하지 않으며, 샌드박스 채점 진화에는 `harness-evolve`를 사용하세요. @metaharness/darwin이 없으면 기능이 단계적으로 축소됩니다."
 argument-hint: "--op genome|validate|render|analyze [--path <genome.json>] [--transcript <t.json>] [--alert-on-invalid]"
 allowed-tools: Bash
 ---

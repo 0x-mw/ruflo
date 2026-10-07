@@ -1,7 +1,7 @@
 ---
 name: github-multi-repo
 description: |
-  Multi-repository coordination, synchronization, and architecture management with AI swarm orchestration
+  AI 스웜 오케스트레이션으로 하는 멀티 저장소 조율, 동기화, 아키텍처 관리
 ---
 
 # GitHub Multi-Repository Coordination Skill

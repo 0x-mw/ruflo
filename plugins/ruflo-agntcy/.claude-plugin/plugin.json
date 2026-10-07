@@ -1,6 +1,6 @@
 {
   "name": "ruflo-agntcy",
-  "description": "AGNTCY/Outshift Internet-of-Cognition runtime integration for Ruflo — SLIM secure transport for cross-host agent coordination, CASA intent-scoped tool authorization enforcement, optional IOC Layer 9 coordination events, and AGNTCY identity/observability spans (ADR-380). Optional, removable augmentation per ADR-150; degrades gracefully when AGNTCY/SLIM packages are not installed.",
+  "description": "Ruflo용 AGNTCY/Outshift Internet-of-Cognition 런타임 통합 — 호스트 간 에이전트 조율을 위한 SLIM 보안 전송, CASA 의도 범위 도구 권한 부여 강제, 선택적 IOC Layer 9 조율 이벤트, AGNTCY 신원/관측 스팬(ADR-380). ADR-150에 따른 선택적이며 제거 가능한 확장 기능이고, AGNTCY/SLIM 패키지가 설치되지 않으면 기능이 단계적으로 축소됩니다.",
   "version": "0.2.3",
   "author": {
     "name": "ruvnet",

@@ -1,0 +1,307 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-guide.ts",
+  "entries": [
+    {
+      "key": "the console is not wired to a host here",
+      "ko": "이 콘솔은 호스트에 연결되어 있지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:58 say()",
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:126 why",
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:186 why"
+      ]
+    },
+    {
+      "key": "{0} agent-to-task links · {1} agents unlinked · {2} mission tasks known",
+      "ko": "에이전트-작업 연결 {0}개 · 연결되지 않은 에이전트 {1}개 · 알려진 미션 작업 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:69 line()"
+      ]
+    },
+    {
+      "key": "No mission yet in the ledger or the observation: make one in Mission Control. Agents then link by their ruflo task tags (mission:<id> task:<id>) or by the label tag a drafted script adds.",
+      "ko": "원장이나 관측 내용에 미션이 아직 없습니다. 미션 컨트롤에서 만드세요. 그러면 에이전트가 ruflo 작업 태그(mission:<id> task:<id>)나 초안 스크립트가 추가하는 라벨 태그로 연결됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:71 line()"
+      ]
+    },
+    {
+      "key": "{0} mission tasks unlinked: no agent names them",
+      "ko": "연결되지 않은 미션 작업 {0}개: 이름을 지정한 에이전트가 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:77 line()"
+      ]
+    },
+    {
+      "key": "agents unlinked: {0}",
+      "ko": "연결되지 않은 에이전트: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:81 line()"
+      ]
+    },
+    {
+      "key": "Pick the ruflo swarm run ([ ] to switch) to see how its swarm, hive, workers, claims and tasks nest.",
+      "ko": "ruflo 스웜 실행을 고르면([ ]로 전환) 스웜, 하이브, 워커, 클레임, 작업이 어떻게 중첩되는지 볼 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:90 line()"
+      ]
+    },
+    {
+      "key": "Write exactly this script to {0} (create the folder if it is missing), then run it with Workflow({ name: \"{1}\" }) and report what it returns.",
+      "ko": "이 스크립트를 그대로 {0}에 쓴 다음(폴더가 없으면 만드세요) Workflow({ name: \"{1}\" })로 실행하고 반환값을 보고하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:99 const"
+      ]
+    },
+    {
+      "key": "```js",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:99 const"
+      ]
+    },
+    {
+      "key": "prepare the workflow for mission {0} in the main session",
+      "ko": "메인 세션에서 미션 {0}의 워크플로를 준비합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:102 label"
+      ]
+    },
+    {
+      "key": "{0}: {1} agents in {2} levels, {3} lines, prepared in the prompt box",
+      "ko": "{0}: {2}단계에 에이전트 {1}개, {3}줄, 프롬프트 입력란에 준비했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:104 shows"
+      ]
+    },
+    {
+      "key": "the script text in the prompt box (it is not sent)",
+      "ko": "프롬프트 입력란의 스크립트 텍스트 (전송되지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:105 expect"
+      ]
+    },
+    {
+      "key": "Starts nothing here: the text waits in your prompt box. When you press Enter, Claude writes the file and runs the workflow, and every agent bills as a subagent does. It can be stopped afterwards with the control tab (the engine's TaskStop, where that tab is switched on) or from Claude Code's Workflows panel.",
+      "ko": "여기서는 아무것도 시작하지 않습니다. 텍스트는 프롬프트 입력란에서 기다립니다. Enter를 누르면 Claude가 파일을 쓰고 워크플로를 실행하며, 모든 에이전트는 서브에이전트와 같은 방식으로 과금됩니다. 이후 제어 탭(켜진 경우 엔진의 TaskStop)이나 Claude Code의 Workflows 패널에서 중지할 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:106 note"
+      ]
+    },
+    {
+      "key": "workflow script",
+      "ko": "워크플로 스크립트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:107 prepareIn()"
+      ]
+    },
+    {
+      "key": "No active mission: create one in Mission Control, and its SPARC plan can be drafted here as a workflow script for review.",
+      "ko": "활성 미션이 없습니다. 미션 컨트롤에서 만들면 SPARC 계획을 워크플로 스크립트 초안으로 만들어 이곳에서 검토할 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:115 line()"
+      ]
+    },
+    {
+      "key": "Mission {0} cannot be drafted: {1}",
+      "ko": "미션 {0}의 초안을 만들 수 없습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:119 line()"
+      ]
+    },
+    {
+      "key": "mission",
+      "ko": "미션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:123 kv()",
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:192 label"
+      ]
+    },
+    {
+      "key": "script",
+      "ko": "스크립트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:123 kv()"
+      ]
+    },
+    {
+      "key": "Review the script",
+      "ko": "스크립트 검토",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:125 section()"
+      ]
+    },
+    {
+      "key": "{0} of {1} lines shown",
+      "ko": "{1}줄 중 {0}줄 표시",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:125 section()"
+      ]
+    },
+    {
+      "key": "{0} more lines are not drawn here; the prepared text holds all {1}.",
+      "ko": "{0}줄은 여기에 표시되지 않습니다. 준비된 텍스트에는 {1}줄이 모두 들어 있습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:126 line()"
+      ]
+    },
+    {
+      "key": "Prepare to run as a workflow",
+      "ko": "워크플로로 실행 준비",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:127 button()"
+      ]
+    },
+    {
+      "key": "no script to prepare",
+      "ko": "준비할 스크립트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:127 ask()"
+      ]
+    },
+    {
+      "key": "Pick an agent first.",
+      "ko": "먼저 에이전트를 고르세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:135 line()"
+      ]
+    },
+    {
+      "key": "mission task",
+      "ko": "미션 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:142 kv()"
+      ]
+    },
+    {
+      "key": "{0}/{1} {2} · via a ruflo task assigned to it",
+      "ko": "{0}/{1} {2} · 할당된 ruflo 작업으로 연결",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:143 line()"
+      ]
+    },
+    {
+      "key": "{0}/{1} {2} · via a ruflo task assigned to it · task {3}",
+      "ko": "{0}/{1} {2} · 할당된 ruflo 작업으로 연결 · 작업 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:143 line()"
+      ]
+    },
+    {
+      "key": "{0}/{1} {2} · via its label tag",
+      "ko": "{0}/{1} {2} · 라벨 태그로 연결",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:143 line()"
+      ]
+    },
+    {
+      "key": "{0}/{1} {2} · via its label tag · task {3}",
+      "ko": "{0}/{1} {2} · 라벨 태그로 연결 · 작업 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:143 line()"
+      ]
+    },
+    {
+      "key": "{0} The note here is found by a memory search; the redirect here is text for the main session.",
+      "ko": "{0} 여기의 노트는 메모리 검색으로 찾으며, 여기의 방향 전환은 메인 세션에 전달되는 텍스트입니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:156 line()"
+      ]
+    },
+    {
+      "key": "this surface has no text field: the guide needs one",
+      "ko": "이 화면에는 텍스트 입력란이 없어 안내를 쓸 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:168 line()"
+      ]
+    },
+    {
+      "key": "guidance",
+      "ko": "가이던스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:168 label"
+      ]
+    },
+    {
+      "key": "what the agents should know or do differently",
+      "ko": "에이전트가 알아야 하거나 다르게 해야 할 점",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:168 placeholder"
+      ]
+    },
+    {
+      "key": "guidance: none typed yet",
+      "ko": "가이던스: 아직 입력 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:171 line()"
+      ]
+    },
+    {
+      "key": "Mission links",
+      "ko": "미션 연결",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:189 title"
+      ]
+    },
+    {
+      "key": "Swarm nesting",
+      "ko": "스웜 중첩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:190 title"
+      ]
+    },
+    {
+      "key": "Run a mission as a workflow",
+      "ko": "미션을 워크플로로 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:191 title"
+      ]
+    },
+    {
+      "key": "guide",
+      "ko": "안내",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:193 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,3 +1,7 @@
+---
+description: GitHub 이슈 트래커
+---
+
 # GitHub Issue Tracker
 
 ## Purpose

@@ -1,6 +1,6 @@
 ---
 name: issue-tracker
-description: Intelligent issue management and project coordination with automated tracking, progress monitoring, and team coordination
+description: 자동 추적, 진행 상황 모니터링, 팀 조율을 갖춘 지능형 이슈 관리 및 프로젝트 조율
 type: development
 color: green
 capabilities:

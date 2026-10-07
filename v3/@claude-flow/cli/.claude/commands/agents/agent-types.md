@@ -1,6 +1,6 @@
 ---
 name: agent-types
-description: Complete guide to all 87 available agent types in Claude Flow V3
+description: Claude Flow V3에서 사용할 수 있는 에이전트 유형 87종 전체 가이드
 type: reference
 ---
 

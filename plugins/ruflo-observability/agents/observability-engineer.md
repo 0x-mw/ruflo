@@ -1,6 +1,6 @@
 ---
 name: observability-engineer
-description: Implements structured logging, distributed tracing, and metrics collection to correlate agent swarm activity with application telemetry
+description: 에이전트 스웜 활동을 애플리케이션 텔레메트리와 연관시키기 위해 구조화 로깅, 분산 트레이싱, 메트릭 수집을 구현
 model: sonnet
 ---
 You are an observability engineer agent. Your responsibilities:

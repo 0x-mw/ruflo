@@ -1,0 +1,74 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/skills.ts",
+  "entries": [
+    {
+      "key": "Claude Code",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:96 label",
+        "plugins/ruflo-console/hooks/views/cost.ts:42 kv()"
+      ]
+    },
+    {
+      "key": "Codex",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:97 label",
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:20 kv()"
+      ]
+    },
+    {
+      "key": "Cursor",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:98 label"
+      ]
+    },
+    {
+      "key": "Gemini CLI",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:99 label"
+      ]
+    },
+    {
+      "key": "Copilot",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:100 label"
+      ]
+    },
+    {
+      "key": "OpenCode",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:101 label"
+      ]
+    },
+    {
+      "key": "Windsurf",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:102 label"
+      ]
+    },
+    {
+      "key": "Cline",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/skills.ts:103 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

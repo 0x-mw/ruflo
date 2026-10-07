@@ -1,0 +1,397 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/settings.ts",
+  "entries": [
+    {
+      "key": "one short static usage hint on a few ruflo tools, from your CLAUDE.md; default off",
+      "ko": "CLAUDE.md에서 가져온 일부 ruflo 도구의 짧은 고정 사용 힌트 한 줄을 넣습니다. 기본값은 꺼짐입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:38 toolHints"
+      ]
+    },
+    {
+      "key": "about 4,000 fewer prompt tokens measured; a hidden type the prompt does not name is refused when spawned",
+      "ko": "프롬프트 토큰이 약 4,000개 줄어드는 것으로 측정되었습니다. 프롬프트에 이름이 없는 숨겨진 유형은 생성할 때 거부됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:39 agentTrim"
+      ]
+    },
+    {
+      "key": "comma-separated agent types agentTrim must never hide",
+      "ko": "agentTrim이 절대 숨기면 안 되는 에이전트 유형을 쉼표로 구분해 지정합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:40 agentTrimKeep"
+      ]
+    },
+    {
+      "key": "default off; screening tuned on a small test set, real-world rate unknown",
+      "ko": "기본값은 꺼짐입니다. 작은 테스트 세트로 조정한 검사라 실제 환경의 적중률은 알 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:41 deliveryScreen"
+      ]
+    },
+    {
+      "key": "Swarm topology",
+      "ko": "스웜 토폴로지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:48 title"
+      ]
+    },
+    {
+      "key": "how agents are wired: hierarchical keeps a queen in charge, mesh lets peers talk",
+      "ko": "에이전트를 연결하는 방식입니다. hierarchical은 퀸이 총괄하고, mesh는 피어끼리 직접 소통합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:48 help"
+      ]
+    },
+    {
+      "key": "Max agents",
+      "ko": "최대 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:49 title"
+      ]
+    },
+    {
+      "key": "the most agents a swarm may hold at once",
+      "ko": "스웜이 한 번에 가질 수 있는 최대 에이전트 수입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:49 help"
+      ]
+    },
+    {
+      "key": "Auto-scale",
+      "ko": "자동 확장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:50 title"
+      ]
+    },
+    {
+      "key": "let the swarm add and retire agents with load",
+      "ko": "부하에 따라 스웜이 에이전트를 추가하고 퇴역시킵니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:50 help"
+      ]
+    },
+    {
+      "key": "Coordination",
+      "ko": "조율",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:51 title"
+      ]
+    },
+    {
+      "key": "how a swarm agrees (consensus by default)",
+      "ko": "스웜이 합의하는 방식입니다(기본은 consensus)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:51 help"
+      ]
+    },
+    {
+      "key": "Memory backend",
+      "ko": "메모리 백엔드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:52 title"
+      ]
+    },
+    {
+      "key": "where memory entries are stored",
+      "ko": "메모리 항목을 저장하는 위치입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:52 help"
+      ]
+    },
+    {
+      "key": "HNSW index",
+      "ko": "HNSW 인덱스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:53 title"
+      ]
+    },
+    {
+      "key": "approximate nearest-neighbour search for memory",
+      "ko": "메모리에 대한 근사 최근접 이웃 검색입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:53 help"
+      ]
+    },
+    {
+      "key": "Memory cache",
+      "ko": "메모리 캐시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:54 title"
+      ]
+    },
+    {
+      "key": "entries kept hot in memory",
+      "ko": "메모리에 뜨겁게 유지하는 항목입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:54 help"
+      ]
+    },
+    {
+      "key": "Neural learning",
+      "ko": "뉴럴 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:55 title",
+        "plugins/ruflo-console/hooks/views/learning.ts:27 title"
+      ]
+    },
+    {
+      "key": "SONA/MoE pattern learning",
+      "ko": "SONA/MoE 패턴 학습입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:55 help"
+      ]
+    },
+    {
+      "key": "Hooks",
+      "ko": "훅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:56 title",
+        "plugins/ruflo-console/hooks/views/learning.ts:28 title"
+      ]
+    },
+    {
+      "key": "MCP port",
+      "ko": "MCP 포트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:57 title"
+      ]
+    },
+    {
+      "key": "the port ruflo’s MCP server listens on",
+      "ko": "ruflo의 MCP 서버가 수신하는 포트입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:57 help"
+      ]
+    },
+    {
+      "key": "Mission loop interval",
+      "ko": "미션 루프 간격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:74 title"
+      ]
+    },
+    {
+      "key": "how often a mission’s /loop ticks: each tick checks progress, fixes failures and runs the gates (default 5m)",
+      "ko": "미션의 /loop가 반복되는 주기입니다. 매 주기마다 진행 상황을 확인하고 실패를 고치며 게이트를 실행합니다(기본 5m)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:74 description"
+      ]
+    },
+    {
+      "key": "loop tick cadence minutes",
+      "ko": "루프 주기 분 loop tick cadence minutes",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:74 extra"
+      ]
+    },
+    {
+      "key": "Worktree per writer",
+      "ko": "작성자별 워크트리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:75 title"
+      ]
+    },
+    {
+      "key": "each writing agent works in its own git worktree, on disjoint files, so concurrent writers never collide (default on)",
+      "ko": "쓰기 에이전트마다 자신의 git 워크트리에서 서로 겹치지 않는 파일을 작업하므로 동시 작성자끼리 충돌하지 않습니다(기본 켜짐)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:75 description"
+      ]
+    },
+    {
+      "key": "loop git worktree isolation writers",
+      "ko": "루프 워크트리 격리 작성자 loop git worktree isolation writers",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:75 extra"
+      ]
+    },
+    {
+      "key": "Loop may commit",
+      "ko": "루프 커밋 허용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:76 title"
+      ]
+    },
+    {
+      "key": "the loop may commit to the mission branch, and nowhere else (default on)",
+      "ko": "루프가 미션 브랜치에만 커밋할 수 있고 다른 곳에는 커밋하지 않습니다(기본 켜짐)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:76 description"
+      ]
+    },
+    {
+      "key": "loop commit branch",
+      "ko": "루프 커밋 브랜치 loop commit branch",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:76 extra"
+      ]
+    },
+    {
+      "key": "Loop may push",
+      "ko": "루프 푸시 허용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:77 title"
+      ]
+    },
+    {
+      "key": "the loop may push the mission branch to its remote (default off: it stops at the branch and says so)",
+      "ko": "루프가 미션 브랜치를 원격에 푸시할 수 있습니다(기본 꺼짐: 브랜치까지만 처리하고 그렇게 알립니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:77 description"
+      ]
+    },
+    {
+      "key": "loop push remote github",
+      "ko": "루프 푸시 원격 loop push remote github",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:77 extra"
+      ]
+    },
+    {
+      "key": "Loop may publish",
+      "ko": "루프 배포 허용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:78 title"
+      ]
+    },
+    {
+      "key": "the loop may publish releases or packages the mission names (default off: nothing is published without your word)",
+      "ko": "루프가 미션에 명시된 릴리스나 패키지를 배포할 수 있습니다(기본 꺼짐: 사용자 승인 없이는 아무것도 배포하지 않습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:78 description"
+      ]
+    },
+    {
+      "key": "loop publish release npm deploy",
+      "ko": "루프 배포 릴리스 loop publish release npm deploy",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:78 extra"
+      ]
+    },
+    {
+      "key": "Max concurrent writers",
+      "ko": "최대 동시 작성자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:79 title"
+      ]
+    },
+    {
+      "key": "the most writing agents a mission loop runs at once (default 6)",
+      "ko": "미션 루프가 한 번에 실행하는 쓰기 에이전트의 최대 수입니다(기본 6)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:79 description"
+      ]
+    },
+    {
+      "key": "loop concurrent parallel agents",
+      "ko": "루프 동시 병렬 에이전트 loop concurrent parallel agents",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:79 extra"
+      ]
+    },
+    {
+      "key": "@claude-flow/cli@latest",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:195 expr",
+        "plugins/ruflo-console/hooks/state.ts:93 npx-offline",
+        "plugins/ruflo-console/hooks/state.ts:94 npx"
+      ]
+    },
+    {
+      "key": "Changes this plugin’s user option only (options left out keep their values); reload plugins (/reload-plugins) or restart for it to apply.",
+      "ko": "이 플러그인의 사용자 옵션만 바꿉니다(빠진 옵션은 값을 유지). 적용하려면 플러그인을 다시 불러오거나(/reload-plugins) 재시작하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:256 note"
+      ]
+    },
+    {
+      "key": "set ruflo config {0} to {1}",
+      "ko": "ruflo 설정 {0}을(를) {1}(으)로 변경",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:274 label"
+      ]
+    },
+    {
+      "key": "Writes ruflo’s configuration for this project; a running daemon or swarm may need a restart to pick it up.",
+      "ko": "이 프로젝트의 ruflo 설정을 씁니다. 실행 중인 데몬이나 스웜은 재시작해야 반영될 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:277 note"
+      ]
+    },
+    {
+      "key": "Explain the ruflo setting \"{0}\" ({1}): {2} It is currently unset. What does each choice change, and what would you recommend for a developer working in this repository? Do not change anything.",
+      "ko": "ruflo 설정 \"{0}\" ({1})을 설명해 주세요: {2} 현재는 설정되지 않았습니다. 각 선택지가 무엇을 바꾸며, 이 저장소에서 작업하는 개발자에게 무엇을 권하시나요? 아무것도 바꾸지 마세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:284 return"
+      ]
+    },
+    {
+      "key": "Explain the ruflo setting \"{0}\" ({1}): {2} It is currently \"{3}\". What does each choice change, and what would you recommend for a developer working in this repository? Do not change anything.",
+      "ko": "ruflo 설정 \"{0}\" ({1})을 설명해 주세요: {2} 현재 값은 \"{3}\"입니다. 각 선택지가 무엇을 바꾸며, 이 저장소에서 작업하는 개발자에게 무엇을 권하시나요? 아무것도 바꾸지 마세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:284 return"
+      ]
+    },
+    {
+      "key": "“{0}” is not a value {1} accepts",
+      "ko": "“{0}”은(는) {1}이(가) 받지 않는 값입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/settings.ts:386 ask()",
+        "plugins/ruflo-console/hooks/settings.ts:387 ask()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

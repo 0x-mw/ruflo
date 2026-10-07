@@ -1,7 +1,7 @@
 ---
 name: "Verification & Quality Assurance"
 description: |
-  Comprehensive truth scoring, code quality verification, and automatic rollback system with 0.95 accuracy threshold for ensuring high-quality agent outputs and codebase reliability.
+  고품질 에이전트 출력과 코드베이스 신뢰성을 위한, 정확도 임계값 0.95의 종합 진실 점수(truth scoring), 코드 품질 검증, 자동 롤백 시스템
 ---
 
 # Verification & Quality Assurance Skill

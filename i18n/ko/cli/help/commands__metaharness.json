@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/metaharness.ts",
+  "entries": [
+    {
+      "key": "MetaHarness integration (ADR-150) — score / genome / mcp-scan / threat-model / mint. Subprocess-invoked plugin skills with graceful degradation.",
+      "ko": "MetaHarness 통합 (ADR-150) — score / genome / mcp-scan / threat-model / mint. 하위 프로세스로 호출되는 플러그인 스킬이며 기능을 줄여서라도 계속 동작합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/metaharness.ts:261 description"
+      ]
+    },
+    {
+      "key": "One of: score | genome | mcp-scan | threat-model | oia-audit | audit-list | audit-trend | similarity | drift-from-history | mint | redblue | learn | gepa | evolve | bench | flywheel",
+      "ko": "다음 중 하나: score | genome | mcp-scan | threat-model | oia-audit | audit-list | audit-trend | similarity | drift-from-history | mint | redblue | learn | gepa | evolve | bench | flywheel",
+      "kind": "text",
+      "ctx": [
+        "src/commands/metaharness.ts:269 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: rvf-manage
-description: Manage RVF (Ruflo Vector Format) files for portable agent memory and cross-platform transfer
+description: 이식 가능한 에이전트 메모리와 플랫폼 간 전송을 위해 RVF(Ruflo Vector Format) 파일을 관리
 argument-hint: "<import|export|list|migrate|stats|delete> [options]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_delete mcp__plugin_ruflo-core_ruflo__memory_stats mcp__plugin_ruflo-core_ruflo__memory_import_claude mcp__plugin_ruflo-core_ruflo__memory_migrate mcp__plugin_ruflo-core_ruflo__hooks_transfer Bash
 ---

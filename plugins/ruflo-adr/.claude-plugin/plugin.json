@@ -1,6 +1,6 @@
 {
   "name": "ruflo-adr",
-  "description": "ADR lifecycle management — create, index, reconcile, supersede, check compliance, and link Architecture Decision Records to code via AgentDB hierarchical store + causal edges (supersedes/amends/depends-on/related)",
+  "description": "ADR 수명 주기 관리 — AgentDB 계층형 저장소와 인과 엣지(supersedes/amends/depends-on/related)를 통해 아키텍처 결정 기록(ADR)을 생성, 인덱싱, 조정, 대체하고 규정 준수를 확인하며 코드에 연결",
   "version": "0.5.3",
   "author": {
     "name": "ruvnet",
@@ -24,8 +24,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "ADR guard",
-      "description": "Refuse ADR writes (agentdb_hierarchical-store, agentdb_causal-edge, memory_store into an adr* namespace) that hold a key, token or password.",
+      "title": "ADR 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 ADR 쓰기(agentdb_hierarchical-store, agentdb_causal-edge, adr* 네임스페이스로의 memory_store)를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

@@ -4,6 +4,7 @@ import { paneActionsOf, type Controller } from './actions/controller'
 import { AUDIT_FLUSH_MS, auditRow, noteAudit, takeFlush } from './audit'
 import { claimsText, COMMANDS, consensusText, isSwarmSub, spawnNote, statusText, SWARM_SUBS, topologyText, type SwarmSub } from './commands'
 import type { Host, OpenResult } from './host'
+import { localizeKit, setLocaleFrom, t, tAnswer } from './i18n/wire'
 import { isAnimating, LEAD, newActivity, noteCall, noteDone, noteListed, noteResult, noteSpawn } from './model/members'
 import { parseRoute, plain } from './reader/parse'
 import { readSnapshot, type ReadCache } from './reader/snapshot'
@@ -42,8 +43,8 @@ function hostOf($: EngineInterface, cwd: string): Host {
     storeGet: key => $.store.get(key),
     storeSet: (key, value) => $.store.set(key, value),
     invalidate: () => quietly(() => $.ui.invalidate('ui.render')),
-    toast: (text, timeoutMs) => quietly(() => $.ui.toast(text, timeoutMs !== undefined ? { timeoutMs } : undefined)),
-    log: text => quietly(() => $.ui.log(text)),
+    toast: (text, timeoutMs) => quietly(() => $.ui.toast(t(text), timeoutMs !== undefined ? { timeoutMs } : undefined)),
+    log: text => quietly(() => $.ui.log(t(text))),
     openPane: pane => $.ui.open(pane) as Promise<OpenResult>,
     closePane: id => $.ui.close({ id }),
     registerCommand: spec => $.command.register(spec),
@@ -211,6 +212,7 @@ export function register(on: On, raw: PluginOptions) {
 
   on('session.start', async ($, e, next) => {
     host = hostOf($, e.cwd)
+    setLocaleFrom(await (async () => $.env.get('RUFLO_LANG'))().catch(() => 'en'))
     state.cwd = e.cwd
 
     for (const timer of state.timers.values()) {
@@ -288,7 +290,7 @@ export function register(on: On, raw: PluginOptions) {
       animate()
     }
 
-    return paneView({ Box: table.Box, Text: table.Text, Button: table.Button }, paneModelOf(state, columns, rows, nowMs), paneActionsOf(state, host, control))
+    return paneView(localizeKit({ Box: table.Box, Text: table.Text, Button: table.Button }), paneModelOf(state, columns, rows, nowMs), paneActionsOf(state, host, control))
   })
 
   on('ui.close', async ($, e, next) => {
@@ -362,13 +364,13 @@ export function register(on: On, raw: PluginOptions) {
         return next(e)
       }
 
-      return answer(sub.toLowerCase() as SwarmSub, rest.join(' '))
+      return tAnswer(await answer(sub.toLowerCase() as SwarmSub, rest.join(' ')))
     })
   }
 
   // The old names stay registered as aliases of `/ruflo swarm <sub>`: ADR-406 removes, renames or reassigns no command.
   for (const sub of SWARM_SUBS) {
-    on('command.run', { command: `ruflo-swarm-${sub}` }, async ($, e, next) => (host === null ? next(e) : answer(sub, e.args)))
+    on('command.run', { command: `ruflo-swarm-${sub}` }, async ($, e, next) => (host === null ? next(e) : tAnswer(await answer(sub, e.args))))
   }
 
   /** The plugin's markdown `/ruflo-swarm:watch` still runs as it always has; with the mod it opens the pane as well. */

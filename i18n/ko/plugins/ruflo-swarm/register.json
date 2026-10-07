@@ -1,0 +1,72 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/register.ts",
+  "entries": [
+    {
+      "key": "the session has not started",
+      "ko": "세션이 아직 시작되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:166 reason"
+      ]
+    },
+    {
+      "key": "Swarm",
+      "ko": "스웜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:170 title"
+      ]
+    },
+    {
+      "key": "PromptHint",
+      "ko": "프롬프트 힌트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:267 component"
+      ]
+    },
+    {
+      "key": "Pane",
+      "ko": "패널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:275 component"
+      ]
+    },
+    {
+      "key": "Swarm pane hidden",
+      "ko": "스웜 패널을 숨겼습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:324 text"
+      ]
+    },
+    {
+      "key": "The swarm pane is off (panel option); set panel to command or auto in /config to open it",
+      "ko": "스웜 패널이 꺼져 있습니다 (panel 옵션). 열려면 /config 에서 panel 을 command 나 auto 로 설정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:328 text"
+      ]
+    },
+    {
+      "key": "Swarm pane shown",
+      "ko": "스웜 패널을 표시했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:333 text"
+      ]
+    },
+    {
+      "key": "The swarm pane could not be shown: {0}",
+      "ko": "스웜 패널을 표시하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/register.ts:333 text"
+      ]
+    }
+  ],
+  "obsolete": []
+}

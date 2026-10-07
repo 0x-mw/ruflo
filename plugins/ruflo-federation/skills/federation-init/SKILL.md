@@ -1,6 +1,6 @@
 ---
 name: federation-init
-description: Initialize federation on this node — generate keypair and configure peers
+description: 이 노드에서 페더레이션을 초기화 — 키 쌍을 생성하고 피어를 설정
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__hooks_post-task Read Write
 argument-hint: "[--compliance hipaa|soc2|gdpr|none]"
 ---

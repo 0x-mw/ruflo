@@ -1,0 +1,363 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/evolve.ts",
+  "entries": [
+    {
+      "key": "WITNESS {0}",
+      "ko": "위트니스 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:51 name"
+      ]
+    },
+    {
+      "key": "check the signed {0} manifest against the installed CLI",
+      "ko": "서명된 {0} 매니페스트를 설치된 CLI와 대조합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:52 about"
+      ]
+    },
+    {
+      "key": "verify the signed {0} witness manifest (ruflo verify --manifest, local)",
+      "ko": "서명된 {0} 위트니스 매니페스트를 검증합니다 (ruflo verify --manifest, 로컬)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:53 label"
+      ]
+    },
+    {
+      "key": "no {0} in this project (without --manifest, ruflo verify fetches from GitHub: not offered)",
+      "ko": "이 프로젝트에 {0}이(가) 없습니다 (--manifest 없이 ruflo verify는 GitHub에서 가져오므로 제공하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:56 why"
+      ]
+    },
+    {
+      "key": "LEDGER",
+      "ko": "원장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:61 name"
+      ]
+    },
+    {
+      "key": "verify the flywheel ledger: hash chain, parents, champion pointer",
+      "ko": "플라이휠 원장 검증: 해시 체인, 부모, 챔피언 포인터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:61 about"
+      ]
+    },
+    {
+      "key": "verify the flywheel ledger (metaharness flywheel status)",
+      "ko": "플라이휠 원장을 검증합니다 (metaharness flywheel status)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:61 label"
+      ]
+    },
+    {
+      "key": "RECEIPTS",
+      "ko": "영수증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:62 name",
+        "plugins/ruflo-console/hooks/mh-lab.ts:68 name"
+      ]
+    },
+    {
+      "key": "every evaluation receipt: decision, signed, state",
+      "ko": "모든 평가 영수증: 결정, 서명, 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:62 about"
+      ]
+    },
+    {
+      "key": "list flywheel receipts and their verdicts",
+      "ko": "플라이휠 영수증과 판정 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:62 label"
+      ]
+    },
+    {
+      "key": "PROMOTIONS",
+      "ko": "승격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:63 name"
+      ]
+    },
+    {
+      "key": "every promotion commit: baseline → candidate, epoch",
+      "ko": "모든 승격 커밋: 기준선 → 후보, 에폭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:63 about"
+      ]
+    },
+    {
+      "key": "list flywheel promotion commits (the champion lineage)",
+      "ko": "플라이휠 승격 커밋(챔피언 계보) 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:63 label"
+      ]
+    },
+    {
+      "key": "POLICY",
+      "ko": "정책",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:64 name",
+        "plugins/ruflo-console/hooks/secure.ts:226 name"
+      ]
+    },
+    {
+      "key": "the ADR-324 engine: mode, rules, receipts, ledger valid",
+      "ko": "ADR-324 엔진: 모드, 규칙, 영수증, 원장 유효 여부",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:64 about"
+      ]
+    },
+    {
+      "key": "policy status: mode, rules and whether its ledger verifies",
+      "ko": "정책 상태: 모드, 규칙, 원장 검증 여부",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:64 label"
+      ]
+    },
+    {
+      "key": "$0, local: a read; a first run may record the ledger trust anchor (.claude-flow/policy, ~/.config/ruflo/policy-trust)",
+      "ko": "$0, 로컬: 읽기 전용이며, 첫 실행 시 원장 신뢰 앵커를 기록할 수 있습니다 (.claude-flow/policy, ~/.config/ruflo/policy-trust)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:64 note"
+      ]
+    },
+    {
+      "key": "GATE CHECK",
+      "ko": "게이트 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:68 name"
+      ]
+    },
+    {
+      "key": "would the policy gate allow a promotion now? decides nothing",
+      "ko": "정책 게이트가 지금 승격을 허용할까요? 아무것도 결정하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:69 about"
+      ]
+    },
+    {
+      "key": "ask the policy gate about a promotion (policy evaluate, promotes nothing)",
+      "ko": "정책 게이트에 승격 여부를 묻습니다 (policy evaluate, 승격하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:70 label"
+      ]
+    },
+    {
+      "key": "$0, local: appends one decision receipt to .claude-flow/policy/state.json; promotes nothing",
+      "ko": "$0, 로컬: .claude-flow/policy/state.json에 결정 영수증 1건을 추가하며, 승격하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:73 note"
+      ]
+    },
+    {
+      "key": "Read {0} with gh (README, docs, ADRs), read-only: do not clone, build or run anything. How does it relate to this project's ruflo flywheel (ADR-322 receipts in .claude-flow/flywheel-v1)?",
+      "ko": "gh로 {0}을(를) 읽으세요(README, 문서, ADR). 읽기 전용이므로 복제·빌드·실행은 하지 마세요. 이것이 이 프로젝트의 ruflo 플라이휠(.claude-flow/flywheel-v1의 ADR-322 영수증)과 어떤 관계인가요?",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:87 expr"
+      ]
+    },
+    {
+      "key": "ledger VALID · {0} · head {1}",
+      "ko": "원장 유효 · {0} · 헤드 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:104 return"
+      ]
+    },
+    {
+      "key": "ledger INVALID · {0} · head {1}",
+      "ko": "원장 무효 · {0} · 헤드 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:104 return"
+      ]
+    },
+    {
+      "key": "champion {0} · serving epoch {1} · {2} registered",
+      "ko": "챔피언 {0} · 서비스 에폭 {1} · 등록 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:106 return"
+      ]
+    },
+    {
+      "key": "no receipts yet: ▸ FLYWHEEL RUN in the MetaHarness lab evaluates candidates into receipts",
+      "ko": "아직 영수증이 없습니다: MetaHarness 랩의 ▸ 플라이휠 실행이 후보를 평가해 영수증을 만듭니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:111 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} · signed · {2} · candidate {3}",
+      "ko": "{0} · {1} · 서명됨 · {2} · 후보 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:117 return"
+      ]
+    },
+    {
+      "key": "{0} · {1} · UNSIGNED · {2} · candidate {3}",
+      "ko": "{0} · {1} · 서명 없음 · {2} · 후보 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:117 return"
+      ]
+    },
+    {
+      "key": "no promotions yet: the ledger is at genesis",
+      "ko": "아직 승격이 없습니다: 원장이 제네시스 상태입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:125 return"
+      ]
+    },
+    {
+      "key": "epoch {0} · {1} → {2} · receipt {3} · {4}",
+      "ko": "에폭 {0} · {1} → {2} · 영수증 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:130 return"
+      ]
+    },
+    {
+      "key": "decision ledger verifies",
+      "ko": "결정 원장 검증됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:140 return"
+      ]
+    },
+    {
+      "key": "decision ledger DOES NOT VERIFY",
+      "ko": "결정 원장 검증 실패",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:140 return"
+      ]
+    },
+    {
+      "key": "outcome {0} · enforced {1} · mode {2}",
+      "ko": "결과 {0} · 강제 {1} · 모드 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:149 return"
+      ]
+    },
+    {
+      "key": "reason: {0}",
+      "ko": "사유: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:149 return",
+        "plugins/ruflo-console/hooks/xruv.ts:181 push()"
+      ]
+    },
+    {
+      "key": "nothing was promoted: this asked the gate only",
+      "ko": "승격된 것이 없습니다: 게이트에 물어보기만 했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:149 return"
+      ]
+    },
+    {
+      "key": "signature valid (hash, key and signature check) · overall ok",
+      "ko": "서명 유효 (해시, 키, 서명 확인) · 전체 정상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:163 return"
+      ]
+    },
+    {
+      "key": "signature valid (hash, key and signature check) · overall NOT OK",
+      "ko": "서명 유효 (해시, 키, 서명 확인) · 전체 비정상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:163 return"
+      ]
+    },
+    {
+      "key": "signature DOES NOT VERIFY · overall ok",
+      "ko": "서명 검증 실패 · 전체 정상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:163 return"
+      ]
+    },
+    {
+      "key": "signature DOES NOT VERIFY · overall NOT OK",
+      "ko": "서명 검증 실패 · 전체 비정상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:163 return"
+      ]
+    },
+    {
+      "key": "{0} pass · {1} drift · {2} regressed · {3} missing, against the installed CLI",
+      "ko": "설치된 CLI 기준 통과 {0} · 드리프트 {1} · 퇴보 {2} · 누락 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:164 return"
+      ]
+    },
+    {
+      "key": "its output on the Self-Evolution board",
+      "ko": "자가 진화 보드에 출력이 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:184 expect"
+      ]
+    },
+    {
+      "key": "its decision on the board; {0}",
+      "ko": "보드에 결정이 표시됩니다; {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:184 expect"
+      ]
+    },
+    {
+      "key": "its decision on the board;",
+      "ko": "보드에 결정이 표시됩니다;",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:184 expect"
+      ]
+    },
+    {
+      "key": "it cannot run now",
+      "ko": "지금은 실행할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/evolve.ts:193 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

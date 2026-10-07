@@ -1,0 +1,284 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/devtools.ts",
+  "entries": [
+    {
+      "key": "net",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:20 text",
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:16 text",
+        "plugins/ruflo-console/hooks/views/secure.ts:18 text"
+      ]
+    },
+    {
+      "key": "del",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:22 text",
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:15 text",
+        "plugins/ruflo-console/hooks/views/vector.ts:19 text"
+      ]
+    },
+    {
+      "key": "what should I do? e.g. review my pull request, add OAuth login …",
+      "ko": "무엇을 할까요? 예: review my pull request, add OAuth login …",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:27 placeholder"
+      ]
+    },
+    {
+      "key": "ref",
+      "ko": "참조",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:28 label"
+      ]
+    },
+    {
+      "key": "HEAD · HEAD~3 · main..HEAD · a sha",
+      "ko": "HEAD · HEAD~3 · main..HEAD · sha 값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:28 placeholder"
+      ]
+    },
+    {
+      "key": "path",
+      "ko": "경로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:30 label",
+        "plugins/ruflo-console/hooks/views/wf-export.ts:79 label"
+      ]
+    },
+    {
+      "key": "an .rvf memory file under the project (also file risk, appliance)",
+      "ko": "프로젝트 안의 .rvf 메모리 파일 (파일 위험, 어플라이언스에도 사용)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:30 placeholder"
+      ]
+    },
+    {
+      "key": "label",
+      "ko": "라벨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:31 label"
+      ]
+    },
+    {
+      "key": "a checkpoint or branch label (also a DAA workflow / target agent)",
+      "ko": "체크포인트 또는 브랜치 라벨 (DAA 워크플로·대상 에이전트에도 사용)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:31 placeholder"
+      ]
+    },
+    {
+      "key": "search",
+      "ko": "검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:33 label",
+        "plugins/ruflo-console/hooks/views/devtools.ts:42 label",
+        "plugins/ruflo-console/hooks/views/settings.ts:271 label"
+      ]
+    },
+    {
+      "key": "words to search the WASM gallery or the plugin registry",
+      "ko": "WASM 갤러리 또는 플러그인 레지스트리에서 검색할 단어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:33 placeholder"
+      ]
+    },
+    {
+      "key": "url",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:35 label"
+      ]
+    },
+    {
+      "key": "https://… to open in the ruflo-console session",
+      "ko": "ruflo-console 세션에서 열 https://… 주소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:35 placeholder"
+      ]
+    },
+    {
+      "key": "target",
+      "ko": "대상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:36 label",
+        "plugins/ruflo-console/hooks/views/vector.ts:30 label"
+      ]
+    },
+    {
+      "key": "@e1: an element ref from SNAPSHOT",
+      "ko": "@e1: SNAPSHOT 에서 얻은 요소 참조",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:36 placeholder"
+      ]
+    },
+    {
+      "key": "command",
+      "ko": "명령",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:39 label"
+      ]
+    },
+    {
+      "key": "one command line: Enter shows it, then asks before it runs",
+      "ko": "명령 한 줄: Enter 를 누르면 표시하고, 실행 전에 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:39 placeholder"
+      ]
+    },
+    {
+      "key": "id",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:40 label"
+      ]
+    },
+    {
+      "key": "a session / agent id (terminal, DAA, managed agents)",
+      "ko": "세션 / 에이전트 id (터미널, DAA, 관리형 에이전트)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:40 placeholder"
+      ]
+    },
+    {
+      "key": "words to search the plugin registry (IPFS: asks first)",
+      "ko": "플러그인 레지스트리에서 검색할 단어 (IPFS: 먼저 확인)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:42 placeholder"
+      ]
+    },
+    {
+      "key": "name",
+      "ko": "이름",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:44 label",
+        "plugins/ruflo-console/hooks/views/skills.ts:112 label"
+      ]
+    },
+    {
+      "key": "a sandbox name: letters, digits _ - (the console adds ruflo-sb-)",
+      "ko": "샌드박스 이름: 글자, 숫자, _ - (콘솔이 ruflo-sb- 를 앞에 붙입니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:44 placeholder"
+      ]
+    },
+    {
+      "key": "type",
+      "ko": "입력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:45 label",
+        "plugins/ruflo-console/hooks/views/mh-lab.ts:34 label",
+        "plugins/ruflo-console/hooks/views/xruv.ts:23 label"
+      ]
+    },
+    {
+      "key": "one command line to type into that session: Enter shows it, then asks before it runs",
+      "ko": "그 세션에 입력할 명령 한 줄: Enter 를 누르면 표시하고, 실행 전에 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:45 placeholder"
+      ]
+    },
+    {
+      "key": "note",
+      "ko": "메모",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:47 label"
+      ]
+    },
+    {
+      "key": "feedback or knowledge to send (also a managed-agent prompt)",
+      "ko": "보낼 피드백 또는 지식 (관리형 에이전트 프롬프트에도 사용)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:47 placeholder"
+      ]
+    },
+    {
+      "key": "needs input above ↑",
+      "ko": "위쪽 입력이 필요합니다 ↑",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:64 children"
+      ]
+    },
+    {
+      "key": "this surface has no text field: /ruflo run <id> <text> fills one ({0})",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다. /ruflo run <id> <text> 로 채울 수 있습니다 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:76 text()"
+      ]
+    },
+    {
+      "key": "keep",
+      "ko": "유지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:84 submitLabel",
+        "plugins/ruflo-console/hooks/views/room.ts:66 submitLabel"
+      ]
+    },
+    {
+      "key": "{0} running {1}s",
+      "ko": "{0} {1}초째 실행 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:97 return"
+      ]
+    },
+    {
+      "key": "press a row: a $0 read shows here at once; the rest ask first (y), their cost on the confirm row",
+      "ko": "행을 누르세요. $0 읽기는 바로 여기에 표시되고, 나머지는 먼저 확인(y)하며 비용은 확인 행에 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:110 text()"
+      ]
+    },
+    {
+      "key": "$0 local read, runs at once · cpu/wr local work or a write · net the network · $$ may spend · del deletes: each of these asks first",
+      "ko": "$0 로컬 읽기는 바로 실행 · cpu/wr 로컬 작업 또는 쓰기 · net 네트워크 · $$ 비용 발생 가능 · del 삭제: 이들은 모두 먼저 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:147 text()"
+      ]
+    },
+    {
+      "key": "every row is a palette id too: /ruflo run dt-diff HEAD~3, /ruflo run dt-brain review my PR",
+      "ko": "모든 행은 팔레트 id 이기도 합니다: /ruflo run dt-diff HEAD~3, /ruflo run dt-brain review my PR",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/devtools.ts:158 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: gaia-submission-coordinator
-description: Specialized agent for packaging, signing, and coordinating HAL leaderboard submission of GAIA benchmark results
+description: GAIA 벤치마크 결과의 HAL 리더보드 제출을 패키징, 서명, 조율하는 전문 에이전트
 model: sonnet
 ---
 

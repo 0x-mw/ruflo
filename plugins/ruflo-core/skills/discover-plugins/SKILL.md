@@ -1,6 +1,6 @@
 ---
 name: discover-plugins
-description: Discover and recommend ruflo plugins based on your workflow, installed MCP tools, and current task
+description: 워크플로, 설치된 MCP 도구, 현재 작업을 바탕으로 ruflo 플러그인을 찾아 추천
 argument-hint: "[search-query]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__transfer_plugin-search mcp__plugin_ruflo-core_ruflo__transfer_plugin-info mcp__plugin_ruflo-core_ruflo__transfer_plugin-featured mcp__plugin_ruflo-core_ruflo__transfer_plugin-official mcp__plugin_ruflo-core_ruflo__transfer_store-search mcp__plugin_ruflo-core_ruflo__transfer_store-featured mcp__plugin_ruflo-core_ruflo__transfer_store-trending mcp__plugin_ruflo-core_ruflo__transfer_store-info mcp__plugin_ruflo-core_ruflo__guidance_discover mcp__plugin_ruflo-core_ruflo__guidance_recommend mcp__plugin_ruflo-core_ruflo__guidance_capabilities mcp__plugin_ruflo-core_ruflo__mcp_status Bash Read
 ---

@@ -1,0 +1,17 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/state.ts",
+  "entries": [
+    {
+      "key": "@claude-flow/cli@latest",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/state.ts:18 npx-offline",
+        "plugins/ruflo-swarm/hooks/state.ts:19 npx"
+      ]
+    }
+  ],
+  "obsolete": []
+}

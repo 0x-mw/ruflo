@@ -1,3 +1,7 @@
+---
+description: SPARC 디버거 모드
+---
+
 # SPARC Debugger Mode
 
 ## Purpose

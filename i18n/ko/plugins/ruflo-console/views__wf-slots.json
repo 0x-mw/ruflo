@@ -1,0 +1,104 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-slots.ts",
+  "entries": [
+    {
+      "key": "a slot is an object",
+      "ko": "슬롯은 객체여야 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:57 refuse()"
+      ]
+    },
+    {
+      "key": "id \"{0}\" is not a lowercase word of 2 to 32 letters, digits and dashes",
+      "ko": "id \"{0}\"은(는) 영문 소문자, 숫자, 대시로 된 2~32자 단어가 아닙니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:58 refuse()"
+      ]
+    },
+    {
+      "key": "{0} slot \"{1}\" is already registered",
+      "ko": "{0} 슬롯 \"{1}\"은(는) 이미 등록되어 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:59 refuse()"
+      ]
+    },
+    {
+      "key": "at most {0} {1} slots",
+      "ko": "{1} 슬롯은 최대 {0}개입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:60 refuse()"
+      ]
+    },
+    {
+      "key": "{0} slot \"{1}\" has no function to call",
+      "ko": "{0} 슬롯 \"{1}\"에 호출할 함수가 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:64 refuse()"
+      ]
+    },
+    {
+      "key": "slot \"{0}\" needs a title",
+      "ko": "슬롯 \"{0}\"에는 제목이 필요합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:65 refuse()"
+      ]
+    },
+    {
+      "key": "\"{0}\" is the inspector's own tab",
+      "ko": "\"{0}\"은(는) 검사기 자체 탭입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:66 refuse()"
+      ]
+    },
+    {
+      "key": "slot \"{0}\" needs a label",
+      "ko": "슬롯 \"{0}\"에는 라벨이 필요합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:67 refuse()"
+      ]
+    },
+    {
+      "key": "action slot \"{0}\" needs a why for the confirm row",
+      "ko": "액션 슬롯 \"{0}\"에는 확인 줄에 표시할 이유(why)가 필요합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:68 refuse()"
+      ]
+    },
+    {
+      "key": "hotkey \"{0}\" is not one lowercase letter or digit",
+      "ko": "단축키 \"{0}\"은(는) 영문 소문자 또는 숫자 한 글자가 아닙니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:73 refuse()"
+      ]
+    },
+    {
+      "key": "hotkey \"{0}\" belongs to the page",
+      "ko": "단축키 \"{0}\"은(는) 이 화면에서 이미 사용 중입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:74 refuse()"
+      ]
+    },
+    {
+      "key": "hotkey \"{0}\" is taken by slot \"{1}\"",
+      "ko": "단축키 \"{0}\"은(는) 슬롯 \"{1}\"이(가) 사용 중입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-slots.ts:75 refuse()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

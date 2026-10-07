@@ -1,3 +1,7 @@
+---
+description: 훅 명령어
+---
+
 # Hooks Commands
 
 Commands for hooks operations in Claude Flow.

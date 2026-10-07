@@ -1,0 +1,72 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/verify.ts",
+  "entries": [
+    {
+      "key": "Verify installed artifact against the signed witness manifest",
+      "ko": "서명된 위트니스 매니페스트와 설치된 아티팩트를 대조해 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:178 description"
+      ]
+    },
+    {
+      "key": "Git branch to fetch verification.md.json from (defaults to fix/issues-may-1-3)",
+      "ko": "verification.md.json 을 가져올 Git 브랜치 (기본값: fix/issues-may-1-3)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:184 description"
+      ]
+    },
+    {
+      "key": "Local path to a verification.md.json file (overrides --branch)",
+      "ko": "verification.md.json 파일의 로컬 경로 (--branch 보다 우선)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:191 description"
+      ]
+    },
+    {
+      "key": "Output JSON instead of human-readable table",
+      "ko": "사람이 읽는 표 대신 JSON으로 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:196 description"
+      ]
+    },
+    {
+      "key": "Fetch latest manifest from main branch + verify",
+      "ko": "main 브랜치에서 최신 매니페스트를 가져와 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:201 description"
+      ]
+    },
+    {
+      "key": "Verify against a specific branch",
+      "ko": "특정 브랜치를 기준으로 검증합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:202 description"
+      ]
+    },
+    {
+      "key": "Use a local manifest copy",
+      "ko": "로컬 매니페스트 사본을 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:203 description"
+      ]
+    },
+    {
+      "key": "Machine-readable output for CI",
+      "ko": "CI용 기계 판독 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/verify.ts:204 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

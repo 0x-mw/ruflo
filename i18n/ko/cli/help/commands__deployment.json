@@ -1,0 +1,396 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/deployment.ts",
+  "entries": [
+    {
+      "key": "Deploy to target environment",
+      "ko": "대상 환경에 배포합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:104 description"
+      ]
+    },
+    {
+      "key": "Environment: dev, staging, prod",
+      "ko": "환경: dev, staging, prod",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:106 description"
+      ]
+    },
+    {
+      "key": "Version to deploy",
+      "ko": "배포할 버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:107 description"
+      ]
+    },
+    {
+      "key": "Simulate deployment without changes",
+      "ko": "변경 없이 배포를 시뮬레이션합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:108 description"
+      ]
+    },
+    {
+      "key": "Deployment description",
+      "ko": "배포 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:109 description"
+      ]
+    },
+    {
+      "key": "Deploy to production",
+      "ko": "프로덕션에 배포",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:112 description",
+        "src/commands/deployment.ts:736 description"
+      ]
+    },
+    {
+      "key": "Simulate deployment",
+      "ko": "배포 시뮬레이션",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:113 description"
+      ]
+    },
+    {
+      "key": "Check deployment status across environments",
+      "ko": "환경별 배포 상태를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:204 description"
+      ]
+    },
+    {
+      "key": "Specific environment to check",
+      "ko": "확인할 특정 환경",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:206 description"
+      ]
+    },
+    {
+      "key": "Show all environments",
+      "ko": "모든 환경을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:209 description"
+      ]
+    },
+    {
+      "key": "Check production",
+      "ko": "프로덕션 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:210 description"
+      ]
+    },
+    {
+      "key": "Rollback to previous deployment",
+      "ko": "이전 배포로 롤백합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:301 description"
+      ]
+    },
+    {
+      "key": "Environment to rollback",
+      "ko": "롤백할 환경",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:303 description"
+      ]
+    },
+    {
+      "key": "Specific version to rollback to",
+      "ko": "롤백할 특정 버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:304 description"
+      ]
+    },
+    {
+      "key": "Number of versions to rollback",
+      "ko": "롤백할 버전 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:305 description"
+      ]
+    },
+    {
+      "key": "Rollback production",
+      "ko": "프로덕션 롤백",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:308 description",
+        "src/commands/deployment.ts:738 description"
+      ]
+    },
+    {
+      "key": "Rollback to specific version",
+      "ko": "특정 버전으로 롤백",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:309 description"
+      ]
+    },
+    {
+      "key": "Rollback from {0} to {1}",
+      "ko": "롤백: {0} → {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/deployment.ts:361 description"
+      ]
+    },
+    {
+      "key": "Rollback from unknown to {0}",
+      "ko": "롤백: unknown → {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/deployment.ts:361 description"
+      ]
+    },
+    {
+      "key": "View deployment history",
+      "ko": "배포 이력을 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:400 description"
+      ]
+    },
+    {
+      "key": "Filter by environment",
+      "ko": "환경으로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:402 description"
+      ]
+    },
+    {
+      "key": "Number of entries",
+      "ko": "항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:403 description",
+        "src/commands/update.ts:217 description"
+      ]
+    },
+    {
+      "key": "Show all history",
+      "ko": "전체 이력을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:406 description"
+      ]
+    },
+    {
+      "key": "Production history",
+      "ko": "프로덕션 이력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:407 description"
+      ]
+    },
+    {
+      "key": "Manage deployment environments",
+      "ko": "배포 환경을 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:467 description"
+      ]
+    },
+    {
+      "key": "Action: list, add, remove",
+      "ko": "동작: list, add, remove",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:470 description"
+      ]
+    },
+    {
+      "key": "Environment name",
+      "ko": "환경 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:471 description"
+      ]
+    },
+    {
+      "key": "Environment type: local, staging, production",
+      "ko": "환경 유형: local, staging, production",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:472 description"
+      ]
+    },
+    {
+      "key": "Environment URL",
+      "ko": "환경 URL",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:473 description"
+      ]
+    },
+    {
+      "key": "List environments",
+      "ko": "환경 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:476 description"
+      ]
+    },
+    {
+      "key": "Add environment",
+      "ko": "환경 추가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:477 description"
+      ]
+    },
+    {
+      "key": "Remove environment",
+      "ko": "환경 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:478 description"
+      ]
+    },
+    {
+      "key": "View deployment logs",
+      "ko": "배포 로그를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:575 description"
+      ]
+    },
+    {
+      "key": "Deployment ID",
+      "ko": "배포 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:577 description"
+      ]
+    },
+    {
+      "key": "Environment",
+      "ko": "환경",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:578 description"
+      ]
+    },
+    {
+      "key": "Number of lines",
+      "ko": "줄 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:579 description",
+        "src/commands/mcp.ts:751 description"
+      ]
+    },
+    {
+      "key": "View production logs",
+      "ko": "프로덕션 로그 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:582 description"
+      ]
+    },
+    {
+      "key": "View specific deployment",
+      "ko": "특정 배포 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:583 description"
+      ]
+    },
+    {
+      "key": "Create a new release deployment",
+      "ko": "새 릴리스 배포를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:650 description"
+      ]
+    },
+    {
+      "key": "Release version",
+      "ko": "릴리스 버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:652 description"
+      ]
+    },
+    {
+      "key": "Target environment",
+      "ko": "대상 환경",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:653 description"
+      ]
+    },
+    {
+      "key": "Release description",
+      "ko": "릴리스 설명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:654 description"
+      ]
+    },
+    {
+      "key": "Release version 3.5.0",
+      "ko": "릴리스 버전 3.5.0",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:657 description"
+      ]
+    },
+    {
+      "key": "Release with description",
+      "ko": "설명을 포함해 릴리스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:658 description"
+      ]
+    },
+    {
+      "key": "Release {0}",
+      "ko": "릴리스: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/deployment.ts:692 description"
+      ]
+    },
+    {
+      "key": "Deployment management, environments, rollbacks",
+      "ko": "배포 관리, 환경, 롤백",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:732 description"
+      ]
+    },
+    {
+      "key": "Check all environments",
+      "ko": "모든 환경 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:737 description"
+      ]
+    },
+    {
+      "key": "Create a release",
+      "ko": "릴리스 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/deployment.ts:739 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

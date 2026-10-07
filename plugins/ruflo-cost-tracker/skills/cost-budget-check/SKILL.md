@@ -1,6 +1,6 @@
 ---
 name: cost-budget-check
-description: Read accumulated cost-tracking spend + budget config, compute utilization, emit 50/75/90/100% alert ladder
+description: 누적된 비용 추적 지출과 예산 설정을 읽고, 사용률을 계산하고, 50/75/90/100% 경고 단계를 출력
 argument-hint: "[--period today|week|month|all]"
 allowed-tools: Bash mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_store
 ---

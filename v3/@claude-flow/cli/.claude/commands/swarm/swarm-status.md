@@ -1,3 +1,7 @@
+---
+description: 스웜 상태
+---
+
 # swarm-status
 
 Command documentation for swarm-status in category swarm.

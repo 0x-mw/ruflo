@@ -1,0 +1,50 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/nav-state.ts",
+  "entries": [
+    {
+      "key": "SWARM",
+      "ko": "스웜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/nav-state.ts:11 title",
+        "plugins/ruflo-console/hooks/views/menu.ts:25 title"
+      ]
+    },
+    {
+      "key": "MIND",
+      "ko": "마인드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/nav-state.ts:12 title"
+      ]
+    },
+    {
+      "key": "SAFETY",
+      "ko": "안전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/nav-state.ts:13 title"
+      ]
+    },
+    {
+      "key": "NETWORK",
+      "ko": "네트워크",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/nav-state.ts:14 title"
+      ]
+    },
+    {
+      "key": "TOOLS",
+      "ko": "도구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/nav-state.ts:15 title",
+        "plugins/ruflo-console/hooks/views/menu.ts:54 title"
+      ]
+    }
+  ],
+  "obsolete": []
+}

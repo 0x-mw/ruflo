@@ -1,0 +1,555 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/boot.ts",
+  "entries": [
+    {
+      "key": "Missions",
+      "ko": "미션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:33 name",
+        "plugins/ruflo-console/hooks/state.ts:43 label",
+        "plugins/ruflo-console/hooks/views/bar.ts:185 label"
+      ]
+    },
+    {
+      "key": "goal → SPARC plan → tasks",
+      "ko": "목표 → SPARC 계획 → 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:33 note"
+      ]
+    },
+    {
+      "key": "Overview",
+      "ko": "개요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:34 name",
+        "plugins/ruflo-console/hooks/state.ts:44 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:27 label"
+      ]
+    },
+    {
+      "key": "subsystems, health, Optimizer",
+      "ko": "서브시스템, 상태, 옵티마이저",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:34 note"
+      ]
+    },
+    {
+      "key": "Swarm",
+      "ko": "스웜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:35 name",
+        "plugins/ruflo-console/hooks/mission-options.ts:25 label",
+        "plugins/ruflo-console/hooks/state.ts:45 label"
+      ]
+    },
+    {
+      "key": "topology, agents, tasks",
+      "ko": "토폴로지, 에이전트, 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:35 note"
+      ]
+    },
+    {
+      "key": "Workflows",
+      "ko": "워크플로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:36 name",
+        "plugins/ruflo-console/hooks/state.ts:48 label",
+        "plugins/ruflo-console/hooks/views/automate.ts:194 rule()"
+      ]
+    },
+    {
+      "key": "Claude Code runs and the swarm",
+      "ko": "Claude Code 실행과 스웜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:36 note"
+      ]
+    },
+    {
+      "key": "Hive-Mind",
+      "ko": "하이브마인드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:37 name",
+        "plugins/ruflo-console/hooks/state.ts:46 label",
+        "plugins/ruflo-console/hooks/views/hive.ts:352 rule()"
+      ]
+    },
+    {
+      "key": "queen, workers, votes, quorum",
+      "ko": "퀸, 워커, 투표, 정족수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:37 note"
+      ]
+    },
+    {
+      "key": "Claims",
+      "ko": "클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:38 name",
+        "plugins/ruflo-console/hooks/state.ts:47 label",
+        "plugins/ruflo-console/hooks/views/claims.ts:21 rule()"
+      ]
+    },
+    {
+      "key": "one owner per resource",
+      "ko": "리소스당 소유자 1명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:38 note"
+      ]
+    },
+    {
+      "key": "Approvals",
+      "ko": "승인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:39 name",
+        "plugins/ruflo-console/hooks/state.ts:56 label",
+        "plugins/ruflo-console/hooks/views/manage.ts:66 rule()"
+      ]
+    },
+    {
+      "key": "votes and asks in one place",
+      "ko": "투표와 확인 요청을 한곳에",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:39 note"
+      ]
+    },
+    {
+      "key": "Automation",
+      "ko": "자동화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:40 name",
+        "plugins/ruflo-console/hooks/state.ts:64 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:55 label"
+      ]
+    },
+    {
+      "key": "workflows, workers, autopilot",
+      "ko": "워크플로, 워커, 오토파일럿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:40 note"
+      ]
+    },
+    {
+      "key": "Learning",
+      "ko": "학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:41 name",
+        "plugins/ruflo-console/hooks/state.ts:51 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:35 label"
+      ]
+    },
+    {
+      "key": "SONA, MoE, EWC++ pulse",
+      "ko": "SONA, MoE, EWC++ 맥박",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:41 note"
+      ]
+    },
+    {
+      "key": "Neural",
+      "ko": "뉴럴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:42 name",
+        "plugins/ruflo-console/hooks/views/menu.ts:35 label"
+      ]
+    },
+    {
+      "key": "pretrain, patterns, routing",
+      "ko": "사전 학습, 패턴, 라우팅",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:42 note"
+      ]
+    },
+    {
+      "key": "Vector Lab",
+      "ko": "벡터 랩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:43 name",
+        "plugins/ruflo-console/hooks/help-topics-core.ts:269 title",
+        "plugins/ruflo-console/hooks/state.ts:66 label"
+      ]
+    },
+    {
+      "key": "HNSW, RaBitQ, RVF",
+      "ko": "HNSW, RaBitQ, RVF",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:43 note"
+      ]
+    },
+    {
+      "key": "Memory Lab",
+      "ko": "메모리 랩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:44 name",
+        "plugins/ruflo-console/hooks/views/menu.ts:36 label"
+      ]
+    },
+    {
+      "key": "AgentDB, embeddings",
+      "ko": "AgentDB, 임베딩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:44 note"
+      ]
+    },
+    {
+      "key": "MetaHarness",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:45 name",
+        "plugins/ruflo-console/hooks/self-check.ts:144 expr",
+        "plugins/ruflo-console/hooks/state.ts:52 label"
+      ]
+    },
+    {
+      "key": "readiness, flywheel, lab",
+      "ko": "준비도, 플라이휠, 랩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:45 note"
+      ]
+    },
+    {
+      "key": "Self-Evolution",
+      "ko": "자가 진화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:46 name",
+        "plugins/ruflo-console/hooks/state.ts:67 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:35 label"
+      ]
+    },
+    {
+      "key": "governed receipts, lineage",
+      "ko": "관리되는 영수증, 계보",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:46 note"
+      ]
+    },
+    {
+      "key": "Security",
+      "ko": "보안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:47 name",
+        "plugins/ruflo-console/hooks/self-check.ts:144 expr",
+        "plugins/ruflo-console/hooks/views/bar.ts:187 label"
+      ]
+    },
+    {
+      "key": "scans, AIDefence, doctor",
+      "ko": "스캔, AIDefence, 닥터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:47 note"
+      ]
+    },
+    {
+      "key": "Federation",
+      "ko": "페더레이션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:48 name",
+        "plugins/ruflo-console/hooks/state.ts:49 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:49 label"
+      ]
+    },
+    {
+      "key": "peers, trust, relay",
+      "ko": "피어, 신뢰, 릴레이",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:48 note"
+      ]
+    },
+    {
+      "key": "swarm board, AgentBBS rooms",
+      "ko": "스웜 보드, AgentBBS 룸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:49 note"
+      ]
+    },
+    {
+      "key": "Plugins & Mods",
+      "ko": "플러그인 & mod",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:50 name",
+        "plugins/ruflo-console/hooks/views/menu.ts:55 label"
+      ]
+    },
+    {
+      "key": "every ruflo plugin mapped",
+      "ko": "모든 ruflo 플러그인 지도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:50 note"
+      ]
+    },
+    {
+      "key": "Skills",
+      "ko": "스킬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:51 name",
+        "plugins/ruflo-console/hooks/help-topics-more.ts:161 title",
+        "plugins/ruflo-console/hooks/state.ts:61 label"
+      ]
+    },
+    {
+      "key": "find, add, manage",
+      "ko": "찾기, 추가, 관리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:51 note"
+      ]
+    },
+    {
+      "key": "Plugin Catalog",
+      "ko": "플러그인 카탈로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:52 name",
+        "plugins/ruflo-console/hooks/state.ts:70 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:50 label"
+      ]
+    },
+    {
+      "key": "every plugin, mod and skill",
+      "ko": "모든 플러그인, mod, 스킬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:52 note"
+      ]
+    },
+    {
+      "key": "Dev Tools",
+      "ko": "개발 도구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:53 name",
+        "plugins/ruflo-console/hooks/help-topics-more.ts:175 title",
+        "plugins/ruflo-console/hooks/help-topics-more.ts:198 label"
+      ]
+    },
+    {
+      "key": "ADRs, SPARC, tests, git, docs",
+      "ko": "ADR, SPARC, 테스트, git, 문서",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:53 note"
+      ]
+    },
+    {
+      "key": "Sandbox",
+      "ko": "샌드박스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:54 name",
+        "plugins/ruflo-console/hooks/state.ts:69 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:49 label"
+      ]
+    },
+    {
+      "key": "tmux, RVF branches, RVM",
+      "ko": "tmux, RVF 브랜치, RVM",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:54 note"
+      ]
+    },
+    {
+      "key": "Cost & Budget",
+      "ko": "비용 & 예산",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:55 name",
+        "plugins/ruflo-console/hooks/views/menu.ts:42 label"
+      ]
+    },
+    {
+      "key": "spend, burn, limits",
+      "ko": "지출, 소모, 한도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:55 note"
+      ]
+    },
+    {
+      "key": "Timeline",
+      "ko": "타임라인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:56 name",
+        "plugins/ruflo-console/hooks/state.ts:55 label",
+        "plugins/ruflo-console/hooks/views/agent.ts:35 rule()"
+      ]
+    },
+    {
+      "key": "who was busy, and when",
+      "ko": "누가 언제 바빴는지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:56 note"
+      ]
+    },
+    {
+      "key": "Events",
+      "ko": "이벤트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:57 name",
+        "plugins/ruflo-console/hooks/state.ts:57 label",
+        "plugins/ruflo-console/hooks/views/manage.ts:103 rule()"
+      ]
+    },
+    {
+      "key": "what changed, live",
+      "ko": "실시간 변경 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:57 note"
+      ]
+    },
+    {
+      "key": "The Room",
+      "ko": "룸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:58 name",
+        "plugins/ruflo-console/hooks/views/menu.ts:43 label"
+      ]
+    },
+    {
+      "key": "who says and does what, and what waits for a yes",
+      "ko": "누가 무엇을 말하고 하는지, 무엇이 승인을 기다리는지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:58 note"
+      ]
+    },
+    {
+      "key": "Performance",
+      "ko": "성능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:59 name",
+        "plugins/ruflo-console/hooks/self-check.ts:144 expr",
+        "plugins/ruflo-console/hooks/state.ts:63 label"
+      ]
+    },
+    {
+      "key": "metrics and bottlenecks",
+      "ko": "메트릭과 병목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:59 note"
+      ]
+    },
+    {
+      "key": "AI Terminal",
+      "ko": "AI 터미널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:60 name",
+        "plugins/ruflo-console/hooks/views/menu.ts:55 label"
+      ]
+    },
+    {
+      "key": "Settings",
+      "ko": "설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:61 name",
+        "plugins/ruflo-console/hooks/help-topics-more.ts:206 title",
+        "plugins/ruflo-console/hooks/state.ts:71 label"
+      ]
+    },
+    {
+      "key": "every option a button",
+      "ko": "모든 옵션이 버튼",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:61 note"
+      ]
+    },
+    {
+      "key": "handshake ok · node {0}",
+      "ko": "핸드셰이크 정상 · 노드 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:120 type()"
+      ]
+    },
+    {
+      "key": "{0} areas online · press a key or click",
+      "ko": "영역 {0}개 온라인 · 아무 키나 누르거나 클릭하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:127 const"
+      ]
+    },
+    {
+      "key": "{0} of {1} areas verified · {2} failed · press a key or click",
+      "ko": "영역 {1}개 중 {0}개 검증됨 · 실패 {2} · 아무 키나 누르거나 클릭하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:127 const"
+      ]
+    },
+    {
+      "key": "{0} of {1} areas verified · press a key or click",
+      "ko": "영역 {1}개 중 {0}개 검증됨 · 아무 키나 누르거나 클릭하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:127 const"
+      ]
+    },
+    {
+      "key": "READY",
+      "ko": "준비 완료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:128 name",
+        "plugins/ruflo-console/hooks/gfx/boot.ts:146 expr"
+      ]
+    },
+    {
+      "key": "LOADING [{0}] {1}%  reads {2}/{3}",
+      "ko": "불러오는 중 [{0}] {1}%  읽기 {2}/{3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/boot.ts:163 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

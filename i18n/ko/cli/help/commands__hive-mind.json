@@ -1,0 +1,527 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/hive-mind.ts",
+  "entries": [
+    {
+      "key": "Initialize a hive mind",
+      "ko": "하이브마인드를 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:430 description"
+      ]
+    },
+    {
+      "key": "Hive topology",
+      "ko": "하이브 토폴로지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:435 description"
+      ]
+    },
+    {
+      "key": "Consensus strategy",
+      "ko": "합의 전략",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:443 description"
+      ]
+    },
+    {
+      "key": "Maximum agents",
+      "ko": "최대 에이전트 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:451 description"
+      ]
+    },
+    {
+      "key": "Enable persistent state",
+      "ko": "영속 상태 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:458 description"
+      ]
+    },
+    {
+      "key": "Memory backend (agentdb, sqlite, hybrid)",
+      "ko": "메모리 백엔드 (agentdb, sqlite, hybrid)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:464 description"
+      ]
+    },
+    {
+      "key": "Init hierarchical mesh",
+      "ko": "hierarchical-mesh로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:470 description"
+      ]
+    },
+    {
+      "key": "Init with Byzantine consensus",
+      "ko": "Byzantine 합의로 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:471 description"
+      ]
+    },
+    {
+      "key": "Spawn worker agents into the hive (use --claude to launch Claude Code)",
+      "ko": "하이브에 워커 에이전트를 생성합니다 (Claude Code를 실행하려면 --claude 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:559 description"
+      ]
+    },
+    {
+      "key": "Number of workers to spawn",
+      "ko": "생성할 워커 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:564 description"
+      ]
+    },
+    {
+      "key": "Worker role (worker, specialist, scout)",
+      "ko": "워커 역할 (worker, specialist, scout)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:571 description"
+      ]
+    },
+    {
+      "key": "Agent type",
+      "ko": "에이전트 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:579 description"
+      ]
+    },
+    {
+      "key": "Prefix for worker IDs",
+      "ko": "워커 ID 접두사",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:586 description"
+      ]
+    },
+    {
+      "key": "Launch Claude Code with hive-mind coordination prompt",
+      "ko": "hive-mind 조율 프롬프트와 함께 Claude Code를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:593 description"
+      ]
+    },
+    {
+      "key": "Objective for the hive mind (used with --claude)",
+      "ko": "하이브마인드의 목표 (--claude와 함께 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:600 description"
+      ]
+    },
+    {
+      "key": "Skip permission prompts in Claude Code (use with caution)",
+      "ko": "Claude Code의 권한 확인 프롬프트 건너뛰기 (주의해서 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:605 description"
+      ]
+    },
+    {
+      "key": "Disable automatic permission skipping",
+      "ko": "자동 권한 건너뛰기 비활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:611 description"
+      ]
+    },
+    {
+      "key": "Show what would be done without launching Claude Code",
+      "ko": "Claude Code를 실행하지 않고 수행될 작업만 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:617 description"
+      ]
+    },
+    {
+      "key": "Run Claude Code in non-interactive mode",
+      "ko": "Claude Code를 비대화형 모드로 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:623 description"
+      ]
+    },
+    {
+      "key": "Path to .mcp.json for the spawned worker (auto-detects ./.mcp.json or ~/.claude.json if omitted) — fixes #1748 Issue 2",
+      "ko": "생성된 워커용 .mcp.json 경로 (생략하면 ./.mcp.json 또는 ~/.claude.json을 자동 감지) — #1748 Issue 2 수정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:629 description"
+      ]
+    },
+    {
+      "key": "Spawn 5 workers",
+      "ko": "워커 5개 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:634 description"
+      ]
+    },
+    {
+      "key": "Spawn 3 specialists",
+      "ko": "전문 에이전트 3개 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:635 description"
+      ]
+    },
+    {
+      "key": "Spawn coder with custom prefix",
+      "ko": "사용자 지정 접두사로 coder 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:636 description"
+      ]
+    },
+    {
+      "key": "Launch Claude Code with objective",
+      "ko": "목표와 함께 Claude Code 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:637 description"
+      ]
+    },
+    {
+      "key": "Spawn workers and launch Claude Code",
+      "ko": "워커를 생성하고 Claude Code 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:638 description"
+      ]
+    },
+    {
+      "key": "Show hive mind status",
+      "ko": "하이브마인드 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:777 description"
+      ]
+    },
+    {
+      "key": "Show detailed metrics",
+      "ko": "상세 메트릭 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:782 description",
+        "src/commands/neural.ts:513 description",
+        "src/commands/neural.ts:953 description"
+      ]
+    },
+    {
+      "key": "Watch for changes",
+      "ko": "변경 사항 감시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:789 description",
+        "src/commands/progress.ts:255 description",
+        "src/commands/progress.ts:275 description"
+      ]
+    },
+    {
+      "key": "Submit tasks to the hive",
+      "ko": "하이브에 작업을 제출합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:952 description"
+      ]
+    },
+    {
+      "key": "Task priority",
+      "ko": "작업 우선순위",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:963 description",
+        "src/commands/task.ts:90 description"
+      ]
+    },
+    {
+      "key": "Require consensus for completion",
+      "ko": "완료에 합의 필요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:971 description"
+      ]
+    },
+    {
+      "key": "Task timeout in seconds",
+      "ko": "작업 타임아웃(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:977 description",
+        "src/commands/task.ts:118 description"
+      ]
+    },
+    {
+      "key": "Submit task",
+      "ko": "작업 제출",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:983 description",
+        "src/commands/hive-mind.ts:1362 description"
+      ]
+    },
+    {
+      "key": "Critical task with consensus",
+      "ko": "합의가 필요한 중요 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:984 description"
+      ]
+    },
+    {
+      "key": "Optimize hive memory and patterns",
+      "ko": "하이브 메모리와 패턴을 최적화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1076 description"
+      ]
+    },
+    {
+      "key": "Aggressive optimization",
+      "ko": "공격적 최적화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1081 description"
+      ]
+    },
+    {
+      "key": "Quality threshold for pattern retention",
+      "ko": "패턴 유지를 위한 품질 임계값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1087 description"
+      ]
+    },
+    {
+      "key": "Join an agent to the hive mind",
+      "ko": "하이브마인드에 에이전트를 참여시킵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1157 description"
+      ]
+    },
+    {
+      "key": "Agent ID to join",
+      "ko": "참여할 에이전트 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1159 description"
+      ]
+    },
+    {
+      "key": "Agent role (worker, specialist, scout)",
+      "ko": "에이전트 역할 (worker, specialist, scout)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1160 description"
+      ]
+    },
+    {
+      "key": "Remove an agent from the hive mind",
+      "ko": "하이브마인드에서 에이전트를 제거합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1180 description"
+      ]
+    },
+    {
+      "key": "Agent ID to remove",
+      "ko": "제거할 에이전트 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1181 description"
+      ]
+    },
+    {
+      "key": "Manage consensus proposals and voting",
+      "ko": "합의 제안과 투표를 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1197 description"
+      ]
+    },
+    {
+      "key": "Consensus action",
+      "ko": "합의 동작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1199 description"
+      ]
+    },
+    {
+      "key": "Proposal ID",
+      "ko": "제안 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1200 description"
+      ]
+    },
+    {
+      "key": "Proposal type",
+      "ko": "제안 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1201 description"
+      ]
+    },
+    {
+      "key": "Proposal value",
+      "ko": "제안 값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1202 description"
+      ]
+    },
+    {
+      "key": "Vote (yes/no)",
+      "ko": "투표 (yes/no)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1203 description"
+      ]
+    },
+    {
+      "key": "Voter agent ID",
+      "ko": "투표자 에이전트 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1204 description"
+      ]
+    },
+    {
+      "key": "Broadcast a message to all workers in the hive",
+      "ko": "하이브의 모든 워커에게 메시지를 브로드캐스트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1226 description"
+      ]
+    },
+    {
+      "key": "Message to broadcast",
+      "ko": "브로드캐스트할 메시지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1228 description"
+      ]
+    },
+    {
+      "key": "Message priority",
+      "ko": "메시지 우선순위",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1229 description"
+      ]
+    },
+    {
+      "key": "Sender agent ID",
+      "ko": "발신자 에이전트 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1230 description"
+      ]
+    },
+    {
+      "key": "Access hive shared memory",
+      "ko": "하이브 공유 메모리에 접근합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1247 description"
+      ]
+    },
+    {
+      "key": "Memory action",
+      "ko": "메모리 동작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1249 description"
+      ]
+    },
+    {
+      "key": "Memory key",
+      "ko": "메모리 키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1250 description"
+      ]
+    },
+    {
+      "key": "Value to store",
+      "ko": "저장할 값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1251 description"
+      ]
+    },
+    {
+      "key": "Shutdown the hive mind",
+      "ko": "하이브마인드를 종료합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1280 description"
+      ]
+    },
+    {
+      "key": "Force shutdown",
+      "ko": "강제 종료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1285 description"
+      ]
+    },
+    {
+      "key": "Save state before shutdown",
+      "ko": "종료 전 상태 저장",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1292 description"
+      ]
+    },
+    {
+      "key": "Queen-led consensus-based multi-agent coordination",
+      "ko": "퀸이 이끄는 합의 기반 멀티 에이전트 조율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1355 description"
+      ]
+    },
+    {
+      "key": "Initialize hive",
+      "ko": "하이브 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1359 description"
+      ]
+    },
+    {
+      "key": "Spawn workers",
+      "ko": "워커 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1360 description"
+      ]
+    },
+    {
+      "key": "Launch Claude Code with hive mind",
+      "ko": "하이브마인드와 함께 Claude Code 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind.ts:1361 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

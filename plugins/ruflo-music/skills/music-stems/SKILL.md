@@ -1,6 +1,6 @@
 ---
 name: music-stems
-description: Run 4-stem separation (vocals/drums/bass/other) on an existing production
+description: 기존 프로덕션에 4스템 분리(vocals/drums/bass/other)를 실행
 allowed-tools: mcp__cogmusic__separate_stems mcp__cogmusic__get_production
 argument-hint: "<production-id>"
 ---

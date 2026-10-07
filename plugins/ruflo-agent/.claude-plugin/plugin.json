@@ -1,6 +1,6 @@
 {
   "name": "ruflo-agent",
-  "description": "Agent runtimes for ruflo — local WASM-sandboxed agents (rvagent: 10 wasm_agent_*/wasm_gallery_* MCP tools, built on @ruvector/rvagent-wasm + @ruvector/ruvllm-wasm per ADR-070) plus Anthropic Claude Managed Agents as a cloud backend (managed_agent_* MCP tools per ADR-115). One interface, local-vs-cloud runtimes.",
+  "description": "ruflo용 에이전트 런타임 — 로컬 WASM 샌드박스 에이전트(rvagent: ADR-070에 따라 @ruvector/rvagent-wasm + @ruvector/ruvllm-wasm 기반으로 만든 wasm_agent_*/wasm_gallery_* MCP 도구 10개)와 클라우드 백엔드인 Anthropic Claude Managed Agents(ADR-115의 managed_agent_* MCP 도구). 하나의 인터페이스로 로컬/클라우드 런타임을 지원합니다.",
   "version": "0.3.2",
   "author": {
     "name": "ruvnet",
@@ -27,8 +27,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Agent guard",
-      "description": "Refuse text sent into an agent runtime (wasm_agent_prompt, wasm_agent_tool, wasm_agent_create, wasm_gallery_create, managed_agent_create, managed_agent_prompt) that hold a key, token or password.",
+      "title": "에이전트 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 에이전트 런타임 입력 텍스트(wasm_agent_prompt, wasm_agent_tool, wasm_agent_create, wasm_gallery_create, managed_agent_create, managed_agent_prompt)를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

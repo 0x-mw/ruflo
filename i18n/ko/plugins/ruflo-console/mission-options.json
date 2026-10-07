@@ -1,0 +1,238 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-options.ts",
+  "entries": [
+    {
+      "key": "AIDefence",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:22 label",
+        "plugins/ruflo-console/hooks/views/mission-launch.ts:125 children"
+      ]
+    },
+    {
+      "key": "screen prompts, text and code for injection and PII",
+      "ko": "프롬프트, 텍스트, 코드에서 인젝션과 PII를 검사합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:22 about"
+      ]
+    },
+    {
+      "key": "run agents on your own ruOS cloud desktops",
+      "ko": "자신의 ruOS 클라우드 데스크톱에서 에이전트를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:23 about"
+      ]
+    },
+    {
+      "key": "SPARC",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:24 label"
+      ]
+    },
+    {
+      "key": "the five-phase method with quality gates",
+      "ko": "품질 게이트가 있는 5단계 방법론",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:24 about"
+      ]
+    },
+    {
+      "key": "agents in parallel with a coordinator",
+      "ko": "코디네이터와 함께 병렬로 동작하는 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:25 about"
+      ]
+    },
+    {
+      "key": "ADRs",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:26 label"
+      ]
+    },
+    {
+      "key": "record the decisions of a mission",
+      "ko": "미션의 결정 사항을 기록합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:26 about"
+      ]
+    },
+    {
+      "key": "Security audit",
+      "ko": "보안 감사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:27 label"
+      ]
+    },
+    {
+      "key": "find and fix vulnerabilities",
+      "ko": "취약점을 찾아 수정합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:27 about"
+      ]
+    },
+    {
+      "key": "Test generation",
+      "ko": "테스트 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:28 label"
+      ]
+    },
+    {
+      "key": "tests first, London School",
+      "ko": "테스트 우선, 런던 학파",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:28 about"
+      ]
+    },
+    {
+      "key": "Intelligence",
+      "ko": "인텔리전스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:29 label",
+        "plugins/ruflo-console/hooks/views/neural.ts:106 section()"
+      ]
+    },
+    {
+      "key": "learn from the outcome (RETRIEVE, JUDGE, DISTILL, CONSOLIDATE)",
+      "ko": "결과로부터 학습합니다 (RETRIEVE, JUDGE, DISTILL, CONSOLIDATE)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:29 about"
+      ]
+    },
+    {
+      "key": "Memory",
+      "ko": "메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:30 label",
+        "plugins/ruflo-console/hooks/state.ts:53 label",
+        "plugins/ruflo-console/hooks/views/bar.ts:188 label"
+      ]
+    },
+    {
+      "key": "prior art from hybrid and graph search",
+      "ko": "하이브리드 검색과 그래프 검색에서 찾은 선행 사례",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:30 about"
+      ]
+    },
+    {
+      "key": "PII FOUND",
+      "ko": "PII 발견",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:91 return",
+        "plugins/ruflo-console/hooks/secure.ts:128 expr"
+      ]
+    },
+    {
+      "key": "SAFE",
+      "ko": "안전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:91 return",
+        "plugins/ruflo-console/hooks/secure.ts:128 expr"
+      ]
+    },
+    {
+      "key": "nothing to screen",
+      "ko": "검사할 내용이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:104 detail"
+      ]
+    },
+    {
+      "key": "personal or secret data detected",
+      "ko": "개인 정보 또는 비밀 데이터가 감지되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:109 detail"
+      ]
+    },
+    {
+      "key": "AIDefence did not fully answer (is @claude-flow/aidefence installed?): the text was not fully screened",
+      "ko": "AIDefence가 완전히 응답하지 않았습니다 (@claude-flow/aidefence 가 설치되어 있나요?): 텍스트를 완전히 검사하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:111 detail"
+      ]
+    },
+    {
+      "key": "no threats or PII found",
+      "ko": "위협이나 PII가 발견되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:113 detail"
+      ]
+    },
+    {
+      "key": "type the research question first",
+      "ko": "먼저 조사할 질문을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:134 return"
+      ]
+    },
+    {
+      "key": "the question may not start with -",
+      "ko": "질문은 -로 시작할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:135 return"
+      ]
+    },
+    {
+      "key": "the cap must be a number of dollars from 0.10 to 50",
+      "ko": "한도는 0.10에서 50 사이의 달러 금액이어야 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:137 return"
+      ]
+    },
+    {
+      "key": "--depth {0} --cap-usd {1} {2}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:141 expr"
+      ]
+    },
+    {
+      "key": "Starts a billed Claude Code turn. Allows web search and fetch up to ${0} ({1} depth). Web content is untrusted. Nothing is stored until you accept the report. AIDefence could not screen the question.",
+      "ko": "과금되는 Claude Code 턴을 시작합니다. ${0}까지 웹 검색과 가져오기를 허용합니다 ({1} 깊이). 웹 콘텐츠는 신뢰할 수 없습니다. 보고서를 수락하기 전에는 아무것도 저장되지 않습니다. AIDefence가 질문을 검사하지 못했습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:145 expr"
+      ]
+    },
+    {
+      "key": "Starts a billed Claude Code turn. Allows web search and fetch up to ${0} ({1} depth). Web content is untrusted. Nothing is stored until you accept the report.",
+      "ko": "과금되는 Claude Code 턴을 시작합니다. ${0}까지 웹 검색과 가져오기를 허용합니다 ({1} 깊이). 웹 콘텐츠는 신뢰할 수 없습니다. 보고서를 수락하기 전에는 아무것도 저장되지 않습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-options.ts:145 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: sparc-debug
-description: 🪲 Debugger - You troubleshoot runtime bugs, logic errors, or integration failures by tracing, inspecting, and ...
+description: 🪲 디버거 - 추적, 점검, 격리를 통해 런타임 버그, 로직 오류, 통합 실패를 해결합니다...
 ---
 
 # 🪲 Debugger

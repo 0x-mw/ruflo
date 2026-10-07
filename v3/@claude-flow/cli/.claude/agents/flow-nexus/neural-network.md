@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-neural
-description: Neural network training and deployment specialist. Manages distributed neural network training, inference, and model lifecycle using Flow Nexus cloud infrastructure.
+description: 신경망 학습 및 배포 전문가입니다. Flow Nexus 클라우드 인프라로 분산 신경망 학습, 추론, 모델 수명 주기를 관리합니다.
 color: red
 ---
 

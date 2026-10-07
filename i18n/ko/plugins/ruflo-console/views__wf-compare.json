@@ -1,0 +1,144 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-compare.ts",
+  "entries": [
+    {
+      "key": "result differs",
+      "ko": "결과가 다름",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:44 expr"
+      ]
+    },
+    {
+      "key": "{0} ({1} ok, {2} failed)",
+      "ko": "{0} (성공 {1}, 실패 {2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:55 line()"
+      ]
+    },
+    {
+      "key": "No other run of \"{0}\" has been read: a run of the same workflow name is needed to compare. Runs read: {1}.",
+      "ko": "\"{0}\"의 다른 실행을 읽지 못했습니다: 비교하려면 같은 이름의 워크플로 실행이 필요합니다. 읽은 실행: {1}.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:65 text()"
+      ]
+    },
+    {
+      "key": "vs",
+      "ko": "대",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:81 text()"
+      ]
+    },
+    {
+      "key": "({0} other runs of this workflow)",
+      "ko": "(이 워크플로의 다른 실행 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:81 text()"
+      ]
+    },
+    {
+      "key": "◂ other run",
+      "ko": "◂ 다른 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:82 button()"
+      ]
+    },
+    {
+      "key": "other run ▸",
+      "ko": "다른 실행 ▸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:82 button()"
+      ]
+    },
+    {
+      "key": "show all agents",
+      "ko": "모든 에이전트 보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:82 button()"
+      ]
+    },
+    {
+      "key": "changed only",
+      "ko": "변경만",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:82 button()"
+      ]
+    },
+    {
+      "key": "{0} same · {1} changed · {2} only in B (+) · {3} only in A (-)   ~ = tokens off by {4}% or time by {5}% or a state/model change",
+      "ko": "동일 {0} · 변경 {1} · B에만 있음 {2} (+) · A에만 있음 {3} (-)   ~ = 토큰 {4}% 또는 시간 {5}% 차이 또는 상태/모델 변경",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:84 text()"
+      ]
+    },
+    {
+      "key": "+{0} more agents not drawn",
+      "ko": "+에이전트 {0}개 더 있음 (표시 안 됨)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:86 text()"
+      ]
+    },
+    {
+      "key": "No agent differs by those thresholds.",
+      "ko": "그 기준으로 다른 에이전트가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:86 text()"
+      ]
+    },
+    {
+      "key": "Compare runs",
+      "ko": "실행 비교",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:94 title"
+      ]
+    },
+    {
+      "key": "Compare is for Claude Code workflow runs, which can be run again: the ruflo swarm is one live roster.",
+      "ko": "비교는 다시 실행할 수 있는 Claude Code 워크플로 실행용입니다. ruflo 스웜은 하나의 실시간 명단입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:100 text()"
+      ]
+    },
+    {
+      "key": "no other run of this workflow has been read",
+      "ko": "이 워크플로의 다른 실행을 읽지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:104 fold()"
+      ]
+    },
+    {
+      "key": "{0} other run of \"{1}\": agents, tokens, time and results side by side",
+      "ko": "\"{1}\"의 다른 실행 {0}개: 에이전트, 토큰, 시간, 결과를 나란히 비교",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:104 fold()"
+      ]
+    },
+    {
+      "key": "{0} other runs of \"{1}\": agents, tokens, time and results side by side",
+      "ko": "\"{1}\"의 다른 실행 {0}개: 에이전트, 토큰, 시간, 결과를 나란히 비교",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-compare.ts:104 fold()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

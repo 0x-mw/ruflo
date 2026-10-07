@@ -1,0 +1,32 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/plugin-ops.ts",
+  "entries": [
+    {
+      "key": "update the {0} marketplace clone (git pull of the plugin list: network)",
+      "ko": "{0} 마켓플레이스 복제본 업데이트 (플러그인 목록 git pull: 네트워크)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-ops.ts:14 label"
+      ]
+    },
+    {
+      "key": "a newer clone of the ruflo marketplace",
+      "ko": "ruflo 마켓플레이스의 더 새로운 복제본",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-ops.ts:18 expect"
+      ]
+    },
+    {
+      "key": "NETWORK: pulls the marketplace from GitHub",
+      "ko": "네트워크: GitHub에서 마켓플레이스를 받아옵니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-ops.ts:19 note"
+      ]
+    }
+  ],
+  "obsolete": []
+}

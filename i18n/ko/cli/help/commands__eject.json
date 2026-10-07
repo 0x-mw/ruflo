@@ -1,0 +1,72 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/eject.ts",
+  "entries": [
+    {
+      "key": "Lift the calling ruflo project into a renamed standalone harness via metaharness --from-existing (ADR-150 Phase 2). Dry-run by default; --confirm required to write.",
+      "ko": "`metaharness --from-existing`로 현재 ruflo 프로젝트를 이름을 바꾼 독립 하네스(harness)로 분리합니다 (ADR-150 2단계). 기본은 드라이런이며, 실제로 쓰려면 `--confirm`이 필요합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:80 description"
+      ]
+    },
+    {
+      "key": "Name for the ejected harness (required)",
+      "ko": "분리할 하네스의 이름 (필수)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:85 description"
+      ]
+    },
+    {
+      "key": "Absolute output dir (default: /tmp/ruflo-eject-<ts>-<name>/); refused if inside the calling repo",
+      "ko": "출력 디렉터리 절대 경로 (기본값: /tmp/ruflo-eject-<ts>-<name>/). 호출한 저장소 안이면 거부합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:91 description"
+      ]
+    },
+    {
+      "key": "Actually write the eject. Without this flag the command prints a dry-run plan and exits.",
+      "ko": "분리를 실제로 수행합니다. 이 플래그가 없으면 드라이런 계획만 출력하고 종료합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:96 description"
+      ]
+    },
+    {
+      "key": "Output format: table | json",
+      "ko": "출력 형식: table | json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:102 description"
+      ]
+    },
+    {
+      "key": "Dry-run; prints what would happen",
+      "ko": "드라이런, 수행될 작업만 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:108 description"
+      ]
+    },
+    {
+      "key": "Eject to /tmp/ruflo-eject-<ts>-my-harness/",
+      "ko": "/tmp/ruflo-eject-<ts>-my-harness/로 분리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:111 description"
+      ]
+    },
+    {
+      "key": "Eject to a specific dir (must be outside the calling repo)",
+      "ko": "특정 디렉터리로 분리 (호출한 저장소 밖이어야 함)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/eject.ts:115 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

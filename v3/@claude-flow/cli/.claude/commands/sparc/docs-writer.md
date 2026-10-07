@@ -1,6 +1,6 @@
 ---
 name: sparc-docs-writer
-description: 📚 Documentation Writer - You write concise, clear, and modular Markdown documentation that explains usage, integration, se...
+description: 📚 문서 작성자 - 사용법, 통합, 설정을 설명하는 간결하고 명확한 모듈형 Markdown 문서를 작성합니다...
 ---
 
 # 📚 Documentation Writer

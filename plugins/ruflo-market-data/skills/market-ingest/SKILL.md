@@ -1,6 +1,6 @@
 ---
 name: market-ingest
-description: Ingest and normalize market data into OHLCV vectors with HNSW indexing
+description: 시장 데이터를 수집하고 HNSW 인덱싱을 적용한 OHLCV 벡터로 정규화
 argument-hint: "<symbol> [--source api]"
 allowed-tools: Bash mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_create mcp__plugin_ruflo-core_ruflo__ruvllm_hnsw_add mcp__plugin_ruflo-core_ruflo__embeddings_generate
 ---

@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/workflows.ts",
+  "entries": [
+    {
+      "key": "\b(?:sk|pk|ghp|gho|ghs|github_pat|xox[abprs]|xapp|AKIA|ASIA|AIza)[-_A-Za-z0-9]{12,}",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:79 expr"
+      ]
+    },
+    {
+      "key": "\b(?:glpat|npm|hf|dop_v1|shpat|whsec|rk_live|sk_live|ya29)[-_.][-_.A-Za-z0-9]{12,}",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:80 expr"
+      ]
+    },
+    {
+      "key": "\bBearers+S{8,}",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:81 expr"
+      ]
+    },
+    {
+      "key": "\beyJ[A-Za-z0-9_-]{6,}.[A-Za-z0-9_-]{6,}.?[A-Za-z0-9_-]*",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:83 expr"
+      ]
+    },
+    {
+      "key": "\b[A-Za-z0-9+_-]{32,}={0,2}",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:85 expr"
+      ]
+    },
+    {
+      "key": "-----BEGIN [A-Z ]*PRIVATE KEY-----[sS]*?(?:-----END [A-Z ]*PRIVATE KEY-----|$)",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:87 expr"
+      ]
+    },
+    {
+      "key": "\b[a-z][a-z0-9+.-]*://[^s/:@]+:[^s/@]+@",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:88 expr"
+      ]
+    },
+    {
+      "key": "(?:key|token|secret|passw(?:or)?d|pwd|passphrase|credential|authorization)[\"']?s*[=:]s*(?:(?:Bearer|Basic|Token)s+)?(?:\"[^\"]*\"|'[^']*'|S+)",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:90 expr"
+      ]
+    },
+    {
+      "key": "(?<![A-Za-z0-9])pass[\"']?s*=s*(?:\"[^\"]*\"|'[^']*'|S+)",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:91 expr"
+      ]
+    },
+    {
+      "key": "(?:^|s)--?(?:token|password|passwd|pwd|secret|api-?key|auth(?:orization)?|access-?key|client-?secret)(?:=|s+)S+",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:92 expr"
+      ]
+    },
+    {
+      "key": "structured result ({0} fields)",
+      "ko": "구조화된 결과 (필드 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/workflows.ts:137 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

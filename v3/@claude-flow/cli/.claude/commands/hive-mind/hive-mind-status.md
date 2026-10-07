@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 상태
+---
+
 # hive-mind-status
 
 Command documentation for hive-mind-status in category hive-mind.

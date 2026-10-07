@@ -1,0 +1,177 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/memmap.ts",
+  "entries": [
+    {
+      "key": "the map needs a terminal that draws pictures: {0} entries in {1} namespaces",
+      "ko": "지도는 그림을 그릴 수 있는 터미널이 필요합니다: 네임스페이스 {1}개에 항목 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:54 text()"
+      ]
+    },
+    {
+      "key": "Memory map",
+      "ko": "메모리 지도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:63 rule()",
+        "plugins/ruflo-console/hooks/views/memmap.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "{0} entries · {1} namespace · embedding layout",
+      "ko": "항목 {0}개 · 네임스페이스 {1}개 · 임베딩 배치",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "{0} entries · {1} namespace · hash layout",
+      "ko": "항목 {0}개 · 네임스페이스 {1}개 · 해시 배치",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "{0} entries · {1} namespaces · embedding layout",
+      "ko": "항목 {0}개 · 네임스페이스 {1}개 · 임베딩 배치",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "{0} entries · {1} namespaces · hash layout",
+      "ko": "항목 {0}개 · 네임스페이스 {1}개 · 해시 배치",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:72 rule()"
+      ]
+    },
+    {
+      "key": "+ {0} more namespaces not in the key; colours repeat after {1}, so a colour is not a unique namespace",
+      "ko": "+ 범례에 없는 네임스페이스 {0}개 더; 색은 {1}개 뒤에 반복되므로 색이 네임스페이스를 고유하게 가리키지는 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:101 note()"
+      ]
+    },
+    {
+      "key": "colours repeat after {0} namespaces, so a colour is not a unique namespace",
+      "ko": "색은 네임스페이스 {0}개 뒤에 반복되므로 색이 네임스페이스를 고유하게 가리키지는 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:102 note()"
+      ]
+    },
+    {
+      "key": "dot size is how often the entry was read:  · never   • 1-2   ● 3-9   ◉ 10 or more",
+      "ko": "점 크기는 항목을 읽은 횟수입니다:  · 없음   • 1-2   ● 3-9   ◉ 10 이상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:104 note()"
+      ]
+    },
+    {
+      "key": "read counts n/a (the map’s own list is not loaded yet): every dot is drawn as a speck",
+      "ko": "읽기 횟수 없음 (지도 자체 목록이 아직 로드되지 않음): 모든 점을 작은 점으로 그립니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:104 note()"
+      ]
+    },
+    {
+      "key": "layout: each entry’s stored embedding projected to 2D by a fixed random projection; near means similar, but a 2D projection loses most of the distance",
+      "ko": "배치: 각 항목의 저장된 임베딩을 고정 무작위 투영으로 2D에 투영합니다. 가까울수록 비슷하지만 2D 투영은 거리 정보 대부분을 잃습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:110 note()"
+      ]
+    },
+    {
+      "key": "layout: NOT similarity. `memory list` does not print vectors, so each namespace has a fixed place and each entry a hash of its key scatters it inside; near means the same namespace only",
+      "ko": "배치: 유사도가 아닙니다. `memory list`는 벡터를 출력하지 않으므로 네임스페이스마다 고정 위치가 있고 항목은 키의 해시로 그 안에 흩어집니다. 가깝다는 것은 같은 네임스페이스라는 뜻일 뿐입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:111 note()"
+      ]
+    },
+    {
+      "key": "◆ {0} of {1} listed entries lit by “{2}” · {3} more hit is outside the listed sample",
+      "ko": "◆ 나열된 항목 {1}개 중 {0}개가 “{2}”로 밝아짐 · 나열된 표본 밖에 일치 {3}건 더 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:120 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} of {1} listed entries lit by “{2}” · {3} more hits are outside the listed sample",
+      "ko": "◆ 나열된 항목 {1}개 중 {0}개가 “{2}”로 밝아짐 · 나열된 표본 밖에 일치 {3}건 더 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:120 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} of {1} listed entries lit by “{2}”",
+      "ko": "◆ 나열된 항목 {1}개 중 {0}개가 “{2}”로 밝아짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:120 text()"
+      ]
+    },
+    {
+      "key": "the last search named no entries: nothing to light",
+      "ko": "마지막 검색에서 찾은 항목이 없습니다: 밝힐 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:121 text()"
+      ]
+    },
+    {
+      "key": "the last search named {0} entry, none in the listed sample: nothing to light",
+      "ko": "마지막 검색에서 항목 {0}개를 찾았지만 나열된 표본에는 없습니다: 밝힐 것이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:121 text()"
+      ]
+    },
+    {
+      "key": "the last search named {0} entries, none in the listed sample: nothing to light",
+      "ko": "마지막 검색에서 항목 {0}개를 찾았지만 나열된 표본에는 없습니다: 밝힐 것이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:121 text()"
+      ]
+    },
+    {
+      "key": "search below (Enter) to light the entries it finds",
+      "ko": "아래에서 검색(Enter)하면 찾은 항목이 밝아집니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:122 text()"
+      ]
+    },
+    {
+      "key": "reading `memory list` …",
+      "ko": "`memory list`를 읽는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:134 return"
+      ]
+    },
+    {
+      "key": "nothing stored yet: store an entry or import your Claude memories, and it appears here",
+      "ko": "저장된 항목이 없습니다: 항목을 저장하거나 Claude 메모리를 가져오면 여기에 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memmap.ts:137 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

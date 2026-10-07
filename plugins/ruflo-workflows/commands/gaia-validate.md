@@ -1,6 +1,6 @@
 ---
 name: gaia-validate
-description: Pre-submit validation — TypeScript clean, dataset accessible, all required env keys present
+description: 제출 전 검증 — TypeScript 오류 없음, 데이터셋 접근 가능, 필요한 환경 변수 키 모두 존재
 argument-hint: "[--strict] [--fix]"
 ---
 

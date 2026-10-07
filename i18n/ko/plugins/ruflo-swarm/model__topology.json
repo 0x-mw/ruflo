@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/model/topology.ts",
+  "entries": [
+    {
+      "key": "(no leader on disk)",
+      "ko": "(디스크에 리더 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/topology.ts:18 const"
+      ]
+    },
+    {
+      "key": "{0}: no members yet",
+      "ko": "{0}: 아직 멤버 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/topology.ts:22 clip()"
+      ]
+    },
+    {
+      "key": "(workers also linked peer to peer)",
+      "ko": "(워커끼리도 피어 간 연결)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/topology.ts:33 clip()"
+      ]
+    },
+    {
+      "key": "all-to-all: {0} members, {1} links, {2} not named",
+      "ko": "전체 연결: 멤버 {0}명, 연결 {1}개, 이름 없음 {2}명",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/topology.ts:40 clip()"
+      ]
+    },
+    {
+      "key": "all-to-all: {0} members, {1} links",
+      "ko": "전체 연결: 멤버 {0}명, 연결 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/topology.ts:40 clip()"
+      ]
+    },
+    {
+      "key": "spokes: {0}, {1}",
+      "ko": "스포크: {0}, {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/topology.ts:48 clip()"
+      ]
+    },
+    {
+      "key": "{0}: not drawn by the pane ({1} members)",
+      "ko": "{0}: 패널에 그리지 않음 (멤버 {1}명)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/model/topology.ts:50 clip()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

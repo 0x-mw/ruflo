@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/memory-backup.ts",
+  "entries": [
+    {
+      "key": "No memory DB found to back up (.swarm/memory.db). Nothing to do.",
+      "ko": "백업할 메모리 DB(.swarm/memory.db)가 없습니다. 할 일이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-backup.ts:39 printWarning"
+      ]
+    },
+    {
+      "key": "Backup skipped: {0}",
+      "ko": "백업을 건너뛰었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-backup.ts:42 printError"
+      ]
+    },
+    {
+      "key": "Backed up → {0}",
+      "ko": "백업했습니다 → {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-backup.ts:47 success"
+      ]
+    },
+    {
+      "key": "Size:      {0} KB",
+      "ko": "크기:      {0} KB",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-backup.ts:49 printList"
+      ]
+    },
+    {
+      "key": "Rotated:   {0} old snapshot(s) removed",
+      "ko": "순환:      오래된 스냅샷 {0}개 삭제",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory-backup.ts:50 printList"
+      ]
+    }
+  ],
+  "obsolete": []
+}

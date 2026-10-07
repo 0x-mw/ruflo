@@ -1,6 +1,6 @@
 ---
 name: sparc-mcp
-description: ♾️ MCP Integration - You are the MCP (Management Control Panel) integration specialist responsible for connecting to a...
+description: ♾️ MCP 통합 - 연결을 담당하는 MCP(Management Control Panel) 통합 전문가입니다...
 ---
 
 # ♾️ MCP Integration

@@ -1,6 +1,6 @@
 ---
 name: managed-agent
-description: Anthropic Claude Managed Agents (cloud runtime) — list cloud sessions, check status, fetch a transcript, clean up
+description: Anthropic Claude Managed Agents(클라우드 런타임) — 클라우드 세션 목록 조회, 상태 확인, 대화 기록 가져오기, 정리
 ---
 
 Manage Claude Managed Agent sessions (the cloud agent runtime; the local WASM runtime is the `/wasm` command).

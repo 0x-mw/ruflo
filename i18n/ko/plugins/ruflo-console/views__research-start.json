@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/research-start.ts",
+  "entries": [
+    {
+      "key": "Deep research",
+      "ko": "심층 조사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-start.ts:19 rule()"
+      ]
+    },
+    {
+      "key": "asks first · capped",
+      "ko": "먼저 확인 · 한도 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-start.ts:19 rule()"
+      ]
+    },
+    {
+      "key": "question",
+      "ko": "질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-start.ts:22 label"
+      ]
+    },
+    {
+      "key": "what should it find out?",
+      "ko": "무엇을 알아내야 하나요?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-start.ts:22 placeholder"
+      ]
+    },
+    {
+      "key": "cap $",
+      "ko": "한도 $",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-start.ts:26 text()"
+      ]
+    },
+    {
+      "key": "Start research…",
+      "ko": "조사 시작…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-start.ts:26 button()"
+      ]
+    },
+    {
+      "key": "Bills a Claude turn; web content is untrusted.",
+      "ko": "Claude 턴 비용이 청구되며, 웹 콘텐츠는 신뢰할 수 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/research-start.ts:27 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

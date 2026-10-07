@@ -1,3 +1,7 @@
+---
+description: 작업 실행 조율
+---
+
 # Coordinate Task Execution
 
 ## 🎯 Key Principle

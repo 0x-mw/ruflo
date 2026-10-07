@@ -1,6 +1,6 @@
 ---
 name: view
-description: Watch the ruOS desktop a ruflo agent is running on — delegates to ruOS's own viewer
+description: ruflo 에이전트가 실행 중인 ruOS 데스크톱을 관찰 — ruOS 자체 뷰어에 위임
 ---
 $ARGUMENTS
 

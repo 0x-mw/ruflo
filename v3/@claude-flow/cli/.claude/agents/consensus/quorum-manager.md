@@ -2,7 +2,7 @@
 name: quorum-manager
 type: coordinator
 color: "#673AB7"
-description: Implements dynamic quorum adjustment and intelligent membership management
+description: 동적 정족수 조정과 지능형 멤버십 관리를 구현합니다
 capabilities:
   - dynamic_quorum_calculation
   - membership_management

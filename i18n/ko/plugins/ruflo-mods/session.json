@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-mods/hooks/session.ts",
+  "entries": [
+    {
+      "key": ".claude-flow",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/session.ts:71 under()"
+      ]
+    },
+    {
+      "key": "Same as /ruflo mods: what this session routed, recorded and tightened",
+      "ko": "/ruflo mods와 같습니다: 이 세션이 라우팅하고 기록하고 강화한 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/session.ts:80 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

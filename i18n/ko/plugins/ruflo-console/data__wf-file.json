@@ -1,0 +1,128 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-file.ts",
+  "entries": [
+    {
+      "key": "give a file name ending in .md",
+      "ko": ".md로 끝나는 파일 이름을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:27 why"
+      ]
+    },
+    {
+      "key": "a path over {0} characters is refused",
+      "ko": "{0}자를 넘는 경로는 거부됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:28 why"
+      ]
+    },
+    {
+      "key": "a path with control characters or a backslash is refused",
+      "ko": "제어 문자나 백슬래시가 있는 경로는 거부됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:30 why"
+      ]
+    },
+    {
+      "key": "write the path out: ~ is not expanded here",
+      "ko": "경로를 전부 쓰세요: 여기서는 ~가 확장되지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:31 why"
+      ]
+    },
+    {
+      "key": "a path with .. is refused: name the file inside the project or the scratchpad",
+      "ko": "..가 있는 경로는 거부됩니다: 프로젝트 또는 스크래치패드 안의 파일을 지정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:32 why"
+      ]
+    },
+    {
+      "key": "no project folder is known, so a relative path cannot be placed",
+      "ko": "프로젝트 폴더를 알 수 없어 상대 경로를 배치할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:36 why"
+      ]
+    },
+    {
+      "key": "the file name must be letters, digits, dots, dashes, underscores or spaces, and end in .md",
+      "ko": "파일 이름은 영문자, 숫자, 점, 대시, 밑줄, 공백만 쓸 수 있고 .md로 끝나야 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:44 why"
+      ]
+    },
+    {
+      "key": "outside the project: only paths under {0} are written",
+      "ko": "프로젝트 밖입니다: {0} 아래 경로에만 쓸 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:45 why"
+      ]
+    },
+    {
+      "key": "outside the project: only paths under {0} or {1} are written",
+      "ko": "프로젝트 밖입니다: {0} 또는 {1} 아래 경로에만 쓸 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:45 why"
+      ]
+    },
+    {
+      "key": "outside the project and the scratchpad: only paths under {0} are written",
+      "ko": "프로젝트와 스크래치패드 밖입니다: {0} 아래 경로에만 쓸 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:45 why"
+      ]
+    },
+    {
+      "key": "outside the project and the scratchpad: only paths under {0} or {1} are written",
+      "ko": "프로젝트와 스크래치패드 밖입니다: {0} 또는 {1} 아래 경로에만 쓸 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:45 why"
+      ]
+    },
+    {
+      "key": "outside the allowed folders",
+      "ko": "허용된 폴더 밖입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:57 why"
+      ]
+    },
+    {
+      "key": "{0} is a link: it could lead outside the folder, so it is not written through",
+      "ko": "{0}은(는) 링크입니다: 폴더 밖으로 이어질 수 있어 거치지 않고 쓰지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:68 why"
+      ]
+    },
+    {
+      "key": "{0} is not a folder",
+      "ko": "{0}은(는) 폴더가 아닙니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:69 why"
+      ]
+    },
+    {
+      "key": "{0} already exists: the console does not overwrite a file; pick another name",
+      "ko": "{0}이(가) 이미 있습니다: 콘솔은 파일을 덮어쓰지 않으니 다른 이름을 고르세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-file.ts:70 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

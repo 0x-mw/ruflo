@@ -1,6 +1,6 @@
 {
   "name": "ruflo-workflows",
-  "description": "Workflow automation across two surfaces: the 10 workflow_* MCP tools (create/run/execute/status/list/pause/resume/cancel/delete/template) with full state-machine lifecycle (created → running ↔ paused → completed/cancelled), and native Claude Code Workflow JS orchestration (.claude/workflows/*.js — agent/parallel/pipeline/phase fan-out). Includes GAIA benchmark component for Princeton HAL leaderboard submissions.",
+  "description": "두 가지 영역에 걸친 워크플로 자동화: 전체 상태 머신 수명 주기(created → running ↔ paused → completed/cancelled)를 갖춘 workflow_* MCP 도구 10개(create/run/execute/status/list/pause/resume/cancel/delete/template), 그리고 네이티브 Claude Code Workflow JS 오케스트레이션(.claude/workflows/*.js — agent/parallel/pipeline/phase 팬아웃). Princeton HAL 리더보드 제출용 GAIA 벤치마크 구성 요소를 포함합니다.",
   "version": "0.6.3",
   "author": {
     "name": "ruvnet",
@@ -88,8 +88,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse workflow definitions and run records that hold a secret, and workflow deletes that name no single id.",
+      "title": "비밀 가드",
+      "description": "비밀이 들어 있는 워크플로 정의와 실행 기록, 그리고 단일 ID를 지정하지 않은 워크플로 삭제를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

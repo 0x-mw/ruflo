@@ -1,6 +1,6 @@
 ---
 name: safety-specialist
-description: AI safety specialist for threat detection, PII scanning, and adaptive defense training
+description: 위협 탐지, PII 스캔, 적응형 방어 학습을 담당하는 AI 안전 전문 에이전트
 model: sonnet
 ---
 

@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/mission-cost.ts",
+  "entries": [
+    {
+      "key": "OK",
+      "ko": "정상",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/mission-cost.ts:75 level"
+      ]
+    }
+  ],
+  "obsolete": []
+}

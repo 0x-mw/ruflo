@@ -1,3 +1,7 @@
+---
+description: 👥 페어 프로그래밍 명령어
+---
+
 # 👥 Pair Programming Command
 
 Collaborative development with real-time verification and AI assistance.

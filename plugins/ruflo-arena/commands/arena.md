@@ -1,6 +1,6 @@
 ---
 name: arena
-description: Competitive ruliology — run arenas and tournaments between program strategies, evolve winners, and persist runs (ADR-147/148)
+description: 경쟁적 룰리올로지 — 프로그램 전략 간 아레나와 토너먼트를 실행하고, 승자를 진화시키고, 실행 결과를 영속화(ADR-147/148)
 ---
 
 $ARGUMENTS

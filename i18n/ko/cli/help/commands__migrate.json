@@ -1,0 +1,201 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/migrate.ts",
+  "entries": [
+    {
+      "key": "Check migration status",
+      "ko": "마이그레이션 상태 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:43 description",
+        "src/commands/migrate.ts:840 description"
+      ]
+    },
+    {
+      "key": "Run migration",
+      "ko": "마이그레이션 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:204 description"
+      ]
+    },
+    {
+      "key": "Migration target",
+      "ko": "마이그레이션 대상",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:209 description"
+      ]
+    },
+    {
+      "key": "Show what would be migrated without making changes",
+      "ko": "변경 없이 마이그레이션될 내용만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:215 description"
+      ]
+    },
+    {
+      "key": "Create backup before migration",
+      "ko": "마이그레이션 전에 백업 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:221 description"
+      ]
+    },
+    {
+      "key": "Force migration (overwrite existing)",
+      "ko": "강제 마이그레이션 (기존 항목 덮어쓰기)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:228 description"
+      ]
+    },
+    {
+      "key": "Verify migration integrity",
+      "ko": "마이그레이션 무결성 검증",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:432 description"
+      ]
+    },
+    {
+      "key": "Automatically fix issues",
+      "ko": "문제 자동 수정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:436 description"
+      ]
+    },
+    {
+      "key": "Rollback to previous version",
+      "ko": "이전 버전으로 롤백",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:570 description"
+      ]
+    },
+    {
+      "key": "Backup ID to restore",
+      "ko": "복원할 백업 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:574 description"
+      ]
+    },
+    {
+      "key": "Show V3 breaking changes",
+      "ko": "V3 호환성 깨짐 변경 사항 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:687 description"
+      ]
+    },
+    {
+      "key": "Apply fixes for gaps detected by \"migrate status\"",
+      "ko": "\"migrate status\"가 감지한 누락 항목 수정 적용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:767 description"
+      ]
+    },
+    {
+      "key": "Restore agents removed by ADR-128 from their canonical plugin content",
+      "ko": "ADR-128로 제거된 에이전트를 정식 플러그인 콘텐츠에서 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:771 description"
+      ]
+    },
+    {
+      "key": "Show what would be restored without writing",
+      "ko": "쓰지 않고 복원될 내용만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:778 description"
+      ]
+    },
+    {
+      "key": "V2 to V3 migration tools",
+      "ko": "V2에서 V3로의 마이그레이션 도구",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:836 description"
+      ]
+    },
+    {
+      "key": "Preview migration",
+      "ko": "마이그레이션 미리 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:841 description"
+      ]
+    },
+    {
+      "key": "Run full migration",
+      "ko": "전체 마이그레이션 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:842 description"
+      ]
+    },
+    {
+      "key": "Restore ADR-128-removed agents",
+      "ko": "ADR-128로 제거된 에이전트 복원",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:843 description"
+      ]
+    },
+    {
+      "key": "Migrate config schema to V3 format",
+      "ko": "설정 스키마를 V3 형식으로 마이그레이션",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:890 description"
+      ]
+    },
+    {
+      "key": "Upgrade to hybrid backend with AgentDB",
+      "ko": "AgentDB가 포함된 하이브리드 백엔드로 업그레이드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:891 description"
+      ]
+    },
+    {
+      "key": "Convert agent configs to V3 format",
+      "ko": "에이전트 설정을 V3 형식으로 변환",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:892 description"
+      ]
+    },
+    {
+      "key": "Migrate hooks to V3 hook system",
+      "ko": "훅을 V3 훅 시스템으로 마이그레이션",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:893 description"
+      ]
+    },
+    {
+      "key": "Convert workflows to event-sourced format",
+      "ko": "워크플로를 이벤트 소싱 형식으로 변환",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:894 description"
+      ]
+    },
+    {
+      "key": "Migrate to ONNX with hyperbolic (Poincaré ball)",
+      "ko": "쌍곡 공간(푸앵카레 볼)을 사용하는 ONNX로 마이그레이션",
+      "kind": "text",
+      "ctx": [
+        "src/commands/migrate.ts:895 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

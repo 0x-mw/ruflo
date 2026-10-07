@@ -1,6 +1,6 @@
 ---
 name: gaia-debugging
-description: Diagnose why a GAIA question failed — extract trace, classify failure mode, and propose a fix. Use when a GAIA benchmark run reports a failed/incorrect task_id and you need to root-cause it before resubmitting.
+description: GAIA 질문이 실패한 이유를 진단 — 트레이스를 추출하고, 실패 모드를 분류하고, 수정안을 제안합니다. GAIA 벤치마크 실행이 실패/오답인 task_id를 보고했고 다시 제출하기 전에 근본 원인을 찾아야 할 때 사용합니다.
 argument-hint: "<task_id> [--results=<path>]"
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__agentdb_pattern_search mcp__plugin_ruflo-core_ruflo__agentdb_pattern_store
 ---

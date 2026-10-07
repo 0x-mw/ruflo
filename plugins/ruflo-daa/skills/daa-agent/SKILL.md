@@ -1,6 +1,6 @@
 ---
 name: daa-agent
-description: Create and adapt Dynamic Agentic Architecture agents that learn and evolve
+description: 학습하고 진화하는 동적 에이전트 아키텍처 에이전트를 생성하고 적응시킴
 argument-hint: "<create|adapt|status> [options]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__daa_agent_create mcp__plugin_ruflo-core_ruflo__daa_agent_adapt mcp__plugin_ruflo-core_ruflo__daa_learning_status mcp__plugin_ruflo-core_ruflo__daa_performance_metrics mcp__plugin_ruflo-core_ruflo__daa_knowledge_share Bash
 ---

@@ -1,6 +1,6 @@
 ---
 name: "V3 Security Overhaul"
-description: "Complete security architecture overhaul for claude-flow v3. Addresses critical CVEs (CVE-1, CVE-2, CVE-3) and implements secure-by-default patterns. Use for security-first v3 implementation."
+description: "claude-flow v3 보안 아키텍처 전면 개편입니다. 치명적 CVE(CVE-1, CVE-2, CVE-3)를 해결하고 기본 보안(secure-by-default) 패턴을 구현합니다. 보안 우선 v3 구현에 사용합니다."
 ---
 
 # V3 Security Overhaul

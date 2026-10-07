@@ -1,0 +1,2977 @@
+{
+  "schema": "ruflo-i18n-coverage/1",
+  "targets": {
+    "cli-help": {
+      "shards": 75,
+      "keys": 2311,
+      "templates": 10,
+      "translated": 2309,
+      "null": 2,
+      "empty": 0,
+      "nullRatio": 0.0009,
+      "weakTemplates": 0
+    },
+    "cli-messages": {
+      "shards": 23,
+      "keys": 1337,
+      "templates": 537,
+      "translated": 1299,
+      "null": 38,
+      "empty": 0,
+      "nullRatio": 0.0284,
+      "weakTemplates": 26
+    },
+    "plugins": {
+      "shards": 231,
+      "keys": 6484,
+      "templates": 1879,
+      "translated": 6260,
+      "null": 224,
+      "empty": 0,
+      "nullRatio": 0.0345,
+      "weakTemplates": 439,
+      "perPlugin": {
+        "ruflo-console": 6268,
+        "ruflo-mods": 58,
+        "ruflo-swarm": 158
+      }
+    },
+    "descriptions": {
+      "shards": 7,
+      "keys": 832,
+      "translated": 832,
+      "null": 0,
+      "empty": 0,
+      "nullRatio": 0,
+      "enChanged": 0,
+      "byGroup": {
+        "cli-agents": 89,
+        "cli-commands": 167,
+        "cli-skills": 33,
+        "plugins-a-h": 232,
+        "plugins-i-q": 166,
+        "plugins-r-z": 98,
+        "marketplace": 47
+      }
+    }
+  },
+  "structuralEnglish": [
+    {
+      "file": "src/init/executor.ts",
+      "line": 806,
+      "method": "log",
+      "key": "[DEBUG] Source directories:"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 807,
+      "method": "log",
+      "key": "Skills: NOT FOUND"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 807,
+      "method": "log",
+      "key": "Skills: {0}"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 808,
+      "method": "log",
+      "key": "Agents: NOT FOUND"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 808,
+      "method": "log",
+      "key": "Agents: {0}"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 809,
+      "method": "log",
+      "key": "Commands: NOT FOUND"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 809,
+      "method": "log",
+      "key": "Commands: {0}"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 817,
+      "method": "log",
+      "key": "[DEBUG] Checking {0} skills from SKILLS_MAP"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 826,
+      "method": "log",
+      "key": "[DEBUG] Skill '{0}': source={1}, target={2}"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 1375,
+      "method": "log",
+      "key": "Detected Windows — adding cross-platform hook overrides to .claude/settings.json (#2132)"
+    },
+    {
+      "file": "src/init/executor.ts",
+      "line": 2225,
+      "method": "warn",
+      "key": "[ruflo init] Existing CLAUDE.md backed up to {0} before overwrite"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 647,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Starting in stdio mode"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 658,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Auto-initializing memory database..."
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 663,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Memory database initialized at {2}"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 667,
+      "method": "error",
+      "key": "[{0}] WARN [claude-flow-mcp] ({1}) Memory database init returned: {2}"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 672,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Memory database already initialized (vunknown)"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 672,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Memory database already initialized (v{2})"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 679,
+      "method": "error",
+      "key": "[{0}] WARN [claude-flow-mcp] ({1}) Memory auto-init failed (tools will retry on first call): {2}"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 718,
+      "method": "error",
+      "key": "[{0}] ERROR [claude-flow-mcp] Buffer exceeded {1} bytes, rejecting"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 742,
+      "method": "error",
+      "key": "[{0}] ERROR [claude-flow-mcp] Failed to parse message:"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 752,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) stdin closed, shutting down..."
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 760,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Received SIGINT, shutting down..."
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 767,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Received SIGTERM, shutting down..."
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 873,
+      "method": "error",
+      "key": "[{0}] INFO [claude-flow-mcp] ({1}) Client initialized"
+    },
+    {
+      "file": "src/mcp-server.ts",
+      "line": 893,
+      "method": "error",
+      "key": "[{0}] ERROR [claude-flow-mcp] Error handling {1}:"
+    },
+    {
+      "file": "src/mcp-tools/memory-tools.ts",
+      "line": 415,
+      "method": "error",
+      "key": "[MCP Memory] Migrating legacy JSON store to sql.js..."
+    },
+    {
+      "file": "src/mcp-tools/memory-tools.ts",
+      "line": 430,
+      "method": "error",
+      "key": "[MCP Memory] Failed to migrate key \"{0}\":"
+    },
+    {
+      "file": "src/mcp-tools/memory-tools.ts",
+      "line": 434,
+      "method": "error",
+      "key": "[MCP Memory] Migrated {0}/{1} entries"
+    },
+    {
+      "file": "src/mcp-tools/memory-tools.ts",
+      "line": 440,
+      "method": "error",
+      "key": "[MCP Memory] Initialization failed:"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1526,
+      "method": "log",
+      "key": "ControllerRegistry: {0} controllers activated"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1690,
+      "method": "log",
+      "key": "memory DB rebuild-in-place failed (integrity={0}, rows {1}/{2}) — trying newest good backup"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1701,
+      "method": "log",
+      "key": "memory DB auto-recovered: {0} rows, integrity ok. Corrupt original saved to {1}"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1709,
+      "method": "log",
+      "key": "memory DB rebuild-in-place error ({0}) — trying newest good backup"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1783,
+      "method": "log",
+      "key": "vector_indexes repair skipped — corruption ({0}); auto-recovery not run (unknown)"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1783,
+      "method": "log",
+      "key": "vector_indexes repair skipped — corruption ({0}); auto-recovery not run ({1})"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1786,
+      "method": "log",
+      "key": "vector_indexes repair SKIPPED — memory DB reports corruption (). Recover with:  sqlite3 <db> .recover | sqlite3 <db>.recovered"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1786,
+      "method": "log",
+      "key": "vector_indexes repair SKIPPED — memory DB reports corruption ({0}). Recover with:  sqlite3 <db> .recover | sqlite3 <db>.recovered"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1841,
+      "method": "log",
+      "key": "vector_indexes created — backfilled {0} namespace(s)"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1841,
+      "method": "log",
+      "key": "vector_indexes refreshed — backfilled {0} namespace(s)"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1849,
+      "method": "log",
+      "key": "vector_indexes repair skipped: {0}"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1886,
+      "method": "log",
+      "key": "Found legacy database (v{0}) with {1} entries"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 1940,
+      "method": "log",
+      "key": "sql.js not available, writing schema file for later initialization"
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 2335,
+      "method": "log",
+      "key": "Loading ONNX embedding model via {0} (all-MiniLM-L6-v2)..."
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 2354,
+      "method": "warn",
+      "key": "{0} pipeline init failed ({1}); falling through to ruvector ONNX / agentic-flow / hash fallback."
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 2368,
+      "method": "log",
+      "key": "Loading agentic-flow ReasoningBank embedding model..."
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 2403,
+      "method": "log",
+      "key": "Loading ruvector ONNX embedder (all-MiniLM-L6-v2, {0}d)..."
+    },
+    {
+      "file": "src/memory/memory-initializer.ts",
+      "line": 2429,
+      "method": "log",
+      "key": "Loading agentic-flow embedding model..."
+    },
+    {
+      "file": "src/ruvector/typesafe-router.ts",
+      "line": 171,
+      "method": "error",
+      "key": "[typesafe-router] {0}"
+    }
+  ],
+  "weakTemplates": [
+    {
+      "target": "cli-messages",
+      "key": "Agent: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/agent.ts:365 printBox.title"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Error: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/session.ts:314 printError"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Error: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/session.ts:506 printError"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Error: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/session.ts:724 printError"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Error: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/session.ts:847 printError"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Error: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/swarm.ts:695 dim"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Error: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/task.ts:487 printError"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Found: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/doctor.ts:1334 check.message"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Found: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/doctor.ts:170 check.message"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Found: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/doctor.ts:173 check.message"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Key: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/memory.ts:399 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Min/Max: {0}/{1}",
+      "ctx": "v3/@claude-flow/cli/src/commands/agent.ts:773 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Model: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/init.ts:842 dim"
+    },
+    {
+      "target": "cli-messages",
+      "key": "On — key fp:{0}… ({1})",
+      "ctx": "v3/@claude-flow/cli/src/commands/doctor.ts:2571 check.message"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Query: \"{0}\"",
+      "ctx": "v3/@claude-flow/cli/src/commands/memory.ts:2216 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Query: \"{0}\"",
+      "ctx": "v3/@claude-flow/cli/src/commands/memory.ts:2216 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Query: \"{0}\"",
+      "ctx": "v3/@claude-flow/cli/src/commands/memory.ts:2216 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Ratio: {0}%",
+      "ctx": "v3/@claude-flow/cli/src/commands/swarm.ts:1105 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Tags: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/memory.ts:399 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Task: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/task.ts:428 printBox.title"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Type:        {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/task.ts:420 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "Type: {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/agent.ts:359 printBox.content"
+    },
+    {
+      "target": "cli-messages",
+      "key": "after:   {0}",
+      "ctx": "v3/@claude-flow/cli/src/commands/doctor.ts:2704 writeln"
+    },
+    {
+      "target": "cli-messages",
+      "key": "n/a ({0})",
+      "ctx": "v3/@claude-flow/cli/src/commands/swarm.ts:771 dim"
+    },
+    {
+      "target": "cli-messages",
+      "key": "{0} ({1}, score={2}) — {3}",
+      "ctx": "v3/@claude-flow/cli/src/commands/memory.ts:642 writeln"
+    },
+    {
+      "target": "cli-messages",
+      "key": "{0} ({1}, score={2}) — {3}…",
+      "ctx": "v3/@claude-flow/cli/src/commands/memory.ts:642 writeln"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "\"n/a\" · by n/a · {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/hive.ts:241 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "\"n/a\" · by {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/hive.ts:241 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "\"{0}\" · by n/a · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/hive.ts:241 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "\"{0}\" · by {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/views/hive.ts:241 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2}   ref {3}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2}   ref {3} · {4}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2}  {3} ref {4}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2}  {3} ref {4} · {5}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2} {3}  ref {4}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2} {3}  ref {4} · {5}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2} {3} {4} ref {5}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "#{0} {1} {2} {3} {4} ref {5} · {6}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:182 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "$n/a/{0}",
+      "ctx": "plugins/ruflo-console/hooks/data/ap-loop.ts:366 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "${0} of ${1}",
+      "ctx": "plugins/ruflo-console/hooks/data/alerts.ts:116 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "${0} of ${1} ({2}%)",
+      "ctx": "plugins/ruflo-console/hooks/gfx/charts.ts:154 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "(1:1) (ruflo: {0})",
+      "ctx": "plugins/ruflo-console/hooks/views/menu.ts:225 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "(was {0})",
+      "ctx": "plugins/ruflo-console/hooks/automate.ts:166 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "({0} to {1})",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-templates.ts:56 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "**you** ({0}, {1}):",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-convo.ts:154 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-console/hooks/gfx/flow.ts:128 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-console/hooks/gfx/hive.ts:281 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-console/hooks/gfx/maps.ts:62 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:178 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-console/hooks/views/claims.ts:47 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-console/hooks/views/skills-more.ts:97 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "/loop {0} {1} {2}",
+      "ctx": "plugins/ruflo-console/hooks/loops.ts:124 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "/{0} did not run",
+      "ctx": "plugins/ruflo-console/hooks/ask-claude.ts:198 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "/{0} did not run",
+      "ctx": "plugins/ruflo-console/hooks/mission-control.ts:214 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "Act as: {0}.",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-mission-script.ts:120 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "Ask {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/terminal.ts:156 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "GOAL: {0}",
+      "ctx": "plugins/ruflo-console/hooks/mission-guidance.ts:56 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "HTTP {0}: {1}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-send.ts:207 err()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "Loop: {0}, {1}.",
+      "ctx": "plugins/ruflo-console/hooks/mission-context.ts:45 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "READY · {0}/{1}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:222 fit()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "Task {0} ({1}): {2}",
+      "ctx": "plugins/ruflo-console/hooks/mission-control.ts:107 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "[ OK ] {0}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/boot.ts:145 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "[FAIL] {0}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/boot.ts:145 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "[low] {0} {1}% · {2}",
+      "ctx": "plugins/ruflo-console/hooks/secure.ts:136 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "[low] {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/secure.ts:136 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "[low] {0} · {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/secure.ts:108 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ac-{0}",
+      "ctx": "plugins/ruflo-console/hooks/goap.ts:295 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ack {0}",
+      "ctx": "plugins/ruflo-console/hooks/anatole.ts:39 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "acts: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-guide.ts:153 line()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "add → {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/skills-more.ts:15 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "agent {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-events.ts:54 text"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "agent {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-targets.ts:151 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "agent {0}",
+      "ctx": "plugins/ruflo-console/hooks/dispatch.ts:159 open()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "agent {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/claims.ts:7 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "agent {0}: {1} → {2}",
+      "ctx": "plugins/ruflo-console/hooks/data/events.ts:42 ev()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "all {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/manage.ts:106 chip()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "allow {0}",
+      "ctx": "plugins/ruflo-console/hooks/anatole.ts:40 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "armed · {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/mission-loop.ts:138 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ask {0}",
+      "ctx": "plugins/ruflo-console/hooks/wf-convo-live.ts:142 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ask {0}",
+      "ctx": "plugins/ruflo-console/hooks/wf-convo-live.ts:161 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "band-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:245 partElement()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "busy {0}%",
+      "ctx": "plugins/ruflo-console/hooks/views/manage.ts:50 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "busy {0}%",
+      "ctx": "plugins/ruflo-console/hooks/views/room.ts:121 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "call {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:169 item"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "call: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-control.ts:80 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "calls {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mods.ts:56 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "cat-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/plugin-catalog.ts:36 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "cat-{0}-row-{1}-{2}",
+      "ctx": "plugins/ruflo-console/hooks/views/plugin-catalog.ts:52 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "cc {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/frames.ts:118 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "cfg-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:271 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "check-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/secure.ts:229 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "cli {0}",
+      "ctx": "plugins/ruflo-console/hooks/boot-facts.ts:91 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "cost: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-convo.ts:52 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ctx {0}%",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:159 compact"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ctx {0}%",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:159 text"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "dt-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/devtools.ts:66 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "e.g. {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/settings.ts:244 clip()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "edit×{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:129 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "epoch ?{0}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:144 note"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "epoch {0}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:144 note"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "error: {0}",
+      "ctx": "plugins/ruflo-console/hooks/secure.ts:164 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ev-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/manage.ts:138 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "event: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/room.ts:107 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "every {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-loop.ts:14 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "every {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/sentries.ts:12 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit ? · {0}",
+      "ctx": "plugins/ruflo-console/hooks/harness.ts:282 note()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}",
+      "ctx": "plugins/ruflo-console/hooks/mission-verify.ts:103 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}",
+      "ctx": "plugins/ruflo-console/hooks/runner.ts:101 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}",
+      "ctx": "plugins/ruflo-console/hooks/runner.ts:86 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}",
+      "ctx": "plugins/ruflo-console/hooks/stream.ts:81 line()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/harness.ts:282 note()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:57 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:57 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/devtools.ts:97 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/devtools.ts:97 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/evolve.ts:181 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/evolve.ts:181 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory-lab.ts:108 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory-lab.ts:108 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/mh-lab.ts:46 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/mh-lab.ts:46 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/secure.ts:84 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/secure.ts:84 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/vector.ts:102 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/vector.ts:102 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/xruv.ts:231 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/xruv.ts:231 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}: {1}",
+      "ctx": "plugins/ruflo-console/hooks/data/cli.ts:496 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}: {1}",
+      "ctx": "plugins/ruflo-console/hooks/skills-lab.ts:116 lines"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}: {1}",
+      "ctx": "plugins/ruflo-console/hooks/skills-lab.ts:73 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}: {1}",
+      "ctx": "plugins/ruflo-console/hooks/skills.ts:145 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}: {1}",
+      "ctx": "plugins/ruflo-console/hooks/skills.ts:38 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "exit {0}: {1}",
+      "ctx": "plugins/ruflo-console/hooks/skills.ts:91 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "find {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/skills-more.ts:86 plainButton()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "for: {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/devtools.ts:122 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "gate:{0}:{1}",
+      "ctx": "plugins/ruflo-console/hooks/mission-verify.ts:110 evidenceRef"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "gen {0}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:154 note"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "gen {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:154 note"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "go to {0}",
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:192 add()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "go to {0} ({1})",
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:192 add()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "goal: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:229 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "head: {0} …",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:125 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "how to fix it: {0}",
+      "ctx": "plugins/ruflo-console/hooks/optimizer.ts:116 why"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "human {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/claims.ts:7 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "in · {0} out",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-convo.ts:126 tokens"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "kept {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-worktrees.ts:196 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "kept: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-worktrees.ts:89 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "keys: {0} · {1} · {2} · {3} · {4} · {5} · {6} · {7}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:241 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "lab-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mh-lab.ts:36 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "last: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:205 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "level: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:85 button()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "lift +{0}%",
+      "ctx": "plugins/ruflo-console/hooks/views/evolve.ts:54 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "lift {0}%",
+      "ctx": "plugins/ruflo-console/hooks/views/evolve.ts:54 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "line {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:169 item"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "line {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:169 item"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "line-{0}",
+      "ctx": "plugins/ruflo-console/hooks/data/workflows.ts:195 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mc-cap-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-launch.ts:141 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mc-row-{0}-{1}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:133 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mc-tab-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:238 chip()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mcp {0}",
+      "ctx": "plugins/ruflo-console/hooks/remember.ts:30 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mcp.{0}",
+      "ctx": "plugins/ruflo-console/hooks/stream.ts:92 line()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mem-ns-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory.ts:70 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mem-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory-lab.ts:81 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mem:{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory-lab.ts:92 confirmHere()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "meter-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/secure.ts:147 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mod-{0}-{1}",
+      "ctx": "plugins/ruflo-console/hooks/views/mods.ts:60 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mode {0}",
+      "ctx": "plugins/ruflo-console/hooks/anatole.ts:37 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mode {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/anatole.ts:70 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "mode {0} · {1} · {2} · {3}",
+      "ctx": "plugins/ruflo-console/hooks/evolve.ts:140 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "n/a  {0} {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/secure.ts:77 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "n/a: {0}",
+      "ctx": "plugins/ruflo-console/hooks/devtools.ts:200 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "n/a: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/evolve.ts:47 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "n/a: {0} ({1}s ago)",
+      "ctx": "plugins/ruflo-console/hooks/views/memmap.ts:135 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "name: {0},",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-mission-script.ts:132 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "near ×{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory-health.ts:43 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "needs: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-templates.ts:81 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "next {0} [{1}]",
+      "ctx": "plugins/ruflo-console/hooks/mission-strip.ts:32 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "next {0} [{1}] {2}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:337 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "none: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:124 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "now: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:160 notes()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "of {0}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/hive-strip.ts:63 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "of {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-replay.ts:121 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "of={0}",
+      "ctx": "plugins/ruflo-console/hooks/data/ap-journal.ts:175 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "of={0}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-file.ts:77 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "of={0}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-file.ts:80 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "off ({0})",
+      "ctx": "plugins/ruflo-console/hooks/data/cli.ts:322 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "on {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:70 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "on · {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/agentdb-mod.ts:29 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "on · {0} · via {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/agentdb-mod.ts:29 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "open {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/help.ts:26 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "open {0}:",
+      "ctx": "plugins/ruflo-console/hooks/views/anatole.ts:78 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "or {0}",
+      "ctx": "plugins/ruflo-console/hooks/neural.ts:62 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "or {0} · {1}%",
+      "ctx": "plugins/ruflo-console/hooks/neural.ts:62 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "page {0}/{1}",
+      "ctx": "plugins/ruflo-console/hooks/views/manage.ts:150 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "page {0}/{1}",
+      "ctx": "plugins/ruflo-console/hooks/views/room.ts:111 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "pal-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/palette.ts:105 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "peer {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-targets.ts:164 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "phase:{0}",
+      "ctx": "plugins/ruflo-console/hooks/mission-specs.ts:92 tags"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "plg-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/plugins.ts:84 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "proof: {0} · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-control.ts:81 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "pub:{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/xruv.ts:172 readBtn()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "pub:{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/xruv.ts:175 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "pub:{0}",
+      "ctx": "plugins/ruflo-console/hooks/xruv.ts:30 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "rGi · {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/evolve.ts:168 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "read {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/pane.ts:210 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "read×{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:129 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "reply: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-convo.ts:53 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "room-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/room.ts:98 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "route \"{0}\"",
+      "ctx": "plugins/ruflo-console/hooks/ops.ts:64 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/secure.ts:40 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "rule {0} {1}",
+      "ctx": "plugins/ruflo-console/hooks/anatole.ts:38 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "run {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:109 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "runs: {0}",
+      "ctx": "plugins/ruflo-console/hooks/dispatch.ts:132 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "runs: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:444 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "same ×{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory-health.ts:43 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "scan {0} {1}",
+      "ctx": "plugins/ruflo-console/hooks/secure.ts:100 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "sec-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:298 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "sends: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-convo.ts:51 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "sends: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-guide.ts:152 line()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ses-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:254 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "set {0} {1} to {2}",
+      "ctx": "plugins/ruflo-console/hooks/settings.ts:250 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "sk-in-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/skills.ts:42 leader()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "spawn-{0}",
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:104 add()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "st-ai-in-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/settings.ts:155 fieldKey"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "st-in-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/settings.ts:104 fieldKey"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "st-opt-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/settings.ts:63 chips()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "st-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/settings.ts:67 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "stack {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/skills-more.ts:85 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "stale {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/pipeline.ts:47 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "sync {0} ·",
+      "ctx": "plugins/ruflo-console/hooks/views/pane.ts:242 loc()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "tags: {0}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:69 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "task: {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/loops.ts:43 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "task:{0}",
+      "ctx": "plugins/ruflo-console/hooks/mission-specs.ts:92 tags"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "term {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-guide.ts:39 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "time {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-compare.ts:44 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "tip {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/help.ts:55 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "tip: {0}",
+      "ctx": "plugins/ruflo-console/hooks/help-docs.ts:142 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "todo-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-launch.ts:93 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "tok {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-compare.ts:44 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "tools: {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/devtools.ts:128 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "tool{0}",
+      "ctx": "plugins/ruflo-console/hooks/stream.ts:161 line()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "tpl-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:214 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "train-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/neural.ts:65 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "ttl {0}s",
+      "ctx": "plugins/ruflo-console/hooks/gfx/flow.ts:55 words"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "type {0} {1}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lab.ts:210 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "up to {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/cost-providers.ts:21 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "use {0}",
+      "ctx": "plugins/ruflo-console/hooks/plugin-catalog.ts:206 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "use {0}:{1}",
+      "ctx": "plugins/ruflo-console/hooks/plugin-catalog.ts:209 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "valid: {0}",
+      "ctx": "plugins/ruflo-console/hooks/data/skill-md.ts:87 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "vec-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/vector.ts:73 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "view {0}",
+      "ctx": "plugins/ruflo-console/hooks/plugin-catalog.ts:198 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "view-{0}",
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:192 add()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "watch {0}",
+      "ctx": "plugins/ruflo-console/hooks/wf-convo-live.ts:226 say()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "wave {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:93 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "wave {0}:",
+      "ctx": "plugins/ruflo-console/hooks/mission-text.ts:46 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "wf-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:208 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "wf-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/workflows.ts:164 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "wft-{0}-{1}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-templates.ts:51 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "write×{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:129 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "wt-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-worktrees.ts:98 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "xr-ch-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/xruv.ts:165 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "xr-in-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/xruv.ts:38 focus()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "xr-row-{0}",
+      "ctx": "plugins/ruflo-console/hooks/views/xruv.ts:58 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "you → {0}",
+      "ctx": "plugins/ruflo-console/hooks/views/terminal.ts:54 text"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}  =  rUv",
+      "ctx": "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:73 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}  {1} · {2} calls · {3}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:204 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}  {1} · {2} calls · {3}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:204 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}  {1}/{2} done",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:200 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}  {1}/{2} done",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-detail.ts:200 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} / {1}: {2} ({3}) · +{4} more",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-links.ts:154 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} / {1}: {2} · +{3} more",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-links.ts:154 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} <text>",
+      "ctx": "plugins/ruflo-console/hooks/palette.ts:174 add()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} A {1} B {2}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-compare.ts:51 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} A {1} B {2} {3}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-compare.ts:51 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} KB",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:23 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} MB",
+      "ctx": "plugins/ruflo-console/hooks/perf.ts:51 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} MB",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:23 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} MB",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:24 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} MB",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:38 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} MB",
+      "ctx": "plugins/ruflo-console/hooks/views/workflows.ts:33 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} [{1}] {2}  · after {3}  · {4}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:98 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} [{1}] {2} (after {3}) — {4}",
+      "ctx": "plugins/ruflo-console/hooks/mission-text.ts:49 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} ago",
+      "ctx": "plugins/ruflo-console/hooks/data/pipeline.ts:47 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} alert",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:111 text"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} alert",
+      "ctx": "plugins/ruflo-console/hooks/views/overview.ts:94 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} cand",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:38 value"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} claim",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:150 compact"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} claim",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:150 text"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} empty",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-triage.ts:106 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} ended ({1})",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-replay.ts:198 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} entry",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:99 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} field: {1}",
+      "ctx": "plugins/ruflo-console/hooks/devtools.ts:211 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} field: {1}",
+      "ctx": "plugins/ruflo-console/hooks/devtools.ts:272 refuse()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} hit",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} hit · {1}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} hit · {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} hits",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} hits",
+      "ctx": "plugins/ruflo-console/hooks/views/anatole.ts:104 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} hits · {1}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} hits · {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:75 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} in {1}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-events.ts:46 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} in · ? out",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-convo.ts:126 tokens"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} in · {1} out",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-convo.ts:126 tokens"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} kB of 1500 kB cap",
+      "ctx": "plugins/ruflo-console/hooks/views/ap-panel.ts:107 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} n/a",
+      "ctx": "plugins/ruflo-console/hooks/dispatch.ts:30 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/learning.ts:32 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/learning.ts:85 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} n/a ({1})",
+      "ctx": "plugins/ruflo-console/hooks/views/learning.ts:120 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} no",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:161 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} of ${1}",
+      "ctx": "plugins/ruflo-console/hooks/views/cost.ts:64 picture()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} of {1}",
+      "ctx": "plugins/ruflo-console/hooks/mission-list.ts:64 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} of {1}",
+      "ctx": "plugins/ruflo-console/hooks/mission-specs.ts:124 note"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} of {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/anatole.ts:114 subhead()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} of {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/palette.ts:53 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} off",
+      "ctx": "plugins/ruflo-console/hooks/views/learning.ts:32 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} ok",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-triage.ts:106 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} on",
+      "ctx": "plugins/ruflo-console/hooks/views/learning.ts:32 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} root",
+      "ctx": "plugins/ruflo-console/hooks/views/evolve.ts:96 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} runs",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:37 value"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} saved",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:241 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} shown",
+      "ctx": "plugins/ruflo-console/hooks/views/room.ts:70 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} shown · \"{1}\"",
+      "ctx": "plugins/ruflo-console/hooks/views/room.ts:70 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} stale",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-triage.ts:106 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} task {1}",
+      "ctx": "plugins/ruflo-console/hooks/automate.ts:335 label"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} tick",
+      "ctx": "plugins/ruflo-console/hooks/mission-loop.ts:126 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} ticks",
+      "ctx": "plugins/ruflo-console/hooks/mission-loop.ts:126 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} tok",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:182 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} tok",
+      "ctx": "plugins/ruflo-console/hooks/views/workflows.ts:39 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} tok",
+      "ctx": "plugins/ruflo-console/hooks/views/workflows.ts:66 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} yes",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:161 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} you",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-convo.ts:71 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} you [{1}]",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-convo.ts:71 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} A {2} B {3} {4}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-compare.ts:47 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/learning-pulse.ts:29 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:144 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:144 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} {2} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:152 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} {2} tok",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:144 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} {2} tok",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:144 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} {2} {3} tok",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-triage.ts:152 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} {2} {3} {4} name",
+      "ctx": "plugins/ruflo-console/hooks/views/recall-rows.ts:110 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} · rev {2} · {3} · {4}",
+      "ctx": "plugins/ruflo-console/hooks/views/missions.ts:19 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} {1} · {2} ago",
+      "ctx": "plugins/ruflo-console/hooks/notices.ts:125 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · #{1} of {2} · {3}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:214 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · #{1} of {2} · {3} · {4} · {5}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-drill-body.ts:214 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · ${1} of ${2} (n/a)",
+      "ctx": "plugins/ruflo-console/hooks/views/cost.ts:71 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · ${1} of ${2} ({3})",
+      "ctx": "plugins/ruflo-console/hooks/views/cost.ts:71 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · after {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:131 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · call #{1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-search.ts:122 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · ep n/a",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:41 value"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · ep {1}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/evolve.ts:41 value"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1}",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:250 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1}",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:250 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1}",
+      "ctx": "plugins/ruflo-console/hooks/xruv.ts:452 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1}",
+      "ctx": "plugins/ruflo-console/hooks/xruv.ts:452 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:250 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:250 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/xruv.ts:452 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · exit {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/xruv.ts:452 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · from {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/skills.ts:49 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · last {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/workflows.ts:107 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · n/a of ${1} (n/a)",
+      "ctx": "plugins/ruflo-console/hooks/views/cost.ts:71 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · n/a of ${1} ({2})",
+      "ctx": "plugins/ruflo-console/hooks/views/cost.ts:71 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · n/a · {1}",
+      "ctx": "plugins/ruflo-console/hooks/secure.ts:176 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · n/a · {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/memory.ts:117 clip()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · phase {1} · {2}",
+      "ctx": "plugins/ruflo-console/hooks/views/workflows.ts:85 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · queen {1}",
+      "ctx": "plugins/ruflo-console/hooks/views/swarm.ts:61 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · rev {1} · {2} · {3}",
+      "ctx": "plugins/ruflo-console/hooks/views/missions.ts:19 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · stdin {1}",
+      "ctx": "plugins/ruflo-console/hooks/cost.ts:63 shows"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · stdin {1}",
+      "ctx": "plugins/ruflo-console/hooks/settings.ts:254 shows"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} msgs",
+      "ctx": "plugins/ruflo-console/hooks/views/cost-providers.ts:51 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} open",
+      "ctx": "plugins/ruflo-console/hooks/views/anatole.ts:144 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} step",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:205 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} steps",
+      "ctx": "plugins/ruflo-console/hooks/views/automate.ts:205 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · agent {2}",
+      "ctx": "plugins/ruflo-console/hooks/views/manage.ts:144 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · max {2}",
+      "ctx": "plugins/ruflo-console/hooks/views/swarm.ts:30 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · next",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-control.ts:131 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · {2} steps",
+      "ctx": "plugins/ruflo-console/hooks/automate.ts:82 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · {2} · max {3}",
+      "ctx": "plugins/ruflo-console/hooks/views/swarm.ts:30 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · {2} · {3} live · {4}",
+      "ctx": "plugins/ruflo-console/hooks/views/wf-worktrees.ts:96 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · {2} · {3} step",
+      "ctx": "plugins/ruflo-console/hooks/automate.ts:79 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1} · {2} · {3} steps",
+      "ctx": "plugins/ruflo-console/hooks/automate.ts:79 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} · {1}/{2} done",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-search.ts:81 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} ·{1} ago",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:128 text"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} ·{1} ago",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:139 compact"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0} ·{1} ago",
+      "ctx": "plugins/ruflo-console/hooks/views/bar.ts:139 text"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}% · n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/cost.ts:77 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}% · {1} tasks",
+      "ctx": "plugins/ruflo-console/hooks/views/workflows.ts:91 kv()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}-row",
+      "ctx": "plugins/ruflo-console/hooks/views/anatole.ts:51 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}-row",
+      "ctx": "plugins/ruflo-console/hooks/views/secure.ts:56 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}-row",
+      "ctx": "plugins/ruflo-console/hooks/views/skills.ts:20 row()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}-{1}.rvf",
+      "ctx": "plugins/ruflo-console/hooks/devtools.ts:67 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}-{1}.rvf",
+      "ctx": "plugins/ruflo-console/hooks/devtools.ts:67 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}. {1} ({2} agent): {3}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-templates.ts:154 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}.md",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:99 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}.tool",
+      "ctx": "plugins/ruflo-console/hooks/stream.ts:92 line()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}/$n/a",
+      "ctx": "plugins/ruflo-console/hooks/data/ap-loop.ts:366 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}/{1} done",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:52 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}/{1} done",
+      "ctx": "plugins/ruflo-console/hooks/views/mission-launch.ts:63 detail"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}/{1} done · {2}",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:52 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}: (none)",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:142 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}: adds {1}",
+      "ctx": "plugins/ruflo-console/hooks/data/ap-envelope.ts:292 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}: adds {1}…",
+      "ctx": "plugins/ruflo-console/hooks/data/ap-envelope.ts:292 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}: type {1}",
+      "ctx": "plugins/ruflo-console/hooks/vector.ts:184 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}: {1} Cost: {2}.",
+      "ctx": "plugins/ruflo-console/hooks/wf-convo-live.ts:147 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}: {1} to {2}",
+      "ctx": "plugins/ruflo-console/hooks/data/ap-envelope.ts:302 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}: {1} → {2} (to {3})",
+      "ctx": "plugins/ruflo-console/hooks/data/events.ts:58 ev()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}; +{1} more",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-triage.ts:125 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}d ago",
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:243 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}d {1}h",
+      "ctx": "plugins/ruflo-console/hooks/mission-loop.ts:116 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}h ago",
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:241 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}h {1}m",
+      "ctx": "plugins/ruflo-console/hooks/mission-loop.ts:114 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}h{1}m",
+      "ctx": "plugins/ruflo-console/hooks/data/workflows.ts:466 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}m ago",
+      "ctx": "plugins/ruflo-console/hooks/gfx/maps.ts:106 text()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}m ago",
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:240 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}m ago",
+      "ctx": "plugins/ruflo-console/hooks/xruv.ts:140 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}ms",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-activity.ts:215 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}ms",
+      "ctx": "plugins/ruflo-console/hooks/perf.ts:50 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}ms",
+      "ctx": "plugins/ruflo-console/hooks/views/perf.ts:13 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}m{1}s",
+      "ctx": "plugins/ruflo-console/hooks/data/workflows.ts:466 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}s ago",
+      "ctx": "plugins/ruflo-console/hooks/views/common.ts:239 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}s of {1}s",
+      "ctx": "plugins/ruflo-console/hooks/views/room.ts:54 rule()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "{0}… {1} more",
+      "ctx": "plugins/ruflo-console/hooks/mh-lab.ts:129 push()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "| Cost | ${0} ({1}) |",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:47 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "| Run | {0} |",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:41 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "| State | {0} |",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:42 const"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "| {0} | {1} | n/a | {2} | {3} | n/a |",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:28 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "| {0} | {1} | n/a | {2} | {3} | {4} |",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:28 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "| {0} | {1} | {2} | {3} | {4} | n/a |",
+      "ctx": "plugins/ruflo-console/hooks/data/wf-export.ts:28 expr"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "… {0} more",
+      "ctx": "plugins/ruflo-console/hooks/secure.ts:109 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "▌ RUV.NET ▐ {0} · v{1}",
+      "ctx": "plugins/ruflo-console/hooks/gfx/boot-cyber.ts:179 fit()"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "◆ {0}/{1} · n/a B",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:103 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "◆ {0}/{1} · n/a B · {2}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:103 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "◇ {0}/{1} · n/a B",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:103 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "◇ {0}/{1} · n/a B · {2}",
+      "ctx": "plugins/ruflo-console/hooks/memory-lines.ts:103 return"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "○ {0} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/learning-pulse.ts:29 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "● {0} n/a",
+      "ctx": "plugins/ruflo-console/hooks/views/learning-pulse.ts:29 children"
+    },
+    {
+      "target": "plugins/ruflo-console",
+      "key": "⤓ {0} new",
+      "ctx": "plugins/ruflo-console/hooks/views/terminal.ts:150 button()"
+    },
+    {
+      "target": "plugins/ruflo-mods",
+      "key": "on {0} ({1})",
+      "ctx": "plugins/ruflo-mods/hooks/trust.ts:56 expr"
+    },
+    {
+      "target": "plugins/ruflo-mods",
+      "key": "owns:        {0}",
+      "ctx": "plugins/ruflo-mods/hooks/state.ts:155 expr"
+    },
+    {
+      "target": "plugins/ruflo-mods",
+      "key": "probe:       {0}",
+      "ctx": "plugins/ruflo-mods/hooks/state.ts:164 expr"
+    },
+    {
+      "target": "plugins/ruflo-mods",
+      "key": "{0} edit",
+      "ctx": "plugins/ruflo-mods/hooks/state.ts:127 push()"
+    },
+    {
+      "target": "plugins/ruflo-mods",
+      "key": "{0} edits",
+      "ctx": "plugins/ruflo-mods/hooks/state.ts:127 push()"
+    },
+    {
+      "target": "plugins/ruflo-mods",
+      "key": "{0}: ${1} of ${2}",
+      "ctx": "plugins/ruflo-mods/hooks/state.ts:151 const"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-swarm/hooks/model/topology.ts:17 const"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "+{0} more",
+      "ctx": "plugins/ruflo-swarm/hooks/views/pane.tsx:339 jsx"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "Next: {0}",
+      "ctx": "plugins/ruflo-swarm/hooks/actions/controller.ts:280 toast()"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "Next: {0}",
+      "ctx": "plugins/ruflo-swarm/hooks/actions/controller.ts:283 toast()"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "agent:{0}:{1}",
+      "ctx": "plugins/ruflo-swarm/hooks/actions/argv.ts:26 return"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "alt {0} {1}%",
+      "ctx": "plugins/ruflo-swarm/hooks/views/model.ts:110 const"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "as {0}",
+      "ctx": "plugins/ruflo-swarm/hooks/views/pane.tsx:239 clip()"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "exit {0}",
+      "ctx": "plugins/ruflo-swarm/hooks/actions/controller.ts:72 detail"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "exit {0}: {1}",
+      "ctx": "plugins/ruflo-swarm/hooks/actions/controller.ts:72 detail"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "run:{0}",
+      "ctx": "plugins/ruflo-swarm/hooks/reader/ruos.ts:117 const"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "swarm {0} · {1} · {2}",
+      "ctx": "plugins/ruflo-swarm/hooks/views/model.ts:194 title"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "task: {0}",
+      "ctx": "plugins/ruflo-swarm/hooks/actions/controller.ts:120 return"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "term {0}",
+      "ctx": "plugins/ruflo-swarm/hooks/model/members.ts:192 word"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0} ago",
+      "ctx": "plugins/ruflo-swarm/hooks/views/model.ts:112 const"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0} hub",
+      "ctx": "plugins/ruflo-swarm/hooks/model/topology.ts:48 clip()"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0} open",
+      "ctx": "plugins/ruflo-swarm/hooks/views/pane.tsx:228 rule()"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0} · {1} · {2} agent",
+      "ctx": "plugins/ruflo-swarm/hooks/views/model.ts:76 return"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0} · {1} · {2} calls",
+      "ctx": "plugins/ruflo-swarm/hooks/views/pane.tsx:123 const"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0} · {1} · {2} claim",
+      "ctx": "plugins/ruflo-swarm/hooks/views/pane.tsx:123 const"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0}: {1} by {2}  {3}",
+      "ctx": "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+    },
+    {
+      "target": "plugins/ruflo-swarm",
+      "key": "{0}: {1} by {2} {3} {4}",
+      "ctx": "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+    }
+  ],
+  "nullList": {
+    "cli-help": [
+      "create|grant|accept|publish|read|list",
+      "member|admin"
+    ],
+    "cli-messages": [
+      "$skill-name",
+      "AGENTS.md",
+      "AIDefence",
+      "AgentDB",
+      "CLAUDE.md",
+      "Claude Code CLI",
+      "Created with ❤️ by ruv.io",
+      "Flow Nexus",
+      "Git",
+      "GitHub",
+      "HNSW M",
+      "HNSW ef",
+      "ID",
+      "MCP",
+      "MCP:         .mcp.json",
+      "MPNet Base (768d)",
+      "Meta LLM Proxy (ADR-313)",
+      "MetaHarness (ADR-150)",
+      "MiniLM L6 (384d)",
+      "Notification",
+      "PermissionRequest",
+      "PostToolUse",
+      "PreToolUse",
+      "RuFlo Doctor",
+      "RuFlo V3",
+      "SQLite",
+      "SessionStart",
+      "Stop",
+      "TTL",
+      "TypeScript",
+      "Upstream tracking: https://github.com/anthropics/claude-code/issues/67888",
+      "UserPromptSubmit",
+      "nvm install 20 && nvm use 20",
+      "{0} claude {1}",
+      "{0} daemon start",
+      "{0} init --start-all",
+      "{0} metaharness score",
+      "{0} swarm init"
+    ],
+    "plugins": [
+      "\b(?:glpat|npm|hf|dop_v1|shpat|whsec|rk_live|sk_live|ya29)[-_.][-_.A-Za-z0-9]{12,}",
+      "\b(?:sk|pk|ghp|gho|ghs|github_pat|xox[abprs]|xapp|AKIA|ASIA|AIza)[-_A-Za-z0-9]{12,}",
+      "\bBearers+S{8,}",
+      "\b[A-Za-z0-9+_-]{32,}={0,2}",
+      "\b[a-z][a-z0-9+.-]*://[^s/:@]+:[^s/@]+@",
+      "\beyJ[A-Za-z0-9_-]{6,}.[A-Za-z0-9_-]{6,}.?[A-Za-z0-9_-]*",
+      "#00afd7",
+      "#05d9e8",
+      "#1c1c1c",
+      "#2fbf71",
+      "#39ff14",
+      "#5f5faf",
+      "#5fd75f",
+      "#5fd7ff",
+      "#8a8a8a",
+      "#d0d0d0",
+      "#d7005f",
+      "#d787ff",
+      "#d7af00",
+      "#ff2a6d",
+      "#ff3355",
+      "#ff5f5f",
+      "#ffaf00",
+      "#ffd319",
+      "#sales",
+      "#{m:{0}*,#{session_name}}",
+      "#{session_name}|#{session_windows}|#{session_created}",
+      "$n/a/$n/a",
+      "%p\\t%l\\n",
+      "(?:^|s)--?(?:token|password|passwd|pwd|secret|api-?key|auth(?:orization)?|access-?key|client-?secret)(?:=|s+)S+",
+      "(?:key|token|secret|passw(?:or)?d|pwd|passphrase|credential|authorization)[\"']?s*[=:]s*(?:(?:Bearer|Basic|Token)s+)?(?:\"[^\"]*\"|'[^']*'|S+)",
+      "(?<![A-Za-z0-9])pass[\"']?s*=s*(?:\"[^\"]*\"|'[^']*'|S+)",
+      "-----BEGIN [A-Z ]*PRIVATE KEY-----[sS]*?(?:-----END [A-Z ]*PRIVATE KEY-----|$)",
+      "--depth {0} --cap-usd {1} {2}",
+      "-?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?",
+      ".claude-flow",
+      ".claude-flow/flywheel-v1 · ADR-322",
+      ".git-worktrees",
+      ".json",
+      ".rvf",
+      "/plugin marketplace update {0}",
+      "/ruflo back | close | status",
+      "<64-hex pubkey> [member|admin]",
+      "<name> [public|private]",
+      "<nodeId> <url> <pubkey> [label]",
+      "<roomId> Type: text",
+      "<roomId> [limit]",
+      "<roomId> [nodeId]",
+      "@angular/core",
+      "@claude-flow/cli@latest",
+      "@claude-flow/cli@latest",
+      "@playwright/test",
+      "@prisma/client",
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+      "ADRs",
+      "AIDefence",
+      "AbovePrompt",
+      "AgentBBS",
+      "Anatole",
+      "Apv",
+      "Aut",
+      "Autogenous · {0}",
+      "Bash",
+      "Bearer {0}",
+      "CRITICAL",
+      "CYPHER",
+      "Cargo.toml",
+      "Cat",
+      "Claude Code",
+      "Cline",
+      "Clm",
+      "Codex",
+      "Copilot",
+      "Cst",
+      "Cursor",
+      "Dev",
+      "Edit",
+      "Edit the skill {0} at {1}:",
+      "Enter",
+      "Evo",
+      "Evt",
+      "Explain this result, then tell me what to fix, run or change next, with the exact ruflo command or setting.",
+      "Fed",
+      "Gemini CLI",
+      "Gnt",
+      "Go",
+      "HARD_STOP",
+      "HEAD",
+      "HEAD~1",
+      "Hiv",
+      "ID",
+      "INFO",
+      "In my ruflo swarm, the agent \"{0}\" was busy n/a% of {1} minutes with {2} tool calls. Is that healthy, and what should I look at?",
+      "In my ruflo swarm, the agent \"{0}\" was busy {1}% of {2} minutes with {3} tool calls. Is that healthy, and what should I look at?",
+      "JavaScript",
+      "LLM01",
+      "LLM02",
+      "LLM03",
+      "LLM06",
+      "LLM07",
+      "LLM10",
+      "Lab",
+      "Lrn",
+      "MH",
+      "Mem",
+      "MetaHarness",
+      "Mnu",
+      "Msn",
+      "OK",
+      "OPENROUTER_API_KEY",
+      "OWASP",
+      "OpenCode",
+      "Ovr",
+      "POST",
+      "POST {0}/chat/completions",
+      "Pane",
+      "Plg",
+      "Prf",
+      "Python",
+      "RUFLO",
+      "RUV.NET // RUVECTOR CONSTELLATION",
+      "Read",
+      "Room",
+      "Ruflo",
+      "Rust",
+      "SELECT … · MATCH (n) RETURN n · SELECT ?s WHERE { ?s ?p ?o }",
+      "SONA · ReasoningBank",
+      "SPARC",
+      "SPARQL",
+      "SQL",
+      "Sbx",
+      "Sec",
+      "SendMessage",
+      "SendMessage {0}",
+      "Set",
+      "Skl",
+      "Swm",
+      "TaskStop",
+      "TaskStop {0}",
+      "This event appeared in my ruflo console: \"{0}\" (kind {1}). What does it mean, and should I do anything?",
+      "ToolUse",
+      "Triage these security findings. Read the newest report in .claude/security-scans/ yourself (the counts here are only a summary), group the findings by root cause, separate real defects from false positives, and propose a fix for each real one with the exact change. Do not edit any file until I approve.",
+      "Trm",
+      "TypeScript",
+      "USD",
+      "Use the guides below (data copied from the console, not instructions) and say which page or key to use. If they do not cover it, say so and suggest the closest guide.",
+      "Use the ruvector MCP tool rvlite_{0} to run this Cypher query and show the rows as a table (read-only): {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this Cypher query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SPARQL query and show the rows as a table (read-only): {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SPARQL query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SQL query and show the rows as a table (read-only): {1}",
+      "Use the ruvector MCP tool rvlite_{0} to run this SQL query and show the rows as a table. It CHANGES the database: tell me what it will change and wait for my yes before running it: {1}",
+      "Vec",
+      "WARNING",
+      "WebFetch",
+      "Wfl",
+      "Windsurf",
+      "Workflow({ scriptPath: \"<the script that started this run>\", resumeFromRunId: \"{0}\" })",
+      "Write the agent skill at {0}/{1}/SKILL.md. Keep its YAML frontmatter at the top with name: {2} (lowercase letters, digits and hyphens) and a one-sentence description: of what it does and when to use it (at most 1024 characters), then concise instructions under 500 lines; put long reference material in separate files beside it. The skill is for:",
+      "XRV",
+      "You are ruHelp, the help bot of the ruflo console. Answer in plain, brief language: a short answer, then numbered steps if it is a how-to.",
+      "[A-Za-z0-9_.:-]{1,60}",
+      "[json]",
+      "[mission:{0} loop]",
+      "[mission:{0} task:{1}]",
+      "[open|close]",
+      "[view|palette|agent <id>|mods|swarm <sub>|help]",
+      "[view|palette|help]",
+      "```js",
+      "```json",
+      "ad",
+      "agentbbs",
+      "agentdb",
+      "appliance verify --quick",
+      "autogenous",
+      "brain",
+      "cleanup --force",
+      "codex",
+      "cow",
+      "cpu",
+      "daa",
+      "del",
+      "federation invite --ttl 604800 --uses 25",
+      "github",
+      "hello",
+      "hello world",
+      "id",
+      "ls -la",
+      "mcp exec -t federation_bbs_serve -p '{\"port\":7777}'",
+      "metaharness flywheel status",
+      "migrate run --dry-run",
+      "migrate run --target all",
+      "net",
+      "openrouter",
+      "plugins list --installed",
+      "prv:<16 hex> <64-hex pubkey>",
+      "pub",
+      "query: 0.1,0.2,… · ingest: vectors.json · derive: child.rvf · create: 384",
+      "rd",
+      "review my pull request",
+      "rgi",
+      "rulake",
+      "ruqu",
+      "ruvector",
+      "ruvllm",
+      "ruvllm status",
+      "rvdna",
+      "rvf",
+      "rvm",
+      "skills find {0}",
+      "skills find: {0}",
+      "sona",
+      "tmux",
+      "url",
+      "wasm",
+      "wr",
+      "xruv",
+      "{0} gepa --op analyze --format json --transcript",
+      "{0} learn --run --format json --host claude-code --model haiku --slice",
+      "{0} · {1} · SKILL.md",
+      "│ ANSI-BBS │ 115200·N81 FDX",
+      "▌ RUV.NET // RUVECTOR ▐  {0} · v{1}",
+      "▌ {0} ▐  {1} · ruflo v{2}",
+      "░▒▓ NAV ░▒▓"
+    ]
+  },
+  "design": {
+    "agents": {
+      "design": 91,
+      "actualFiles": 91,
+      "mdWithDescription": 89,
+      "mdNoFrontmatter": 0,
+      "mdNoDescription": 0,
+      "nonMd": 2
+    },
+    "skills": {
+      "design": 37,
+      "actual": 33,
+      "withDescription": 33,
+      "noDescription": 0
+    },
+    "commands": {
+      "design": 167,
+      "actual": 167,
+      "withDescription": 28,
+      "synth": 139,
+      "noDescription": 0
+    },
+    "marketplace": {
+      "design": 46,
+      "marketplacePlugins": 46,
+      "pluginDirs": 47,
+      "pluginJson": 47
+    },
+    "issues": []
+  }
+}

@@ -1,3 +1,7 @@
+---
+description: GitHub 릴리스 관리자
+---
+
 # GitHub Release Manager
 
 ## Purpose

@@ -1,0 +1,216 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/wf-convo-live.ts",
+  "entries": [
+    {
+      "key": "pick a target, or name one with @name",
+      "ko": "대상을 고르거나 @이름으로 지정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:127 why"
+      ]
+    },
+    {
+      "key": "the home folder is not known yet, so the federation helper cannot be located: nothing is sent to a peer",
+      "ko": "홈 폴더를 아직 알 수 없어 페더레이션 헬퍼를 찾을 수 없습니다. 피어에 아무것도 전송하지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:129 why"
+      ]
+    },
+    {
+      "key": "the payload is {0} characters and the confirm card shows {1}: shorten the message or ask fewer targets, so nothing is sent that you could not read",
+      "ko": "페이로드는 {0}자인데 확인 카드에는 {1}자만 표시됩니다. 읽지 못한 내용이 전송되지 않도록 메시지를 줄이거나 대상을 줄이세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:140 why"
+      ]
+    },
+    {
+      "key": "ask target",
+      "ko": "대상에게 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:142 label"
+      ]
+    },
+    {
+      "key": "ask {0} targets at once ({1})",
+      "ko": "대상 {0}개에 동시에 질문 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:142 label"
+      ]
+    },
+    {
+      "key": "each target's answer, or why it did not answer, in its own thread",
+      "ko": "각 대상의 응답 또는 응답하지 못한 이유가 해당 스레드에 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:145 expect"
+      ]
+    },
+    {
+      "key": "LEAVES THIS MACHINE for {0}. {1}",
+      "ko": "{0}(으)로 이 컴퓨터 밖으로 전송됩니다. {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:147 expr"
+      ]
+    },
+    {
+      "key": "Stays on this machine. {0}",
+      "ko": "이 컴퓨터 안에만 머뭅니다. {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:147 expr"
+      ]
+    },
+    {
+      "key": "ask several targets",
+      "ko": "여러 대상에게 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:161 say()"
+      ]
+    },
+    {
+      "key": "{0} of {1} went through; each answer or failure is in its thread",
+      "ko": "{1}개 중 {0}개가 전달되었습니다. 각 응답이나 실패는 해당 스레드에 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:161 say()"
+      ]
+    },
+    {
+      "key": "{0} has not answered yet: nothing to relay",
+      "ko": "{0}이(가) 아직 응답하지 않아 전달할 내용이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:172 why"
+      ]
+    },
+    {
+      "key": "a relay goes to another target, not back to the one that answered",
+      "ko": "전달은 응답한 대상이 아닌 다른 대상에게 보냅니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:173 why"
+      ]
+    },
+    {
+      "key": "relay {0}'s answer to {1}",
+      "ko": "{0}의 응답을 {1}에게 전달",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:177 label"
+      ]
+    },
+    {
+      "key": "{0} is not polled: {1}",
+      "ko": "{0}은(는) 폴링하지 않습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:187 why"
+      ]
+    },
+    {
+      "key": "too many threads open",
+      "ko": "열린 스레드가 너무 많습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:191 why"
+      ]
+    },
+    {
+      "key": "watch {0} for replies every {1}s",
+      "ko": "{0}의 답장을 {1}초마다 확인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:195 label"
+      ]
+    },
+    {
+      "key": "new messages appear in the thread",
+      "ko": "새 메시지는 스레드에 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:198 expect"
+      ]
+    },
+    {
+      "key": "Each read goes to the relay. It stops by itself after {0} reads ({1} minutes), or when you stop it.",
+      "ko": "읽을 때마다 릴레이에 요청합니다. {0}번 읽으면({1}분) 또는 직접 중지하면 멈춥니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:200 note"
+      ]
+    },
+    {
+      "key": "Reads only. It stops by itself after {0} reads ({1} minutes), or when you stop it.",
+      "ko": "읽기만 합니다. {0}번 읽으면({1}분) 또는 직접 중지하면 멈춥니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:200 note"
+      ]
+    },
+    {
+      "key": "the read failed: the answer was over the {0} character cap and was not read",
+      "ko": "읽지 못했습니다: 응답이 {0}자 한도를 넘어 읽지 않았습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:214 text"
+      ]
+    },
+    {
+      "key": "the read failed: {0}",
+      "ko": "읽지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:214 text"
+      ]
+    },
+    {
+      "key": "reading every {0}s, up to {1} times",
+      "ko": "{0}초마다 최대 {1}번 읽는 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:226 say()"
+      ]
+    },
+    {
+      "key": "this thread has nothing to save yet",
+      "ko": "이 스레드에는 아직 저장할 내용이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:250 ask()"
+      ]
+    },
+    {
+      "key": "save the {0} conversation (cut at the cap)",
+      "ko": "{0} 대화 저장 (한도에서 잘림)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:264 label"
+      ]
+    },
+    {
+      "key": "save the {0} conversation",
+      "ko": "{0} 대화 저장",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:264 label"
+      ]
+    },
+    {
+      "key": "that transcript cannot be written",
+      "ko": "이 대화 기록은 쓸 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-convo-live.ts:264 ask()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

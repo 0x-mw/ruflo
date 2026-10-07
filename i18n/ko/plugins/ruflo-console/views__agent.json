@@ -1,0 +1,218 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/agent.ts",
+  "entries": [
+    {
+      "key": "No agent picked: choose one on Swarm (2) with j/k and press d.",
+      "ko": "선택한 에이전트가 없습니다. 스웜 (2)에서 j/k로 하나를 고르고 d를 누르세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:17 text()"
+      ]
+    },
+    {
+      "key": "Agent {0} is no longer in .claude-flow/agents/store.json.",
+      "ko": "에이전트 {0}이(가) 더 이상 .claude-flow/agents/store.json에 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:17 text()"
+      ]
+    },
+    {
+      "key": "Back",
+      "ko": "뒤로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:18 button()",
+        "plugins/ruflo-console/hooks/views/agent.ts:48 button()"
+      ]
+    },
+    {
+      "key": "agent",
+      "ko": "에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:20 col()",
+        "plugins/ruflo-console/hooks/views/agent.ts:56 col()",
+        "plugins/ruflo-console/hooks/views/claims.ts:63 button()"
+      ]
+    },
+    {
+      "key": "role",
+      "ko": "역할",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:28 kv()"
+      ]
+    },
+    {
+      "key": "status",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:29 kv()",
+        "plugins/ruflo-console/hooks/views/automate.ts:232 label",
+        "plugins/ruflo-console/hooks/views/neural.ts:22 label"
+      ]
+    },
+    {
+      "key": "{0} · health n/a · tasks counted {1}",
+      "ko": "{0} · 상태 점검 없음 · 집계된 작업 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "{0} · health n/a · tasks counted n/a",
+      "ko": "{0} · 상태 점검 없음 · 집계된 작업 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "{0} · health {1}% · tasks counted {2}",
+      "ko": "{0} · 상태 점검 {1}% · 집계된 작업 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "{0} · health {1}% · tasks counted n/a",
+      "ko": "{0} · 상태 점검 {1}% · 집계된 작업 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "created",
+      "ko": "생성일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "current task",
+      "ko": "현재 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "none assigned in tasks/store.json",
+      "ko": "tasks/store.json에 할당된 작업 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "none",
+      "ko": "없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:32 kv()",
+        "plugins/ruflo-console/hooks/views/federation.ts:38 kv()",
+        "plugins/ruflo-console/hooks/views/menu.ts:176 button()"
+      ]
+    },
+    {
+      "key": "{0} {1} (handoff to it)",
+      "ko": "{0} {1} (여기로 인계)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:32 expr"
+      ]
+    },
+    {
+      "key": "tokens / cost",
+      "ko": "토큰 / 비용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:33 kv()"
+      ]
+    },
+    {
+      "key": "n/a — ruflo records no per-agent usage; Claude Code's spend is on Cost (9)",
+      "ko": "해당 없음 — ruflo는 에이전트별 사용량을 기록하지 않습니다. Claude Code의 지출은 비용 (9)에서 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:33 kv()"
+      ]
+    },
+    {
+      "key": "status changes seen since the console loaded",
+      "ko": "콘솔을 불러온 뒤 확인된 상태 변경",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:35 rule()"
+      ]
+    },
+    {
+      "key": "no change seen yet",
+      "ko": "아직 확인된 변경이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:36 text()"
+      ]
+    },
+    {
+      "key": "Logs",
+      "ko": "로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:40 rule()"
+      ]
+    },
+    {
+      "key": "asking `ruflo agent logs`…",
+      "ko": "`ruflo agent logs`에 요청하는 중…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:40 rule()"
+      ]
+    },
+    {
+      "key": "no log lines",
+      "ko": "로그가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:43 text()"
+      ]
+    },
+    {
+      "key": "prev agent",
+      "ko": "이전 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:49 button()"
+      ]
+    },
+    {
+      "key": "next agent",
+      "ko": "다음 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:50 button()",
+        "plugins/ruflo-console/hooks/views/automate.ts:162 button()"
+      ]
+    },
+    {
+      "key": "Actions",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agent.ts:51 button()",
+        "plugins/ruflo-console/hooks/views/anatole.ts:150 subhead()",
+        "plugins/ruflo-console/hooks/views/pane.ts:219 full"
+      ]
+    }
+  ],
+  "obsolete": []
+}

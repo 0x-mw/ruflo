@@ -1,0 +1,81 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/optimize.ts",
+  "entries": [
+    {
+      "key": "Optimization analysis and recommendations",
+      "ko": "최적화 분석 및 권장 사항",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:43 description"
+      ]
+    },
+    {
+      "key": "Analyze current performance",
+      "ko": "현재 성능을 분석합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:48 description"
+      ]
+    },
+    {
+      "key": "Apply suggested optimizations",
+      "ko": "제안된 최적화를 적용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:54 description"
+      ]
+    },
+    {
+      "key": "Optimize specific index",
+      "ko": "특정 인덱스를 최적화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:61 description"
+      ]
+    },
+    {
+      "key": "Run VACUUM ANALYZE",
+      "ko": "VACUUM ANALYZE를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:66 description",
+        "src/commands/ruvector/optimize.ts:124 description"
+      ]
+    },
+    {
+      "key": "Rebuild indexes",
+      "ko": "인덱스를 다시 빌드합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:72 description"
+      ]
+    },
+    {
+      "key": "Analyze and show recommendations",
+      "ko": "분석하고 권장 사항을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:122 description"
+      ]
+    },
+    {
+      "key": "Apply optimizations",
+      "ko": "최적화를 적용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:123 description"
+      ]
+    },
+    {
+      "key": "Rebuild all indexes",
+      "ko": "모든 인덱스를 다시 빌드합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/optimize.ts:125 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

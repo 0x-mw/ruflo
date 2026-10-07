@@ -1,3 +1,7 @@
+---
+description: GitHub 명령어
+---
+
 # Github Commands
 
 Commands for github operations in Claude Flow.

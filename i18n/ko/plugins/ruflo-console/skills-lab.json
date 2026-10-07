@@ -1,0 +1,396 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/skills-lab.ts",
+  "entries": [
+    {
+      "key": "network: downloads the skill to a temp dir (skills-use-*); installs nothing; the prompt is typed into the AI terminal, not sent",
+      "ko": "네트워크: 스킬을 임시 폴더(skills-use-*)에 내려받습니다. 설치는 하지 않으며, 프롬프트는 AI 터미널에 입력만 하고 전송하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:28 use"
+      ]
+    },
+    {
+      "key": "network: clones the repository to a temp dir to list it; installs nothing",
+      "ko": "네트워크: 목록을 보려고 저장소를 임시 폴더에 클론합니다. 설치는 하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:29 list"
+      ]
+    },
+    {
+      "key": "network: fetches each skill from its source and rewrites its folder",
+      "ko": "네트워크: 각 스킬을 출처에서 가져와 해당 폴더를 다시 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:30 update"
+      ]
+    },
+    {
+      "key": "experimental · network: clones every source in skills-lock.json and writes the agents’ skill folders",
+      "ko": "실험 기능 · 네트워크: skills-lock.json의 모든 출처를 클론해 에이전트의 스킬 폴더에 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:31 restore"
+      ]
+    },
+    {
+      "key": "experimental: links skills found in node_modules into the agents’ skill folders (writes)",
+      "ko": "실험 기능: node_modules에서 찾은 스킬을 에이전트의 스킬 폴더에 연결합니다 (파일을 씁니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:32 sync"
+      ]
+    },
+    {
+      "key": "use {0} without installing it",
+      "ko": "설치하지 않고 {0} 사용",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:52 const"
+      ]
+    },
+    {
+      "key": "the skill’s prompt typed into the AI terminal",
+      "ko": "스킬의 프롬프트가 AI 터미널에 입력됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:58 expect"
+      ]
+    },
+    {
+      "key": "{0} is still being fetched",
+      "ko": "{0}을(를) 아직 가져오는 중입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:64 say()"
+      ]
+    },
+    {
+      "key": "exit {0}: no prompt printed",
+      "ko": "종료 코드 {0}: 출력된 프롬프트가 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:73 say()"
+      ]
+    },
+    {
+      "key": "its prompt is in the AI terminal (cut to 8,000 characters): read it, then Enter twice sends it to claude",
+      "ko": "프롬프트가 AI 터미널에 있습니다 (8,000자까지 잘림). 읽은 뒤 Enter를 두 번 누르면 claude에 전송됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:76 say()"
+      ]
+    },
+    {
+      "key": "its prompt is in the AI terminal: read it, then Enter twice sends it to claude",
+      "ko": "프롬프트가 AI 터미널에 있습니다. 읽은 뒤 Enter를 두 번 누르면 claude에 전송됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:76 say()"
+      ]
+    },
+    {
+      "key": "preview {0}",
+      "ko": "{0} 미리보기",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:94 const"
+      ]
+    },
+    {
+      "key": "the repository’s skills in the preview panel",
+      "ko": "미리보기 패널의 저장소 스킬 목록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:100 expect"
+      ]
+    },
+    {
+      "key": "{0} · {1} skill in its repository",
+      "ko": "{0} · 저장소의 스킬 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:116 title"
+      ]
+    },
+    {
+      "key": "{0} · {1} skills in its repository",
+      "ko": "{0} · 저장소의 스킬 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:116 title"
+      ]
+    },
+    {
+      "key": "exit {0}: no skills listed",
+      "ko": "종료 코드 {0}: 표시된 스킬이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:116 lines"
+      ]
+    },
+    {
+      "key": "{0} listed; nothing installed",
+      "ko": "{0} 표시됨. 설치된 것은 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:117 say()"
+      ]
+    },
+    {
+      "key": "nothing listed",
+      "ko": "표시된 항목이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:117 say()"
+      ]
+    },
+    {
+      "key": "{0}: unread",
+      "ko": "{0}: 읽지 못함",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:138 lines"
+      ]
+    },
+    {
+      "key": "Cargo.toml",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:151 expr"
+      ]
+    },
+    {
+      "key": "read the first {0} agent files only",
+      "ko": "에이전트 파일은 처음 {0}개만 읽었습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:186 push()"
+      ]
+    },
+    {
+      "key": "Write the agent skill at {0}/{1}/SKILL.md. Keep its YAML frontmatter at the top with name: {2} (lowercase letters, digits and hyphens) and a one-sentence description: of what it does and when to use it (at most 1024 characters), then concise instructions under 500 lines; put long reference material in separate files beside it. The skill is for:",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:193 expr"
+      ]
+    },
+    {
+      "key": "update every {0} skill",
+      "ko": "{0} 스킬 모두 업데이트",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:218 change()"
+      ]
+    },
+    {
+      "key": "each skill at the newest version of its source",
+      "ko": "각 스킬이 출처의 최신 버전이 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:218 change()"
+      ]
+    },
+    {
+      "key": "restore the project’s skills from skills-lock.json",
+      "ko": "skills-lock.json에서 프로젝트 스킬 복원",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:223 change()",
+        "plugins/ruflo-console/hooks/skills-lab.ts:345 label"
+      ]
+    },
+    {
+      "key": "every skill in skills-lock.json installed",
+      "ko": "skills-lock.json의 모든 스킬이 설치됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:223 change()"
+      ]
+    },
+    {
+      "key": "sync skills from node_modules for {0}",
+      "ko": "{0}용 node_modules 스킬 동기화",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:228 change()"
+      ]
+    },
+    {
+      "key": "sync skills from node_modules",
+      "ko": "node_modules 스킬 동기화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:228 change()"
+      ]
+    },
+    {
+      "key": "node_modules skills linked into the agents’ folders",
+      "ko": "node_modules 스킬이 에이전트 폴더에 연결됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:228 change()"
+      ]
+    },
+    {
+      "key": "that result is not an owner/repo@skill id",
+      "ko": "해당 결과는 owner/repo@skill 형식의 ID가 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:234 const",
+        "plugins/ruflo-console/hooks/skills.ts:246 ask()"
+      ]
+    },
+    {
+      "key": "that skill’s path is not an absolute path the console will read",
+      "ko": "해당 스킬의 경로는 콘솔이 읽을 수 있는 절대 경로가 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:242 ask()"
+      ]
+    },
+    {
+      "key": "{0} · {1} · SKILL.md",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:246 previewFile()"
+      ]
+    },
+    {
+      "key": "scan this project",
+      "ko": "이 프로젝트 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:278 say()"
+      ]
+    },
+    {
+      "key": "type the new skill’s name in the create field first",
+      "ko": "먼저 생성 입력란에 새 스킬 이름을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:293 ask()"
+      ]
+    },
+    {
+      "key": "type the skill’s name in the create field first",
+      "ko": "먼저 생성 입력란에 스킬 이름을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:301 ask()"
+      ]
+    },
+    {
+      "key": "{0}/SKILL.md: {1} (▸ create makes it)",
+      "ko": "{0}/SKILL.md: {1} (▸ 생성으로 만듭니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:306 const"
+      ]
+    },
+    {
+      "key": "{0}/SKILL.md: unread (▸ create makes it)",
+      "ko": "{0}/SKILL.md: 읽지 못함 (▸ 생성으로 만듭니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:306 const"
+      ]
+    },
+    {
+      "key": "the skills view is not wired yet",
+      "ko": "스킬 화면이 아직 연결되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:321 const"
+      ]
+    },
+    {
+      "key": "skills find {0}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:329 label"
+      ]
+    },
+    {
+      "key": "the results in the skills view",
+      "ko": "스킬 화면의 검색 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:332 expect"
+      ]
+    },
+    {
+      "key": "network: asks skills.sh",
+      "ko": "네트워크: skills.sh에 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:334 note"
+      ]
+    },
+    {
+      "key": "skills",
+      "ko": "스킬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:343 group",
+        "plugins/ruflo-console/hooks/skills-lab.ts:344 group",
+        "plugins/ruflo-console/hooks/skills-lab.ts:345 group"
+      ]
+    },
+    {
+      "key": "skills-find <words>: search skills.sh (owner:<name> narrows it)",
+      "ko": "skills-find <words>: skills.sh에서 검색합니다 (owner:<name>으로 좁힐 수 있음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:343 label"
+      ]
+    },
+    {
+      "key": "update every {0} skill (npx skills update)",
+      "ko": "{0} 스킬 모두 업데이트 (npx skills update)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:344 label"
+      ]
+    },
+    {
+      "key": "sync skills from node_modules into the agents’ folders",
+      "ko": "node_modules의 스킬을 에이전트 폴더로 동기화",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:346 label"
+      ]
+    },
+    {
+      "key": "skills find: {0}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:355 return"
+      ]
+    },
+    {
+      "key": "skills find \"{0}\": {1} found",
+      "ko": "skills find \"{0}\": {1}건 찾음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:359 expr"
+      ]
+    },
+    {
+      "key": "{0} · {1} installs",
+      "ko": "{0} · 설치 {1}회",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills-lab.ts:359 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

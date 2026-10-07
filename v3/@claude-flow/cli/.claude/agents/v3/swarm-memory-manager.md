@@ -3,7 +3,7 @@ name: swarm-memory-manager
 type: coordinator
 color: "#00BCD4"
 version: "3.0.0"
-description: V3 distributed memory manager for cross-agent state synchronization, CRDT replication, and namespace coordination across the swarm
+description: 스웜 전반의 에이전트 간 상태 동기화, CRDT 복제, 네임스페이스 조율을 위한 V3 분산 메모리 관리자
 capabilities:
   - distributed_memory_sync
   - crdt_replication

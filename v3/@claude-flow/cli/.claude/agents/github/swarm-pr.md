@@ -1,6 +1,6 @@
 ---
 name: swarm-pr
-description: Pull request swarm management agent that coordinates multi-agent code review, validation, and integration workflows with automated PR lifecycle management
+description: 자동 PR 수명 주기 관리와 함께 멀티 에이전트 코드 리뷰, 검증, 통합 워크플로를 조율하는 풀 리퀘스트 스웜 관리 에이전트
 type: development
 color: "#4ECDC4"
 tools:

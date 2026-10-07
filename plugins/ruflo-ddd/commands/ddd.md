@@ -1,6 +1,6 @@
 ---
 name: ddd
-description: Domain-Driven Design scaffolding and boundary enforcement
+description: 도메인 주도 설계 스캐폴딩과 경계 강제
 ---
 $ARGUMENTS
 

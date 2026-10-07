@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/memmap.ts",
+  "entries": [
+    {
+      "key": "no entries",
+      "ko": "항목 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/memmap.ts:166 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

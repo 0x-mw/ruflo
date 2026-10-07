@@ -1,0 +1,629 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/analyze.ts",
+  "entries": [
+    {
+      "key": "Analyze git diff for change risk assessment and classification",
+      "ko": "git diff를 분석해 변경 위험을 평가하고 분류합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:47 description"
+      ]
+    },
+    {
+      "key": "Show risk assessment",
+      "ko": "위험 평가를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:52 description"
+      ]
+    },
+    {
+      "key": "Classify change type",
+      "ko": "변경 유형을 분류합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:59 description"
+      ]
+    },
+    {
+      "key": "Show recommended reviewers",
+      "ko": "추천 리뷰어를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:65 description"
+      ]
+    },
+    {
+      "key": "Output format: text, json, table",
+      "ko": "출력 형식: text, json, table",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:72 description",
+        "src/commands/analyze.ts:2275 description"
+      ]
+    },
+    {
+      "key": "Show detailed file-level analysis",
+      "ko": "파일 단위 상세 분석을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:80 description"
+      ]
+    },
+    {
+      "key": "Analyze current diff with risk assessment",
+      "ko": "현재 diff를 위험 평가와 함께 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:86 description"
+      ]
+    },
+    {
+      "key": "Classify changes from last commit",
+      "ko": "마지막 커밋의 변경 사항 분류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:87 description"
+      ]
+    },
+    {
+      "key": "Compare branches with JSON output",
+      "ko": "브랜치를 비교하고 JSON으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:88 description"
+      ]
+    },
+    {
+      "key": "Get recommended reviewers for changes",
+      "ko": "변경 사항의 추천 리뷰어 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:89 description"
+      ]
+    },
+    {
+      "key": "Static code analysis and quality assessment",
+      "ko": "정적 코드 분석과 품질 평가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:306 description"
+      ]
+    },
+    {
+      "key": "Path to analyze",
+      "ko": "분석할 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:308 description"
+      ]
+    },
+    {
+      "key": "Analysis type: quality, complexity, security",
+      "ko": "분석 유형: quality, complexity, security",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:309 description"
+      ]
+    },
+    {
+      "key": "Output format: text, json",
+      "ko": "출력 형식: text, json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:310 description",
+        "src/commands/analyze.ts:1413 description",
+        "src/commands/benchmark.ts:23 description"
+      ]
+    },
+    {
+      "key": "Analyze source directory",
+      "ko": "소스 디렉터리 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:313 description"
+      ]
+    },
+    {
+      "key": "Run complexity analysis",
+      "ko": "복잡도 분석 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:314 description"
+      ]
+    },
+    {
+      "key": "Analyze code using AST parsing (tree-sitter via ruvector)",
+      "ko": "AST 파싱으로 코드를 분석합니다 (ruvector를 통한 tree-sitter)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:519 description"
+      ]
+    },
+    {
+      "key": "Include complexity metrics",
+      "ko": "복잡도 메트릭을 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:524 description"
+      ]
+    },
+    {
+      "key": "Include symbol extraction",
+      "ko": "심볼 추출을 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:531 description"
+      ]
+    },
+    {
+      "key": "Output format (text, json, table)",
+      "ko": "출력 형식 (text, json, table)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:538 description",
+        "src/parser.ts:82 description"
+      ]
+    },
+    {
+      "key": "Output file path",
+      "ko": "출력 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:546 description",
+        "src/commands/analyze.ts:807 description",
+        "src/commands/analyze.ts:987 description"
+      ]
+    },
+    {
+      "key": "Show detailed analysis",
+      "ko": "상세 분석을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:552 description"
+      ]
+    },
+    {
+      "key": "Analyze all files in src/",
+      "ko": "src/의 모든 파일 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:558 description"
+      ]
+    },
+    {
+      "key": "Analyze with complexity",
+      "ko": "복잡도와 함께 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:559 description"
+      ]
+    },
+    {
+      "key": "JSON output",
+      "ko": "JSON 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:560 description",
+        "src/commands/analyze.ts:994 description",
+        "src/commands/process.ts:248 description"
+      ]
+    },
+    {
+      "key": "Extract symbols",
+      "ko": "심볼 추출",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:561 description"
+      ]
+    },
+    {
+      "key": "Analyze code complexity metrics",
+      "ko": "코드 복잡도 메트릭을 분석합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:787 description"
+      ]
+    },
+    {
+      "key": "Complexity threshold to flag (default: 10)",
+      "ko": "표시할 복잡도 임계값 (기본값: 10)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:792 description"
+      ]
+    },
+    {
+      "key": "Output format (text, json)",
+      "ko": "출력 형식 (text, json)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:799 description",
+        "src/commands/analyze.ts:979 description",
+        "src/commands/analyze.ts:1136 description"
+      ]
+    },
+    {
+      "key": "Analyze complexity",
+      "ko": "복잡도 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:812 description"
+      ]
+    },
+    {
+      "key": "Flag high complexity",
+      "ko": "복잡도가 높은 항목 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:813 description"
+      ]
+    },
+    {
+      "key": "Extract and list code symbols (functions, classes, types)",
+      "ko": "코드 심볼(함수, 클래스, 타입)을 추출해 목록으로 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:966 description"
+      ]
+    },
+    {
+      "key": "Filter by symbol type (function, class, all)",
+      "ko": "심볼 유형으로 필터링합니다 (function, class, all)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:971 description"
+      ]
+    },
+    {
+      "key": "Extract all symbols",
+      "ko": "모든 심볼 추출",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:992 description"
+      ]
+    },
+    {
+      "key": "Only functions",
+      "ko": "함수만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:993 description"
+      ]
+    },
+    {
+      "key": "Analyze import dependencies across files",
+      "ko": "파일 간 import 의존성을 분석합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1131 description"
+      ]
+    },
+    {
+      "key": "Show only external (npm) imports",
+      "ko": "외부(npm) import만 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1150 description"
+      ]
+    },
+    {
+      "key": "Analyze all imports",
+      "ko": "모든 import 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1156 description"
+      ]
+    },
+    {
+      "key": "Only npm packages",
+      "ko": "npm 패키지만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1157 description"
+      ]
+    },
+    {
+      "key": "Analyze project dependencies",
+      "ko": "프로젝트 의존성을 분석합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1409 description"
+      ]
+    },
+    {
+      "key": "Show only outdated dependencies",
+      "ko": "오래된 의존성만 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1411 description"
+      ]
+    },
+    {
+      "key": "Check for security vulnerabilities",
+      "ko": "보안 취약점을 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1412 description"
+      ]
+    },
+    {
+      "key": "Show outdated dependencies",
+      "ko": "오래된 의존성 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1416 description"
+      ]
+    },
+    {
+      "key": "Check for vulnerabilities",
+      "ko": "취약점 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1417 description"
+      ]
+    },
+    {
+      "key": "Find natural code boundaries using MinCut algorithm",
+      "ko": "MinCut 알고리즘으로 코드의 자연스러운 경계를 찾습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1561 description"
+      ]
+    },
+    {
+      "key": "Number of partitions to find",
+      "ko": "찾을 파티션 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1566 description"
+      ]
+    },
+    {
+      "key": "Output format (text, json, dot)",
+      "ko": "출력 형식 (text, json, dot)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1579 description",
+        "src/commands/analyze.ts:1747 description",
+        "src/commands/analyze.ts:1902 description"
+      ]
+    },
+    {
+      "key": "Find code boundaries in src/",
+      "ko": "src/에서 코드 경계 찾기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1586 description"
+      ]
+    },
+    {
+      "key": "Find 3 partitions",
+      "ko": "파티션 3개 찾기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1587 description"
+      ]
+    },
+    {
+      "key": "Export to DOT format",
+      "ko": "DOT 형식으로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1588 description"
+      ]
+    },
+    {
+      "key": "Detect module communities using Louvain algorithm",
+      "ko": "Louvain 알고리즘으로 모듈 커뮤니티를 감지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1736 description"
+      ]
+    },
+    {
+      "key": "Minimum community size to display",
+      "ko": "표시할 최소 커뮤니티 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1755 description"
+      ]
+    },
+    {
+      "key": "Detect module communities",
+      "ko": "모듈 커뮤니티 감지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1761 description"
+      ]
+    },
+    {
+      "key": "Export colored DOT graph",
+      "ko": "색상이 적용된 DOT 그래프 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1762 description"
+      ]
+    },
+    {
+      "key": "Only show communities with 3+ files",
+      "ko": "파일이 3개 이상인 커뮤니티만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1763 description"
+      ]
+    },
+    {
+      "key": "Build and export full dependency graph",
+      "ko": "전체 의존성 그래프를 만들어 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1891 description"
+      ]
+    },
+    {
+      "key": "File extensions to include (comma-separated)",
+      "ko": "포함할 파일 확장자 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1910 description"
+      ]
+    },
+    {
+      "key": "Patterns to exclude (comma-separated)",
+      "ko": "제외할 패턴 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1917 description"
+      ]
+    },
+    {
+      "key": "Maximum directory depth",
+      "ko": "최대 디렉터리 깊이",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1924 description"
+      ]
+    },
+    {
+      "key": "Build dependency graph",
+      "ko": "의존성 그래프 만들기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1930 description"
+      ]
+    },
+    {
+      "key": "Export to DOT",
+      "ko": "DOT로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1931 description"
+      ]
+    },
+    {
+      "key": "Only TypeScript files",
+      "ko": "TypeScript 파일만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:1932 description"
+      ]
+    },
+    {
+      "key": "Detect circular dependencies in codebase",
+      "ko": "코드베이스의 순환 의존성을 감지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2090 description"
+      ]
+    },
+    {
+      "key": "Minimum severity to show (low, medium, high)",
+      "ko": "표시할 최소 심각도 (low, medium, high)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2109 description"
+      ]
+    },
+    {
+      "key": "Find circular dependencies",
+      "ko": "순환 의존성 찾기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2116 description",
+        "src/commands/analyze.ts:2289 description"
+      ]
+    },
+    {
+      "key": "Only high severity cycles",
+      "ko": "심각도가 높은 순환만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2117 description"
+      ]
+    },
+    {
+      "key": "Code analysis, diff classification, graph boundaries, and change risk assessment",
+      "ko": "코드 분석, diff 분류, 그래프 경계, 변경 위험 평가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2256 description"
+      ]
+    },
+    {
+      "key": "Analyze code with AST parsing",
+      "ko": "AST 파싱으로 코드 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2281 description"
+      ]
+    },
+    {
+      "key": "Find high-complexity files",
+      "ko": "복잡도가 높은 파일 찾기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2282 description"
+      ]
+    },
+    {
+      "key": "Extract all functions",
+      "ko": "모든 함수 추출",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2283 description"
+      ]
+    },
+    {
+      "key": "List npm dependencies",
+      "ko": "npm 의존성 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2284 description"
+      ]
+    },
+    {
+      "key": "Analyze diff with risk assessment",
+      "ko": "diff를 위험 평가와 함께 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2285 description"
+      ]
+    },
+    {
+      "key": "Find code boundaries using MinCut",
+      "ko": "MinCut으로 코드 경계 찾기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2286 description"
+      ]
+    },
+    {
+      "key": "Detect module communities with Louvain",
+      "ko": "Louvain으로 모듈 커뮤니티 감지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2287 description"
+      ]
+    },
+    {
+      "key": "Export dependency graph as DOT",
+      "ko": "의존성 그래프를 DOT로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2288 description"
+      ]
+    },
+    {
+      "key": "Check dependency vulnerabilities",
+      "ko": "의존성 취약점 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/analyze.ts:2290 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

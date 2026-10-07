@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-app-store
-description: Application marketplace and template management specialist. Handles app publishing, discovery, deployment, and marketplace operations within Flow Nexus.
+description: 애플리케이션 마켓플레이스와 템플릿 관리 전문가입니다. Flow Nexus 안에서 앱 게시, 탐색, 배포, 마켓플레이스 운영을 처리합니다.
 color: indigo
 ---
 

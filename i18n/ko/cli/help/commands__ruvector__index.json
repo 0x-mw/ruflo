@@ -1,0 +1,83 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/index.ts",
+  "entries": [
+    {
+      "key": "RuVector PostgreSQL Bridge management",
+      "ko": "RuVector PostgreSQL 브리지 관리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:34 description"
+      ]
+    },
+    {
+      "key": "Output Docker files and SQL for setup",
+      "ko": "설정용 Docker 파일과 SQL을 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:82 description"
+      ]
+    },
+    {
+      "key": "Import from sql.js/JSON export",
+      "ko": "sql.js/JSON 내보내기에서 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:83 description"
+      ]
+    },
+    {
+      "key": "Initialize RuVector in PostgreSQL",
+      "ko": "PostgreSQL에서 RuVector를 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:84 description",
+        "src/commands/ruvector/init.ts:39 description"
+      ]
+    },
+    {
+      "key": "Check connection and schema status",
+      "ko": "연결과 스키마 상태를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:85 description",
+        "src/commands/ruvector/status.ts:41 description"
+      ]
+    },
+    {
+      "key": "Run pending migrations",
+      "ko": "대기 중인 마이그레이션을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:86 description",
+        "src/commands/ruvector/migrate.ts:259 description"
+      ]
+    },
+    {
+      "key": "Run performance benchmark",
+      "ko": "성능 벤치마크를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:87 description"
+      ]
+    },
+    {
+      "key": "Analyze and suggest optimizations",
+      "ko": "분석하고 최적화를 제안합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:88 description"
+      ]
+    },
+    {
+      "key": "Backup RuVector data",
+      "ko": "RuVector 데이터를 백업합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/index.ts:89 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

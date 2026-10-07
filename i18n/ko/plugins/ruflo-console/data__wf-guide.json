@@ -1,0 +1,509 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-guide.ts",
+  "entries": [
+    {
+      "key": "no swarm",
+      "ko": "스웜 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:33 label",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:42 const"
+      ]
+    },
+    {
+      "key": "swarm init has not run here",
+      "ko": "여기서 swarm init이 실행되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:33 detail"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} agents",
+      "ko": "{0} · {1} · 에이전트 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:33 detail"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} · {3} agents",
+      "ko": "{0} · {1} · {2} · 에이전트 {3}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:33 detail",
+        "plugins/ruflo-console/hooks/views/overview.ts:78 kv()"
+      ]
+    },
+    {
+      "key": "no hive-mind",
+      "ko": "하이브마인드(hive-mind) 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:36 label"
+      ]
+    },
+    {
+      "key": "no queen and no workers: agents are not grouped under a hive",
+      "ko": "퀸과 워커가 없습니다: 에이전트가 하이브로 묶여 있지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:36 detail"
+      ]
+    },
+    {
+      "key": "{0} · {1} workers · {2} open proposals",
+      "ko": "{0} · 워커 {1}개 · 열린 제안 {2}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:38 detail"
+      ]
+    },
+    {
+      "key": "consensus n/a · {0} workers · {1} open proposals",
+      "ko": "합의 해당 없음 · 워커 {0}개 · 열린 제안 {1}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:38 detail"
+      ]
+    },
+    {
+      "key": "no queen",
+      "ko": "퀸 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:39 label"
+      ]
+    },
+    {
+      "key": "none elected",
+      "ko": "선출된 퀸 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:39 detail"
+      ]
+    },
+    {
+      "key": "term n/a",
+      "ko": "임기 해당 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:39 detail"
+      ]
+    },
+    {
+      "key": "in the swarm",
+      "ko": "스웜에 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:42 const"
+      ]
+    },
+    {
+      "key": "not listed in the swarm",
+      "ko": "스웜에 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:42 const"
+      ]
+    },
+    {
+      "key": "worker {0}",
+      "ko": "워커 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:44 label"
+      ]
+    },
+    {
+      "key": "no claim, no task",
+      "ko": "클레임 없음, 작업 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:49 label"
+      ]
+    },
+    {
+      "key": "idle as far as the stores say",
+      "ko": "저장소 기준으로는 유휴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:49 detail"
+      ]
+    },
+    {
+      "key": "{0} · stealable",
+      "ko": "{0} · 가로챌 수 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:52 detail"
+      ]
+    },
+    {
+      "key": "{0} · {1}% · stealable",
+      "ko": "{0} · {1}% · 가로챌 수 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:52 detail"
+      ]
+    },
+    {
+      "key": "no task record",
+      "ko": "작업 기록 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:56 label"
+      ]
+    },
+    {
+      "key": "the claim names {0}, which is not in the task store",
+      "ko": "클레임이 가리키는 {0}은(는) 작업 저장소에 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:56 detail"
+      ]
+    },
+    {
+      "key": "{0} · assigned, no claim · {1}",
+      "ko": "{0} · 할당됨, 클레임 없음 · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:59 detail"
+      ]
+    },
+    {
+      "key": "{0} swarm agents outside the hive",
+      "ko": "하이브 밖 스웜 에이전트 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:64 label"
+      ]
+    },
+    {
+      "key": "+{0} more rows",
+      "ko": "+{0}개 행 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:67 label"
+      ]
+    },
+    {
+      "key": "not drawn",
+      "ko": "그리지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:67 detail"
+      ]
+    },
+    {
+      "key": "type the guidance first (the field above)",
+      "ko": "먼저 안내를 입력하세요 (위의 입력란)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:107 why"
+      ]
+    },
+    {
+      "key": "the text cannot start with a dash",
+      "ko": "텍스트는 대시로 시작할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:107 why"
+      ]
+    },
+    {
+      "key": "the text looks like it holds a credential: it is not sent",
+      "ko": "텍스트에 자격 증명이 있는 것 같아 전송하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:108 why"
+      ]
+    },
+    {
+      "key": "{0} · whole run",
+      "ko": "{0} · 실행 전체",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:129 cleanText()"
+      ]
+    },
+    {
+      "key": "guidance for {0}: {1}",
+      "ko": "{0} 안내: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:130 textArg()"
+      ]
+    },
+    {
+      "key": "store a guidance note for {0} in namespace guidance",
+      "ko": "{0}에 대한 안내 메모를 guidance 네임스페이스에 저장",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:133 label"
+      ]
+    },
+    {
+      "key": "one more entry in the guidance memory namespace",
+      "ko": "guidance 메모리 네임스페이스에 항목 1개 추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:133 expect"
+      ]
+    },
+    {
+      "key": "Writes one memory entry. It is found by a memory search; nothing is pushed into a running agent.",
+      "ko": "메모리 항목 하나를 씁니다. 메모리 검색으로 찾을 수 있으며, 실행 중인 에이전트에 밀어 넣지는 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:133 note"
+      ]
+    },
+    {
+      "key": "Redirect Claude Code workflow run {0} ({1}): stop the run in the Workflows panel, then resume it with Workflow({ scriptPath: <{2}>, resumeFromRunId: \"{3}\" }) after adding this guidance to the affected agent's prompt: {4}",
+      "ko": "Claude Code 워크플로 실행 {0} ({1})의 방향을 전환해 주세요: Workflows 패널에서 실행을 중지한 뒤, 영향받은 에이전트의 프롬프트에 다음 안내를 추가하고 Workflow({ scriptPath: <{2}>, resumeFromRunId: \"{3}\" })로 재개하세요: {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:141 return"
+      ]
+    },
+    {
+      "key": "Redirect Claude Code workflow run {0} ({1}, agent \"{2}\"): stop the run in the Workflows panel, then resume it with Workflow({ scriptPath: <{3}>, resumeFromRunId: \"{4}\" }) after adding this guidance to the affected agent's prompt: {5}",
+      "ko": "Claude Code 워크플로 실행 {0} ({1}, 에이전트 \"{2}\")의 방향을 전환해 주세요: Workflows 패널에서 실행을 중지한 뒤, 영향받은 에이전트의 프롬프트에 다음 안내를 추가하고 Workflow({ scriptPath: <{3}>, resumeFromRunId: \"{4}\" })로 재개하세요: {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:141 return"
+      ]
+    },
+    {
+      "key": "Appended to the hive shared memory (the last 100). No worker is interrupted: one sees it only if its own turn reads the hive memory.",
+      "ko": "하이브 공유 메모리(최근 100개)에 추가했습니다. 방해받는 워커는 없으며, 워커가 자기 차례에 하이브 메모리를 읽을 때만 보게 됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:157 add()"
+      ]
+    },
+    {
+      "key": "there is no hive-mind to broadcast to",
+      "ko": "브로드캐스트할 하이브마인드(hive-mind)가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:157 add()"
+      ]
+    },
+    {
+      "key": "that text cannot be passed to ruflo",
+      "ko": "해당 텍스트는 ruflo에 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:157 add()",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:173 add()"
+      ]
+    },
+    {
+      "key": "propose it to the hive",
+      "ko": "하이브에 제안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:158 add()"
+      ]
+    },
+    {
+      "key": "guidance: {0}",
+      "ko": "안내: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:158 hivePropose()",
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:171 line()"
+      ]
+    },
+    {
+      "key": "Opens a proposal that workers vote on. A pass binds no agent to do anything; raft allows one open proposal per term.",
+      "ko": "워커가 투표하는 제안을 엽니다. 통과해도 어떤 에이전트에게도 실행 의무가 생기지 않으며, raft는 임기당 열린 제안을 하나만 허용합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:158 add()"
+      ]
+    },
+    {
+      "key": "there is no hive-mind to propose to",
+      "ko": "제안할 하이브마인드(hive-mind)가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:158 add()"
+      ]
+    },
+    {
+      "key": "raft already has a proposal open this term, or the text cannot be passed",
+      "ko": "raft에 이번 임기의 열린 제안이 이미 있거나, 텍스트를 전달할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:158 add()"
+      ]
+    },
+    {
+      "key": "hand its claim on",
+      "ko": "클레임 인계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:162 add()"
+      ]
+    },
+    {
+      "key": "hand its claim to {0}",
+      "ko": "클레임을 {0}에게 인계",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:162 add()"
+      ]
+    },
+    {
+      "key": "Marks a pending handoff on the claim. It takes effect only when the target accepts it (claims_accept-handoff); the current holder is not stopped.",
+      "ko": "클레임에 대기 중인 인계를 표시합니다. 대상이 수락해야만(claims_accept-handoff) 적용되며, 현재 보유자는 중지되지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:162 add()"
+      ]
+    },
+    {
+      "key": "pick a ruflo agent first (Agents column)",
+      "ko": "먼저 ruflo 에이전트를 선택하세요 (에이전트 열)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:162 add()",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:170 add()"
+      ]
+    },
+    {
+      "key": "the picked agent holds no open claim",
+      "ko": "선택한 에이전트에 열린 클레임이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:162 add()"
+      ]
+    },
+    {
+      "key": "there is no other live agent to hand it to",
+      "ko": "인계할 다른 활성 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:162 add()"
+      ]
+    },
+    {
+      "key": "note the guidance on task {0}",
+      "ko": "작업 {0}에 안내 메모",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:168 label"
+      ]
+    },
+    {
+      "key": "a result on the task record",
+      "ko": "작업 기록의 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:168 expect"
+      ]
+    },
+    {
+      "key": "Writes the task record. An agent sees it only when it reads the task.",
+      "ko": "작업 기록에 씁니다. 에이전트는 작업을 읽을 때만 이를 봅니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:168 note"
+      ]
+    },
+    {
+      "key": "note it on its task",
+      "ko": "해당 작업에 메모",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:170 add()"
+      ]
+    },
+    {
+      "key": "Stored as the task record's result. The agent is not told: it reads it only if it reads its task.",
+      "ko": "작업 기록의 결과로 저장합니다. 에이전트에게 알리지 않으며, 작업을 읽을 때만 읽게 됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:170 add()"
+      ]
+    },
+    {
+      "key": "the picked agent has no open task",
+      "ko": "선택한 에이전트에 열린 작업이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:170 add()"
+      ]
+    },
+    {
+      "key": "that task already has a result: a note would replace it",
+      "ko": "해당 작업에 이미 결과가 있습니다: 메모를 쓰면 대체됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:170 add()"
+      ]
+    },
+    {
+      "key": "leave a note in shared memory",
+      "ko": "공유 메모리에 메모 남기기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:173 add()"
+      ]
+    },
+    {
+      "key": "Stored in the guidance memory namespace. Found by a memory search (all namespaces, or --namespace guidance); nothing is pushed into a running agent. Whether an agent's turn searches memory is up to it.",
+      "ko": "guidance 메모리 네임스페이스에 저장합니다. 메모리 검색(모든 네임스페이스 또는 --namespace guidance)으로 찾을 수 있으며, 실행 중인 에이전트에 밀어 넣지는 않습니다. 에이전트가 자기 차례에 메모리를 검색하는지는 에이전트에 달려 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:173 add()"
+      ]
+    },
+    {
+      "key": "prepare a redirect for the main session",
+      "ko": "메인 세션용 방향 전환 준비",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:178 add()"
+      ]
+    },
+    {
+      "key": "prepare the redirect text in the main session's prompt box",
+      "ko": "메인 세션의 프롬프트 입력란에 방향 전환 텍스트 준비",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:178 label"
+      ]
+    },
+    {
+      "key": "Text only: it goes to the main Claude session, never to the running workflow. This route is the prompt-box fallback: the control tab's Redirect calls the engine's TaskStop first (where it is switched on), and resuming applies to a stopped run.",
+      "ko": "텍스트만 전달합니다: 메인 Claude 세션으로 가며 실행 중인 워크플로에는 가지 않습니다. 이 경로는 프롬프트 입력란 대체 경로입니다: 제어 탭의 방향 전환은 (켜져 있으면) 먼저 엔진의 TaskStop을 호출하며, 재개는 중지된 실행에 적용됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:178 note"
+      ]
+    },
+    {
+      "key": "Prepares text in your prompt box; you press Enter. The running workflow is not touched by this text: the control tab's Stop (the engine's TaskStop) or Claude Code's Workflows panel stops it.",
+      "ko": "프롬프트 입력란에 텍스트를 준비하고, Enter는 직접 누릅니다. 이 텍스트는 실행 중인 워크플로에 영향을 주지 않으며, 제어 탭의 중지(엔진의 TaskStop)나 Claude Code의 Workflows 패널이 중지합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:178 add()"
+      ]
+    },
+    {
+      "key": "this run has no id the console can pass on",
+      "ko": "이 실행에는 콘솔이 전달할 수 있는 ID가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:178 add()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

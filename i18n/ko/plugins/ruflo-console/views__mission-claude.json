@@ -1,0 +1,88 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/mission-claude.ts",
+  "entries": [
+    {
+      "key": "no gates",
+      "ko": "게이트 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:17 rule()"
+      ]
+    },
+    {
+      "key": "{0} gate · asks first",
+      "ko": "게이트 {0}개 · 먼저 묻습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:17 rule()"
+      ]
+    },
+    {
+      "key": "{0} gates · asks first",
+      "ko": "게이트 {0}개 · 먼저 묻습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:17 rule()"
+      ]
+    },
+    {
+      "key": "No gates: add your own commands in",
+      "ko": "게이트가 없습니다: 직접 만든 명령을 다음에 추가하세요:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:20 text()"
+      ]
+    },
+    {
+      "key": "Settings → Mission gates. Nothing is invented.",
+      "ko": "설정 → 미션 게이트. 임의로 만들어 내지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:21 text()"
+      ]
+    },
+    {
+      "key": "Run the gates…",
+      "ko": "게이트 실행…",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:24 button()"
+      ]
+    },
+    {
+      "key": "skipped: {0} ({1})",
+      "ko": "건너뜀: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:27 text()"
+      ]
+    },
+    {
+      "key": "next tick",
+      "ko": "다음 틱",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:51 kv()"
+      ]
+    },
+    {
+      "key": "mission spend",
+      "ko": "미션 지출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:54 sourceLine()"
+      ]
+    },
+    {
+      "key": "ledger: cost-tracker plugin",
+      "ko": "원장: cost-tracker 플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-claude.ts:54 missionCostRows()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

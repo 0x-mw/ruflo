@@ -1,0 +1,388 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/task.ts",
+  "entries": [
+    {
+      "key": "Select task type:",
+      "ko": "작업 유형을 선택하세요:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:131 select.message"
+      ]
+    },
+    {
+      "key": "Task description:",
+      "ko": "작업 설명:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:138 input.message"
+      ]
+    },
+    {
+      "key": "Task type and description are required",
+      "ko": "작업 유형과 설명이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:144 printError"
+      ]
+    },
+    {
+      "key": "Use --type and --description flags, or run in interactive mode",
+      "ko": "--type과 --description 플래그를 사용하거나 대화형 모드로 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:145 printInfo"
+      ]
+    },
+    {
+      "key": "Select priority:",
+      "ko": "우선순위를 선택하세요:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:151 select.message"
+      ]
+    },
+    {
+      "key": "Creating {0} task...",
+      "ko": "{0} 작업을 생성하는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:164 printInfo"
+      ]
+    },
+    {
+      "key": "Task created: {0}",
+      "ko": "작업을 생성했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:192 printSuccess"
+      ]
+    },
+    {
+      "key": "Assigned To",
+      "ko": "담당",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:206 printTable.cell",
+        "src/commands/task.ts:444 printTable.cell"
+      ]
+    },
+    {
+      "key": "Failed to create task: {0}",
+      "ko": "작업을 생성하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:219 printError"
+      ]
+    },
+    {
+      "key": "No tasks found matching criteria",
+      "ko": "조건에 맞는 작업이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:310 printInfo"
+      ]
+    },
+    {
+      "key": "Showing {0} of {1} tasks",
+      "ko": "작업 {1}개 중 {0}개 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:336 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to list tasks: {0}",
+      "ko": "작업 목록을 표시하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:341 printError"
+      ]
+    },
+    {
+      "key": "Enter task ID:",
+      "ko": "작업 ID를 입력하세요:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:373 input.message"
+      ]
+    },
+    {
+      "key": "Task ID is required",
+      "ko": "작업 ID가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:379 printError",
+        "src/commands/task.ts:541 printError",
+        "src/commands/task.ts:612 printError"
+      ]
+    },
+    {
+      "key": "Status:      {0}",
+      "ko": "상태:        {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:420 printBox.content"
+      ]
+    },
+    {
+      "key": "Priority:    {0}",
+      "ko": "우선순위:    {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:420 printBox.content"
+      ]
+    },
+    {
+      "key": "Progress:    {0}%",
+      "ko": "진행률:      {0}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:420 printBox.content"
+      ]
+    },
+    {
+      "key": "Task",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:428 printBox.title"
+      ]
+    },
+    {
+      "key": "Assignment",
+      "ko": "할당",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:433 bold"
+      ]
+    },
+    {
+      "key": "Parent Task",
+      "ko": "상위 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:445 printTable.cell"
+      ]
+    },
+    {
+      "key": "Dependencies",
+      "ko": "선행 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:446 printTable.cell"
+      ]
+    },
+    {
+      "key": "Dependents",
+      "ko": "후행 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:447 printTable.cell"
+      ]
+    },
+    {
+      "key": "Event",
+      "ko": "이벤트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:457 printTable.header"
+      ]
+    },
+    {
+      "key": "Execution Logs",
+      "ko": "실행 로그",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:493 bold"
+      ]
+    },
+    {
+      "key": "Are you sure you want to cancel task {0}?",
+      "ko": "작업 {0}을(를) 취소하시겠습니까?",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:547 confirm.message"
+      ]
+    },
+    {
+      "key": "Task {0} cancelled",
+      "ko": "작업 {0}을(를) 취소했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:569 printSuccess"
+      ]
+    },
+    {
+      "key": "Previous status: {0}",
+      "ko": "이전 상태: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:570 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to cancel task: {0}",
+      "ko": "작업을 취소하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:579 printError"
+      ]
+    },
+    {
+      "key": "No available agents",
+      "ko": "사용 가능한 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:625 printWarning"
+      ]
+    },
+    {
+      "key": "Select agent(s) to assign:",
+      "ko": "할당할 에이전트를 선택하세요:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:630 multiSelect.message"
+      ]
+    },
+    {
+      "key": "No agents selected",
+      "ko": "선택한 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:640 printInfo"
+      ]
+    },
+    {
+      "key": "Task {0} assigned to {1}",
+      "ko": "작업 {0}을(를) {1}에 할당했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:655 printSuccess",
+        "src/commands/task.ts:686 printSuccess"
+      ]
+    },
+    {
+      "key": "Agent ID is required. Use --agent flag or run in interactive mode",
+      "ko": "에이전트 ID가 필요합니다. --agent 플래그를 사용하거나 대화형 모드로 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:667 printError"
+      ]
+    },
+    {
+      "key": "Task {0} unassigned",
+      "ko": "작업 {0}의 할당을 해제했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:684 printSuccess"
+      ]
+    },
+    {
+      "key": "Failed to assign task: {0}",
+      "ko": "작업을 할당하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:696 printError"
+      ]
+    },
+    {
+      "key": "Task {0} retried",
+      "ko": "작업 {0}을(를) 재시도했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:739 printSuccess"
+      ]
+    },
+    {
+      "key": "New task ID: {0}",
+      "ko": "새 작업 ID: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:740 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to retry task: {0}",
+      "ko": "작업을 재시도하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:750 printError"
+      ]
+    },
+    {
+      "key": "Task Management Commands",
+      "ko": "작업 관리 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:777 bold"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow task <subcommand> [options]",
+      "ko": "사용법: claude-flow task <subcommand> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:779 writeln"
+      ]
+    },
+    {
+      "key": "{0}  - Create a new task",
+      "ko": "{0}  - 새 작업을 생성합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:783 printList"
+      ]
+    },
+    {
+      "key": "{0}    - List tasks",
+      "ko": "{0}    - 작업 목록을 표시합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:784 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Get task details",
+      "ko": "{0}  - 작업 상세 정보를 조회합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:785 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Cancel a running task",
+      "ko": "{0}  - 실행 중인 작업을 취소합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:786 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Assign task to agent(s)",
+      "ko": "{0}  - 작업을 에이전트에 할당합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:787 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Retry a failed task",
+      "ko": "{0}   - 실패한 작업을 재시도합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/task.ts:788 printList"
+      ]
+    },
+    {
+      "key": "Run \"claude-flow task <subcommand> --help\" for subcommand help",
+      "ko": "하위 명령어 도움말은 `claude-flow task <subcommand> --help`를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/task.ts:791 writeln"
+      ]
+    }
+  ],
+  "obsolete": []
+}

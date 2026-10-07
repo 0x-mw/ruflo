@@ -1,6 +1,6 @@
 ---
 name: browser-screenshot-diff
-description: Visual + DOM diff between two recorded sessions at matching trajectory step ids; used for visual regression and replay verification
+description: 궤적 단계 ID가 일치하는 두 기록 세션 간의 시각 + DOM diff. 시각 회귀와 재생 검증에 사용
 argument-hint: "<session-id-a> <session-id-b> [--threshold <0..1>] [--mode pixel|dom|both]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_eval Bash Read Write
 ---

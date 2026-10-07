@@ -1,0 +1,296 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/neural.ts",
+  "entries": [
+    {
+      "key": "last adapted",
+      "ko": "마지막 적응",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:20 kv()"
+      ]
+    },
+    {
+      "key": "sona patterns",
+      "ko": "sona 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:21 kv()"
+      ]
+    },
+    {
+      "key": "patterns",
+      "ko": "패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:22 label"
+      ]
+    },
+    {
+      "key": "loss: n/a until a run ends (each run adds one point: Final Loss, else Avg Loss)",
+      "ko": "손실: 실행이 끝나기 전에는 해당 없음 (실행마다 한 점 추가: Final Loss, 없으면 Avg Loss)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:48 text()"
+      ]
+    },
+    {
+      "key": "loss {0}  last {1} · low {2} · {3} point",
+      "ko": "손실 {0}  마지막 {1} · 최저 {2} · {3}개 점",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:48 text()"
+      ]
+    },
+    {
+      "key": "loss {0}  last {1} · low {2} · {3} points",
+      "ko": "손실 {0}  마지막 {1} · 최저 {2} · {3}개 점",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:48 text()"
+      ]
+    },
+    {
+      "key": "last run: {0} · {1} epochs · {2}s · {3} · {4}",
+      "ko": "마지막 실행: {0} · {1}에폭 · {2}초 · {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:53 text()"
+      ]
+    },
+    {
+      "key": "last run: {0} · {1} epochs · {2}s · {3}",
+      "ko": "마지막 실행: {0} · {1}에폭 · {2}초 · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:53 text()"
+      ]
+    },
+    {
+      "key": "last run: {0} · {1} epochs · {2} · {3}",
+      "ko": "마지막 실행: {0} · {1}에폭 · {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:53 text()"
+      ]
+    },
+    {
+      "key": "last run: {0} · {1} epochs · {2}",
+      "ko": "마지막 실행: {0} · {1}에폭 · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:53 text()"
+      ]
+    },
+    {
+      "key": "a pattern and epochs: coordination 150 (1-500)",
+      "ko": "패턴과 에폭: coordination 150 (1-500)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:70 field()"
+      ]
+    },
+    {
+      "key": "quantize patterns (Int8)",
+      "ko": "패턴 양자화 (Int8)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:71 label"
+      ]
+    },
+    {
+      "key": "pretrain: shallow",
+      "ko": "사전 학습: 얕게",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:79 label"
+      ]
+    },
+    {
+      "key": "medium",
+      "ko": "중간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:79 label"
+      ]
+    },
+    {
+      "key": "deep",
+      "ko": "깊게",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:79 label"
+      ]
+    },
+    {
+      "key": "pattern search",
+      "ko": "패턴 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:81 field()"
+      ]
+    },
+    {
+      "key": "what the stored patterns should be searched for, in words",
+      "ko": "저장된 패턴에서 찾을 내용을 말로 입력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:81 field()"
+      ]
+    },
+    {
+      "key": "teach a pattern",
+      "ko": "패턴 학습시키기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:82 field()"
+      ]
+    },
+    {
+      "key": "a pattern to remember: always run the auth tests after touching login",
+      "ko": "기억할 패턴: 로그인을 건드린 뒤에는 항상 인증 테스트를 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:82 field()"
+      ]
+    },
+    {
+      "key": "a task: fix the login bug in auth.ts",
+      "ko": "작업: auth.ts의 로그인 버그 수정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:88 field()"
+      ]
+    },
+    {
+      "key": "a task, to see why the router picks its agent",
+      "ko": "작업 입력: 라우터가 해당 에이전트를 고르는 이유 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:89 field()"
+      ]
+    },
+    {
+      "key": "text for the trained models’ top predictions",
+      "ko": "학습된 모델의 상위 예측을 볼 텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:90 field()"
+      ]
+    },
+    {
+      "key": "no .claude-flow/neural/stats.json",
+      "ko": ".claude-flow/neural/stats.json 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:106 section()"
+      ]
+    },
+    {
+      "key": "Training",
+      "ko": "학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:107 section()"
+      ]
+    },
+    {
+      "key": "{0} run this session · running",
+      "ko": "이 세션에서 {0}회 실행 · 실행 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:107 section()"
+      ]
+    },
+    {
+      "key": "{0} run this session",
+      "ko": "이 세션에서 {0}회 실행",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:107 section()"
+      ]
+    },
+    {
+      "key": "{0} runs this session · running",
+      "ko": "이 세션에서 {0}회 실행 · 실행 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:107 section()"
+      ]
+    },
+    {
+      "key": "{0} runs this session",
+      "ko": "이 세션에서 {0}회 실행",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:107 section()"
+      ]
+    },
+    {
+      "key": "Self-learning",
+      "ko": "자가 학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:108 section()"
+      ]
+    },
+    {
+      "key": "bootstrap, consolidate and teach the ReasoningBank · local, no model calls",
+      "ko": "ReasoningBank 부트스트랩, 통합, 학습 · 로컬, 모델 호출 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:108 section()"
+      ]
+    },
+    {
+      "key": "Explain a recall",
+      "ko": "조회 설명",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:109 section()"
+      ]
+    },
+    {
+      "key": "what the hook surfaced · ranked-context.json",
+      "ko": "훅이 가져온 내용 · ranked-context.json",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:109 section()"
+      ]
+    },
+    {
+      "key": "Pattern lifecycle",
+      "ko": "패턴 수명 주기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:110 section()"
+      ]
+    },
+    {
+      "key": "neural/models.json · prune and promote ask first",
+      "ko": "neural/models.json · 정리와 승격은 먼저 묻습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:110 section()"
+      ]
+    },
+    {
+      "key": "which agent for this task? · $0, local",
+      "ko": "이 작업은 어떤 에이전트가? · $0, 로컬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:111 section()"
+      ]
+    },
+    {
+      "key": "$0 read, runs at once · cpu local compute that writes .claude-flow/neural, asks first · no entry here calls a paid model",
+      "ko": "$0 읽기는 바로 실행 · cpu 로컬 연산으로 .claude-flow/neural에 기록하며 먼저 묻습니다 · 여기 항목은 유료 모델을 호출하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/neural.ts:125 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

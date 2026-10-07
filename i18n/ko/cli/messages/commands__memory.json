@@ -1,0 +1,1901 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/memory.ts",
+  "entries": [
+    {
+      "key": "{0} {1} entries are in {2} and were not searched. That store is written by the MCP/AgentDB path; read it with --path {3}.",
+      "ko": "{2}에 {0} {1}개 항목이 있지만 검색하지 않았습니다. 해당 저장소는 MCP/AgentDB 경로에서 기록하므로 --path {3}으로 읽으세요.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:38 printWarning"
+      ]
+    },
+    {
+      "key": "Key is required. Use --key or -k",
+      "ko": "키가 필요합니다. --key 또는 -k를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:188 printError"
+      ]
+    },
+    {
+      "key": "Enter value to store:",
+      "ko": "저장할 값 입력:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:194 input.message"
+      ]
+    },
+    {
+      "key": "Value is required. Use --value",
+      "ko": "값이 필요합니다. --value를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:200 printError"
+      ]
+    },
+    {
+      "key": "MemPoison gate refused write (#2752): {0} injection signature(s) in value. Top: {1}/{2} — {3}.",
+      "ko": "MemPoison 게이트가 쓰기를 거부했습니다 (#2752): 값에서 인젝션 시그니처 {0}개 발견. 상위: {1}/{2} — {3}.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:228 printError"
+      ]
+    },
+    {
+      "key": "Bypass: drop --scan-content or unset RUFLO_MEMORY_SCAN_ON_WRITE to persist anyway (not recommended).",
+      "ko": "우회: 그래도 저장하려면 --scan-content를 빼거나 RUFLO_MEMORY_SCAN_ON_WRITE를 해제하세요 (권장하지 않음).",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:231 dim"
+      ]
+    },
+    {
+      "key": "MemPoison scan skipped: {0}",
+      "ko": "MemPoison 스캔을 건너뛰었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:235 dim"
+      ]
+    },
+    {
+      "key": "Storing in {0}/{1}...",
+      "ko": "{0}/{1}에 저장하는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:250 printInfo"
+      ]
+    },
+    {
+      "key": "Generating embedding vector...",
+      "ko": "임베딩 벡터를 생성하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:258 dim"
+      ]
+    },
+    {
+      "key": "Failed to store",
+      "ko": "저장하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:274 printError"
+      ]
+    },
+    {
+      "key": "Key",
+      "ko": "키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:285 printTable.cell",
+        "src/commands/memory.ts:399 printBox.content",
+        "src/commands/memory.ts:786 printTable.header"
+      ]
+    },
+    {
+      "key": "Size",
+      "ko": "크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:287 printTable.cell",
+        "src/commands/memory.ts:878 printTable.header",
+        "src/commands/status.ts:307 printTable.cell"
+      ]
+    },
+    {
+      "key": "TTL",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:288 printTable.cell"
+      ]
+    },
+    {
+      "key": "Tags",
+      "ko": "태그",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:289 printTable.cell",
+        "src/commands/memory.ts:399 printBox.content",
+        "src/commands/task.ts:207 printTable.cell"
+      ]
+    },
+    {
+      "key": "Vector",
+      "ko": "벡터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:290 printTable.cell",
+        "src/commands/memory.ts:879 printTable.header"
+      ]
+    },
+    {
+      "key": "Provenance",
+      "ko": "출처",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:291 printTable.cell"
+      ]
+    },
+    {
+      "key": "Data stored, but persistence is not guaranteed: {0}",
+      "ko": "데이터를 저장했지만 영속성이 보장되지 않습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:301 printWarning"
+      ]
+    },
+    {
+      "key": "Data stored successfully",
+      "ko": "데이터를 저장했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:303 printSuccess"
+      ]
+    },
+    {
+      "key": "Failed to store: {0}",
+      "ko": "저장하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:308 printError"
+      ]
+    },
+    {
+      "key": "Failed to store: Unknown error",
+      "ko": "저장하지 못했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:308 printError"
+      ]
+    },
+    {
+      "key": "Key is required",
+      "ko": "키가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:355 printError"
+      ]
+    },
+    {
+      "key": "Failed to retrieve: {0}",
+      "ko": "조회하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:366 printError",
+        "src/commands/memory.ts:415 printError"
+      ]
+    },
+    {
+      "key": "Key not found: {0}",
+      "ko": "키를 찾을 수 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:371 printWarning"
+      ]
+    },
+    {
+      "key": "Namespace: {0}",
+      "ko": "네임스페이스: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:399 printBox.content"
+      ]
+    },
+    {
+      "key": "Size: {0} bytes",
+      "ko": "크기: {0} bytes",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:399 printBox.content"
+      ]
+    },
+    {
+      "key": "Access Count: {0}",
+      "ko": "접근 횟수: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:399 printBox.content"
+      ]
+    },
+    {
+      "key": "Vector: Yes",
+      "ko": "벡터: 예",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:399 printBox.content"
+      ]
+    },
+    {
+      "key": "Value:",
+      "ko": "값:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:407 bold"
+      ]
+    },
+    {
+      "key": "Memory Entry",
+      "ko": "메모리 항목",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:410 printBox.title"
+      ]
+    },
+    {
+      "key": "Failed to retrieve: Unknown error",
+      "ko": "조회하지 못했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:415 printError"
+      ]
+    },
+    {
+      "key": "Query is required. Use --query or -q",
+      "ko": "쿼리가 필요합니다. --query 또는 -q를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:532 printError",
+        "src/commands/memory.ts:2202 printError"
+      ]
+    },
+    {
+      "key": "SCM router → {0} (confidence {1}%)",
+      "ko": "SCM 라우터 → {0} (신뢰도 {1}%)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:548 printInfo"
+      ]
+    },
+    {
+      "key": "Suggested: rerun with --namespace {0} to filter (or one of: {1}...)",
+      "ko": "권장: 필터링하려면 --namespace {0}으로 다시 실행하세요 (또는 다음 중 하나: {1}...)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:550 dim"
+      ]
+    },
+    {
+      "key": "SCM router → mixed ({0})",
+      "ko": "SCM 라우터 → 혼합 ({0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:552 dim"
+      ]
+    },
+    {
+      "key": "SCM routing skipped: {0}",
+      "ko": "SCM 라우팅을 건너뛰었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:555 dim"
+      ]
+    },
+    {
+      "key": "Building HNSW index...",
+      "ko": "HNSW 인덱스를 구축하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:561 printInfo"
+      ]
+    },
+    {
+      "key": "HNSW index built ({0} vectors, {1}ms)",
+      "ko": "HNSW 인덱스를 구축했습니다 (벡터 {0}개, {1}ms)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:571 printSuccess"
+      ]
+    },
+    {
+      "key": "Dimensions: {0}, Metric: cosine",
+      "ko": "차원: {0}, 메트릭: cosine",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:572 dim"
+      ]
+    },
+    {
+      "key": "HNSW index not available (install @ruvector/core for acceleration)",
+      "ko": "HNSW 인덱스를 사용할 수 없습니다 (가속하려면 @ruvector/core를 설치하세요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:574 printWarning"
+      ]
+    },
+    {
+      "key": "HNSW build failed: {0}",
+      "ko": "HNSW 구축에 실패했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:578 printWarning"
+      ]
+    },
+    {
+      "key": "HNSW build failed: Unknown error",
+      "ko": "HNSW 구축에 실패했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:578 printWarning"
+      ]
+    },
+    {
+      "key": "Falling back to brute-force search",
+      "ko": "전수 탐색으로 대체합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:579 dim"
+      ]
+    },
+    {
+      "key": "Searching: \"{0}\" ({1})",
+      "ko": "검색하는 중: \"{0}\" ({1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:584 printInfo"
+      ]
+    },
+    {
+      "key": "Keyword search failed",
+      "ko": "키워드 검색에 실패했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:608 printError"
+      ]
+    },
+    {
+      "key": "Found {0} result(s) via keyword substring match",
+      "ko": "키워드 부분 문자열 일치로 결과 {0}개를 찾았습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:640 printSuccess"
+      ]
+    },
+    {
+      "key": "Smart search requested but smartSearch is not available on the installed @claude-flow/memory build (#1846). Falling back to standard semantic search.",
+      "ko": "스마트 검색을 요청했지만 설치된 @claude-flow/memory 빌드에서 smartSearch를 사용할 수 없습니다 (#1846). 표준 시맨틱 검색으로 대체합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:672 printWarning"
+      ]
+    },
+    {
+      "key": "Search failed",
+      "ko": "검색에 실패했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:732 printError"
+      ]
+    },
+    {
+      "key": "Search time: {0}ms",
+      "ko": "검색 시간: {0}ms",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:770 dim"
+      ]
+    },
+    {
+      "key": "Variants: {0}, Raw candidates: {1}",
+      "ko": "변형: {0}, 원시 후보: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:773 dim"
+      ]
+    },
+    {
+      "key": "No results found",
+      "ko": "결과가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:778 printWarning"
+      ]
+    },
+    {
+      "key": "Try: claude-flow memory store -k \"key\" --value \"data\"",
+      "ko": "시도해 보세요: claude-flow memory store -k \"key\" --value \"data\"",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:780 dim"
+      ]
+    },
+    {
+      "key": "Score",
+      "ko": "점수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:787 printTable.header"
+      ]
+    },
+    {
+      "key": "Preview",
+      "ko": "미리보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:789 printTable.header"
+      ]
+    },
+    {
+      "key": "Found {0} results",
+      "ko": "결과 {0}개를 찾았습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:795 printInfo"
+      ]
+    },
+    {
+      "key": "Search failed: {0}",
+      "ko": "검색에 실패했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:800 printError"
+      ]
+    },
+    {
+      "key": "Search failed: Unknown error",
+      "ko": "검색에 실패했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:800 printError"
+      ]
+    },
+    {
+      "key": "Failed to list: {0}",
+      "ko": "목록을 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:844 printError",
+        "src/commands/memory.ts:903 printError"
+      ]
+    },
+    {
+      "key": "Memory Entries",
+      "ko": "메모리 항목",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:864 bold",
+        "src/commands/session.ts:293 printTable.cell",
+        "src/commands/session.ts:709 printTable.cell"
+      ]
+    },
+    {
+      "key": "No entries found",
+      "ko": "항목이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:868 printWarning"
+      ]
+    },
+    {
+      "key": "Store data: claude-flow memory store -k \"key\" --value \"data\"",
+      "ko": "데이터 저장: claude-flow memory store -k \"key\" --value \"data\"",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:870 printInfo"
+      ]
+    },
+    {
+      "key": "Accessed",
+      "ko": "접근",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:880 printTable.header"
+      ]
+    },
+    {
+      "key": "Updated",
+      "ko": "업데이트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:881 printTable.header"
+      ]
+    },
+    {
+      "key": "{0} more entries are in {1} and were not read here. That store is written by the MCP/AgentDB path; read it with --path {2}.",
+      "ko": "{1}에 항목 {0}개가 더 있지만 여기서는 읽지 않았습니다. 해당 저장소는 MCP/AgentDB 경로에서 기록하므로 --path {2}로 읽으세요.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:896 printWarning"
+      ]
+    },
+    {
+      "key": "Failed to list: Unknown error",
+      "ko": "목록을 가져오지 못했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:903 printError"
+      ]
+    },
+    {
+      "key": "Key is required. Use: memory delete -k \"key\" [-n \"namespace\"]",
+      "ko": "키가 필요합니다. 사용법: memory delete -k \"key\" [-n \"namespace\"]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:966 printError"
+      ]
+    },
+    {
+      "key": "Delete memory entry \"{0}\" from namespace \"{1}\"?",
+      "ko": "네임스페이스 \"{1}\"에서 메모리 항목 \"{0}\"을(를) 삭제하시겠습니까?",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:972 confirm.message"
+      ]
+    },
+    {
+      "key": "Deleted \"{0}\" from namespace \"{1}\"",
+      "ko": "네임스페이스 \"{1}\"에서 \"{0}\"을(를) 삭제했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1000 printSuccess"
+      ]
+    },
+    {
+      "key": "Remaining entries across {0} store(s): {1}",
+      "ko": "저장소 {0}개의 남은 항목: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1001 printInfo"
+      ]
+    },
+    {
+      "key": "Key not found: \"{0}\" in namespace \"{1}\"",
+      "ko": "키를 찾을 수 없습니다: 네임스페이스 \"{1}\"의 \"{0}\"",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1003 printWarning"
+      ]
+    },
+    {
+      "key": "Failed to delete: {0}",
+      "ko": "삭제하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1008 printError"
+      ]
+    },
+    {
+      "key": "Failed to delete: Unknown error",
+      "ko": "삭제하지 못했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1008 printError"
+      ]
+    },
+    {
+      "key": "Namespace is required. Use: memory purge -n \"namespace\" [--dry-run | --force]",
+      "ko": "네임스페이스가 필요합니다. 사용법: memory purge -n \"namespace\" [--dry-run | --force]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1058 printError"
+      ]
+    },
+    {
+      "key": "Would permanently delete {0} entry from namespace \"{1}\" across {2} store(s) (dry run — nothing deleted)",
+      "ko": "저장소 {2}개의 네임스페이스 \"{1}\"에서 항목 {0}개를 영구 삭제합니다 (드라이런 — 삭제하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1073 printInfo"
+      ]
+    },
+    {
+      "key": "Would permanently delete {0} entries from namespace \"{1}\" across {2} store(s) (dry run — nothing deleted)",
+      "ko": "저장소 {2}개의 네임스페이스 \"{1}\"에서 항목 {0}개를 영구 삭제합니다 (드라이런 — 삭제하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1073 printInfo"
+      ]
+    },
+    {
+      "key": "Permanently delete {0} entry from namespace \"{1}\" across {2} store(s)? This is a hard delete — not reversible with `memory delete`'s soft-undo.",
+      "ko": "저장소 {2}개의 네임스페이스 \"{1}\"에서 항목 {0}개를 영구 삭제하시겠습니까? 완전 삭제이므로 `memory delete`의 소프트 실행 취소로 되돌릴 수 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1079 confirm.message"
+      ]
+    },
+    {
+      "key": "Permanently delete {0} entries from namespace \"{1}\" across {2} store(s)? This is a hard delete — not reversible with `memory delete`'s soft-undo.",
+      "ko": "저장소 {2}개의 네임스페이스 \"{1}\"에서 항목 {0}개를 영구 삭제하시겠습니까? 완전 삭제이므로 `memory delete`의 소프트 실행 취소로 되돌릴 수 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1079 confirm.message"
+      ]
+    },
+    {
+      "key": "Refusing to purge namespace \"{0}\" without --force in non-interactive mode",
+      "ko": "비대화형 모드에서는 --force 없이 네임스페이스 \"{0}\"을(를) 완전 삭제할 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1087 printError"
+      ]
+    },
+    {
+      "key": "Purged {0} entry from namespace \"{1}\"",
+      "ko": "네임스페이스 \"{1}\"에서 항목 {0}개를 완전 삭제했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1103 printSuccess"
+      ]
+    },
+    {
+      "key": "Purged {0} entries from namespace \"{1}\"",
+      "ko": "네임스페이스 \"{1}\"에서 항목 {0}개를 완전 삭제했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1103 printSuccess"
+      ]
+    },
+    {
+      "key": "Remaining entries (all namespaces, {0} store(s)): {1}",
+      "ko": "남은 항목 (모든 네임스페이스, 저장소 {0}개): {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1104 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to purge: {0}",
+      "ko": "완전 삭제하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1107 printError"
+      ]
+    },
+    {
+      "key": "Failed to purge: Unknown error",
+      "ko": "완전 삭제하지 못했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1107 printError"
+      ]
+    },
+    {
+      "key": "Failed to get stats: {0}",
+      "ko": "통계를 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1137 printError",
+        "src/commands/memory.ts:1277 printError"
+      ]
+    },
+    {
+      "key": "Failed to get stats: Store unavailable",
+      "ko": "통계를 가져오지 못했습니다: 저장소를 사용할 수 없음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1137 printError"
+      ]
+    },
+    {
+      "key": "{0} entries are in {1} and were not read here. Read them with --path {2}.",
+      "ko": "{1}에 항목 {0}개가 있지만 여기서는 읽지 않았습니다. --path {2}로 읽으세요.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1165 printWarning"
+      ]
+    },
+    {
+      "key": "Memory Statistics",
+      "ko": "메모리 통계",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1168 bold"
+      ]
+    },
+    {
+      "key": "Overview",
+      "ko": "개요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1171 bold"
+      ]
+    },
+    {
+      "key": "Timeline",
+      "ko": "타임라인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1187 bold",
+        "src/commands/task.ts:454 bold"
+      ]
+    },
+    {
+      "key": "Embedding",
+      "ko": "임베딩",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1224 bold",
+        "src/commands/memory.ts:1270 bold"
+      ]
+    },
+    {
+      "key": "unavailable: {0}",
+      "ko": "사용 불가: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1235 warning"
+      ]
+    },
+    {
+      "key": "unavailable: unknown",
+      "ko": "사용 불가: 알 수 없음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1235 warning"
+      ]
+    },
+    {
+      "key": "no — using hash fallback",
+      "ko": "아니요 — 해시 대체 사용 중",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1242 warning"
+      ]
+    },
+    {
+      "key": "not active",
+      "ko": "비활성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1259 dim"
+      ]
+    },
+    {
+      "key": "available but not initialized",
+      "ko": "사용 가능하지만 초기화되지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1260 warning"
+      ]
+    },
+    {
+      "key": "active ({0} entries)",
+      "ko": "활성 (항목 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1261 success"
+      ]
+    },
+    {
+      "key": "Provider info unavailable: {0}",
+      "ko": "프로바이더 정보를 사용할 수 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1271 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to get stats: Unknown error",
+      "ko": "통계를 가져오지 못했습니다: 알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1277 printError"
+      ]
+    },
+    {
+      "key": "Memory Configuration",
+      "ko": "메모리 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1341 printInfo"
+      ]
+    },
+    {
+      "key": "Backend",
+      "ko": "백엔드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1350 printTable.cell",
+        "src/commands/status.ts:305 printTable.cell",
+        "src/commands/status.ts:679 printTable.cell"
+      ]
+    },
+    {
+      "key": "Storage Path",
+      "ko": "저장 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1351 printTable.cell"
+      ]
+    },
+    {
+      "key": "Cache Size",
+      "ko": "캐시 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1352 printTable.cell"
+      ]
+    },
+    {
+      "key": "HNSW M",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1353 printTable.cell"
+      ]
+    },
+    {
+      "key": "HNSW ef",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1354 printTable.cell"
+      ]
+    },
+    {
+      "key": "Memory configuration updated",
+      "ko": "메모리 설정을 업데이트했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1359 printSuccess"
+      ]
+    },
+    {
+      "key": "DRY RUN - No changes will be made",
+      "ko": "드라이런 - 변경하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1425 warning"
+      ]
+    },
+    {
+      "key": "Analyzing memory for cleanup...",
+      "ko": "정리할 메모리를 분석하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1428 printInfo"
+      ]
+    },
+    {
+      "key": "Cleanup Analysis",
+      "ko": "정리 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1467 bold"
+      ]
+    },
+    {
+      "key": "Total",
+      "ko": "합계",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1477 bold",
+        "src/commands/memory.ts:1637 bold",
+        "src/commands/status.ts:275 bold"
+      ]
+    },
+    {
+      "key": "Delete {0} entries ({1})?",
+      "ko": "항목 {0}개({1})를 삭제하시겠습니까?",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1483 confirm.message"
+      ]
+    },
+    {
+      "key": "Cleanup cancelled",
+      "ko": "정리를 취소했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1488 printInfo"
+      ]
+    },
+    {
+      "key": "Cleaned {0} entries",
+      "ko": "항목 {0}개를 정리했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1496 printSuccess"
+      ]
+    },
+    {
+      "key": "Vectors removed: {0}",
+      "ko": "제거된 벡터: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1498 printList"
+      ]
+    },
+    {
+      "key": "Patterns removed: {0}",
+      "ko": "제거된 패턴: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1499 printList"
+      ]
+    },
+    {
+      "key": "Space freed: {0}",
+      "ko": "확보된 공간: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1500 printList"
+      ]
+    },
+    {
+      "key": "Duration: {0}ms",
+      "ko": "소요 시간: {0}ms",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1501 printList",
+        "src/commands/memory.ts:1824 printList"
+      ]
+    },
+    {
+      "key": "Cleanup error: {0}",
+      "ko": "정리 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1508 printError"
+      ]
+    },
+    {
+      "key": "Memory Compression",
+      "ko": "메모리 압축",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1572 bold"
+      ]
+    },
+    {
+      "key": "Level: {0}, Target: {1}, Quantize: {2}-bit",
+      "ko": "수준: {0}, 대상: {1}, 양자화: {2}-bit",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1573 dim"
+      ]
+    },
+    {
+      "key": "Level: {0}, Target: {1}, Quantize: no",
+      "ko": "수준: {0}, 대상: {1}, 양자화: 안 함",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1573 dim"
+      ]
+    },
+    {
+      "key": "Analyzing current storage...",
+      "ko": "현재 저장소를 분석하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1576 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Compression complete",
+      "ko": "압축을 완료했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1616 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Storage Comparison",
+      "ko": "저장소 비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1624 bold"
+      ]
+    },
+    {
+      "key": "Before",
+      "ko": "이전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1628 printTable.header"
+      ]
+    },
+    {
+      "key": "After",
+      "ko": "이후",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1629 printTable.header"
+      ]
+    },
+    {
+      "key": "Saved",
+      "ko": "절감",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1630 printTable.header"
+      ]
+    },
+    {
+      "key": "Compression Ratio: {0}x",
+      "ko": "압축률: {0}x",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1643 printBox.content"
+      ]
+    },
+    {
+      "key": "Space Saved: {0}",
+      "ko": "절약된 공간: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1643 printBox.content"
+      ]
+    },
+    {
+      "key": "Quantization: Yes ({0}-bit)",
+      "ko": "양자화: 예 ({0}-bit)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1643 printBox.content"
+      ]
+    },
+    {
+      "key": "Index Rebuilt: Yes",
+      "ko": "인덱스 재구축: 예",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1643 printBox.content"
+      ]
+    },
+    {
+      "key": "Duration: {0}s",
+      "ko": "소요 시간: {0}s",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1643 printBox.content"
+      ]
+    },
+    {
+      "key": "Results",
+      "ko": "결과",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1650 printBox.title"
+      ]
+    },
+    {
+      "key": "Performance Impact",
+      "ko": "성능 영향",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1655 bold"
+      ]
+    },
+    {
+      "key": "Search latency: {0}ms → {1}ms",
+      "ko": "검색 지연 시간: {0}ms → {1}ms",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1657 printList"
+      ]
+    },
+    {
+      "key": "Speedup: {0}",
+      "ko": "속도 향상: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1658 printList"
+      ]
+    },
+    {
+      "key": "Compression failed",
+      "ko": "압축에 실패했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1664 spinner.fail"
+      ]
+    },
+    {
+      "key": "Compression error: {0}",
+      "ko": "압축 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1666 printError"
+      ]
+    },
+    {
+      "key": "Output path is required. Use --output or -o",
+      "ko": "출력 경로가 필요합니다. --output 또는 -o를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1717 printError"
+      ]
+    },
+    {
+      "key": "Exporting memory to {0}...",
+      "ko": "메모리를 {0}(으)로 내보내는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1721 printInfo"
+      ]
+    },
+    {
+      "key": "Exported to {0}",
+      "ko": "{0}(으)로 내보냈습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1740 printSuccess"
+      ]
+    },
+    {
+      "key": "Entries: {0}",
+      "ko": "항목: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1742 printList",
+        "src/commands/memory.ts:1820 printList"
+      ]
+    },
+    {
+      "key": "Patterns: {0}",
+      "ko": "패턴: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1744 printList",
+        "src/commands/memory.ts:1822 printList"
+      ]
+    },
+    {
+      "key": "File size: {0}",
+      "ko": "파일 크기: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1745 printList"
+      ]
+    },
+    {
+      "key": "Export error: {0}",
+      "ko": "내보내기 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1751 printError"
+      ]
+    },
+    {
+      "key": "Input path is required. Use --input or -i",
+      "ko": "입력 경로가 필요합니다. --input 또는 -i를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1795 printError"
+      ]
+    },
+    {
+      "key": "Importing memory from {0}...",
+      "ko": "{0}에서 메모리를 가져오는 중...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1799 printInfo"
+      ]
+    },
+    {
+      "key": "Imported from {0}",
+      "ko": "{0}에서 가져왔습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1818 printSuccess"
+      ]
+    },
+    {
+      "key": "Skipped (duplicates): {0}",
+      "ko": "건너뜀 (중복): {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1823 printList"
+      ]
+    },
+    {
+      "key": "Import error: {0}",
+      "ko": "가져오기 오류: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1830 printError"
+      ]
+    },
+    {
+      "key": "Initializing Memory Database",
+      "ko": "메모리 데이터베이스 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1898 bold"
+      ]
+    },
+    {
+      "key": "Initializing schema...",
+      "ko": "스키마를 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1901 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Memory database already initialized at {0}",
+      "ko": "메모리 데이터베이스가 이미 {0}에 초기화되어 있습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1923 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Use `--force` to reinitialize from scratch (destructive).",
+      "ko": "처음부터 다시 초기화하려면 `--force`를 사용하세요 (파괴적).",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1924 printInfo"
+      ]
+    },
+    {
+      "key": "Schema initialized",
+      "ko": "스키마를 초기화했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1928 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Loading embedding model...",
+      "ko": "임베딩 모델을 불러오는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1932 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Embedding model loaded: {0} ({1}-dim, {2}ms)",
+      "ko": "임베딩 모델을 불러왔습니다: {0} ({1}차원, {2}ms)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1938 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Embedding model: {0}",
+      "ko": "임베딩 모델: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1940 warning"
+      ]
+    },
+    {
+      "key": "Embedding model: Using fallback",
+      "ko": "임베딩 모델: 대체 모델 사용 중",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1940 warning"
+      ]
+    },
+    {
+      "key": "Features:",
+      "ko": "기능:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1952 bold"
+      ]
+    },
+    {
+      "key": "Enabled",
+      "ko": "활성화됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1953 success",
+        "src/commands/memory.ts:1954 success",
+        "src/commands/memory.ts:1955 success"
+      ]
+    },
+    {
+      "key": "Disabled",
+      "ko": "비활성화됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1953 dim",
+        "src/commands/memory.ts:1954 dim",
+        "src/commands/memory.ts:1955 dim"
+      ]
+    },
+    {
+      "key": "HNSW Configuration:",
+      "ko": "HNSW 설정:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1963 bold"
+      ]
+    },
+    {
+      "key": "Pattern Learning:",
+      "ko": "패턴 학습:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1969 bold"
+      ]
+    },
+    {
+      "key": "Backend:           {0}",
+      "ko": "백엔드:            {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Schema Version:    {0}",
+      "ko": "스키마 버전:      {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Database Path:     {0}",
+      "ko": "데이터베이스 경로: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Vector Embeddings: {0}",
+      "ko": "벡터 임베딩:      {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Pattern Learning:  {0}",
+      "ko": "패턴 학습:        {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Temporal Decay:    {0}",
+      "ko": "시간 감쇠:        {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "HNSW Indexing:     {0}",
+      "ko": "HNSW 인덱싱:     {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Migration Tracking: {0}",
+      "ko": "마이그레이션 추적: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "M (connections):     16",
+      "ko": "M (연결 수):         16",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "ef (construction):   200",
+      "ko": "ef (구축):           200",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "ef (search):         100",
+      "ko": "ef (검색):           100",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Metric:              cosine",
+      "ko": "거리 척도:           cosine",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Confidence scoring:  0.0 - 1.0",
+      "ko": "신뢰도 점수:         0.0 - 1.0",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Temporal decay:      Half-life 30 days",
+      "ko": "시간 감쇠:           반감기 30일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Pattern versioning:  Enabled",
+      "ko": "패턴 버전 관리:      사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Types: task-routing, error-recovery, optimization, coordination, prediction",
+      "ko": "유형: task-routing, error-recovery, optimization, coordination, prediction",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.content"
+      ]
+    },
+    {
+      "key": "Configuration",
+      "ko": "설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1977 printBox.title"
+      ]
+    },
+    {
+      "key": "AgentDB Controllers:",
+      "ko": "AgentDB 컨트롤러:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:1985 bold"
+      ]
+    },
+    {
+      "key": "Activated: {0}  Failed: {1}  Init: {2}ms",
+      "ko": "활성화: {0}  실패: {1}  초기화: {2}ms",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2000 printBox.content"
+      ]
+    },
+    {
+      "key": "Controller Registry (ADR-053)",
+      "ko": "컨트롤러 레지스트리 (ADR-053)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2000 printBox.title"
+      ]
+    },
+    {
+      "key": "Tables Created:",
+      "ko": "생성된 테이블:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2007 bold"
+      ]
+    },
+    {
+      "key": "Purpose",
+      "ko": "용도",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2011 printTable.header",
+        "src/commands/swarm.ts:659 printTable.header"
+      ]
+    },
+    {
+      "key": "Indexes Created:",
+      "ko": "생성된 인덱스:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2027 bold"
+      ]
+    },
+    {
+      "key": "Verifying initialization...",
+      "ko": "초기화를 검증하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2037 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Verification passed ({0}/{1} tests)",
+      "ko": "검증을 통과했습니다 (테스트 {0}/{1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2043 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Verification failed ({0}/{1} tests failed)",
+      "ko": "검증에 실패했습니다 (테스트 {0}/{1} 실패)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2045 spinner.fail"
+      ]
+    },
+    {
+      "key": "Verification Results:",
+      "ko": "검증 결과:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2050 bold"
+      ]
+    },
+    {
+      "key": "Test",
+      "ko": "테스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2054 printTable.header"
+      ]
+    },
+    {
+      "key": "Details",
+      "ko": "상세",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2055 printTable.header"
+      ]
+    },
+    {
+      "key": "Time",
+      "ko": "시간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2056 printTable.header",
+        "src/commands/task.ts:458 printTable.header"
+      ]
+    },
+    {
+      "key": "Next Steps:",
+      "ko": "다음 단계:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2071 bold"
+      ]
+    },
+    {
+      "key": "Store data: {0}",
+      "ko": "데이터 저장: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2073 printList"
+      ]
+    },
+    {
+      "key": "Search: {0}",
+      "ko": "검색: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2074 printList"
+      ]
+    },
+    {
+      "key": "Train patterns: {0}",
+      "ko": "패턴 학습: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2075 printList"
+      ]
+    },
+    {
+      "key": "View stats: {0}",
+      "ko": "통계 보기: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2076 printList"
+      ]
+    },
+    {
+      "key": "Synced to: {0}",
+      "ko": "동기화 대상: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2092 dim"
+      ]
+    },
+    {
+      "key": "Failed to initialize memory: {0}",
+      "ko": "메모리를 초기화하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2109 printError"
+      ]
+    },
+    {
+      "key": "Both --budget and --entries are required.",
+      "ko": "--budget과 --entries가 모두 필요합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2137 printError"
+      ]
+    },
+    {
+      "key": "Budget and entries must be non-negative.",
+      "ko": "예산과 항목 수는 0 이상이어야 합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2141 printError"
+      ]
+    },
+    {
+      "key": "Budget: {0} points · Entries: {1}",
+      "ko": "예산: {0}포인트 · 항목: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2156 printBox.content"
+      ]
+    },
+    {
+      "key": "Operator: {0}",
+      "ko": "오퍼레이터: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2156 printBox.content"
+      ]
+    },
+    {
+      "key": "Description: {0}",
+      "ko": "설명: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2156 printBox.content",
+        "src/commands/task.ts:420 printBox.content"
+      ]
+    },
+    {
+      "key": "Estimated cost: {0} points",
+      "ko": "예상 비용: {0}포인트",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2156 printBox.content"
+      ]
+    },
+    {
+      "key": "Needs split: YES — batch size {0}",
+      "ko": "분할 필요: 예 — 배치 크기 {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2156 printBox.content"
+      ]
+    },
+    {
+      "key": "Needs split: no",
+      "ko": "분할 필요: 아니요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2156 printBox.content"
+      ]
+    },
+    {
+      "key": "OAS Operator Selection (#2763)",
+      "ko": "OAS 오퍼레이터 선택 (#2763)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2161 printBox.title"
+      ]
+    },
+    {
+      "key": "All operators considered",
+      "ko": "검토한 모든 오퍼레이터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2168 bold"
+      ]
+    },
+    {
+      "key": "Operator",
+      "ko": "오퍼레이터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2171 printTable.header"
+      ]
+    },
+    {
+      "key": "Est. Cost",
+      "ko": "예상 비용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2172 printTable.header"
+      ]
+    },
+    {
+      "key": "Fits Budget",
+      "ko": "예산 적합",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2173 printTable.header"
+      ]
+    },
+    {
+      "key": "Intent: {0}",
+      "ko": "의도: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2216 printBox.content"
+      ]
+    },
+    {
+      "key": "Confidence: {0}%",
+      "ko": "신뢰도: {0}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2216 printBox.content"
+      ]
+    },
+    {
+      "key": "Namespaces: {0}…",
+      "ko": "네임스페이스: {0}…",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2216 printBox.content"
+      ]
+    },
+    {
+      "key": "Namespaces: {0}",
+      "ko": "네임스페이스: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2216 printBox.content"
+      ]
+    },
+    {
+      "key": "Namespaces: (all — mixed retrieval)",
+      "ko": "네임스페이스: (전체 — 혼합 검색)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2216 printBox.content"
+      ]
+    },
+    {
+      "key": "SCM Classifier (#2760)",
+      "ko": "SCM 분류기 (#2760)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2220 printBox.title"
+      ]
+    },
+    {
+      "key": "Memory Management Commands",
+      "ko": "메모리 관리 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2241 bold"
+      ]
+    },
+    {
+      "key": "Usage: claude-flow memory <subcommand> [options]",
+      "ko": "사용법: claude-flow memory <subcommand> [options]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory.ts:2243 writeln"
+      ]
+    },
+    {
+      "key": "{0}       - Initialize memory database (sql.js)",
+      "ko": "{0}       - 메모리 데이터베이스 초기화 (sql.js)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2247 printList"
+      ]
+    },
+    {
+      "key": "{0}      - Store data in memory",
+      "ko": "{0}      - 메모리에 데이터 저장",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2248 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Retrieve data from memory",
+      "ko": "{0}   - 메모리에서 데이터 조회",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2249 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Semantic/vector search",
+      "ko": "{0}     - 시맨틱/벡터 검색",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2250 printList"
+      ]
+    },
+    {
+      "key": "{0}       - List memory entries",
+      "ko": "{0}       - 메모리 항목 목록",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2251 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Delete memory entry",
+      "ko": "{0}     - 메모리 항목 삭제",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2252 printList"
+      ]
+    },
+    {
+      "key": "{0}      - Show statistics",
+      "ko": "{0}      - 통계 표시",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2253 printList"
+      ]
+    },
+    {
+      "key": "{0}  - Configure backend",
+      "ko": "{0}  - 백엔드 설정",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2254 printList"
+      ]
+    },
+    {
+      "key": "{0}    - Clean expired entries",
+      "ko": "{0}    - 만료된 항목 정리",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2255 printList"
+      ]
+    },
+    {
+      "key": "{0}   - Compress database",
+      "ko": "{0}   - 데이터베이스 압축",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2256 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Export memory to file",
+      "ko": "{0}     - 메모리를 파일로 내보내기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2257 printList"
+      ]
+    },
+    {
+      "key": "{0}     - Import from file",
+      "ko": "{0}     - 파일에서 가져오기",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2258 printList"
+      ]
+    },
+    {
+      "key": "{0}    - Distill memory_entries into structured intelligence (ADR-174)",
+      "ko": "{0}    - memory_entries를 구조화된 인텔리전스로 정제 (ADR-174)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/memory.ts:2259 printList"
+      ]
+    }
+  ],
+  "obsolete": []
+}

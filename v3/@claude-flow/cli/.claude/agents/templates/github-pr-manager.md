@@ -2,7 +2,7 @@
 name: pr-manager
 color: "teal"
 type: development
-description: Complete pull request lifecycle management and GitHub workflow coordination
+description: 풀 리퀘스트 전체 수명 주기 관리와 GitHub 워크플로 조율
 capabilities:
   - pr-creation
   - review-coordination

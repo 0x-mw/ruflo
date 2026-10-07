@@ -1,0 +1,136 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/dispatch.ts",
+  "entries": [
+    {
+      "key": "{0} median {1}ms p95 {2}ms (n={3})",
+      "ko": "{0} 중앙값 {1}ms p95 {2}ms (n={3})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:30 expr"
+      ]
+    },
+    {
+      "key": "The ruflo console could not be shown: {0}",
+      "ko": "ruflo 콘솔을 표시하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:43 text"
+      ]
+    },
+    {
+      "key": "No palette entry \"{0}\" right now. /ruflo palette lists them; ids look like spawn-coder, claim-release, worker-audit, route.",
+      "ko": "지금은 \"{0}\" 팔레트 항목이 없습니다. /ruflo palette로 목록을 볼 수 있으며, ID는 spawn-coder, claim-release, worker-audit, route 같은 꼴입니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:123 text"
+      ]
+    },
+    {
+      "key": "Asked: {0}. Confirm with /ruflo yes (or y in the pane), cancel with /ruflo no.",
+      "ko": "확인 요청: {0}. /ruflo yes(또는 패널에서 y)로 확인하고, /ruflo no로 취소하세요.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:132 expr"
+      ]
+    },
+    {
+      "key": "done",
+      "ko": "완료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:135 text"
+      ]
+    },
+    {
+      "key": "Nothing is waiting for a confirm.",
+      "ko": "확인을 기다리는 항목이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:138 text"
+      ]
+    },
+    {
+      "key": "Cancelled.",
+      "ko": "취소했습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:143 text"
+      ]
+    },
+    {
+      "key": "Ran.",
+      "ko": "실행했습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:150 text"
+      ]
+    },
+    {
+      "key": "{0}: {1} (on disk)",
+      "ko": "{0}: {1} (디스크에 있음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:150 text"
+      ]
+    },
+    {
+      "key": "{0}: {1} (not on disk yet)",
+      "ko": "{0}: {1} (아직 디스크에 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:150 text"
+      ]
+    },
+    {
+      "key": "No agent \"{0}\" in .claude-flow/agents/store.json.",
+      "ko": ".claude-flow/agents/store.json에 에이전트 \"{0}\"이(가) 없습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:155 text"
+      ]
+    },
+    {
+      "key": "selection moved (next) on {0}",
+      "ko": "{0}에서 선택 이동(다음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:168 text"
+      ]
+    },
+    {
+      "key": "selection moved (prev) on {0}",
+      "ko": "{0}에서 선택 이동(이전)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:168 text"
+      ]
+    },
+    {
+      "key": "events · {0}",
+      "ko": "이벤트 · {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:173 open()"
+      ]
+    },
+    {
+      "key": "autopilot is not wired into this console yet",
+      "ko": "오토파일럿은 아직 이 콘솔에 연결되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:193 text"
+      ]
+    },
+    {
+      "key": "Unknown: \"{0}\". /ruflo help lists the views ({1}) and commands.",
+      "ko": "알 수 없음: \"{0}\". /ruflo help에서 화면({1})과 명령어 목록을 볼 수 있습니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/dispatch.ts:198 text"
+      ]
+    }
+  ],
+  "obsolete": []
+}

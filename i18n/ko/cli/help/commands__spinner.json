@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/spinner.ts",
+  "entries": [
+    {
+      "key": "Add ruflo's curated verb pool to Claude Code's spinner rotation",
+      "ko": "ruflo가 엄선한 동사 풀을 Claude Code의 스피너 순환에 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/spinner.ts:168 description"
+      ]
+    },
+    {
+      "key": "Remove ruflo verbs from Claude Code's spinner rotation (user-authored verbs preserved)",
+      "ko": "Claude Code의 스피너 순환에서 ruflo 동사를 제거합니다 (사용자가 만든 동사는 유지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/spinner.ts:232 description"
+      ]
+    },
+    {
+      "key": "Show ruflo's verb pool and which verbs are currently installed",
+      "ko": "ruflo의 동사 풀과 현재 설치된 동사를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/spinner.ts:257 description"
+      ]
+    },
+    {
+      "key": "Manage ruflo verbs in Claude Code's spinnerVerbs rotation (ADR-318)",
+      "ko": "Claude Code의 spinnerVerbs 순환에 들어가는 ruflo 동사를 관리합니다 (ADR-318)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/spinner.ts:325 description"
+      ]
+    },
+    {
+      "key": "Show the ruflo pool + what's currently installed",
+      "ko": "ruflo 풀과 현재 설치된 항목을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/spinner.ts:328 description"
+      ]
+    },
+    {
+      "key": "Append ruflo's verb pool to settings.json",
+      "ko": "ruflo의 동사 풀을 settings.json에 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/spinner.ts:329 description"
+      ]
+    },
+    {
+      "key": "Remove ruflo verbs, keep user-authored ones",
+      "ko": "ruflo 동사를 제거하고 사용자가 만든 동사는 유지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/spinner.ts:330 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

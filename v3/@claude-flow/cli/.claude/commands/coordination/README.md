@@ -1,3 +1,7 @@
+---
+description: 조율 명령어
+---
+
 # Coordination Commands
 
 Commands for coordination operations in Claude Flow.

@@ -1,0 +1,408 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/status.ts",
+  "entries": [
+    {
+      "key": "RuFlo V3",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:242 bold"
+      ]
+    },
+    {
+      "key": "Swarm",
+      "ko": "스웜",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:246 bold"
+      ]
+    },
+    {
+      "key": "Uptime",
+      "ko": "가동 시간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:257 printTable.cell",
+        "src/commands/status.ts:553 printTable.header"
+      ]
+    },
+    {
+      "key": "Swarm not running",
+      "ko": "스웜이 실행 중이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:261 printInfo"
+      ]
+    },
+    {
+      "key": "Entries",
+      "ko": "항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:306 printTable.cell"
+      ]
+    },
+    {
+      "key": "Search Time",
+      "ko": "검색 시간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:308 printTable.cell"
+      ]
+    },
+    {
+      "key": "Cache Hit Rate",
+      "ko": "캐시 적중률",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:309 printTable.cell"
+      ]
+    },
+    {
+      "key": "MCP Server",
+      "ko": "MCP 서버",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:315 bold",
+        "src/commands/status.ts:429 check.name"
+      ]
+    },
+    {
+      "key": "Running (stdio mode)",
+      "ko": "실행 중 (stdio 모드)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:318 printInfo",
+        "src/commands/status.ts:431 check.message"
+      ]
+    },
+    {
+      "key": "Running on port {0} ({1})",
+      "ko": "포트 {0}에서 실행 중 ({1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:320 printInfo"
+      ]
+    },
+    {
+      "key": "V3 Performance Gains",
+      "ko": "V3 성능 향상",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:329 bold",
+        "src/commands/status.ts:701 bold"
+      ]
+    },
+    {
+      "key": "Flash Attention: {0}",
+      "ko": "Flash Attention: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:331 printList"
+      ]
+    },
+    {
+      "key": "Vector Search: {0}",
+      "ko": "벡터 검색: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:332 printList"
+      ]
+    },
+    {
+      "key": "CPU Usage: {0}%",
+      "ko": "CPU 사용량: {0}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:333 printList"
+      ]
+    },
+    {
+      "key": "Memory Usage: {0}%",
+      "ko": "메모리 사용량: {0}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:334 printList"
+      ]
+    },
+    {
+      "key": "Health Check",
+      "ko": "상태 점검",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:398 bold"
+      ]
+    },
+    {
+      "key": "System Running",
+      "ko": "시스템 실행 중",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:405 check.name"
+      ]
+    },
+    {
+      "key": "System is running",
+      "ko": "시스템이 실행 중입니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:407 check.message"
+      ]
+    },
+    {
+      "key": "System is not running",
+      "ko": "시스템이 실행 중이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:407 check.message"
+      ]
+    },
+    {
+      "key": "Swarm Health",
+      "ko": "스웜 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:413 check.name"
+      ]
+    },
+    {
+      "key": "Swarm is {0}",
+      "ko": "스웜 상태: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:416 check.message"
+      ]
+    },
+    {
+      "key": "Agents Available",
+      "ko": "사용 가능한 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:421 check.name"
+      ]
+    },
+    {
+      "key": "{0} active, {1} idle",
+      "ko": "활성 {0}개, 유휴 {1}개",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:424 check.message"
+      ]
+    },
+    {
+      "key": "Running on port {0}",
+      "ko": "포트 {0}에서 실행 중",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:431 check.message"
+      ]
+    },
+    {
+      "key": "Using {0} backend",
+      "ko": "{0} 백엔드 사용 중",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:440 check.message"
+      ]
+    },
+    {
+      "key": "Task Success Rate",
+      "ko": "작업 성공률",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:448 check.name"
+      ]
+    },
+    {
+      "key": "{0}% success rate",
+      "ko": "성공률 {0}%",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:450 check.message"
+      ]
+    },
+    {
+      "key": "All checks passed ({0} passed, {1} warnings)",
+      "ko": "모든 점검을 통과했습니다 (통과 {0}, 경고 {1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:469 printSuccess"
+      ]
+    },
+    {
+      "key": "Health check failed ({0} passed, {1} warnings, {2} failed)",
+      "ko": "상태 점검에 실패했습니다 (통과 {0}, 경고 {1}, 실패 {2})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:471 printError"
+      ]
+    },
+    {
+      "key": "Watch Mode",
+      "ko": "감시 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:484 bold"
+      ]
+    },
+    {
+      "key": "Refreshing every {0}s. Press Ctrl+C to exit.",
+      "ko": "{0}초마다 새로고침합니다. 종료하려면 Ctrl+C를 누르세요.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:485 dim"
+      ]
+    },
+    {
+      "key": "Last updated: {0}",
+      "ko": "마지막 업데이트: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:492 dim"
+      ]
+    },
+    {
+      "key": "Watch mode stopped",
+      "ko": "감시 모드를 중지했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:510 printInfo"
+      ]
+    },
+    {
+      "key": "Agent Status",
+      "ko": "에이전트 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:539 bold"
+      ]
+    },
+    {
+      "key": "No agents running",
+      "ko": "실행 중인 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:543 printInfo"
+      ]
+    },
+    {
+      "key": "Current Task",
+      "ko": "현재 작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:552 printTable.header"
+      ]
+    },
+    {
+      "key": "Task Status",
+      "ko": "작업 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:602 bold"
+      ]
+    },
+    {
+      "key": "No tasks",
+      "ko": "작업이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:606 printInfo"
+      ]
+    },
+    {
+      "key": "Priority",
+      "ko": "우선순위",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:615 printTable.header",
+        "src/commands/task.ts:204 printTable.cell",
+        "src/commands/task.ts:319 printTable.header"
+      ]
+    },
+    {
+      "key": "Progress",
+      "ko": "진행률",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:617 printTable.header",
+        "src/commands/task.ts:321 printTable.header"
+      ]
+    },
+    {
+      "key": "Failed to get task status: {0}",
+      "ko": "작업 상태를 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:632 printError",
+        "src/commands/task.ts:506 printError"
+      ]
+    },
+    {
+      "key": "Memory Status",
+      "ko": "메모리 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:670 bold"
+      ]
+    },
+    {
+      "key": "Total Entries",
+      "ko": "전체 항목 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:680 printTable.cell"
+      ]
+    },
+    {
+      "key": "Storage Size",
+      "ko": "저장소 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:681 printTable.cell"
+      ]
+    },
+    {
+      "key": "HNSW Index",
+      "ko": "HNSW 인덱스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:682 printTable.cell"
+      ]
+    },
+    {
+      "key": "Performance",
+      "ko": "성능",
+      "kind": "text",
+      "ctx": [
+        "src/commands/status.ts:687 bold"
+      ]
+    },
+    {
+      "key": "Search Speed: {0}",
+      "ko": "검색 속도: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:703 printList"
+      ]
+    },
+    {
+      "key": "Memory Usage: {0}",
+      "ko": "메모리 사용량: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:704 printList"
+      ]
+    },
+    {
+      "key": "Failed to get memory status: {0}",
+      "ko": "메모리 상태를 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/status.ts:710 printError"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,138 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/devtools.ts",
+  "entries": [
+    {
+      "key": "HEAD",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:16 ref",
+        "plugins/ruflo-console/hooks/data/wf-drill-io.ts:291 expr",
+        "plugins/ruflo-console/hooks/devtools.ts:215 ref"
+      ]
+    },
+    {
+      "key": "a git ref: HEAD, HEAD~3, main..HEAD, a branch or a sha (letters, digits . _ / ~ ^ @ { } -, not starting with -)",
+      "ko": "git 참조: HEAD, HEAD~3, main..HEAD, 브랜치 또는 sha (영문자, 숫자, . _ / ~ ^ @ { } -, 맨 앞 - 불가)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:51 rule"
+      ]
+    },
+    {
+      "key": "a path under the project: relative, letters, digits . _ / -, no .. segment, at most 160",
+      "ko": "프로젝트 아래 경로: 상대 경로, 영문자, 숫자, . _ / -, .. 구간 불가, 최대 160자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:52 rule"
+      ]
+    },
+    {
+      "key": "a label: letters, digits . _ -, at most 40, not starting with . or -",
+      "ko": "라벨: 영문자, 숫자, . _ -, 최대 40자, 맨 앞 . 또는 - 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:53 rule"
+      ]
+    },
+    {
+      "key": "an http(s) URL with no spaces or quotes, at most 300",
+      "ko": "공백이나 따옴표가 없는 http(s) URL, 최대 300자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:54 rule"
+      ]
+    },
+    {
+      "key": "an element ref from a snapshot: @e1, @e12 …",
+      "ko": "스냅샷의 요소 참조: @e1, @e12 …",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:55 rule"
+      ]
+    },
+    {
+      "key": "a search: 1-64 letters, digits, spaces, . _ @ / -, not starting with -",
+      "ko": "검색어: 1~64자의 영문자, 숫자, 공백, . _ @ / -, 맨 앞 - 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:56 rule"
+      ]
+    },
+    {
+      "key": "what you want to do, in words: 1-200 characters, no control characters, not starting with -",
+      "ko": "하려는 일을 말로 설명: 1~200자, 제어 문자 불가, 맨 앞 - 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:57 rule"
+      ]
+    },
+    {
+      "key": "one command line: 1-200 characters, no newline or control character, not starting with -",
+      "ko": "명령줄 하나: 1~200자, 줄바꿈이나 제어 문자 불가, 맨 앞 - 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:58 rule"
+      ]
+    },
+    {
+      "key": "an id: letters, digits _ . : -, at most 64, not starting with -",
+      "ko": "ID: 영문자, 숫자, _ . : -, 최대 64자, 맨 앞 - 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:59 rule"
+      ]
+    },
+    {
+      "key": "a note: 1-200 characters, no control characters, not starting with -",
+      "ko": "메모: 1~200자, 제어 문자 불가, 맨 앞 - 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:60 rule"
+      ]
+    },
+    {
+      "key": "a sandbox name: letters, digits _ -, at most 40, not starting with _ or - (the console adds the ruflo-sb- prefix)",
+      "ko": "샌드박스 이름: 영문자, 숫자, _ -, 최대 40자, 맨 앞 _ 또는 - 불가 (콘솔이 ruflo-sb- 접두사를 붙입니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:61 rule"
+      ]
+    },
+    {
+      "key": "one command line to type: 1-200 characters, no control character, not starting with -, not ending in ;",
+      "ko": "입력할 명령줄 하나: 1~200자, 제어 문자 불가, 맨 앞 - 불가, 끝 ; 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:63 rule"
+      ]
+    },
+    {
+      "key": "no capability domain matched: try other words",
+      "ko": "일치하는 기능 영역이 없습니다: 다른 단어로 시도하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:123 push()"
+      ]
+    },
+    {
+      "key": "tools: (none registered)",
+      "ko": "도구: (등록된 것 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:128 push()"
+      ]
+    },
+    {
+      "key": "then the loop:",
+      "ko": "이어서 루프:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/devtools.ts:133 push()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

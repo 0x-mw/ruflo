@@ -1,0 +1,316 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/federation.ts",
+  "entries": [
+    {
+      "key": "Map",
+      "ko": "지도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:18 rule()"
+      ]
+    },
+    {
+      "key": "this node · peers · keys · channels · roster",
+      "ko": "이 노드 · 피어 · 키 · 채널 · 명단",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:18 rule()"
+      ]
+    },
+    {
+      "key": "map needs a terminal",
+      "ko": "지도는 터미널이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:20 picture()"
+      ]
+    },
+    {
+      "key": "Nothing to draw yet: a key, a pinned peer or a channel adds a node.",
+      "ko": "아직 그릴 것이 없습니다. 키, 고정 피어, 채널을 추가하면 노드가 생깁니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:21 text()"
+      ]
+    },
+    {
+      "key": "● pinned peer or own key: solid · channel: dashed",
+      "ko": "● 고정 피어 또는 자체 키: 실선 · 채널: 점선",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:22 text()"
+      ]
+    },
+    {
+      "key": "○ roster member: sparse, unvetted · a dot runs an edge for 2 s after a sync",
+      "ko": "○ 명단 멤버: 성기게 표시, 미검증 · 동기화 후 2초 동안 점이 간선을 따라 움직입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:23 text()"
+      ]
+    },
+    {
+      "key": "This node",
+      "ko": "이 노드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:24 rule()"
+      ]
+    },
+    {
+      "key": "local only",
+      "ko": "로컬 전용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:24 rule()"
+      ]
+    },
+    {
+      "key": "confirmed by JOIN {0} (never read here)",
+      "ko": "JOIN {0} 으로 확인됨 (여기서는 읽지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:27 const",
+        "plugins/ruflo-console/hooks/views/xruv.ts:79 const"
+      ]
+    },
+    {
+      "key": "~/.ruflo/nostr.key present (never read here)",
+      "ko": "~/.ruflo/nostr.key 있음 (여기서는 읽지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:28 const"
+      ]
+    },
+    {
+      "key": "nostr identity",
+      "ko": "nostr ID",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:33 kv()"
+      ]
+    },
+    {
+      "key": "none yet (join below makes one)",
+      "ko": "아직 없음 (아래 참가를 하면 생성됩니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:34 kv()"
+      ]
+    },
+    {
+      "key": "federation keys",
+      "ko": "페더레이션 키",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:38 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no .claude-flow/federation",
+      "ko": "사용 불가 — .claude-flow/federation 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:38 kv()"
+      ]
+    },
+    {
+      "key": "{0} node ids: {1} … (keys never read)",
+      "ko": "노드 id {0}개: {1} … (키는 읽지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:38 kv()"
+      ]
+    },
+    {
+      "key": "{0} node ids: {1} (keys never read)",
+      "ko": "노드 id {0}개: {1} (키는 읽지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:38 kv()"
+      ]
+    },
+    {
+      "key": "trust",
+      "ko": "신뢰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:42 kv()"
+      ]
+    },
+    {
+      "key": "n/a — agentbbs {0}",
+      "ko": "사용 불가 — agentbbs {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:46 kv()"
+      ]
+    },
+    {
+      "key": "{0} pinned peers accepted for envelopes (agentbbs peers.json)",
+      "ko": "엔벨로프에 허용된 고정 피어 {0}개 (agentbbs peers.json)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "This node has no federation identity yet.",
+      "ko": "이 노드에는 아직 페더레이션 ID 가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:51 starts()"
+      ]
+    },
+    {
+      "key": "Peers",
+      "ko": "피어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:53 rule()"
+      ]
+    },
+    {
+      "key": "agentbbs",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:53 rule()",
+        "plugins/ruflo-console/hooks/xruv.ts:353 group",
+        "plugins/ruflo-console/hooks/xruv.ts:358 group"
+      ]
+    },
+    {
+      "key": "◇ {0} · last sync {1}",
+      "ko": "◇ {0} · 마지막 동기화 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:56 text()"
+      ]
+    },
+    {
+      "key": "no pinned peers",
+      "ko": "고정 피어가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:58 text()"
+      ]
+    },
+    {
+      "key": "Channels",
+      "ko": "채널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:61 rule()",
+        "plugins/ruflo-console/hooks/views/xruv.ts:160 rule()"
+      ]
+    },
+    {
+      "key": "# {0} · private · since {1}",
+      "ko": "# {0} · 비공개 · {1} 부터",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:64 text()"
+      ]
+    },
+    {
+      "key": "# {0} · public · since {1}",
+      "ko": "# {0} · 공개 · {1} 부터",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:64 text()"
+      ]
+    },
+    {
+      "key": "no channels joined",
+      "ko": "참가한 채널이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:66 text()"
+      ]
+    },
+    {
+      "key": "last messages: n/a — ruflo keeps no local message log (`npx ruflo federation channel read`)",
+      "ko": "최근 메시지: 정보 없음 — ruflo 는 로컬 메시지 로그를 보관하지 않습니다 (`npx ruflo federation channel read`)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:69 text()"
+      ]
+    },
+    {
+      "key": "Roster",
+      "ko": "명단",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:70 rule()"
+      ]
+    },
+    {
+      "key": "wss relay · third-party text",
+      "ko": "wss 릴레이 · 제3자 텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:70 rule()"
+      ]
+    },
+    {
+      "key": "network off",
+      "ko": "네트워크 꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:70 rule()"
+      ]
+    },
+    {
+      "key": "Off: the roster is on the public relay. Turn on federationNetwork in /config (ruflo-console) to ask it.",
+      "ko": "꺼짐: 명단은 공개 릴레이에 있습니다. 조회하려면 /config (ruflo-console) 에서 federationNetwork 를 켜세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:73 text()"
+      ]
+    },
+    {
+      "key": "roster empty on {0} ({1})",
+      "ko": "{0} 의 명단이 비어 있습니다 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:77 text()"
+      ]
+    },
+    {
+      "key": "roster empty on the relay ({0})",
+      "ko": "릴레이의 명단이 비어 있습니다 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:77 text()"
+      ]
+    },
+    {
+      "key": "untrusted: published by third-party members, not vetted · {0} · {1}",
+      "ko": "신뢰 안 됨: 제3자 멤버가 게시했으며 검증되지 않았습니다 · {0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:80 text()"
+      ]
+    },
+    {
+      "key": "untrusted: published by third-party members, not vetted ·  · {0}",
+      "ko": "신뢰 안 됨: 제3자 멤버가 게시했으며 검증되지 않았습니다 ·  · {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:80 text()"
+      ]
+    },
+    {
+      "key": "federation",
+      "ko": "페더레이션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/federation.ts:83 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: dossier-investigator
-description: Recursive parallel multi-source investigator that fans out across web, memory, knowledge-graph, codebase, and ADR index to build a graph-structured dossier on a seed entity, with budget caps, de-duplication, and provenance per claim
+description: 웹, 메모리, 지식 그래프, 코드베이스, ADR 인덱스 전반으로 퍼져 나가 시드 엔티티에 대한 그래프 구조 자료(dossier)를 만드는 재귀적 병렬 다중 소스 조사 에이전트이며, 예산 상한, 중복 제거, 주장별 출처(provenance)를 갖춤
 model: sonnet
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: pool
-description: Manage agent pool for scaling
+description: 확장을 위해 에이전트 풀을 관리합니다
 type: command
 ---
 

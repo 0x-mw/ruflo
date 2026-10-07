@@ -1,0 +1,256 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/federation.ts",
+  "entries": [
+    {
+      "key": "Open swarm federation via x.ruv.io — sync messages, roster, claims, registry, invites (Nostr, signed, membership-gated)",
+      "ko": "x.ruv.io를 통한 오픈 스웜 페더레이션 — 메시지, 명단, 클레임, 레지스트리, 초대를 동기화합니다 (Nostr, 서명됨, 멤버십 제한)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:30 description"
+      ]
+    },
+    {
+      "key": "Output format (json|text)",
+      "ko": "출력 형식 (json|text)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:32 description"
+      ]
+    },
+    {
+      "key": "Gateway URL; reads/admin writes require it to match RUFLO_X_GATEWAY_URL (default https://x.ruv.io); join selects its registration origin",
+      "ko": "게이트웨이 URL입니다. 읽기/관리자 쓰기는 이 값이 RUFLO_X_GATEWAY_URL(기본값 https://x.ruv.io)과 일치해야 하며, join은 등록 출처를 고르는 데 사용합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:33 description"
+      ]
+    },
+    {
+      "key": "Join the open swarm with YOUR OWN key without an invite on open relays (generates ~/.ruflo/nostr.key if absent, registers via NIP-98, verifies via NIP-42)",
+      "ko": "오픈 릴레이에서는 초대 없이 본인의 키로 오픈 스웜에 참여합니다 (~/.ruflo/nostr.key가 없으면 생성하고, NIP-98로 등록하며, NIP-42로 검증)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:36 description"
+      ]
+    },
+    {
+      "key": "Invite code (v2.…) — a bearer secret, keep it private",
+      "ko": "초대 코드 (v2.…) — 소지자 비밀이므로 외부에 공개하지 마세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:37 description"
+      ]
+    },
+    {
+      "key": "Fetch recent verified swarm messages",
+      "ko": "검증된 최근 스웜 메시지를 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:39 description"
+      ]
+    },
+    {
+      "key": "Look-back seconds (default 3600)",
+      "ko": "조회 범위(초) (기본값 3600)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:40 description"
+      ]
+    },
+    {
+      "key": "Max messages",
+      "ko": "최대 메시지 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:40 description"
+      ]
+    },
+    {
+      "key": "Filter by message type",
+      "ko": "메시지 유형으로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:40 description"
+      ]
+    },
+    {
+      "key": "Nodes currently announcing on the open swarm",
+      "ko": "오픈 스웜에서 현재 알리고 있는 노드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:42 description"
+      ]
+    },
+    {
+      "key": "Current owner-per-resource claims ledger",
+      "ko": "리소스별 소유자 클레임 원장 현황",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:43 description"
+      ]
+    },
+    {
+      "key": "Relay, canonical NIP-42 relay tag, gateway pubkey and self-join steps",
+      "ko": "릴레이, 표준 NIP-42 릴레이 태그, 게이트웨이 공개 키, 직접 참여 절차",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:44 description"
+      ]
+    },
+    {
+      "key": "Mint a self-join invite code (admin; needs RUFLO_X_ADMIN_TOKEN). The code is a bearer secret — share privately.",
+      "ko": "직접 참여용 초대 코드를 발급합니다 (관리자 전용, RUFLO_X_ADMIN_TOKEN 필요). 이 코드는 소지자 비밀이므로 비공개로 공유하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:45 description"
+      ]
+    },
+    {
+      "key": "Validity seconds (default 7d)",
+      "ko": "유효 시간(초) (기본값 7d)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:46 description"
+      ]
+    },
+    {
+      "key": "Max redemptions (default 25)",
+      "ko": "최대 사용 횟수 (기본값 25)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:46 description"
+      ]
+    },
+    {
+      "key": "Admit a 64-hex Nostr pubkey as relay member (admin; needs RUFLO_X_ADMIN_TOKEN)",
+      "ko": "64자리 16진수 Nostr 공개 키를 릴레이 멤버로 승인합니다 (관리자 전용, RUFLO_X_ADMIN_TOKEN 필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:48 description"
+      ]
+    },
+    {
+      "key": "64-hex pubkey",
+      "ko": "64자리 16진수 공개 키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:49 description"
+      ]
+    },
+    {
+      "key": "member|admin",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:49 description"
+      ]
+    },
+    {
+      "key": "Publish a message AS THE GATEWAY (admin; needs RUFLO_X_ADMIN_TOKEN). Nodes should publish with their own key instead.",
+      "ko": "게이트웨이 명의로 메시지를 게시합니다 (관리자 전용, RUFLO_X_ADMIN_TOKEN 필요). 노드는 대신 자신의 키로 게시해야 합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:51 description"
+      ]
+    },
+    {
+      "key": "Message type (Status|Task|Result|…)",
+      "ko": "메시지 유형 (Status|Task|Result|…)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:52 description"
+      ]
+    },
+    {
+      "key": "JSON payload",
+      "ko": "JSON 페이로드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:52 description"
+      ]
+    },
+    {
+      "key": "Public and private swarm channels (ADR-386). Private channels are encrypted with a key only this machine holds.",
+      "ko": "공개 및 비공개 스웜 채널 (ADR-386). 비공개 채널은 이 머신만 가진 키로 암호화됩니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:55 description"
+      ]
+    },
+    {
+      "key": "create|grant|accept|publish|read|list",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:57 description"
+      ]
+    },
+    {
+      "key": "Channel name (create)",
+      "ko": "채널 이름 (create)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:58 description"
+      ]
+    },
+    {
+      "key": "public|private (create)",
+      "ko": "public|private (create)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:59 description"
+      ]
+    },
+    {
+      "key": "Channel id: pub:<name> or prv:<16 hex>",
+      "ko": "채널 ID: pub:<name> 또는 prv:<16자리 16진수>",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:60 description"
+      ]
+    },
+    {
+      "key": "64-hex member pubkey (grant)",
+      "ko": "64자리 16진수 멤버 공개 키 (grant)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:61 description"
+      ]
+    },
+    {
+      "key": "Message type (publish)",
+      "ko": "메시지 유형 (publish)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:62 description"
+      ]
+    },
+    {
+      "key": "JSON payload (publish)",
+      "ko": "JSON 페이로드 (publish)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:63 description"
+      ]
+    },
+    {
+      "key": "Look-back seconds (read|accept)",
+      "ko": "조회 범위(초) (read|accept)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:64 description"
+      ]
+    },
+    {
+      "key": "Max messages (read)",
+      "ko": "최대 메시지 수 (read)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/federation.ts:65 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

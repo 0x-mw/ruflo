@@ -1,0 +1,206 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/backup.ts",
+  "entries": [
+    {
+      "key": "Create a backup of RuVector data",
+      "ko": "RuVector 데이터의 백업을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:42 description"
+      ]
+    },
+    {
+      "key": "Specific tables (comma-separated)",
+      "ko": "특정 테이블 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:54 description"
+      ]
+    },
+    {
+      "key": "Compress output (gzip)",
+      "ko": "출력을 압축합니다 (gzip)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:68 description"
+      ]
+    },
+    {
+      "key": "Include index definitions",
+      "ko": "인덱스 정의를 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:74 description"
+      ]
+    },
+    {
+      "key": "PostgreSQL host",
+      "ko": "PostgreSQL 호스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:81 description",
+        "src/commands/ruvector/backup.ts:423 description",
+        "src/commands/ruvector/backup.ts:729 description"
+      ]
+    },
+    {
+      "key": "PostgreSQL port",
+      "ko": "PostgreSQL 포트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:88 description",
+        "src/commands/ruvector/backup.ts:430 description",
+        "src/commands/ruvector/backup.ts:736 description"
+      ]
+    },
+    {
+      "key": "Database name",
+      "ko": "데이터베이스 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:95 description",
+        "src/commands/ruvector/backup.ts:437 description",
+        "src/commands/ruvector/backup.ts:743 description"
+      ]
+    },
+    {
+      "key": "Database user",
+      "ko": "데이터베이스 사용자",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:101 description",
+        "src/commands/ruvector/backup.ts:443 description",
+        "src/commands/ruvector/backup.ts:749 description"
+      ]
+    },
+    {
+      "key": "Database password",
+      "ko": "데이터베이스 비밀번호",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:106 description",
+        "src/commands/ruvector/backup.ts:448 description",
+        "src/commands/ruvector/backup.ts:754 description"
+      ]
+    },
+    {
+      "key": "Enable SSL",
+      "ko": "SSL을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:111 description",
+        "src/commands/ruvector/backup.ts:453 description",
+        "src/commands/ruvector/backup.ts:759 description"
+      ]
+    },
+    {
+      "key": "Schema name",
+      "ko": "스키마 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:118 description",
+        "src/commands/ruvector/backup.ts:460 description",
+        "src/commands/ruvector/backup.ts:766 description"
+      ]
+    },
+    {
+      "key": "Create SQL backup",
+      "ko": "SQL 백업을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:124 description"
+      ]
+    },
+    {
+      "key": "Create JSON backup",
+      "ko": "JSON 백업을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:125 description"
+      ]
+    },
+    {
+      "key": "Compressed backup",
+      "ko": "압축 백업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:126 description"
+      ]
+    },
+    {
+      "key": "Restore RuVector data from backup",
+      "ko": "백업에서 RuVector 데이터를 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:399 description"
+      ]
+    },
+    {
+      "key": "Drop existing tables first",
+      "ko": "기존 테이블을 먼저 삭제합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:410 description"
+      ]
+    },
+    {
+      "key": "Show what would be restored without executing",
+      "ko": "실행하지 않고 복원될 내용을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:416 description"
+      ]
+    },
+    {
+      "key": "Restore from SQL backup",
+      "ko": "SQL 백업에서 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:466 description"
+      ]
+    },
+    {
+      "key": "Clean restore",
+      "ko": "초기화 후 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:467 description"
+      ]
+    },
+    {
+      "key": "Preview restore",
+      "ko": "복원을 미리 봅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:468 description"
+      ]
+    },
+    {
+      "key": "Backup and restore RuVector data",
+      "ko": "RuVector 데이터를 백업하고 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:723 description"
+      ]
+    },
+    {
+      "key": "Create backup",
+      "ko": "백업을 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:772 description"
+      ]
+    },
+    {
+      "key": "Restore backup",
+      "ko": "백업을 복원합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/backup.ts:773 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

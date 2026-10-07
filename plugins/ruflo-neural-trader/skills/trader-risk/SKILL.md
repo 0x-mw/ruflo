@@ -1,6 +1,6 @@
 ---
 name: trader-risk
-description: Assess portfolio risk using npx neural-trader — VaR, CVaR, Sharpe, position sizing, circuit breaker status
+description: npx neural-trader로 포트폴리오 위험을 평가 — VaR, CVaR, 샤프 비율, 포지션 크기, 서킷 브레이커 상태
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search
 argument-hint: "[--symbol TICKER] [--portfolio NAME]"
 ---

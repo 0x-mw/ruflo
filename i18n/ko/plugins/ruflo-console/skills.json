@@ -1,0 +1,160 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/skills.ts",
+  "entries": [
+    {
+      "key": "no JSON list in the output",
+      "ko": "출력에 JSON 목록이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:38 expr"
+      ]
+    },
+    {
+      "key": "search: 1-64 characters of letters, digits, @ / . _ - and spaces, not starting with - (owner:<name> narrows it)",
+      "ko": "검색어: 영문자, 숫자, @ / . _ - 및 공백으로 1~64자이며 -로 시작할 수 없습니다 (owner:<name>으로 좁힐 수 있음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:78 return"
+      ]
+    },
+    {
+      "key": "a search is still running",
+      "ko": "검색이 아직 실행 중입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:79 return"
+      ]
+    },
+    {
+      "key": "{0} is still running: ask again when it ends",
+      "ko": "{0}이(가) 아직 실행 중입니다. 끝난 뒤 다시 요청하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:124 detail"
+      ]
+    },
+    {
+      "key": "skills answered ok; expected {0}",
+      "ko": "skills가 ok로 응답했지만 예상한 값은 {0}입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:145 detail"
+      ]
+    },
+    {
+      "key": "globally for {0}",
+      "ko": "{0}용 전역",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:167 const"
+      ]
+    },
+    {
+      "key": "to this project for {0}",
+      "ko": "{0}용으로 이 프로젝트에",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:167 const"
+      ]
+    },
+    {
+      "key": "to this project",
+      "ko": "이 프로젝트에",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:167 const"
+      ]
+    },
+    {
+      "key": "add skill {0}",
+      "ko": "스킬 {0} 추가",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:169 change()"
+      ]
+    },
+    {
+      "key": "{0} listed as {1}",
+      "ko": "{0}이(가) {1}(으)로 표시됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:169 change()"
+      ]
+    },
+    {
+      "key": "remove {0} skill {1}",
+      "ko": "{0} 스킬 {1} 제거",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:175 change()"
+      ]
+    },
+    {
+      "key": "{0} gone from the {1} list",
+      "ko": "{1} 목록에서 {0} 사라짐",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:175 change()"
+      ]
+    },
+    {
+      "key": "update {0} skill {1}",
+      "ko": "{0} 스킬 {1} 업데이트",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:181 change()"
+      ]
+    },
+    {
+      "key": "the newest version from its source",
+      "ko": "출처의 최신 버전",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:181 change()"
+      ]
+    },
+    {
+      "key": "create skill {0}",
+      "ko": "스킬 {0} 생성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:188 change()"
+      ]
+    },
+    {
+      "key": "{0}/SKILL.md in this project",
+      "ko": "이 프로젝트의 {0}/SKILL.md",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:188 change()"
+      ]
+    },
+    {
+      "key": "Edit the skill {0} at {1}:",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:192 expr"
+      ]
+    },
+    {
+      "key": "a new skill name: letters, digits, . _ - (no slash, not starting with . or -), at most 64",
+      "ko": "새 스킬 이름: 영문자, 숫자, . _ - (슬래시 불가, .나 -로 시작 불가), 최대 64자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:194 const"
+      ]
+    },
+    {
+      "key": "that skill's name cannot be passed to skills {0}",
+      "ko": "해당 스킬 이름은 skills {0}에 전달할 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/skills.ts:211 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

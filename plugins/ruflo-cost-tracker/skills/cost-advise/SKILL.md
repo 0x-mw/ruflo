@@ -1,6 +1,6 @@
 ---
 name: cost-advise
-description: Optimisation findings from your own Claude Code and Codex logs — low cache hit ratio, 1-hour cache writes that did not pay back, sub-agents on a top-tier model, Codex reasoning share, bloated sessions — each with evidence and a what-if saving. Use when asked how to cut spend or why it is high.
+description: 본인의 Claude Code 및 Codex 로그에서 최적화 결과를 도출 — 낮은 캐시 적중률, 본전을 뽑지 못한 1시간 캐시 쓰기, 최상위 티어 모델을 쓰는 서브 에이전트, Codex 추론 비중, 비대해진 세션 — 각각 증거와 가정 절감액 포함. 지출을 줄이는 방법이나 지출이 높은 이유를 물을 때 사용합니다.
 argument-hint: "[--since 7d] [--provider claude|codex|all] [--format json|markdown]"
 allowed-tools: Bash
 ---

@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/hive.ts",
+  "entries": [
+    {
+      "key": "byzantine f < n/3",
+      "ko": "byzantine f < n/3",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/hive.ts:49 rule"
+      ]
+    },
+    {
+      "key": "raft f < n/2",
+      "ko": "raft f < n/2",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/hive.ts:50 rule"
+      ]
+    },
+    {
+      "key": "raft term {0} already has {1} ({2}) open: decide it first",
+      "ko": "raft 임기 {0}에 이미 열린 제안이 있습니다: {1} ({2}) 먼저 결정하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/hive.ts:91 return"
+      ]
+    },
+    {
+      "key": "not in a store",
+      "ko": "저장소에 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/hive.ts:164 status"
+      ]
+    }
+  ],
+  "obsolete": []
+}

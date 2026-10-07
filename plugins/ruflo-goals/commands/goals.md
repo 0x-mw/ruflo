@@ -1,6 +1,6 @@
 ---
 name: goals
-description: List active horizons, check goal progress, and view research findings
+description: 활성 지평 목록 조회, 목표 진행 상황 확인, 리서치 결과 보기
 ---
 $ARGUMENTS
 

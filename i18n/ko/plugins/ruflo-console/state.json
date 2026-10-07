@@ -1,0 +1,506 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/state.ts",
+  "entries": [
+    {
+      "key": "Main Menu",
+      "ko": "메인 메뉴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:42 label"
+      ]
+    },
+    {
+      "key": "Mnu",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:42 short"
+      ]
+    },
+    {
+      "key": "the board: every area by its key, the line status, and a prompt that takes a key or a name",
+      "ko": "보드: 키별 모든 영역, 상태 줄, 키나 이름을 받는 프롬프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:42 blurb"
+      ]
+    },
+    {
+      "key": "Msn",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:43 short"
+      ]
+    },
+    {
+      "key": "Mission Control: a goal becomes a SPARC plan, a mission and tasks that Claude carries out, with guidance, controls and evidence",
+      "ko": "미션 컨트롤: 목표를 SPARC 계획, 미션, Claude가 수행하는 작업으로 바꾸고 안내, 제어, 증거를 함께 제공합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:43 blurb"
+      ]
+    },
+    {
+      "key": "Ovr",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:44 short"
+      ]
+    },
+    {
+      "key": "what ruflo is doing here: subsystems, mods, health alerts and live activity",
+      "ko": "여기서 ruflo가 하는 일: 하위 시스템, mod, 상태 경고, 실시간 활동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:44 blurb"
+      ]
+    },
+    {
+      "key": "Swm",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:45 short"
+      ]
+    },
+    {
+      "key": "the swarm as ruflo wrote it: topology, agents at work, and the hive-mind votes",
+      "ko": "ruflo가 기록한 스웜: 토폴로지, 작업 중인 에이전트, 하이브마인드(hive-mind) 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:45 blurb"
+      ]
+    },
+    {
+      "key": "Hiv",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:46 short"
+      ]
+    },
+    {
+      "key": "the queen, her workers and their votes: quorum, fault tolerance, proposals and broadcasts",
+      "ko": "퀸, 워커, 그들의 투표: 정족수, 장애 허용, 제안, 브로드캐스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:46 blurb"
+      ]
+    },
+    {
+      "key": "Clm",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:47 short"
+      ]
+    },
+    {
+      "key": "who holds which task: claim, release, hand off or steal, each after a y/n confirm",
+      "ko": "누가 어떤 작업을 맡았는지: 클레임, 해제, 인계, 가로채기 (각각 y/n 확인 후 실행)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:47 blurb"
+      ]
+    },
+    {
+      "key": "Wfl",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:48 short"
+      ]
+    },
+    {
+      "key": "Claude Code workflow runs and the ruflo swarm side by side: phases, agents, tokens, and what each is doing",
+      "ko": "Claude Code 워크플로 실행과 ruflo 스웜을 나란히 표시: 단계, 에이전트, 토큰, 각자의 작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:48 blurb"
+      ]
+    },
+    {
+      "key": "Fed",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:49 short"
+      ]
+    },
+    {
+      "key": "this node, its peers, keys and channels, placed by how far each is trusted",
+      "ko": "이 노드와 피어, 키, 채널을 신뢰도에 따라 배치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:49 blurb"
+      ]
+    },
+    {
+      "key": "Plg",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:50 short"
+      ]
+    },
+    {
+      "key": "Lrn",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:51 short"
+      ]
+    },
+    {
+      "key": "router picks and outcomes, and the RETRIEVE → JUDGE → DISTILL → CONSOLIDATE pipeline",
+      "ko": "라우터의 선택과 결과, RETRIEVE → JUDGE → DISTILL → CONSOLIDATE 파이프라인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:51 blurb"
+      ]
+    },
+    {
+      "key": "MH",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:52 short"
+      ]
+    },
+    {
+      "key": "harness readiness, the flywheel, the audit trend, and a lab that runs every MetaHarness verb",
+      "ko": "하네스(harness) 준비도, 플라이휠, 감사 추이, 모든 MetaHarness 동사를 실행하는 랩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:52 blurb"
+      ]
+    },
+    {
+      "key": "Mem",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:53 short"
+      ]
+    },
+    {
+      "key": "the Memory Lab: browse, search, store and delete entries; AgentDB, embeddings and upkeep, each a button",
+      "ko": "메모리 랩: 항목 탐색, 검색, 저장, 삭제. AgentDB, 임베딩, 유지 관리는 각각 버튼으로 제공",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:53 blurb"
+      ]
+    },
+    {
+      "key": "Cst",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:54 short"
+      ]
+    },
+    {
+      "key": "set a budget, see spend across Claude Code and Codex, and how to cut it",
+      "ko": "예산 설정, Claude Code와 Codex 전체 지출 확인, 절감 방법",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:54 blurb"
+      ]
+    },
+    {
+      "key": "Gnt",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:55 short"
+      ]
+    },
+    {
+      "key": "each agent busy or idle over the last minutes, beside Claude Code tool calls",
+      "ko": "최근 몇 분간 에이전트별 작업 중/유휴 상태를 Claude Code 도구 호출과 나란히 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:55 blurb"
+      ]
+    },
+    {
+      "key": "Apv",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:56 short"
+      ]
+    },
+    {
+      "key": "decisions waiting for a person: votes, stealable claims, refused mods, budget",
+      "ko": "사람의 결정을 기다리는 항목: 투표, 가로챌 수 있는 클레임, 거부된 mod, 예산",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:56 blurb"
+      ]
+    },
+    {
+      "key": "Evt",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:57 short"
+      ]
+    },
+    {
+      "key": "every swarm, claim, memory and mod event as it happens (f filters them)",
+      "ko": "스웜, 클레임, 메모리, mod 이벤트를 발생 즉시 표시 (f로 필터)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:57 blurb"
+      ]
+    },
+    {
+      "key": "Room",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:58 label",
+        "plugins/ruflo-console/hooks/state.ts:58 short"
+      ]
+    },
+    {
+      "key": "what the people and the agents here are saying and doing, live, and the one thing waiting for a yes",
+      "ko": "여기 있는 사람과 에이전트가 하는 말과 행동을 실시간으로 표시하고, 승인을 기다리는 한 가지를 보여줍니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:58 blurb"
+      ]
+    },
+    {
+      "key": "XRV",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:59 short"
+      ]
+    },
+    {
+      "key": "the open agent federation: what it offers, how to join, its channels and who is on",
+      "ko": "오픈 에이전트 페더레이션: 제공 기능, 가입 방법, 채널, 접속 중인 멤버",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:59 blurb"
+      ]
+    },
+    {
+      "key": "Trm",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:60 short"
+      ]
+    },
+    {
+      "key": "an AI terminal: claude -p, codex or both, each a session that remembers the conversation, streamed live",
+      "ko": "AI 터미널: claude -p, codex 또는 둘 다. 각각 대화를 기억하는 세션이며 실시간 스트리밍",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:60 blurb"
+      ]
+    },
+    {
+      "key": "Skl",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:61 short"
+      ]
+    },
+    {
+      "key": "agent skills (npx skills, skills.sh): installed, search, use without installing, preview, add to chosen agents, update, create",
+      "ko": "에이전트 스킬 (npx skills, skills.sh): 설치됨, 검색, 설치 없이 사용, 미리보기, 선택한 에이전트에 추가, 업데이트, 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:61 blurb"
+      ]
+    },
+    {
+      "key": "Security & Doctor",
+      "ko": "보안 & 진단",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:62 label",
+        "plugins/ruflo-console/hooks/views/menu.ts:42 label"
+      ]
+    },
+    {
+      "key": "Sec",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:62 short"
+      ]
+    },
+    {
+      "key": "security scans, a paste field where AIDefence checks text for injection and PII, policy, sentries that scan on a schedule or on change, and every doctor check",
+      "ko": "보안 스캔, AIDefence가 인젝션과 PII를 검사하는 붙여넣기 입력란, 정책, 일정이나 변경 시 스캔하는 감시기, 모든 닥터 점검",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:62 blurb"
+      ]
+    },
+    {
+      "key": "Prf",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:63 short"
+      ]
+    },
+    {
+      "key": "metrics, profile, benchmarks, bottlenecks and a latency sparkline from each run",
+      "ko": "메트릭, 프로파일, 벤치마크, 병목, 실행마다의 지연 시간 스파크라인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:63 blurb"
+      ]
+    },
+    {
+      "key": "Aut",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:64 short"
+      ]
+    },
+    {
+      "key": "workflows, the twelve background workers and their daemon, loops, autopilot, sessions, config and a task kanban",
+      "ko": "워크플로, 백그라운드 워커 12개와 데몬, 루프, 오토파일럿, 세션, 설정, 작업 칸반",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:64 blurb"
+      ]
+    },
+    {
+      "key": "Learning Lab",
+      "ko": "학습 랩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:65 label"
+      ]
+    },
+    {
+      "key": "Lab",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:65 short"
+      ]
+    },
+    {
+      "key": "train neural patterns and watch the loss, ask the router which agent fits a task, and why",
+      "ko": "뉴럴 패턴을 학습시키며 손실을 확인하고, 작업에 맞는 에이전트와 그 이유를 라우터에 묻습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:65 blurb"
+      ]
+    },
+    {
+      "key": "Vec",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:66 short"
+      ]
+    },
+    {
+      "key": "ruvector: the shared brain, RVF stores, rvlite queries, decompile, workers, edge, hooks intel and your pi identity",
+      "ko": "ruvector: 공유 브레인, RVF 저장소, rvlite 쿼리, 디컴파일, 워커, 엣지, 훅 인텔, 내 pi 아이덴티티",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:66 blurb"
+      ]
+    },
+    {
+      "key": "Evo",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:67 short"
+      ]
+    },
+    {
+      "key": "the governed loop: flywheel receipts, ledger, lineage, the policy gate, the witness; Autogenous and rGi",
+      "ko": "통제된 루프: 플라이휠 영수증, 원장, 계보, 정책 게이트, 위트니스, Autogenous와 rGi",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:67 blurb"
+      ]
+    },
+    {
+      "key": "Dev",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:68 short"
+      ]
+    },
+    {
+      "key": "the integration surface: GitHub, diff analysis, agenticow, WASM, browser, terminal, providers, maintenance",
+      "ko": "통합 영역: GitHub, diff 분석, agenticow, WASM, 브라우저, 터미널, 프로바이더, 유지 관리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:68 blurb"
+      ]
+    },
+    {
+      "key": "Sbx",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:69 short"
+      ]
+    },
+    {
+      "key": "isolated places to try things: tmux sessions, RVF copy-on-write branches, RVM",
+      "ko": "시험해 볼 격리 공간: tmux 세션, RVF 쓰기 시 복사 브랜치, RVM",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:69 blurb"
+      ]
+    },
+    {
+      "key": "Cat",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:70 short"
+      ]
+    },
+    {
+      "key": "every ruflo plugin, mod and skill: what it ships, install, enable, disable, update, view and use",
+      "ko": "모든 ruflo 플러그인, mod, 스킬: 포함 내용, 설치, 활성화, 비활성화, 업데이트, 보기, 사용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:70 blurb"
+      ]
+    },
+    {
+      "key": "Set",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:71 short"
+      ]
+    },
+    {
+      "key": "simple to advanced settings: plugin options, ruflo config, updates, and the AI terminal’s model and budget, each edited in place",
+      "ko": "기본부터 고급까지 설정: 플러그인 옵션, ruflo 설정, 업데이트, AI 터미널의 모델과 예산을 각각 그 자리에서 편집",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/state.ts:71 blurb"
+      ]
+    }
+  ],
+  "obsolete": []
+}

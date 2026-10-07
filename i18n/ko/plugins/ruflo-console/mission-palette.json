@@ -1,0 +1,152 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-palette.ts",
+  "entries": [
+    {
+      "key": "open Mission Control (the Missions view) first",
+      "ko": "먼저 미션 컨트롤(미션 화면)을 여세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:11 const"
+      ]
+    },
+    {
+      "key": "mission-goal <goal>: plan a goal as a SPARC goal-oriented plan (nothing is written)",
+      "ko": "mission-goal <목표>: 목표를 SPARC 목표 지향 계획으로 세웁니다 (아무것도 기록하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:17 label"
+      ]
+    },
+    {
+      "key": "plan the goal",
+      "ko": "목표 계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:17 local()"
+      ]
+    },
+    {
+      "key": "mission status: progress, each task’s status, what is next",
+      "ko": "mission status: 진행 상황, 작업별 상태, 다음 할 일",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:18 label"
+      ]
+    },
+    {
+      "key": "mission status",
+      "ko": "미션 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:18 local()"
+      ]
+    },
+    {
+      "key": "create the mission and its tasks from the planned goal (asks first)",
+      "ko": "계획한 목표로 미션과 작업을 생성합니다 (먼저 확인 요청)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:19 label"
+      ]
+    },
+    {
+      "key": "hand the next ready task to Claude (asks first: it starts a turn)",
+      "ko": "다음 준비된 작업을 Claude에게 인계합니다 (먼저 확인 요청: 턴이 시작됨)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:23 label"
+      ]
+    },
+    {
+      "key": "pause: no more tasks are handed out",
+      "ko": "일시 중지: 더 이상 작업을 인계하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:31 label"
+      ]
+    },
+    {
+      "key": "pause the mission",
+      "ko": "미션 일시 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:31 local()"
+      ]
+    },
+    {
+      "key": "resume handing out tasks",
+      "ko": "작업 인계 재개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:32 label"
+      ]
+    },
+    {
+      "key": "resume the mission",
+      "ko": "미션 재개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:32 local()"
+      ]
+    },
+    {
+      "key": "cancel the mission and its open tasks (asks first)",
+      "ko": "미션과 미완료 작업을 취소합니다 (먼저 확인 요청)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:33 label"
+      ]
+    },
+    {
+      "key": "mission-aside <question>: /btw beside the running task",
+      "ko": "mission-aside <질문>: 실행 중인 작업 옆에서 /btw 로 질문합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:34 label"
+      ]
+    },
+    {
+      "key": "mission-guide <instruction>: a visible instruction to Claude (screened, asks first)",
+      "ko": "mission-guide <지시>: Claude에게 보이는 지시를 보냅니다 (검사 후 먼저 확인 요청)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:35 label"
+      ]
+    },
+    {
+      "key": "mission-auto on|off: hand over each next ready task without asking",
+      "ko": "mission-auto on|off: 다음 준비된 작업을 묻지 않고 인계합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:36 label"
+      ]
+    },
+    {
+      "key": "research the question typed in Missions: screened, then confirm (a billed turn with web access up to the cap)",
+      "ko": "미션에 입력한 질문을 조사합니다: 검사 후 확인 (웹 접근이 가능한 과금 턴, 한도까지)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:37 label"
+      ]
+    },
+    {
+      "key": "start the research",
+      "ko": "조사 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:37 local()"
+      ]
+    },
+    {
+      "key": "open Mission Control",
+      "ko": "미션 컨트롤 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-palette.ts:38 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

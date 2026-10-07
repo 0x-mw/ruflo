@@ -1,6 +1,6 @@
 ---
 name: ruflo-cost
-description: Cost tracking operations — generate reports, view breakdowns, set budgets, and get optimization recommendations
+description: 비용 추적 작업 — 보고서 생성, 항목별 내역 조회, 예산 설정, 최적화 권장 사항 받기
 ---
 
 Cost tracking commands:

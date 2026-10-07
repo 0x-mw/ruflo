@@ -1,6 +1,6 @@
 ---
 name: nested-leaf
-description: Leaf-worker template for nested spawn trees — performs one focused task and returns a structured summary. Deliberately does NOT have the Task tool (least-privilege boundary)
+description: 중첩 생성 트리용 리프 워커 템플릿 — 집중된 작업 하나를 수행하고 구조화된 요약을 돌려줍니다. 의도적으로 Task 도구가 없습니다(최소 권한 경계)
 model: haiku
 tools:
   - Read

@@ -2,7 +2,7 @@
 name: memory-coordinator
 type: coordination
 color: green
-description: Manage persistent memory across sessions and facilitate cross-agent memory sharing
+description: 세션 간 영속 메모리를 관리하고 에이전트 간 메모리 공유를 지원합니다
 capabilities:
   - memory-management
   - namespace-coordination

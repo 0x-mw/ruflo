@@ -1,0 +1,121 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/optimizer.ts",
+  "entries": [
+    {
+      "key": "no button for this one: read how to fix it above",
+      "ko": "이 항목은 버튼이 없습니다: 위의 해결 방법을 읽어보세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:28 children"
+      ]
+    },
+    {
+      "key": "a wider scope offers fixes for this",
+      "ko": "범위를 넓히면 이에 대한 해결책이 제공됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:28 children"
+      ]
+    },
+    {
+      "key": "after {0}: {1}  →  now {2}  (refresh r re-reads)",
+      "ko": "{0} 이후: {1}  →  현재 {2}  (새로고침 r로 다시 읽기)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:33 text()"
+      ]
+    },
+    {
+      "key": "after {0}: {1}  →  now resolved (no longer a finding)  (refresh r re-reads)",
+      "ko": "{0} 이후: {1}  →  해결됨 (더 이상 발견 항목 아님)  (새로고침 r로 다시 읽기)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:33 text()"
+      ]
+    },
+    {
+      "key": "after a fix: {0}  →  now {1}  (refresh r re-reads)",
+      "ko": "수정 이후: {0}  →  현재 {1}  (새로고침 r로 다시 읽기)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:33 text()"
+      ]
+    },
+    {
+      "key": "after a fix: {0}  →  now resolved (no longer a finding)  (refresh r re-reads)",
+      "ko": "수정 이후: {0}  →  해결됨 (더 이상 발견 항목 아님)  (새로고침 r로 다시 읽기)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:33 text()"
+      ]
+    },
+    {
+      "key": "… {0} more lines: open the section that owns this command",
+      "ko": "… {0}줄 더: 이 명령을 가진 섹션을 여세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:49 text()"
+      ]
+    },
+    {
+      "key": "Optimizer",
+      "ko": "옵티마이저",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:66 section()"
+      ]
+    },
+    {
+      "key": "{0} finding · {1} need attention · fixes ask first",
+      "ko": "발견 {0}건 · 확인 필요 {1}건 · 수정은 먼저 묻습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:67 section()"
+      ]
+    },
+    {
+      "key": "{0} finding · fixes ask first",
+      "ko": "발견 {0}건 · 수정은 먼저 묻습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:67 section()"
+      ]
+    },
+    {
+      "key": "{0} findings · {1} need attention · fixes ask first",
+      "ko": "발견 {0}건 · 확인 필요 {1}건 · 수정은 먼저 묻습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:67 section()"
+      ]
+    },
+    {
+      "key": "{0} findings · fixes ask first",
+      "ko": "발견 {0}건 · 수정은 먼저 묻습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:67 section()"
+      ]
+    },
+    {
+      "key": "scope",
+      "ko": "범위",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:69 text()",
+        "plugins/ruflo-console/hooks/views/skills-more.ts:19 text()"
+      ]
+    },
+    {
+      "key": "nothing found: the project is still being read",
+      "ko": "발견된 것이 없습니다: 프로젝트를 아직 읽는 중입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/optimizer.ts:70 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: autopilot-predict
-description: Use learned patterns and current state to predict the optimal next action
+description: 학습된 패턴과 현재 상태를 사용해 최적의 다음 행동을 예측
 argument-hint: ""
 allowed-tools: mcp__plugin_ruflo-core_ruflo__autopilot_predict mcp__plugin_ruflo-core_ruflo__autopilot_progress mcp__plugin_ruflo-core_ruflo__autopilot_learn mcp__plugin_ruflo-core_ruflo__autopilot_history
 ---

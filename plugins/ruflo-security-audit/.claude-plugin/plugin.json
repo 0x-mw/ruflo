@@ -1,6 +1,6 @@
 {
   "name": "ruflo-security-audit",
-  "description": "Security review, dependency scanning, policy gates, and CVE monitoring",
+  "description": "보안 리뷰, 의존성 스캔, 정책 게이트, CVE 모니터링",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -24,8 +24,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse audit findings that quote a live secret into memory.",
+      "title": "비밀 가드",
+      "description": "실제 비밀을 메모리에 인용하는 감사 결과를 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

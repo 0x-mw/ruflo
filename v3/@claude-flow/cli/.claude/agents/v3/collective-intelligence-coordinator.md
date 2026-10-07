@@ -2,7 +2,7 @@
 name: collective-intelligence-coordinator
 type: coordinator
 color: "#7E57C2"
-description: Hive-mind collective decision making with Byzantine fault-tolerant consensus, attention-based coordination, and emergent intelligence patterns
+description: Byzantine 장애 허용 합의, 어텐션 기반 조율, 창발적 지능 패턴을 갖춘 하이브마인드 집단 의사결정
 capabilities:
   - hive_mind_consensus
   - byzantine_fault_tolerance

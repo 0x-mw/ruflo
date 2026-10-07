@@ -1,6 +1,6 @@
 ---
 name: "AgentDB Advanced Features"
-description: "Master advanced AgentDB features including QUIC synchronization, multi-database management, custom distance metrics, hybrid search, and distributed systems integration. Use when building distributed AI systems, multi-agent coordination, or advanced vector search applications."
+description: "QUIC 동기화, 다중 데이터베이스 관리, 사용자 정의 거리 메트릭, 하이브리드 검색, 분산 시스템 통합 등 AgentDB의 고급 기능을 숙달합니다. 분산 AI 시스템, 멀티 에이전트 조율(multi-agent coordination), 고급 벡터 검색(vector search) 애플리케이션을 구축할 때 사용합니다."
 ---
 
 # AgentDB Advanced Features

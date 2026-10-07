@@ -1,6 +1,6 @@
 ---
 name: browser-login
-description: Drive an authentication flow once, sanitize cookies through AIDefence, and vault a reusable cookie handle in browser-cookies for future sessions
+description: 인증 흐름을 한 번 수행하고, 쿠키를 AIDefence로 정제한 뒤, 이후 세션을 위해 재사용 가능한 쿠키 핸들을 browser-cookies에 보관
 argument-hint: "<login-url> [--vault-name <handle>] [--mfa]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__browser_fill mcp__plugin_ruflo-core_ruflo__browser_type mcp__plugin_ruflo-core_ruflo__browser_click mcp__plugin_ruflo-core_ruflo__browser_wait mcp__plugin_ruflo-core_ruflo__browser_eval mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__aidefence_scan mcp__plugin_ruflo-core_ruflo__aidefence_has_pii Bash Read Write
 ---

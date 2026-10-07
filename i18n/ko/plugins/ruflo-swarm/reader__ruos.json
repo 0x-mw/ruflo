@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/reader/ruos.ts",
+  "entries": [
+    {
+      "key": "failed (exit {0})",
+      "ko": "실패 (종료 코드 {0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/ruos.ts:147 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

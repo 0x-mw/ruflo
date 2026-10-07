@@ -1,0 +1,280 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/metaharness.ts",
+  "entries": [
+    {
+      "key": "{0} — optional (ADR-150), the console works without it",
+      "ko": "{0} — 선택 사항(ADR-150), 없어도 콘솔은 동작합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:24 text()"
+      ]
+    },
+    {
+      "key": "est. cost/run",
+      "ko": "예상 비용/실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "n/a · hard constraints {0} · scaffold n/a · scored {1}",
+      "ko": "해당 없음 · 하드 제약 {0} · 스캐폴드 해당 없음 · 점수 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "n/a · hard constraints {0} · scaffold ready · scored {1}",
+      "ko": "해당 없음 · 하드 제약 {0} · 스캐폴드 준비됨 · 점수 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "n/a · hard constraints {0} · scaffold not ready · scored {1}",
+      "ko": "해당 없음 · 하드 제약 {0} · 스캐폴드 준비 안 됨 · 점수 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "n/a · hard constraints n/a · scaffold n/a · scored {0}",
+      "ko": "해당 없음 · 하드 제약 해당 없음 · 스캐폴드 해당 없음 · 점수 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "n/a · hard constraints n/a · scaffold ready · scored {0}",
+      "ko": "해당 없음 · 하드 제약 해당 없음 · 스캐폴드 준비됨 · 점수 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "n/a · hard constraints n/a · scaffold not ready · scored {0}",
+      "ko": "해당 없음 · 하드 제약 해당 없음 · 스캐폴드 준비 안 됨 · 점수 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "${0} · hard constraints {1} · scaffold n/a · scored {2}",
+      "ko": "${0} · 하드 제약 {1} · 스캐폴드 해당 없음 · 점수 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "${0} · hard constraints {1} · scaffold ready · scored {2}",
+      "ko": "${0} · 하드 제약 {1} · 스캐폴드 준비됨 · 점수 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "${0} · hard constraints {1} · scaffold not ready · scored {2}",
+      "ko": "${0} · 하드 제약 {1} · 스캐폴드 준비 안 됨 · 점수 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "${0} · hard constraints n/a · scaffold n/a · scored {1}",
+      "ko": "${0} · 하드 제약 해당 없음 · 스캐폴드 해당 없음 · 점수 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "${0} · hard constraints n/a · scaffold ready · scored {1}",
+      "ko": "${0} · 하드 제약 해당 없음 · 스캐폴드 준비됨 · 점수 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "${0} · hard constraints n/a · scaffold not ready · scored {1}",
+      "ko": "${0} · 하드 제약 해당 없음 · 스캐폴드 준비 안 됨 · 점수 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "static readiness heuristics from `metaharness score`, 0-100 per axis; the radar growing in is decoration",
+      "ko": "`metaharness score`의 정적 준비도 휴리스틱, 축당 0-100점입니다. 레이더가 커지는 효과는 장식입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:34 text()"
+      ]
+    },
+    {
+      "key": "valid · {0} commits · {1} receipts",
+      "ko": "유효 · 커밋 {0}개 · 영수증 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:40 kv()"
+      ]
+    },
+    {
+      "key": "INVALID · {0} commits · {1} receipts",
+      "ko": "무효 · 커밋 {0}개 · 영수증 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:40 kv()"
+      ]
+    },
+    {
+      "key": "none promoted",
+      "ko": "승격된 항목 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:41 kv()"
+      ]
+    },
+    {
+      "key": "serving epoch",
+      "ko": "서빙 에폭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:42 kv()"
+      ]
+    },
+    {
+      "key": "ledger: {0}",
+      "ko": "원장: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:44 text()"
+      ]
+    },
+    {
+      "key": "n/a — no .claude-flow/harness-active-policy.json",
+      "ko": "해당 없음 — .claude-flow/harness-active-policy.json 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "{0}… · {1} · {2} · applied {3}",
+      "ko": "{0}… · {1} · {2} · 적용 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "{0}… · {1} · n/a · applied {2}",
+      "ko": "{0}… · {1} · 해당 없음 · 적용 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "{0}… · n/a · {1} · applied {2}",
+      "ko": "{0}… · 해당 없음 · {1} · 적용 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "{0}… · n/a · n/a · applied {1}",
+      "ko": "{0}… · 해당 없음 · 해당 없음 · 적용 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:47 kv()"
+      ]
+    },
+    {
+      "key": "audit trend needs a terminal",
+      "ko": "감사 추이는 터미널이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:48 picture()"
+      ]
+    },
+    {
+      "key": "from `metaharness audit-list` (memory namespace metaharness-audit) · ▸ OIA AUDIT below adds one",
+      "ko": "`metaharness audit-list`에서 가져옴 (메모리 네임스페이스 metaharness-audit) · 아래 ▸ OIA AUDIT으로 추가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:49 text()"
+      ]
+    },
+    {
+      "key": "Readiness",
+      "ko": "준비도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:52 section()"
+      ]
+    },
+    {
+      "key": "metaharness score",
+      "ko": "metaharness 점수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:52 section()"
+      ]
+    },
+    {
+      "key": "Flywheel",
+      "ko": "플라이휠",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:53 section()"
+      ]
+    },
+    {
+      "key": "receipts ledger",
+      "ko": "영수증 원장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:53 section()"
+      ]
+    },
+    {
+      "key": "Policy and audit trend",
+      "ko": "정책과 감사 추이",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:54 section()"
+      ]
+    },
+    {
+      "key": "worst severity per stored audit",
+      "ko": "저장된 감사별 최고 심각도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:54 section()"
+      ]
+    },
+    {
+      "key": "metaharness",
+      "ko": "metaharness",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/metaharness.ts:58 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

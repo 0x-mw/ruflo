@@ -1,6 +1,6 @@
 ---
 name: trader-portfolio-cg
-description: Mean-variance portfolio optimization via Conjugate Gradient — 40-60× faster than the legacy Neumann path (ADR-126 Phase 3, ADR-123 Wedge 8)
+description: 켤레 기울기법(Conjugate Gradient)을 통한 평균-분산 포트폴리오 최적화 — 기존 Neumann 경로보다 40~60배 빠름(ADR-126 3단계, ADR-123 Wedge 8)
 allowed-tools: Bash Read mcp__ruflo-sublinear__solve mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search
 argument-hint: "[--portfolio-id ID] [--tolerance 1e-6]"
 ---

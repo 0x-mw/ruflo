@@ -1,6 +1,6 @@
 ---
 name: "V3 Memory Unification"
-description: "Unify 6+ memory systems into AgentDB with HNSW indexing for 150x-12,500x search improvements. Implements ADR-006 (Unified Memory Service) and ADR-009 (Hybrid Memory Backend)."
+description: "6개 이상의 메모리 시스템을 HNSW 인덱싱 기반 AgentDB로 통합해 검색을 150배~12,500배 개선합니다. ADR-006(통합 메모리 서비스)과 ADR-009(하이브리드 메모리 백엔드)를 구현합니다."
 ---
 
 # V3 Memory Unification

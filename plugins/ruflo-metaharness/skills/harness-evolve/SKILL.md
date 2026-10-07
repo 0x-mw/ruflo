@@ -1,6 +1,6 @@
 ---
 name: harness-evolve
-description: Run `@metaharness/darwin evolve <repo>` to mutate a harness's seven policy surfaces (planner/contextBuilder/reviewer/retryPolicy/toolPolicy/memoryPolicy/scorePolicy), sandbox-score each variant, and promote only measured wins. The model is frozen; the harness evolves. Closes the loop ADR-150 opens (score+genome describe; evolve changes). Degrades gracefully when @metaharness/darwin is absent (ADR-150 + ADR-153 architectural constraints).
+description: "`@metaharness/darwin evolve <repo>`를 실행해 하네스의 정책 영역 7개(planner/contextBuilder/reviewer/retryPolicy/toolPolicy/memoryPolicy/scorePolicy)를 변이시키고, 각 변형을 샌드박스에서 채점하며, 측정된 성과만 승격합니다. 모델은 고정되고 하네스가 진화합니다. ADR-150이 연 루프를 닫습니다(score+genome은 설명하고, evolve는 변경). @metaharness/darwin이 없으면 기능이 단계적으로 축소됩니다(ADR-150 + ADR-153 아키텍처 제약)."
 argument-hint: "--repo <path> [--generations 3] [--children 3] [--concurrency 2] [--sandbox real|mock|agent] [--selection pareto|quality-diversity|...] [--mutator deterministic|ruvllm] [--diagnose] [--confirm]"
 allowed-tools: Bash
 ---

@@ -1,3 +1,7 @@
+---
+description: 패턴 학습
+---
+
 # pattern-learn
 
 Learn patterns from successful operations.

@@ -1,6 +1,6 @@
 ---
 name: sparc-refine
-description: Run the SPARC Refinement and Completion phases — review code, improve test coverage, validate against specification, and generate documentation
+description: SPARC 개선 및 완료 단계를 실행 — 코드 리뷰, 테스트 커버리지 향상, 명세 대비 검증, 문서 생성
 argument-hint: ""
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__task_create mcp__plugin_ruflo-core_ruflo__task_update mcp__plugin_ruflo-core_ruflo__task_complete mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-step mcp__plugin_ruflo-core_ruflo__hooks_intelligence_trajectory-end mcp__plugin_ruflo-core_ruflo__neural_train mcp__plugin_ruflo-core_ruflo__neural_predict Bash Read Write Edit
 ---

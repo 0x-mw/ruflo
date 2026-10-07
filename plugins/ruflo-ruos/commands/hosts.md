@@ -1,6 +1,6 @@
 ---
 name: hosts
-description: List your ruOS desktops as ruflo swarm hosts — state, liveness, and which ruflo agents run on each
+description: 본인의 ruOS 데스크톱을 ruflo 스웜 호스트로 나열 — 상태, 활성 여부, 각 호스트에서 실행 중인 ruflo 에이전트
 ---
 $ARGUMENTS
 

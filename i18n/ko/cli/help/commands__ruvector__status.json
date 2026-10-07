@@ -1,0 +1,32 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/ruvector/status.ts",
+  "entries": [
+    {
+      "key": "Show detailed information",
+      "ko": "상세 정보를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/status.ts:46 description"
+      ]
+    },
+    {
+      "key": "Check basic status",
+      "ko": "기본 상태를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/status.ts:102 description"
+      ]
+    },
+    {
+      "key": "Show detailed info",
+      "ko": "상세 정보를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/ruvector/status.ts:103 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

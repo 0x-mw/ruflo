@@ -1,6 +1,6 @@
 {
   "name": "ruflo-graph-intelligence",
-  "description": "RuFlo Graph Intelligence Engine — real-time relationship intelligence with complexity-aware execution. Single-entry personalized PageRank, streaming delta updates, witness-signed reasoning artifacts, federation-distributable PR vectors. Built on sublinear-time-solver@1.7.0.",
+  "description": "RuFlo 그래프 인텔리전스 엔진 — 복잡도 인식 실행을 갖춘 실시간(real-time) 관계 인텔리전스. 단일 진입점 개인화 PageRank, 스트리밍 델타 업데이트, 위트니스 서명 추론 산출물, 페더레이션 배포 가능 PR 벡터. sublinear-time-solver@1.7.0 기반으로 만들었습니다.",
   "version": "0.2.0-alpha.4",
   "author": {
     "name": "ruvnet",
@@ -35,8 +35,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Write guard",
-      "description": "Refuse writes and commands on this plugin's own tools that hold a key, token or password.",
+      "title": "쓰기 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는, 이 플러그인 자체 도구에 대한 쓰기와 명령을 거부합니다.",
       "required": false,
       "default": "on",
       "options": [

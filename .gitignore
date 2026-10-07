@@ -187,3 +187,6 @@ v3/@claude-flow/cli/plugins/
 # Node V8 compile cache emitted by workspace builds (NODE_COMPILE_CACHE) —
 # machine-local artifact keyed by node version, never source
 node-compile-cache/
+
+# effort-router task state (local only)
+docs/task-id/

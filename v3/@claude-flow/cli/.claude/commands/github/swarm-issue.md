@@ -1,3 +1,7 @@
+---
+description: 스웜 이슈 - 이슈 기반 스웜 조율
+---
+
 # Swarm Issue - Issue-Based Swarm Coordination
 
 ## Overview

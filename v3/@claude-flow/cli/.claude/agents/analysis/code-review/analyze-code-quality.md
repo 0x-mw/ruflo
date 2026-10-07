@@ -1,6 +1,6 @@
 ---
 name: "code-analyzer"
-description: "Advanced code quality analysis agent for comprehensive code reviews and improvements"
+description: "종합 코드 리뷰와 개선을 위한 고급 코드 품질 분석 에이전트"
 color: "purple"
 type: "analysis"
 version: "1.0.0"

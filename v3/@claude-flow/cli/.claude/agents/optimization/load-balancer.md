@@ -2,7 +2,7 @@
 name: Load Balancing Coordinator
 type: agent
 category: optimization
-description: Dynamic task distribution, work-stealing algorithms and adaptive load balancing
+description: 동적 작업 분배, 워크 스틸링(work-stealing) 알고리즘, 적응형 로드 밸런싱
 ---
 
 # Load Balancing Coordinator Agent

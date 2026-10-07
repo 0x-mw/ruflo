@@ -1,0 +1,394 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/swarm.ts",
+  "entries": [
+    {
+      "key": "Initialize a new swarm",
+      "ko": "새 스웜을 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:365 description"
+      ]
+    },
+    {
+      "key": "Swarm topology",
+      "ko": "스웜 토폴로지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:370 description"
+      ]
+    },
+    {
+      "key": "Maximum number of agents",
+      "ko": "최대 에이전트 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:378 description"
+      ]
+    },
+    {
+      "key": "Enable automatic scaling",
+      "ko": "자동 확장을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:384 description"
+      ]
+    },
+    {
+      "key": "Coordination strategy",
+      "ko": "조율 전략",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:391 description"
+      ]
+    },
+    {
+      "key": "Enable V3 15-agent hierarchical mesh mode",
+      "ko": "V3 15 에이전트 계층형 메시 모드를 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:397 description"
+      ]
+    },
+    {
+      "key": "Apply APSC suspension decisions (default is calibration-only dry run)",
+      "ko": "APSC 중지 결정을 적용합니다 (기본값은 보정 전용 드라이런)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:403 description"
+      ]
+    },
+    {
+      "key": "Task-success score weight",
+      "ko": "작업 성공 점수 가중치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:407 description"
+      ]
+    },
+    {
+      "key": "Latency score weight",
+      "ko": "지연 시간 점수 가중치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:408 description"
+      ]
+    },
+    {
+      "key": "Consensus-alignment score weight",
+      "ko": "합의 정렬 점수 가중치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:409 description"
+      ]
+    },
+    {
+      "key": "Fraction of adaptive threshold below which agents are eligible for suspension",
+      "ko": "에이전트를 중지 대상으로 삼는 적응형 임계값 대비 비율 (이 값 미만)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:410 description"
+      ]
+    },
+    {
+      "key": "Fraction of adaptive threshold required for recovery",
+      "ko": "복구에 필요한 적응형 임계값 대비 비율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:411 description"
+      ]
+    },
+    {
+      "key": "Hard quorum floor",
+      "ko": "정족수 하한 (강제)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:412 description"
+      ]
+    },
+    {
+      "key": "Warm-up observations before pruning",
+      "ko": "가지치기 전 워밍업 관측 횟수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:413 description"
+      ]
+    },
+    {
+      "key": "Ship workspace-scoped permission manifest (preset: strict|standard|permissive) — dream-cycle #2768",
+      "ko": "워크스페이스 범위 권한 매니페스트를 배포합니다 (프리셋: strict|standard|permissive) — dream-cycle #2768",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:420 description"
+      ]
+    },
+    {
+      "key": "Start swarm execution",
+      "ko": "스웜 실행을 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:592 description"
+      ]
+    },
+    {
+      "key": "Swarm objective/task",
+      "ko": "스웜 목표/작업",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:597 description"
+      ]
+    },
+    {
+      "key": "Execution strategy",
+      "ko": "실행 전략",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:604 description"
+      ]
+    },
+    {
+      "key": "Enable parallel execution",
+      "ko": "병렬 실행을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:611 description",
+        "src/commands/workflow.ts:49 description"
+      ]
+    },
+    {
+      "key": "Enable real-time monitoring",
+      "ko": "실시간(real-time) 모니터링을 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:617 description"
+      ]
+    },
+    {
+      "key": "Start development swarm",
+      "ko": "개발 스웜을 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:623 description",
+        "src/commands/swarm.ts:1153 description"
+      ]
+    },
+    {
+      "key": "Parallel analysis",
+      "ko": "병렬 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:624 description"
+      ]
+    },
+    {
+      "key": "Show swarm status",
+      "ko": "스웜 상태를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:741 description"
+      ]
+    },
+    {
+      "key": "Stop swarm execution",
+      "ko": "스웜 실행을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:835 description"
+      ]
+    },
+    {
+      "key": "Force immediate stop",
+      "ko": "즉시 강제로 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:840 description"
+      ]
+    },
+    {
+      "key": "Save current state for resume",
+      "ko": "재개를 위해 현재 상태를 저장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:846 description"
+      ]
+    },
+    {
+      "key": "Scale swarm agent count",
+      "ko": "스웜 에이전트 수를 조정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:911 description"
+      ]
+    },
+    {
+      "key": "Target number of agents",
+      "ko": "목표 에이전트 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:916 description"
+      ]
+    },
+    {
+      "key": "Agent type to scale",
+      "ko": "확장할 에이전트 유형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:923 description"
+      ]
+    },
+    {
+      "key": "Execute V3 15-agent hierarchical mesh coordination",
+      "ko": "V3 15 에이전트 계층형 메시 조율을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:978 description"
+      ]
+    },
+    {
+      "key": "Number of agents",
+      "ko": "에이전트 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:982 description"
+      ]
+    },
+    {
+      "key": "Domains to activate",
+      "ko": "활성화할 도메인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:988 description"
+      ]
+    },
+    {
+      "key": "Compress an inter-agent message to a token budget (IB+VQ-inspired, dream-cycle #2727)",
+      "ko": "에이전트 간 메시지를 토큰 예산에 맞춰 압축합니다 (IB+VQ 기반, dream-cycle #2727)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1061 description"
+      ]
+    },
+    {
+      "key": "Message text (or use --message-file)",
+      "ko": "메시지 텍스트 (또는 --message-file 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1063 description"
+      ]
+    },
+    {
+      "key": "Path to a file whose contents will be compressed",
+      "ko": "내용을 압축할 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1064 description"
+      ]
+    },
+    {
+      "key": "Target token budget (approximate, ~4 chars per token)",
+      "ko": "목표 토큰 예산 (근사치, 토큰당 약 4자)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1065 description"
+      ]
+    },
+    {
+      "key": "Scoring mode",
+      "ko": "점수 산정 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1066 description"
+      ]
+    },
+    {
+      "key": "Compress inline message to 100 tokens",
+      "ko": "인라인 메시지를 100 토큰으로 압축합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1069 description"
+      ]
+    },
+    {
+      "key": "Inspect or update ADR-330 pheromone-adaptive scheduling state",
+      "ko": "ADR-330 pheromone-adaptive 스케줄링 상태를 조회하거나 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1122 description"
+      ]
+    },
+    {
+      "key": "Agent identifier; omit to show status",
+      "ko": "에이전트 식별자 (생략하면 상태를 표시)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1124 description"
+      ]
+    },
+    {
+      "key": "Agent role for role-local normalization",
+      "ko": "역할 단위 정규화에 쓸 에이전트 역할",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1125 description"
+      ]
+    },
+    {
+      "key": "Task success in [0,1]",
+      "ko": "작업 성공도 [0,1]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1126 description"
+      ]
+    },
+    {
+      "key": "Latency divided by budget in [0,1]",
+      "ko": "예산 대비 지연 시간 비율 [0,1]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1127 description"
+      ]
+    },
+    {
+      "key": "Consensus alignment in [0,1]",
+      "ko": "합의 정렬도 [0,1]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1128 description"
+      ]
+    },
+    {
+      "key": "Swarm coordination commands",
+      "ko": "스웜 조율 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1148 description"
+      ]
+    },
+    {
+      "key": "Initialize V3 swarm",
+      "ko": "V3 스웜을 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1152 description"
+      ]
+    },
+    {
+      "key": "V3 coordination",
+      "ko": "V3 조율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1154 description"
+      ]
+    },
+    {
+      "key": "Inspect pheromone-adaptive scheduling state",
+      "ko": "pheromone-adaptive 스케줄링 상태를 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/swarm.ts:1155 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

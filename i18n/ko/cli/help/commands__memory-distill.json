@@ -1,0 +1,298 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/memory-distill.ts",
+  "entries": [
+    {
+      "key": "Path to the memory DB (default: cwd/.swarm/memory.db)",
+      "ko": "메모리 DB 경로 (기본값: cwd/.swarm/memory.db)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:68 description"
+      ]
+    },
+    {
+      "key": "Distill memory_entries into episodes/reasoning_patterns/pattern_embeddings/causal_edges (ADR-174)",
+      "ko": "memory_entries를 episodes/reasoning_patterns/pattern_embeddings/causal_edges로 증류합니다 (ADR-174)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:133 description"
+      ]
+    },
+    {
+      "key": "Report counts, write nothing",
+      "ko": "개수만 보고하고 아무것도 쓰지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:135 description"
+      ]
+    },
+    {
+      "key": "Comma-separated namespace scope (default: all embedded namespaces)",
+      "ko": "쉼표로 구분한 네임스페이스 범위 (기본값: 임베딩된 모든 네임스페이스)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:136 description"
+      ]
+    },
+    {
+      "key": "Rows per transaction (default 200)",
+      "ko": "트랜잭션당 행 수 (기본값 200)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:137 description"
+      ]
+    },
+    {
+      "key": "Cosine distance for pattern clustering (default 0.12)",
+      "ko": "패턴 클러스터링의 코사인 거리 (기본값 0.12)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:138 description"
+      ]
+    },
+    {
+      "key": "Per-invocation work cap (default unbounded)",
+      "ko": "호출당 작업량 상한 (기본값 무제한)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:139 description"
+      ]
+    },
+    {
+      "key": "Override the incremental cursor and rescan from this rowid",
+      "ko": "증분 커서를 무시하고 이 rowid부터 다시 스캔",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:140 description"
+      ]
+    },
+    {
+      "key": "$0 by default; >0 required to unlock --judge fable (ADR-172)",
+      "ko": "기본값은 $0이며 --judge fable을 사용하려면 0보다 커야 함 (ADR-172)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:141 description"
+      ]
+    },
+    {
+      "key": "'structural' (default, $0) or 'fable' (requires --budget-usd > 0)",
+      "ko": "'structural' (기본값, $0) 또는 'fable' (--budget-usd > 0 필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:142 description"
+      ]
+    },
+    {
+      "key": "Preset: dedup-distance 0.2, batch-size 500",
+      "ko": "프리셋: dedup-distance 0.2, batch-size 500",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:143 description",
+        "src/commands/memory-distill.ts:379 description"
+      ]
+    },
+    {
+      "key": "Preset: dedup-distance 0.08, batch-size 100",
+      "ko": "프리셋: dedup-distance 0.08, batch-size 100",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:144 description",
+        "src/commands/memory-distill.ts:380 description"
+      ]
+    },
+    {
+      "key": "Load options from a JSON config file (see: memory distill config)",
+      "ko": "JSON 설정 파일에서 옵션 불러오기 (참고: memory distill config)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:145 description"
+      ]
+    },
+    {
+      "key": "Verbose service logging",
+      "ko": "서비스 상세 로그 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:147 description"
+      ]
+    },
+    {
+      "key": "Preview counts without writing anything",
+      "ko": "아무것도 쓰지 않고 개수 미리 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:150 description"
+      ]
+    },
+    {
+      "key": "Scope the run to specific namespaces",
+      "ko": "특정 네임스페이스로 실행 범위 제한",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:151 description"
+      ]
+    },
+    {
+      "key": "Larger batches, looser dedup clustering",
+      "ko": "배치를 키우고 중복 제거 클러스터링을 느슨하게",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:152 description"
+      ]
+    },
+    {
+      "key": "Opt into the cost-bounded Fable judge (ADR-172)",
+      "ko": "비용 상한이 있는 Fable 판정기 사용 (ADR-172)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:153 description"
+      ]
+    },
+    {
+      "key": "Read-only report: target table row counts, per-namespace distill_state cursor, promoted vs proxy breakdown",
+      "ko": "읽기 전용 보고서: 대상 테이블 행 수, 네임스페이스별 distill_state 커서, 승격 대 프록시 내역",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:248 description"
+      ]
+    },
+    {
+      "key": "Show distillation state for the default DB",
+      "ko": "기본 DB의 증류 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:251 description"
+      ]
+    },
+    {
+      "key": "Inspect a specific DB copy",
+      "ko": "특정 DB 사본 점검",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:252 description"
+      ]
+    },
+    {
+      "key": "Print the effective distill config (defaults + --config file + preset + explicit flags) as JSON",
+      "ko": "유효 증류 설정(기본값 + --config 파일 + 프리셋 + 명시한 플래그)을 JSON으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:376 description"
+      ]
+    },
+    {
+      "key": "Load options from a JSON config file",
+      "ko": "JSON 설정 파일에서 옵션 불러오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:378 description"
+      ]
+    },
+    {
+      "key": "Comma-separated namespace scope",
+      "ko": "쉼표로 구분한 네임스페이스 범위",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:381 description"
+      ]
+    },
+    {
+      "key": "Rows per transaction",
+      "ko": "트랜잭션당 행 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:382 description"
+      ]
+    },
+    {
+      "key": "Cosine distance for pattern clustering",
+      "ko": "패턴 클러스터링의 코사인 거리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:383 description"
+      ]
+    },
+    {
+      "key": "Per-invocation work cap",
+      "ko": "호출당 작업량 상한",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:384 description"
+      ]
+    },
+    {
+      "key": "Override incremental cursor start (rowid)",
+      "ko": "증분 커서 시작 지점 재정의 (rowid)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:385 description"
+      ]
+    },
+    {
+      "key": "$0 by default",
+      "ko": "기본값은 $0",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:386 description"
+      ]
+    },
+    {
+      "key": "'structural' | 'fable'",
+      "ko": "'structural' | 'fable'",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:387 description"
+      ]
+    },
+    {
+      "key": "Print the platform-default config",
+      "ko": "플랫폼 기본 설정 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:391 description"
+      ]
+    },
+    {
+      "key": "Print the effective config with the aggressive preset applied",
+      "ko": "공격적 프리셋을 적용한 유효 설정 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:392 description"
+      ]
+    },
+    {
+      "key": "Memory distillation (ADR-174): mine memory_entries into reasoning_patterns/episodes/causal_edges",
+      "ko": "메모리 증류 (ADR-174): memory_entries에서 reasoning_patterns/episodes/causal_edges 추출",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:413 description"
+      ]
+    },
+    {
+      "key": "Preview a distillation pass",
+      "ko": "증류 패스 미리 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:416 description"
+      ]
+    },
+    {
+      "key": "Show distilled table counts + cursor",
+      "ko": "증류된 테이블 개수와 커서 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:417 description"
+      ]
+    },
+    {
+      "key": "Print the effective conservative-preset config",
+      "ko": "보수적 프리셋을 적용한 유효 설정 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/memory-distill.ts:418 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

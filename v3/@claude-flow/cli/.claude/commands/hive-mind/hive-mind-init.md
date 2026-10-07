@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 초기화
+---
+
 # hive-mind-init
 
 Initialize the Hive Mind collective intelligence system.

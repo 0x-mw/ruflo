@@ -1,6 +1,6 @@
 {
   "name": "ruflo-daa",
-  "description": "Dynamic Agentic Architecture — 8 daa_* MCP tools for adaptive agents (create/adapt), cognitive patterns, workflows (create/execute), knowledge sharing, and learning/performance metrics. Feeds the JUDGE phase of the 4-step intelligence pipeline.",
+  "description": "동적 에이전트 아키텍처 — 적응형 에이전트(create/adapt), 인지 패턴, 워크플로(create/execute), 지식 공유, 학습/성능 메트릭을 위한 daa_* MCP 도구 8개. 4단계 인텔리전스 파이프라인의 JUDGE 단계에 입력을 제공합니다.",
   "version": "0.3.2",
   "author": {
     "name": "ruvnet",
@@ -24,8 +24,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Secret guard",
-      "description": "Refuse daa_* tool calls that hold a key, token or password. On by default; it only ever tightens.",
+      "title": "비밀 가드",
+      "description": "키, 토큰, 비밀번호가 들어 있는 daa_* 도구 호출을 거부합니다. 기본값은 켜짐이며 강화만 합니다.",
       "required": false,
       "default": "on",
       "options": [

@@ -1,6 +1,6 @@
 ---
 name: neural
-description: Neural pattern training, prediction, compression, and pipeline optimization
+description: 뉴럴 패턴 학습, 예측, 압축, 파이프라인 최적화
 ---
 
 Neural system commands — dispatch by subcommand parsed from the user's input:

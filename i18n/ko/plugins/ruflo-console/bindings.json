@@ -1,0 +1,51 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/bindings.ts",
+  "entries": [
+    {
+      "key": "that cannot run here",
+      "ko": "여기서는 실행할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/bindings.ts:227 ask()",
+        "plugins/ruflo-console/hooks/wf-actions.ts:52 expr"
+      ]
+    },
+    {
+      "key": "type it first (it may not start with -)",
+      "ko": "먼저 입력하세요 (-로 시작할 수 없습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/bindings.ts:228 ask()"
+      ]
+    },
+    {
+      "key": "that start cannot run here",
+      "ko": "해당 시작은 여기서 실행할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/bindings.ts:228 ask()",
+        "plugins/ruflo-console/hooks/palette.ts:107 why"
+      ]
+    },
+    {
+      "key": "no area \"{0}\": type a key from the menu, or ? for help",
+      "ko": "\"{0}\" 영역이 없습니다: 메뉴의 키를 입력하거나 ?로 도움말을 보세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/bindings.ts:240 ask()"
+      ]
+    },
+    {
+      "key": "overview",
+      "ko": "개요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/bindings.ts:379 ask()",
+        "plugins/ruflo-console/hooks/views/overview.ts:106 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

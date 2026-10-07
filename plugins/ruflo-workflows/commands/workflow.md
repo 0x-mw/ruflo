@@ -1,6 +1,6 @@
 ---
 name: workflow
-description: Workflow management -- list MCP workflows + templates and native .claude/workflows/*.js scripts
+description: 워크플로 관리 -- MCP 워크플로와 템플릿, 네이티브 .claude/workflows/*.js 스크립트를 나열
 ---
 
 Manage workflows across both surfaces:

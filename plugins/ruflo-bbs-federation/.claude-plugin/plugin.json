@@ -1,6 +1,6 @@
 {
   "name": "ruflo-bbs-federation",
-  "description": "AgentBBS cross-host agent federation for ruflo (ADR-164). Phase 1 exposes room coordination — federation_bbs_register / federation_bbs_publish / federation_bbs_watch / federation_bbs_human_join. Phase 2 (v3.40.0) adds signed cross-host federation — federation_bbs_identity (persistent Ed25519 node identity), federation_bbs_peer_add (pin a peer by nodeId + public key), federation_bbs_peers (audit/unpin), federation_bbs_serve (read-only pull endpoint), and federation_bbs_sync (pull pinned peers and union-merge what verifies). Every merged envelope is Ed25519-verified against a pinned key; unsigned/misattributed/oversize/over-hop envelopes are dropped and counted. Transport is HTTP pull and works on any network (Tailscale, LAN, VPN, loopback) — no tailnet required. Coordinates work ownership via claim messages (ClaimIssued/Released/Handoff/Ack). agentbbs lives in optionalDependencies; every handler gracefully degrades to {degraded:true} when the package is missing (ADR-150 pattern). As a mod (ADR-445 pattern): a tighten-only tool guard, a local slash command, and a status file the console shows.",
+  "description": "ruflo용 AgentBBS 호스트 간 에이전트 페더레이션(ADR-164). 1단계는 룸 조율(federation_bbs_register / federation_bbs_publish / federation_bbs_watch / federation_bbs_human_join)을 제공합니다. 2단계(v3.40.0)는 서명된 호스트 간 페더레이션을 추가합니다 — federation_bbs_identity(영속 Ed25519 노드 신원), federation_bbs_peer_add(nodeId + 공개 키로 피어 고정), federation_bbs_peers(감사/고정 해제), federation_bbs_serve(읽기 전용 가져오기 엔드포인트), federation_bbs_sync(고정된 피어에서 가져와 검증된 항목을 합집합 병합). 병합되는 모든 엔벨로프는 고정된 키로 Ed25519 검증되며, 서명되지 않았거나 출처가 잘못되었거나 크기 또는 홉 수를 초과한(unsigned/misattributed/oversize/over-hop) 엔벨로프는 버려지고 집계됩니다. 전송은 HTTP 가져오기 방식이며 모든 네트워크(Tailscale, LAN, VPN, 루프백)에서 동작해 tailnet이 필요 없습니다. 클레임 메시지(ClaimIssued/Released/Handoff/Ack)로 작업 소유권을 조율합니다. agentbbs는 optionalDependencies에 있으며, 패키지가 없으면 모든 핸들러가 {degraded:true}로 단계적으로 축소됩니다(ADR-150 패턴). mod(ADR-445 패턴)로서 강화 전용 도구 가드, 로컬 슬래시 명령, 콘솔이 보여 주는 상태 파일을 제공합니다.",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -33,8 +33,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Tool guard",
-      "description": "Refuse clearly harmful calls to this plugin's tools (tighten-only: it can only deny, never allow).",
+      "title": "도구 가드",
+      "description": "이 플러그인 도구에 대한 명백히 해로운 호출을 거부합니다(강화 전용: 거부만 가능하며 허용은 하지 않음).",
       "required": false,
       "default": "on",
       "options": [
@@ -44,8 +44,8 @@
     },
     "allowWildcardBind": {
       "type": "string",
-      "title": "Allow wildcard serve bind",
-      "description": "Let federation_bbs_serve listen on every interface (0.0.0.0). Off by default: bind one routable address.",
+      "title": "와일드카드 serve 바인드 허용",
+      "description": "federation_bbs_serve가 모든 인터페이스(0.0.0.0)에서 수신하도록 허용합니다. 기본값은 꺼짐: 라우팅 가능한 주소 하나에 바인딩합니다.",
       "required": false,
       "default": "off",
       "options": [

@@ -1,6 +1,6 @@
 ---
 name: "backend-dev"
-description: "Specialized agent for backend API development, including REST and GraphQL endpoints"
+description: "REST 및 GraphQL 엔드포인트를 포함한 백엔드 API 개발 전문 에이전트"
 color: "blue"
 type: "development"
 version: "1.0.0"

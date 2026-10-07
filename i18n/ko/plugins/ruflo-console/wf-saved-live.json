@@ -1,0 +1,56 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/wf-saved-live.ts",
+  "entries": [
+    {
+      "key": "the saved views file is over {0} kB, so it is not read and will be replaced on the next change",
+      "ko": "저장된 화면 파일이 {0} kB를 넘어 읽지 않으며 다음 변경 때 교체됩니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-saved-live.ts:78 expr"
+      ]
+    },
+    {
+      "key": "the write exited {0}",
+      "ko": "쓰기가 종료 코드 {0}으로 끝났습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-saved-live.ts:145 expr"
+      ]
+    },
+    {
+      "key": "the write was refused",
+      "ko": "쓰기가 거부되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-saved-live.ts:148 expr"
+      ]
+    },
+    {
+      "key": "forget saved Workflows views",
+      "ko": "저장된 워크플로 화면 지우기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-saved-live.ts:162 label"
+      ]
+    },
+    {
+      "key": "deletes the console's own saved cursor, filters and pins for this project; runs and their files are not touched",
+      "ko": "이 프로젝트에 대해 콘솔이 저장한 커서, 필터, 고정 항목을 삭제합니다. 실행과 그 파일은 건드리지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-saved-live.ts:168 note"
+      ]
+    },
+    {
+      "key": "saved views forgotten",
+      "ko": "저장된 화면을 지웠습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-saved-live.ts:178 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

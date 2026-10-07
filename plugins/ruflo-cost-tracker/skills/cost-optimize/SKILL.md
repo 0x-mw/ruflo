@@ -1,6 +1,6 @@
 ---
 name: cost-optimize
-description: Analyze token usage patterns and recommend cost optimizations with estimated savings
+description: 토큰 사용 패턴을 분석하고 예상 절감액과 함께 비용 최적화를 권장
 argument-hint: ""
 allowed-tools: mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__agentdb_semantic-route mcp__plugin_ruflo-core_ruflo__hooks_model-outcome Bash
 ---

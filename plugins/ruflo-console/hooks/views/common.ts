@@ -12,6 +12,7 @@ import type { Attention } from './attention'
 import { HEADS, mark as marked } from './marks'
 import type { LoopActions } from '../loops'
 import type { Elements, RenderChildren, RenderElement } from 'claude-code'
+import { isLocalized, padEndW, t, tExact, widthOf } from '../i18n/translate'
 
 import type { ProbeResult } from '../data/cli'
 import type { EvolveActions } from '../evolve'
@@ -166,7 +167,8 @@ export const isBbs = (): boolean => look === 'bbs'
  * by how much the run asks (a read green, local work or a write cyan, the network amber, spending or deleting red). In the plain look it
  * is coloured text, as it always was. `color` is the tag's theme colour; a colour that is none of the four stays text.
  */
-export function tagChip(ctx: Ctx, text: string, color: string): RenderElement {
+export function tagChip(ctx: Ctx, tag: string, color: string): RenderElement {
+  const text = loc(ctx, tag)
   const ground = look !== 'bbs' ? undefined : color === THEME.ok ? COST_CHIP.ok : color === THEME.info ? COST_CHIP.info : color === THEME.warn ? COST_CHIP.warn : color === THEME.bad ? COST_CHIP.bad : undefined
 
   if (ground === undefined) return ctx.kit.Text({ bold: true, color, children: ` ${text}` })
@@ -174,13 +176,32 @@ export function tagChip(ctx: Ctx, text: string, color: string): RenderElement {
   return ctx.kit.Box({ flexDirection: 'row', children: [ctx.kit.Text({ children: ' ' }), ctx.kit.Text({ ...chip(ground), children: text })] })
 }
 
-/** Words wrapped to `width`, so a long line reads as several instead of running off the edge. */
-export function wrap(line: string, width: number): string[] {
+/** The text as this surface shows it: through the dictionary only on a kit marked by `withLocale`, so model-bound text stays English. */
+export const loc = (ctx: Ctx, text: string): string => (isLocalized(ctx.kit) ? t(text) : text)
+
+/** Display width: wide Korean letters count 2 on a marked kit, plain length otherwise (and always in English). */
+const wide = (ctx: Ctx, text: string): number => (isLocalized(ctx.kit) ? widthOf(text) : text.length)
+
+/** The right-hand text of a header, cut to what is left of the row on a marked kit (a Korean title and note can be wider than the English pair that fit). English is never cut here. */
+const room = (ctx: Ctx, right: string, left: number): string => (isLocalized(ctx.kit) && wide(ctx, right) > left - 1 ? clip(right, Math.max(0, left - 1), ctx) : right)
+
+/** `padEnd` by display width on a marked kit. */
+const padTo = (ctx: Ctx, text: string, width: number): string => (isLocalized(ctx.kit) ? padEndW(text, width) : text.padEnd(width))
+
+/** Columns a text takes as this surface draws it: translated and by display width on a marked kit, its length otherwise (as it always was). */
+export const widthIn = (ctx: Ctx, words: string): number => (isLocalized(ctx.kit) ? widthOf(loc(ctx, words)) : words.length)
+
+/** How wide a text is: display width on a marked kit (Korean letters and emoji count 2), plain length everywhere else (model-bound text, English). */
+const measure = (ctx?: Ctx): ((s: string) => number) => (ctx !== undefined && isLocalized(ctx.kit) ? widthOf : s => s.length)
+
+/** Words wrapped to `width`, so a long line reads as several instead of running off the edge. Width is by display columns only when `ctx` has a marked kit. */
+export function wrap(line: string, width: number, ctx?: Ctx): string[] {
   const out: string[] = []
+  const size = measure(ctx)
   let current = ''
 
   for (const word of line.split(' ')) {
-    if (current !== '' && current.length + word.length + 1 > width) {
+    if (current !== '' && size(current) + size(word) + 1 > width) {
       out.push(current)
       current = word
     } else current = current === '' ? word : `${current} ${word}`
@@ -189,7 +210,26 @@ export function wrap(line: string, width: number): string[] {
   return current === '' ? out : [...out, current]
 }
 
-export const clip = (text: string, width: number): string => (text.length <= width ? text : `${text.slice(0, Math.max(0, width - 1))}…`)
+/** Cut to `width` columns with a closing `…`. A column is a character (a UTF-16 unit) as it always was; with `ctx` on a marked kit it is a display column. */
+export function clip(text: string, width: number, ctx?: Ctx): string {
+  const size = measure(ctx)
+
+  if (size(text) <= width) return text
+  // Only plain ASCII may be cut by index: anywhere else a slice could split a surrogate pair.
+  if (/^[\x20-\x7e]*$/.test(text)) return `${text.slice(0, Math.max(0, width - 1))}…`
+
+  let out = ''
+  let used = 0
+
+  for (const ch of text) {
+    if (used + size(ch) > Math.max(0, width - 1)) break
+
+    out += ch
+    used += size(ch)
+  }
+
+  return `${out}…`
+}
 
 export function ago(atMs: number | null | undefined, nowMs: number): string {
   if (atMs === null || atMs === undefined || !Number.isFinite(atMs)) return 'n/a'
@@ -215,7 +255,7 @@ export function count(value: number | null | undefined): string {
 export const pct = (value: number | null | undefined): string => (value === null || value === undefined || !Number.isFinite(value) ? 'n/a' : `${Math.round(value * 100)}%`)
 
 export function text(ctx: Ctx, children: string, props: { color?: string; bold?: boolean; dimColor?: boolean; italic?: boolean } = {}): RenderElement {
-  return ctx.kit.Text({ wrap: 'truncate-end', ...props, children: clip(children, Math.max(4, ctx.columns)) })
+  return ctx.kit.Text({ wrap: 'truncate-end', ...props, children: clip(loc(ctx, children), Math.max(4, ctx.columns), ctx) })
 }
 
 export function row(ctx: Ctx, parts: readonly RenderChildren[], key?: string): RenderElement {
@@ -239,8 +279,10 @@ export function section(ctx: Ctx, id: string, title: string, right: string, chil
   const key = `${ctx.state.view}/${id}`
   const isOpen = isOpenByDefault !== ctx.state.sections.has(key)
   const mark = isOpen ? '▾' : '▸'
-  const head = look === 'bbs' ? `▓▒░ ${mark} ${title.toUpperCase()} ░▒▓` : `${mark} ${title}`
-  const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
+  const shownTitle = loc(ctx, title)
+  const head = look === 'bbs' ? `▓▒░ ${mark} ${shownTitle.toUpperCase()} ░▒▓` : `${mark} ${shownTitle}`
+  const shownRight = room(ctx, loc(ctx, right), ctx.columns - wide(ctx, head) - 2)
+  const fill = Math.max(1, ctx.columns - wide(ctx, head) - wide(ctx, shownRight) - 2)
 
   return [
     ...(look === 'bbs' && ctx.cards !== true ? [ctx.kit.Text({ children: ' ' })] : []),
@@ -251,7 +293,7 @@ export function section(ctx: Ctx, id: string, title: string, right: string, chil
         [
           ctx.kit.Button({ key: `sec-${id}`, label: head, plain: true, onPress: () => ctx.act.toggle(key) }),
           ctx.kit.Text({ color: accentOf(ctx), dimColor: true, children: `${(look === 'bbs' ? '═' : '─').repeat(fill)} ` }),
-          ctx.kit.Text({ color: accentOf(ctx), children: right }),
+          ctx.kit.Text({ color: accentOf(ctx), children: shownRight }),
         ],
         `sec-row-${id}`,
       ),
@@ -261,11 +303,15 @@ export function section(ctx: Ctx, id: string, title: string, right: string, chil
 }
 
 /** A section title with a rule to the right edge. */
-export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
+export function rule(ctx: Ctx, heading: string, rightText = ''): RenderElement {
+  const title = loc(ctx, heading)
+  const shown = loc(ctx, rightText)
+
   if (look === 'bbs') {
     // BBS section header: ▓▒░ SWARM ░▒▓══════════ right
     const head = `▓▒░ ${title.toUpperCase()} ░▒▓`
-    const fill = Math.max(1, ctx.columns - head.length - right.length - 2)
+    const right = room(ctx, shown, ctx.columns - wide(ctx, head) - 2)
+    const fill = Math.max(1, ctx.columns - wide(ctx, head) - wide(ctx, right) - 2)
 
     const line = row(ctx, [ctx.kit.Text({ bold: true, color: accentOf(ctx), children: head }), ctx.kit.Text({ color: accentOf(ctx), dimColor: true, children: `${'═'.repeat(fill)} ` }), ctx.kit.Text({ color: accentOf(ctx), children: right })])
 
@@ -273,13 +319,21 @@ export function rule(ctx: Ctx, title: string, right = ''): RenderElement {
     return ctx.cards === true ? marked(HEADS, line) : marked(HEADS, col(ctx, [ctx.kit.Text({ children: ' ' }), line]))
   }
 
-  const fill = Math.max(1, ctx.columns - title.length - right.length - 3)
+  const right = room(ctx, shown, ctx.columns - wide(ctx, title) - 3)
+  const fill = Math.max(1, ctx.columns - wide(ctx, title) - wide(ctx, right) - 3)
 
   return marked(HEADS, row(ctx, [ctx.kit.Text({ bold: true, color: THEME.head, children: title }), ctx.kit.Text({ dimColor: true, children: ` ${'─'.repeat(fill)} ` }), ctx.kit.Text({ dimColor: true, children: right })]))
 }
 
 /** A label and its value; the value dims when it is n/a. */
-export function kv(ctx: Ctx, label: string, value: string, color?: string): RenderElement {
+export function kv(ctx: Ctx, labelText: string, value: string, color?: string): RenderElement {
+  const isMarked = isLocalized(ctx.kit)
+  // The label is a phrase of ours (translated); the value is data: only an exact dictionary hit, never a template or a "left: right" split.
+  const label = loc(ctx, labelText)
+  const shown = isMarked ? tExact(value) : value
+  // A translated label wider than its 16 columns (and than the English it replaces) is cut, so the value stays where the other rows put it.
+  const labelRoom = Math.max(16, labelText.length)
+  const kept = isMarked && wide(ctx, label) > labelRoom ? clip(label, labelRoom, ctx) : label
   const isNa = value === 'n/a' || value.startsWith('n/a ') || value === 'missing'
 
   // BBS: green labels and cyan values, the way a sysop screen lists its stats.
@@ -287,8 +341,8 @@ export function kv(ctx: Ctx, label: string, value: string, color?: string): Rend
 
   return row(ctx, [
     // BBS rows sit indented one column, with two spaces between label and value.
-    ctx.kit.Text(look === 'bbs' ? { color: NEON_LABEL, children: ` ${label.padEnd(16)}  ` } : { dimColor: true, children: `${label.padEnd(16)} ` }),
-    ctx.kit.Text({ wrap: 'truncate-end', ...(isNa ? { dimColor: true } : color !== undefined ? { color } : neonValue), children: clip(value, Math.max(4, ctx.columns - (look === 'bbs' ? 20 : 18))) }),
+    ctx.kit.Text(look === 'bbs' ? { color: NEON_LABEL, children: ` ${padTo(ctx, kept, 16)}  ` } : { dimColor: true, children: `${padTo(ctx, kept, 16)} ` }),
+    ctx.kit.Text({ wrap: 'truncate-end', ...(isNa ? { dimColor: true } : color !== undefined ? { color } : neonValue), ...(isMarked ? { verbatim: true } : {}), children: clip(shown, Math.max(4, ctx.columns - (look === 'bbs' ? 20 : 18) - (isMarked ? Math.max(0, wide(ctx, kept) - 16) : 0)), ctx) }),
   ])
 }
 
@@ -304,14 +358,14 @@ export function picture(ctx: Ctx, key: string, fallback: string): RenderElement 
 }
 
 export function button(ctx: Ctx, key: string, label: string, onPress: () => void, options: { hotkey?: string; primary?: boolean } = {}): RenderElement {
-  return ctx.kit.Button({ key, label, onPress, ...(options.hotkey !== undefined && { hotkey: options.hotkey }), ...(options.primary === true && { variant: 'primary' as const }) })
+  return ctx.kit.Button({ key, label: loc(ctx, label), onPress, ...(options.hotkey !== undefined && { hotkey: options.hotkey }), ...(options.primary === true && { variant: 'primary' as const }) })
 }
 
 /** A start that takes a sentence (a task, a mission objective): a text field whose Enter asks, with the confirm after. */
 export function startField(ctx: Ctx, id: StartId, placeholder: string): RenderElement {
   return ctx.kit.Input === undefined
     ? text(ctx, ` ${START_LABEL[id]}: this surface has no text field (/ruflo run ${id} <text>)`, { dimColor: true })
-    : ctx.kit.Input({ key: `start-field-${id}`, label: START_LABEL[id], placeholder, submitLabel: 'ask', onSubmit: value => ctx.act.start(id, value) })
+    : ctx.kit.Input({ key: `start-field-${id}`, label: loc(ctx, START_LABEL[id]), placeholder: loc(ctx, placeholder), submitLabel: loc(ctx, 'ask'), onSubmit: value => ctx.act.start(id, value) })
 }
 
 /**

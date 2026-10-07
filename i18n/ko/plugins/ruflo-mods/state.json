@@ -1,0 +1,216 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-mods/hooks/state.ts",
+  "entries": [
+    {
+      "key": "no route ({0}%)",
+      "ko": "경로 없음 ({0}%)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:125 push()"
+      ]
+    },
+    {
+      "key": "policy {0}",
+      "ko": "정책 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:128 push()"
+      ]
+    },
+    {
+      "key": "{0} tightened",
+      "ko": "{0} 강화됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:129 push()"
+      ]
+    },
+    {
+      "key": "budget {0}",
+      "ko": "예산 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:130 push()"
+      ]
+    },
+    {
+      "key": "{0} ({1}%, matched)",
+      "ko": "{0} ({1}%, 일치)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:146 const"
+      ]
+    },
+    {
+      "key": "{0} ({1}%, no match)",
+      "ko": "{0} ({1}%, 일치 없음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:146 const"
+      ]
+    },
+    {
+      "key": "none yet",
+      "ko": "아직 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:147 const"
+      ]
+    },
+    {
+      "key": "off (set the costBudgetUsd option)",
+      "ko": "꺼짐 (costBudgetUsd 옵션을 설정하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:150 const"
+      ]
+    },
+    {
+      "key": "owns:        nothing (classic hooks keep every event)",
+      "ko": "owns:        없음 (기존 훅이 모든 이벤트를 유지)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:155 expr"
+      ]
+    },
+    {
+      "key": "routed:      {0} prompt(s); last {1}",
+      "ko": "routed:      프롬프트 {0}개, 마지막 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:156 expr"
+      ]
+    },
+    {
+      "key": "edits:       {0} recorded, {1} pending write",
+      "ko": "edits:       {0}건 기록됨, 쓰기 대기 {1}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:157 expr"
+      ]
+    },
+    {
+      "key": "policy:      {0}; {1} call(s) tightened, {2} observed",
+      "ko": "policy:      {0}; 호출 {1}건 강화됨, {2}건 관찰됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:158 expr"
+      ]
+    },
+    {
+      "key": "budget:      {0}",
+      "ko": "budget:      {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:159 expr"
+      ]
+    },
+    {
+      "key": "tool hints:  {0} tool(s) described",
+      "ko": "tool hints:  도구 {0}개 설명됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:160 expr"
+      ]
+    },
+    {
+      "key": "tool hints:  off (set the toolHints option)",
+      "ko": "tool hints:  꺼짐 (toolHints 옵션을 설정하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:160 expr"
+      ]
+    },
+    {
+      "key": "agent trim:  {0} type(s) hidden",
+      "ko": "agent trim:  유형 {0}개 숨김",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:161 expr"
+      ]
+    },
+    {
+      "key": "agent trim:  off (set the agentTrim option)",
+      "ko": "agent trim:  꺼짐 (agentTrim 옵션을 설정하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:161 expr"
+      ]
+    },
+    {
+      "key": "delivery:    {0} dropped, {1} refused",
+      "ko": "delivery:    {0}건 폐기, {1}건 거부",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:162 expr"
+      ]
+    },
+    {
+      "key": "delivery:    off (set the deliveryScreen option)",
+      "ko": "delivery:    꺼짐 (deliveryScreen 옵션을 설정하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:162 expr"
+      ]
+    },
+    {
+      "key": "compact:     {0} compaction(s) carried a block",
+      "ko": "compact:     컴팩션 {0}회가 블록을 이어받음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:163 expr"
+      ]
+    },
+    {
+      "key": "compact:     off (set the compactCarry option)",
+      "ko": "compact:     꺼짐 (compactCarry 옵션을 설정하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:163 expr"
+      ]
+    },
+    {
+      "key": "sessions:    {0}",
+      "ko": "sessions:    {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:165 expr"
+      ]
+    },
+    {
+      "key": "sessions:    off (set the sessionRollup option)",
+      "ko": "sessions:    꺼짐 (sessionRollup 옵션을 설정하세요)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:165 expr"
+      ]
+    },
+    {
+      "key": "segments:    {0}",
+      "ko": "segments:    {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:166 expr"
+      ]
+    },
+    {
+      "key": "segments:    none",
+      "ko": "segments:    없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:166 expr"
+      ]
+    },
+    {
+      "key": "guidance:    {0}; {1} unverified observation(s), {2} pending, {3} dropped",
+      "ko": "guidance:    {0}; 미검증 관찰 {1}건, 대기 {2}건, 폐기 {3}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-mods/hooks/state.ts:167 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

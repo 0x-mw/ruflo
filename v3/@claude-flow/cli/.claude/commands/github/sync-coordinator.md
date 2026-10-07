@@ -1,3 +1,7 @@
+---
+description: GitHub 동기화 코디네이터
+---
+
 # GitHub Sync Coordinator
 
 ## Purpose

@@ -4,7 +4,6 @@ import { ANSWER_KEYS } from './views/attention'
 import { createController, type Controller } from './controller'
 import { record } from './data/events'
 import { plain } from './data/parse'
-import { dispatch } from './dispatch'
 import { markPicture } from './gfx/pictures'
 import type { Host } from './host'
 import { ownerLine, ownerOf } from './tool-owner'
@@ -23,6 +22,7 @@ import type { Kit } from './views/common'
 import { picturesOf } from './views/frames'
 import { withClearing } from './views/clearing'
 import { NARROW, paneView } from './views/pane'
+import { localizeHost, answerOf, localizeKit, setupLocale } from './i18n/wire'
 
 const RUFLO_TOOL = /^mcp__(claude-flow|ruflo|plugin_ruflo[\w-]*)__/
 
@@ -149,7 +149,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
   on('session.start', async ($, e, next) => {
     control?.stop()
-    host = hostOf($, e.cwd)
+    host = localizeHost(hostOf($, e.cwd))
     state.cwd = e.cwd
     state.nostrKeyVerifiedAtMs = null
     state.isInteractive = e.isInteractive !== false
@@ -189,6 +189,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     const bound = host
 
+    await setupLocale(async () => $.env.get('RUFLO_LANG'))
     state.home = (await bound.home().catch(() => undefined)) ?? null
     state.configDir = (await bound.configDir().catch(() => undefined)) ?? (state.home === null ? null : `${state.home}/.claude`)
     // A recording or a wide screen can ask for a wider dock: RUFLO_CONSOLE_COLUMNS, whole columns, 40 to 400.
@@ -246,14 +247,14 @@ export const register: Register = (on, raw: PluginOptions) => {
   on('command.run', { command: 'ruflo' }, async ($, e, next) => {
     if (control === null) return next(e)
 
-    return dispatch(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
+    return answerOf(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
   })
 
   /** `/ruflo-console` is the same command: ruflo-mods and ruflo-swarm hook it as they hook `/ruflo`. */
   on('command.run', { command: 'ruflo-console' }, async ($, e, next) => {
     if (control === null) return next(e)
 
-    return dispatch(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
+    return answerOf(control, state, e.args, async () => (await next(e)) as { text?: string } | undefined)
   })
 
   // Which element was pressed or submitted, before its own closure runs: the runner reads it as the origin of the ask that follows, so
@@ -296,7 +297,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     state.pane.rows = Math.max(0, Math.floor(Number(e.props.scroll?.bodyRows) || 0))
 
-    const tree = paneView({ kit: withClearing(kit, state, control.actions.clearField), state, nowMs: Date.now(), columns, pictures, act: control.actions })
+    const tree = paneView({ kit: withClearing(localizeKit(kit), state, control.actions.clearField), state, nowMs: Date.now(), columns, pictures, act: control.actions })
 
     state.stats.renders.push(Date.now() - started)
     if (state.stats.renders.length > 200) state.stats.renders.shift()
@@ -325,7 +326,7 @@ export const register: Register = (on, raw: PluginOptions) => {
       return next(e)
     }
 
-    const table = $.ui.resolve(e) as unknown as Kit
+    const table = localizeKit($.ui.resolve(e) as unknown as Kit)
     const bound = control
 
     state.barDrawnAtMs = Date.now()
@@ -355,7 +356,7 @@ export const register: Register = (on, raw: PluginOptions) => {
 
     if (owner === null) return next(e)
 
-    const table = $.ui.resolve(e) as unknown as Kit
+    const table = localizeKit($.ui.resolve(e) as unknown as Kit)
     const own = await next(e)
 
     return table.Box({ key: `owner-${e.props.tool_use_id}`, flexDirection: 'column', children: [own, table.Text({ dimColor: true, children: `  ${ownerLine(owner)}` })] })

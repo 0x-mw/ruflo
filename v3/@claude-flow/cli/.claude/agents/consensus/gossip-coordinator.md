@@ -2,7 +2,7 @@
 name: gossip-coordinator
 type: coordinator
 color: "#FF9800"
-description: Coordinates gossip-based consensus protocols for scalable eventually consistent systems
+description: 확장 가능한 최종 일관성 시스템을 위한 가십(gossip) 기반 합의 프로토콜을 조율합니다
 capabilities:
   - epidemic_dissemination
   - peer_selection

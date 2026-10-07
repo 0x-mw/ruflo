@@ -21,7 +21,7 @@ import { isBooting, isCompactPane, NAV_STYLES, VIEWS, type ViewId } from '../sta
 import { agentView } from './agent'
 import { automateResult, automateView } from './automate'
 import { claimsView } from './claims'
-import { ago, button, clip, col, confirmRow, isBbs, row, setLook, text, THEME, type Ctx } from './common'
+import { ago, button, clip, col, confirmRow, isBbs, loc, row, setLook, text, THEME, widthIn, type Ctx } from './common'
 import { costView } from './cost'
 import { evolveResult, evolveView } from './evolve'
 import { catalogView } from './plugin-catalog'
@@ -178,13 +178,13 @@ function blurb(ctx: Ctx): RenderElement | null {
     return row(ctx, [
       ctx.kit.Text({ bold: true, color: THEME.ok, children: '>> ' }),
       ctx.kit.Text({ bold: true, color: THEME.head, children: `${view.icon} ${name.toUpperCase()}` }),
-      ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip(` :: ${about}`, Math.max(4, ctx.columns - name.length - 6)) }),
+      ctx.kit.Text({ color: THEME.info, wrap: 'truncate-end', children: clip(loc(ctx, ` :: ${about}`), Math.max(4, ctx.columns - widthIn(ctx, name) - 6), ctx) }),
     ], 'about')
   }
 
   return row(ctx, [
     ctx.kit.Text({ bold: true, color: THEME.head, children: `${view.icon} ${name}` }),
-    ctx.kit.Text({ dimColor: true, italic: true, wrap: 'truncate-end', children: clip(` — ${about}`, Math.max(4, ctx.columns - name.length - 2)) }),
+    ctx.kit.Text({ dimColor: true, italic: true, wrap: 'truncate-end', children: clip(loc(ctx, ` — ${about}`), Math.max(4, ctx.columns - widthIn(ctx, name) - 2), ctx) }),
   ], 'about')
 }
 
@@ -224,22 +224,25 @@ function footer(ctx: Ctx, isPlaced = false): RenderElement {
         { id: 'close', full: 'Close', short: '×', priority: 4 },
       ]
   // Keep the focus state whole: a clipped "keys …" does not tell the person where their typing will go.
-  const fit = fitFooter(items, ctx.columns - 2, isBbs() && state.snapshot !== null ? 23 : 10)
+  // The fit counts columns by label length, so it is handed stand-ins as wide as each label will be drawn (translated, by display width).
+  const sized = items.map(item => ({ ...item, full: 'x'.repeat(widthIn(ctx, item.full)), short: 'x'.repeat(widthIn(ctx, item.short)) }))
+  const shownItems = fitFooter(sized, ctx.columns - 2, isBbs() && state.snapshot !== null ? 23 : 10)
+  const fit = { ...shownItems, shown: shownItems.shown.map(entry => ({ ...entry, label: items.find(item => item.id === entry.id)?.[entry.isShort ? 'short' : 'full'] ?? entry.label })) }
   const press: Record<string, () => void> = { palette: () => ctx.act.palette('all'), actions: () => ctx.act.palette('selection'), 'ask-claude': () => ctx.act.ask.ask(), 'ask-slash': () => ctx.act.ask.slash(), refresh: ctx.act.restart, help: ctx.act.help, close: ctx.act.close }
   const hotkey: Record<string, string> = { palette: 'p', actions: 'x', refresh: 'r', help: 'h' }
   const full = new Map(items.map(item => [item.id, item.full]))
   const statusRoom = Math.max(10, ctx.columns - fit.used - 3)
-  const focusLabel = !state.pane.isFocused && keys.length + 25 > statusRoom ? 'keys off' : keys
-  const syncRoom = Math.max(0, statusRoom - 9 - focusLabel.length - 1)
+  const focusLabel = !state.pane.isFocused && widthIn(ctx, keys) + 25 > statusRoom ? 'keys off' : keys
+  const syncRoom = Math.max(0, statusRoom - 9 - widthIn(ctx, focusLabel) - 1)
   // BBS: the link in colour ([LINK OK] green, how fresh the read is, whether the keys are on); plain: one dim line, as before.
   const status =
     isBbs() && state.snapshot !== null
       ? [
           ctx.kit.Text({ bold: true, color: THEME.ok, children: '[LINK OK]' }),
-          ...(syncRoom === 0 ? [] : [ctx.kit.Text({ dimColor: true, children: clip(` ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')} · `, syncRoom) })]),
+          ...(syncRoom === 0 ? [] : [ctx.kit.Text({ dimColor: true, children: clip(loc(ctx, ` ▸ sync ${ago(state.snapshot.readAtMs, nowMs).replace(' ago', '')} · `), syncRoom, ctx) })]),
           ctx.kit.Text({ bold: state.pane.isFocused, color: state.pane.isFocused ? THEME.ok : THEME.warn, children: `${focusLabel} ` }),
         ]
-      : [text(ctx, `${clip(`${read} · ${keys}`, statusRoom)} `, { dimColor: true })]
+      : [text(ctx, `${clip(loc(ctx, `${read} · ${keys}`), statusRoom, ctx)} `, { dimColor: true })]
 
   parts.push(
     row(ctx, [

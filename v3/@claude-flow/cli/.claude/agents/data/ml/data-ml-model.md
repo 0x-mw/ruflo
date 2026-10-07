@@ -1,6 +1,6 @@
 ---
 name: "ml-developer"
-description: "Specialized agent for machine learning model development, training, and deployment"
+description: "머신러닝 모델 개발, 학습, 배포 전문 에이전트"
 color: "purple"
 type: "data"
 version: "1.0.0"

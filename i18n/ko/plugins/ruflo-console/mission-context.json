@@ -1,0 +1,123 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/mission-context.ts",
+  "entries": [
+    {
+      "key": "A task is done only with evidence: record it with task_complete and put what you ran and what it printed in the result.",
+      "ko": "작업은 증거가 있어야만 완료된 것입니다. task_complete 로 기록하고, 실행한 것과 출력된 내용을 결과에 넣으세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:16 const"
+      ]
+    },
+    {
+      "key": "Stop when every task is done or the person says stop; if blocked, mark the task failed with the reason instead of guessing.",
+      "ko": "모든 작업이 끝나거나 사용자가 중지하라고 하면 멈추세요. 막혔다면 추측하지 말고 이유와 함께 작업을 실패로 표시하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:17 const"
+      ]
+    },
+    {
+      "key": "Do not start new work.",
+      "ko": "새 작업을 시작하지 마세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:18 const"
+      ]
+    },
+    {
+      "key": "Mission {0}: {1}",
+      "ko": "미션 {0}: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:34 const",
+        "plugins/ruflo-console/hooks/mission-control.ts:106 expr",
+        "plugins/ruflo-console/hooks/mission-text.ts:67 const"
+      ]
+    },
+    {
+      "key": "Active task {0} ({1}): {2}. Done when: {3}",
+      "ko": "활성 작업 {0} ({1}): {2}. 완료 조건: {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:38 push()"
+      ]
+    },
+    {
+      "key": "Acceptance checks:",
+      "ko": "인수 확인 항목:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:42 push()"
+      ]
+    },
+    {
+      "key": "The mission is {0}. {1}",
+      "ko": "미션 상태: {0}. {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:48 push()"
+      ]
+    },
+    {
+      "key": "Mission context in Claude’s prompt",
+      "ko": "Claude 프롬프트의 미션 컨텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:68 title",
+        "plugins/ruflo-console/hooks/views/settings.ts:165 one()"
+      ]
+    },
+    {
+      "key": "while a mission is active, Claude’s prompt carries its objective, the active task, the evidence rule and the stop rule; it changes only when the task or mission state does (default on)",
+      "ko": "미션이 활성인 동안 Claude의 프롬프트에 목표, 활성 작업, 증거 규칙, 중지 규칙을 담습니다. 작업이나 미션 상태가 바뀔 때만 달라집니다 (기본값: 켜짐)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:69 description"
+      ]
+    },
+    {
+      "key": "mission context prompt claude system section cache",
+      "ko": "미션 컨텍스트 프롬프트 claude system section cache",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:70 extra"
+      ]
+    },
+    {
+      "key": "Claude finished a turn on this task; completion is recorded by task_complete, not by this note.",
+      "ko": "Claude가 이 작업의 턴을 마쳤습니다. 완료는 이 메모가 아니라 task_complete 로 기록됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:80 answer"
+      ]
+    },
+    {
+      "key": "A turn on this task was aborted before it finished.",
+      "ko": "이 작업의 턴이 끝나기 전에 중단되었습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:81 aborted"
+      ]
+    },
+    {
+      "key": "Claude declined a turn on this task.",
+      "ko": "Claude가 이 작업의 턴을 거부했습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:82 refusal"
+      ]
+    },
+    {
+      "key": "A turn on this task ended in an error.",
+      "ko": "이 작업의 턴이 오류로 끝났습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/mission-context.ts:83 error"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: workflow-create
-description: Author a workflow — either an MCP workflow template (persisted, lifecycle) or a native .claude/workflows/*.js orchestration script (agent/parallel/pipeline fan-out)
+description: 워크플로를 작성 — MCP 워크플로 템플릿(영속, 수명 주기) 또는 네이티브 .claude/workflows/*.js 오케스트레이션 스크립트(agent/parallel/pipeline 팬아웃) 중 하나
 argument-hint: "<name> [--native] [--steps N]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__workflow_create mcp__plugin_ruflo-core_ruflo__workflow_template mcp__plugin_ruflo-core_ruflo__workflow_list mcp__plugin_ruflo-core_ruflo__workflow_status mcp__plugin_ruflo-core_ruflo__workflow_delete Write Read Edit Bash
 ---

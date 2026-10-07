@@ -9,6 +9,7 @@
   "bin": {
     "cli": "bin/cli.js",
     "claude-flow": "bin/cli.js",
+    "ruflo": "bin/ruflo.js",
     "claude-flow-mcp": "bin/mcp-server.js"
   },
   "homepage": "https://github.com/ruvnet/claude-flow#readme",
@@ -78,7 +79,9 @@
     ".claude",
     "plugins",
     "README.md",
-    "catalog-manifest.json"
+    "catalog-manifest.json",
+    "i18n/ko/help.json",
+    "i18n/ko/messages.json"
   ],
   "scripts": {
     "build": "tsc",

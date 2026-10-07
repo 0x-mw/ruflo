@@ -1,0 +1,301 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/claims.ts",
+  "entries": [
+    {
+      "key": "List claims and permissions",
+      "ko": "클레임과 권한 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:69 description"
+      ]
+    },
+    {
+      "key": "Filter by user ID",
+      "ko": "사용자 ID로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:71 description"
+      ]
+    },
+    {
+      "key": "Filter by role",
+      "ko": "역할로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:72 description"
+      ]
+    },
+    {
+      "key": "Filter by resource",
+      "ko": "리소스로 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:73 description"
+      ]
+    },
+    {
+      "key": "List all claims",
+      "ko": "모든 클레임 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:76 description",
+        "src/commands/claims.ts:645 description",
+        "src/commands/issues.ts:573 description"
+      ]
+    },
+    {
+      "key": "List user claims",
+      "ko": "사용자 클레임 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:77 description"
+      ]
+    },
+    {
+      "key": "Check if a specific claim is granted",
+      "ko": "특정 클레임이 부여되었는지 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:153 description"
+      ]
+    },
+    {
+      "key": "Claim to check",
+      "ko": "확인할 클레임",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:155 description"
+      ]
+    },
+    {
+      "key": "User ID to check",
+      "ko": "확인할 사용자 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:156 description"
+      ]
+    },
+    {
+      "key": "Resource context",
+      "ko": "리소스 컨텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:157 description"
+      ]
+    },
+    {
+      "key": "Check swarm creation permission",
+      "ko": "스웜 생성 권한 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:160 description"
+      ]
+    },
+    {
+      "key": "Check user permission",
+      "ko": "사용자 권한 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:161 description"
+      ]
+    },
+    {
+      "key": "Grant a claim to user or role",
+      "ko": "사용자나 역할에 클레임을 부여합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:297 description"
+      ]
+    },
+    {
+      "key": "Claim to grant",
+      "ko": "부여할 클레임",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:299 description"
+      ]
+    },
+    {
+      "key": "User ID",
+      "ko": "사용자 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:300 description",
+        "src/commands/claims.ts:364 description"
+      ]
+    },
+    {
+      "key": "Role name",
+      "ko": "역할 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:301 description",
+        "src/commands/claims.ts:365 description",
+        "src/commands/claims.ts:433 description"
+      ]
+    },
+    {
+      "key": "Scope: global, namespace, resource",
+      "ko": "범위: global, namespace, resource",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:302 description"
+      ]
+    },
+    {
+      "key": "Expiration time (e.g., 24h, 7d)",
+      "ko": "만료 시간 (예: 24h, 7d)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:303 description"
+      ]
+    },
+    {
+      "key": "Grant to user",
+      "ko": "사용자에게 부여",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:306 description"
+      ]
+    },
+    {
+      "key": "Grant to role",
+      "ko": "역할에 부여",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:307 description"
+      ]
+    },
+    {
+      "key": "Revoke a claim from user or role",
+      "ko": "사용자나 역할의 클레임을 회수합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:361 description"
+      ]
+    },
+    {
+      "key": "Claim to revoke",
+      "ko": "회수할 클레임",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:363 description"
+      ]
+    },
+    {
+      "key": "Revoke from user",
+      "ko": "사용자에게서 회수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:368 description"
+      ]
+    },
+    {
+      "key": "Revoke from role",
+      "ko": "역할에서 회수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:369 description"
+      ]
+    },
+    {
+      "key": "Manage roles and their claims",
+      "ko": "역할과 역할의 클레임을 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:430 description"
+      ]
+    },
+    {
+      "key": "Action: list, create, delete, show",
+      "ko": "동작: list, create, delete, show",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:432 description"
+      ]
+    },
+    {
+      "key": "List all roles",
+      "ko": "모든 역할 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:436 description"
+      ]
+    },
+    {
+      "key": "Show role details",
+      "ko": "역할 상세 정보 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:437 description"
+      ]
+    },
+    {
+      "key": "Manage claim policies",
+      "ko": "클레임 정책을 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:538 description"
+      ]
+    },
+    {
+      "key": "Action: list, create, delete",
+      "ko": "동작: list, create, delete",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:540 description"
+      ]
+    },
+    {
+      "key": "Policy name",
+      "ko": "정책 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:541 description"
+      ]
+    },
+    {
+      "key": "List policies",
+      "ko": "정책 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:544 description"
+      ]
+    },
+    {
+      "key": "Create policy",
+      "ko": "정책 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:545 description"
+      ]
+    },
+    {
+      "key": "Claims-based authorization, permissions, and access control",
+      "ko": "클레임 기반 인가, 권한, 접근 제어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:642 description"
+      ]
+    },
+    {
+      "key": "Check permission",
+      "ko": "권한 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:646 description"
+      ]
+    },
+    {
+      "key": "Grant claim",
+      "ko": "클레임 부여",
+      "kind": "text",
+      "ctx": [
+        "src/commands/claims.ts:647 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

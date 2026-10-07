@@ -1,7 +1,7 @@
 ---
 name: github-project-management
 description: |
-  Comprehensive GitHub project management with swarm-coordinated issue tracking, project board automation, and sprint planning
+  스웜이 조율하는 이슈 추적, 프로젝트 보드 자동화, 스프린트 계획을 갖춘 종합 GitHub 프로젝트 관리
 allowed-tools: "mcp__github__*, mcp__claude-flow__*, Bash, Read, Write, TodoWrite"
 ---
 

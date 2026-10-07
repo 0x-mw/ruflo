@@ -52,21 +52,21 @@ describe('#2206 — mcp-generator server key', () => {
     expect(config.mcpServers).not.toHaveProperty('ruflo');
   });
 
-  it('still invokes ruflo@latest mcp start as the command args', () => {
+  it('invokes the global ruflo binary with mcp start', () => {
     const config = generateMCPConfig(makeMCPOptions()) as { mcpServers: Record<string, unknown> };
     const entry = config.mcpServers['claude-flow'] as { command: string; args: string[] };
-    expect(entry.args).toContain('ruflo@latest');
-    expect(entry.args).toContain('mcp');
-    expect(entry.args).toContain('start');
+    expect(entry.command).toBe('ruflo');
+    expect(entry.args).toEqual(['mcp', 'start']);
   });
 
   it('generateMCPCommands uses claude-flow as the registration name', () => {
     const cmds = generateMCPCommands(makeMCPOptions());
     expect(cmds.length).toBeGreaterThan(0);
     // Every command that adds the main server must use 'claude-flow', not 'ruflo'
-    const mainCmd = cmds.find(c => c.includes('ruflo@latest'));
+    const mainCmd = cmds.find(c => c.includes('claude mcp add claude-flow'));
     expect(mainCmd).toBeDefined();
     expect(mainCmd).toMatch(/claude mcp add claude-flow/);
+    expect(mainCmd).toMatch(/-- (cmd \/c )?ruflo mcp start$/);
     expect(mainCmd).not.toMatch(/claude mcp add ruflo\b/);
   });
 });

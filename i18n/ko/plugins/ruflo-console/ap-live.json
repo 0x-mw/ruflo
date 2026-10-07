@@ -1,0 +1,191 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/ap-live.ts",
+  "entries": [
+    {
+      "key": "not wired",
+      "ko": "연결 안 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:81 status"
+      ]
+    },
+    {
+      "key": "the host refused a timer: autopilot ticks only when asked",
+      "ko": "호스트가 타이머를 거부했습니다. 오토파일럿은 요청할 때만 틱을 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:104 expr"
+      ]
+    },
+    {
+      "key": "the journal was not read: {0}",
+      "ko": "저널을 읽지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:126 expr"
+      ]
+    },
+    {
+      "key": "the autopilot files were not read",
+      "ko": "오토파일럿 파일을 읽지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:142 expr"
+      ]
+    },
+    {
+      "key": "the journal write exited {0}",
+      "ko": "저널 쓰기가 {0} 코드로 종료되었습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:170 expr"
+      ]
+    },
+    {
+      "key": "the journal write was refused",
+      "ko": "저널 쓰기가 거부되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:182 expr"
+      ]
+    },
+    {
+      "key": "stopped by you",
+      "ko": "사용자가 중지함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:212 expr"
+      ]
+    },
+    {
+      "key": "unchecked",
+      "ko": "확인 안 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:220 why"
+      ]
+    },
+    {
+      "key": "autopilot stopped: {0}",
+      "ko": "오토파일럿 중지됨: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:226 text",
+        "plugins/ruflo-console/hooks/ap-live.ts:426 text"
+      ]
+    },
+    {
+      "key": "autopilot stopped in this session only: the stop could not be written ({0})",
+      "ko": "오토파일럿이 이 세션에서만 중지되었습니다: 중지 기록을 쓰지 못했습니다 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:226 text"
+      ]
+    },
+    {
+      "key": "paused by you",
+      "ko": "사용자가 일시 중지함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:229 expr"
+      ]
+    },
+    {
+      "key": "stopped: {0}",
+      "ko": "중지됨: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:365 expr",
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:241 idle()",
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:276 status"
+      ]
+    },
+    {
+      "key": "not started",
+      "ko": "시작 안 됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:371 expr",
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:243 idle()",
+        "plugins/ruflo-console/hooks/mission-loop.ts:131 text"
+      ]
+    },
+    {
+      "key": "kill switch",
+      "ko": "킬 스위치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:377 reason",
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:242 reason"
+      ]
+    },
+    {
+      "key": "autopilot halted by the kill switch",
+      "ko": "킬 스위치로 오토파일럿이 정지되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:378 text"
+      ]
+    },
+    {
+      "key": "stopped: kill switch",
+      "ko": "중지됨: 킬 스위치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:379 expr",
+        "plugins/ruflo-console/hooks/data/ap-loop.ts:242 idle()"
+      ]
+    },
+    {
+      "key": "stopped or paused while this pass ran: nothing started",
+      "ko": "이번 패스가 도는 동안 중지 또는 일시 중지됨: 시작된 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:418 status"
+      ]
+    },
+    {
+      "key": "autopilot paused: {0}",
+      "ko": "오토파일럿 일시 중지됨: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:426 text"
+      ]
+    },
+    {
+      "key": "autopilot parked {0}: a question is waiting",
+      "ko": "오토파일럿이 {0}을 보류했습니다: 질문이 기다리는 중입니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:427 text"
+      ]
+    },
+    {
+      "key": "stopped before the hand-over",
+      "ko": "인계 전에 중지됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:437 why"
+      ]
+    },
+    {
+      "key": "not handed over: the journal is unreadable, over its cap or holds a second start of this step",
+      "ko": "인계하지 못했습니다: 저널을 읽을 수 없거나 한도를 넘었거나 이 단계의 두 번째 시작이 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:443 why"
+      ]
+    },
+    {
+      "key": "a tick failed; nothing was started",
+      "ko": "틱이 실패했습니다. 시작된 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-live.ts:470 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

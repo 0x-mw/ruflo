@@ -1,6 +1,6 @@
 ---
 name: repo-architect
-description: Repository structure optimization and multi-repo management with ruv-swarm coordination for scalable project architecture and development workflows
+description: 확장 가능한 프로젝트 아키텍처와 개발 워크플로를 위한 ruv-swarm 조율 기반 저장소 구조 최적화 및 멀티 저장소 관리
 type: architecture
 color: "#9B59B6"
 tools:

@@ -1,6 +1,6 @@
 ---
 name: sparc
-description: Execute SPARC methodology workflows with Claude-Flow
+description: Claude-Flow로 SPARC 방법론 워크플로를 실행합니다
 ---
 
 # ⚡️ SPARC Development Methodology

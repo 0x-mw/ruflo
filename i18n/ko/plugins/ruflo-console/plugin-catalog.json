@@ -1,0 +1,229 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/plugin-catalog.ts",
+  "entries": [
+    {
+      "key": "all",
+      "ko": "전체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:22 label",
+        "plugins/ruflo-console/hooks/views/room.ts:14 label"
+      ]
+    },
+    {
+      "key": "installed",
+      "ko": "설치됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:23 label"
+      ]
+    },
+    {
+      "key": "not installed",
+      "ko": "설치되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:24 label",
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:18 rule()",
+        "plugins/ruflo-console/hooks/views/anatole.ts:140 section()"
+      ]
+    },
+    {
+      "key": "mods",
+      "ko": "mods",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:25 label"
+      ]
+    },
+    {
+      "key": "has skills",
+      "ko": "스킬 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:26 label"
+      ]
+    },
+    {
+      "key": "has agents",
+      "ko": "에이전트 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:27 label"
+      ]
+    },
+    {
+      "key": "network: clones the plugin from the ruflo marketplace on GitHub, then writes it into ~/.claude/plugins and settings",
+      "ko": "네트워크: GitHub의 ruflo 마켓플레이스에서 플러그인을 복제한 뒤 ~/.claude/plugins와 설정에 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:80 install"
+      ]
+    },
+    {
+      "key": "removes the plugin from this machine (its settings entry too); its data folder goes unless kept",
+      "ko": "이 컴퓨터에서 플러그인을 제거합니다(설정 항목도 함께). 보존하지 않으면 데이터 폴더도 사라집니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:81 uninstall"
+      ]
+    },
+    {
+      "key": "writes enabledPlugins in your user settings; reload plugins (/reload-plugins) to load it",
+      "ko": "사용자 설정의 enabledPlugins에 씁니다. 로드하려면 플러그인을 다시 불러오세요(/reload-plugins)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:82 enable"
+      ]
+    },
+    {
+      "key": "writes enabledPlugins in your user settings; reload plugins (/reload-plugins) to unload it",
+      "ko": "사용자 설정의 enabledPlugins에 씁니다. 언로드하려면 플러그인을 다시 불러오세요(/reload-plugins)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:83 disable"
+      ]
+    },
+    {
+      "key": "network: pulls the plugin’s newest version from the marketplace; restart Claude Code to apply it",
+      "ko": "네트워크: 마켓플레이스에서 플러그인의 최신 버전을 받아옵니다. 적용하려면 Claude Code를 다시 시작하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:84 update"
+      ]
+    },
+    {
+      "key": "{0} plugin {1}",
+      "ko": "플러그인 {1}: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:95 label"
+      ]
+    },
+    {
+      "key": "{0} installed",
+      "ko": "{0} 설치했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:95 expect"
+      ]
+    },
+    {
+      "key": "{0} removed",
+      "ko": "{0} 제거했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:95 expect",
+        "plugins/ruflo-console/hooks/wf-saved-live.ts:165 expect"
+      ]
+    },
+    {
+      "key": "{0} updated",
+      "ko": "{0} 업데이트했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:95 expect"
+      ]
+    },
+    {
+      "key": "the ruflo marketplace is not added to Claude Code yet",
+      "ko": "ruflo 마켓플레이스가 아직 Claude Code에 추가되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:107 expr"
+      ]
+    },
+    {
+      "key": "the ruflo marketplace clone has no readable location",
+      "ko": "ruflo 마켓플레이스 복제본의 위치를 읽을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:107 expr"
+      ]
+    },
+    {
+      "key": "the clone’s marketplace.json is not readable",
+      "ko": "복제본의 marketplace.json을 읽을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:118 expr"
+      ]
+    },
+    {
+      "key": "the clone lists no plugins",
+      "ko": "복제본에 플러그인 목록이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:118 expr"
+      ]
+    },
+    {
+      "key": "reading the clone was refused",
+      "ko": "복제본 읽기가 거부되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:121 expr"
+      ]
+    },
+    {
+      "key": "{0} is not in the catalog",
+      "ko": "카탈로그에 {0}이(가) 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:198 say()",
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:206 say()"
+      ]
+    },
+    {
+      "key": "not readable: missing, too large, or refused",
+      "ko": "읽을 수 없음: 없거나 너무 크거나 거부됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:201 say()"
+      ]
+    },
+    {
+      "key": "/{0}:{1} is typed in the AI terminal: read it, then Enter twice sends it to claude",
+      "ko": "/{0}:{1}이(가) AI 터미널에 입력되었습니다. 내용을 확인한 뒤 Enter를 두 번 누르면 claude로 보냅니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:209 say()"
+      ]
+    },
+    {
+      "key": "{0} is not in the ruflo catalog",
+      "ko": "ruflo 카탈로그에 {0}이(가) 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:211 ask()"
+      ]
+    },
+    {
+      "key": "catalog-{0} <plugin>: {1} a ruflo plugin (asks first)",
+      "ko": "catalog-{0} <plugin>: ruflo 플러그인 {1} (먼저 확인 요청)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:220 label"
+      ]
+    },
+    {
+      "key": "a plugin name from the catalog (the Plugin Catalog view lists them)",
+      "ko": "카탈로그의 플러그인 이름 (플러그인 카탈로그 화면에서 확인)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:221 expr"
+      ]
+    },
+    {
+      "key": "open the Plugin Catalog",
+      "ko": "플러그인 카탈로그 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:224 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

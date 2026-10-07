@@ -1,6 +1,6 @@
 ---
 name: vector
-description: RuVector operations via npx ruvector@0.2.25 — embedding, search, RVF cognitive containers, GNN, attention, hooks, brain, sona, edge, identity
+description: npx ruvector@0.2.25를 통한 RuVector 작업 — 임베딩, 검색, RVF 인지 컨테이너, GNN, 어텐션, 훅, brain, sona, edge, identity
 ---
 
 $ARGUMENTS

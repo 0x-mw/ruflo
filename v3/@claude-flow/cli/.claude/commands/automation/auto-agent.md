@@ -1,3 +1,7 @@
+---
+description: 에이전트 자동 생성
+---
+
 # auto agent
 
 Automatically spawn and manage agents based on task requirements.

@@ -1,6 +1,6 @@
 ---
 name: music-list
-description: List the account's saved music productions with metadata and audio_url
+description: 계정에 저장된 음악 프로덕션을 메타데이터와 audio_url과 함께 나열
 allowed-tools: mcp__cogmusic__list_productions mcp__plugin_ruflo-core_ruflo__memory_store
 argument-hint: ""
 ---

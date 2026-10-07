@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 메모리
+---
+
 # hive-mind-memory
 
 Command documentation for hive-mind-memory in category hive-mind.

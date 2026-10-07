@@ -1,0 +1,253 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/config.ts",
+  "entries": [
+    {
+      "key": "Initialize configuration",
+      "ko": "설정을 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:15 description"
+      ]
+    },
+    {
+      "key": "Overwrite existing configuration",
+      "ko": "기존 설정을 덮어씁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:20 description",
+        "src/commands/embeddings.ts:724 description",
+        "src/commands/init.ts:1655 description"
+      ]
+    },
+    {
+      "key": "Initialize with SPARC methodology",
+      "ko": "SPARC 방법론으로 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:26 description"
+      ]
+    },
+    {
+      "key": "Initialize V3 configuration",
+      "ko": "V3 설정을 초기화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:32 description"
+      ]
+    },
+    {
+      "key": "Get configuration value",
+      "ko": "설정 값을 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:61 description"
+      ]
+    },
+    {
+      "key": "Configuration key (dot notation)",
+      "ko": "설정 키 (점 표기법)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:66 description"
+      ]
+    },
+    {
+      "key": "Get swarm topology",
+      "ko": "스웜 토폴로지 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:71 description"
+      ]
+    },
+    {
+      "key": "Get memory backend",
+      "ko": "메모리 백엔드 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:72 description"
+      ]
+    },
+    {
+      "key": "Set configuration value",
+      "ko": "설정 값을 지정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:133 description"
+      ]
+    },
+    {
+      "key": "Configuration key",
+      "ko": "설정 키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:138 description"
+      ]
+    },
+    {
+      "key": "Configuration value",
+      "ko": "설정 값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:144 description"
+      ]
+    },
+    {
+      "key": "Set max agents",
+      "ko": "최대 에이전트 수 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:149 description"
+      ]
+    },
+    {
+      "key": "Set memory backend",
+      "ko": "메모리 백엔드 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:150 description"
+      ]
+    },
+    {
+      "key": "Manage AI providers",
+      "ko": "AI 프로바이더를 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:177 description"
+      ]
+    },
+    {
+      "key": "Add provider",
+      "ko": "프로바이더를 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:182 description"
+      ]
+    },
+    {
+      "key": "Remove provider",
+      "ko": "프로바이더를 제거합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:188 description"
+      ]
+    },
+    {
+      "key": "Enable provider",
+      "ko": "프로바이더를 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:193 description"
+      ]
+    },
+    {
+      "key": "Disable provider",
+      "ko": "프로바이더를 비활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:198 description"
+      ]
+    },
+    {
+      "key": "Reset configuration to defaults",
+      "ko": "설정을 기본값으로 재설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:304 description"
+      ]
+    },
+    {
+      "key": "Skip confirmation",
+      "ko": "확인을 건너뜁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:309 description",
+        "src/commands/memory.ts:948 description",
+        "src/commands/memory.ts:1041 description"
+      ]
+    },
+    {
+      "key": "Reset specific section only",
+      "ko": "특정 섹션만 재설정합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:315 description"
+      ]
+    },
+    {
+      "key": "Export configuration",
+      "ko": "설정을 내보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:336 description"
+      ]
+    },
+    {
+      "key": "Export format (json, yaml)",
+      "ko": "내보내기 형식 (json, yaml)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:347 description",
+        "src/commands/session.ts:602 description"
+      ]
+    },
+    {
+      "key": "Import configuration",
+      "ko": "설정을 가져옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:371 description"
+      ]
+    },
+    {
+      "key": "Configuration file path",
+      "ko": "설정 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:376 description"
+      ]
+    },
+    {
+      "key": "Merge with existing configuration",
+      "ko": "기존 설정과 병합합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:382 description"
+      ]
+    },
+    {
+      "key": "Configuration management",
+      "ko": "설정 관리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:410 description"
+      ]
+    },
+    {
+      "key": "Initialize V3 config",
+      "ko": "V3 설정 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:414 description"
+      ]
+    },
+    {
+      "key": "Get config value",
+      "ko": "설정 값 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:415 description"
+      ]
+    },
+    {
+      "key": "Set config value",
+      "ko": "설정 값 지정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/config.ts:416 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

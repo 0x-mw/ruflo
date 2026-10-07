@@ -1,0 +1,144 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/start.ts",
+  "entries": [
+    {
+      "key": "Stop the RuFlo system",
+      "ko": "RuFlo 시스템을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:277 description"
+      ]
+    },
+    {
+      "key": "Shutdown timeout in seconds",
+      "ko": "종료 타임아웃(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:288 description"
+      ]
+    },
+    {
+      "key": "Restart the RuFlo system",
+      "ko": "RuFlo 시스템을 재시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:364 description"
+      ]
+    },
+    {
+      "key": "Force restart",
+      "ko": "강제로 재시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:369 description"
+      ]
+    },
+    {
+      "key": "Quick start with default settings",
+      "ko": "기본 설정으로 빠르게 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:407 description"
+      ]
+    },
+    {
+      "key": "Start the RuFlo orchestration system",
+      "ko": "RuFlo 오케스트레이션 시스템을 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:435 description"
+      ]
+    },
+    {
+      "key": "Run as daemon in background",
+      "ko": "백그라운드 데몬으로 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:441 description"
+      ]
+    },
+    {
+      "key": "MCP server port",
+      "ko": "MCP 서버 포트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:448 description"
+      ]
+    },
+    {
+      "key": "Swarm topology (hierarchical-mesh, mesh, hierarchical, ring, star)",
+      "ko": "스웜 토폴로지 (hierarchical-mesh, mesh, hierarchical, ring, star)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:455 description"
+      ]
+    },
+    {
+      "key": "Skip starting MCP server",
+      "ko": "MCP 서버 시작을 건너뜁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:461 description"
+      ]
+    },
+    {
+      "key": "Start with configuration defaults",
+      "ko": "설정 기본값으로 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:467 description"
+      ]
+    },
+    {
+      "key": "Start as background daemon",
+      "ko": "백그라운드 데몬으로 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:468 description"
+      ]
+    },
+    {
+      "key": "Start MCP on custom port",
+      "ko": "사용자 지정 포트로 MCP를 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:469 description"
+      ]
+    },
+    {
+      "key": "Start with mesh topology",
+      "ko": "mesh 토폴로지로 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:470 description"
+      ]
+    },
+    {
+      "key": "Start without MCP server",
+      "ko": "MCP 서버 없이 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:471 description"
+      ]
+    },
+    {
+      "key": "Quick start with defaults",
+      "ko": "기본값으로 빠르게 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:472 description"
+      ]
+    },
+    {
+      "key": "Stop the running system",
+      "ko": "실행 중인 시스템을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/start.ts:473 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

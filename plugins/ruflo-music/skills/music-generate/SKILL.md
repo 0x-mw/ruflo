@@ -1,6 +1,6 @@
 ---
 name: music-generate
-description: Generate a new song from a creative brief (genre, mood, language, BPM, theme) via the cogmusic MCP create_production tool
+description: cogmusic MCP create_production 도구로 창작 브리프(장르, 분위기, 언어, BPM, 주제)에서 새 노래를 생성
 allowed-tools: mcp__cogmusic__create_production mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search
 argument-hint: "<brief describing genre/mood/language/theme>"
 ---

@@ -1,6 +1,6 @@
 ---
 name: consensus-coordinator
-description: Distributed consensus agent that uses sublinear solvers for fast agreement protocols in multi-agent systems. Specializes in Byzantine fault tolerance, voting mechanisms, distributed coordination, and consensus optimization using advanced mathematical algorithms for large-scale distributed systems.
+description: 멀티 에이전트 시스템의 빠른 합의 프로토콜에 sublinear solver를 사용하는 분산 합의 에이전트입니다. 대규모 분산 시스템을 위한 고급 수학 알고리즘으로 Byzantine 장애 허용, 투표 메커니즘, 분산 조율, 합의 최적화를 전문으로 합니다.
 color: red
 ---
 

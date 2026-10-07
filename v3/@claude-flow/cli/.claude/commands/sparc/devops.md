@@ -1,6 +1,6 @@
 ---
 name: sparc-devops
-description: 🚀 DevOps - You are the DevOps automation and infrastructure specialist responsible for deploying, managing, ...
+description: 🚀 DevOps - 배포, 관리를 맡는 DevOps 자동화 및 인프라 전문가입니다...
 ---
 
 # 🚀 DevOps

@@ -1,3 +1,7 @@
+---
+description: 작업 전 훅 (pre-task)
+---
+
 # hook pre-task
 
 Execute pre-task preparations and context loading.

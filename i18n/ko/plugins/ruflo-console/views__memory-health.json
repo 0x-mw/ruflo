@@ -1,0 +1,256 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/memory-health.ts",
+  "entries": [
+    {
+      "key": "of {0} stored (the newest {1} are read)",
+      "ko": "저장된 {0}개 중 (최신 {1}개를 읽음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:17 const"
+      ]
+    },
+    {
+      "key": "pair budget {0} reached: only the newest {1} entries were compared",
+      "ko": "쌍 예산 {0}에 도달: 최신 항목 {1}개만 비교했습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:18 const"
+      ]
+    },
+    {
+      "key": "{0} of {1} pairs compared",
+      "ko": "{1}쌍 중 {0}쌍 비교",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:18 const"
+      ]
+    },
+    {
+      "key": "{0} entries{1} · {2} · from key and size only, no values read",
+      "ko": "항목 {0}개{1} · {2} · 키와 크기만 사용, 값은 읽지 않음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:20 return"
+      ]
+    },
+    {
+      "key": "duplicates",
+      "ko": "중복",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:28 kv()"
+      ]
+    },
+    {
+      "key": "{0} {1} entries in {2} cluster ({3})",
+      "ko": "{0} {1} 항목 {2}개 클러스터 ({3})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:28 kv()"
+      ]
+    },
+    {
+      "key": "{0} {1} entries in {2} clusters ({3})",
+      "ko": "{0} {1} 항목 {2}개 클러스터 ({3})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:28 kv()"
+      ]
+    },
+    {
+      "key": "stale",
+      "ko": "오래됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "{0} {1} never recalled and not updated for {2}d ({3})",
+      "ko": "{0} {1} 한 번도 조회되지 않았고 {2}일간 갱신 없음 ({3})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "never recalled",
+      "ko": "조회 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "{0} of {1} entries have an access count of 0 · {2} whole namespace",
+      "ko": "항목 {1}개 중 {0}개의 접근 횟수가 0 · 네임스페이스 통째로 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "{0} of {1} entries have an access count of 0 · {2} whole namespaces",
+      "ko": "항목 {1}개 중 {0}개의 접근 횟수가 0 · 네임스페이스 통째로 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "no duplicate or near-duplicate keys among these entries (near = key words ≥ {0}% alike and a close size)",
+      "ko": "이 항목들에는 중복 또는 거의 중복된 키가 없습니다 (거의 = 키 단어가 {0}% 이상 비슷하고 크기가 가까움)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:35 text()"
+      ]
+    },
+    {
+      "key": "+{0} more cluster not drawn (the counts above include them)",
+      "ko": "+클러스터 {0}개 더 표시하지 않음 (위 수치에 포함됨)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:46 text()"
+      ]
+    },
+    {
+      "key": "+{0} more clusters not drawn (the counts above include them)",
+      "ko": "+클러스터 {0}개 더 표시하지 않음 (위 수치에 포함됨)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:46 text()"
+      ]
+    },
+    {
+      "key": "{0}  updated {1}",
+      "ko": "{0}  갱신 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:52 text()"
+      ]
+    },
+    {
+      "key": "+{0} more, oldest shown first",
+      "ko": "+{0}개 더, 오래된 순으로 표시",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:54 text()"
+      ]
+    },
+    {
+      "key": "no entry is both unrecalled and {0}+ days untouched",
+      "ko": "조회된 적 없고 {0}일 이상 손대지 않은 항목이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:55 text()"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} recalled · {3} stale · never recalled",
+      "ko": "{0} {1}/{2} 조회됨 · 오래됨 {3} · 조회 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:65 children"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} recalled · {3} stale",
+      "ko": "{0} {1}/{2} 조회됨 · 오래됨 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:65 children"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} recalled · never recalled",
+      "ko": "{0} {1}/{2} 조회됨 · 조회 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:65 children"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} recalled",
+      "ko": "{0} {1}/{2} 조회됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:65 children"
+      ]
+    },
+    {
+      "key": "+{0} smaller namespaces not drawn",
+      "ko": "+더 작은 네임스페이스 {0}개 표시하지 않음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:69 text()"
+      ]
+    },
+    {
+      "key": "consolidate",
+      "ko": "통합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:87 button()"
+      ]
+    },
+    {
+      "key": "asks first · merges across tiers, never deletes these keys (DELETE does)",
+      "ko": "먼저 묻습니다 · 티어를 넘어 병합하며 이 키들은 삭제하지 않습니다 (삭제는 DELETE)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:88 text()"
+      ]
+    },
+    {
+      "key": "{0} (the health probe is not registered in this build)",
+      "ko": "{0} (이 빌드에는 상태 프로브가 등록되어 있지 않습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:118 text()"
+      ]
+    },
+    {
+      "key": "memory health (memory list)",
+      "ko": "메모리 상태 (memory list)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:118 sourceLine()"
+      ]
+    },
+    {
+      "key": "no entries to analyse: store one, or import your Claude memories (IMPORT CLAUDE)",
+      "ko": "분석할 항목이 없습니다: 항목을 저장하거나 Claude 메모리를 가져오세요 (IMPORT CLAUDE)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:120 text()"
+      ]
+    },
+    {
+      "key": "duplicate clusters",
+      "ko": "중복 클러스터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:127 text()"
+      ]
+    },
+    {
+      "key": "stale entries",
+      "ko": "오래된 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:129 text()"
+      ]
+    },
+    {
+      "key": "recall by namespace",
+      "ko": "네임스페이스별 조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-health.ts:131 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/help-actions.ts",
+  "entries": [
+    {
+      "key": "ask ruHelp something first",
+      "ko": "먼저 ruHelp에 질문하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-actions.ts:47 say()"
+      ]
+    },
+    {
+      "key": "type a question in the ruHelp field",
+      "ko": "ruHelp 입력란에 질문을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-actions.ts:47 say()"
+      ]
+    },
+    {
+      "key": "ask Claude with ruHelp’s docs",
+      "ko": "ruHelp 문서와 함께 Claude에게 질문",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-actions.ts:53 label"
+      ]
+    },
+    {
+      "key": "“{0}” with the best matching guides as data — {1} characters",
+      "ko": "“{0}” 및 가장 잘 맞는 가이드를 데이터로 전달 — {1}자",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/help-actions.ts:56 shows"
+      ]
+    }
+  ],
+  "obsolete": []
+}

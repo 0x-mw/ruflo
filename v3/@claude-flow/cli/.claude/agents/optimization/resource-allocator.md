@@ -2,7 +2,7 @@
 name: Resource Allocator
 type: agent
 category: optimization
-description: Adaptive resource allocation, predictive scaling and intelligent capacity planning
+description: 적응형 리소스 할당, 예측 기반 확장, 지능형 용량 계획
 ---
 
 # Resource Allocator Agent

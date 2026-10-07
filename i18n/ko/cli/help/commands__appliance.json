@@ -1,0 +1,202 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/appliance.ts",
+  "entries": [
+    {
+      "key": "Build a self-contained ruflo.rvf appliance",
+      "ko": "독립 실행형 ruflo.rvf 어플라이언스를 빌드합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:83 description"
+      ]
+    },
+    {
+      "key": "Build profile: cloud, hybrid, offline",
+      "ko": "빌드 프로파일: cloud, hybrid, offline",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:85 description"
+      ]
+    },
+    {
+      "key": "Target architecture",
+      "ko": "대상 아키텍처",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:87 description"
+      ]
+    },
+    {
+      "key": "Models to include (offline/hybrid)",
+      "ko": "포함할 모델 (offline/hybrid)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:88 description"
+      ]
+    },
+    {
+      "key": "Path to .env file for API key vault",
+      "ko": "API 키 보관소용 .env 파일 경로",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:89 description"
+      ]
+    },
+    {
+      "key": "Verbose output",
+      "ko": "상세 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:90 description",
+        "src/commands/benchmark.ts:25 description",
+        "src/commands/doctor.ts:2614 description"
+      ]
+    },
+    {
+      "key": "Show RVFA appliance header and section manifest",
+      "ko": "RVFA 어플라이언스 헤더와 섹션 매니페스트를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:149 description"
+      ]
+    },
+    {
+      "key": "Verify appliance integrity and run capability tests",
+      "ko": "어플라이언스 무결성을 검증하고 기능 테스트를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:222 description"
+      ]
+    },
+    {
+      "key": "Quick check (integrity only, skip capability tests)",
+      "ko": "빠른 확인 (무결성만 확인하고 기능 테스트는 건너뜀)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:225 description"
+      ]
+    },
+    {
+      "key": "Extract all sections from an RVFA appliance",
+      "ko": "RVFA 어플라이언스의 모든 섹션을 추출합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:290 description"
+      ]
+    },
+    {
+      "key": "Output directory",
+      "ko": "출력 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:293 description"
+      ]
+    },
+    {
+      "key": "Extract specific section only",
+      "ko": "특정 섹션만 추출합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:294 description"
+      ]
+    },
+    {
+      "key": "Boot and run an RVFA appliance",
+      "ko": "RVFA 어플라이언스를 부팅해 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:353 description"
+      ]
+    },
+    {
+      "key": "Run mode: cli, mcp, verify",
+      "ko": "실행 모드: cli, mcp, verify",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:356 description"
+      ]
+    },
+    {
+      "key": "Isolation: container, native",
+      "ko": "격리 방식: container, native",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:357 description"
+      ]
+    },
+    {
+      "key": "Self-contained RVFA appliance management (build, inspect, verify, extract, run)",
+      "ko": "독립 실행형 RVFA 어플라이언스 관리 (build, inspect, verify, extract, run)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:401 description"
+      ]
+    },
+    {
+      "key": "Build a cloud appliance",
+      "ko": "클라우드 어플라이언스 빌드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:405 description"
+      ]
+    },
+    {
+      "key": "Inspect appliance contents",
+      "ko": "어플라이언스 내용 검사",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:406 description"
+      ]
+    },
+    {
+      "key": "Verify integrity",
+      "ko": "무결성 검증",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:407 description"
+      ]
+    },
+    {
+      "key": "Extract sections",
+      "ko": "섹션 추출",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:408 description"
+      ]
+    },
+    {
+      "key": "Boot and run appliance",
+      "ko": "어플라이언스 부팅 및 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:409 description"
+      ]
+    },
+    {
+      "key": "Generate keys and sign",
+      "ko": "키 생성 및 서명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:410 description"
+      ]
+    },
+    {
+      "key": "Publish to IPFS via Pinata",
+      "ko": "Pinata를 통해 IPFS에 게시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:411 description"
+      ]
+    },
+    {
+      "key": "Hot-patch a section",
+      "ko": "섹션 핫패치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/appliance.ts:412 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

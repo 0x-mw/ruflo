@@ -1,6 +1,6 @@
 ---
 name: witness-curator
-description: Maintains the cryptographically-signed witness manifest. Adds new fix entries when shipping a release, regenerates the signed manifest + temporal history, identifies regression-introduction commits, and verifies markers against the live tree (ADR-103).
+description: 암호학적으로 서명된 위트니스 매니페스트를 관리합니다. 릴리스를 출시할 때 새 수정 항목을 추가하고, 서명된 매니페스트와 시간 이력을 다시 생성하고, 회귀를 도입한 커밋을 식별하고, 마커를 실제 트리와 대조해 검증합니다(ADR-103).
 model: sonnet
 ---
 

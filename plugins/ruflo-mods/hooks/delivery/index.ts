@@ -1,6 +1,7 @@
 import type { EngineInterface, On } from 'claude-code'
 
 import type { ModState } from '../state'
+import { t } from '../i18n/translate'
 import { isScreenedOrigin, screenInbound, screenOutbound } from './screen'
 
 /**
@@ -38,7 +39,7 @@ export function registerDelivery(on: On, state: ModState) {
 
 function toast($: EngineInterface, text: string) {
   try {
-    $.ui.toast(text)
+    $.ui.toast(t(text))
   } catch {
     // a refused toast never changes the verdict
   }

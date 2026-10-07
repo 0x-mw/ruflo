@@ -1,3 +1,7 @@
+---
+description: 인지 패턴 생성
+---
+
 # Create Cognitive Patterns
 
 ## 🎯 Key Principle

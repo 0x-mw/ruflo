@@ -1,6 +1,6 @@
 ---
 name: trader-train
-description: Train neural models (LSTM, Transformer, N-BEATS) on market data using npx neural-trader with confidence intervals
+description: 신뢰 구간을 갖춘 npx neural-trader로 시장 데이터에 뉴럴 모델(LSTM, Transformer, N-BEATS)을 학습
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__neural_train
 argument-hint: "<lstm|transformer|nbeats> --symbol <TICKER>"
 ---

@@ -1,0 +1,184 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/perf.ts",
+  "entries": [
+    {
+      "key": "now {0} · min {1} · max {2} · {3} samples",
+      "ko": "현재 {0} · 최소 {1} · 최대 {2} · 샘플 {3}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:20 children"
+      ]
+    },
+    {
+      "key": "Measure now",
+      "ko": "지금 측정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:32 title"
+      ]
+    },
+    {
+      "key": "{0} · $0 · read-only",
+      "ko": "{0} · $0 · 읽기 전용",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:32 expr"
+      ]
+    },
+    {
+      "key": "Benchmarks",
+      "ko": "벤치마크",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:33 title"
+      ]
+    },
+    {
+      "key": "{0} · the wasm suite is $0; all may download a model",
+      "ko": "{0} · wasm 스위트는 $0이며 모두 모델을 내려받을 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:33 expr"
+      ]
+    },
+    {
+      "key": "Record and analyse",
+      "ko": "기록 및 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:34 title"
+      ]
+    },
+    {
+      "key": "{0} · writes local files",
+      "ko": "{0} · 로컬 파일에 기록",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:34 expr"
+      ]
+    },
+    {
+      "key": "Latency",
+      "ko": "지연 시간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:45 rule()"
+      ]
+    },
+    {
+      "key": "no sample yet",
+      "ko": "아직 샘플 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:45 rule()"
+      ]
+    },
+    {
+      "key": "last sample {0} · heap {1} MB",
+      "ko": "마지막 샘플 {0} · 힙 {1} MB",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:45 rule()"
+      ]
+    },
+    {
+      "key": "last sample {0}",
+      "ko": "마지막 샘플 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:45 rule()"
+      ]
+    },
+    {
+      "key": "event loop",
+      "ko": "이벤트 루프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:46 seriesRow()"
+      ]
+    },
+    {
+      "key": "METRICS adds one sample per run (in-process, $0)",
+      "ko": "METRICS는 실행마다 샘플 하나를 추가합니다 (프로세스 내, $0)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:46 seriesRow()"
+      ]
+    },
+    {
+      "key": "REPORT reads the stored history of .claude-flow/performance/metrics.json",
+      "ko": "REPORT는 .claude-flow/performance/metrics.json에 저장된 기록을 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:47 seriesRow()"
+      ]
+    },
+    {
+      "key": "Other",
+      "ko": "기타",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:60 section()"
+      ]
+    },
+    {
+      "key": "Not measured here",
+      "ko": "여기서 측정하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:62 section()"
+      ]
+    },
+    {
+      "key": "2 fixed tables",
+      "ko": "고정 표 2개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:62 section()"
+      ]
+    },
+    {
+      "key": "CLI BOTTLENECK",
+      "ko": "CLI BOTTLENECK",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:62 naRow()"
+      ]
+    },
+    {
+      "key": "`performance bottleneck` and `optimize` print a fixed table: the MCP tools above measure",
+      "ko": "`performance bottleneck`과 `optimize`는 고정 표를 출력합니다: 측정은 위의 MCP 도구가 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:62 naRow()"
+      ]
+    },
+    {
+      "key": "MCP METRICS",
+      "ko": "MCP METRICS",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:62 naRow()"
+      ]
+    },
+    {
+      "key": "`performance_metrics` reports fixed latency figures, so the sparkline reads `metrics` instead",
+      "ko": "`performance_metrics`는 고정 지연 시간 값을 보고하므로 스파크라인은 대신 `metrics`를 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:62 naRow()"
+      ]
+    },
+    {
+      "key": "perf",
+      "ko": "성능",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/perf.ts:66 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: deepseek-chat
-description: "One-shot chat completion against DeepSeek's `deepseek-chat` model via the OpenAI-compatible /v1/chat/completions endpoint. Reads DEEPSEEK_API_KEY from the environment; degrades gracefully (exit 0 with a JSON status:degraded envelope) when the key is missing or the API is unreachable. Use for non-reasoning tasks — summarization, extraction, quick classification — where deepseek-reasoner would be overkill."
+description: "OpenAI 호환 /v1/chat/completions 엔드포인트로 DeepSeek의 `deepseek-chat` 모델에 일회성 채팅 완성을 요청합니다. 환경 변수에서 DEEPSEEK_API_KEY를 읽으며, 키가 없거나 API에 접근할 수 없으면 JSON status:degraded 엔벨로프와 함께 exit 0으로 단계적으로 축소됩니다. deepseek-reasoner가 과한 비추론 작업(요약, 추출, 빠른 분류)에 사용합니다."
 argument-hint: "--prompt <text> [--system <text>] [--model deepseek-chat] [--temperature 0.7] [--max-tokens 1024] [--format table|json] [--alert-on-error]"
 allowed-tools: Bash
 ---

@@ -1,6 +1,6 @@
 ---
 name: gaia
-description: GAIA benchmark dispatcher — run, submit, validate, and track leaderboard scores against the Princeton HAL benchmark
+description: GAIA 벤치마크 디스패처 — Princeton HAL 벤치마크 대비 리더보드 점수를 실행, 제출, 검증, 추적
 argument-hint: "<subcommand> [options]"
 ---
 

@@ -2,7 +2,7 @@
 name: crdt-synchronizer
 type: synchronizer
 color: "#4CAF50"
-description: Implements Conflict-free Replicated Data Types for eventually consistent state synchronization
+description: 최종 일관성 상태 동기화를 위한 충돌 없는 복제 데이터 타입(CRDT)을 구현합니다
 capabilities:
   - state_based_crdts
   - operation_based_crdts

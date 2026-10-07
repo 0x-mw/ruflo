@@ -1,6 +1,6 @@
 ---
 name: Pair Programming
-description: AI-assisted pair programming with multiple modes (driver/navigator/switch), real-time verification, quality monitoring, and comprehensive testing. Supports TDD, debugging, refactoring, and learning sessions. Features automatic role switching, continuous code review, security scanning, and performance optimization with truth-score verification.
+description: 여러 모드(driver/navigator/switch), 실시간(real-time) 검증, 품질 모니터링, 종합 테스트를 갖춘 AI 지원 페어 프로그래밍입니다. TDD, 디버깅, 리팩터링, 학습 세션을 지원합니다. 자동 역할 전환, 지속적 코드 리뷰, 보안 스캔, 진실 점수(truth-score) 검증 기반 성능 최적화를 제공합니다.
 ---
 
 # Pair Programming

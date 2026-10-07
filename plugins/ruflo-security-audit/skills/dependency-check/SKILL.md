@@ -1,6 +1,6 @@
 ---
 name: dependency-check
-description: Scan project dependencies for known vulnerabilities and CVEs. Use when auditing third-party packages, before releases, after `npm install`/lockfile changes, or when investigating reported CVE advisories.
+description: 프로젝트 의존성에서 알려진 취약점과 CVE를 스캔합니다. 서드파티 패키지를 감사할 때, 릴리스 전에, `npm install`/lockfile 변경 후, 보고된 CVE 권고를 조사할 때 사용합니다.
 argument-hint: "[--path PATH]"
 allowed-tools: Bash(npx * npm *) mcp__plugin_ruflo-core_ruflo__memory_store Read
 ---

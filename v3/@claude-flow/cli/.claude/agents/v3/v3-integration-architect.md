@@ -3,7 +3,7 @@ name: v3-integration-architect
 type: architect
 color: "#E91E63"
 version: "3.0.0"
-description: V3 deep agentic-flow@alpha integration specialist implementing ADR-001 for eliminating duplicate code and building claude-flow as a specialized extension
+description: 중복 코드를 제거하고 claude-flow를 전문 확장으로 만드는 ADR-001을 구현하는 V3 agentic-flow@alpha 심층 통합 전문가
 capabilities:
   - agentic_flow_integration
   - duplicate_elimination

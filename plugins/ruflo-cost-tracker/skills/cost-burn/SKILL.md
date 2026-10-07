@@ -1,6 +1,6 @@
 ---
 name: cost-burn
-description: Burn-rate trend over time with optional drift-alert exit code. Bins session spend into buckets, surfaces window-over-window delta, and can exit 1 when latest bucket exceeds prior mean by a configurable %. Distinct from `cost-trend` (benchmark drift); this tracks PRODUCTION spend trajectory.
+description: 시간에 따른 소진율 추세와 선택적 드리프트 경고 종료 코드. 세션 지출을 구간별로 묶고, 구간 간 변화량을 드러내며, 최신 구간이 이전 평균을 설정 가능한 % 이상 초과하면 exit 1 가능. `cost-trend`(벤치마크 드리프트)와 달리 실제 운영 지출의 궤적을 추적합니다.
 argument-hint: "[--bucket 1d] [--lookback 14d] [--alert-on-acceleration-pct 50] [--format table|json]"
 allowed-tools: Bash
 ---

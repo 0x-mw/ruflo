@@ -1,0 +1,72 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/catalog.ts",
+  "entries": [
+    {
+      "key": "ADR-406 command inventory and canonical command catalog (generate, verify, engine report)",
+      "ko": "ADR-406 명령어 인벤토리와 표준 명령어 카탈로그 (생성, 검증, 엔진 보고서)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:47 description"
+      ]
+    },
+    {
+      "key": "Repository root (default: cwd)",
+      "ko": "저장소 루트 (기본값: 현재 작업 디렉터리)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:49 description"
+      ]
+    },
+    {
+      "key": "Claude Code executable to probe (default ~/.local/bin/claude)",
+      "ko": "조사할 Claude Code 실행 파일 (기본값: ~/.local/bin/claude)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:50 description"
+      ]
+    },
+    {
+      "key": "generate: compare with the committed catalog instead of writing",
+      "ko": "generate: 쓰는 대신 커밋된 카탈로그와 비교합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:51 description"
+      ]
+    },
+    {
+      "key": "verify: catalog file to verify",
+      "ko": "verify: 검증할 카탈로그 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:52 description"
+      ]
+    },
+    {
+      "key": "Regenerate the catalog and engine report",
+      "ko": "카탈로그와 엔진 보고서 다시 생성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:56 description"
+      ]
+    },
+    {
+      "key": "Fail if the committed catalog is stale",
+      "ko": "커밋된 카탈로그가 오래되었으면 실패 처리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:57 description"
+      ]
+    },
+    {
+      "key": "Verify a copied catalog (parity)",
+      "ko": "복사된 카탈로그 검증 (동등성)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/catalog.ts:58 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

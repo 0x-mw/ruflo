@@ -1,0 +1,90 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/register.ts",
+  "entries": [
+    {
+      "key": "[view|palette|agent <id>|mods|swarm <sub>|help]",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:210 argumentHint"
+      ]
+    },
+    {
+      "key": "Same as /ruflo: the ruflo console",
+      "ko": "/ruflo: 와 같습니다 — ruflo 콘솔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:213 description"
+      ]
+    },
+    {
+      "key": "[view|palette|help]",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:213 argumentHint"
+      ]
+    },
+    {
+      "key": "Pane",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:262 component",
+        "plugins/ruflo-console/hooks/register.ts:268 component",
+        "plugins/ruflo-console/hooks/register.ts:274 component"
+      ]
+    },
+    {
+      "key": "AbovePrompt",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:321 component"
+      ]
+    },
+    {
+      "key": "ToolUse",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:354 component"
+      ]
+    },
+    {
+      "key": "Claude finished a turn · {0}s",
+      "ko": "Claude가 턴을 마쳤습니다 · {0}s",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:385 text"
+      ]
+    },
+    {
+      "key": "Claude finished a turn · {0}m {1}s",
+      "ko": "Claude가 턴을 마쳤습니다 · {0}m {1}s",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:385 text"
+      ]
+    },
+    {
+      "key": "{0} loaded ({1})",
+      "ko": "{0} 로드됨 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:460 text"
+      ]
+    },
+    {
+      "key": "{0} REFUSED ({1})",
+      "ko": "{0} 거부됨 ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/register.ts:460 text"
+      ]
+    }
+  ],
+  "obsolete": []
+}

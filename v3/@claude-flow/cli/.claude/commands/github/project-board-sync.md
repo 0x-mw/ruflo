@@ -1,3 +1,7 @@
+---
+description: 프로젝트 보드 동기화 - GitHub Projects 통합
+---
+
 # Project Board Sync - GitHub Projects Integration
 
 ## Overview

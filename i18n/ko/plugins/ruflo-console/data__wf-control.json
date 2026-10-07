@@ -1,0 +1,586 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-control.ts",
+  "entries": [
+    {
+      "key": "Stop, message and redirect: the control tab calls the engine's own TaskStop and SendMessage, behind its permission check, after showing the exact call.",
+      "ko": "중지, 메시지, 방향 전환: 제어 탭은 정확한 호출을 보여 준 뒤 엔진의 권한 확인을 거쳐 엔진 자체의 TaskStop과 SendMessage를 호출합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:57 expr"
+      ]
+    },
+    {
+      "key": "Stop and message from this page need the control tab, which is not switched on in this build: use Claude Code's Workflows panel or TaskStop.",
+      "ko": "이 화면에서 중지와 메시지를 보내려면 제어 탭이 필요한데, 이 빌드에서는 켜져 있지 않습니다: Claude Code의 Workflows 패널이나 TaskStop을 사용하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:57 expr"
+      ]
+    },
+    {
+      "key": "TaskStop {0}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:63 expr"
+      ]
+    },
+    {
+      "key": "SendMessage {0}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:64 expr",
+        "plugins/ruflo-console/hooks/data/wf-send.ts:74 done()"
+      ]
+    },
+    {
+      "key": "the host does not bind tool calls here",
+      "ko": "호스트가 여기서 도구 호출을 연결하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:85 text"
+      ]
+    },
+    {
+      "key": "the engine refused it: {0}",
+      "ko": "엔진이 거부했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:86 text"
+      ]
+    },
+    {
+      "key": "the engine answered with an error",
+      "ko": "엔진이 오류로 응답했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:91 text"
+      ]
+    },
+    {
+      "key": "the engine answered ok with no text",
+      "ko": "엔진이 텍스트 없이 ok로 응답했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:93 text"
+      ]
+    },
+    {
+      "key": "the call was rejected",
+      "ko": "호출이 거부되었습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:105 text"
+      ]
+    },
+    {
+      "key": "the host cannot ask the engine for its permission verdict; the call is still checked when it runs",
+      "ko": "호스트가 엔진에 권한 판정을 물을 수 없습니다. 호출은 실행될 때 여전히 확인됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:111 text"
+      ]
+    },
+    {
+      "key": "the engine's permission check: {0}",
+      "ko": "엔진의 권한 확인: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:116 text"
+      ]
+    },
+    {
+      "key": "the engine's permission check: {0} ({1})",
+      "ko": "엔진의 권한 확인: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:116 text"
+      ]
+    },
+    {
+      "key": "the permission check could not be asked",
+      "ko": "권한 확인을 요청하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:118 text"
+      ]
+    },
+    {
+      "key": "its scripts folder (<session>/workflows/scripts)",
+      "ko": "스크립트 폴더 (<session>/workflows/scripts)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:125 const",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:139 const"
+      ]
+    },
+    {
+      "key": "Claude Code workflow run {0} ({1}) was stopped from the ruflo console. Resume it with Workflow({ scriptPath: <{2}>, resumeFromRunId: \"{3}\" }) after adding this guidance to the affected agent's prompt: {4}",
+      "ko": "Claude Code 워크플로 실행 {0} ({1})을(를) ruflo 콘솔에서 중지했습니다. 영향받은 에이전트의 프롬프트에 다음 안내를 추가한 뒤 Workflow({ scriptPath: <{2}>, resumeFromRunId: \"{3}\" })로 재개하세요: {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:127 return"
+      ]
+    },
+    {
+      "key": "Claude Code workflow run {0} ({1}, agent \"{2}\") was stopped from the ruflo console. Resume it with Workflow({ scriptPath: <{3}>, resumeFromRunId: \"{4}\" }) after adding this guidance to the affected agent's prompt: {5}",
+      "ko": "Claude Code 워크플로 실행 {0} ({1}, 에이전트 \"{2}\")을(를) ruflo 콘솔에서 중지했습니다. 영향받은 에이전트의 프롬프트에 다음 안내를 추가한 뒤 Workflow({ scriptPath: <{3}>, resumeFromRunId: \"{4}\" })로 재개하세요: {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:127 return"
+      ]
+    },
+    {
+      "key": "Send this to the agents of Claude Code workflow run {0} with SendMessage, then tell me what the tool answered: {1}",
+      "ko": "다음을 Claude Code 워크플로 실행 {0}의 에이전트들에게 SendMessage로 보낸 뒤, 도구가 어떻게 응답했는지 알려 주세요: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:131 expr"
+      ]
+    },
+    {
+      "key": "Send this to agent \"{0}\" ({1}) of workflow run {2} with SendMessage, then tell me what the tool answered: {3}",
+      "ko": "다음을 워크플로 실행 {2}의 에이전트 \"{0}\" ({1})에게 SendMessage로 보낸 뒤, 도구가 어떻게 응답했는지 알려 주세요: {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:131 expr"
+      ]
+    },
+    {
+      "key": "into the prompt box, not sent: {0}",
+      "ko": "프롬프트 입력란에 넣음, 전송하지 않음: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:136 shows"
+      ]
+    },
+    {
+      "key": "the text in the prompt box (it is not sent)",
+      "ko": "프롬프트 입력란의 텍스트 (전송되지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:137 expect",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:178 expect"
+      ]
+    },
+    {
+      "key": "prepared in the prompt box: press Enter there to send it",
+      "ko": "프롬프트 입력란에 준비했습니다: 거기서 Enter를 눌러 전송하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:142 report()",
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:60 say()"
+      ]
+    },
+    {
+      "key": "there is no prompt box to fill here",
+      "ko": "여기에는 채울 프롬프트 입력란이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:142 report()"
+      ]
+    },
+    {
+      "key": "the engine answers that the task was stopped",
+      "ko": "엔진이 작업이 중지되었다고 응답함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:152 expect"
+      ]
+    },
+    {
+      "key": "Calls the engine's TaskStop through the session's own permission check and dialog. {0} Stopped work is not undone by resuming: a resumed run starts its unfinished agents again.",
+      "ko": "세션 자체의 권한 확인과 대화 상자를 거쳐 엔진의 TaskStop을 호출합니다. {0} 중지된 작업은 재개해도 되돌려지지 않습니다: 재개된 실행은 끝나지 않은 에이전트를 처음부터 다시 시작합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:154 note"
+      ]
+    },
+    {
+      "key": "TaskStop",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:156 permissionOf()"
+      ]
+    },
+    {
+      "key": "{0}: nothing was stopped and no other route is tried",
+      "ko": "{0}: 중지된 것이 없으며 다른 경로는 시도하지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:158 report()",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:162 report()"
+      ]
+    },
+    {
+      "key": "{0} (re-read the run to see its state change)",
+      "ko": "{0} (실행을 다시 읽어 상태 변화를 확인하세요)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:166 report()"
+      ]
+    },
+    {
+      "key": "nothing yet",
+      "ko": "아직 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:178 call",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:113 sends",
+        "plugins/ruflo-console/hooks/data/wf-guide.ts:152 sends"
+      ]
+    },
+    {
+      "key": "A ruflo swarm agent is not a Claude Code task: stop it with the page's stop (x); message it with the guide tab (broadcast, task note).",
+      "ko": "ruflo 스웜 에이전트는 Claude Code 작업이 아닙니다: 화면의 중지 (x)로 중지하고, 가이드 탭(브로드캐스트, 작업 메모)으로 메시지를 보내세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:181 proofText"
+      ]
+    },
+    {
+      "key": "pick a Claude Code workflow run for these",
+      "ko": "이 기능을 쓰려면 Claude Code 워크플로 실행을 선택하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:181 why"
+      ]
+    },
+    {
+      "key": "stop the agent",
+      "ko": "에이전트 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:194 label"
+      ]
+    },
+    {
+      "key": "stop agent {0}",
+      "ko": "에이전트 {0} 중지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:194 label",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:197 stopSpec()",
+        "plugins/ruflo-console/hooks/palette.ts:87 add()"
+      ]
+    },
+    {
+      "key": "TaskStop worked on a real background agent (task_id = its id; its status became killed). An agent inside a workflow run has not been tried: the engine says.",
+      "ko": "TaskStop은 실제 백그라운드 에이전트에서 동작했습니다 (task_id = 해당 ID, 상태가 killed로 바뀜). 워크플로 실행 안의 에이전트는 시도해 보지 않았으며, 엔진이 응답합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:196 proofText"
+      ]
+    },
+    {
+      "key": "Proven on a background Agent-tool agent; for an agent of a workflow run the engine's answer is the proof.",
+      "ko": "백그라운드 Agent 도구 에이전트에서 검증되었습니다. 워크플로 실행의 에이전트는 엔진의 응답이 곧 증거입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:197 stopSpec()"
+      ]
+    },
+    {
+      "key": "this host does not bind tool calls: prepare the text instead",
+      "ko": "이 호스트는 도구 호출을 연결하지 않습니다: 대신 텍스트를 준비하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:198 why",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:239 why",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:250 why"
+      ]
+    },
+    {
+      "key": "pick an agent first (the cursor)",
+      "ko": "먼저 에이전트를 선택하세요 (커서)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:198 why",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:239 why"
+      ]
+    },
+    {
+      "key": "that agent's id is not one the engine can be given",
+      "ko": "해당 에이전트의 ID는 엔진에 전달할 수 없는 값입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:198 why",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:239 why"
+      ]
+    },
+    {
+      "key": "stop the whole run {0}",
+      "ko": "실행 {0} 전체 중지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:203 label"
+      ]
+    },
+    {
+      "key": "TaskStop with a workflow run's id was not tried in the spike. The call is real and permission-checked; the engine's answer, and the run read again, say whether it took.",
+      "ko": "워크플로 실행 ID로 TaskStop을 호출하는 것은 스파이크에서 시도하지 않았습니다. 호출은 실제이며 권한 확인을 거치고, 엔진의 응답과 다시 읽은 실행 상태로 적용 여부를 알 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:205 proofText"
+      ]
+    },
+    {
+      "key": "stop workflow run {0}",
+      "ko": "워크플로 실행 {0} 중지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:206 stopSpec()"
+      ]
+    },
+    {
+      "key": "Not proven for a workflow run id: the engine may answer that no such task exists.",
+      "ko": "워크플로 실행 ID에 대해서는 검증되지 않았습니다: 엔진이 해당 작업이 없다고 응답할 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:206 stopSpec()"
+      ]
+    },
+    {
+      "key": "this host does not bind tool calls: stop it in Claude Code's Workflows panel",
+      "ko": "이 호스트는 도구 호출을 연결하지 않습니다: Claude Code의 Workflows 패널에서 중지하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:207 why"
+      ]
+    },
+    {
+      "key": "that run's id is not one the engine can be given",
+      "ko": "해당 실행의 ID는 엔진에 전달할 수 없는 값입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:207 why"
+      ]
+    },
+    {
+      "key": "message the agent",
+      "ko": "에이전트에 메시지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:211 label",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:239 label"
+      ]
+    },
+    {
+      "key": "SendMessage queued a message for a running named agent in this session; whether it was delivered and acted on was not verified.",
+      "ko": "SendMessage는 이 세션에서 실행 중인 이름 있는 에이전트에게 메시지를 대기열에 넣었습니다. 전달되어 실행에 반영되었는지는 확인되지 않았습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:211 proofText"
+      ]
+    },
+    {
+      "key": "redirect: stop, then resume with guidance",
+      "ko": "방향 전환: 중지한 뒤 안내와 함께 재개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:212 label",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:250 label"
+      ]
+    },
+    {
+      "key": "Half one is the stop (see above); half two is text prepared in your prompt box.",
+      "ko": "전반부는 중지(위 참조), 후반부는 프롬프트 입력란에 준비되는 텍스트입니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:212 proofText"
+      ]
+    },
+    {
+      "key": "message agent {0}",
+      "ko": "에이전트 {0}에 메시지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:222 label"
+      ]
+    },
+    {
+      "key": "the engine answers that the message was queued",
+      "ko": "엔진이 메시지가 대기열에 들어갔다고 응답함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:225 expect"
+      ]
+    },
+    {
+      "key": "Calls the engine's SendMessage through the session's permission check. The spike showed it QUEUES a message at the agent's next tool round; it did not show the agent reads or acts on it. An agent that is not a running, reachable one is answered \"not reachable\" and nothing is sent.",
+      "ko": "세션의 권한 확인을 거쳐 엔진의 SendMessage를 호출합니다. 스파이크에서는 에이전트의 다음 도구 라운드에 메시지를 대기열에 넣는 것까지만 확인했고, 에이전트가 읽거나 실행에 반영하는지는 확인하지 못했습니다. 실행 중이 아니거나 닿을 수 없는 에이전트에는 \"not reachable\"로 응답하며 아무것도 전송되지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:227 note"
+      ]
+    },
+    {
+      "key": "SendMessage",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:229 permissionOf()",
+        "plugins/ruflo-console/hooks/data/wf-send.ts:150 permissionOf()"
+      ]
+    },
+    {
+      "key": "message agent",
+      "ko": "에이전트에 메시지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:231 report()",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:235 report()"
+      ]
+    },
+    {
+      "key": "{0}: nothing was sent and no other route is tried",
+      "ko": "{0}: 전송된 것이 없으며 다른 경로는 시도하지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:231 report()",
+        "plugins/ruflo-console/hooks/data/wf-control.ts:235 report()"
+      ]
+    },
+    {
+      "key": "{0} (queued is not delivered: the agent may never act on it)",
+      "ko": "{0} (대기열에 들어간 것이 전달된 것은 아닙니다: 에이전트가 끝내 반영하지 않을 수 있습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:235 report()"
+      ]
+    },
+    {
+      "key": "{0} (use \"prepare as text\" to ask the main session to relay it)",
+      "ko": "{0} (\"텍스트로 준비\"를 사용해 메인 세션에 전달을 요청하세요)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:235 report()"
+      ]
+    },
+    {
+      "key": "message {0}",
+      "ko": "{0}에 메시지",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:239 label"
+      ]
+    },
+    {
+      "key": "Queued for delivery at the agent's next tool round (verified on a named background agent); delivery and effect are not.",
+      "ko": "에이전트의 다음 도구 라운드에 전달되도록 대기열에 들어갔습니다 (이름 있는 백그라운드 에이전트에서 검증됨). 전달과 효과는 검증되지 않았습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:239 proofText"
+      ]
+    },
+    {
+      "key": "redirect run {0}: stop, then prepare the resume",
+      "ko": "실행 {0} 방향 전환: 중지한 뒤 재개 준비",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:244 stopSpec()"
+      ]
+    },
+    {
+      "key": "Half one of two: the stop. Half two prepares the resume text in your prompt box, only when the stop worked.",
+      "ko": "두 단계 중 첫째는 중지입니다. 둘째는 중지가 성공했을 때만 프롬프트 입력란에 재개 텍스트를 준비합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:244 stopSpec()"
+      ]
+    },
+    {
+      "key": "The resume text with your guidance is in the prompt box: press Enter there to resume.",
+      "ko": "안내가 담긴 재개 텍스트를 프롬프트 입력란에 넣었습니다: 거기서 Enter를 눌러 재개하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:247 return"
+      ]
+    },
+    {
+      "key": "There is no prompt box to put the resume text in.",
+      "ko": "재개 텍스트를 넣을 프롬프트 입력란이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:247 return"
+      ]
+    },
+    {
+      "key": "Half one is the stop (TaskStop, proof as the run stop); half two is text prepared in your prompt box and never sent for you.",
+      "ko": "전반부는 중지(TaskStop, 증거는 실행 중지와 동일), 후반부는 프롬프트 입력란에 준비되는 텍스트이며 대신 전송되지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:250 proofText"
+      ]
+    },
+    {
+      "key": "{0}, then into the prompt box: {1}",
+      "ko": "{0}, 이어서 프롬프트 입력란에: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:250 shows"
+      ]
+    },
+    {
+      "key": "{0}, then into the prompt box:",
+      "ko": "{0}, 이어서 프롬프트 입력란에:",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:250 shows"
+      ]
+    },
+    {
+      "key": "this run has no id the engine can be given",
+      "ko": "이 실행에는 엔진에 전달할 수 있는 ID가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:250 why"
+      ]
+    },
+    {
+      "key": "prepare as text instead",
+      "ko": "대신 텍스트로 준비",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:254 label"
+      ]
+    },
+    {
+      "key": "Nothing is called: the words wait in your prompt box and Claude (the main session) acts on them when you press Enter, under its own permissions.",
+      "ko": "아무것도 호출하지 않습니다: 문구가 프롬프트 입력란에서 대기하다가 Enter를 누르면 Claude(메인 세션)가 자체 권한 아래에서 처리합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:254 proofText"
+      ]
+    },
+    {
+      "key": "prepare the message for the main session",
+      "ko": "메인 세션용 메시지 준비",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:254 prefillSpec()"
+      ]
+    },
+    {
+      "key": "Text only: it goes to the main Claude session, which would use SendMessage itself.",
+      "ko": "텍스트만 전달합니다: 메인 Claude 세션으로 가며, 메인 세션이 직접 SendMessage를 사용하게 됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:254 prefillSpec()"
+      ]
+    },
+    {
+      "key": "nothing to prepare",
+      "ko": "준비할 것이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-control.ts:254 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

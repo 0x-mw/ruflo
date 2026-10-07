@@ -1,0 +1,56 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/version.ts",
+  "entries": [
+    {
+      "key": "Show installed version, with --explain for the ANV catalog breakdown",
+      "ko": "설치된 버전을 표시합니다. --explain 을 쓰면 ANV 카탈로그 상세 내역도 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/version.ts:72 description"
+      ]
+    },
+    {
+      "key": "Show the full ANV breakdown (catalog generation, counts, benchmark status)",
+      "ko": "ANV 전체 상세 내역(카탈로그 세대, 개수, 벤치마크 상태)을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/version.ts:76 description"
+      ]
+    },
+    {
+      "key": "Exit non-zero unless the installed catalog generation is >= N (capability gating for scripts)",
+      "ko": "설치된 카탈로그 세대가 N 이상이 아니면 0이 아닌 코드로 종료합니다 (스크립트용 기능 게이팅)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/version.ts:82 description"
+      ]
+    },
+    {
+      "key": "Print the installed semver",
+      "ko": "설치된 semver 버전을 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/version.ts:87 description"
+      ]
+    },
+    {
+      "key": "Print the full ANV catalog/benchmark breakdown",
+      "ko": "ANV 카탈로그/벤치마크 전체 상세 내역을 출력합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/version.ts:88 description"
+      ]
+    },
+    {
+      "key": "Gate a script on a minimum catalog generation",
+      "ko": "최소 카탈로그 세대를 기준으로 스크립트를 게이팅합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/version.ts:89 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

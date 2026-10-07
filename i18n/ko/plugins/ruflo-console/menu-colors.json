@@ -1,0 +1,67 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/menu-colors.ts",
+  "entries": [
+    {
+      "key": "#8a8a8a",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/menu-colors.ts:14 const",
+        "plugins/ruflo-console/hooks/menu-colors.ts:46 wait",
+        "plugins/ruflo-console/hooks/views/bar.ts:181 dim"
+      ]
+    },
+    {
+      "key": "#ffaf00",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/menu-colors.ts:15 const",
+        "plugins/ruflo-console/hooks/menu-colors.ts:19 SWARM",
+        "plugins/ruflo-console/hooks/menu-colors.ts:27 const"
+      ]
+    },
+    {
+      "key": "#5fd7ff",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/menu-colors.ts:20 INTELLIGENCE",
+        "plugins/ruflo-console/hooks/menu-colors.ts:27 const",
+        "plugins/ruflo-console/hooks/menu-colors.ts:46 paused"
+      ]
+    },
+    {
+      "key": "#ff5f5f",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/menu-colors.ts:21 SAFETY & OPS",
+        "plugins/ruflo-console/hooks/menu-colors.ts:27 const",
+        "plugins/ruflo-console/hooks/menu-colors.ts:49 bad"
+      ]
+    },
+    {
+      "key": "#5fd75f",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/menu-colors.ts:22 NETWORK & EXTEND",
+        "plugins/ruflo-console/hooks/menu-colors.ts:27 const",
+        "plugins/ruflo-console/hooks/menu-colors.ts:46 live"
+      ]
+    },
+    {
+      "key": "#d787ff",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/menu-colors.ts:23 TOOLS",
+        "plugins/ruflo-console/hooks/menu-colors.ts:27 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

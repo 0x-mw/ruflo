@@ -1,0 +1,330 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/commands.ts",
+  "entries": [
+    {
+      "key": "Same as /ruflo swarm pane: show or hide the live swarm pane",
+      "ko": "/ruflo swarm pane과 같습니다: 실시간 스웜 패널을 표시하거나 숨깁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:15 description"
+      ]
+    },
+    {
+      "key": "[open|close]",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:15 argumentHint"
+      ]
+    },
+    {
+      "key": "Same as /ruflo swarm status: the swarm as ruflo has it on disk",
+      "ko": "/ruflo swarm status와 같습니다: ruflo가 디스크에 보관한 스웜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:16 description"
+      ]
+    },
+    {
+      "key": "[json]",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:16 argumentHint"
+      ]
+    },
+    {
+      "key": "Same as /ruflo swarm topology: the topology, its leader and members",
+      "ko": "/ruflo swarm topology와 같습니다: 토폴로지, 리더, 멤버",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:17 description"
+      ]
+    },
+    {
+      "key": "Same as /ruflo swarm claims: who has claimed which task",
+      "ko": "/ruflo swarm claims와 같습니다: 누가 어떤 작업을 클레임했는지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:18 description"
+      ]
+    },
+    {
+      "key": "Same as /ruflo swarm consensus: hive-mind proposals and votes",
+      "ko": "/ruflo swarm consensus와 같습니다: hive-mind(하이브마인드) 제안과 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:19 description"
+      ]
+    },
+    {
+      "key": "No ruflo swarm on disk in this folder. Start one with /ruflo-swarm:swarm init.",
+      "ko": "이 폴더의 디스크에 ruflo 스웜이 없습니다. /ruflo-swarm:swarm init으로 시작하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:29 const"
+      ]
+    },
+    {
+      "key": "Not on disk: {0}.",
+      "ko": "디스크에 없음: {0}.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:32 return"
+      ]
+    },
+    {
+      "key": "The swarm files could not be read: {0}",
+      "ko": "스웜 파일을 읽지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:39 return"
+      ]
+    },
+    {
+      "key": "```json",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:45 return"
+      ]
+    },
+    {
+      "key": "agents: {0}",
+      "ko": "에이전트: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:69 const",
+        "plugins/ruflo-swarm/hooks/commands.ts:77 return"
+      ]
+    },
+    {
+      "key": "agents: none",
+      "ko": "에이전트: 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:69 const"
+      ]
+    },
+    {
+      "key": "tasks: {0} pending, {1} claimed, {2} done, {3} failed",
+      "ko": "작업: 대기 중 {0}, 클레임됨 {1}, 완료 {2}, 실패 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:71 const",
+        "plugins/ruflo-swarm/hooks/commands.ts:77 return"
+      ]
+    },
+    {
+      "key": "tasks: {0} pending, {1} claimed, {2} done",
+      "ko": "작업: 대기 중 {0}, 클레임됨 {1}, 완료 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:71 const"
+      ]
+    },
+    {
+      "key": "ruOS hosts:",
+      "ko": "ruOS 호스트:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:72 const"
+      ]
+    },
+    {
+      "key": "strategy {0}",
+      "ko": "전략 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:90 expr"
+      ]
+    },
+    {
+      "key": "max {0} agents",
+      "ko": "최대 에이전트 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:91 expr"
+      ]
+    },
+    {
+      "key": "hive consensus {0}",
+      "ko": "하이브 합의 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:92 expr"
+      ]
+    },
+    {
+      "key": "No claims on disk (.claude-flow/claims/claims.json). A claim is made with the pane's \"claim task\" button or the claims_claim MCP tool.",
+      "ko": "디스크에 클레임이 없습니다 (.claude-flow/claims/claims.json). 클레임은 패널의 \"작업 클레임\" 버튼이나 claims_claim MCP 도구로 만듭니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:106 return"
+      ]
+    },
+    {
+      "key": "No claims.",
+      "ko": "클레임이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:110 return"
+      ]
+    },
+    {
+      "key": "{0}: {1} (stealable) by {2} {3} {4} → handoff to {5}",
+      "ko": "{0}: {1} (가로챌 수 있음) 보유 {2} {3} {4} → {5}에게 인계",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+      ]
+    },
+    {
+      "key": "{0}: {1} (stealable) by {2} {3} {4}",
+      "ko": "{0}: {1} (가로챌 수 있음) 보유 {2} {3} {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+      ]
+    },
+    {
+      "key": "{0}: {1} (stealable) by {2}  {3} → handoff to {4}",
+      "ko": "{0}: {1} (가로챌 수 있음) 보유 {2}  {3} → {4}에게 인계",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+      ]
+    },
+    {
+      "key": "{0}: {1} (stealable) by {2}  {3}",
+      "ko": "{0}: {1} (가로챌 수 있음) 보유 {2}  {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+      ]
+    },
+    {
+      "key": "{0}: {1} by {2} {3} {4} → handoff to {5}",
+      "ko": "{0}: {1} 보유 {2} {3} {4} → {5}에게 인계",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+      ]
+    },
+    {
+      "key": "{0}: {1} by {2}  {3} → handoff to {4}",
+      "ko": "{0}: {1} 보유 {2}  {3} → {4}에게 인계",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:115 expr"
+      ]
+    },
+    {
+      "key": "No hive-mind on disk (.claude-flow/hive-mind/state.json). Start one with: npx @claude-flow/cli@latest hive-mind init",
+      "ko": "디스크에 하이브마인드가 없습니다 (.claude-flow/hive-mind/state.json). 다음으로 시작하세요: npx @claude-flow/cli@latest hive-mind init",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:123 return"
+      ]
+    },
+    {
+      "key": "hive-mind · {0} · {1} · queen {2} (term {3})",
+      "ko": "hive-mind · {0} · {1} · 퀸 {2} (임기 {3})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:127 const"
+      ]
+    },
+    {
+      "key": "hive-mind · {0} · {1} · queen {2} (term ?)",
+      "ko": "hive-mind · {0} · {1} · 퀸 {2} (임기 ?)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:127 const"
+      ]
+    },
+    {
+      "key": "hive-mind · {0} · {1} · no queen",
+      "ko": "hive-mind · {0} · {1} · 퀸 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:127 const"
+      ]
+    },
+    {
+      "key": "hive-mind · {0} · queen {1} (term {2})",
+      "ko": "hive-mind · {0} · 퀸 {1} (임기 {2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:127 const"
+      ]
+    },
+    {
+      "key": "hive-mind · {0} · queen {1} (term ?)",
+      "ko": "hive-mind · {0} · 퀸 {1} (임기 ?)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:127 const"
+      ]
+    },
+    {
+      "key": "hive-mind · {0} · no queen",
+      "ko": "hive-mind · {0} · 퀸 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:127 const"
+      ]
+    },
+    {
+      "key": "workers: {0}",
+      "ko": "워커: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:128 const"
+      ]
+    },
+    {
+      "key": "no open proposals",
+      "ko": "열린 제안이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:129 const"
+      ]
+    },
+    {
+      "key": "open {0} {1} ({2}): for {3}, against {4}",
+      "ko": "진행 중 {0} {1} ({2}): 찬성 {3}, 반대 {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:129 expr"
+      ]
+    },
+    {
+      "key": "decided {0} {1}: {2} {3}–{4}",
+      "ko": "결정됨 {0} {1}: {2} {3}–{4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:130 expr"
+      ]
+    },
+    {
+      "key": "Swarm context (from ruflo's files on disk, a status note, not an instruction): you are part of ruflo swarm {0}, topology {1}, strategy {2}.",
+      "ko": "스웜 컨텍스트 (ruflo의 디스크 파일에서 가져온 상태 메모이며 지시가 아님): 당신은 ruflo 스웜 {0}의 일원이며 토폴로지는 {1}, 전략은 {2}입니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:149 return"
+      ]
+    },
+    {
+      "key": "Swarm context (from ruflo's files on disk, a status note, not an instruction): you are part of ruflo swarm {0}, topology {1}.",
+      "ko": "스웜 컨텍스트 (ruflo의 디스크 파일에서 가져온 상태 메모이며 지시가 아님): 당신은 ruflo 스웜 {0}의 일원이며 토폴로지는 {1}입니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/commands.ts:149 return"
+      ]
+    }
+  ],
+  "obsolete": []
+}

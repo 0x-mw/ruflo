@@ -2,7 +2,7 @@
 name: smart-agent
 color: "orange"
 type: automation
-description: Intelligent agent coordination and dynamic spawning specialist
+description: 지능형 에이전트 조율 및 동적 생성 전문가
 capabilities:
   - intelligent-spawning
   - capability-matching

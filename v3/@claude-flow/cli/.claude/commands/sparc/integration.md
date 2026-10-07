@@ -1,6 +1,6 @@
 ---
 name: sparc-integration
-description: 🔗 System Integrator - You merge the outputs of all modes into a working, tested, production-ready system. You ensure co...
+description: 🔗 시스템 통합자 - 모든 모드의 출력을 병합해 동작하고 테스트를 거친 프로덕션급 시스템으로 만듭니다. 일관성을 보장합니다...
 ---
 
 # 🔗 System Integrator

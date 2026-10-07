@@ -1,0 +1,56 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/hive-mind-worker.ts",
+  "entries": [
+    {
+      "key": "Run the next pending hive task on an idle worker via Claude Code and record the result",
+      "ko": "Claude Code로 유휴 워커에서 다음 대기 중인 하이브 작업을 실행하고 결과를 기록합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind-worker.ts:242 description"
+      ]
+    },
+    {
+      "key": "Run this task id instead of the oldest pending one",
+      "ko": "가장 오래된 대기 작업 대신 이 작업 ID를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind-worker.ts:244 description"
+      ]
+    },
+    {
+      "key": "Assign to this worker id instead of the first idle one",
+      "ko": "첫 번째 유휴 워커 대신 이 워커 ID에 할당합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind-worker.ts:245 description"
+      ]
+    },
+    {
+      "key": "MCP config for the worker (default: generated, with the ruflo server)",
+      "ko": "워커용 MCP 설정 (기본값: ruflo 서버가 포함되어 생성됨)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind-worker.ts:246 description"
+      ]
+    },
+    {
+      "key": "Run the oldest pending hive task",
+      "ko": "가장 오래된 대기 중인 하이브 작업 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind-worker.ts:249 description"
+      ]
+    },
+    {
+      "key": "Run a specific task",
+      "ko": "특정 작업 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/hive-mind-worker.ts:250 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

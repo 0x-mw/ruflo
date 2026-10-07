@@ -1,3 +1,7 @@
+---
+description: SPARC 오케스트레이터 모드
+---
+
 # SPARC Orchestrator Mode
 
 ## Purpose

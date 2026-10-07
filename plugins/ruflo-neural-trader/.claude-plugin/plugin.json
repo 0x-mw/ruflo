@@ -1,6 +1,6 @@
 {
   "name": "ruflo-neural-trader",
-  "description": "Neural trading via npx neural-trader — self-learning strategies, Rust/NAPI backtesting, 112+ MCP tools, swarm coordination, and portfolio optimization. As a mod (ADR-445): a tighten-only guard on its tools, /trader-mod, and a status file the console shows",
+  "description": "npx neural-trader를 통한 뉴럴 트레이딩 — 자가 학습 전략, Rust/NAPI 백테스트, MCP 도구 112개 이상, 스웜 조율, 포트폴리오 최적화. mod(ADR-445)로서 도구에 대한 강화 전용 가드, /trader-mod, 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.3.4",
   "author": {
     "name": "ruvnet",
@@ -29,8 +29,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Guard",
-      "description": "Refuse calls and memory writes that hold a secret. On by default.",
+      "title": "가드",
+      "description": "비밀이 들어 있는 호출과 메모리 쓰기를 거부합니다. 기본값은 켜짐.",
       "required": false,
       "default": "on",
       "options": [
@@ -40,8 +40,8 @@
     },
     "liveGuard": {
       "type": "string",
-      "title": "Live-order guard",
-      "description": "Refuse a live order call unless it carries confirm: true (or paper: true). On by default.",
+      "title": "실거래 주문 가드",
+      "description": "confirm: true(또는 paper: true)가 없는 실거래 주문 호출을 거부합니다. 기본값은 켜짐.",
       "required": false,
       "default": "on",
       "options": [

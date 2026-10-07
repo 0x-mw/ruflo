@@ -1,6 +1,6 @@
 ---
 name: harness-score
-description: 5-dimension harness readiness scorecard from `metaharness score <path>`. Returns harnessFit / compileConfidence / taskCoverage / toolSafety / memoryUsefulness + estCostPerRunUsd + scaffoldReady. Pure-read; subprocess invocation; degrades gracefully when MetaHarness is absent (ADR-150 architectural constraint).
+description: "`metaharness score <path>`로 만드는 5개 차원의 하네스 준비도 점수표. harnessFit / compileConfidence / taskCoverage / toolSafety / memoryUsefulness + estCostPerRunUsd + scaffoldReady를 반환합니다. 읽기 전용이며 서브프로세스 호출이고, MetaHarness가 없으면 기능이 단계적으로 축소됩니다(ADR-150 아키텍처 제약)."
 argument-hint: "[--path .] [--alert-on-fit-below 70] [--format table|json]"
 allowed-tools: Bash
 ---

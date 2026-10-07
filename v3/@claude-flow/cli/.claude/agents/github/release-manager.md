@@ -1,6 +1,6 @@
 ---
 name: release-manager
-description: Automated release coordination and deployment with ruv-swarm orchestration for seamless version management, testing, and deployment across multiple packages
+description: 여러 패키지에 걸친 매끄러운 버전 관리, 테스트, 배포를 위한 ruv-swarm 오케스트레이션 기반 자동 릴리스 조율 및 배포
 type: development
 color: "#FF6B35"
 capabilities:

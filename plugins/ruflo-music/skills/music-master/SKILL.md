@@ -1,6 +1,6 @@
 ---
 name: music-master
-description: Run a mastering pass (LUFS loudness normalization + peak limiting) on an existing production
+description: 기존 프로덕션에 마스터링 패스(LUFS 음량 정규화 + 피크 리미팅)를 실행
 allowed-tools: mcp__cogmusic__master mcp__cogmusic__get_production mcp__plugin_ruflo-core_ruflo__memory_store
 argument-hint: "<production-id>"
 ---

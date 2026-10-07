@@ -1,6 +1,6 @@
 ---
 name: intelligence-specialist
-description: Self-learning intelligence specialist — drives the 4-step pipeline (RETRIEVE → JUDGE → DISTILL → CONSOLIDATE) across 29 MCP tools, coordinates with ruflo-agentdb namespaces, and ships patterns cross-project via IPFS
+description: 자가 학습 인텔리전스 전문 에이전트 — MCP 도구 29개에 걸쳐 4단계 파이프라인(RETRIEVE → JUDGE → DISTILL → CONSOLIDATE)을 구동하고, ruflo-agentdb 네임스페이스와 조율하며, IPFS로 프로젝트 간에 패턴을 전달
 model: sonnet
 ---
 

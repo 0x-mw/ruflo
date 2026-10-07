@@ -1,0 +1,1903 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/init.ts",
+  "entries": [
+    {
+      "key": "Unlock additional capabilities?",
+      "ko": "추가 기능을 사용해 보시겠습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Local Meta LLM Proxy",
+      "ko": "로컬 메타 LLM 프록시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Multi-model routing",
+      "ko": "멀티 모델 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Hosted memory",
+      "ko": "호스팅 메모리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Enterprise rate limits",
+      "ko": "엔터프라이즈 요청 한도",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Premium agents",
+      "ko": "프리미엄 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Cloud synchronization",
+      "ko": "클라우드 동기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Free account: https://cognitum.one",
+      "ko": "무료 계정: https://cognitum.one",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:40 writeln"
+      ]
+    },
+    {
+      "key": "Create a free Cognitum account now?",
+      "ko": "지금 Cognitum 무료 계정을 만드시겠습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:43 confirm.message"
+      ]
+    },
+    {
+      "key": "Create your free account at https://cognitum.one",
+      "ko": "https://cognitum.one 에서 무료 계정을 만드세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:49 printInfo"
+      ]
+    },
+    {
+      "key": "CLI sign-in (`ruflo auth login`) ships with the ADR-306 auth release.",
+      "ko": "CLI 로그인(`ruflo auth login`)은 ADR-306 인증 릴리스에서 제공됩니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:50 dim"
+      ]
+    },
+    {
+      "key": "You can enable later at https://cognitum.one — this prompt will not repeat.",
+      "ko": "나중에 https://cognitum.one 에서 활성화할 수 있습니다. 이 안내는 반복되지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:52 dim"
+      ]
+    },
+    {
+      "key": "Detected the OpenAI Codex CLI — install @claude-flow/codex to auto-configure its MCP server and skills:",
+      "ko": "OpenAI Codex CLI를 감지했습니다. MCP 서버와 스킬을 자동 설정하려면 @claude-flow/codex를 설치하세요:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:162 printInfo"
+      ]
+    },
+    {
+      "key": "AGENTS.md:            Codex project instructions",
+      "ko": "AGENTS.md:            Codex 프로젝트 지침",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:179 printBox.content"
+      ]
+    },
+    {
+      "key": ".agents/config.toml:  MCP server + skills config",
+      "ko": ".agents/config.toml:  MCP 서버 + 스킬 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:179 printBox.content"
+      ]
+    },
+    {
+      "key": ".agents/skills/:      {0} skills",
+      "ko": ".agents/skills/:      스킬 {0}개",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:179 printBox.content"
+      ]
+    },
+    {
+      "key": "OpenAI Codex detected — configured",
+      "ko": "OpenAI Codex를 감지해 설정했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:184 printBox.title"
+      ]
+    },
+    {
+      "key": "skills.sh registration already present at .agents/skills/ruflo — skipping",
+      "ko": "skills.sh 등록이 이미 .agents/skills/ruflo 에 있어 건너뜁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:359 dim"
+      ]
+    },
+    {
+      "key": "Cleaning up bloated .agents/skills/ruflo/ from a prior init (#2777) and re-materializing the single platform SKILL.md…",
+      "ko": "이전 init(#2777)에서 비대해진 .agents/skills/ruflo/ 를 정리하고 단일 플랫폼 SKILL.md를 다시 생성하는 중…",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:365 printInfo"
+      ]
+    },
+    {
+      "key": "Could not remove {0}: {1}",
+      "ko": "{0}을(를) 제거하지 못했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:369 dim"
+      ]
+    },
+    {
+      "key": "Registering the core `ruflo` skill for cross-agent discovery (.agents/skills/ruflo/SKILL.md)…",
+      "ko": "에이전트 간 검색을 위해 핵심 `ruflo` 스킬을 등록하는 중 (.agents/skills/ruflo/SKILL.md)…",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:373 printInfo"
+      ]
+    },
+    {
+      "key": "Want all 267 plugin skills? npx skills add ruvnet/ruflo --all",
+      "ko": "플러그인 스킬 267개를 모두 설치하려면: npx skills add ruvnet/ruflo --all",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:380 dim"
+      ]
+    },
+    {
+      "key": "Opt out next time: --no-skills-sh or RUFLO_NO_SKILLS_SH=1",
+      "ko": "다음부터 제외하려면: --no-skills-sh 또는 RUFLO_NO_SKILLS_SH=1",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:381 dim"
+      ]
+    },
+    {
+      "key": "skills.sh registration skipped (write failed: {0})",
+      "ko": "skills.sh 등록을 건너뛰었습니다 (쓰기 실패: {0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:383 dim"
+      ]
+    },
+    {
+      "key": "Initializing RuFlo V3 for OpenAI Codex",
+      "ko": "OpenAI Codex용 RuFlo V3 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:398 bold"
+      ]
+    },
+    {
+      "key": "Initializing Codex project...",
+      "ko": "Codex 프로젝트를 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:404 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Fetching the stable Codex adapter for this initialization...",
+      "ko": "이번 초기화에 쓸 안정판 Codex 어댑터를 가져오는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:412 printInfo"
+      ]
+    },
+    {
+      "key": "Codex initialization failed while running @claude-flow/codex@latest.",
+      "ko": "@claude-flow/codex@latest 를 실행하는 중 Codex 초기화에 실패했습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:415 printError"
+      ]
+    },
+    {
+      "key": "Codex initialization failed",
+      "ko": "Codex 초기화에 실패했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:431 spinner.fail",
+        "src/commands/init.ts:487 spinner.fail"
+      ]
+    },
+    {
+      "key": "Codex project initialized successfully!",
+      "ko": "Codex 프로젝트를 초기화했습니다!",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:440 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Files: {0} created",
+      "ko": "파일: {0}개 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:448 printBox.content",
+        "src/commands/init.ts:688 printBox.content"
+      ]
+    },
+    {
+      "key": "Skills: {0} installed",
+      "ko": "스킬: {0}개 설치",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:448 printBox.content"
+      ]
+    },
+    {
+      "key": "Summary",
+      "ko": "요약",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:448 printBox.title",
+        "src/commands/init.ts:688 printBox.title"
+      ]
+    },
+    {
+      "key": "AGENTS.md:     Main project instructions",
+      "ko": "AGENTS.md:     주 프로젝트 지침",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": ".agents/config.toml: Project configuration",
+      "ko": ".agents/config.toml: 프로젝트 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": ".agents/skills/: {0} skills",
+      "ko": ".agents/skills/: 스킬 {0}개",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": ".codex/: Local overrides (gitignored)",
+      "ko": ".codex/: 로컬 재정의 (gitignore 대상)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": "CLAUDE.md: Claude Code compatibility",
+      "ko": "CLAUDE.md: Claude Code 호환",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:453 printBox.content"
+      ]
+    },
+    {
+      "key": "OpenAI Codex Integration",
+      "ko": "OpenAI Codex 연동",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:460 printBox.title"
+      ]
+    },
+    {
+      "key": "Warnings:",
+      "ko": "주의:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:466 printWarning"
+      ]
+    },
+    {
+      "key": "... and {0} more",
+      "ko": "... 외 {0}개",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:471 printInfo",
+        "src/commands/init.ts:699 printInfo",
+        "src/commands/init.ts:1179 printInfo"
+      ]
+    },
+    {
+      "key": "Next steps:",
+      "ko": "다음 단계:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:477 bold",
+        "src/commands/init.ts:885 bold"
+      ]
+    },
+    {
+      "key": "Review {0} for project instructions",
+      "ko": "{0}에서 프로젝트 지침을 확인하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:479 printList"
+      ]
+    },
+    {
+      "key": "AGENTS.md",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:479 highlight"
+      ]
+    },
+    {
+      "key": "Add skills with {0} syntax",
+      "ko": "{0} 구문으로 스킬을 추가하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:480 printList"
+      ]
+    },
+    {
+      "key": "$skill-name",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:480 highlight"
+      ]
+    },
+    {
+      "key": "Configure {0} for your project",
+      "ko": "프로젝트에 맞게 {0} 파일을 설정하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:481 printList"
+      ]
+    },
+    {
+      "key": "Claude Code users can use {0}",
+      "ko": "Claude Code 사용자는 {0} 파일을 쓸 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:482 printList"
+      ]
+    },
+    {
+      "key": "CLAUDE.md",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:482 highlight",
+        "src/commands/init.ts:1004 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "The @claude-flow/codex package is not installed.",
+      "ko": "@claude-flow/codex 패키지가 설치되어 있지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:492 printError"
+      ]
+    },
+    {
+      "key": "Install it with: npm install @claude-flow/codex",
+      "ko": "다음으로 설치하세요: npm install @claude-flow/codex",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:493 printInfo"
+      ]
+    },
+    {
+      "key": "Alternatively, copy skills manually from .claude/skills/ to .agents/skills/",
+      "ko": "또는 .claude/skills/ 의 스킬을 .agents/skills/ 로 직접 복사하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:495 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to initialize: {0}",
+      "ko": "초기화하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:497 printError",
+        "src/commands/init.ts:909 printError"
+      ]
+    },
+    {
+      "key": "RuFlo appears to be already initialized",
+      "ko": "RuFlo가 이미 초기화되어 있는 것 같습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:584 printWarning"
+      ]
+    },
+    {
+      "key": "Found: .claude/settings.json",
+      "ko": "발견됨: .claude/settings.json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:585 printInfo"
+      ]
+    },
+    {
+      "key": "Found: .claude-flow/config.yaml",
+      "ko": "발견됨: .claude-flow/config.yaml",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:586 printInfo"
+      ]
+    },
+    {
+      "key": "Use --force to reinitialize",
+      "ko": "다시 초기화하려면 --force를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:587 printInfo"
+      ]
+    },
+    {
+      "key": "Do you want to reinitialize? This will overwrite existing configuration.",
+      "ko": "다시 초기화하시겠습니까? 기존 설정을 덮어씁니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:591 confirm.message"
+      ]
+    },
+    {
+      "key": "Initializing RuFlo V3",
+      "ko": "RuFlo V3 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:604 bold"
+      ]
+    },
+    {
+      "key": "Initializing...",
+      "ko": "초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:655 createSpinner.text",
+        "src/commands/init.ts:1155 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Initialization failed",
+      "ko": "초기화하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:663 spinner.fail",
+        "src/commands/init.ts:908 spinner.fail",
+        "src/commands/init.ts:1161 spinner.fail"
+      ]
+    },
+    {
+      "key": "RuFlo V3 initialized successfully!",
+      "ko": "RuFlo V3를 초기화했습니다!",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:670 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Directories: {0} created",
+      "ko": "디렉터리: {0}개 생성",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:688 printBox.content"
+      ]
+    },
+    {
+      "key": "Skipped: {0} (already exist)",
+      "ko": "건너뜀: {0}개 (이미 있음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:688 printBox.content"
+      ]
+    },
+    {
+      "key": "Settings review recommended:",
+      "ko": "설정 검토 권장:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:694 printWarning",
+        "src/commands/init.ts:1174 printWarning",
+        "src/commands/init.ts:1355 printWarning"
+      ]
+    },
+    {
+      "key": "CLAUDE.md:   Swarm guidance & configuration",
+      "ko": "CLAUDE.md:   스웜 지침과 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Settings:    .claude/settings.json",
+      "ko": "설정:        .claude/settings.json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Skills:      .claude/skills/ ({0} skills)",
+      "ko": "스킬:        .claude/skills/ (스킬 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Commands:    .claude/commands/ ({0} commands)",
+      "ko": "명령어:      .claude/commands/ (명령어 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Agents:      .claude/agents/ ({0} agents)",
+      "ko": "에이전트:    .claude/agents/ (에이전트 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Helpers:     .claude/helpers/",
+      "ko": "헬퍼:        .claude/helpers/",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "MCP:         .mcp.json",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:707 printBox.content"
+      ]
+    },
+    {
+      "key": "Claude Code Integration",
+      "ko": "Claude Code 연동",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:716 printBox.title"
+      ]
+    },
+    {
+      "key": "Config:      .claude-flow/config.yaml",
+      "ko": "설정:      .claude-flow/config.yaml",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:723 printBox.content"
+      ]
+    },
+    {
+      "key": "Data:        .claude-flow/data/",
+      "ko": "데이터:    .claude-flow/data/",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:723 printBox.content"
+      ]
+    },
+    {
+      "key": "Logs:        .claude-flow/logs/",
+      "ko": "로그:      .claude-flow/logs/",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:723 printBox.content"
+      ]
+    },
+    {
+      "key": "Sessions:    .claude-flow/sessions/",
+      "ko": "세션:      .claude-flow/sessions/",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:723 printBox.content"
+      ]
+    },
+    {
+      "key": "V3 Runtime",
+      "ko": "V3 런타임",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:729 printBox.title"
+      ]
+    },
+    {
+      "key": "Hooks: {0} hook types enabled in settings.json",
+      "ko": "훅: settings.json에서 훅 유형 {0}개 활성화됨",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:736 printInfo"
+      ]
+    },
+    {
+      "key": "Starting services...",
+      "ko": "서비스를 시작하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:752 printInfo"
+      ]
+    },
+    {
+      "key": "Initializing memory database...",
+      "ko": "메모리 데이터베이스를 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:759 dim"
+      ]
+    },
+    {
+      "key": "Memory initialized",
+      "ko": "메모리를 초기화했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:765 success"
+      ]
+    },
+    {
+      "key": "Memory database already exists",
+      "ko": "메모리 데이터베이스가 이미 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:767 dim"
+      ]
+    },
+    {
+      "key": "Starting daemon...",
+      "ko": "데몬을 시작하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:792 dim"
+      ]
+    },
+    {
+      "key": "Daemon started",
+      "ko": "데몬을 시작했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:798 success"
+      ]
+    },
+    {
+      "key": "Daemon may already be running",
+      "ko": "데몬이 이미 실행 중일 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:803 warning"
+      ]
+    },
+    {
+      "key": "Initializing swarm...",
+      "ko": "스웜을 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:810 dim",
+        "src/commands/swarm.ts:447 printInfo"
+      ]
+    },
+    {
+      "key": "Swarm initialized",
+      "ko": "스웜을 초기화했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:816 success"
+      ]
+    },
+    {
+      "key": "Swarm initialization skipped",
+      "ko": "스웜 초기화를 건너뛰었습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:818 dim"
+      ]
+    },
+    {
+      "key": "All services started",
+      "ko": "모든 서비스를 시작했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:823 printSuccess"
+      ]
+    },
+    {
+      "key": "Initializing ONNX embedding subsystem...",
+      "ko": "ONNX 임베딩 서브시스템을 초기화하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:832 printInfo",
+        "src/commands/init.ts:1198 printInfo"
+      ]
+    },
+    {
+      "key": "Hyperbolic: Enabled (Poincaré ball)",
+      "ko": "쌍곡 공간: 활성화됨 (푸앵카레 볼)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:843 dim"
+      ]
+    },
+    {
+      "key": "Embeddings initialized",
+      "ko": "임베딩을 초기화했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:862 success"
+      ]
+    },
+    {
+      "key": "Run \"embeddings init --download\" to download model",
+      "ko": "모델을 내려받으려면 \"embeddings init --download\"를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:863 dim"
+      ]
+    },
+    {
+      "key": "Embedding initialization skipped (run manually)",
+      "ko": "임베딩 초기화를 건너뛰었습니다 (직접 실행하세요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:865 warning"
+      ]
+    },
+    {
+      "key": "Run {0} to start background workers",
+      "ko": "{0} 명령으로 백그라운드 워커를 시작하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:887 printList"
+      ]
+    },
+    {
+      "key": "{0} daemon start",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:887 highlight"
+      ]
+    },
+    {
+      "key": "Run {0} to initialize a swarm",
+      "ko": "{0} 명령으로 스웜을 초기화하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:891 printList"
+      ]
+    },
+    {
+      "key": "{0} swarm init",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:891 highlight"
+      ]
+    },
+    {
+      "key": "Or use {0} to do all of the above",
+      "ko": "또는 {0} 명령으로 위 작업을 한 번에 하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:892 printList"
+      ]
+    },
+    {
+      "key": "{0} init --start-all",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:892 highlight"
+      ]
+    },
+    {
+      "key": "Review {0} for hook configurations",
+      "ko": "{0}에서 훅 설정을 확인하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:893 printList"
+      ]
+    },
+    {
+      "key": "Run {0} for a 5-dim harness readiness scorecard (ADR-150)",
+      "ko": "{0} 명령으로 5개 차원의 하네스 준비도 점수표를 확인하세요 (ADR-150)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:896 printList"
+      ]
+    },
+    {
+      "key": "{0} metaharness score",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:896 highlight"
+      ]
+    },
+    {
+      "key": "RuFlo V3 Setup Wizard",
+      "ko": "RuFlo V3 설정 마법사",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:974 bold"
+      ]
+    },
+    {
+      "key": "Answer questions to configure your project",
+      "ko": "질문에 답하며 프로젝트를 설정하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:975 dim"
+      ]
+    },
+    {
+      "key": "Select configuration preset:",
+      "ko": "설정 프리셋 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:984 select.message"
+      ]
+    },
+    {
+      "key": "Default",
+      "ko": "기본",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:986 select.choice.label"
+      ]
+    },
+    {
+      "key": "Recommended settings for most projects",
+      "ko": "대부분의 프로젝트에 권장하는 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:986 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Minimal",
+      "ko": "최소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:987 select.choice.label"
+      ]
+    },
+    {
+      "key": "Core features only",
+      "ko": "핵심 기능만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:987 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Full",
+      "ko": "전체",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:988 select.choice.label"
+      ]
+    },
+    {
+      "key": "All features enabled",
+      "ko": "모든 기능 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:988 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Custom",
+      "ko": "사용자 지정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:989 select.choice.label"
+      ]
+    },
+    {
+      "key": "Choose each component",
+      "ko": "구성 요소를 하나씩 선택",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:989 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Select components to initialize:",
+      "ko": "초기화할 구성 요소 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1002 multiSelect.message"
+      ]
+    },
+    {
+      "key": "Swarm guidance and project configuration",
+      "ko": "스웜 지침과 프로젝트 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1004 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Claude Code hooks configuration",
+      "ko": "Claude Code 훅 설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1005 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Skills",
+      "ko": "스킬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1006 multiSelect.choice.label",
+        "src/commands/init.ts:1249 printTable.cell"
+      ]
+    },
+    {
+      "key": "Claude Code skills in .claude/skills/",
+      "ko": ".claude/skills/ 의 Claude Code 스킬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1006 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Commands",
+      "ko": "명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1007 multiSelect.choice.label",
+        "src/commands/init.ts:1250 printTable.cell"
+      ]
+    },
+    {
+      "key": "Claude Code commands in .claude/commands/",
+      "ko": ".claude/commands/ 의 Claude Code 명령어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1007 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Agents",
+      "ko": "에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1008 multiSelect.choice.label",
+        "src/commands/init.ts:1251 printTable.cell",
+        "src/commands/session.ts:153 printTable.header"
+      ]
+    },
+    {
+      "key": "Agent definitions in .claude/agents/",
+      "ko": ".claude/agents/ 의 에이전트 정의",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1008 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Helpers",
+      "ko": "헬퍼",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1009 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Utility scripts in .claude/helpers/",
+      "ko": ".claude/helpers/ 의 유틸리티 스크립트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1009 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Statusline",
+      "ko": "상태 표시줄",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1010 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Shell statusline integration",
+      "ko": "셸 상태 표시줄 연동",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1010 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "MCP",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1011 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": ".mcp.json for MCP server configuration",
+      "ko": "MCP 서버 설정용 .mcp.json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1011 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Runtime",
+      "ko": "런타임",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1012 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": ".claude-flow/ directory for V3 runtime",
+      "ko": "V3 런타임용 .claude-flow/ 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1012 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Select skill sets:",
+      "ko": "스킬 세트 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1029 multiSelect.message"
+      ]
+    },
+    {
+      "key": "Core",
+      "ko": "코어",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1031 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Swarm, memory, SPARC skills",
+      "ko": "스웜, 메모리, SPARC 스킬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1031 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "AgentDB",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1032 multiSelect.choice.label",
+        "src/commands/init.ts:1098 select.choice.label"
+      ]
+    },
+    {
+      "key": "Vector database skills",
+      "ko": "벡터 데이터베이스 스킬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1032 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "GitHub",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1033 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "GitHub integration skills",
+      "ko": "GitHub 연동 스킬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1033 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Flow Nexus",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1034 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Cloud platform skills",
+      "ko": "클라우드 플랫폼 스킬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1034 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "V3 implementation skills",
+      "ko": "V3 구현 스킬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1035 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Select hooks to enable:",
+      "ko": "활성화할 훅 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1049 multiSelect.message"
+      ]
+    },
+    {
+      "key": "PreToolUse",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1051 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Before tool execution",
+      "ko": "도구 실행 전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1051 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "PostToolUse",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1052 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "After tool execution",
+      "ko": "도구 실행 후",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1052 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "UserPromptSubmit",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1053 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Task routing",
+      "ko": "작업 라우팅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1053 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "SessionStart",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1054 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Session initialization",
+      "ko": "세션 초기화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1054 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Stop",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1055 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Task completion evaluation",
+      "ko": "작업 완료 평가",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1055 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Notification",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1056 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Swarm notifications",
+      "ko": "스웜 알림",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1056 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "PermissionRequest",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1057 multiSelect.choice.label"
+      ]
+    },
+    {
+      "key": "Auto-allow claude-flow tools",
+      "ko": "claude-flow 도구 자동 허용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1057 multiSelect.choice.hint"
+      ]
+    },
+    {
+      "key": "Select swarm topology:",
+      "ko": "스웜 토폴로지 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1072 select.message",
+        "src/commands/swarm.ts:440 select.message"
+      ]
+    },
+    {
+      "key": "Hierarchical Mesh",
+      "ko": "계층형 메시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1074 select.choice.label"
+      ]
+    },
+    {
+      "key": "Best for complex projects (recommended)",
+      "ko": "복잡한 프로젝트에 적합 (권장)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1074 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Mesh",
+      "ko": "메시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1075 select.choice.label"
+      ]
+    },
+    {
+      "key": "Peer-to-peer coordination",
+      "ko": "P2P 조율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1075 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Hierarchical",
+      "ko": "계층형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1076 select.choice.label"
+      ]
+    },
+    {
+      "key": "Tree-based coordination",
+      "ko": "트리 기반 조율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1076 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Adaptive",
+      "ko": "적응형",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1077 select.choice.label"
+      ]
+    },
+    {
+      "key": "Dynamic topology switching",
+      "ko": "토폴로지 동적 전환",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1077 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Maximum concurrent agents:",
+      "ko": "최대 동시 에이전트 수:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1084 input.message"
+      ]
+    },
+    {
+      "key": "Select memory backend:",
+      "ko": "메모리 백엔드 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1095 select.message",
+        "src/commands/memory.ts:1324 select.message"
+      ]
+    },
+    {
+      "key": "Hybrid",
+      "ko": "하이브리드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1097 select.choice.label"
+      ]
+    },
+    {
+      "key": "SQLite + AgentDB (recommended)",
+      "ko": "SQLite + AgentDB (권장)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1097 select.choice.hint"
+      ]
+    },
+    {
+      "key": "150x faster vector search",
+      "ko": "벡터 검색 150x 빠름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1098 select.choice.hint"
+      ]
+    },
+    {
+      "key": "SQLite",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1099 select.choice.label"
+      ]
+    },
+    {
+      "key": "Standard SQL storage",
+      "ko": "표준 SQL 저장소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1099 select.choice.hint"
+      ]
+    },
+    {
+      "key": "In-Memory",
+      "ko": "인메모리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1100 select.choice.label"
+      ]
+    },
+    {
+      "key": "Fast but non-persistent",
+      "ko": "빠르지만 영속되지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1100 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Enable HNSW indexing for faster vector search?",
+      "ko": "더 빠른 벡터 검색을 위해 HNSW 인덱싱을 활성화하시겠습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1108 confirm.message"
+      ]
+    },
+    {
+      "key": "Enable neural pattern learning?",
+      "ko": "뉴럴 패턴 학습을 활성화하시겠습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1116 confirm.message"
+      ]
+    },
+    {
+      "key": "Enable self-learning memory? (LearningBridge + Knowledge Graph + Agent Scopes)",
+      "ko": "자가 학습 메모리를 활성화하시겠습니까? (LearningBridge + 지식 그래프 + 에이전트 스코프)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1124 confirm.message"
+      ]
+    },
+    {
+      "key": "Enable ONNX embedding system with hyperbolic support?",
+      "ko": "쌍곡 공간을 지원하는 ONNX 임베딩 시스템을 활성화하시겠습니까?",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1138 confirm.message"
+      ]
+    },
+    {
+      "key": "Select embedding model:",
+      "ko": "임베딩 모델 선택:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1145 select.message"
+      ]
+    },
+    {
+      "key": "MiniLM L6 (384d)",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1147 select.choice.label"
+      ]
+    },
+    {
+      "key": "Fast, good quality (recommended)",
+      "ko": "빠르고 품질 양호 (권장)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1147 select.choice.hint"
+      ]
+    },
+    {
+      "key": "MPNet Base (768d)",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1148 select.choice.label"
+      ]
+    },
+    {
+      "key": "Higher quality, more memory",
+      "ko": "더 높은 품질, 더 많은 메모리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1148 select.choice.hint"
+      ]
+    },
+    {
+      "key": "Setup complete!",
+      "ko": "설정을 완료했습니다!",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1168 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Embeddings configured",
+      "ko": "임베딩을 설정했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1225 success"
+      ]
+    },
+    {
+      "key": "Embeddings will be configured on first use",
+      "ko": "임베딩은 처음 사용할 때 설정됩니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1228 dim"
+      ]
+    },
+    {
+      "key": "Setting",
+      "ko": "설정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1237 printTable.header",
+        "src/commands/memory.ts:1346 printTable.header"
+      ]
+    },
+    {
+      "key": "Preset",
+      "ko": "프리셋",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1241 printTable.cell"
+      ]
+    },
+    {
+      "key": "Topology",
+      "ko": "토폴로지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1242 printTable.cell",
+        "src/commands/status.ts:255 printTable.cell",
+        "src/commands/swarm.ts:509 printTable.cell"
+      ]
+    },
+    {
+      "key": "Max Agents",
+      "ko": "최대 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1243 printTable.cell",
+        "src/commands/swarm.ts:510 printTable.cell"
+      ]
+    },
+    {
+      "key": "Memory Backend",
+      "ko": "메모리 백엔드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1244 printTable.cell",
+        "src/commands/status.ts:438 check.name"
+      ]
+    },
+    {
+      "key": "HNSW Indexing",
+      "ko": "HNSW 인덱싱",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1245 printTable.cell"
+      ]
+    },
+    {
+      "key": "Neural Learning",
+      "ko": "뉴럴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1246 printTable.cell"
+      ]
+    },
+    {
+      "key": "Self-Learning",
+      "ko": "자가 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1247 printTable.cell"
+      ]
+    },
+    {
+      "key": "Embeddings",
+      "ko": "임베딩",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1248 printTable.cell"
+      ]
+    },
+    {
+      "key": "Hooks",
+      "ko": "훅",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1252 printTable.cell"
+      ]
+    },
+    {
+      "key": "Setup cancelled",
+      "ko": "설정을 취소했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1261 printInfo"
+      ]
+    },
+    {
+      "key": "RuFlo is initialized",
+      "ko": "RuFlo가 초기화되어 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1292 printSuccess"
+      ]
+    },
+    {
+      "key": "Claude Code: .claude/settings.json",
+      "ko": "Claude Code: .claude/settings.json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1294 printInfo"
+      ]
+    },
+    {
+      "key": "V3 Runtime: .claude-flow/config.yaml",
+      "ko": "V3 런타임: .claude-flow/config.yaml",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1297 printInfo"
+      ]
+    },
+    {
+      "key": "RuFlo is not initialized in this directory",
+      "ko": "이 디렉터리에는 RuFlo가 초기화되어 있지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1300 printWarning",
+        "src/commands/start.ts:99 printError",
+        "src/commands/status.ts:363 printError"
+      ]
+    },
+    {
+      "key": "Run \"ruflo init\" to initialize",
+      "ko": "초기화하려면 \"ruflo init\"을 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1301 printInfo",
+        "src/commands/status.ts:364 printInfo"
+      ]
+    },
+    {
+      "key": "Installing skills...",
+      "ko": "스킬을 설치하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1347 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Installed {0} skills",
+      "ko": "스킬 {0}개를 설치했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1353 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Failed to install skills",
+      "ko": "스킬을 설치하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1364 spinner.fail"
+      ]
+    },
+    {
+      "key": "Creating hooks configuration...",
+      "ko": "훅 설정을 생성하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1423 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Created settings.json with {0} hooks enabled",
+      "ko": "훅 {0}개를 활성화한 settings.json을 생성했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1429 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Failed to create hooks configuration",
+      "ko": "훅 설정을 생성하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1440 spinner.fail"
+      ]
+    },
+    {
+      "key": "Upgrading RuFlo",
+      "ko": "RuFlo 업그레이드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1495 bold"
+      ]
+    },
+    {
+      "key": "Updates helpers, settings, and adds any missing skills/agents/commands",
+      "ko": "헬퍼와 설정을 업데이트하고 누락된 skills/agents/commands를 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1497 dim"
+      ]
+    },
+    {
+      "key": "Updates helpers and adds any missing skills/agents/commands",
+      "ko": "헬퍼를 업데이트하고 누락된 skills/agents/commands를 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1499 dim"
+      ]
+    },
+    {
+      "key": "Updates helpers and merges new settings (Agent Teams, hooks)",
+      "ko": "헬퍼를 업데이트하고 새 설정(Agent Teams, 훅)을 병합합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1501 dim"
+      ]
+    },
+    {
+      "key": "Updates helpers while preserving your existing data",
+      "ko": "기존 데이터를 보존하면서 헬퍼를 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1503 dim"
+      ]
+    },
+    {
+      "key": "Upgrading helpers and settings...",
+      "ko": "헬퍼와 설정을 업그레이드하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1510 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Upgrading and adding missing assets...",
+      "ko": "업그레이드하고 누락된 자산을 추가하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1510 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Upgrading...",
+      "ko": "업그레이드하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1510 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Upgrade failed",
+      "ko": "업그레이드하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1519 spinner.fail",
+        "src/commands/init.ts:1639 spinner.fail"
+      ]
+    },
+    {
+      "key": "Upgrade complete!",
+      "ko": "업그레이드를 완료했습니다!",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1526 spinner.succeed"
+      ]
+    },
+    {
+      "key": "Updated (latest version)",
+      "ko": "업데이트됨 (최신 버전)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1542 printBox.title"
+      ]
+    },
+    {
+      "key": "Created (new files)",
+      "ko": "생성됨 (새 파일)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1551 printBox.title"
+      ]
+    },
+    {
+      "key": "Preserved (existing data kept)",
+      "ko": "보존됨 (기존 데이터 유지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1560 printBox.title"
+      ]
+    },
+    {
+      "key": "Preserved {0} existing data files",
+      "ko": "기존 데이터 파일 {0}개를 보존했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1564 printInfo"
+      ]
+    },
+    {
+      "key": "Added Skills ({0} new)",
+      "ko": "추가된 스킬 (신규 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1572 printBox.title"
+      ]
+    },
+    {
+      "key": "Added Agents ({0} new)",
+      "ko": "추가된 에이전트 (신규 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1580 printBox.title"
+      ]
+    },
+    {
+      "key": "Added Commands ({0} new)",
+      "ko": "추가된 명령어 (신규 {0}개)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1588 printBox.title"
+      ]
+    },
+    {
+      "key": "Settings Updated",
+      "ko": "설정 업데이트됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1597 printBox.title"
+      ]
+    },
+    {
+      "key": "Your statusline helper has been updated to the latest version",
+      "ko": "상태 표시줄 헬퍼를 최신 버전으로 업데이트했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1615 printSuccess"
+      ]
+    },
+    {
+      "key": "Existing metrics and learning data were preserved",
+      "ko": "기존 메트릭과 학습 데이터를 보존했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1616 printInfo"
+      ]
+    },
+    {
+      "key": "Settings.json updated with new Agent Teams configuration",
+      "ko": "새 Agent Teams 설정으로 settings.json을 업데이트했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1620 printSuccess"
+      ]
+    },
+    {
+      "key": "Added {0} missing assets to your project",
+      "ko": "누락된 자산 {0}개를 프로젝트에 추가했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1627 printSuccess"
+      ]
+    },
+    {
+      "key": "All skills, agents, and commands are already up to date",
+      "ko": "모든 스킬, 에이전트, 명령어가 이미 최신입니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/init.ts:1629 printInfo"
+      ]
+    },
+    {
+      "key": "Failed to upgrade: {0}",
+      "ko": "업그레이드하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/init.ts:1640 printError"
+      ]
+    }
+  ],
+  "obsolete": []
+}

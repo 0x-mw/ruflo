@@ -1,3 +1,7 @@
+---
+description: 스웜 초기화
+---
+
 # swarm init
 
 Initialize a Claude Flow swarm with specified topology and configuration.

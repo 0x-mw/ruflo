@@ -1,3 +1,7 @@
+---
+description: 자동화 명령어
+---
+
 # Automation Commands
 
 Commands for automation operations in Claude Flow.

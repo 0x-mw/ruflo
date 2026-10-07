@@ -1,0 +1,48 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/nav.ts",
+  "entries": [
+    {
+      "key": "find a page",
+      "ko": "화면 찾기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/nav.ts:91 placeholder"
+      ]
+    },
+    {
+      "key": "MAIN",
+      "ko": "메인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/nav.ts:97 label"
+      ]
+    },
+    {
+      "key": "no page matches “{0}” — try a name, a group or what it does",
+      "ko": "“{0}”에 맞는 화면이 없습니다 — 이름, 그룹, 기능으로 찾아보세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/nav.ts:102 children"
+      ]
+    },
+    {
+      "key": "{0} found for “{1}”",
+      "ko": "“{1}” 검색 결과 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/nav.ts:106 children"
+      ]
+    },
+    {
+      "key": "{0} found for “{1}” — Enter again on one name opens it",
+      "ko": "“{1}” 검색 결과 {0}개 — 이름 하나에서 Enter를 다시 누르면 열립니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/nav.ts:106 children"
+      ]
+    }
+  ],
+  "obsolete": []
+}

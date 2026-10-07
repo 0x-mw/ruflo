@@ -1,6 +1,6 @@
 ---
 name: gaia-history
-description: Show measured benchmark runs stored across sessions in the gaia-runs memory namespace
+description: gaia-runs 메모리 네임스페이스에 세션 간 저장된 실측 벤치마크 실행을 표시
 argument-hint: "[--limit=20] [--level=1] [--model=<id>]"
 ---
 

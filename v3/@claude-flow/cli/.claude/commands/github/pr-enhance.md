@@ -1,3 +1,7 @@
+---
+description: PR 개선
+---
+
 # pr-enhance
 
 AI-powered pull request enhancements.

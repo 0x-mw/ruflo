@@ -1,6 +1,6 @@
 ---
 name: "V3 MCP Optimization"
-description: "MCP server optimization and transport layer enhancement for claude-flow v3. Implements connection pooling, load balancing, tool registry optimization, and performance monitoring for sub-100ms response times."
+description: "claude-flow v3의 MCP 서버 최적화와 전송 계층 개선입니다. 100ms 미만 응답 시간을 위해 연결 풀링, 로드 밸런싱, 도구 레지스트리 최적화, 성능 모니터링을 구현합니다."
 ---
 
 # V3 MCP Optimization

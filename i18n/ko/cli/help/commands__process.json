@@ -1,0 +1,362 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/process.ts",
+  "entries": [
+    {
+      "key": "Manage background daemon process",
+      "ko": "백그라운드 데몬 프로세스를 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:50 description"
+      ]
+    },
+    {
+      "key": "Action to perform",
+      "ko": "수행할 동작",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:55 description",
+        "src/commands/process.ts:413 description"
+      ]
+    },
+    {
+      "key": "Port for daemon HTTP API",
+      "ko": "데몬 HTTP API 포트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:62 description"
+      ]
+    },
+    {
+      "key": "PID file location",
+      "ko": "PID 파일 위치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:68 description"
+      ]
+    },
+    {
+      "key": "Log file location",
+      "ko": "로그 파일 위치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:74 description"
+      ]
+    },
+    {
+      "key": "Run in detached mode",
+      "ko": "분리 모드로 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:80 description"
+      ]
+    },
+    {
+      "key": "Restart on different port",
+      "ko": "다른 포트로 재시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:87 description"
+      ]
+    },
+    {
+      "key": "Real-time process and resource monitoring",
+      "ko": "실시간 프로세스 및 리소스 모니터링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:210 description"
+      ]
+    },
+    {
+      "key": "Refresh interval in seconds",
+      "ko": "새로고침 간격(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:215 description"
+      ]
+    },
+    {
+      "key": "Output format",
+      "ko": "출력 형식",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:221 description",
+        "src/commands/ruvector/backup.ts:60 description"
+      ]
+    },
+    {
+      "key": "Components to monitor (comma-separated)",
+      "ko": "모니터링할 구성 요소 (쉼표로 구분)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:228 description"
+      ]
+    },
+    {
+      "key": "Continuous monitoring mode",
+      "ko": "연속 모니터링 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:234 description"
+      ]
+    },
+    {
+      "key": "Enable threshold alerts",
+      "ko": "임계값 경고를 활성화합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:240 description"
+      ]
+    },
+    {
+      "key": "Show process dashboard",
+      "ko": "프로세스 대시보드를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:245 description"
+      ]
+    },
+    {
+      "key": "Watch mode",
+      "ko": "감시 모드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:246 description"
+      ]
+    },
+    {
+      "key": "Monitor specific components",
+      "ko": "특정 구성 요소를 모니터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:247 description"
+      ]
+    },
+    {
+      "key": "Manage background worker processes",
+      "ko": "백그라운드 워커 프로세스를 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:408 description"
+      ]
+    },
+    {
+      "key": "Number of workers",
+      "ko": "워커 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:426 description"
+      ]
+    },
+    {
+      "key": "Worker ID (for kill action)",
+      "ko": "워커 ID (kill 동작용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:432 description"
+      ]
+    },
+    {
+      "key": "Spawn task workers",
+      "ko": "작업 워커를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:437 description"
+      ]
+    },
+    {
+      "key": "Kill specific worker",
+      "ko": "특정 워커를 종료합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:438 description"
+      ]
+    },
+    {
+      "key": "Scale memory workers",
+      "ko": "메모리 워커를 확장합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:439 description"
+      ]
+    },
+    {
+      "key": "Send signals to managed processes",
+      "ko": "관리 중인 프로세스에 시그널을 보냅니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:519 description"
+      ]
+    },
+    {
+      "key": "Target process or group",
+      "ko": "대상 프로세스 또는 그룹",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:524 description"
+      ]
+    },
+    {
+      "key": "Signal to send",
+      "ko": "보낼 시그널",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:530 description"
+      ]
+    },
+    {
+      "key": "Timeout in seconds",
+      "ko": "타임아웃(초)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:537 description"
+      ]
+    },
+    {
+      "key": "Graceful shutdown",
+      "ko": "정상 종료",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:542 description"
+      ]
+    },
+    {
+      "key": "Pause workers",
+      "ko": "워커를 일시 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:543 description"
+      ]
+    },
+    {
+      "key": "Reload all configs",
+      "ko": "모든 설정을 다시 불러옵니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:544 description"
+      ]
+    },
+    {
+      "key": "View and manage process logs",
+      "ko": "프로세스 로그를 조회하고 관리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:581 description"
+      ]
+    },
+    {
+      "key": "Log source",
+      "ko": "로그 소스",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:586 description"
+      ]
+    },
+    {
+      "key": "Number of lines to show",
+      "ko": "표시할 줄 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:593 description"
+      ]
+    },
+    {
+      "key": "Show logs since timestamp or duration",
+      "ko": "지정한 시각 또는 기간 이후의 로그를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:612 description"
+      ]
+    },
+    {
+      "key": "Filter logs by pattern",
+      "ko": "패턴으로 로그를 필터링합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:617 description"
+      ]
+    },
+    {
+      "key": "Show recent logs",
+      "ko": "최근 로그를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:621 description"
+      ]
+    },
+    {
+      "key": "Daemon logs",
+      "ko": "데몬 로그",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:622 description"
+      ]
+    },
+    {
+      "key": "Follow error logs",
+      "ko": "오류 로그를 따라갑니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:623 description"
+      ]
+    },
+    {
+      "key": "Search logs",
+      "ko": "로그를 검색합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:624 description"
+      ]
+    },
+    {
+      "key": "Background process management, daemon, and monitoring",
+      "ko": "백그라운드 프로세스 관리, 데몬, 모니터링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:703 description"
+      ]
+    },
+    {
+      "key": "Show help for process command",
+      "ko": "process 명령어의 도움말을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:711 description"
+      ]
+    },
+    {
+      "key": "Start daemon",
+      "ko": "데몬을 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:715 description"
+      ]
+    },
+    {
+      "key": "Watch processes",
+      "ko": "프로세스를 감시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:716 description"
+      ]
+    },
+    {
+      "key": "List workers",
+      "ko": "워커 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:717 description"
+      ]
+    },
+    {
+      "key": "Follow logs",
+      "ko": "로그를 따라갑니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/process.ts:718 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

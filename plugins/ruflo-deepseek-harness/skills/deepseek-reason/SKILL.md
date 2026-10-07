@@ -1,6 +1,6 @@
 ---
 name: deepseek-reason
-description: "Reasoning-mode completion against DeepSeek's `deepseek-reasoner` model (R1) via /v1/chat/completions. Surfaces the model's chain-of-thought (`reasoning_content`) separately from the final answer (`content`), so callers can display or discard the CoT without re-parsing. Reads DEEPSEEK_API_KEY; degrades gracefully (exit 0 with status:degraded envelope) when unset or the API is unreachable. Ignores temperature/top_p per DeepSeek's spec for reasoner models."
+description: "/v1/chat/completions로 DeepSeek의 `deepseek-reasoner` 모델(R1)에 추론 모드 완성을 요청합니다. 모델의 사고 연쇄(`reasoning_content`)를 최종 답(`content`)과 분리해 제공하므로, 호출자가 다시 파싱하지 않고도 사고 연쇄를 표시하거나 버릴 수 있습니다. DEEPSEEK_API_KEY를 읽으며, 설정되지 않았거나 API에 접근할 수 없으면 status:degraded 엔벨로프와 함께 exit 0으로 단계적으로 축소됩니다. DeepSeek 명세에 따라 reasoner 모델의 temperature/top_p는 무시합니다."
 argument-hint: "--prompt <text> [--system <text>] [--model deepseek-reasoner] [--max-tokens 4096] [--show-reasoning] [--format table|json] [--alert-on-error]"
 allowed-tools: Bash
 ---

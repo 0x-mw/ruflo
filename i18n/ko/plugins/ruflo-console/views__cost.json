@@ -1,0 +1,339 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/cost.ts",
+  "entries": [
+    {
+      "key": "Set a budget",
+      "ko": "예산 설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:23 rule()"
+      ]
+    },
+    {
+      "key": "custom USD",
+      "ko": "직접 입력 USD",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:26 label"
+      ]
+    },
+    {
+      "key": "Set custom budget",
+      "ko": "직접 예산 설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:27 button()"
+      ]
+    },
+    {
+      "key": "Changes costBudgetUsd only; restart/reload may be needed. AI terminal cap stays $1 per Claude turn.",
+      "ko": "costBudgetUsd 만 변경합니다. 재시작 또는 다시 불러오기가 필요할 수 있습니다. AI 터미널 상한은 Claude 턴당 $1 로 유지됩니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:28 text()"
+      ]
+    },
+    {
+      "key": "Budget setter unavailable: {0}",
+      "ko": "예산 설정을 사용할 수 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:28 text()"
+      ]
+    },
+    {
+      "key": "Where it goes",
+      "ko": "지출 내역",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:40 rule()"
+      ]
+    },
+    {
+      "key": "reported USD · sources are not additive",
+      "ko": "보고된 USD · 출처끼리 합산할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:40 rule()"
+      ]
+    },
+    {
+      "key": "{0} · this session",
+      "ko": "{0} · 이번 세션",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:42 kv()"
+      ]
+    },
+    {
+      "key": "AI terminal",
+      "ko": "AI 터미널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:43 kv()",
+        "plugins/ruflo-console/hooks/views/settings.ts:353 section()"
+      ]
+    },
+    {
+      "key": "{0} · reported subtotal this session ({1} cost reports)",
+      "ko": "{0} · 이번 세션 보고 소계 (비용 보고 {1}건)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:43 kv()"
+      ]
+    },
+    {
+      "key": "terminal turns",
+      "ko": "터미널 턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:44 kv()"
+      ]
+    },
+    {
+      "key": "codex {0} · claude {1} · per-agent dollars n/a",
+      "ko": "codex {0} · claude {1} · 에이전트별 금액 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:44 kv()"
+      ]
+    },
+    {
+      "key": "n/a USD · tokens n/a · {0} decisions",
+      "ko": "USD 없음 · 토큰 없음 · 결정 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:45 kv()"
+      ]
+    },
+    {
+      "key": "n/a USD · tokens n/a · n/a decisions",
+      "ko": "USD 없음 · 토큰 없음 · 결정 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:45 kv()"
+      ]
+    },
+    {
+      "key": "n/a USD · tokens n/a · router unavailable",
+      "ko": "USD 없음 · 토큰 없음 · 라우터 사용 불가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:45 kv()"
+      ]
+    },
+    {
+      "key": "{0} routes · spend n/a · tokens n/a",
+      "ko": "라우트 {0}개 · 지출 없음 · 토큰 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:46 kv()"
+      ]
+    },
+    {
+      "key": "Router counts are persisted across sessions, not bills. Missing cost reports are not zero.",
+      "ko": "라우터 횟수는 세션을 넘어 유지되며 청구액이 아닙니다. 비용 보고가 없다고 0 이 아닙니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:47 text()"
+      ]
+    },
+    {
+      "key": "headroom",
+      "ko": "여유",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:49 kv()"
+      ]
+    },
+    {
+      "key": "{0} · ruflo-mods budget · over by {1}",
+      "ko": "{0} · ruflo-mods 예산 · {1} 초과",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:49 kv()"
+      ]
+    },
+    {
+      "key": "{0} · ruflo-mods budget",
+      "ko": "{0} · ruflo-mods 예산",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:49 kv()"
+      ]
+    },
+    {
+      "key": "Inspect model stats",
+      "ko": "모델 통계 조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:50 button()"
+      ]
+    },
+    {
+      "key": "Refresh cost",
+      "ko": "비용 새로고침",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:50 button()"
+      ]
+    },
+    {
+      "key": "context",
+      "ko": "컨텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:65 kv()"
+      ]
+    },
+    {
+      "key": "{0}% of the window",
+      "ko": "윈도우의 {0}%",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:65 kv()"
+      ]
+    },
+    {
+      "key": "budget",
+      "ko": "예산",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:67 kv()",
+        "plugins/ruflo-console/hooks/views/cost.ts:71 kv()"
+      ]
+    },
+    {
+      "key": "n/a — ruflo-mods not seated",
+      "ko": "사용 불가 — ruflo-mods 가 설치되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:67 kv()"
+      ]
+    },
+    {
+      "key": "none set · choose a preset or custom amount",
+      "ko": "설정 안 됨 · 프리셋 또는 직접 금액을 선택하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:67 kv()"
+      ]
+    },
+    {
+      "key": "Alert thresholds",
+      "ko": "경고 임계값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:76 rule()"
+      ]
+    },
+    {
+      "key": "OK below 50%",
+      "ko": "50% 미만 OK",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:76 rule()"
+      ]
+    },
+    {
+      "key": "HARD_STOP blocks new agents only when ruflo-mods costHardStop is enabled.",
+      "ko": "HARD_STOP 은 ruflo-mods costHardStop 이 활성화된 경우에만 새 에이전트를 차단합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:78 text()"
+      ]
+    },
+    {
+      "key": "Burn",
+      "ko": "소모",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:79 rule()"
+      ]
+    },
+    {
+      "key": "{0} samples since the console loaded",
+      "ko": "콘솔 로드 이후 샘플 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:79 rule()"
+      ]
+    },
+    {
+      "key": "spend since load: {0}",
+      "ko": "로드 이후 지출: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:80 picture()"
+      ]
+    },
+    {
+      "key": "spend since load: n/a",
+      "ko": "로드 이후 지출: 정보 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:80 picture()"
+      ]
+    },
+    {
+      "key": "burn rate",
+      "ko": "소모 속도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:81 kv()"
+      ]
+    },
+    {
+      "key": "n/a — need a budget and 3 samples spanning at least 60 s",
+      "ko": "사용 불가 — 예산과 60초 이상에 걸친 샘플 3개가 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:81 kv()"
+      ]
+    },
+    {
+      "key": "${0}/min · last 20 observations at most",
+      "ko": "${0}/분 · 최근 관측 최대 20개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:81 kv()"
+      ]
+    },
+    {
+      "key": "Budget already reached.",
+      "ko": "예산에 이미 도달했습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:82 text()"
+      ]
+    },
+    {
+      "key": "Budget reached in: n/a — needs a budget and positive measured burn.",
+      "ko": "예산 도달까지: 정보 없음 — 예산과 0 보다 큰 측정 소모량이 필요합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:82 text()"
+      ]
+    },
+    {
+      "key": "At this rate the budget is reached in ~{0} min.",
+      "ko": "이 속도면 약 {0}분 후 예산에 도달합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:82 text()"
+      ]
+    },
+    {
+      "key": "cost",
+      "ko": "비용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/cost.ts:84 col()",
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:52 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

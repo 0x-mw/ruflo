@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 (hive-mind)
+---
+
 # hive-mind
 
 Hive Mind collective intelligence system for advanced swarm coordination.

@@ -1,0 +1,322 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/agent-wasm.ts",
+  "entries": [
+    {
+      "key": "@ruvector/rvagent-wasm is not installed.",
+      "ko": "@ruvector/rvagent-wasm 이(가) 설치되어 있지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:35 printWarning",
+        "src/commands/agent-wasm.ts:148 printError",
+        "src/commands/agent-wasm.ts:238 printError"
+      ]
+    },
+    {
+      "key": "Install it with: npm install @ruvector/rvagent-wasm",
+      "ko": "다음 명령으로 설치하세요: npm install @ruvector/rvagent-wasm",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:35 printWarning",
+        "src/commands/agent-wasm.ts:148 printError",
+        "src/commands/agent-wasm.ts:238 printError"
+      ]
+    },
+    {
+      "key": "WASM Agent Runtime",
+      "ko": "WASM 에이전트 런타임",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:72 bold"
+      ]
+    },
+    {
+      "key": "Property",
+      "ko": "속성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:76 printTable.header",
+        "src/commands/agent-wasm.ts:175 printTable.header",
+        "src/commands/agent.ts:174 printTable.header"
+      ]
+    },
+    {
+      "key": "Value",
+      "ko": "값",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:77 printTable.header",
+        "src/commands/agent-wasm.ts:176 printTable.header",
+        "src/commands/agent.ts:175 printTable.header"
+      ]
+    },
+    {
+      "key": "Available",
+      "ko": "사용 가능",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:80 printTable.cell"
+      ]
+    },
+    {
+      "key": "Active Agents",
+      "ko": "활성 에이전트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:81 printTable.cell",
+        "src/commands/agent.ts:259 bold"
+      ]
+    },
+    {
+      "key": "Gallery Templates",
+      "ko": "갤러리 템플릿",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:82 printTable.cell"
+      ]
+    },
+    {
+      "key": "Sandbox Tools",
+      "ko": "샌드박스 도구",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:83 printTable.cell"
+      ]
+    },
+    {
+      "key": "Features",
+      "ko": "기능",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:84 printTable.cell"
+      ]
+    },
+    {
+      "key": "Gallery Categories",
+      "ko": "갤러리 카테고리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:90 bold"
+      ]
+    },
+    {
+      "key": "Category",
+      "ko": "카테고리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:93 printTable.header",
+        "src/commands/agent-wasm.ts:337 printTable.header",
+        "src/commands/memory.ts:1470 printTable.header"
+      ]
+    },
+    {
+      "key": "Templates",
+      "ko": "템플릿",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:94 printTable.header"
+      ]
+    },
+    {
+      "key": "WASM status check failed: {0}",
+      "ko": "WASM 상태를 점검하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:102 printError"
+      ]
+    },
+    {
+      "key": "Creating WASM agent from template: {0}",
+      "ko": "템플릿으로 WASM 에이전트를 만드는 중: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:156 printInfo"
+      ]
+    },
+    {
+      "key": "Creating WASM agent...",
+      "ko": "WASM 에이전트를 만드는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:159 printInfo"
+      ]
+    },
+    {
+      "key": "ID",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:179 printTable.cell",
+        "src/commands/agent-wasm.ts:335 printTable.header",
+        "src/commands/agent.ts:178 printTable.cell"
+      ]
+    },
+    {
+      "key": "State",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:180 printTable.cell"
+      ]
+    },
+    {
+      "key": "Model",
+      "ko": "모델",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:181 printTable.cell",
+        "src/commands/init.ts:842 dim"
+      ]
+    },
+    {
+      "key": "Turn Count",
+      "ko": "턴 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:182 printTable.cell"
+      ]
+    },
+    {
+      "key": "File Count",
+      "ko": "파일 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:183 printTable.cell"
+      ]
+    },
+    {
+      "key": "Created",
+      "ko": "생성 시각",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:184 printTable.cell",
+        "src/commands/agent.ts:182 printTable.cell",
+        "src/commands/agent.ts:283 printTable.header"
+      ]
+    },
+    {
+      "key": "WASM agent created: {0}",
+      "ko": "WASM 에이전트를 만들었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:190 printSuccess"
+      ]
+    },
+    {
+      "key": "Failed to create WASM agent: {0}",
+      "ko": "WASM 에이전트를 만들지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:194 printError"
+      ]
+    },
+    {
+      "key": "Agent ID is required. Use --agent-id or -a",
+      "ko": "에이전트 ID가 필요합니다. --agent-id 또는 -a 를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:226 printError"
+      ]
+    },
+    {
+      "key": "Prompt input is required. Use --input or -i",
+      "ko": "프롬프트 입력이 필요합니다. --input 또는 -i 를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:230 printError"
+      ]
+    },
+    {
+      "key": "Sending prompt to {0}...",
+      "ko": "프롬프트를 보내는 중: {0}...",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:242 printInfo"
+      ]
+    },
+    {
+      "key": "Response",
+      "ko": "응답",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:251 bold"
+      ]
+    },
+    {
+      "key": "[turns: {0}, files: {1}, state: {2}]",
+      "ko": "[턴: {0}, 파일: {1}, 상태: {2}]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:259 dim"
+      ]
+    },
+    {
+      "key": "Prompt failed: {0}",
+      "ko": "프롬프트를 처리하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:264 printError"
+      ]
+    },
+    {
+      "key": "Searching gallery for: {0}",
+      "ko": "갤러리에서 검색하는 중: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:306 printInfo"
+      ]
+    },
+    {
+      "key": "WASM Agent Gallery",
+      "ko": "WASM 에이전트 갤러리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:325 bold"
+      ]
+    },
+    {
+      "key": "No templates found matching criteria",
+      "ko": "조건에 맞는 템플릿이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:329 printInfo"
+      ]
+    },
+    {
+      "key": "Name",
+      "ko": "이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:336 printTable.header",
+        "src/commands/agent.ts:180 printTable.cell",
+        "src/commands/session.ts:151 printTable.header"
+      ]
+    },
+    {
+      "key": "Version",
+      "ko": "버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agent-wasm.ts:339 printTable.header"
+      ]
+    },
+    {
+      "key": "{0} template(s) found. Create with: agent wasm-create -t <id>",
+      "ko": "템플릿 {0}개를 찾았습니다. 만들려면: agent wasm-create -t <id>",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:351 printInfo"
+      ]
+    },
+    {
+      "key": "Gallery listing failed: {0}",
+      "ko": "갤러리 목록을 가져오지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/agent-wasm.ts:355 printError"
+      ]
+    }
+  ],
+  "obsolete": []
+}

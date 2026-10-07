@@ -1,0 +1,232 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/alerts.ts",
+  "entries": [
+    {
+      "key": "self-check: {0} failed — {1}",
+      "ko": "자체 점검: {0} 실패 — {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:40 expr"
+      ]
+    },
+    {
+      "key": "self-check: {0} failed —",
+      "ko": "자체 점검: {0} 실패 —",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:40 expr"
+      ]
+    },
+    {
+      "key": "{0} busy with no change for {1}m",
+      "ko": "{0}이(가) {1}m 동안 변화 없이 작업 중",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:51 text"
+      ]
+    },
+    {
+      "key": "claim {0} expired (held by {1})",
+      "ko": "클레임 {0} 만료 (보유: {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:57 text"
+      ]
+    },
+    {
+      "key": "release it (palette: release)",
+      "ko": "해제하세요 (팔레트: release)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:57 fix"
+      ]
+    },
+    {
+      "key": "claim {0} active for {1}d",
+      "ko": "클레임 {0}이(가) {1}d 동안 활성",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:59 text"
+      ]
+    },
+    {
+      "key": "hand off or release it if the work stopped",
+      "ko": "작업이 멈췄다면 인계하거나 해제하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:59 fix"
+      ]
+    },
+    {
+      "key": "budget {0}: ${1} of ${2}",
+      "ko": "예산 {0}: ${2} 중 ${1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:66 text"
+      ]
+    },
+    {
+      "key": "see Cost (9); raise costBudgetUsd in /config ruflo-mods",
+      "ko": "비용 (9) 화면을 확인하고 /config ruflo-mods에서 costBudgetUsd를 올리세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:66 fix"
+      ]
+    },
+    {
+      "key": "marketplace clone stale: no {0}",
+      "ko": "마켓플레이스 클론이 오래되었습니다: {0} 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:70 text"
+      ]
+    },
+    {
+      "key": "/plugin marketplace update {0}",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:70 fix"
+      ]
+    },
+    {
+      "key": "daemon stopped (per daemon-state.json)",
+      "ko": "데몬 중지됨 (daemon-state.json 기준)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:73 text"
+      ]
+    },
+    {
+      "key": "mod {0} refused",
+      "ko": "mod {0} 거부됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:77 text"
+      ]
+    },
+    {
+      "key": "allow {0} in ruflo-mods modTrustAllow, if you trust it",
+      "ko": "신뢰한다면 ruflo-mods modTrustAllow에서 {0}을 허용하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:77 fix"
+      ]
+    },
+    {
+      "key": "hive-mind proposal: {0} ({1})",
+      "ko": "hive-mind 제안: {0} ({1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:92 text"
+      ]
+    },
+    {
+      "key": "{0} · for {1} · against {2} · {3}",
+      "ko": "{0} · 찬성 {1} · 반대 {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:93 detail"
+      ]
+    },
+    {
+      "key": "vote yes",
+      "ko": "찬성 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:95 label"
+      ]
+    },
+    {
+      "key": "vote no",
+      "ko": "반대 투표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:96 label"
+      ]
+    },
+    {
+      "key": "claim {0} offered for stealing",
+      "ko": "클레임 {0}을 가로챌 수 있음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:102 text"
+      ]
+    },
+    {
+      "key": "held by {0}; pick an agent (a) and steal",
+      "ko": "보유: {0}. 에이전트(a)를 선택해 가로채세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:102 detail"
+      ]
+    },
+    {
+      "key": "steal for picked agent",
+      "ko": "선택한 에이전트로 가로채기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:102 label"
+      ]
+    },
+    {
+      "key": "mod {0} refused by a trust gate",
+      "ko": "mod {0}이(가) 신뢰 게이트에서 거부됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:106 text"
+      ]
+    },
+    {
+      "key": "{0} — to allow it, add {1} to modTrustAllow (/config ruflo-mods)",
+      "ko": "{0} — 허용하려면 modTrustAllow에 {1}을 추가하세요 (/config ruflo-mods)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:106 detail"
+      ]
+    },
+    {
+      "key": "— to allow it, add {0} to modTrustAllow (/config ruflo-mods)",
+      "ko": "— 허용하려면 modTrustAllow에 {0}을 추가하세요 (/config ruflo-mods)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:106 detail"
+      ]
+    },
+    {
+      "key": "{0} denied by a permission verdict",
+      "ko": "{0}이(가) 권한 판정으로 거부됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:110 text"
+      ]
+    },
+    {
+      "key": "{0} — a deny is never loosened from here; change the policy if it is wrong",
+      "ko": "{0} — 거부는 여기서 완화되지 않습니다. 잘못되었다면 정책을 바꾸세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:110 detail"
+      ]
+    },
+    {
+      "key": "budget {0}",
+      "ko": "예산 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:116 text"
+      ]
+    },
+    {
+      "key": "open Cost",
+      "ko": "비용 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/alerts.ts:116 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

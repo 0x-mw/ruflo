@@ -1,0 +1,154 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/harness.ts",
+  "entries": [
+    {
+      "key": "codex",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:25 label"
+      ]
+    },
+    {
+      "key": "codex exec, read-only sandbox, one thread per project · billed to your OpenAI plan",
+      "ko": "codex exec, 읽기 전용 샌드박스, 프로젝트당 스레드 하나 · OpenAI 요금제로 과금",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:25 about"
+      ]
+    },
+    {
+      "key": "codex and claude together: one question to both, answering side by side in their own sessions",
+      "ko": "codex와 claude를 함께: 질문 하나를 둘에게 보내 각자의 세션에서 나란히 답합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:26 about"
+      ]
+    },
+    {
+      "key": "one ruflo CLI command, split on spaces with no shell (swarm status, memory search -q auth) · asked each time",
+      "ko": "ruflo CLI 명령어 하나, 셸 없이 공백으로 나눠 실행 (swarm status, memory search -q auth) · 매번 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:27 about"
+      ]
+    },
+    {
+      "key": "type something first",
+      "ko": "먼저 내용을 입력하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:106 return"
+      ]
+    },
+    {
+      "key": "{0} is still answering: wait, or stop it (s)",
+      "ko": "{0}이(가) 아직 답하는 중입니다. 기다리거나 중지하세요 (s)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:107 return"
+      ]
+    },
+    {
+      "key": "that is not one ruflo command (1 to 40 words)",
+      "ko": "ruflo 명령어 하나가 아닙니다 (1~40단어)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:108 return"
+      ]
+    },
+    {
+      "key": "{0} a {1} session: {2}",
+      "ko": "{1} 세션 {0}: {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:133 label"
+      ]
+    },
+    {
+      "key": "{0}  (your text on stdin)",
+      "ko": "{0}  (입력한 텍스트를 stdin으로 전달)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:135 expr"
+      ]
+    },
+    {
+      "key": "its output in the terminal",
+      "ko": "터미널에 출력됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:136 expect"
+      ]
+    },
+    {
+      "key": "── new {0} session: the next question starts fresh ──",
+      "ko": "── 새 {0} 세션: 다음 질문부터 새로 시작합니다 ──",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:166 note()"
+      ]
+    },
+    {
+      "key": "{0} · ${1} · {2} tokens",
+      "ko": "{0} · ${1} · 토큰 {2}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:223 expr"
+      ]
+    },
+    {
+      "key": "{0} · {1} tokens",
+      "ko": "{0} · 토큰 {1}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:223 expr"
+      ]
+    },
+    {
+      "key": "{0} did not start: {1}",
+      "ko": "{0} 시작하지 못했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:232 note()"
+      ]
+    },
+    {
+      "key": "no answer read from {0} {1} event: has its --json format changed?",
+      "ko": "{0} 이벤트 {1}건에서 답을 읽지 못했습니다: --json 형식이 바뀌었나요?",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:281 note()"
+      ]
+    },
+    {
+      "key": "no answer read from {0} {1} events: has its --json format changed?",
+      "ko": "{0} 이벤트 {1}건에서 답을 읽지 못했습니다: --json 형식이 바뀌었나요?",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:281 note()"
+      ]
+    },
+    {
+      "key": "stopped after {0}",
+      "ko": "{0} 후 중지됨",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:282 note()",
+        "plugins/ruflo-console/hooks/harness.ts:285 note()",
+        "plugins/ruflo-console/hooks/mission-loop.ts:129 text"
+      ]
+    },
+    {
+      "key": "{0}: {1} (is it installed and on PATH?)",
+      "ko": "{0}: {1} (설치되어 있고 PATH에 있나요?)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/harness.ts:285 note()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

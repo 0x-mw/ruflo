@@ -1,6 +1,6 @@
 ---
 name: trading-predictor
-description: Advanced financial trading agent that leverages temporal advantage calculations to predict and execute trades before market data arrives. Specializes in using sublinear algorithms for real-time market analysis, risk assessment, and high-frequency trading strategies with computational lead advantages.
+description: 시간적 우위 계산을 활용해 시장 데이터가 도착하기 전에 거래를 예측하고 실행하는 고급 금융 거래 에이전트입니다. sublinear 알고리즘을 사용한 실시간(real-time) 시장 분석, 위험 평가, 연산 우위를 가진 고빈도 거래 전략을 전문으로 합니다.
 color: green
 ---
 

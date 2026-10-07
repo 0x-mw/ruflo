@@ -1,0 +1,282 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/issues.ts",
+  "entries": [
+    {
+      "key": "List all issue claims",
+      "ko": "모든 이슈 클레임 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:30 description"
+      ]
+    },
+    {
+      "key": "Show only my claims",
+      "ko": "내 클레임만 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:42 description"
+      ]
+    },
+    {
+      "key": "Claim an issue",
+      "ko": "이슈를 클레임합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:96 description"
+      ]
+    },
+    {
+      "key": "Issue ID to claim",
+      "ko": "클레임할 이슈 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:101 description"
+      ]
+    },
+    {
+      "key": "Claim as agent (format: type:id)",
+      "ko": "에이전트로 클레임 (형식: type:id)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:107 description"
+      ]
+    },
+    {
+      "key": "Claim as user (format: id:name)",
+      "ko": "사용자로 클레임 (형식: id:name)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:113 description"
+      ]
+    },
+    {
+      "key": "Release a claim",
+      "ko": "클레임을 해제합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:161 description"
+      ]
+    },
+    {
+      "key": "Issue ID to release",
+      "ko": "해제할 이슈 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:166 description"
+      ]
+    },
+    {
+      "key": "Release as agent",
+      "ko": "에이전트로 해제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:172 description"
+      ]
+    },
+    {
+      "key": "Release as user",
+      "ko": "사용자로 해제",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:178 description"
+      ]
+    },
+    {
+      "key": "Request handoff to another agent/user",
+      "ko": "다른 에이전트/사용자에게 인계를 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:225 description"
+      ]
+    },
+    {
+      "key": "Issue ID",
+      "ko": "이슈 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:227 description",
+        "src/commands/issues.ts:280 description",
+        "src/commands/issues.ts:369 description"
+      ]
+    },
+    {
+      "key": "Target (agent:type:id or user:id:name)",
+      "ko": "대상 (agent:type:id 또는 user:id:name)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:228 description"
+      ]
+    },
+    {
+      "key": "Current owner",
+      "ko": "현재 소유자",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:229 description"
+      ]
+    },
+    {
+      "key": "Handoff reason",
+      "ko": "인계 사유",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:230 description"
+      ]
+    },
+    {
+      "key": "Update claim status",
+      "ko": "클레임 상태를 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:278 description"
+      ]
+    },
+    {
+      "key": "New status",
+      "ko": "새 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:281 description"
+      ]
+    },
+    {
+      "key": "Progress (0-100)",
+      "ko": "진행률 (0-100)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:282 description"
+      ]
+    },
+    {
+      "key": "Status note",
+      "ko": "상태 메모",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:283 description"
+      ]
+    },
+    {
+      "key": "List stealable issues",
+      "ko": "가로챌 수 있는 이슈 목록을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:332 description"
+      ]
+    },
+    {
+      "key": "Steal a stealable issue",
+      "ko": "가로챌 수 있는 이슈를 가로챕니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:367 description"
+      ]
+    },
+    {
+      "key": "Steal as agent",
+      "ko": "에이전트로 가로채기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:370 description"
+      ]
+    },
+    {
+      "key": "View agent load distribution",
+      "ko": "에이전트 부하 분포를 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:410 description"
+      ]
+    },
+    {
+      "key": "Specific agent ID",
+      "ko": "특정 에이전트 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:412 description"
+      ]
+    },
+    {
+      "key": "Rebalance work across swarm",
+      "ko": "스웜 전체의 작업을 재분배합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:466 description"
+      ]
+    },
+    {
+      "key": "Preview only",
+      "ko": "미리보기만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:468 description"
+      ]
+    },
+    {
+      "key": "Apply changes",
+      "ko": "변경 사항 적용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:469 description"
+      ]
+    },
+    {
+      "key": "Visual board view of claims",
+      "ko": "클레임을 보드 형태로 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:505 description"
+      ]
+    },
+    {
+      "key": "Collaborative issue claims for human-agent workflows (ADR-016)",
+      "ko": "사람-에이전트 워크플로를 위한 협업 이슈 클레임 (ADR-016)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:559 description"
+      ]
+    },
+    {
+      "key": "Claim as agent",
+      "ko": "에이전트로 클레임",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:574 description"
+      ]
+    },
+    {
+      "key": "Handoff to tester",
+      "ko": "tester에게 인계",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:575 description"
+      ]
+    },
+    {
+      "key": "List stealable",
+      "ko": "가로챌 수 있는 이슈 목록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:576 description"
+      ]
+    },
+    {
+      "key": "Steal issue",
+      "ko": "이슈 가로채기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:577 description"
+      ]
+    },
+    {
+      "key": "Visual board",
+      "ko": "비주얼 보드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/issues.ts:578 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

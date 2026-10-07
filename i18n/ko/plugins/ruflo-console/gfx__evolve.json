@@ -1,0 +1,254 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/gfx/evolve.ts",
+  "entries": [
+    {
+      "key": "OBSERVE",
+      "ko": "관찰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:22 expr",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:37 name",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:37 na()"
+      ]
+    },
+    {
+      "key": "PROPOSE",
+      "ko": "제안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:22 expr",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:38 name",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:38 na()"
+      ]
+    },
+    {
+      "key": "EVALUATE",
+      "ko": "평가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:22 expr",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:39 name",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:39 na()"
+      ]
+    },
+    {
+      "key": "VERIFY",
+      "ko": "검증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:22 expr",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:40 na()",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:40 name"
+      ]
+    },
+    {
+      "key": "REVERSE",
+      "ko": "되돌리기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:22 expr",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:43 na()",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:44 name"
+      ]
+    },
+    {
+      "key": "not read yet",
+      "ko": "아직 읽지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:22 na()",
+        "plugins/ruflo-console/hooks/plugin-catalog.ts:53 why",
+        "plugins/ruflo-console/hooks/views/automate.ts:225 rule()"
+      ]
+    },
+    {
+      "key": "receipts + generations on disk",
+      "ko": "디스크의 영수증 + 세대",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:37 source"
+      ]
+    },
+    {
+      "key": "no flywheel files",
+      "ko": "플라이휠 파일 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:37 na()",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:38 na()",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:39 na()"
+      ]
+    },
+    {
+      "key": "distinct candidate refs",
+      "ko": "고유 후보 참조",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:38 source"
+      ]
+    },
+    {
+      "key": "receipt decisions",
+      "ko": "영수증 결정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:39 source"
+      ]
+    },
+    {
+      "key": "LEDGER checks the hash chain",
+      "ko": "원장이 해시 체인을 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:40 na()"
+      ]
+    },
+    {
+      "key": "INVALID",
+      "ko": "무효",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:40 value"
+      ]
+    },
+    {
+      "key": "metaharness flywheel status",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:40 source"
+      ]
+    },
+    {
+      "key": "promotion commits + promoted generations",
+      "ko": "승격 커밋 + 승격된 세대",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:41 source"
+      ]
+    },
+    {
+      "key": "no harness-active-policy.json",
+      "ko": "harness-active-policy.json 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:43 na()"
+      ]
+    },
+    {
+      "key": "rolled back",
+      "ko": "롤백됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:44 value"
+      ]
+    },
+    {
+      "key": "no ptr",
+      "ko": "포인터 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:44 value"
+      ]
+    },
+    {
+      "key": "the active policy’s previous pointer",
+      "ko": "활성 정책의 이전 포인터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:44 source"
+      ]
+    },
+    {
+      "key": "next run",
+      "ko": "다음 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:87 text()"
+      ]
+    },
+    {
+      "key": "the first generation",
+      "ko": "첫 번째 세대",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:125 note"
+      ]
+    },
+    {
+      "key": "baseline",
+      "ko": "기준선",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:125 note"
+      ]
+    },
+    {
+      "key": "epoch {0} · receipt {1}",
+      "ko": "에폭 {0} · 영수증 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:144 note"
+      ]
+    },
+    {
+      "key": "epoch ? · receipt {0}",
+      "ko": "에폭 ? · 영수증 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:144 note"
+      ]
+    },
+    {
+      "key": "{0} · {1} · receipt {2}",
+      "ko": "{0} · {1} · 영수증 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:148 note"
+      ]
+    },
+    {
+      "key": "{0} · unregistered · receipt {1}",
+      "ko": "{0} · 미등록 · 영수증 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:148 note"
+      ]
+    },
+    {
+      "key": "undecided · {0} · receipt {1}",
+      "ko": "미결정 · {0} · 영수증 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:148 note"
+      ]
+    },
+    {
+      "key": "undecided · unregistered · receipt {0}",
+      "ko": "미결정 · 미등록 · 영수증 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:148 note"
+      ]
+    },
+    {
+      "key": "gen {0} · {1} · failed {2}",
+      "ko": "세대 {0} · {1} · 실패 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:154 note"
+      ]
+    },
+    {
+      "key": "gen {0} · failed {1}",
+      "ko": "세대 {0} · 실패 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:154 note"
+      ]
+    }
+  ],
+  "obsolete": []
+}

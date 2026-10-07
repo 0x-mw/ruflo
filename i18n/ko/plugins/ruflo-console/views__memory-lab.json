@@ -1,0 +1,204 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/memory-lab.ts",
+  "entries": [
+    {
+      "key": "{0}: this surface has no text field; use /ruflo run <entry id> <text>",
+      "ko": "{0}: 이 화면에는 텍스트 입력란이 없습니다. /ruflo run <entry id> <text>를 사용하세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:21 text()"
+      ]
+    },
+    {
+      "key": "Search",
+      "ko": "검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:44 rule()",
+        "plugins/ruflo-console/hooks/views/skills.ts:59 rule()",
+        "plugins/ruflo-console/hooks/views/wf-search.ts:106 title"
+      ]
+    },
+    {
+      "key": "memory_search_unified · Claude + AgentDB + patterns",
+      "ko": "memory_search_unified · Claude + AgentDB + 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:44 rule()"
+      ]
+    },
+    {
+      "key": "memory search · semantic · in {0}",
+      "ko": "메모리 검색 · 시맨틱 · 범위: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:44 rule()"
+      ]
+    },
+    {
+      "key": "memory search · semantic",
+      "ko": "메모리 검색 · 시맨틱",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:44 rule()"
+      ]
+    },
+    {
+      "key": "what to find, in words: jwt refresh, the login bug …",
+      "ko": "찾을 내용을 말로 입력: jwt refresh, 로그인 버그 …",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:45 field()"
+      ]
+    },
+    {
+      "key": "scope: everything (unified)",
+      "ko": "범위: 전체 (통합)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:47 text()"
+      ]
+    },
+    {
+      "key": "scope: the memory store",
+      "ko": "범위: 메모리 저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:47 text()"
+      ]
+    },
+    {
+      "key": "memory store only",
+      "ko": "메모리 저장소만",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:48 button()"
+      ]
+    },
+    {
+      "key": "search everything",
+      "ko": "전체 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:48 button()"
+      ]
+    },
+    {
+      "key": "Entry",
+      "ko": "항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:56 rule()"
+      ]
+    },
+    {
+      "key": "store asks first · delete asks and cannot be undone",
+      "ko": "저장은 먼저 묻습니다 · 삭제는 묻고 되돌릴 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:56 rule()"
+      ]
+    },
+    {
+      "key": "a key: api/auth, notes.alpha …",
+      "ko": "키: api/auth, notes.alpha …",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:58 field()"
+      ]
+    },
+    {
+      "key": "what to store under the key",
+      "ko": "키에 저장할 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:59 field()"
+      ]
+    },
+    {
+      "key": "store",
+      "ko": "저장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:61 button()",
+        "plugins/ruflo-console/hooks/views/vector.ts:26 label"
+      ]
+    },
+    {
+      "key": "retrieve",
+      "ko": "조회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:62 button()"
+      ]
+    },
+    {
+      "key": "delete",
+      "ko": "삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:63 button()",
+        "plugins/ruflo-console/hooks/views/memory.ts:119 label"
+      ]
+    },
+    {
+      "key": "open an entry above, search, or run a lab row: reads show here at once, the rest after you confirm (y)",
+      "ko": "위에서 항목을 열거나 검색하거나 랩 행을 실행하세요: 읽기는 여기에 바로 표시되고 나머지는 확인(y) 후 실행됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:115 text()"
+      ]
+    },
+    {
+      "key": "Memory health",
+      "ko": "메모리 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:146 section()"
+      ]
+    },
+    {
+      "key": "duplicates, stale, never recalled · analysis reads no values; consolidate asks first",
+      "ko": "중복, 오래됨, 조회 없음 · 분석은 값을 읽지 않으며 통합은 먼저 묻습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:146 section()"
+      ]
+    },
+    {
+      "key": "Lab text",
+      "ko": "랩 텍스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:148 rule()"
+      ]
+    },
+    {
+      "key": "the input for the rows below that take text",
+      "ko": "텍스트를 받는 아래 행들의 입력값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:148 rule()"
+      ]
+    },
+    {
+      "key": "a query or pattern · a node id · a | b to compare · source relation target",
+      "ko": "검색어나 패턴 · 노드 id · 비교는 a | b · source relation target",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:149 field()"
+      ]
+    },
+    {
+      "key": "$0 read, runs at once · wr writes · del deletes for good · net may fetch the model: each of these asks, its cost on the confirm row",
+      "ko": "$0 읽기는 바로 실행 · wr 쓰기 · del 영구 삭제 · net은 모델을 가져올 수 있음: 이들은 모두 먼저 묻고 비용은 확인 행에 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory-lab.ts:158 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

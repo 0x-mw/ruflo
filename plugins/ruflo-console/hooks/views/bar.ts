@@ -14,7 +14,13 @@ import { secMemo } from '../secure'
 import type { State, ViewId } from '../state'
 import { sparkline } from '../memory-lines'
 import { visibleNotice, type Notice } from '../notices'
+import { isLocalized, t } from '../i18n/translate'
 import { ago, clip, type Kit } from './common'
+
+/** How a part's fixed words are put on screen: the identity for the model (barText), the dictionary on a marked kit (barView). User data is never passed through it. */
+type Tr = (text: string) => string
+
+const same: Tr = text => text
 
 export const BAR_KEY = 'mark'
 
@@ -93,7 +99,7 @@ export function missionPart(state: State): BarPart | null {
   return { text: `🎯 ${done}/${total}${mission.paused ? ' paused' : running !== undefined ? ` · ${running.id} ${clip(running.title, 28)}` : ''} (1)`, tone: running !== undefined ? 'live' : 'plain', go: 'missions' }
 }
 
-export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
+export function barParts(state: State, nowMs: number = Date.now(), tr: Tr = same): BarPart[] {
   const snap = state.snapshot
   const parts: BarPart[] = []
 
@@ -125,7 +131,7 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
   if (!parts.some(part => part.tone === 'live') && !isFresh && snap?.swarm != null) {
     const ready = snap.agents.length
 
-    parts.push({ text: ready > 0 ? `idle · ${ready} agent${ready === 1 ? '' : 's'} ready` : 'swarm, no agents', tone: 'plain', go: 'swarm' })
+    parts.push({ text: ready > 0 ? `idle · ${ready} agent${ready === 1 ? '' : 's'} ready` : tr('swarm, no agents'), tone: 'plain', go: 'swarm' })
   }
 
   // Standing context, on its own row: the last tool call or event with how long ago (it used to vanish after a minute, taking what Claude
@@ -134,7 +140,7 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
 
   const bars = activityBars(state.events, nowMs)
 
-  if (bars !== null) parts.push({ text: `${bars} tool calls, ${ACTIVITY_MINUTES}m`, tone: 'plain', go: 'events', row: 'standing', compact: bars })
+  if (bars !== null) parts.push({ text: `${bars} ${tr('tool calls')}, ${ACTIVITY_MINUTES}m`, tone: 'plain', go: 'events', row: 'standing', compact: bars })
 
   const claims = snap?.claims ?? []
 
@@ -144,7 +150,7 @@ export function barParts(state: State, nowMs: number = Date.now()): BarPart[] {
     parts.push({ text: `${claims.length} claim${claims.length === 1 ? '' : 's'}${stealable > 0 ? ` (${stealable} stealable)` : ''}`, tone: 'plain', go: 'claims', row: 'standing', compact: `${claims.length} claim${claims.length === 1 ? '' : 's'}` })
   }
 
-  if (state.usage?.costUsd !== undefined && state.usage.costUsd >= 0.01) parts.push({ text: `${money(state.usage.costUsd)} this session`, tone: 'plain', go: 'cost', row: 'standing', compact: money(state.usage.costUsd) })
+  if (state.usage?.costUsd !== undefined && state.usage.costUsd >= 0.01) parts.push({ text: `${money(state.usage.costUsd)} ${tr('this session')}`, tone: 'plain', go: 'cost', row: 'standing', compact: money(state.usage.costUsd) })
 
   // The context window filling: quiet until it matters, amber when it is close, with the hint that acts on it.
   const context = state.usage?.contextPercent
@@ -212,7 +218,7 @@ const toneColor = (tone: BarPart['tone']): string => (tone === 'attention' ? PAN
  */
 export function barView(kit: Kit, state: State, columns: number, mark: RenderElement | null, onOpen: () => void, onGo?: (view: ViewId) => void, onDismiss?: () => void): RenderElement {
   // A stale marketplace clone is one of the alerts, so it already turns the band's attention part on.
-  const parts = barParts(state)
+  const parts = barParts(state, Date.now(), isLocalized(kit) ? t : same)
   const notice = visibleNotice(state, Date.now())
   const inner = Math.max(16, columns - 4)
   const sep = (): RenderElement => kit.Text({ color: PANEL.dim, children: ' · ' })

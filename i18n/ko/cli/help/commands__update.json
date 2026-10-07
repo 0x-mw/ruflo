@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/update.ts",
+  "entries": [
+    {
+      "key": "Check for available @claude-flow package updates",
+      "ko": "사용 가능한 @claude-flow 패키지 업데이트를 확인합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:56 description"
+      ]
+    },
+    {
+      "key": "Force check (ignore rate limit)",
+      "ko": "강제로 확인합니다 (속도 제한 무시)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:58 description"
+      ]
+    },
+    {
+      "key": "Update all @claude-flow packages",
+      "ko": "모든 @claude-flow 패키지를 업데이트합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:136 description"
+      ]
+    },
+    {
+      "key": "Show what would be updated",
+      "ko": "업데이트될 내용을 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:138 description"
+      ]
+    },
+    {
+      "key": "Include major version updates",
+      "ko": "메이저 버전 업데이트를 포함합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:139 description"
+      ]
+    },
+    {
+      "key": "View update history",
+      "ko": "업데이트 기록을 조회합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:215 description"
+      ]
+    },
+    {
+      "key": "Clear history",
+      "ko": "기록을 비웁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:219 description"
+      ]
+    },
+    {
+      "key": "Rollback last update",
+      "ko": "마지막 업데이트를 롤백합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:271 description"
+      ]
+    },
+    {
+      "key": "Specific package to rollback",
+      "ko": "롤백할 특정 패키지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:273 description"
+      ]
+    },
+    {
+      "key": "Clear update check cache",
+      "ko": "업데이트 확인 캐시를 비웁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:298 description"
+      ]
+    },
+    {
+      "key": "Manage @claude-flow package updates (ADR-025)",
+      "ko": "@claude-flow 패키지 업데이트를 관리합니다 (ADR-025)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/update.ts:310 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

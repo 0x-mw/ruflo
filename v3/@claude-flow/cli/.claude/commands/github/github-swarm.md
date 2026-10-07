@@ -1,3 +1,7 @@
+---
+description: GitHub 스웜
+---
+
 # github swarm
 
 Create a specialized swarm for GitHub repository management.

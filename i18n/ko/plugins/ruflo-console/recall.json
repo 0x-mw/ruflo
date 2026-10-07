@@ -1,0 +1,96 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/recall.ts",
+  "entries": [
+    {
+      "key": "DELETES FOR GOOD: one pattern from .claude-flow/neural/models.json; there is no undo",
+      "ko": "영구 삭제: .claude-flow/neural/models.json의 패턴 하나를 지웁니다. 되돌릴 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:21 const"
+      ]
+    },
+    {
+      "key": "writes: records a success (quality 0.95) with this pattern, which adds a pattern to the ReasoningBank and a reusable skill; the row itself is not changed",
+      "ko": "쓰기: 이 패턴으로 성공(품질 0.95)을 기록해 ReasoningBank에 패턴을, 재사용 가능한 스킬을 추가합니다. 행 자체는 바뀌지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:22 const"
+      ]
+    },
+    {
+      "key": "prune the pattern {0}",
+      "ko": "패턴 {0} 정리",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:27 autoSpec()"
+      ]
+    },
+    {
+      "key": "promote the pattern {0} to a skill",
+      "ko": "패턴 {0}을 스킬로 승격",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:36 autoSpec()"
+      ]
+    },
+    {
+      "key": "prune {0} of {1} patterns used fewer than {2} time",
+      "ko": "패턴 {1}개 중 사용 {2}회 미만인 {0}개 정리",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:49 autoSpec()"
+      ]
+    },
+    {
+      "key": "prune {0} of {1} patterns used fewer than {2} times",
+      "ko": "패턴 {1}개 중 사용 {2}회 미만인 {0}개 정리",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:49 autoSpec()"
+      ]
+    },
+    {
+      "key": "DELETES FOR GOOD: every pattern in .claude-flow/neural/models.json with usageCount below {0} ({1} now); there is no undo",
+      "ko": "영구 삭제: .claude-flow/neural/models.json에서 usageCount가 {0} 미만인 모든 패턴을 지웁니다(현재 {1}개). 되돌릴 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:49 note"
+      ]
+    },
+    {
+      "key": "nn-recall-prune <pattern id>: delete one pattern from the neural store",
+      "ko": "nn-recall-prune <pattern id>: 뉴럴 저장소에서 패턴 하나 삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:55 label"
+      ]
+    },
+    {
+      "key": "nn-recall-promote <pattern id>: promote one neural-store pattern to a skill",
+      "ko": "nn-recall-promote <pattern id>: 뉴럴 저장소의 패턴 하나를 스킬로 승격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:56 label"
+      ]
+    },
+    {
+      "key": "neural_compress prune: delete every neural-store pattern that was never used",
+      "ko": "neural_compress prune: 한 번도 쓰지 않은 뉴럴 저장소 패턴을 모두 삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:57 label"
+      ]
+    },
+    {
+      "key": "n/a: no .claude-flow/neural/models.json was read, or no pattern in it is unused",
+      "ko": "해당 없음: .claude-flow/neural/models.json을 읽지 못했거나, 안 쓴 패턴이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/recall.ts:57 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: browser-form-fill
-description: Fill a web form by mapping field-name → value, with optional template lookup from browser-templates for known forms
+description: 필드 이름 → 값 매핑으로 웹 폼을 채우며, 알려진 폼은 browser-templates에서 템플릿을 선택적으로 조회
 argument-hint: "<url> <field-map.json> [--template <name>] [--submit]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__browser_open mcp__plugin_ruflo-core_ruflo__browser_close mcp__plugin_ruflo-core_ruflo__browser_fill mcp__plugin_ruflo-core_ruflo__browser_type mcp__plugin_ruflo-core_ruflo__browser_select mcp__plugin_ruflo-core_ruflo__browser_check mcp__plugin_ruflo-core_ruflo__browser_uncheck mcp__plugin_ruflo-core_ruflo__browser_click mcp__plugin_ruflo-core_ruflo__browser_wait mcp__plugin_ruflo-core_ruflo__browser_snapshot mcp__plugin_ruflo-core_ruflo__aidefence_has_pii Bash Read Write
 ---

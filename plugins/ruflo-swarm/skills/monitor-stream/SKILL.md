@@ -1,6 +1,6 @@
 ---
 name: monitor-stream
-description: Stream live swarm events using the Monitor tool for real-time observability
+description: 실시간(real-time) 관측을 위해 Monitor 도구로 라이브 스웜 이벤트를 스트리밍
 argument-hint: ""
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__swarm_status mcp__plugin_ruflo-core_ruflo__swarm_health Monitor
 ---

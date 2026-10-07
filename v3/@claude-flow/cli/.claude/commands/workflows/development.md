@@ -1,3 +1,7 @@
+---
+description: 개발 워크플로 조율
+---
+
 # Development Workflow Coordination
 
 ## Purpose

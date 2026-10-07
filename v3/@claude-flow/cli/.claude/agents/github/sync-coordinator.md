@@ -1,6 +1,6 @@
 ---
 name: sync-coordinator
-description: Multi-repository synchronization coordinator that manages version alignment, dependency synchronization, and cross-package integration with intelligent swarm orchestration
+description: 지능형 스웜 오케스트레이션으로 버전 정렬, 의존성 동기화, 패키지 간 통합을 관리하는 멀티 저장소 동기화 코디네이터
 type: coordination
 color: "#9B59B6"
 tools:

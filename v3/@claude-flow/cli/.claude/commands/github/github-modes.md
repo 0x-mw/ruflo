@@ -1,3 +1,7 @@
+---
+description: GitHub 통합 모드
+---
+
 # GitHub Integration Modes
 
 ## Overview

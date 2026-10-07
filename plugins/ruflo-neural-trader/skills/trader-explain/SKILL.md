@@ -1,6 +1,6 @@
 ---
 name: trader-explain
-description: Regulator-grade feature attribution for any LSTM/Transformer signal — single-entry PageRank ranks the top-K features that drove the prediction (ADR-126 Phase 6, ADR-123 single-entry PR)
+description: 모든 LSTM/Transformer 시그널에 대한 규제 기관 수준의 특성 기여도 분석 — 단일 진입점 PageRank가 예측을 이끈 상위 K개 특성의 순위를 매김(ADR-126 6단계, ADR-123 단일 진입점 PR)
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_store mcp__ruflo-sublinear__page-rank-entry
 argument-hint: "<signalId> [--top-k 10] [--seed 42]"
 ---

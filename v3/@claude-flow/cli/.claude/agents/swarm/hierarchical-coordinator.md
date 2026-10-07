@@ -2,7 +2,7 @@
 name: hierarchical-coordinator
 type: coordinator
 color: "#FF6B35"
-description: Queen-led hierarchical swarm coordination with specialized worker delegation
+description: 전문 워커에게 위임하는 퀸 주도 계층형 스웜 조율
 capabilities:
   - swarm_coordination
   - task_decomposition

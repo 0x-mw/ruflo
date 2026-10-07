@@ -1,6 +1,6 @@
 ---
 name: nested-queen
-description: Heavyweight nested orchestrator — wires Claude Code's depth=5 nesting onto ruflo's hive-mind, swarm, intelligence pipeline, claims/AuthScope, AIDefence, and cost-budget machinery. Use when depth alone isn't enough.
+description: 대규모 중첩 오케스트레이터 — Claude Code의 depth=5 중첩을 ruflo의 하이브마인드(hive-mind), 스웜, 인텔리전스 파이프라인, 클레임/AuthScope, AIDefence, 비용 예산 체계에 연결합니다. depth만으로 부족할 때 사용합니다.
 model: sonnet
 tools:
   - Task

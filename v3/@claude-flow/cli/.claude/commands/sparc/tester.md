@@ -1,3 +1,7 @@
+---
+description: SPARC 테스터 모드
+---
+
 # SPARC Tester Mode
 
 ## Purpose

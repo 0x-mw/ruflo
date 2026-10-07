@@ -1,0 +1,267 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/menu.ts",
+  "entries": [
+    {
+      "key": "start here",
+      "ko": "시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:27 name"
+      ]
+    },
+    {
+      "key": "coordinate",
+      "ko": "조율",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:28 name"
+      ]
+    },
+    {
+      "key": "Claims Board",
+      "ko": "클레임 보드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:28 label"
+      ]
+    },
+    {
+      "key": "observe",
+      "ko": "관찰",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:29 name",
+        "plugins/ruflo-console/hooks/views/menu.ts:43 name"
+      ]
+    },
+    {
+      "key": "Swarm Topology",
+      "ko": "스웜 토폴로지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:29 label"
+      ]
+    },
+    {
+      "key": "INTELLIGENCE",
+      "ko": "인텔리전스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:33 title"
+      ]
+    },
+    {
+      "key": "remember",
+      "ko": "기억",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:36 name"
+      ]
+    },
+    {
+      "key": "SAFETY & OPS",
+      "ko": "안전 & 운영",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:40 title"
+      ]
+    },
+    {
+      "key": "protect",
+      "ko": "보호",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:42 name"
+      ]
+    },
+    {
+      "key": "Agent Timeline",
+      "ko": "에이전트 타임라인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:43 label"
+      ]
+    },
+    {
+      "key": "Event Stream",
+      "ko": "이벤트 스트림",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:43 label"
+      ]
+    },
+    {
+      "key": "NETWORK & EXTEND",
+      "ko": "네트워크 & 확장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:47 title"
+      ]
+    },
+    {
+      "key": "network",
+      "ko": "네트워크",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:49 name"
+      ]
+    },
+    {
+      "key": "x.ruv.io Board",
+      "ko": "x.ruv.io 보드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:49 label"
+      ]
+    },
+    {
+      "key": "extend",
+      "ko": "확장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:50 name"
+      ]
+    },
+    {
+      "key": "tools",
+      "ko": "도구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:55 name"
+      ]
+    },
+    {
+      "key": "Command Palette",
+      "ko": "명령 팔레트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:55 label"
+      ]
+    },
+    {
+      "key": "Log Off",
+      "ko": "로그오프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:55 label"
+      ]
+    },
+    {
+      "key": "{0} entry · ▸ opens {1}",
+      "ko": "항목 {0}개 · ▸ {1} 열기",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:127 clip()"
+      ]
+    },
+    {
+      "key": "{0} entries · ▸ opens {1}",
+      "ko": "항목 {0}개 · ▸ {1} 열기",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:127 clip()"
+      ]
+    },
+    {
+      "key": "groups",
+      "ko": "그룹",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:176 text()"
+      ]
+    },
+    {
+      "key": "▾ all",
+      "ko": "▾ 전체",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:176 button()"
+      ]
+    },
+    {
+      "key": "▾ expand all",
+      "ko": "▾ 모두 펼침",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:176 button()"
+      ]
+    },
+    {
+      "key": "collapse all",
+      "ko": "모두 접기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:176 button()"
+      ]
+    },
+    {
+      "key": "Registered",
+      "ko": "등록됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:185 const"
+      ]
+    },
+    {
+      "key": "Unregistered",
+      "ko": "미등록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:185 const"
+      ]
+    },
+    {
+      "key": "│ ANSI-BBS │ 115200·N81 FDX",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:186 const"
+      ]
+    },
+    {
+      "key": "Online {0}",
+      "ko": "접속 중 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:187 const"
+      ]
+    },
+    {
+      "key": "a key or a name, then Enter · ? for help",
+      "ko": "키나 이름 입력 후 Enter · ? 도움말",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:226 placeholder"
+      ]
+    },
+    {
+      "key": "go",
+      "ko": "이동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:227 submitLabel",
+        "plugins/ruflo-console/hooks/views/nav.ts:91 submitLabel",
+        "plugins/ruflo-console/hooks/views/palette.ts:24 text"
+      ]
+    },
+    {
+      "key": "(1:1) (ruflo: {0}) : press a key from the menu",
+      "ko": "(1:1) (ruflo: {0}) : 메뉴에서 키를 누르세요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:233 text()"
+      ]
+    },
+    {
+      "key": "menu",
+      "ko": "메뉴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/menu.ts:236 col()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

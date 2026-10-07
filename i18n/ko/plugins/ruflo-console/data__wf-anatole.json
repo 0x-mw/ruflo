@@ -1,0 +1,41 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-anatole.ts",
+  "entries": [
+    {
+      "key": "named by the mod",
+      "ko": "mod가 지정함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-anatole.ts:68 agent"
+      ]
+    },
+    {
+      "key": "the only agent running then",
+      "ko": "당시 실행 중이던 유일한 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-anatole.ts:69 window"
+      ]
+    },
+    {
+      "key": "during this run, agent not told",
+      "ko": "이 실행 중, 에이전트는 알려지지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-anatole.ts:70 run"
+      ]
+    },
+    {
+      "key": "not attributed",
+      "ko": "귀속되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-anatole.ts:71 none",
+        "plugins/ruflo-console/hooks/views/wf-worktrees.ts:85 const"
+      ]
+    }
+  ],
+  "obsolete": []
+}

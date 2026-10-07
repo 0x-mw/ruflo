@@ -1,0 +1,145 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/frames.ts",
+  "entries": [
+    {
+      "key": "queen",
+      "ko": "퀸",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:52 label",
+        "plugins/ruflo-console/hooks/views/hive.ts:187 kv()"
+      ]
+    },
+    {
+      "key": "trajectories (neural/stats.json)",
+      "ko": "궤적 (neural/stats.json)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:71 source"
+      ]
+    },
+    {
+      "key": "JUDGE",
+      "ko": "판정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:72 name"
+      ]
+    },
+    {
+      "key": "routed outcomes judged (routing-outcomes.json)",
+      "ko": "판정한 라우팅 결과 (routing-outcomes.json)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:72 source"
+      ]
+    },
+    {
+      "key": "DISTILL",
+      "ko": "증류",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:73 name"
+      ]
+    },
+    {
+      "key": "patterns learned (neural/stats.json)",
+      "ko": "학습한 패턴 (neural/stats.json)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:73 source"
+      ]
+    },
+    {
+      "key": "EWC consolidations (hooks_intelligence_stats)",
+      "ko": "EWC 통합 (hooks_intelligence_stats)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:74 source"
+      ]
+    },
+    {
+      "key": "◆ ruflo v{0} · {1}",
+      "ko": "◆ ruflo v{0} · {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:171 headerPicture()"
+      ]
+    },
+    {
+      "key": "◆ ruflo v{0} · {1} · {2}",
+      "ko": "◆ ruflo v{0} · {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:171 headerPicture()"
+      ]
+    },
+    {
+      "key": "tool calls/5s",
+      "ko": "도구 호출/5초",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:191 label"
+      ]
+    },
+    {
+      "key": "state writes",
+      "ko": "상태 쓰기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:191 label"
+      ]
+    },
+    {
+      "key": "this node",
+      "ko": "이 노드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:209 federationPicture()"
+      ]
+    },
+    {
+      "key": "this node (no key)",
+      "ko": "이 노드 (키 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:209 federationPicture()"
+      ]
+    },
+    {
+      "key": "patterns since load",
+      "ko": "로드 후 패턴",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:222 samplesPicture()"
+      ]
+    },
+    {
+      "key": "audit trend: n/a",
+      "ko": "감사 추세: 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:245 empty"
+      ]
+    },
+    {
+      "key": "{0} stored audits: a trend needs two",
+      "ko": "저장된 감사 {0}건: 추세는 2건이 필요합니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:245 empty"
+      ]
+    },
+    {
+      "key": "spend since load",
+      "ko": "로드 후 지출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/frames.ts:254 samplesPicture()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

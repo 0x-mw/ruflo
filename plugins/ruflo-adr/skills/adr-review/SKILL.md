@@ -1,6 +1,6 @@
 ---
 name: adr-review
-description: Review code changes against accepted ADRs for compliance violations
+description: 승인된 ADR 대비 코드 변경을 검토해 규정 준수 위반을 찾음
 argument-hint: "[--branch BRANCH]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-query mcp__plugin_ruflo-core_ruflo__agentdb_causal-query mcp__plugin_ruflo-core_ruflo__memory_search Bash Read Grep Glob
 ---

@@ -1,0 +1,80 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/completions.ts",
+  "entries": [
+    {
+      "key": "Generate bash completion script",
+      "ko": "bash 자동 완성 스크립트를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:469 description"
+      ]
+    },
+    {
+      "key": "Generate zsh completion script",
+      "ko": "zsh 자동 완성 스크립트를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:480 description"
+      ]
+    },
+    {
+      "key": "Generate fish completion script",
+      "ko": "fish 자동 완성 스크립트를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:491 description"
+      ]
+    },
+    {
+      "key": "Generate PowerShell completion script",
+      "ko": "PowerShell 자동 완성 스크립트를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:503 description"
+      ]
+    },
+    {
+      "key": "Generate shell completion scripts",
+      "ko": "셸 자동 완성 스크립트를 생성합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:514 description"
+      ]
+    },
+    {
+      "key": "Install bash completions",
+      "ko": "bash 자동 완성 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:518 description"
+      ]
+    },
+    {
+      "key": "Install zsh completions",
+      "ko": "zsh 자동 완성 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:519 description"
+      ]
+    },
+    {
+      "key": "Install fish completions",
+      "ko": "fish 자동 완성 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:520 description"
+      ]
+    },
+    {
+      "key": "Install PowerShell completions",
+      "ko": "PowerShell 자동 완성 설치",
+      "kind": "text",
+      "ctx": [
+        "src/commands/completions.ts:521 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,6 +1,6 @@
 ---
 name: vector-cluster
-description: Cluster code by graph community detection via npx ruvector@0.2.25 hooks graph-cluster (spectral / Louvain)
+description: npx ruvector@0.2.25 hooks graph-cluster(spectral / Louvain)로 그래프 커뮤니티 탐지에 따라 코드를 클러스터링
 argument-hint: "<namespace> [--k N]"
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_list
 ---

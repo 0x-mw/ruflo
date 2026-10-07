@@ -1,0 +1,120 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/data/wf-links.ts",
+  "entries": [
+    {
+      "key": "[A-Za-z0-9_.:-]{1,60}",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:45 const"
+      ]
+    },
+    {
+      "key": "[mission:{0} task:{1}]",
+      "ko": null,
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:53 expr"
+      ]
+    },
+    {
+      "key": "its label starts like a mission tag but is not [mission:<id> task:<id>]",
+      "ko": "라벨이 미션 태그처럼 시작하지만 [mission:<id> task:<id>] 형식이 아닙니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:121 why"
+      ]
+    },
+    {
+      "key": "no ruflo task with mission:/task: tags is assigned to this agent",
+      "ko": "mission:/task: 태그가 있는 ruflo 작업이 이 에이전트에 할당되어 있지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:127 why"
+      ]
+    },
+    {
+      "key": "its label has no [mission:<id> task:<id>] tag (a script the console drafts adds one)",
+      "ko": "라벨에 [mission:<id> task:<id>] 태그가 없습니다 (콘솔이 작성하는 스크립트에는 태그가 들어갑니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:127 why"
+      ]
+    },
+    {
+      "key": "unlinked: {0}",
+      "ko": "연결 안 됨: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:152 return"
+      ]
+    },
+    {
+      "key": "unlinked: not read",
+      "ko": "연결 안 됨: 읽지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:152 return"
+      ]
+    },
+    {
+      "key": "{0} / {1}: {2} · not in this console's mission ledger · +{3} more",
+      "ko": "{0} / {1}: {2} · 이 콘솔의 미션 원장에 없음 · +{3}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:154 return"
+      ]
+    },
+    {
+      "key": "{0} / {1}: {2} · not in this console's mission ledger",
+      "ko": "{0} / {1}: {2} · 이 콘솔의 미션 원장에 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:154 return"
+      ]
+    },
+    {
+      "key": "{0} / {1}: {2} ({3}) · not in this console's mission ledger · +{4} more",
+      "ko": "{0} / {1}: {2} ({3}) · 이 콘솔의 미션 원장에 없음 · +{4}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:154 return"
+      ]
+    },
+    {
+      "key": "{0} / {1}: {2} ({3}) · not in this console's mission ledger",
+      "ko": "{0} / {1}: {2} ({3}) · 이 콘솔의 미션 원장에 없음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:154 return"
+      ]
+    },
+    {
+      "key": "unlinked: no ruflo agent or workflow agent names this task",
+      "ko": "연결 안 됨: 이 작업을 가리키는 ruflo 에이전트나 워크플로 에이전트가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:161 return"
+      ]
+    },
+    {
+      "key": "{0} (ruflo task)",
+      "ko": "{0} (ruflo 작업)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:161 expr"
+      ]
+    },
+    {
+      "key": "{0} (label tag)",
+      "ko": "{0} (라벨 태그)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/data/wf-links.ts:161 expr"
+      ]
+    }
+  ],
+  "obsolete": []
+}

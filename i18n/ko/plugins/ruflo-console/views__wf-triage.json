@@ -1,0 +1,201 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-triage.ts",
+  "entries": [
+    {
+      "key": "+{0} more (j/k to them)",
+      "ko": "+{0}개 더 (j/k로 이동)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:90 text()"
+      ]
+    },
+    {
+      "key": "re-run just the failed items (this text is for you to run; the console does not):",
+      "ko": "실패한 항목만 다시 실행 (이 텍스트는 직접 실행하세요. 콘솔은 실행하지 않습니다):",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:95 notes()"
+      ]
+    },
+    {
+      "key": "A ruflo swarm has no resume verb: stop or spawn an agent from the inspector (confirm-gated).",
+      "ko": "ruflo 스웜에는 재개 동작이 없습니다. 검사기에서 에이전트를 중지하거나 생성하세요 (확인 필요).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:98 text()"
+      ]
+    },
+    {
+      "key": "Classes come from the run record, the journal's results and the transcripts; no timeout event is written, so timeout is a text match.",
+      "ko": "분류는 실행 기록, 저널의 결과, 대화 기록에서 가져옵니다. 타임아웃 이벤트는 기록되지 않으므로 타임아웃은 텍스트 일치로 판단합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:101 notes()"
+      ]
+    },
+    {
+      "key": "Classes come from the ruflo agent's status.",
+      "ko": "분류는 ruflo 에이전트의 상태에서 가져옵니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:101 notes()"
+      ]
+    },
+    {
+      "key": "dirty worktree",
+      "ko": "변경된 워크트리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:109 expr"
+      ]
+    },
+    {
+      "key": "off: set wfBudgetRunUsd, wfBudgetDayUsd or wfAlertRules in the plugin options",
+      "ko": "꺼짐: 플러그인 옵션에서 wfBudgetRunUsd, wfBudgetDayUsd 또는 wfAlertRules를 설정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:111 return"
+      ]
+    },
+    {
+      "key": "{0} · a notice only: nothing is stopped",
+      "ko": "{0} · 알림일 뿐 아무것도 중지하지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:111 return"
+      ]
+    },
+    {
+      "key": "A ruflo swarm records no model or tokens per agent, so it has no cost here.",
+      "ko": "ruflo 스웜은 에이전트별 모델이나 토큰을 기록하지 않으므로 여기에는 비용이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:119 text()"
+      ]
+    },
+    {
+      "key": "prices",
+      "ko": "가격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:124 kv()"
+      ]
+    },
+    {
+      "key": "the last cost read failed ({0})",
+      "ko": "마지막 비용 읽기에 실패했습니다 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:127 text()"
+      ]
+    },
+    {
+      "key": "cost is read after the run board, on each refresh while this page is open",
+      "ko": "비용은 실행 보드를 읽은 뒤, 이 화면이 열려 있는 동안 새로고침할 때마다 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:127 text()"
+      ]
+    },
+    {
+      "key": "guards",
+      "ko": "가드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:128 kv()",
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:158 kv()"
+      ]
+    },
+    {
+      "key": "{0} · n/a billed tokens (all request buckets) · {1} of {2} agents read",
+      "ko": "{0} · 과금 토큰 해당 없음 (모든 요청 구간) · 에이전트 {2}개 중 {1}개 읽음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:135 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} billed tokens (all request buckets) · {2} of {3} agents read",
+      "ko": "{0} · 과금 토큰 {1} (모든 요청 구간) · 에이전트 {3}개 중 {2}개 읽음",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:135 kv()"
+      ]
+    },
+    {
+      "key": "Transcripts: up to {0} each (a larger one is read from its end: ≥); at most {1} parsed per refresh; {2} of {3} read, {4} wait for the next refresh. ≥ marks a floor, ≈ a family price.",
+      "ko": "대화 기록: 각각 최대 {0} (더 큰 것은 끝에서부터 읽음: ≥), 새로고침당 최대 {1} 분석, {3}개 중 {2}개 읽음, {4}개는 다음 새로고침을 기다림. ≥는 하한, ≈는 계열 가격을 뜻합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:136 notes()"
+      ]
+    },
+    {
+      "key": "Transcripts: up to {0} each (a larger one is read from its end: ≥); at most {1} parsed per refresh; {2} of {3} read. ≥ marks a floor, ≈ a family price.",
+      "ko": "대화 기록: 각각 최대 {0} (더 큰 것은 끝에서부터 읽음: ≥), 새로고침당 최대 {1} 분석, {3}개 중 {2}개 읽음. ≥는 하한, ≈는 계열 가격을 뜻합니다.",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:136 notes()"
+      ]
+    },
+    {
+      "key": "no price for {0}: its tokens are counted, its dollars are not",
+      "ko": "{0}의 가격이 없습니다. 토큰은 집계하지만 금액은 집계하지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:138 text()"
+      ]
+    },
+    {
+      "key": "+{0} more phases",
+      "ko": "+단계 {0}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:147 text()"
+      ]
+    },
+    {
+      "key": "+{0} more agents",
+      "ko": "+에이전트 {0}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:155 text()"
+      ]
+    },
+    {
+      "key": "dirty: no worktree reading yet",
+      "ko": "변경 여부: 아직 워크트리를 읽지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:162 text()"
+      ]
+    },
+    {
+      "key": "stuck is measured from when this console first saw the agent unchanged; an agent with no file activity for 15 minutes counts at once",
+      "ko": "멈춤은 이 콘솔이 에이전트의 변화 없음을 처음 본 시점부터 계산합니다. 15분 동안 파일 활동이 없는 에이전트는 즉시 해당됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:163 notes()"
+      ]
+    },
+    {
+      "key": "The 24h ceiling counts the workflow runs read on this page, not all your Claude spend (the Cost page has that).",
+      "ko": "24h 상한은 이 화면에서 읽은 워크플로 실행만 집계하며 Claude 전체 지출은 아닙니다 (전체는 비용 화면에 있습니다).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:164 notes()"
+      ]
+    },
+    {
+      "key": "Triage",
+      "ko": "분류",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-triage.ts:180 title"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,2620 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/devtools.ts",
+  "entries": [
+    {
+      "key": "Capability brain",
+      "ko": "기능 브레인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:47 title"
+      ]
+    },
+    {
+      "key": "guidance_brain · local · $0",
+      "ko": "guidance_brain · 로컬 · $0",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:47 right"
+      ]
+    },
+    {
+      "key": "Analyze · git diff",
+      "ko": "분석 · git diff",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:48 title"
+      ]
+    },
+    {
+      "key": "local · $0 · runs at once",
+      "ko": "로컬 · $0 · 즉시 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:48 right",
+        "plugins/ruflo-console/hooks/vector.ts:47 right"
+      ]
+    },
+    {
+      "key": "GitHub & delivery",
+      "ko": "GitHub 및 배포",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:49 title"
+      ]
+    },
+    {
+      "key": "gh + GitHub API · asks first",
+      "ko": "gh + GitHub API · 먼저 묻습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:49 right"
+      ]
+    },
+    {
+      "key": "Agenticow · copy-on-write memory",
+      "ko": "Agenticow · 쓰기 시 복사 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:50 title"
+      ]
+    },
+    {
+      "key": "an .rvf file · writes ask",
+      "ko": ".rvf 파일 · 쓰기는 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:50 right"
+      ]
+    },
+    {
+      "key": "WASM agents",
+      "ko": "WASM 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:51 title"
+      ]
+    },
+    {
+      "key": "sandboxed · gallery",
+      "ko": "샌드박스 · 갤러리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:51 right"
+      ]
+    },
+    {
+      "key": "Browser",
+      "ko": "브라우저",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:52 title"
+      ]
+    },
+    {
+      "key": "agent-browser session ruflo-console",
+      "ko": "agent-browser 세션 ruflo-console",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:52 right"
+      ]
+    },
+    {
+      "key": "Terminal sessions",
+      "ko": "터미널 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:53 title"
+      ]
+    },
+    {
+      "key": "Providers",
+      "ko": "프로바이더",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:54 title"
+      ]
+    },
+    {
+      "key": "keys are never shown or passed",
+      "ko": "키는 표시하거나 전달하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:54 right"
+      ]
+    },
+    {
+      "key": "Plugin registry",
+      "ko": "플러그인 레지스트리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:55 title"
+      ]
+    },
+    {
+      "key": "local list · IPFS asks",
+      "ko": "로컬 목록 · IPFS는 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:55 right"
+      ]
+    },
+    {
+      "key": "RuVLLM",
+      "ko": "RuVLLM 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:56 title"
+      ]
+    },
+    {
+      "key": "status · creates ask",
+      "ko": "상태 · 생성은 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:56 right"
+      ]
+    },
+    {
+      "key": "DAA · dynamic agents",
+      "ko": "DAA · 동적 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:57 title"
+      ]
+    },
+    {
+      "key": ".claude-flow/daa · writes ask",
+      "ko": ".claude-flow/daa · 쓰기는 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:57 right"
+      ]
+    },
+    {
+      "key": "Managed agents",
+      "ko": "관리형 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:58 title"
+      ]
+    },
+    {
+      "key": "Anthropic cloud · every call asks",
+      "ko": "Anthropic 클라우드 · 호출마다 확인 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:58 right"
+      ]
+    },
+    {
+      "key": "Maintenance",
+      "ko": "유지보수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:59 title"
+      ]
+    },
+    {
+      "key": "cleanup · update · migrate · process · appliance",
+      "ko": "정리 · 업데이트 · 마이그레이션 · 프로세스 · 어플라이언스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:59 right"
+      ]
+    },
+    {
+      "key": "gh CLI in this repo: it reads GitHub over the network",
+      "ko": "이 저장소의 gh CLI: 네트워크로 GitHub를 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:70 const"
+      ]
+    },
+    {
+      "key": "a WASM agent lives inside one MCP server process; ruflo mcp exec starts a fresh process per call, so an agent id never reaches the next call. Use the ruflo MCP server (/mcp) for a session",
+      "ko": "WASM 에이전트는 MCP 서버 프로세스 하나 안에 있으며, ruflo mcp exec는 호출마다 새 프로세스를 시작하므로 에이전트 ID가 다음 호출에 전달되지 않습니다. 세션에는 ruflo MCP 서버(/mcp)를 사용하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:71 const"
+      ]
+    },
+    {
+      "key": "brain",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:74 group",
+        "plugins/ruflo-console/hooks/devtools.ts:75 group",
+        "plugins/ruflo-console/hooks/devtools.ts:76 group"
+      ]
+    },
+    {
+      "key": "WHAT SHOULD I DO?",
+      "ko": "무엇을 할까요?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:74 name"
+      ]
+    },
+    {
+      "key": "ask ruflo which tools fit a task: type it above",
+      "ko": "작업에 맞는 도구를 ruflo에 물어보세요: 위에 입력합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:74 about"
+      ]
+    },
+    {
+      "key": "capability brain: recommend tools for the task",
+      "ko": "기능 브레인: 작업에 맞는 도구 추천",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:74 label"
+      ]
+    },
+    {
+      "key": "OVERVIEW",
+      "ko": "개요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:75 name"
+      ]
+    },
+    {
+      "key": "every capability domain and its health facts",
+      "ko": "모든 기능 영역과 상태 정보",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:75 about"
+      ]
+    },
+    {
+      "key": "capability brain: the overview",
+      "ko": "기능 브레인: 개요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:75 label"
+      ]
+    },
+    {
+      "key": "IMPLEMENTATION LOOP",
+      "ko": "구현 루프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:76 name"
+      ]
+    },
+    {
+      "key": "recall → inspect → … → publish, each step its tools",
+      "ko": "회상 → 검사 → … → 게시, 단계별 도구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:76 about"
+      ]
+    },
+    {
+      "key": "capability brain: the implementation loop",
+      "ko": "기능 브레인: 구현 루프",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:76 label"
+      ]
+    },
+    {
+      "key": "analyze",
+      "ko": "분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:78 group",
+        "plugins/ruflo-console/hooks/devtools.ts:79 group",
+        "plugins/ruflo-console/hooks/devtools.ts:80 group"
+      ]
+    },
+    {
+      "key": "DIFF",
+      "ko": "DIFF",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:78 name",
+        "plugins/ruflo-console/hooks/devtools.ts:96 name"
+      ]
+    },
+    {
+      "key": "classification, risk, file risks and reviewers for the ref",
+      "ko": "참조 대상의 분류, 위험, 파일 위험, 리뷰어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:78 about"
+      ]
+    },
+    {
+      "key": "analyze the diff (risk, class, reviewers)",
+      "ko": "diff 분석 (위험, 분류, 리뷰어)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:78 label"
+      ]
+    },
+    {
+      "key": "STATS",
+      "ko": "통계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:79 name",
+        "plugins/ruflo-console/hooks/memory-lab.ts:133 name",
+        "plugins/ruflo-console/hooks/vector.ts:113 name"
+      ]
+    },
+    {
+      "key": "files, additions and deletions by status",
+      "ko": "상태별 파일, 추가, 삭제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:79 about"
+      ]
+    },
+    {
+      "key": "diff stats for the ref",
+      "ko": "참조 대상의 diff 통계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:79 label"
+      ]
+    },
+    {
+      "key": "CLASSIFY",
+      "ko": "분류",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:80 name"
+      ]
+    },
+    {
+      "key": "feature, fix, refactor, docs … with confidence",
+      "ko": "기능, 수정, 리팩터링, 문서 … 와 신뢰도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:80 about"
+      ]
+    },
+    {
+      "key": "classify the diff",
+      "ko": "diff 분류",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:80 label"
+      ]
+    },
+    {
+      "key": "RISK",
+      "ko": "위험",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:81 name"
+      ]
+    },
+    {
+      "key": "the overall risk score and what drives it",
+      "ko": "전체 위험 점수와 그 원인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:81 about"
+      ]
+    },
+    {
+      "key": "risk of the diff",
+      "ko": "diff의 위험",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:81 label"
+      ]
+    },
+    {
+      "key": "REVIEWERS",
+      "ko": "리뷰어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:82 name"
+      ]
+    },
+    {
+      "key": "who should review it, from the history",
+      "ko": "이력 기준으로 리뷰해야 할 사람",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:82 about"
+      ]
+    },
+    {
+      "key": "suggested reviewers for the diff",
+      "ko": "diff 추천 리뷰어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:82 label"
+      ]
+    },
+    {
+      "key": "FILE RISK",
+      "ko": "파일 위험",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:83 name"
+      ]
+    },
+    {
+      "key": "the risk of changing the file in the path field",
+      "ko": "경로 필드 파일을 변경할 때의 위험",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:83 about"
+      ]
+    },
+    {
+      "key": "risk of changing the file at the path",
+      "ko": "경로 파일을 변경할 때의 위험",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:83 label"
+      ]
+    },
+    {
+      "key": "github",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:85 group",
+        "plugins/ruflo-console/hooks/devtools.ts:86 group",
+        "plugins/ruflo-console/hooks/devtools.ts:87 group"
+      ]
+    },
+    {
+      "key": "REPO",
+      "ko": "저장소",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:85 name"
+      ]
+    },
+    {
+      "key": "branches, commits, open issues and PRs of this repo",
+      "ko": "이 저장소의 브랜치, 커밋, 열린 이슈와 PR",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:85 about"
+      ]
+    },
+    {
+      "key": "analyze this GitHub repo",
+      "ko": "이 GitHub 저장소 분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:85 label"
+      ]
+    },
+    {
+      "key": "PULL REQUESTS",
+      "ko": "풀 리퀘스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:86 name"
+      ]
+    },
+    {
+      "key": "the last 20 pull requests and their state",
+      "ko": "최근 풀 리퀘스트 20개와 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:86 about"
+      ]
+    },
+    {
+      "key": "list pull requests",
+      "ko": "풀 리퀘스트 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:86 label"
+      ]
+    },
+    {
+      "key": "ISSUES",
+      "ko": "이슈",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:87 name"
+      ]
+    },
+    {
+      "key": "the issues ruflo tracks for this repo",
+      "ko": "ruflo가 이 저장소에서 추적하는 이슈",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:87 about"
+      ]
+    },
+    {
+      "key": "list tracked issues",
+      "ko": "추적 중인 이슈 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:87 label"
+      ]
+    },
+    {
+      "key": "WORKFLOW RUNS",
+      "ko": "워크플로 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:88 name"
+      ]
+    },
+    {
+      "key": "the last 10 Actions runs and how they ended",
+      "ko": "최근 Actions 실행 10개와 종료 결과",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:88 about"
+      ]
+    },
+    {
+      "key": "list GitHub Actions runs",
+      "ko": "GitHub Actions 실행 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:88 label"
+      ]
+    },
+    {
+      "key": "METRICS",
+      "ko": "메트릭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:89 name",
+        "plugins/ruflo-console/hooks/devtools.ts:140 name",
+        "plugins/ruflo-console/hooks/perf.ts:125 name"
+      ]
+    },
+    {
+      "key": "commits, contributors, releases",
+      "ko": "커밋, 기여자, 릴리스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:89 about"
+      ]
+    },
+    {
+      "key": "GitHub metrics for this repo",
+      "ko": "이 저장소의 GitHub 메트릭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:89 label"
+      ]
+    },
+    {
+      "key": "ISSUE CLAIMS",
+      "ko": "이슈 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:90 name"
+      ]
+    },
+    {
+      "key": "who claimed which issue (ADR-016), from disk",
+      "ko": "누가 어떤 이슈를 클레임했는지(ADR-016), 디스크 기준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:90 about"
+      ]
+    },
+    {
+      "key": "issues list: issue claims",
+      "ko": "이슈 목록: 이슈 클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:90 label"
+      ]
+    },
+    {
+      "key": "CLAIMS BOARD",
+      "ko": "클레임 보드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:91 name"
+      ]
+    },
+    {
+      "key": "the claims as a board, by state",
+      "ko": "상태별 클레임 보드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:91 about"
+      ]
+    },
+    {
+      "key": "issues board",
+      "ko": "이슈 보드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:91 label"
+      ]
+    },
+    {
+      "key": "DEPLOYMENTS",
+      "ko": "배포",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:92 name"
+      ]
+    },
+    {
+      "key": "each environment and what is deployed there",
+      "ko": "환경별 배포 현황",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:92 about"
+      ]
+    },
+    {
+      "key": "deployment status",
+      "ko": "배포 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:92 label"
+      ]
+    },
+    {
+      "key": "DEPLOY HISTORY",
+      "ko": "배포 이력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:93 name"
+      ]
+    },
+    {
+      "key": "the last 10 deployments and rollbacks",
+      "ko": "최근 배포와 롤백 10건",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:93 about"
+      ]
+    },
+    {
+      "key": "deployment history",
+      "ko": "배포 이력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:93 label"
+      ]
+    },
+    {
+      "key": "cow",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:95 group",
+        "plugins/ruflo-console/hooks/devtools.ts:96 group",
+        "plugins/ruflo-console/hooks/devtools.ts:97 group"
+      ]
+    },
+    {
+      "key": "STATUS",
+      "ko": "상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:95 name",
+        "plugins/ruflo-console/hooks/devtools.ts:134 name",
+        "plugins/ruflo-console/hooks/devtools.ts:147 name"
+      ]
+    },
+    {
+      "key": "the .rvf in the path field: size, edits, checkpoints",
+      "ko": "경로 필드 .rvf의 크기, 편집, 체크포인트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:95 about"
+      ]
+    },
+    {
+      "key": "agenticow status of the .rvf",
+      "ko": ".rvf의 agenticow 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:95 label"
+      ]
+    },
+    {
+      "key": "its edits against its base",
+      "ko": "기반 대비 편집 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:96 about"
+      ]
+    },
+    {
+      "key": "agenticow diff of the .rvf",
+      "ko": ".rvf의 agenticow diff",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:96 label"
+      ]
+    },
+    {
+      "key": "LINEAGE",
+      "ko": "계보",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:97 name"
+      ]
+    },
+    {
+      "key": "base → checkpoints → working, from its manifest",
+      "ko": "기반 → 체크포인트 → 작업본, 매니페스트 기준",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:97 about"
+      ]
+    },
+    {
+      "key": "agenticow lineage of the .rvf",
+      "ko": ".rvf의 agenticow 계보",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:97 label"
+      ]
+    },
+    {
+      "key": "CHECKPOINT",
+      "ko": "체크포인트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:98 name"
+      ]
+    },
+    {
+      "key": "mark the working state with the label",
+      "ko": "라벨로 작업 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:98 about"
+      ]
+    },
+    {
+      "key": "agenticow checkpoint the .rvf",
+      "ko": ".rvf 체크포인트(agenticow)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:98 label"
+      ]
+    },
+    {
+      "key": "writes a checkpoint into the .rvf lineage manifest",
+      "ko": ".rvf 계보 매니페스트에 체크포인트를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:98 note"
+      ]
+    },
+    {
+      "key": "BRANCH",
+      "ko": "분기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:99 name"
+      ]
+    },
+    {
+      "key": "fork it to <name>-<label>.rvf beside it",
+      "ko": "<name>-<label>.rvf로 옆에 복제",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:99 about"
+      ]
+    },
+    {
+      "key": "agenticow branch the .rvf",
+      "ko": ".rvf 분기(agenticow)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:99 label"
+      ]
+    },
+    {
+      "key": "writes a new branch .rvf beside the base",
+      "ko": "기반 옆에 새 분기 .rvf를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:99 note"
+      ]
+    },
+    {
+      "key": "ROLLBACK",
+      "ko": "롤백",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:100 name"
+      ]
+    },
+    {
+      "key": "discard every edit since the last checkpoint",
+      "ko": "마지막 체크포인트 이후 모든 편집 폐기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:100 about"
+      ]
+    },
+    {
+      "key": "agenticow rollback the .rvf to its last checkpoint",
+      "ko": ".rvf를 마지막 체크포인트로 롤백(agenticow)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:100 label"
+      ]
+    },
+    {
+      "key": "DISCARDS every edit made since the most recent checkpoint",
+      "ko": "가장 최근 체크포인트 이후의 모든 편집을 폐기합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:100 note"
+      ]
+    },
+    {
+      "key": "PROMOTE",
+      "ko": "승격",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:101 name",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:22 expr",
+        "plugins/ruflo-console/hooks/gfx/evolve.ts:41 name"
+      ]
+    },
+    {
+      "key": "merge this branch .rvf into its base",
+      "ko": "이 분기 .rvf를 기반에 병합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:101 about"
+      ]
+    },
+    {
+      "key": "agenticow promote the branch into its base",
+      "ko": "분기를 기반으로 승격(agenticow)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:101 label"
+      ]
+    },
+    {
+      "key": "writes the branch edits and tombstones into its base .rvf",
+      "ko": "분기 편집과 삭제 표시를 기반 .rvf에 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:101 note"
+      ]
+    },
+    {
+      "key": "QUERY · INGEST · SPECULATE",
+      "ko": "쿼리 · 수집 · 추측",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:102 name"
+      ]
+    },
+    {
+      "key": "n/a here: they take vectors and records as JSON arrays",
+      "ko": "여기서는 사용 불가: 벡터와 레코드를 JSON 배열로 받습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:102 about"
+      ]
+    },
+    {
+      "key": "agenticow query, ingest, speculate",
+      "ko": "agenticow 쿼리, 수집, 추측",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:102 label"
+      ]
+    },
+    {
+      "key": "they take vectors or records (JSON arrays) a field cannot carry: call agenticow_query/ingest/speculate from an agent",
+      "ko": "필드로 전달할 수 없는 벡터 또는 레코드(JSON 배열)를 받습니다: 에이전트에서 agenticow_query/ingest/speculate를 호출하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:102 na"
+      ]
+    },
+    {
+      "key": "wasm",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:104 group",
+        "plugins/ruflo-console/hooks/devtools.ts:105 group",
+        "plugins/ruflo-console/hooks/devtools.ts:106 group"
+      ]
+    },
+    {
+      "key": "GALLERY",
+      "ko": "갤러리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:104 name"
+      ]
+    },
+    {
+      "key": "every agent template in the gallery",
+      "ko": "갤러리의 모든 에이전트 템플릿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:104 about"
+      ]
+    },
+    {
+      "key": "WASM gallery: the templates",
+      "ko": "WASM 갤러리: 템플릿",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:104 label"
+      ]
+    },
+    {
+      "key": "CATEGORIES",
+      "ko": "카테고리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:105 name"
+      ]
+    },
+    {
+      "key": "the gallery by category",
+      "ko": "카테고리별 갤러리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:105 about"
+      ]
+    },
+    {
+      "key": "WASM gallery categories",
+      "ko": "WASM 갤러리 카테고리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:105 label"
+      ]
+    },
+    {
+      "key": "SEARCH",
+      "ko": "검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:106 name",
+        "plugins/ruflo-console/hooks/devtools.ts:132 name",
+        "plugins/ruflo-console/hooks/memory-lab.ts:139 name"
+      ]
+    },
+    {
+      "key": "the gallery for the search field’s words",
+      "ko": "검색 필드의 단어로 갤러리 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:106 about"
+      ]
+    },
+    {
+      "key": "search the WASM gallery",
+      "ko": "WASM 갤러리 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:106 label"
+      ]
+    },
+    {
+      "key": "AGENTS",
+      "ko": "에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:107 name"
+      ]
+    },
+    {
+      "key": "agents in the answering process (exec keeps none)",
+      "ko": "응답하는 프로세스의 에이전트(exec는 남기지 않음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:107 about"
+      ]
+    },
+    {
+      "key": "list WASM agents",
+      "ko": "WASM 에이전트 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:107 label"
+      ]
+    },
+    {
+      "key": "CREATE · PROMPT · STATE · STOP",
+      "ko": "생성 · 프롬프트 · 상태 · 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:108 name"
+      ]
+    },
+    {
+      "key": "n/a here: an agent id dies with its CLI process",
+      "ko": "여기서는 사용 불가: 에이전트 ID는 CLI 프로세스와 함께 사라집니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:108 about"
+      ]
+    },
+    {
+      "key": "WASM agent create, prompt, state, terminate",
+      "ko": "WASM 에이전트 생성, 프롬프트, 상태, 종료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:108 label"
+      ]
+    },
+    {
+      "key": "browser",
+      "ko": "브라우저",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:110 group",
+        "plugins/ruflo-console/hooks/devtools.ts:111 group",
+        "plugins/ruflo-console/hooks/devtools.ts:112 group"
+      ]
+    },
+    {
+      "key": "OPEN",
+      "ko": "열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:110 name"
+      ]
+    },
+    {
+      "key": "open the URL field in the session",
+      "ko": "세션에서 URL 필드 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:110 about"
+      ]
+    },
+    {
+      "key": "open the URL in the browser",
+      "ko": "브라우저에서 URL 열기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:110 label"
+      ]
+    },
+    {
+      "key": "the browser loads the page from the network",
+      "ko": "브라우저가 네트워크에서 페이지를 불러옵니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:110 note"
+      ]
+    },
+    {
+      "key": "SNAPSHOT",
+      "ko": "스냅샷",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:111 name"
+      ]
+    },
+    {
+      "key": "the page as an accessibility tree with @e refs",
+      "ko": "@e 참조가 붙은 접근성 트리 형태의 페이지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:111 about"
+      ]
+    },
+    {
+      "key": "snapshot the open page",
+      "ko": "열린 페이지 스냅샷",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:111 label"
+      ]
+    },
+    {
+      "key": "WHERE",
+      "ko": "위치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:112 name"
+      ]
+    },
+    {
+      "key": "the URL the page is on now",
+      "ko": "페이지의 현재 URL",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:112 about"
+      ]
+    },
+    {
+      "key": "the open page’s URL",
+      "ko": "열린 페이지의 URL",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:112 label"
+      ]
+    },
+    {
+      "key": "CLICK",
+      "ko": "클릭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:113 name"
+      ]
+    },
+    {
+      "key": "click the @e ref in the target field",
+      "ko": "대상 필드의 @e 참조 클릭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:113 about"
+      ]
+    },
+    {
+      "key": "click the element in the browser",
+      "ko": "브라우저에서 요소 클릭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:113 label"
+      ]
+    },
+    {
+      "key": "a click can submit a form or navigate: the page may reach the network",
+      "ko": "클릭하면 폼이 제출되거나 이동할 수 있습니다: 페이지가 네트워크에 접근할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:113 note"
+      ]
+    },
+    {
+      "key": "BACK",
+      "ko": "뒤로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:114 name"
+      ]
+    },
+    {
+      "key": "go back one page",
+      "ko": "한 페이지 뒤로 이동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:114 about"
+      ]
+    },
+    {
+      "key": "browser back",
+      "ko": "브라우저 뒤로 가기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:114 label"
+      ]
+    },
+    {
+      "key": "the browser may load the page again from the network",
+      "ko": "브라우저가 네트워크에서 페이지를 다시 불러올 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:114 note"
+      ]
+    },
+    {
+      "key": "SCREENSHOT",
+      "ko": "스크린샷",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:115 name"
+      ]
+    },
+    {
+      "key": "a PNG of the page to ./{0}",
+      "ko": "페이지 PNG를 ./{0}에 저장",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:115 about"
+      ]
+    },
+    {
+      "key": "screenshot the page",
+      "ko": "페이지 스크린샷",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:115 label"
+      ]
+    },
+    {
+      "key": "writes ./{0}",
+      "ko": "./{0}에 씁니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:115 note"
+      ]
+    },
+    {
+      "key": "SESSIONS",
+      "ko": "세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:116 name",
+        "plugins/ruflo-console/hooks/devtools.ts:119 name",
+        "plugins/ruflo-console/hooks/devtools.ts:146 name"
+      ]
+    },
+    {
+      "key": "the browser sessions open now",
+      "ko": "지금 열려 있는 브라우저 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:116 about"
+      ]
+    },
+    {
+      "key": "list browser sessions",
+      "ko": "브라우저 세션 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:116 label"
+      ]
+    },
+    {
+      "key": "CLOSE",
+      "ko": "닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:117 name"
+      ]
+    },
+    {
+      "key": "close the console’s browser session",
+      "ko": "콘솔의 브라우저 세션 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:117 about"
+      ]
+    },
+    {
+      "key": "close the browser session",
+      "ko": "브라우저 세션 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:117 label"
+      ]
+    },
+    {
+      "key": "closes the ruflo-console browser session",
+      "ko": "ruflo-console 브라우저 세션을 닫습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:117 note"
+      ]
+    },
+    {
+      "key": "terminal",
+      "ko": "터미널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:119 group",
+        "plugins/ruflo-console/hooks/devtools.ts:120 group",
+        "plugins/ruflo-console/hooks/devtools.ts:121 group"
+      ]
+    },
+    {
+      "key": "list terminal sessions",
+      "ko": "터미널 세션 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:119 label"
+      ]
+    },
+    {
+      "key": "HISTORY",
+      "ko": "이력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:120 name"
+      ]
+    },
+    {
+      "key": "the last 20 commands they ran",
+      "ko": "실행한 최근 명령 20개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:120 about"
+      ]
+    },
+    {
+      "key": "terminal history",
+      "ko": "터미널 이력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:120 label"
+      ]
+    },
+    {
+      "key": "NEW SESSION",
+      "ko": "새 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:121 name",
+        "plugins/ruflo-console/hooks/devtools.ts:149 name"
+      ]
+    },
+    {
+      "key": "a session named ruflo-console",
+      "ko": "ruflo-console라는 이름의 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:121 about"
+      ]
+    },
+    {
+      "key": "create a terminal session",
+      "ko": "터미널 세션 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:121 label"
+      ]
+    },
+    {
+      "key": "writes a session to .claude-flow/terminals/store.json",
+      "ko": ".claude-flow/terminals/store.json에 세션을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:121 note"
+      ]
+    },
+    {
+      "key": "RUN COMMAND",
+      "ko": "명령 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:122 name"
+      ]
+    },
+    {
+      "key": "run the command field (in the id field’s session)",
+      "ko": "명령 필드를 실행(ID 필드의 세션에서)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:122 about"
+      ]
+    },
+    {
+      "key": "run the command in a ruflo terminal",
+      "ko": "ruflo 터미널에서 명령 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:122 label"
+      ]
+    },
+    {
+      "key": "RUNS A SHELL COMMAND in this project, as you: read it on the line above",
+      "ko": "이 프로젝트에서 본인 권한으로 셸 명령을 실행합니다: 위 줄에서 내용을 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:122 note"
+      ]
+    },
+    {
+      "key": "CLOSE SESSION",
+      "ko": "세션 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:123 name"
+      ]
+    },
+    {
+      "key": "close the session in the id field",
+      "ko": "ID 필드의 세션 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:123 about"
+      ]
+    },
+    {
+      "key": "close the terminal session",
+      "ko": "터미널 세션 닫기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:123 label"
+      ]
+    },
+    {
+      "key": "closes that terminal session",
+      "ko": "해당 터미널 세션을 닫습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:123 note"
+      ]
+    },
+    {
+      "key": "providers",
+      "ko": "프로바이더",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:125 group",
+        "plugins/ruflo-console/hooks/devtools.ts:126 group",
+        "plugins/ruflo-console/hooks/devtools.ts:127 group"
+      ]
+    },
+    {
+      "key": "PROVIDERS",
+      "ko": "프로바이더",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:125 name"
+      ]
+    },
+    {
+      "key": "each provider: configured (env/config) or not, never the key",
+      "ko": "프로바이더별 설정 여부(환경 변수/설정), 키는 표시하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:125 about"
+      ]
+    },
+    {
+      "key": "providers list",
+      "ko": "프로바이더 목록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:125 label"
+      ]
+    },
+    {
+      "key": "TEST ALL",
+      "ko": "전체 테스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:126 name"
+      ]
+    },
+    {
+      "key": "ask each configured provider for its models",
+      "ko": "설정된 각 프로바이더에 모델 목록 요청",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:126 about"
+      ]
+    },
+    {
+      "key": "test every configured provider",
+      "ko": "설정된 모든 프로바이더 테스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:126 label"
+      ]
+    },
+    {
+      "key": "calls each provider’s API (a models list, no completion)",
+      "ko": "각 프로바이더 API 호출(모델 목록, 완성 요청 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:126 note"
+      ]
+    },
+    {
+      "key": "CONFIGURE",
+      "ko": "설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:127 name"
+      ]
+    },
+    {
+      "key": "n/a here: a key never goes through the console",
+      "ko": "여기서는 사용 불가: 키는 콘솔을 거치지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:127 about"
+      ]
+    },
+    {
+      "key": "providers configure",
+      "ko": "프로바이더 설정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:127 label"
+      ]
+    },
+    {
+      "key": "a key on an argv shows in the process list: run ruflo providers configure -p <provider> yourself, or set the provider’s env var",
+      "ko": "argv의 키는 프로세스 목록에 노출됩니다: ruflo providers configure -p <provider>를 직접 실행하거나 프로바이더의 환경 변수를 설정하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:127 na"
+      ]
+    },
+    {
+      "key": "plugins",
+      "ko": "플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:129 group",
+        "plugins/ruflo-console/hooks/devtools.ts:130 group",
+        "plugins/ruflo-console/hooks/devtools.ts:131 group"
+      ]
+    },
+    {
+      "key": "INSTALLED",
+      "ko": "설치됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:129 name"
+      ]
+    },
+    {
+      "key": "plugins list --installed",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:129 label"
+      ]
+    },
+    {
+      "key": "OFFICIAL",
+      "ko": "공식",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:130 name"
+      ]
+    },
+    {
+      "key": "the official plugins in the registry",
+      "ko": "레지스트리의 공식 플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:130 about"
+      ]
+    },
+    {
+      "key": "registry: official plugins",
+      "ko": "레지스트리: 공식 플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:130 label"
+      ]
+    },
+    {
+      "key": "reads the plugin registry from IPFS",
+      "ko": "IPFS에서 플러그인 레지스트리를 읽습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:130 note",
+        "plugins/ruflo-console/hooks/devtools.ts:131 note",
+        "plugins/ruflo-console/hooks/devtools.ts:132 note"
+      ]
+    },
+    {
+      "key": "FEATURED",
+      "ko": "추천",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:131 name"
+      ]
+    },
+    {
+      "key": "ten featured plugins",
+      "ko": "추천 플러그인 10개",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:131 about"
+      ]
+    },
+    {
+      "key": "registry: featured plugins",
+      "ko": "레지스트리: 추천 플러그인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:131 label"
+      ]
+    },
+    {
+      "key": "the registry for the search field’s words",
+      "ko": "검색 필드의 단어로 레지스트리 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:132 about"
+      ]
+    },
+    {
+      "key": "search the plugin registry",
+      "ko": "플러그인 레지스트리 검색",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:132 label"
+      ]
+    },
+    {
+      "key": "WASM, native coordinator and graph backends",
+      "ko": "WASM, 네이티브 코디네이터, 그래프 백엔드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:134 about"
+      ]
+    },
+    {
+      "key": "ruvllm status",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:134 label"
+      ]
+    },
+    {
+      "key": "HNSW ROUTER",
+      "ko": "HNSW 라우터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:135 name"
+      ]
+    },
+    {
+      "key": "a 384-dim router for 64 patterns",
+      "ko": "64개 패턴용 384차원 라우터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:135 about"
+      ]
+    },
+    {
+      "key": "create a ruvllm HNSW router",
+      "ko": "ruvllm HNSW 라우터 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:135 label"
+      ]
+    },
+    {
+      "key": "in memory in that one CLI process: it answers its id and config, and keeps nothing",
+      "ko": "해당 CLI 프로세스 메모리 안에서만 동작하며, ID와 설정만 응답하고 아무것도 남기지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:135 note",
+        "plugins/ruflo-console/hooks/devtools.ts:136 note",
+        "plugins/ruflo-console/hooks/devtools.ts:137 note"
+      ]
+    },
+    {
+      "key": "SONA",
+      "ko": "SONA",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:136 name"
+      ]
+    },
+    {
+      "key": "a SONA adapter with the default sizes",
+      "ko": "기본 크기의 SONA 어댑터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:136 about"
+      ]
+    },
+    {
+      "key": "create a SONA adapter",
+      "ko": "SONA 어댑터 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:136 label"
+      ]
+    },
+    {
+      "key": "MICROLORA",
+      "ko": "MICROLORA",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:137 name"
+      ]
+    },
+    {
+      "key": "a rank-8 384→384 MicroLoRA",
+      "ko": "랭크 8, 384→384 MicroLoRA",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:137 about"
+      ]
+    },
+    {
+      "key": "create a MicroLoRA",
+      "ko": "MicroLoRA 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:137 label"
+      ]
+    },
+    {
+      "key": "daa",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:139 group",
+        "plugins/ruflo-console/hooks/devtools.ts:140 group",
+        "plugins/ruflo-console/hooks/devtools.ts:141 group"
+      ]
+    },
+    {
+      "key": "LEARNING",
+      "ko": "학습",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:139 name",
+        "plugins/ruflo-console/hooks/vector.ts:125 name"
+      ]
+    },
+    {
+      "key": "each DAA agent’s learning and adaptations",
+      "ko": "각 DAA 에이전트의 학습과 적응",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:139 about"
+      ]
+    },
+    {
+      "key": "DAA learning status",
+      "ko": "DAA 학습 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:139 label"
+      ]
+    },
+    {
+      "key": "agents, workflows and learning, all time",
+      "ko": "에이전트, 워크플로, 학습 전체 기간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:140 about"
+      ]
+    },
+    {
+      "key": "DAA performance metrics",
+      "ko": "DAA 성능 메트릭",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:140 label"
+      ]
+    },
+    {
+      "key": "NEW AGENT",
+      "ko": "새 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:141 name"
+      ]
+    },
+    {
+      "key": "an adaptive agent with the id field",
+      "ko": "ID 필드로 만드는 적응형 에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:141 about"
+      ]
+    },
+    {
+      "key": "create a DAA agent",
+      "ko": "DAA 에이전트 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:141 label"
+      ]
+    },
+    {
+      "key": "writes the agent to .claude-flow/daa",
+      "ko": ".claude-flow/daa에 에이전트를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:141 note"
+      ]
+    },
+    {
+      "key": "ADAPT",
+      "ko": "적응",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:142 name"
+      ]
+    },
+    {
+      "key": "feed the note to the agent in the id field",
+      "ko": "ID 필드 에이전트에 메모 전달",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:142 about"
+      ]
+    },
+    {
+      "key": "adapt the DAA agent with the note",
+      "ko": "메모로 DAA 에이전트 적응",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:142 label"
+      ]
+    },
+    {
+      "key": "writes the adaptation to .claude-flow/daa",
+      "ko": ".claude-flow/daa에 적응 내용을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:142 note"
+      ]
+    },
+    {
+      "key": "NEW WORKFLOW",
+      "ko": "새 워크플로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:143 name"
+      ]
+    },
+    {
+      "key": "an adaptive workflow named by the label field",
+      "ko": "라벨 필드 이름의 적응형 워크플로",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:143 about"
+      ]
+    },
+    {
+      "key": "create a DAA workflow",
+      "ko": "DAA 워크플로 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:143 label"
+      ]
+    },
+    {
+      "key": "writes the workflow to .claude-flow/daa",
+      "ko": ".claude-flow/daa에 워크플로를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:143 note"
+      ]
+    },
+    {
+      "key": "SHARE",
+      "ko": "공유",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:144 name",
+        "plugins/ruflo-console/hooks/vector.ts:81 name"
+      ]
+    },
+    {
+      "key": "the note, from the id agent to the label agent",
+      "ko": "ID 에이전트에서 라벨 에이전트로 보내는 메모",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:144 about"
+      ]
+    },
+    {
+      "key": "share knowledge between DAA agents",
+      "ko": "DAA 에이전트 간 지식 공유",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:144 label"
+      ]
+    },
+    {
+      "key": "writes the shared knowledge to .claude-flow/daa",
+      "ko": ".claude-flow/daa에 공유된 지식을 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:144 note"
+      ]
+    },
+    {
+      "key": "managed",
+      "ko": "관리형",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:146 group",
+        "plugins/ruflo-console/hooks/devtools.ts:147 group",
+        "plugins/ruflo-console/hooks/devtools.ts:148 group"
+      ]
+    },
+    {
+      "key": "your cloud sessions (ANTHROPIC_API_KEY)",
+      "ko": "내 클라우드 세션 (ANTHROPIC_API_KEY)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:146 about"
+      ]
+    },
+    {
+      "key": "list managed-agent sessions",
+      "ko": "관리형 에이전트 세션 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:146 label"
+      ]
+    },
+    {
+      "key": "calls the Anthropic API with your key",
+      "ko": "내 키로 Anthropic API를 호출합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:146 note",
+        "plugins/ruflo-console/hooks/devtools.ts:147 note",
+        "plugins/ruflo-console/hooks/devtools.ts:148 note"
+      ]
+    },
+    {
+      "key": "the session in the id field",
+      "ko": "ID 필드의 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:147 about"
+      ]
+    },
+    {
+      "key": "managed-agent status",
+      "ko": "관리형 에이전트 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:147 label"
+      ]
+    },
+    {
+      "key": "TRANSCRIPT",
+      "ko": "대화 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:148 name"
+      ]
+    },
+    {
+      "key": "that session’s events",
+      "ko": "해당 세션의 이벤트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:148 about"
+      ]
+    },
+    {
+      "key": "managed-agent transcript",
+      "ko": "관리형 에이전트 대화 기록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:148 label"
+      ]
+    },
+    {
+      "key": "a cloud agent session, networking off",
+      "ko": "네트워크가 꺼진 클라우드 에이전트 세션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:149 about"
+      ]
+    },
+    {
+      "key": "create a managed-agent session",
+      "ko": "관리형 에이전트 세션 생성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:149 label"
+      ]
+    },
+    {
+      "key": "COSTS MONEY: starts a billed cloud session on the Anthropic API",
+      "ko": "비용 발생: Anthropic API에서 과금되는 클라우드 세션을 시작합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:149 note"
+      ]
+    },
+    {
+      "key": "PROMPT",
+      "ko": "프롬프트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:150 name"
+      ]
+    },
+    {
+      "key": "send the note to the id session",
+      "ko": "ID 세션에 메모 전송",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:150 about"
+      ]
+    },
+    {
+      "key": "prompt the managed agent with the note",
+      "ko": "메모로 관리형 에이전트에 프롬프트 전달",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:150 label"
+      ]
+    },
+    {
+      "key": "COSTS MONEY: a model turn in that cloud session",
+      "ko": "비용 발생: 해당 클라우드 세션에서 모델 턴 1회",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:150 note"
+      ]
+    },
+    {
+      "key": "TERMINATE",
+      "ko": "종료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:151 name"
+      ]
+    },
+    {
+      "key": "end the id session",
+      "ko": "ID 세션 종료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:151 about"
+      ]
+    },
+    {
+      "key": "terminate the managed-agent session",
+      "ko": "관리형 에이전트 세션 종료",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:151 label"
+      ]
+    },
+    {
+      "key": "ends that cloud session on the Anthropic API",
+      "ko": "Anthropic API의 해당 클라우드 세션을 종료합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:151 note"
+      ]
+    },
+    {
+      "key": "maint",
+      "ko": "유지보수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:153 group",
+        "plugins/ruflo-console/hooks/devtools.ts:155 group",
+        "plugins/ruflo-console/hooks/devtools.ts:156 group"
+      ]
+    },
+    {
+      "key": "CLEANUP PLAN",
+      "ko": "정리 계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:153 name",
+        "plugins/ruflo-console/hooks/memory-lab.ts:143 name"
+      ]
+    },
+    {
+      "key": "what cleanup would remove (dry run)",
+      "ko": "정리 시 제거될 항목(드라이런)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:153 about"
+      ]
+    },
+    {
+      "key": "cleanup dry run",
+      "ko": "정리 드라이런",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:153 label"
+      ]
+    },
+    {
+      "key": "CLEANUP",
+      "ko": "정리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:155 name",
+        "plugins/ruflo-console/hooks/memory-lab.ts:174 name"
+      ]
+    },
+    {
+      "key": "remove everything CLEANUP PLAN lists",
+      "ko": "정리 계획에 나온 모든 항목 제거",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:155 about"
+      ]
+    },
+    {
+      "key": "cleanup --force",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:155 label"
+      ]
+    },
+    {
+      "key": "DELETES what CLEANUP PLAN lists: .claude-flow, .swarm, .hive-mind, .claude/helpers, claude-flow.config.json, ruflo’s blocks in .claude/settings.json",
+      "ko": "정리 계획에 나온 항목을 삭제합니다: .claude-flow, .swarm, .hive-mind, .claude/helpers, claude-flow.config.json, .claude/settings.json의 ruflo 블록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:155 note"
+      ]
+    },
+    {
+      "key": "UPDATE CHECK",
+      "ko": "업데이트 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:156 name"
+      ]
+    },
+    {
+      "key": "newer @claude-flow packages on npm",
+      "ko": "npm의 최신 @claude-flow 패키지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:156 about"
+      ]
+    },
+    {
+      "key": "update check",
+      "ko": "업데이트 확인",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:156 label"
+      ]
+    },
+    {
+      "key": "asks the npm registry",
+      "ko": "npm 레지스트리에 요청합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:156 note"
+      ]
+    },
+    {
+      "key": "UPDATE HISTORY",
+      "ko": "업데이트 이력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:157 name"
+      ]
+    },
+    {
+      "key": "the updates applied here",
+      "ko": "여기서 적용된 업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:157 about"
+      ]
+    },
+    {
+      "key": "update history",
+      "ko": "업데이트 이력",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:157 label"
+      ]
+    },
+    {
+      "key": "UPDATE ALL",
+      "ko": "전체 업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:158 name"
+      ]
+    },
+    {
+      "key": "install the newer @claude-flow packages",
+      "ko": "최신 @claude-flow 패키지 설치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:158 about"
+      ]
+    },
+    {
+      "key": "update all @claude-flow packages",
+      "ko": "@claude-flow 패키지 전체 업데이트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:158 label"
+      ]
+    },
+    {
+      "key": "downloads from npm and writes node_modules",
+      "ko": "npm에서 내려받아 node_modules에 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:158 note"
+      ]
+    },
+    {
+      "key": "UPDATE ROLLBACK",
+      "ko": "업데이트 롤백",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:159 name"
+      ]
+    },
+    {
+      "key": "undo the last update",
+      "ko": "마지막 업데이트 되돌리기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:159 about"
+      ]
+    },
+    {
+      "key": "update rollback",
+      "ko": "업데이트 롤백",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:159 label"
+      ]
+    },
+    {
+      "key": "reinstalls the versions before the last update",
+      "ko": "마지막 업데이트 이전 버전을 다시 설치합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:159 note"
+      ]
+    },
+    {
+      "key": "MIGRATE STATUS",
+      "ko": "마이그레이션 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:160 name"
+      ]
+    },
+    {
+      "key": "what of v2 is left to migrate",
+      "ko": "v2에서 아직 마이그레이션하지 않은 항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:160 about"
+      ]
+    },
+    {
+      "key": "migrate status",
+      "ko": "마이그레이션 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:160 label"
+      ]
+    },
+    {
+      "key": "BREAKING",
+      "ko": "호환성 깨짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:161 name"
+      ]
+    },
+    {
+      "key": "the v3 breaking changes",
+      "ko": "v3의 호환성 깨짐 변경",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:161 about"
+      ]
+    },
+    {
+      "key": "migrate breaking",
+      "ko": "마이그레이션 호환성 깨짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:161 label"
+      ]
+    },
+    {
+      "key": "MIGRATE PLAN",
+      "ko": "마이그레이션 계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:162 name"
+      ]
+    },
+    {
+      "key": "n/a: this CLI ignores migrate run --dry-run",
+      "ko": "해당 없음: 이 CLI는 migrate run --dry-run을 무시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:162 about"
+      ]
+    },
+    {
+      "key": "migrate run --dry-run",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:162 label"
+      ]
+    },
+    {
+      "key": "migrate.ts reads flags[\"dry-run\"] but the parser passes dryRun, so --dry-run runs the real migration (with a backup): use MIGRATE STATUS to see what is left",
+      "ko": "migrate.ts는 flags[\"dry-run\"]을 읽지만 파서는 dryRun을 넘기므로 --dry-run이 실제 마이그레이션(백업 포함)을 실행합니다: 남은 항목은 마이그레이션 상태로 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:162 na"
+      ]
+    },
+    {
+      "key": "MIGRATE",
+      "ko": "마이그레이션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:163 name",
+        "plugins/ruflo-console/hooks/memory-lab.ts:172 name"
+      ]
+    },
+    {
+      "key": "run the full v2 → v3 migration",
+      "ko": "v2 → v3 전체 마이그레이션 실행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:163 about"
+      ]
+    },
+    {
+      "key": "migrate run --target all",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:163 label"
+      ]
+    },
+    {
+      "key": "migrates config, memory, agents, hooks, workflows and embeddings to v3 in place",
+      "ko": "설정, 메모리, 에이전트, 훅, 워크플로, 임베딩을 그 자리에서 v3로 마이그레이션합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:163 note"
+      ]
+    },
+    {
+      "key": "DAEMON",
+      "ko": "데몬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:164 name"
+      ]
+    },
+    {
+      "key": "is the daemon up, its pid and port",
+      "ko": "데몬 실행 여부, pid, 포트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:164 about"
+      ]
+    },
+    {
+      "key": "process daemon status",
+      "ko": "프로세스 데몬 상태",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:164 label"
+      ]
+    },
+    {
+      "key": "DAEMON START",
+      "ko": "데몬 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:165 name"
+      ]
+    },
+    {
+      "key": "start the background daemon",
+      "ko": "백그라운드 데몬 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:165 about"
+      ]
+    },
+    {
+      "key": "start the ruflo daemon",
+      "ko": "ruflo 데몬 시작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:165 label"
+      ]
+    },
+    {
+      "key": "starts a background process and writes .claude-flow/daemon.pid",
+      "ko": "백그라운드 프로세스를 시작하고 .claude-flow/daemon.pid를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:165 note"
+      ]
+    },
+    {
+      "key": "DAEMON STOP",
+      "ko": "데몬 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:166 name"
+      ]
+    },
+    {
+      "key": "stop the background daemon",
+      "ko": "백그라운드 데몬 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:166 about"
+      ]
+    },
+    {
+      "key": "stop the ruflo daemon",
+      "ko": "ruflo 데몬 중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:166 label"
+      ]
+    },
+    {
+      "key": "stops the background daemon",
+      "ko": "백그라운드 데몬을 중지합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:166 note"
+      ]
+    },
+    {
+      "key": "WORKERS",
+      "ko": "워커",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:167 name"
+      ]
+    },
+    {
+      "key": "the background worker processes",
+      "ko": "백그라운드 워커 프로세스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:167 about"
+      ]
+    },
+    {
+      "key": "process workers list",
+      "ko": "프로세스 워커 목록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:167 label"
+      ]
+    },
+    {
+      "key": "LOGS",
+      "ko": "로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:168 name"
+      ]
+    },
+    {
+      "key": "the last 50 log lines",
+      "ko": "최근 로그 50줄",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:168 about"
+      ]
+    },
+    {
+      "key": "process logs",
+      "ko": "프로세스 로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:168 label"
+      ]
+    },
+    {
+      "key": "APPLIANCE",
+      "ko": "어플라이언스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:169 name"
+      ]
+    },
+    {
+      "key": "the RVFA header and sections of the path field’s .rvf",
+      "ko": "경로 필드 .rvf의 RVFA 헤더와 섹션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:169 about"
+      ]
+    },
+    {
+      "key": "appliance inspect",
+      "ko": "어플라이언스 검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:169 label"
+      ]
+    },
+    {
+      "key": "APPLIANCE VERIFY",
+      "ko": "어플라이언스 검증",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:170 name"
+      ]
+    },
+    {
+      "key": "its integrity (quick, no capability tests)",
+      "ko": "무결성 검증(빠른 검사, 기능 테스트 없음)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:170 about"
+      ]
+    },
+    {
+      "key": "appliance verify --quick",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:170 label"
+      ]
+    },
+    {
+      "key": "its output in Dev Tools",
+      "ko": "Dev Tools에 출력이 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:188 expect"
+      ]
+    },
+    {
+      "key": "its result in Dev Tools; {0}",
+      "ko": "Dev Tools에 결과가 표시됩니다; {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:188 expect"
+      ]
+    },
+    {
+      "key": "its result in Dev Tools",
+      "ko": "Dev Tools에 결과가 표시됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:188 expect"
+      ]
+    },
+    {
+      "key": "{0} field is empty: type it in the field above, then ▶ run: {1}",
+      "ko": "{0} 필드가 비어 있습니다: 위 필드에 입력한 뒤 ▶ 실행: {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:211 return"
+      ]
+    },
+    {
+      "key": "devtools",
+      "ko": "개발 도구",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:227 group",
+        "plugins/ruflo-console/hooks/devtools.ts:231 group",
+        "plugins/ruflo-console/hooks/views/devtools.ts:160 col()"
+      ]
+    },
+    {
+      "key": "tmux is not installed on this machine: install it, then open this page again",
+      "ko": "이 컴퓨터에 tmux가 설치되어 있지 않습니다: 설치한 뒤 이 화면을 다시 여세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/devtools.ts:249 na"
+      ]
+    }
+  ],
+  "obsolete": []
+}

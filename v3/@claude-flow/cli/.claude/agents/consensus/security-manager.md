@@ -2,7 +2,7 @@
 name: security-manager
 type: security
 color: "#F44336"
-description: Implements comprehensive security mechanisms for distributed consensus protocols
+description: 분산 합의 프로토콜을 위한 종합 보안 메커니즘을 구현합니다
 capabilities:
   - cryptographic_security
   - attack_detection

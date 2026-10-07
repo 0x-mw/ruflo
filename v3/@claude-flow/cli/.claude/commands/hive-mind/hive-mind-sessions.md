@@ -1,3 +1,7 @@
+---
+description: 하이브마인드 세션
+---
+
 # hive-mind-sessions
 
 Command documentation for hive-mind-sessions in category hive-mind.

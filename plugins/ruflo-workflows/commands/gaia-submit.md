@@ -1,6 +1,6 @@
 ---
 name: gaia-submit
-description: Package GAIA results into an Ed25519-signed, HAL-compatible submission archive
+description: GAIA 결과를 Ed25519 서명된 HAL 호환 제출 아카이브로 패키징
 argument-hint: "[--results=<path>] [--run-id=<id>] [--dry-run]"
 ---
 

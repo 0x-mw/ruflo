@@ -1,0 +1,140 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/wf-control.ts",
+  "entries": [
+    {
+      "key": "No run picked.",
+      "ko": "선택한 실행이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:69 text()",
+        "plugins/ruflo-console/hooks/views/wf-guide.ts:164 line()"
+      ]
+    },
+    {
+      "key": "The console is not wired to a host here: nothing can be called.",
+      "ko": "콘솔이 호스트에 연결되어 있지 않아 호출할 수 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:70 text()"
+      ]
+    },
+    {
+      "key": "this surface has no text field: message and redirect need one",
+      "ko": "이 화면에는 텍스트 입력란이 없습니다: 메시지와 방향 전환에는 입력란이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:75 text()"
+      ]
+    },
+    {
+      "key": "message",
+      "ko": "메시지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:75 label",
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:110 label"
+      ]
+    },
+    {
+      "key": "what to tell the agent, or what to change on a redirect",
+      "ko": "에이전트에게 전할 말 또는 방향 전환 시 바꿀 내용",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:75 placeholder"
+      ]
+    },
+    {
+      "key": "none picked: stop and message need one",
+      "ko": "선택 없음: 중지와 메시지에는 선택이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:76 kv()"
+      ]
+    },
+    {
+      "key": "not bound in this build: only the prompt-box text is offered",
+      "ko": "이 빌드에는 연결되어 있지 않습니다: 프롬프트 입력란 텍스트만 제공됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:76 kv()"
+      ]
+    },
+    {
+      "key": "bound: each call goes through the engine's permission check and dialog",
+      "ko": "연결됨: 모든 호출은 엔진의 권한 확인과 대화상자를 거칩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:76 kv()"
+      ]
+    },
+    {
+      "key": "message: none typed yet",
+      "ko": "메시지: 아직 입력하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:76 text()",
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:111 text()"
+      ]
+    },
+    {
+      "key": "message: {0}",
+      "ko": "메시지: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:76 text()",
+        "plugins/ruflo-console/hooks/views/wf-convo.ts:111 text()"
+      ]
+    },
+    {
+      "key": "call: none ({0})",
+      "ko": "호출: 없음 ({0})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:80 text()"
+      ]
+    },
+    {
+      "key": "call",
+      "ko": "호출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:80 text()"
+      ]
+    },
+    {
+      "key": "A refusal by the engine is shown and nothing else is tried in its place. Stopping is not undone by resuming.",
+      "ko": "엔진의 거부는 그대로 표시되며 대신 다른 것을 시도하지 않습니다. 중지는 재개해도 되돌려지지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:84 text()"
+      ]
+    },
+    {
+      "key": "control",
+      "ko": "제어",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:102 label"
+      ]
+    },
+    {
+      "key": "stop",
+      "ko": "중지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:103 label"
+      ]
+    },
+    {
+      "key": "nothing to stop: a ruflo swarm run (use x), an id the engine would not accept, or a build with no tool bridge",
+      "ko": "중지할 대상이 없습니다: ruflo 스웜 실행(x 사용), 엔진이 받아들이지 않는 ID, 또는 도구 브리지가 없는 빌드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/wf-control.ts:103 why"
+      ]
+    }
+  ],
+  "obsolete": []
+}

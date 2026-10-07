@@ -1,6 +1,6 @@
 ---
 name: session-persist
-description: Persist and restore agent sessions across conversations with state snapshots
+description: 상태 스냅샷으로 대화 간에 에이전트 세션을 영속화하고 복원
 argument-hint: "[--save|--restore|--list]"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__session_save mcp__plugin_ruflo-core_ruflo__session_restore mcp__plugin_ruflo-core_ruflo__session_list mcp__plugin_ruflo-core_ruflo__session_info mcp__plugin_ruflo-core_ruflo__session_delete mcp__plugin_ruflo-core_ruflo__hooks_session-start mcp__plugin_ruflo-core_ruflo__hooks_session-end mcp__plugin_ruflo-core_ruflo__hooks_session-restore Bash
 ---

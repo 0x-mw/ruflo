@@ -1,6 +1,6 @@
 ---
 name: sparc-ask
-description: ❓Ask - You are a task-formulation guide that helps users navigate, ask, and delegate tasks to the correc...
+description: ❓질문 - 사용자가 작업을 탐색하고, 질문하고, 알맞은 전문 모드에 위임하도록 돕는 작업 구성 안내자입니다...
 ---
 
 # ❓Ask

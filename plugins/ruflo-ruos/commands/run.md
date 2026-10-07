@@ -1,6 +1,6 @@
 ---
 name: run
-description: Run a ruflo agent (claude -p) on one of your ruOS desktops and stream its output into the swarm
+description: 본인의 ruOS 데스크톱 중 하나에서 ruflo 에이전트(claude -p)를 실행하고 출력을 스웜으로 스트리밍
 ---
 $ARGUMENTS
 

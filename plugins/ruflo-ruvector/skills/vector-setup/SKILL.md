@@ -1,6 +1,6 @@
 ---
 name: vector-setup
-description: First-run setup for ruvector@0.2.25 — installs ONNX/Brain/SONA add-ons, registers the MCP server, and verifies the install via `doctor`
+description: ruvector@0.2.25 최초 실행 설정 — ONNX/Brain/SONA 애드온을 설치하고, MCP 서버를 등록하고, `doctor`로 설치를 검증
 argument-hint: "[--full]"
 allowed-tools: Bash Read
 ---

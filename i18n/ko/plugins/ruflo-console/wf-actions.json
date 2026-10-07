@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/wf-actions.ts",
+  "entries": [
+    {
+      "key": "that path is outside Claude Code's projects folder, so it is not shown",
+      "ko": "이 경로는 Claude Code의 프로젝트 폴더 밖에 있어 표시하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/wf-actions.ts:56 detail"
+      ]
+    }
+  ],
+  "obsolete": []
+}

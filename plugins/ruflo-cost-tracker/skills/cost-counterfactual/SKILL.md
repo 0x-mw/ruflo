@@ -1,6 +1,6 @@
 ---
 name: cost-counterfactual
-description: Multi-baseline counterfactual cost analysis. Compares actual session spend to hypothetical always-haiku / always-sonnet / always-opus routing baselines. Answers "is the routing earning its keep?" Negative savings flag over-escalation; positive savings quantify the router's win.
+description: 다중 기준선 반사실 비용 분석. 실제 세션 지출을 항상 haiku / 항상 sonnet / 항상 opus로 라우팅했을 가정 기준선과 비교합니다. "라우팅이 제값을 하는가?"("is the routing earning its keep?")에 답하며, 음수 절감은 과도한 상향을, 양수 절감은 라우터의 이득을 수치화합니다.
 argument-hint: "[--since 7d] [--baseline always-haiku|always-sonnet|always-opus|all] [--format table|json]"
 allowed-tools: Bash
 ---

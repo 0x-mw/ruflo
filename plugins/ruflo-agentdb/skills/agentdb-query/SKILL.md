@@ -1,6 +1,6 @@
 ---
 name: agentdb-query
-description: Query AgentDB through the controller bridge -- semantic routing, hierarchical recall, causal graphs, context synthesis, pattern store/search
+description: 컨트롤러 브리지를 통해 AgentDB를 쿼리 -- 시맨틱 라우팅, 계층형 불러오기, 인과 그래프, 컨텍스트 합성, 패턴 저장/검색
 argument-hint: "<query>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__agentdb_semantic-route mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-recall mcp__plugin_ruflo-core_ruflo__agentdb_hierarchical-store mcp__plugin_ruflo-core_ruflo__agentdb_context-synthesize mcp__plugin_ruflo-core_ruflo__agentdb_causal-edge mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search mcp__plugin_ruflo-core_ruflo__agentdb_pattern-store mcp__plugin_ruflo-core_ruflo__agentdb_controllers mcp__plugin_ruflo-core_ruflo__agentdb_health mcp__plugin_ruflo-core_ruflo__agentdb_batch mcp__plugin_ruflo-core_ruflo__agentdb_feedback mcp__plugin_ruflo-core_ruflo__agentdb_consolidate mcp__plugin_ruflo-core_ruflo__agentdb_session-start mcp__plugin_ruflo-core_ruflo__agentdb_session-end Bash
 ---

@@ -1,0 +1,225 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/memory.ts",
+  "entries": [
+    {
+      "key": "AgentDB",
+      "ko": "AgentDB",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:16 rule()"
+      ]
+    },
+    {
+      "key": "memory stats",
+      "ko": "메모리 통계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:19 sourceLine()"
+      ]
+    },
+    {
+      "key": "entries",
+      "ko": "항목",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:21 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} with vectors",
+      "ko": "{0} · 벡터 보유 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:21 kv()"
+      ]
+    },
+    {
+      "key": "storage",
+      "ko": "저장 용량",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:22 kv()"
+      ]
+    },
+    {
+      "key": "span",
+      "ko": "기간",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:23 kv()"
+      ]
+    },
+    {
+      "key": "oldest {0} · newest {1}",
+      "ko": "가장 오래된 {0} · 최신 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:23 kv()"
+      ]
+    },
+    {
+      "key": "{0} more rows in .swarm/agentdb-memory.db (the MCP path’s store) are not in these counts or the list; unified search reads them",
+      "ko": ".swarm/agentdb-memory.db(MCP 경로의 저장소)에 행 {0}개가 더 있으며 이 수치와 목록에는 포함되지 않습니다. 통합 검색은 이를 읽습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:26 text()"
+      ]
+    },
+    {
+      "key": "embedded",
+      "ko": "임베딩",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:36 kv()"
+      ]
+    },
+    {
+      "key": "{0} {1}/{2} of the newest listed carry a vector",
+      "ko": "{0} 나열된 최신 항목 {2}개 중 {1}개가 벡터 보유",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:36 kv()"
+      ]
+    },
+    {
+      "key": "Namespaces",
+      "ko": "네임스페이스",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:46 rule()"
+      ]
+    },
+    {
+      "key": "newest {0} entries · showing {1}",
+      "ko": "최신 항목 {0}개 · {1} 표시",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:46 rule()"
+      ]
+    },
+    {
+      "key": "newest {0} entries",
+      "ko": "최신 항목 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:46 rule()"
+      ]
+    },
+    {
+      "key": "memory list",
+      "ko": "메모리 목록",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:49 sourceLine()"
+      ]
+    },
+    {
+      "key": "no entries: store one below (▸ store), or import your Claude memories (IMPORT CLAUDE)",
+      "ko": "항목이 없습니다: 아래(▸ 저장)에서 저장하거나 Claude 메모리를 가져오세요 (IMPORT CLAUDE)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:55 text()"
+      ]
+    },
+    {
+      "key": "a sample: counts over the newest entries `memory list` returns, not the whole store · click a namespace to browse it",
+      "ko": "표본입니다: `memory list`가 반환하는 최신 항목 기준 집계이며 저장소 전체가 아닙니다 · 네임스페이스를 클릭해 둘러보세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:74 text()"
+      ]
+    },
+    {
+      "key": "a sample: counts over the newest entries `memory list` returns, not the whole store · click a namespace to show all again",
+      "ko": "표본입니다: `memory list`가 반환하는 최신 항목 기준 집계이며 저장소 전체가 아닙니다 · 네임스페이스를 클릭하면 전체를 다시 표시합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:74 text()"
+      ]
+    },
+    {
+      "key": "Recency",
+      "ko": "최근성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:88 rule()"
+      ]
+    },
+    {
+      "key": "{0} entries by last write",
+      "ko": "마지막 쓰기 기준 항목 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:88 rule()"
+      ]
+    },
+    {
+      "key": "Browse",
+      "ko": "둘러보기",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:105 rule()"
+      ]
+    },
+    {
+      "key": "{0} listed · page {1}/{2}",
+      "ko": "{0}개 나열 · {1}/{2}쪽",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:105 rule()"
+      ]
+    },
+    {
+      "key": "nothing listed yet",
+      "ko": "아직 나열된 항목이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:108 text()"
+      ]
+    },
+    {
+      "key": "nothing listed in {0}",
+      "ko": "{0}에 나열된 항목이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:108 text()"
+      ]
+    },
+    {
+      "key": "nothing listed in",
+      "ko": "나열된 항목이 없는 곳:",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:108 text()"
+      ]
+    },
+    {
+      "key": "◆ has a vector · ▸ view reads it at once · ▸ delete asks · r re-lists",
+      "ko": "◆ 벡터 있음 · ▸ 보기는 바로 읽음 · ▸ 삭제는 먼저 묻습니다 · r 다시 나열",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:126 text()"
+      ]
+    },
+    {
+      "key": "spend, budget gauge and burn: Cost (9)",
+      "ko": "지출, 예산 게이지, 소모량: 비용 (9)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:145 text()"
+      ]
+    },
+    {
+      "key": "memory",
+      "ko": "메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/memory.ts:145 col()",
+        "plugins/ruflo-console/hooks/views/neural.ts:22 label"
+      ]
+    }
+  ],
+  "obsolete": []
+}

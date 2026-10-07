@@ -1,0 +1,189 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/boot-facts.ts",
+  "entries": [
+    {
+      "key": "agentdb",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:51 label",
+        "plugins/ruflo-console/hooks/memory-lab.ts:146 group",
+        "plugins/ruflo-console/hooks/memory-lab.ts:147 group"
+      ]
+    },
+    {
+      "key": "sona",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:52 label",
+        "plugins/ruflo-console/hooks/data/snapshot.ts:127 text()"
+      ]
+    },
+    {
+      "key": "ruvector",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:53 label"
+      ]
+    },
+    {
+      "key": "rvf",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:54 label"
+      ]
+    },
+    {
+      "key": "ruvllm",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:55 label",
+        "plugins/ruflo-console/hooks/devtools.ts:134 group",
+        "plugins/ruflo-console/hooks/devtools.ts:135 group"
+      ]
+    },
+    {
+      "key": "rulake",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:56 label"
+      ]
+    },
+    {
+      "key": "ruqu",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:57 label"
+      ]
+    },
+    {
+      "key": "rvdna",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:58 label"
+      ]
+    },
+    {
+      "key": "{0} is not installed",
+      "ko": "{0}이(가) 설치되지 않았습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:82 detail"
+      ]
+    },
+    {
+      "key": "plugin {0}",
+      "ko": "플러그인 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:82 detail"
+      ]
+    },
+    {
+      "key": "no {0} plugin installed",
+      "ko": "설치된 {0} 플러그인이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:87 detail"
+      ]
+    },
+    {
+      "key": "{0} plugin",
+      "ko": "{0} 플러그인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:87 detail"
+      ]
+    },
+    {
+      "key": "{0} plugins",
+      "ko": "{0} 플러그인",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:87 detail"
+      ]
+    },
+    {
+      "key": "a ruflo project",
+      "ko": "ruflo 프로젝트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:91 detail"
+      ]
+    },
+    {
+      "key": "the CLI has not answered",
+      "ko": "CLI가 응답하지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:91 detail"
+      ]
+    },
+    {
+      "key": "memory answers",
+      "ko": "메모리 응답함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:92 detail"
+      ]
+    },
+    {
+      "key": "no memory database found",
+      "ko": "메모리 데이터베이스가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:92 detail"
+      ]
+    },
+    {
+      "key": "{0} patterns",
+      "ko": "패턴 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:95 detail"
+      ]
+    },
+    {
+      "key": "neural stats on disk",
+      "ko": "디스크의 뉴럴 통계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:97 detail"
+      ]
+    },
+    {
+      "key": "the engine answers",
+      "ko": "엔진 응답함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:99 detail"
+      ]
+    },
+    {
+      "key": "nothing learned here yet",
+      "ko": "아직 학습한 내용이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:100 detail"
+      ]
+    },
+    {
+      "key": "RUV.NET // RUVECTOR CONSTELLATION",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/boot-facts.ts:123 title"
+      ]
+    }
+  ],
+  "obsolete": []
+}

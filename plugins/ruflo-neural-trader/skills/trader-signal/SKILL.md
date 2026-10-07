@@ -1,6 +1,6 @@
 ---
 name: trader-signal
-description: Generate trading signals using npx neural-trader anomaly detection engine with Z-score scoring and neural prediction
+description: Z-score 점수와 뉴럴 예측을 갖춘 npx neural-trader 이상 탐지 엔진으로 트레이딩 시그널을 생성
 allowed-tools: Bash Read mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_retrieve mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_delete mcp__plugin_ruflo-core_ruflo__neural_predict mcp__plugin_ruflo-core_ruflo__agentdb_pattern-search
 argument-hint: "[--strategy NAME] [--symbols AAPL,MSFT]"
 ---

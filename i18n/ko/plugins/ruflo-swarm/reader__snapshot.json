@@ -1,0 +1,64 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-swarm/hooks/reader/snapshot.ts",
+  "entries": [
+    {
+      "key": "pointer",
+      "ko": "포인터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/snapshot.ts:81 text()"
+      ]
+    },
+    {
+      "key": "swarm",
+      "ko": "스웜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/snapshot.ts:82 text()"
+      ]
+    },
+    {
+      "key": "agents",
+      "ko": "에이전트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/snapshot.ts:93 text()"
+      ]
+    },
+    {
+      "key": "tasks",
+      "ko": "작업",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/snapshot.ts:94 text()"
+      ]
+    },
+    {
+      "key": "claims",
+      "ko": "클레임",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/snapshot.ts:95 text()"
+      ]
+    },
+    {
+      "key": "hive",
+      "ko": "하이브",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/snapshot.ts:96 text()"
+      ]
+    },
+    {
+      "key": "ruOS event log is {0} MB: not read",
+      "ko": "ruOS 이벤트 로그가 {0}MB라 읽지 않았습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-swarm/hooks/reader/snapshot.ts:133 note"
+      ]
+    }
+  ],
+  "obsolete": []
+}

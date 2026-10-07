@@ -1,6 +1,6 @@
 ---
 name: ruflo-docs
-description: Generate or update documentation for a file, module, or the entire project
+description: 파일, 모듈 또는 프로젝트 전체의 문서를 생성하거나 업데이트
 ---
 $ARGUMENTS
 

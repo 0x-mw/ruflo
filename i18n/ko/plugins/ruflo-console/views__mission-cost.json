@@ -1,0 +1,72 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/mission-cost.ts",
+  "entries": [
+    {
+      "key": "Mission spend",
+      "ko": "미션 지출",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:17 rule()"
+      ]
+    },
+    {
+      "key": "list-price estimate",
+      "ko": "정가 기준 추정",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:17 rule()"
+      ]
+    },
+    {
+      "key": "cap",
+      "ko": "한도",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:21 kv()"
+      ]
+    },
+    {
+      "key": "none set",
+      "ko": "설정 안 함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:21 kv()"
+      ]
+    },
+    {
+      "key": "Marks: 50, 75, 90, 100% of the cap.",
+      "ko": "표시: 한도의 50, 75, 90, 100%.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:27 text()"
+      ]
+    },
+    {
+      "key": "Unpriced, not $0: {0}",
+      "ko": "가격 미정, $0 아님: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:30 short()"
+      ]
+    },
+    {
+      "key": "Every model here is unpriced.",
+      "ko": "여기 있는 모든 모델은 가격이 정해져 있지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:31 text()"
+      ]
+    },
+    {
+      "key": "A list-price estimate, not a bill.",
+      "ko": "정가 기준 추정치이며 청구액이 아닙니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/mission-cost.ts:34 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

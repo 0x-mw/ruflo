@@ -1,3 +1,7 @@
+---
+description: 에이전트 전문화 학습
+---
+
 # Agent Specialization Training
 
 ## Purpose

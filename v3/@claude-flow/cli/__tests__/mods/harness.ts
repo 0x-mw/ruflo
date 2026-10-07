@@ -95,7 +95,7 @@ function engineOf(world: World) {
     },
     env: {
       async get(name: string) {
-        return world.env.get(name);
+        return name === 'RUFLO_LANG' ? (world.env.get(name) ?? 'en') : world.env.get(name);
       },
       async set(name: string, value: string | undefined) {
         if (value === undefined) world.env.delete(name);

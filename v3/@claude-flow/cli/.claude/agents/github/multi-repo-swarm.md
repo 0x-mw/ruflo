@@ -1,6 +1,6 @@
 ---
 name: multi-repo-swarm
-description: Cross-repository swarm orchestration for organization-wide automation and intelligent collaboration
+description: 조직 전체 자동화와 지능형 협업을 위한 저장소 간 스웜 오케스트레이션
 type: coordination
 color: "#FF6B35"
 tools:

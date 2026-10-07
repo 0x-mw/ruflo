@@ -1,0 +1,16 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/ap-maint.ts",
+  "entries": [
+    {
+      "key": "the trial did worse than the setting it replaced",
+      "ko": "시험 결과가 대체한 기존 설정보다 나빴습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/ap-maint.ts:26 evidence"
+      ]
+    }
+  ],
+  "obsolete": []
+}

@@ -1,0 +1,1747 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/neural.ts",
+  "entries": [
+    {
+      "key": "Train neural patterns with WASM SIMD acceleration (MicroLoRA + Flash Attention)",
+      "ko": "WASM SIMD 가속(MicroLoRA + Flash Attention)으로 뉴럴 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:14 description"
+      ]
+    },
+    {
+      "key": "Pattern type: coordination, optimization, prediction, security, testing",
+      "ko": "패턴 유형: coordination, optimization, prediction, security, testing",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:16 description"
+      ]
+    },
+    {
+      "key": "Number of training epochs",
+      "ko": "학습 에폭 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:17 description"
+      ]
+    },
+    {
+      "key": "Training data file or inline JSON",
+      "ko": "학습 데이터 파일 또는 인라인 JSON",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:18 description"
+      ]
+    },
+    {
+      "key": "Model ID to train",
+      "ko": "학습할 모델 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:19 description"
+      ]
+    },
+    {
+      "key": "Learning rate",
+      "ko": "학습률",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:20 description"
+      ]
+    },
+    {
+      "key": "Batch size",
+      "ko": "배치 크기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:21 description"
+      ]
+    },
+    {
+      "key": "Embedding dimension (max 256)",
+      "ko": "임베딩 차원 (최대 256)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:22 description",
+        "src/commands/neural.ts:1743 description"
+      ]
+    },
+    {
+      "key": "Use RuVector WASM acceleration",
+      "ko": "RuVector WASM 가속 사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:23 description"
+      ]
+    },
+    {
+      "key": "Enable Flash Attention (2.49x-7.47x speedup)",
+      "ko": "Flash Attention 활성화 (2.49x-7.47x 속도 향상)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:24 description"
+      ]
+    },
+    {
+      "key": "Enable hyperbolic attention for hierarchical patterns",
+      "ko": "계층형 패턴을 위한 쌍곡 어텐션 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:26 description"
+      ]
+    },
+    {
+      "key": "Use contrastive learning (InfoNCE)",
+      "ko": "대조 학습(InfoNCE) 사용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:27 description"
+      ]
+    },
+    {
+      "key": "Enable curriculum learning",
+      "ko": "커리큘럼 학습 활성화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:28 description"
+      ]
+    },
+    {
+      "key": "Training backend: auto (native when available), native (@ruvector/ruvllm TrainingPipeline, disk checkpoints), wasm (RuVector MicroLoRA/InfoNCE)",
+      "ko": "학습 백엔드: auto (가능하면 native), native (@ruvector/ruvllm TrainingPipeline, 디스크 체크포인트), wasm (RuVector MicroLoRA/InfoNCE)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:29 description"
+      ]
+    },
+    {
+      "key": "Validation holdout fraction 0..1 (native backend). >0 reports Best Val Loss + early stopping; 0 disables",
+      "ko": "검증 홀드아웃 비율 0..1 (native 백엔드). 0보다 크면 Best Val Loss와 조기 종료를 보고하고 0이면 끔",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:30 description"
+      ]
+    },
+    {
+      "key": "Resume native training from a checkpoint path (weights on 2.5.7; epoch position on >=2.6.0). Native backend only",
+      "ko": "체크포인트 경로에서 native 학습 재개 (2.5.7은 가중치, 2.6.0 이상은 에폭 위치). native 백엔드 전용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:31 description"
+      ]
+    },
+    {
+      "key": "Train coordination patterns",
+      "ko": "조율 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:34 description",
+        "src/commands/neural.ts:4689 description"
+      ]
+    },
+    {
+      "key": "Train from file with Flash Attention",
+      "ko": "Flash Attention으로 파일에서 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:35 description"
+      ]
+    },
+    {
+      "key": "Security patterns with contrastive learning",
+      "ko": "대조 학습으로 보안 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:36 description"
+      ]
+    },
+    {
+      "key": "Check neural network status and loaded models",
+      "ko": "뉴럴 네트워크 상태와 로드된 모델 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:510 description"
+      ]
+    },
+    {
+      "key": "Specific model ID to check",
+      "ko": "확인할 특정 모델 ID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:512 description"
+      ]
+    },
+    {
+      "key": "Show all neural status",
+      "ko": "뉴럴 전체 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:516 description"
+      ]
+    },
+    {
+      "key": "Check specific model",
+      "ko": "특정 모델 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:517 description"
+      ]
+    },
+    {
+      "key": "Analyze and manage cognitive patterns",
+      "ko": "인지 패턴 분석 및 관리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:743 description"
+      ]
+    },
+    {
+      "key": "Action: analyze, learn, predict, list",
+      "ko": "동작: analyze, learn, predict, list",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:745 description"
+      ]
+    },
+    {
+      "key": "Pattern query for search",
+      "ko": "검색할 패턴 쿼리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:746 description"
+      ]
+    },
+    {
+      "key": "Max patterns to return",
+      "ko": "반환할 최대 패턴 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:747 description"
+      ]
+    },
+    {
+      "key": "List all patterns",
+      "ko": "모든 패턴 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:750 description",
+        "src/commands/transfer-store.ts:31 description"
+      ]
+    },
+    {
+      "key": "Analyze patterns",
+      "ko": "패턴 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:751 description"
+      ]
+    },
+    {
+      "key": "Make AI predictions using trained models",
+      "ko": "학습된 모델로 AI 예측",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:851 description"
+      ]
+    },
+    {
+      "key": "Input text to predict routing for",
+      "ko": "라우팅을 예측할 입력 텍스트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:853 description"
+      ]
+    },
+    {
+      "key": "Number of top predictions",
+      "ko": "상위 예측 개수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:854 description"
+      ]
+    },
+    {
+      "key": "Output format: json, table",
+      "ko": "출력 형식: json, table",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:855 description"
+      ]
+    },
+    {
+      "key": "Predict routing for task",
+      "ko": "작업의 라우팅 예측",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:858 description"
+      ]
+    },
+    {
+      "key": "Get top 3 predictions",
+      "ko": "상위 3개 예측 조회",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:859 description"
+      ]
+    },
+    {
+      "key": "Optimize neural patterns (Int8 quantization, memory compression)",
+      "ko": "뉴럴 패턴 최적화 (Int8 양자화, 메모리 압축)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:950 description"
+      ]
+    },
+    {
+      "key": "Method: quantize, analyze, compact",
+      "ko": "방법: quantize, analyze, compact",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:952 description"
+      ]
+    },
+    {
+      "key": "Quantize patterns to Int8",
+      "ko": "패턴을 Int8로 양자화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:956 description"
+      ]
+    },
+    {
+      "key": "Analyze memory usage",
+      "ko": "메모리 사용량 분석",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:957 description"
+      ]
+    },
+    {
+      "key": "Export trained models to IPFS for sharing (Ed25519 signed)",
+      "ko": "학습된 모델을 공유용으로 IPFS에 내보내기 (Ed25519 서명)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1145 description"
+      ]
+    },
+    {
+      "key": "Model ID or category to export",
+      "ko": "내보낼 모델 ID 또는 카테고리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1147 description"
+      ]
+    },
+    {
+      "key": "Output file path (optional)",
+      "ko": "출력 파일 경로 (선택)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1148 description"
+      ]
+    },
+    {
+      "key": "Pin to IPFS (requires Pinata credentials)",
+      "ko": "IPFS에 고정 (Pinata 자격 증명 필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1149 description"
+      ]
+    },
+    {
+      "key": "Sign with Ed25519 key",
+      "ko": "Ed25519 키로 서명",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1150 description"
+      ]
+    },
+    {
+      "key": "Strip potential PII from export",
+      "ko": "내보내기에서 개인정보(PII) 가능성이 있는 내용 제거",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1151 description"
+      ]
+    },
+    {
+      "key": "Custom name for exported model",
+      "ko": "내보낼 모델의 사용자 지정 이름",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1152 description"
+      ]
+    },
+    {
+      "key": "Export and pin to IPFS",
+      "ko": "내보내고 IPFS에 고정",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1155 description"
+      ]
+    },
+    {
+      "key": "Export to file",
+      "ko": "파일로 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1156 description",
+        "src/commands/route.ts:527 description"
+      ]
+    },
+    {
+      "key": "List available pre-trained models from the official registry",
+      "ko": "공식 레지스트리의 사용 가능한 사전 학습 모델 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1375 description"
+      ]
+    },
+    {
+      "key": "Filter by category (security, quality, performance, etc.)",
+      "ko": "카테고리로 필터링 (security, quality, performance 등)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1377 description"
+      ]
+    },
+    {
+      "key": "Output format: table, json, simple",
+      "ko": "출력 형식: table, json, simple",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1378 description"
+      ]
+    },
+    {
+      "key": "Custom registry CID (default: official registry)",
+      "ko": "사용자 지정 레지스트리 CID (기본값: 공식 레지스트리)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1379 description"
+      ]
+    },
+    {
+      "key": "List all available models",
+      "ko": "사용 가능한 모든 모델 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1382 description"
+      ]
+    },
+    {
+      "key": "List only security models",
+      "ko": "보안 모델만 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1383 description"
+      ]
+    },
+    {
+      "key": "Import trained models from IPFS with signature verification",
+      "ko": "서명을 검증하며 IPFS에서 학습된 모델 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1516 description"
+      ]
+    },
+    {
+      "key": "IPFS CID to import from",
+      "ko": "가져올 IPFS CID",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1518 description"
+      ]
+    },
+    {
+      "key": "Local file to import",
+      "ko": "가져올 로컬 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1519 description"
+      ]
+    },
+    {
+      "key": "Verify Ed25519 signature",
+      "ko": "Ed25519 서명 검증",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1520 description"
+      ]
+    },
+    {
+      "key": "Merge with existing patterns (vs replace)",
+      "ko": "기존 패턴과 병합 (교체하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1521 description"
+      ]
+    },
+    {
+      "key": "Only import patterns from specific category",
+      "ko": "특정 카테고리의 패턴만 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1522 description"
+      ]
+    },
+    {
+      "key": "Import from IPFS",
+      "ko": "IPFS에서 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1525 description"
+      ]
+    },
+    {
+      "key": "Import only security patterns",
+      "ko": "보안 패턴만 가져오기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1527 description"
+      ]
+    },
+    {
+      "key": "Benchmark RuVector WASM training performance",
+      "ko": "RuVector WASM 학습 성능 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1741 description"
+      ]
+    },
+    {
+      "key": "Number of keys for attention",
+      "ko": "어텐션용 키 수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1745 description"
+      ]
+    },
+    {
+      "key": "Run default benchmark",
+      "ko": "기본 벤치마크 실행",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1748 description",
+        "src/commands/ruvector/benchmark.ts:154 description"
+      ]
+    },
+    {
+      "key": "Custom benchmark",
+      "ko": "사용자 지정 벤치마크",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1749 description"
+      ]
+    },
+    {
+      "key": "Show the cost-optimal neural router state (ADR-148) — gate, backend, artifact, counters",
+      "ko": "비용 최적 뉴럴 라우터 상태 표시 (ADR-148) — 게이트, 백엔드, 아티팩트, 카운터",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1925 description"
+      ]
+    },
+    {
+      "key": "Output format: table, json",
+      "ko": "출력 형식: table, json",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1927 description",
+        "src/commands/neural.ts:2043 description",
+        "src/commands/neural.ts:2191 description"
+      ]
+    },
+    {
+      "key": "Show router state",
+      "ko": "라우터 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1930 description"
+      ]
+    },
+    {
+      "key": "Show status with gate open",
+      "ko": "게이트가 열린 상태로 상태 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1931 description"
+      ]
+    },
+    {
+      "key": "Train a KRR router artifact from a DRACO-shaped JSON corpus (or the bundled seed) — pure TS, no native deps",
+      "ko": "DRACO 형태의 JSON 코퍼스(또는 내장 시드)에서 KRR 라우터 아티팩트 학습 — 순수 TS, 네이티브 의존성 없음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1969 description"
+      ]
+    },
+    {
+      "key": "Path to DRACO rows JSON ({embedding, scores}). Defaults to the bundled seed corpus.",
+      "ko": "DRACO 행 JSON({embedding, scores}) 경로. 기본값은 내장 시드 코퍼스입니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1971 description"
+      ]
+    },
+    {
+      "key": "Output path for the trained KRR JSON.",
+      "ko": "학습된 KRR JSON의 출력 경로입니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1972 description"
+      ]
+    },
+    {
+      "key": "qualityBar for cost-optimal selection (default 0.8)",
+      "ko": "비용 최적 선택을 위한 qualityBar (기본값 0.8)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1973 description"
+      ]
+    },
+    {
+      "key": "Train from the bundled seed and write to ./router.krr.json",
+      "ko": "내장 시드로 학습하고 ./router.krr.json에 기록",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1976 description"
+      ]
+    },
+    {
+      "key": "Train from a custom corpus",
+      "ko": "사용자 지정 코퍼스로 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:1977 description"
+      ]
+    },
+    {
+      "key": "Pair production decision+outcome JSONL rows into seed-corpus-shaped training rows (ADR-149 iter 18/19)",
+      "ko": "운영 환경의 결정+결과 JSONL 행을 시드 코퍼스 형태의 학습 행으로 짝지음 (ADR-149 iter 18/19)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2036 description"
+      ]
+    },
+    {
+      "key": "Trajectory JSONL path (default: $CLAUDE_FLOW_ROUTER_TRAJECTORY_PATH or .swarm/model-router-trajectories.jsonl)",
+      "ko": "궤적 JSONL 경로 (기본값: $CLAUDE_FLOW_ROUTER_TRAJECTORY_PATH 또는 .swarm/model-router-trajectories.jsonl)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2038 description",
+        "src/commands/neural.ts:2318 description"
+      ]
+    },
+    {
+      "key": "Write paired rows to this path (seed-rows.json-compatible JSON array)",
+      "ko": "짝지은 행을 이 경로에 기록 (seed-rows.json 호환 JSON 배열)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2039 description"
+      ]
+    },
+    {
+      "key": "Union paired rows with an existing seed-rows.json — production rows win on task-text collision",
+      "ko": "짝지은 행을 기존 seed-rows.json과 합침 — 작업 텍스트가 충돌하면 운영 행이 우선",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2040 description"
+      ]
+    },
+    {
+      "key": "Only keep outcomes whose source matches (e.g. llm-judge, agent-execute)",
+      "ko": "출처가 일치하는 결과만 유지 (예: llm-judge, agent-execute)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2041 description"
+      ]
+    },
+    {
+      "key": "Drop pairs whose MAX outcome score is below this threshold (default 0 — keep failures, they are training signal)",
+      "ko": "결과 최대 점수가 이 임계값보다 낮은 쌍 제외 (기본값 0 — 실패도 학습 신호이므로 유지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2042 description"
+      ]
+    },
+    {
+      "key": "Show pairing stats from default trajectory path",
+      "ko": "기본 궤적 경로의 짝짓기 통계 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2046 description"
+      ]
+    },
+    {
+      "key": "Emit a corpus to feed `router train`",
+      "ko": "`router train`에 넣을 코퍼스 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2047 description"
+      ]
+    },
+    {
+      "key": "Union production rows with the bundled seed corpus",
+      "ko": "운영 행을 내장 시드 코퍼스와 합침",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2048 description"
+      ]
+    },
+    {
+      "key": "Keep only judge-graded rows (drop coarse agent-execute baseline)",
+      "ko": "판정기가 평가한 행만 유지 (거친 agent-execute 기준선 제외)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2049 description"
+      ]
+    },
+    {
+      "key": "Force-reload the neural router (clears in-process backend cache; next call re-reads artifact/corpus)",
+      "ko": "뉴럴 라우터 강제 리로드 (프로세스 내 백엔드 캐시를 비우고 다음 호출에서 아티팩트/코퍼스를 다시 읽음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2163 description"
+      ]
+    },
+    {
+      "key": "Refresh backend caches after retraining an artifact",
+      "ko": "아티팩트를 다시 학습한 뒤 백엔드 캐시 새로고침",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2166 description"
+      ]
+    },
+    {
+      "key": "List the cost-optimal router registry with measured per-tier scores, latency, and cost (ADR-149)",
+      "ko": "티어별 측정 점수·지연 시간·비용과 함께 비용 최적 라우터 레지스트리 목록 표시 (ADR-149)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2189 description"
+      ]
+    },
+    {
+      "key": "Show candidate registry with measured stats",
+      "ko": "측정 통계와 함께 후보 레지스트리 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2194 description"
+      ]
+    },
+    {
+      "key": "Machine-readable JSON",
+      "ko": "기계가 읽을 수 있는 JSON",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2195 description"
+      ]
+    },
+    {
+      "key": "Query the routing-decision JSONL (iter 17+): filter, aggregate, paginate (ADR-149 iter 28)",
+      "ko": "라우팅 결정 JSONL 쿼리 (iter 17+): 필터, 집계, 페이지 나누기 (ADR-149 iter 28)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2316 description"
+      ]
+    },
+    {
+      "key": "Time window suffix: 1h, 24h, 7d, 30d (default: all)",
+      "ko": "기간 접미사: 1h, 24h, 7d, 30d (기본값: 전체)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2319 description"
+      ]
+    },
+    {
+      "key": "Filter by decision mechanism: hybrid | bandit-fallback | heuristic",
+      "ko": "결정 방식으로 필터링: hybrid | bandit-fallback | heuristic",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2320 description"
+      ]
+    },
+    {
+      "key": "Filter by chosen model id (substring match, e.g. haiku, gpt-4)",
+      "ko": "선택된 모델 ID로 필터링 (부분 문자열 일치, 예: haiku, gpt-4)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2321 description"
+      ]
+    },
+    {
+      "key": "Filter by complexity bucket: cheap (< 0.34) | mid (< 0.67) | strong (≥ 0.67) — iter 58",
+      "ko": "복잡도 구간으로 필터링: cheap (< 0.34) | mid (< 0.67) | strong (≥ 0.67) — iter 58",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2322 description"
+      ]
+    },
+    {
+      "key": "Filter by exact task_hash (FNV-1a-32). Use for incident investigation — iter 59",
+      "ko": "정확한 task_hash(FNV-1a-32)로 필터링. 사고 조사에 사용 — iter 59",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2323 description"
+      ]
+    },
+    {
+      "key": "Max recent decisions to list (default 20)",
+      "ko": "나열할 최근 결정 최대 수 (기본값 20)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2324 description"
+      ]
+    },
+    {
+      "key": "Aggregate stats + 20 most-recent decisions",
+      "ko": "집계 통계와 최근 결정 20개",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2328 description"
+      ]
+    },
+    {
+      "key": "Last 24 hours only",
+      "ko": "최근 24시간만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2329 description"
+      ]
+    },
+    {
+      "key": "Find decisions where neural backend failed",
+      "ko": "뉴럴 백엔드가 실패한 결정 찾기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2330 description"
+      ]
+    },
+    {
+      "key": "All haiku picks, JSON output",
+      "ko": "haiku가 선택된 모든 결정, JSON 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2331 description"
+      ]
+    },
+    {
+      "key": "Show what the router would pick for a given task — no dispatch, just inspection (ADR-149 iter 30)",
+      "ko": "주어진 작업에 라우터가 무엇을 고를지 표시 — 디스패치 없이 점검만 (ADR-149 iter 30)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2635 description"
+      ]
+    },
+    {
+      "key": "Task text (alternatively pass as positional arg)",
+      "ko": "작업 텍스트 (위치 인자로 전달해도 됨)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2637 description"
+      ]
+    },
+    {
+      "key": "See the routing decision for a small task",
+      "ko": "작은 작업의 라우팅 결정 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2641 description"
+      ]
+    },
+    {
+      "key": "JSON output for the routing decision",
+      "ko": "라우팅 결정을 JSON으로 출력",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2642 description"
+      ]
+    },
+    {
+      "key": "See iter 29 cost-ceiling mode in action",
+      "ko": "iter 29 비용 상한 모드 동작 보기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2643 description"
+      ]
+    },
+    {
+      "key": "Compute actual vs heuristic-counterfactual cost from paired decision+outcome rows (ADR-149 iter 32)",
+      "ko": "짝지은 결정+결과 행으로 실제 비용과 휴리스틱 반사실 비용 계산 (ADR-149 iter 32)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2789 description"
+      ]
+    },
+    {
+      "key": "Trajectory JSONL path (default: $CLAUDE_FLOW_ROUTER_TRAJECTORY_PATH or .swarm/...)",
+      "ko": "궤적 JSONL 경로 (기본값: $CLAUDE_FLOW_ROUTER_TRAJECTORY_PATH 또는 .swarm/...)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2791 description",
+        "src/commands/neural.ts:3199 description",
+        "src/commands/neural.ts:3953 description"
+      ]
+    },
+    {
+      "key": "Time window suffix: 1h, 24h, 7d, 30d",
+      "ko": "기간 접미사: 1h, 24h, 7d, 30d",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2792 description",
+        "src/commands/neural.ts:3954 description"
+      ]
+    },
+    {
+      "key": "Show top-N largest individual savings (default 5)",
+      "ko": "절감액이 가장 큰 개별 건 상위 N개 표시 (기본값 5)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2794 description"
+      ]
+    },
+    {
+      "key": "Counterfactual baseline: heuristic | always-haiku | always-sonnet | always-opus | always-gpt-4.1 | all (default: all)",
+      "ko": "반사실 기준선: heuristic | always-haiku | always-sonnet | always-opus | always-gpt-4.1 | all (기본값: all)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2795 description"
+      ]
+    },
+    {
+      "key": "Bin decisions into successive windows of this duration (e.g. 1h, 24h, 7d). Output adds a trend table — iter 34 drift detection.",
+      "ko": "결정을 이 길이의 연속된 구간으로 나눔 (예: 1h, 24h, 7d). 출력에 추세 표가 추가됩니다 — iter 34 드리프트 감지.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2796 description"
+      ]
+    },
+    {
+      "key": "Filter to specific task_hash (FNV-1a-32 hex). For per-task cost investigation — iter 61.",
+      "ko": "특정 task_hash(FNV-1a-32 16진수)로 필터링. 작업별 비용 조사용 — iter 61.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2797 description"
+      ]
+    },
+    {
+      "key": "Exit 1 if the most recent window's savings% falls > N points below the mean of prior windows. Requires --window. Default off. (ADR-149 iter 50)",
+      "ko": "가장 최근 구간의 절감률이 이전 구간 평균보다 N포인트 넘게 낮으면 종료 코드 1. --window 필요. 기본값은 꺼짐. (ADR-149 iter 50)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2798 description"
+      ]
+    },
+    {
+      "key": "All-time, all baselines (heuristic + Sonnet-always + Opus-always)",
+      "ko": "전체 기간, 모든 기준선 (heuristic + Sonnet-always + Opus-always)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2801 description"
+      ]
+    },
+    {
+      "key": "Compare only against Sonnet-always",
+      "ko": "Sonnet-always와만 비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2802 description"
+      ]
+    },
+    {
+      "key": "Daily savings trend — iter 34 drift detection",
+      "ko": "일별 절감 추세 — iter 34 드리프트 감지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2803 description"
+      ]
+    },
+    {
+      "key": "Pipe-friendly headline",
+      "ko": "파이프에 쓰기 좋은 요약 한 줄",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:2804 description"
+      ]
+    },
+    {
+      "key": "Show health of the routing-decision JSONL log: size, rotations, parse rate, pair-join rate (ADR-149 iter 36)",
+      "ko": "라우팅 결정 JSONL 로그 상태 표시: 크기, 로테이션, 파싱 비율, 짝짓기 비율 (ADR-149 iter 36)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3197 description"
+      ]
+    },
+    {
+      "key": "Snapshot of trajectory log health",
+      "ko": "궤적 로그 상태 스냅샷",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3203 description"
+      ]
+    },
+    {
+      "key": "Pipe-friendly pair-join rate for dashboards",
+      "ko": "대시보드용 파이프 친화적 짝짓기 비율",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3204 description"
+      ]
+    },
+    {
+      "key": "List all CLAUDE_FLOW_ROUTER_* env vars with current values + effects (ADR-149 iter 54)",
+      "ko": "현재 값과 효과를 포함해 모든 CLAUDE_FLOW_ROUTER_* 환경변수 목록 표시 (ADR-149 iter 54)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3380 description"
+      ]
+    },
+    {
+      "key": "Only show env vars that are explicitly set (hide defaults)",
+      "ko": "명시적으로 설정한 환경변수만 표시 (기본값 숨김)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3383 description"
+      ]
+    },
+    {
+      "key": "All router env vars with current values",
+      "ko": "현재 값이 있는 모든 라우터 환경변수",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3386 description"
+      ]
+    },
+    {
+      "key": "Just what the operator has set",
+      "ko": "운영자가 설정한 것만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3387 description"
+      ]
+    },
+    {
+      "key": "Audit / diff against another deployment",
+      "ko": "다른 배포와 감사/비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3388 description"
+      ]
+    },
+    {
+      "key": "Compare selector modes side-by-side for a hypothetical task (cost-optimal vs cost-ceiling) — ADR-149 iter 55",
+      "ko": "가상의 작업에 대해 선택기 모드(cost-optimal 대 cost-ceiling)를 나란히 비교 — ADR-149 iter 55",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3469 description"
+      ]
+    },
+    {
+      "key": "Task text (or positional arg)",
+      "ko": "작업 텍스트 (또는 위치 인자)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3471 description"
+      ]
+    },
+    {
+      "key": "Cost-ceiling $/Mtok for iter 29 mode (default 20)",
+      "ko": "iter 29 모드의 비용 상한 $/Mtok (기본값 20)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3472 description"
+      ]
+    },
+    {
+      "key": "Compare both modes for a task",
+      "ko": "작업 하나에 두 모드 비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3476 description"
+      ]
+    },
+    {
+      "key": "Cost-ceiling at $5 blended",
+      "ko": "혼합 $5 비용 상한",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3477 description"
+      ]
+    },
+    {
+      "key": "One-screen SRE dashboard: gate, recent activity, savings, bandit warmest cell (ADR-149 iter 49)",
+      "ko": "한 화면 SRE 대시보드: 게이트, 최근 활동, 절감액, 가장 따뜻한 밴딧 셀 (ADR-149 iter 49)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3602 description"
+      ]
+    },
+    {
+      "key": "One-screen health check",
+      "ko": "한 화면 상태 점검",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3607 description"
+      ]
+    },
+    {
+      "key": "Pipe to dashboards / alerting",
+      "ko": "대시보드/알림으로 파이프",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3608 description"
+      ]
+    },
+    {
+      "key": "Inspect persisted bandit Beta priors per bucket × model (ADR-149 iter 48)",
+      "ko": "구간 × 모델별로 저장된 밴딧 Beta 사전 분포 점검 (ADR-149 iter 48)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3806 description"
+      ]
+    },
+    {
+      "key": "Path to model-router-state.json (default: .swarm/model-router-state.json)",
+      "ko": "model-router-state.json 경로 (기본값: .swarm/model-router-state.json)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3808 description"
+      ]
+    },
+    {
+      "key": "Highlight cells with sample count below this (default 4 — matches iter 14 density guard)",
+      "ko": "표본 수가 이 값보다 적은 셀 강조 (기본값 4 — iter 14 밀도 가드와 같음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3810 description"
+      ]
+    },
+    {
+      "key": "Show all Beta priors per bucket × tier + per bucket × modelId",
+      "ko": "구간 × 티어 및 구간 × modelId별 모든 Beta 사전 분포 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3813 description"
+      ]
+    },
+    {
+      "key": "Just the per-modelId matrix",
+      "ko": "modelId별 행렬만",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3814 description"
+      ]
+    },
+    {
+      "key": "Aggregate A/B (bandit-vs-hybrid) disagreement from trajectory ab_pair rows (ADR-149 iter 38)",
+      "ko": "궤적의 ab_pair 행에서 A/B(bandit 대 hybrid) 불일치 집계 (ADR-149 iter 38)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3951 description"
+      ]
+    },
+    {
+      "key": "All A/B comparisons recorded so far",
+      "ko": "지금까지 기록된 모든 A/B 비교",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3958 description"
+      ]
+    },
+    {
+      "key": "Last 7 days, pipe-friendly",
+      "ko": "최근 7일, 파이프 친화적",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3959 description"
+      ]
+    },
+    {
+      "key": "After running with iter 37 sampling on",
+      "ko": "iter 37 샘플링을 켜고 실행한 뒤",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:3960 description"
+      ]
+    },
+    {
+      "key": "Show the per-model price table that drives blended cost + counterfactual computations (ADR-149 iter 43)",
+      "ko": "혼합 비용과 반사실 계산에 쓰이는 모델별 가격표 표시 (ADR-149 iter 43)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4113 description"
+      ]
+    },
+    {
+      "key": "Sort by: blended (default), input, output, name",
+      "ko": "정렬 기준: blended (기본값), input, output, name",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4116 description"
+      ]
+    },
+    {
+      "key": "Show all models sorted by blended price",
+      "ko": "혼합 가격순으로 정렬한 모든 모델 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4119 description"
+      ]
+    },
+    {
+      "key": "Sort alphabetically",
+      "ko": "이름순 정렬",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4120 description"
+      ]
+    },
+    {
+      "key": "Filter via jq",
+      "ko": "jq로 필터링",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4121 description"
+      ]
+    },
+    {
+      "key": "Project monthly/quarterly cost from measured rate (ADR-149 iter 41)",
+      "ko": "측정된 비율로 월간/분기 비용 예측 (ADR-149 iter 41)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4173 description"
+      ]
+    },
+    {
+      "key": "Measurement window to extrapolate FROM (default 7d). Format: 1h, 24h, 7d, 30d",
+      "ko": "외삽 기준이 되는 측정 기간 (기본값 7d). 형식: 1h, 24h, 7d, 30d",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4176 description"
+      ]
+    },
+    {
+      "key": "Projection horizons (CSV of duration suffixes). Default: 7d,30d,90d,365d",
+      "ko": "예측 기간 (기간 접미사의 CSV). 기본값: 7d,30d,90d,365d",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4177 description"
+      ]
+    },
+    {
+      "key": "Project from last 7d of data → 7d/30d/90d/365d horizons",
+      "ko": "최근 7일 데이터로 7d/30d/90d/365d 기간 예측",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4181 description"
+      ]
+    },
+    {
+      "key": "Project from last day only",
+      "ko": "최근 하루만으로 예측",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4182 description"
+      ]
+    },
+    {
+      "key": "30-day savings projection for dashboards",
+      "ko": "대시보드용 30일 절감 예측",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4183 description"
+      ]
+    },
+    {
+      "key": "Cost-optimal neural router lifecycle (ADR-148/149): status, models, prices, config, train, train-from-trajectories, decide, compare-modes, decisions, cost-savings, cost-projection, trajectory-health, ab-stats, bandit-state, stats-summary, reload",
+      "ko": "비용 최적 뉴럴 라우터 수명 주기 (ADR-148/149): status, models, prices, config, train, train-from-trajectories, decide, compare-modes, decisions, cost-savings, cost-projection, trajectory-health, ab-stats, bandit-state, stats-summary, reload",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4364 description"
+      ]
+    },
+    {
+      "key": "Show router state, gate, counters",
+      "ko": "라우터 상태, 게이트, 카운터 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4367 description"
+      ]
+    },
+    {
+      "key": "List candidate registry with measured stats (ADR-149)",
+      "ko": "측정 통계와 함께 후보 레지스트리 목록 표시 (ADR-149)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4368 description"
+      ]
+    },
+    {
+      "key": "Show the canonical $/Mtok price table (iter 43)",
+      "ko": "표준 $/Mtok 가격표 표시 (iter 43)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4369 description"
+      ]
+    },
+    {
+      "key": "Inventory all CLAUDE_FLOW_ROUTER_* env vars (iter 54)",
+      "ko": "모든 CLAUDE_FLOW_ROUTER_* 환경변수 목록 (iter 54)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4370 description"
+      ]
+    },
+    {
+      "key": "Train a KRR artifact",
+      "ko": "KRR 아티팩트 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4371 description"
+      ]
+    },
+    {
+      "key": "Pair production JSONL into a training corpus (iter 18)",
+      "ko": "운영 JSONL을 학습 코퍼스로 짝지음 (iter 18)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4372 description"
+      ]
+    },
+    {
+      "key": "Inspect decision for a hypothetical task (iter 30)",
+      "ko": "가상의 작업에 대한 결정 점검 (iter 30)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4373 description"
+      ]
+    },
+    {
+      "key": "Compare cost-optimal vs cost-ceiling side-by-side (iter 55)",
+      "ko": "cost-optimal과 cost-ceiling 나란히 비교 (iter 55)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4374 description"
+      ]
+    },
+    {
+      "key": "Query recorded decisions (iter 28)",
+      "ko": "기록된 결정 쿼리 (iter 28)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4375 description"
+      ]
+    },
+    {
+      "key": "Actual vs heuristic-counterfactual spend (iter 32)",
+      "ko": "실제 지출 대 휴리스틱 반사실 지출 (iter 32)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4376 description"
+      ]
+    },
+    {
+      "key": "JSONL log health: size, rotations, parse + pair-join rate (iter 36)",
+      "ko": "JSONL 로그 상태: 크기, 로테이션, 파싱 및 짝짓기 비율 (iter 36)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4377 description"
+      ]
+    },
+    {
+      "key": "A/B disagreement matrix from sampled ab_pair (iter 37/38)",
+      "ko": "샘플링된 ab_pair의 A/B 불일치 행렬 (iter 37/38)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4378 description"
+      ]
+    },
+    {
+      "key": "Persisted Beta priors per (bucket × model) (iter 48)",
+      "ko": "(구간 × 모델)별 저장된 Beta 사전 분포 (iter 48)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4379 description"
+      ]
+    },
+    {
+      "key": "One-screen SRE dashboard (iter 49)",
+      "ko": "한 화면 SRE 대시보드 (iter 49)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4380 description"
+      ]
+    },
+    {
+      "key": "Project monthly/quarterly spend from measured rate (iter 41)",
+      "ko": "측정된 비율로 월간/분기 지출 예측 (iter 41)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4381 description"
+      ]
+    },
+    {
+      "key": "Clear in-process backend cache",
+      "ko": "프로세스 내 백엔드 캐시 비우기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4382 description"
+      ]
+    },
+    {
+      "key": "Export captured run transcripts → SFT (OpenAI chat) + DPO (TRL preference) JSONL + a guard report (contamination / reward-hack / long-context). $0, offline. Does NOT train.",
+      "ko": "캡처된 실행 대화 기록을 SFT(OpenAI chat) + DPO(TRL preference) JSONL과 가드 보고서(오염/보상 해킹/긴 컨텍스트)로 내보냅니다. $0, 오프라인. 학습하지는 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4404 description"
+      ]
+    },
+    {
+      "key": "Run-transcript JSONL to read (default: $CLAUDE_FLOW_RUN_TRANSCRIPTS_PATH or .swarm/run-transcripts.jsonl)",
+      "ko": "읽을 실행 대화 기록 JSONL (기본값: $CLAUDE_FLOW_RUN_TRANSCRIPTS_PATH 또는 .swarm/run-transcripts.jsonl)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4406 description"
+      ]
+    },
+    {
+      "key": "Output dir for sft.jsonl / dpo.jsonl / export-report.json",
+      "ko": "sft.jsonl / dpo.jsonl / export-report.json 출력 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4407 description"
+      ]
+    },
+    {
+      "key": "Comma-separated instance_ids reserved for eval (contamination guard). Excluded + asserted-disjoint.",
+      "ko": "평가용으로 예약된 instance_id (쉼표로 구분, 오염 가드). 제외되며 서로소임을 검증합니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4408 description"
+      ]
+    },
+    {
+      "key": "Per-trajectory token budget (default weight-eft 28000)",
+      "ko": "궤적당 토큰 예산 (기본값 weight-eft 28000)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4409 description"
+      ]
+    },
+    {
+      "key": "Truncate over-length trajectories instead of dropping",
+      "ko": "길이를 넘는 궤적을 버리지 않고 잘라냄",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4410 description"
+      ]
+    },
+    {
+      "key": "Disable the reward-hacking filter (debug only; NOT recommended)",
+      "ko": "보상 해킹 필터 끄기 (디버그 전용, 권장하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4411 description"
+      ]
+    },
+    {
+      "key": "Export from the default captured .swarm/run-transcripts.jsonl",
+      "ko": "기본 캡처 파일 .swarm/run-transcripts.jsonl에서 내보내기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4415 description"
+      ]
+    },
+    {
+      "key": "Export a specific archive, holding out one instance",
+      "ko": "특정 아카이브를 내보내되 인스턴스 하나는 제외",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4416 description"
+      ]
+    },
+    {
+      "key": "Print the two-stage (SFT → on-policy DPO) GPU training plan + the exact `ruvllm microlora` commands a GPU host would run. $0 dry-run — NEVER spawns a tune.",
+      "ko": "2단계(SFT → 온폴리시 DPO) GPU 학습 계획과 GPU 호스트가 실행할 정확한 `ruvllm microlora` 명령을 출력합니다. $0 드라이런이며 튜닝을 생성하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4492 description"
+      ]
+    },
+    {
+      "key": "Path to sft.jsonl (default: .claude-flow/neural/weft-export/sft.jsonl)",
+      "ko": "sft.jsonl 경로 (기본값: .claude-flow/neural/weft-export/sft.jsonl)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4494 description"
+      ]
+    },
+    {
+      "key": "Path to dpo.jsonl (default: .claude-flow/neural/weft-export/dpo.jsonl)",
+      "ko": "dpo.jsonl 경로 (기본값: .claude-flow/neural/weft-export/dpo.jsonl)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4495 description"
+      ]
+    },
+    {
+      "key": "Base model id to tune (7-14B band). Default Qwen2.5-Coder-7B-Instruct",
+      "ko": "튜닝할 기본 모델 ID (7-14B 범위). 기본값 Qwen2.5-Coder-7B-Instruct",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4496 description"
+      ]
+    },
+    {
+      "key": "Base model param count in billions (gate [1,14]). Default 7",
+      "ko": "기본 모델 매개변수 수(십억 단위, 허용 범위 [1,14]). 기본값 7",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4497 description"
+      ]
+    },
+    {
+      "key": "Adapter output prefix",
+      "ko": "어댑터 출력 접두사",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4498 description"
+      ]
+    },
+    {
+      "key": "Print the GPU plan for the last export ($0 dry-run)",
+      "ko": "마지막 내보내기에 대한 GPU 계획 출력 ($0 드라이런)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4502 description"
+      ]
+    },
+    {
+      "key": "Plan for a specific base model",
+      "ko": "특정 기본 모델에 대한 계획",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4503 description"
+      ]
+    },
+    {
+      "key": "Fold two CascadeOutcome[] JSON files (base vs adapter) into the cost-Pareto delta — escalation-rate reduction + $/resolved. $0. Measures cost, does NOT claim a tune ran.",
+      "ko": "두 CascadeOutcome[] JSON 파일(기본 대 어댑터)을 비용 파레토 차이(에스컬레이션 비율 감소 + 해결당 $)로 합칩니다. $0. 비용을 측정할 뿐 튜닝이 실행되었다고 주장하지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4541 description"
+      ]
+    },
+    {
+      "key": "JSON file: CascadeOutcome[] for the BASE cascade run",
+      "ko": "JSON 파일: 기본 캐스케이드 실행의 CascadeOutcome[]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4543 description"
+      ]
+    },
+    {
+      "key": "JSON file: CascadeOutcome[] for the ADAPTER cascade run",
+      "ko": "JSON 파일: 어댑터 캐스케이드 실행의 CascadeOutcome[]",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4544 description"
+      ]
+    },
+    {
+      "key": "Cost-Pareto delta between base and adapter cascade runs",
+      "ko": "기본 캐스케이드와 어댑터 캐스케이드 실행 간 비용 파레토 차이",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4548 description"
+      ]
+    },
+    {
+      "key": "Remote-GPU LoRA tune over SSH — DRY-RUN by default (prints ssh/rsync/ruvllm commands + read-only preflight). Real compute ONLY with --execute --yes (spends GPU time on YOUR host). Not a $0/local tune.",
+      "ko": "SSH를 통한 원격 GPU LoRA 튜닝 — 기본값은 드라이런입니다(ssh/rsync/ruvllm 명령과 읽기 전용 사전 점검 출력). 실제 연산은 --execute --yes를 줄 때만 실행되며 사용자 호스트의 GPU 시간을 소모합니다. $0 로컬 튜닝이 아닙니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4593 description"
+      ]
+    },
+    {
+      "key": "SSH host or tailscale name (default: $RUFLO_DISTILL_REMOTE). Never hard-coded.",
+      "ko": "SSH 호스트 또는 tailscale 이름 (기본값: $RUFLO_DISTILL_REMOTE). 하드코딩되지 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4595 description"
+      ]
+    },
+    {
+      "key": "Base model id to tune. Default Qwen2.5-Coder-7B-Instruct",
+      "ko": "튜닝할 기본 모델 ID. 기본값 Qwen2.5-Coder-7B-Instruct",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4596 description"
+      ]
+    },
+    {
+      "key": "Local sft.jsonl (default: .claude-flow/neural/weft-export/sft.jsonl)",
+      "ko": "로컬 sft.jsonl (기본값: .claude-flow/neural/weft-export/sft.jsonl)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4597 description"
+      ]
+    },
+    {
+      "key": "Local dpo.jsonl (default: .claude-flow/neural/weft-export/dpo.jsonl)",
+      "ko": "로컬 dpo.jsonl (기본값: .claude-flow/neural/weft-export/dpo.jsonl)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4598 description"
+      ]
+    },
+    {
+      "key": "Local dir to fetch the trained adapter into",
+      "ko": "학습된 어댑터를 가져올 로컬 디렉터리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4599 description"
+      ]
+    },
+    {
+      "key": "SSH user (default: current user)",
+      "ko": "SSH 사용자 (기본값: 현재 사용자)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4600 description"
+      ]
+    },
+    {
+      "key": "SSH port",
+      "ko": "SSH 포트",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4601 description"
+      ]
+    },
+    {
+      "key": "Remote working dir (default: ~/.ruflo-weft/<runId>)",
+      "ko": "원격 작업 디렉터리 (기본값: ~/.ruflo-weft/<runId>)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4602 description"
+      ]
+    },
+    {
+      "key": "Opt in to REAL GPU compute on the remote host (still needs --yes)",
+      "ko": "원격 호스트에서 실제 GPU 연산 사용 (--yes도 필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4603 description"
+      ]
+    },
+    {
+      "key": "Second confirmation gate; required with --execute to actually spend",
+      "ko": "두 번째 확인 게이트. 실제로 비용을 쓰려면 --execute와 함께 필요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4604 description"
+      ]
+    },
+    {
+      "key": "Opt in to read-only reachability/GPU probes against the host (bare dry-run is fully offline and contacts nothing)",
+      "ko": "호스트에 대한 읽기 전용 접근성/GPU 탐색 사용 (단순 드라이런은 완전히 오프라인이며 아무 곳에도 접속하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4605 description"
+      ]
+    },
+    {
+      "key": "OFFLINE DRY-RUN: print the ssh/rsync/ruvllm commands only (no host contact)",
+      "ko": "오프라인 드라이런: ssh/rsync/ruvllm 명령만 출력 (호스트에 접속하지 않음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4609 description"
+      ]
+    },
+    {
+      "key": "DRY-RUN + read-only reachability/GPU probes against the host",
+      "ko": "드라이런 + 호스트에 대한 읽기 전용 접근성/GPU 탐색",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4610 description"
+      ]
+    },
+    {
+      "key": "Run the real remote tune (spends GPU time on your host)",
+      "ko": "실제 원격 튜닝 실행 (사용자 호스트의 GPU 시간 소모)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4611 description"
+      ]
+    },
+    {
+      "key": "weight-eft training-data + cost-audit slice (ADR-150): export | plan | eval | train. Ships audited SFT/DPO data + a cost-Pareto measurement + a GPU plan. Does NOT train a model or reduce escalation.",
+      "ko": "weight-eft 학습 데이터 + 비용 감사 슬라이스 (ADR-150): export | plan | eval | train. 감사된 SFT/DPO 데이터, 비용 파레토 측정, GPU 계획을 제공합니다. 모델을 학습시키거나 에스컬레이션을 줄이지는 않습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4667 description"
+      ]
+    },
+    {
+      "key": "Captured transcripts → audited SFT/DPO JSONL + guard report ($0)",
+      "ko": "캡처된 대화 기록 → 감사된 SFT/DPO JSONL + 가드 보고서 ($0)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4670 description"
+      ]
+    },
+    {
+      "key": "Print the GPU training plan + ruvllm commands ($0 dry-run)",
+      "ko": "GPU 학습 계획과 ruvllm 명령 출력 ($0 드라이런)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4671 description"
+      ]
+    },
+    {
+      "key": "Cost-Pareto delta ($0)",
+      "ko": "비용 파레토 차이 ($0)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4672 description"
+      ]
+    },
+    {
+      "key": "Remote-GPU tune DRY-RUN (spend-gated behind --execute --yes)",
+      "ko": "원격 GPU 튜닝 드라이런 (--execute --yes가 있어야 비용 발생)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4673 description"
+      ]
+    },
+    {
+      "key": "Neural pattern training, MoE, Flash Attention, pattern learning",
+      "ko": "뉴럴 패턴 학습, MoE, Flash Attention, 패턴 학습",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4685 description"
+      ]
+    },
+    {
+      "key": "Check neural system status",
+      "ko": "뉴럴 시스템 상태 확인",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4688 description"
+      ]
+    },
+    {
+      "key": "List learned patterns",
+      "ko": "학습된 패턴 목록 표시",
+      "kind": "text",
+      "ctx": [
+        "src/commands/neural.ts:4690 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

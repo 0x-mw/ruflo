@@ -1,3 +1,7 @@
+---
+description: 에이전트 조율
+---
+
 # agent-coordination
 
 Coordination patterns for multi-agent collaboration.

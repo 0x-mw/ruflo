@@ -1,3 +1,7 @@
+---
+description: SPARC 혁신가 모드
+---
+
 # SPARC Innovator Mode
 
 ## Purpose

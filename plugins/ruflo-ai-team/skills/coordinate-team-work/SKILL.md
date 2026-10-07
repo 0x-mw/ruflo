@@ -1,6 +1,6 @@
 ---
 name: coordinate-team-work
-description: Divide approved work among specialized RuFlo roles and keep task state synchronized.
+description: 승인된 작업을 전문화된 RuFlo 역할에 나누고 작업 상태를 동기화합니다.
 allowed-tools: mcp__plugin_ruflo-ai-team_ruflo-ai-team__task_create mcp__plugin_ruflo-ai-team_ruflo-ai-team__task_list mcp__plugin_ruflo-ai-team_ruflo-ai-team__task_update
 ---
 

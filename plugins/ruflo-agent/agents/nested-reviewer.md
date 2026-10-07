@@ -1,6 +1,6 @@
 ---
 name: nested-reviewer
-description: Recursive review orchestrator — each finding can spawn an adversarial verifier in its own context, so review remains thorough without bloating the top-level reviewer
+description: 재귀 리뷰 오케스트레이터 — 각 발견 사항이 자체 컨텍스트에서 적대적 검증자를 생성할 수 있어, 최상위 리뷰어를 비대하게 만들지 않고도 철저한 리뷰를 유지
 model: sonnet
 tools:
   - Task

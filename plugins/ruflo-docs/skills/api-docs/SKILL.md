@@ -1,6 +1,6 @@
 ---
 name: api-docs
-description: Generate API documentation from source code with JSDoc and OpenAPI support
+description: JSDoc과 OpenAPI 지원으로 소스 코드에서 API 문서를 생성
 argument-hint: "<source-path>"
 allowed-tools: Bash(npx *) mcp__plugin_ruflo-core_ruflo__hooks_worker-dispatch Read Write Grep
 ---

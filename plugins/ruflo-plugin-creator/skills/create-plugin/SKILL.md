@@ -1,6 +1,6 @@
 ---
 name: create-plugin
-description: Scaffold a new Claude Code plugin with proper directory structure, plugin.json, skills, commands, and agents
+description: 올바른 디렉터리 구조, plugin.json, 스킬, 명령, 에이전트를 갖춘 새 Claude Code 플러그인을 스캐폴딩
 argument-hint: "<plugin-name>"
 allowed-tools: mcp__plugin_ruflo-core_ruflo__transfer_plugin-info mcp__plugin_ruflo-core_ruflo__transfer_plugin-search mcp__plugin_ruflo-core_ruflo__transfer_store-search Bash Read Write Edit
 ---

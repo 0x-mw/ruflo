@@ -1,0 +1,146 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/agentdb-mod.ts",
+  "entries": [
+    {
+      "key": "AgentDB mod",
+      "ko": "AgentDB mod",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:18 rule()"
+      ]
+    },
+    {
+      "key": "no session yet",
+      "ko": "아직 세션 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:18 rule()"
+      ]
+    },
+    {
+      "key": "recall on",
+      "ko": "리콜 켜짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:18 rule()"
+      ]
+    },
+    {
+      "key": "recall off",
+      "ko": "리콜 꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:18 rule()"
+      ]
+    },
+    {
+      "key": "Install ruflo-agentdb (0.4+): safe recall of memory into prompts and a guard that keeps secrets out of memory. /plugin",
+      "ko": "ruflo-agentdb (0.4+)를 설치하세요. 메모리를 프롬프트에 안전하게 불러오고, 비밀 정보가 메모리에 들어가지 않게 막는 가드를 제공합니다. /plugin",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:22 text()"
+      ]
+    },
+    {
+      "key": "recall",
+      "ko": "리콜",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "off (a plugin option: attaches the best few memories to each prompt as retrieved data)",
+      "ko": "꺼짐 (플러그인 옵션: 각 프롬프트에 가장 관련 있는 메모리 몇 개를 조회한 데이터로 첨부합니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:29 kv()"
+      ]
+    },
+    {
+      "key": "secret guard",
+      "ko": "비밀 가드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "on · memory writes holding a key, token or password are refused",
+      "ko": "켜짐 · 키, 토큰, 비밀번호가 든 메모리 쓰기는 거부됩니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:30 kv()"
+      ]
+    },
+    {
+      "key": "off",
+      "ko": "꺼짐",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:30 kv()",
+        "plugins/ruflo-console/hooks/views/control.ts:24 rule()",
+        "plugins/ruflo-console/hooks/views/control.ts:27 rule()"
+      ]
+    },
+    {
+      "key": "attached",
+      "ko": "첨부됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} from cache · {2} skipped · {3} timed out",
+      "ko": "{0} · 캐시 {1} · 건너뜀 {2} · 시간 초과 {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} from cache · {2} skipped · {3} timed out · last {4} ms",
+      "ko": "{0} · 캐시 {1} · 건너뜀 {2} · 시간 초과 {3} · 최근 {4} ms",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:31 kv()"
+      ]
+    },
+    {
+      "key": "{0} memories dropped as unsafe · {1} writes blocked · {2} errors",
+      "ko": "안전하지 않아 제외된 메모리 {0}개 · 차단된 쓰기 {1}건 · 오류 {2}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:32 kv()"
+      ]
+    },
+    {
+      "key": "{0} memories dropped as unsafe · {1} writes blocked",
+      "ko": "안전하지 않아 제외된 메모리 {0}개 · 차단된 쓰기 {1}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:32 kv()"
+      ]
+    },
+    {
+      "key": "written {0} (an earlier session) · /agentdb-mod status|recall|scan|recent",
+      "ko": "기록 {0} (이전 세션) · /agentdb-mod status|recall|scan|recent",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:33 text()"
+      ]
+    },
+    {
+      "key": "written {0} · /agentdb-mod status|recall|scan|recent",
+      "ko": "기록 {0} · /agentdb-mod status|recall|scan|recent",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/agentdb-mod.ts:33 text()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

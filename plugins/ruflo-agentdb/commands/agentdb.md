@@ -1,6 +1,6 @@
 ---
 name: agentdb
-description: AgentDB health, controller status, and session management
+description: AgentDB 상태, 컨트롤러 상태, 세션 관리
 ---
 
 AgentDB management:

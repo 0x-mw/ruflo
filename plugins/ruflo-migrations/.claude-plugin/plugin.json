@@ -1,6 +1,6 @@
 {
   "name": "ruflo-migrations",
-  "description": "Schema migration management — generate, validate, dry-run, and rollback database migrations. As a mod (ADR-445): a tighten-only guard on its tools, /migrations-mod, and a status file the console shows",
+  "description": "스키마 마이그레이션 관리 — 데이터베이스 마이그레이션 생성, 검증, 드라이런, 롤백. mod(ADR-445)로서 도구에 대한 강화 전용 가드, /migrations-mod, 콘솔이 보여 주는 상태 파일을 제공",
   "version": "0.3.3",
   "author": {
     "name": "ruvnet",
@@ -24,8 +24,8 @@
   "userConfig": {
     "guard": {
       "type": "string",
-      "title": "Guard",
-      "description": "Refuse calls and memory writes that hold a secret or a database URL with a password. On by default.",
+      "title": "가드",
+      "description": "비밀이나 비밀번호가 포함된 데이터베이스 URL이 들어 있는 호출과 메모리 쓰기를 거부합니다. 기본값은 켜짐.",
       "required": false,
       "default": "on",
       "options": [

@@ -1,0 +1,2360 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-messages",
+  "source": "v3/@claude-flow/cli/src/commands/doctor.ts",
+  "entries": [
+    {
+      "key": "Node.js Version",
+      "ko": "Node.js 버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:59 check.name",
+        "src/commands/doctor.ts:61 check.name",
+        "src/commands/doctor.ts:63 check.name"
+      ]
+    },
+    {
+      "key": "{0} (>= {1} required)",
+      "ko": "{0} ({1} 이상 필요)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:59 check.message",
+        "src/commands/doctor.ts:63 check.message"
+      ]
+    },
+    {
+      "key": "{0} (>= {1} recommended)",
+      "ko": "{0} ({1} 이상 권장)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:61 check.message"
+      ]
+    },
+    {
+      "key": "nvm install 20 && nvm use 20",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:61 check.fix",
+        "src/commands/doctor.ts:63 check.fix"
+      ]
+    },
+    {
+      "key": "v{0} (>= 9 recommended)",
+      "ko": "v{0} (9 이상 권장)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:75 check.message"
+      ]
+    },
+    {
+      "key": "Install Node.js from https://nodejs.org",
+      "ko": "https://nodejs.org 에서 Node.js를 설치하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:78 check.fix"
+      ]
+    },
+    {
+      "key": "Unable to parse agent-browser version: {0}. Browser MCP tools may be unavailable.",
+      "ko": "agent-browser 버전을 해석하지 못했습니다: {0}. 브라우저 MCP 도구를 사용하지 못할 수 있습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:90 check.message"
+      ]
+    },
+    {
+      "key": "Unable to parse agent-browser version (empty output). Browser MCP tools may be unavailable.",
+      "ko": "agent-browser 버전을 해석하지 못했습니다 (출력이 비어 있음). 브라우저 MCP 도구를 사용하지 못할 수 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:90 check.message"
+      ]
+    },
+    {
+      "key": "v{0} is below the ADR-122 v0.27.0 minimum for browser MCP tools",
+      "ko": "v{0} 은(는) 브라우저 MCP 도구의 ADR-122 최소 버전 v0.27.0 보다 낮습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:93 check.message"
+      ]
+    },
+    {
+      "key": "v{0} meets the ADR-122 v0.27.0 minimum for browser MCP tools",
+      "ko": "v{0} 은(는) 브라우저 MCP 도구의 ADR-122 최소 버전 v0.27.0 을 충족합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:95 check.message"
+      ]
+    },
+    {
+      "key": "Not found on PATH; @claude-flow/browser and browser MCP tools need agent-browser v0.27.0 or newer",
+      "ko": "PATH에서 찾을 수 없습니다. @claude-flow/browser 와 브라우저 MCP 도구에는 agent-browser v0.27.0 이상이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:113 check.message"
+      ]
+    },
+    {
+      "key": "Version check failed: {0}",
+      "ko": "버전을 확인하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:114 check.message"
+      ]
+    },
+    {
+      "key": "Config File",
+      "ko": "설정 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:154 check.name",
+        "src/commands/doctor.ts:162 check.name",
+        "src/commands/doctor.ts:170 check.name"
+      ]
+    },
+    {
+      "key": "Invalid JSON: {0}",
+      "ko": "올바르지 않은 JSON: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:154 check.message"
+      ]
+    },
+    {
+      "key": "Fix JSON syntax in config file",
+      "ko": "설정 파일의 JSON 구문을 고치세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:154 check.fix"
+      ]
+    },
+    {
+      "key": "Config collision: legacy {0} + {1} — subsystems may disagree silently",
+      "ko": "설정 충돌: 레거시 {0} + {1} — 하위 시스템끼리 조용히 어긋날 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:164 check.message"
+      ]
+    },
+    {
+      "key": "Archive the legacy JSON (mv {0} {1}.bak) and keep {2} as the canonical config",
+      "ko": "레거시 JSON을 보관(mv {0} {1}.bak)하고 {2} 을(를) 표준 설정으로 유지하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:165 check.fix"
+      ]
+    },
+    {
+      "key": "Found",
+      "ko": "발견됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:170 check.message",
+        "src/commands/doctor.ts:173 check.message",
+        "src/commands/doctor.ts:1334 check.message"
+      ]
+    },
+    {
+      "key": "No config file (using defaults)",
+      "ko": "설정 파일 없음 (기본값 사용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:176 check.message"
+      ]
+    },
+    {
+      "key": "Stale npx@latest in settings (#2448)",
+      "ko": "설정의 오래된 npx@latest (#2448)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:243 check.name",
+        "src/commands/doctor.ts:256 check.name"
+      ]
+    },
+    {
+      "key": "no runaway commands detected",
+      "ko": "폭주 명령이 감지되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:243 check.message"
+      ]
+    },
+    {
+      "key": "CRITICAL — runaway `npx @claude-flow/cli@latest` commands detected: {0}",
+      "ko": "심각 — 폭주하는 `npx @claude-flow/cli@latest` 명령이 감지되었습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:258 check.message"
+      ]
+    },
+    {
+      "key": "Re-run `npx ruflo init` to migrate (the v3.13.3+ init migrator regenerates these to local-helper form). On macOS this prevents the process-storm / kernel-panic class reported in #2448.",
+      "ko": "`npx ruflo init` 을 다시 실행해 마이그레이션하세요 (v3.13.3 이상의 init 마이그레이터가 이를 로컬 헬퍼 형태로 다시 생성합니다). macOS에서는 #2448 에 보고된 프로세스 폭주/커널 패닉 유형을 막아 줍니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:259 check.fix"
+      ]
+    },
+    {
+      "key": "no installed ruflo helpers to verify",
+      "ko": "검증할 설치된 ruflo 헬퍼가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:286 check.message"
+      ]
+    },
+    {
+      "key": "cannot verify installed helpers: the package helper source was not found",
+      "ko": "설치된 헬퍼를 검증하지 못했습니다: 패키지의 헬퍼 원본을 찾을 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:293 check.message"
+      ]
+    },
+    {
+      "key": "Reinstall @claude-flow/cli",
+      "ko": "@claude-flow/cli 를 다시 설치하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:294 check.fix"
+      ]
+    },
+    {
+      "key": "cannot verify installed helpers: {0}",
+      "ko": "설치된 헬퍼를 검증하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:305 check.message"
+      ]
+    },
+    {
+      "key": "Reinstall @claude-flow/cli from a trusted source",
+      "ko": "신뢰할 수 있는 출처에서 @claude-flow/cli 를 다시 설치하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:306 check.fix"
+      ]
+    },
+    {
+      "key": "critical helpers do not match the signed manifest — {0}",
+      "ko": "핵심 헬퍼가 서명된 매니페스트와 일치하지 않습니다 — {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:318 check.message"
+      ]
+    },
+    {
+      "key": "Run any ruflo command to restore verified copies (startup heals them), or `npx ruflo init --force`; then find out what modified them",
+      "ko": "아무 ruflo 명령이나 실행하면 검증된 사본으로 복원됩니다 (시작 시 자동 복구). 또는 `npx ruflo init --force` 를 실행한 뒤 무엇이 수정했는지 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:319 check.fix"
+      ]
+    },
+    {
+      "key": "locally modified helpers (auto-restore disabled by .LOCKED / RUFLO_HELPERS_LOCKED) — {0}",
+      "ko": "로컬에서 수정된 헬퍼 (.LOCKED / RUFLO_HELPERS_LOCKED 로 자동 복원이 꺼져 있음) — {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:325 check.message"
+      ]
+    },
+    {
+      "key": "Expected if you edit helpers deliberately; otherwise remove .LOCKED and run any ruflo command to restore them",
+      "ko": "헬퍼를 의도적으로 수정했다면 정상입니다. 그렇지 않다면 .LOCKED 를 지우고 아무 ruflo 명령이나 실행해 복원하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:326 check.fix"
+      ]
+    },
+    {
+      "key": "{0} helper dir(s) match the signed manifest",
+      "ko": "헬퍼 디렉터리 {0}개가 서명된 매니페스트와 일치합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:329 check.message"
+      ]
+    },
+    {
+      "key": "Daemon Status",
+      "ko": "데몬 상태",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:339 check.name",
+        "src/commands/doctor.ts:341 check.name",
+        "src/commands/doctor.ts:344 check.name"
+      ]
+    },
+    {
+      "key": "Running (PID: {0})",
+      "ko": "실행 중 (PID: {0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:339 check.message"
+      ]
+    },
+    {
+      "key": "Stale PID file",
+      "ko": "오래된 PID 파일",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:341 check.message"
+      ]
+    },
+    {
+      "key": "Not running",
+      "ko": "실행 중이 아님",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:344 check.message",
+        "src/commands/status.ts:323 printInfo",
+        "src/commands/status.ts:431 check.message"
+      ]
+    },
+    {
+      "key": "Unable to check",
+      "ko": "확인할 수 없음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:346 check.message",
+        "src/commands/doctor.ts:1655 check.message"
+      ]
+    },
+    {
+      "key": "Memory Database Presence",
+      "ko": "메모리 데이터베이스 존재 여부",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:387 check.name",
+        "src/commands/doctor.ts:389 check.name",
+        "src/commands/doctor.ts:394 check.name"
+      ]
+    },
+    {
+      "key": "{0} ({1} MB) — existence/size only, not a health check (see Memory Structural Integrity)",
+      "ko": "{0} ({1} MB) — 존재 여부와 크기만 확인한 것이며 상태 점검이 아닙니다 (메모리 구조 무결성 참고)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:387 check.message"
+      ]
+    },
+    {
+      "key": "{0} (unable to stat)",
+      "ko": "{0} (정보를 읽을 수 없음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:389 check.message"
+      ]
+    },
+    {
+      "key": "Not initialized",
+      "ko": "초기화되지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:394 check.message"
+      ]
+    },
+    {
+      "key": "{0} — better-sqlite3 package found, but its native binding is unavailable: {1} {2}",
+      "ko": "{0} — better-sqlite3 패키지는 있지만 네이티브 바인딩을 사용할 수 없습니다: {1} {2}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:543 check.message"
+      ]
+    },
+    {
+      "key": "reinstall with npm install scripts enabled or run `npm rebuild better-sqlite3`; then rerun this check",
+      "ko": "npm install 스크립트를 켠 채 다시 설치하거나 `npm rebuild better-sqlite3` 를 실행한 뒤 이 점검을 다시 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:544 check.fix"
+      ]
+    },
+    {
+      "key": "Memory Structural Integrity (quick_check)",
+      "ko": "메모리 구조 무결성 (quick_check)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "Native AgentDB Structural Integrity (quick_check)",
+      "ko": "네이티브 AgentDB 구조 무결성 (quick_check)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "Memory Persistence Driver",
+      "ko": "메모리 영속화 드라이버",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "@claude-flow/memory version",
+      "ko": "@claude-flow/memory 버전",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "Meta LLM Proxy binary (ADR-307)",
+      "ko": "Meta LLM Proxy 바이너리 (ADR-307)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "Meta LLM Proxy process (ADR-307)",
+      "ko": "Meta LLM Proxy 프로세스 (ADR-307)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "Meta LLM Proxy bind address (ADR-307)",
+      "ko": "Meta LLM Proxy 바인드 주소 (ADR-307)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "Cognitum identity (ADR-306)",
+      "ko": "Cognitum 신원 (ADR-306)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "MetaHarness declared packages (ADR-150)",
+      "ko": "MetaHarness 선언 패키지 (ADR-150)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:582 check.name",
+        "src/commands/doctor.ts:591 check.name",
+        "src/commands/doctor.ts:602 check.name"
+      ]
+    },
+    {
+      "key": "no memory.db found (see Memory Database Presence above) — structural-only check skipped",
+      "ko": "memory.db 가 없습니다 (위의 메모리 데이터베이스 존재 여부 참고) — 구조 전용 점검을 건너뛰었습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:584 check.message"
+      ]
+    },
+    {
+      "key": "{0} — RFE1-encrypted at rest; structural-only check can't run without decrypting (expected, not corruption — see Encryption at Rest)",
+      "ko": "{0} — 저장 시 RFE1 암호화됨. 복호화 없이는 구조 전용 점검을 실행할 수 없습니다 (손상이 아닌 정상 상태 — 저장 데이터 암호화 참고)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:593 check.message"
+      ]
+    },
+    {
+      "key": "{0} — better-sqlite3 not installed; native WAL-backed persistence and the structural-only check are unavailable",
+      "ko": "{0} — better-sqlite3 가 설치되어 있지 않아 네이티브 WAL 기반 영속화와 구조 전용 점검을 사용할 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:604 check.message"
+      ]
+    },
+    {
+      "key": "install better-sqlite3 with npm install scripts enabled, then rerun this check",
+      "ko": "npm install 스크립트를 켠 채 better-sqlite3 를 설치한 뒤 이 점검을 다시 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:605 check.fix",
+        "src/commands/doctor.ts:689 check.fix",
+        "src/commands/doctor.ts:980 check.fix"
+      ]
+    },
+    {
+      "key": "{0} — better-sqlite3 failed to open: {1} (unencrypted; definitively malformed) [structural-only]",
+      "ko": "{0} — better-sqlite3 로 열지 못했습니다: {1} (암호화되지 않음, 확실히 손상됨) [구조 전용]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:628 check.message"
+      ]
+    },
+    {
+      "key": "back up .swarm/memory.db then `claude-flow memory init --force`",
+      "ko": ".swarm/memory.db 를 백업한 뒤 `claude-flow memory init --force` 를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:629 check.fix",
+        "src/commands/doctor.ts:647 check.fix",
+        "src/commands/doctor.ts:657 check.fix"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA quick_check: ok [structural-only, native + WAL-aware]",
+      "ko": "{0} — PRAGMA quick_check: ok [구조 전용, 네이티브 + WAL 인식]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:640 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA quick_check: {1} (+{2} more) [structural-only]",
+      "ko": "{0} — PRAGMA quick_check: {1} (외 {2}건) [구조 전용]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:646 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA quick_check: {1} [structural-only]",
+      "ko": "{0} — PRAGMA quick_check: {1} [구조 전용]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:646 check.message"
+      ]
+    },
+    {
+      "key": "{0} — quick_check probe threw: {1} (unencrypted) [structural-only]",
+      "ko": "{0} — quick_check 탐침에서 예외가 발생했습니다: {1} (암호화되지 않음) [구조 전용]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:656 check.message"
+      ]
+    },
+    {
+      "key": "{0} disappeared before the native check could run",
+      "ko": "{0} 이(가) 네이티브 점검 실행 전에 사라졌습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:670 check.message"
+      ]
+    },
+    {
+      "key": "{0} — RFE1-encrypted; native AgentDB requires a plaintext SQLite file",
+      "ko": "{0} — RFE1 암호화됨. 네이티브 AgentDB는 평문 SQLite 파일이 필요합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:676 check.message"
+      ]
+    },
+    {
+      "key": "back up {0} and restore a usable native AgentDB database",
+      "ko": "{0} 을(를) 백업하고 사용할 수 있는 네이티브 AgentDB 데이터베이스를 복원하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:677 check.fix"
+      ]
+    },
+    {
+      "key": "{0} — better-sqlite3 not installed; native AgentDB structural health is unverified",
+      "ko": "{0} — better-sqlite3 가 설치되어 있지 않아 네이티브 AgentDB의 구조 상태를 확인하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:688 check.message"
+      ]
+    },
+    {
+      "key": "{0} — better-sqlite3 failed to open: {1} [native AgentDB]",
+      "ko": "{0} — better-sqlite3 로 열지 못했습니다: {1} [네이티브 AgentDB]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:704 check.message"
+      ]
+    },
+    {
+      "key": "back up {0} and its WAL sidecars, then restore a known-good native AgentDB database",
+      "ko": "{0} 과(와) WAL 보조 파일을 백업한 뒤 정상으로 확인된 네이티브 AgentDB 데이터베이스를 복원하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:705 check.fix",
+        "src/commands/doctor.ts:719 check.fix",
+        "src/commands/doctor.ts:727 check.fix"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA quick_check: ok [native AgentDB, WAL-aware]",
+      "ko": "{0} — PRAGMA quick_check: ok [네이티브 AgentDB, WAL 인식]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:713 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA quick_check: {1} (+{2} more) [native AgentDB]",
+      "ko": "{0} — PRAGMA quick_check: {1} (외 {2}건) [네이티브 AgentDB]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:718 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA quick_check: {1} [native AgentDB]",
+      "ko": "{0} — PRAGMA quick_check: {1} [네이티브 AgentDB]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:718 check.message"
+      ]
+    },
+    {
+      "key": "{0} — quick_check probe threw: {1} [native AgentDB]",
+      "ko": "{0} — quick_check 탐침에서 예외가 발생했습니다: {1} [네이티브 AgentDB]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:726 check.message"
+      ]
+    },
+    {
+      "key": "no memory.db found (see Memory Database Presence above) — driver check skipped",
+      "ko": "memory.db 가 없습니다 (위의 메모리 데이터베이스 존재 여부 참고) — 드라이버 점검을 건너뛰었습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:760 check.message"
+      ]
+    },
+    {
+      "key": "{0} — RFE1-encrypted at rest; driver check can't run without decrypting (expected, not corruption)",
+      "ko": "{0} — 저장 시 RFE1 암호화됨. 복호화 없이는 드라이버 점검을 실행할 수 없습니다 (손상이 아닌 정상 상태)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:768 check.message"
+      ]
+    },
+    {
+      "key": "{0} — native better-sqlite3 binding unavailable: {1} — native read-only probe unavailable; runtime driver and write persistence not verified (#2968) [{2}; sql.js main-image-only fallback]",
+      "ko": "{0} — 네이티브 better-sqlite3 바인딩을 사용할 수 없습니다: {1} — 네이티브 읽기 전용 탐침을 쓸 수 없어 런타임 드라이버와 쓰기 영속화를 확인하지 못했습니다 (#2968) [{2}; sql.js 메인 이미지 전용 대체 경로]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:841 check.message"
+      ]
+    },
+    {
+      "key": "reinstall with npm install scripts enabled, or run `npm rebuild better-sqlite3`; then rerun this check",
+      "ko": "npm install 스크립트를 켠 채 다시 설치하거나 `npm rebuild better-sqlite3` 를 실행한 뒤 이 점검을 다시 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:842 check.fix"
+      ]
+    },
+    {
+      "key": "{0} — native better-sqlite3 module loadable, but could not open this database ({1}) — see Memory Integrity above for the corruption/encryption diagnosis [{2}]",
+      "ko": "{0} — 네이티브 better-sqlite3 모듈은 불러올 수 있지만 이 데이터베이스를 열지 못했습니다 ({1}) — 손상/암호화 진단은 위의 메모리 무결성을 참고하세요 [{2}]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:850 check.message"
+      ]
+    },
+    {
+      "key": "{0} — native better-sqlite3 opened read-only, but table count unavailable: {1}; runtime driver and write persistence not verified",
+      "ko": "{0} — 네이티브 better-sqlite3 로 읽기 전용으로 열었지만 테이블 수를 확인할 수 없습니다: {1}. 런타임 드라이버와 쓰기 영속화를 확인하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:858 check.message"
+      ]
+    },
+    {
+      "key": "{0} — native better-sqlite3 opened read-only, but table count unavailable: query returned no reliable result; runtime driver and write persistence not verified",
+      "ko": "{0} — 네이티브 better-sqlite3 로 읽기 전용으로 열었지만 테이블 수를 확인할 수 없습니다: 쿼리가 신뢰할 만한 결과를 반환하지 않았습니다. 런타임 드라이버와 쓰기 영속화를 확인하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:858 check.message"
+      ]
+    },
+    {
+      "key": "{0} — native better-sqlite3 read-only open and schema query succeeded [{1}]; runtime driver, schema compatibility, and write persistence not verified",
+      "ko": "{0} — 네이티브 better-sqlite3 로 읽기 전용 열기와 스키마 쿼리에 성공했습니다 [{1}]. 런타임 드라이버, 스키마 호환성, 쓰기 영속화는 확인하지 못했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:865 check.message"
+      ]
+    },
+    {
+      "key": "Memory Integrity",
+      "ko": "메모리 무결성",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:885 check.name",
+        "src/commands/doctor.ts:889 check.name",
+        "src/commands/doctor.ts:922 check.name"
+      ]
+    },
+    {
+      "key": "no memory.db found (see Memory Database Presence check above)",
+      "ko": "memory.db 가 없습니다 (위의 메모리 데이터베이스 존재 여부 점검 참고)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:885 check.message"
+      ]
+    },
+    {
+      "key": "{0} — RFE1-encrypted at rest; integrity check can't run without decrypting (expected, not corruption — see Encryption at Rest)",
+      "ko": "{0} — 저장 시 RFE1 암호화됨. 복호화 없이는 무결성 점검을 실행할 수 없습니다 (손상이 아닌 정상 상태 — 저장 데이터 암호화 참고)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:891 check.message"
+      ]
+    },
+    {
+      "key": "{0} — better-sqlite3 failed to open: {1} (unencrypted; definitively malformed) [native, WAL-aware]",
+      "ko": "{0} — better-sqlite3 로 열지 못했습니다: {1} (암호화되지 않음, 확실히 손상됨) [네이티브, WAL 인식]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:924 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA integrity_check: ok [native, WAL-aware]",
+      "ko": "{0} — PRAGMA integrity_check: ok [네이티브, WAL 인식]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:932 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA integrity_check: {1} (+{2} more) [native, WAL-aware]",
+      "ko": "{0} — PRAGMA integrity_check: {1} (외 {2}건) [네이티브, WAL 인식]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:937 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA integrity_check: {1} [native, WAL-aware]",
+      "ko": "{0} — PRAGMA integrity_check: {1} [네이티브, WAL 인식]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:937 check.message"
+      ]
+    },
+    {
+      "key": "{0} — integrity_check probe threw: {1} (unencrypted; definitively malformed) [native, WAL-aware]",
+      "ko": "{0} — integrity_check 탐침에서 예외가 발생했습니다: {1} (암호화되지 않음, 확실히 손상됨) [네이티브, WAL 인식]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:949 check.message"
+      ]
+    },
+    {
+      "key": "{0} — sql.js can't open (unencrypted; definitively malformed) [main-image-only fallback — install better-sqlite3 for WAL-aware checking]",
+      "ko": "{0} — sql.js 로 열 수 없습니다 (암호화되지 않음, 확실히 손상됨) [메인 이미지 전용 대체 경로 — WAL 인식 점검을 하려면 better-sqlite3 를 설치하세요]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:968 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA integrity_check: ok, but only for the main image [sql.js fallback; native WAL-backed persistence unavailable]",
+      "ko": "{0} — PRAGMA integrity_check: ok, 단 메인 이미지에 대해서만 확인했습니다 [sql.js 대체 경로; 네이티브 WAL 기반 영속화 사용 불가]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:979 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA integrity_check: {1} (+{2} more) [main-image-only fallback]",
+      "ko": "{0} — PRAGMA integrity_check: {1} (외 {2}건) [메인 이미지 전용 대체 경로]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:986 check.message"
+      ]
+    },
+    {
+      "key": "{0} — PRAGMA integrity_check: {1} [main-image-only fallback]",
+      "ko": "{0} — PRAGMA integrity_check: {1} [메인 이미지 전용 대체 경로]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:986 check.message"
+      ]
+    },
+    {
+      "key": "{0} — DB refused query: {1} (unencrypted; definitively malformed) [main-image-only fallback]",
+      "ko": "{0} — DB가 쿼리를 거부했습니다: {1} (암호화되지 않음, 확실히 손상됨) [메인 이미지 전용 대체 경로]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:998 check.message"
+      ]
+    },
+    {
+      "key": "{0} — probe threw: {1} (unencrypted — encryption ruled out above) [main-image-only fallback]",
+      "ko": "{0} — 탐침에서 예외가 발생했습니다: {1} (암호화되지 않음 — 위에서 암호화 가능성을 배제함) [메인 이미지 전용 대체 경로]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:998 check.message"
+      ]
+    },
+    {
+      "key": "Memory Content",
+      "ko": "메모리 내용",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1012 check.name",
+        "src/commands/doctor.ts:1014 check.name",
+        "src/commands/doctor.ts:1017 check.name"
+      ]
+    },
+    {
+      "key": "no memory.db found",
+      "ko": "memory.db 가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1012 check.message",
+        "src/commands/doctor.ts:1058 check.message",
+        "src/commands/doctor.ts:1119 check.message"
+      ]
+    },
+    {
+      "key": "DB unreadable (see Memory Integrity)",
+      "ko": "DB를 읽을 수 없습니다 (메모리 무결성 참고)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1014 check.message",
+        "src/commands/doctor.ts:1060 check.message",
+        "src/commands/doctor.ts:1121 check.message"
+      ]
+    },
+    {
+      "key": "no memory_entries table in DB — schema mismatch or empty init",
+      "ko": "DB에 memory_entries 테이블이 없습니다 — 스키마 불일치이거나 빈 초기화 상태입니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1017 check.message"
+      ]
+    },
+    {
+      "key": "{0} — 0 rows (fresh DB, expected)",
+      "ko": "{0} — 행 0개 (새 DB이므로 정상)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1021 check.message"
+      ]
+    },
+    {
+      "key": "{0} — {1} below 95% floor",
+      "ko": "{0} — {1} 이(가) 하한선 95% 미만입니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1029 check.message",
+        "src/commands/doctor.ts:1086 check.message",
+        "src/commands/doctor.ts:1098 check.message"
+      ]
+    },
+    {
+      "key": "schema drift likely (rename of value→content or similar). check migration state via `claude-flow migrate status`",
+      "ko": "스키마가 어긋났을 가능성이 큽니다 (value→content 이름 변경 등). `claude-flow migrate status` 로 마이그레이션 상태를 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1030 check.fix"
+      ]
+    },
+    {
+      "key": "{0} — DB refused query: {1} (encrypted DB or corruption; see Memory Integrity above)",
+      "ko": "{0} — DB가 쿼리를 거부했습니다: {1} (암호화된 DB이거나 손상됨; 위의 메모리 무결성 참고)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1040 check.message",
+        "src/commands/doctor.ts:1107 check.message"
+      ]
+    },
+    {
+      "key": "{0} — probe threw: {1}",
+      "ko": "{0} — 탐침에서 예외가 발생했습니다: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1040 check.message",
+        "src/commands/doctor.ts:1107 check.message",
+        "src/commands/doctor.ts:1157 check.message"
+      ]
+    },
+    {
+      "key": "Memory Embedding Coverage",
+      "ko": "메모리 임베딩 커버리지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1058 check.name",
+        "src/commands/doctor.ts:1060 check.name",
+        "src/commands/doctor.ts:1073 check.name"
+      ]
+    },
+    {
+      "key": "no embedding column/table recognized (agentdb schema mismatch or older format) — doctor cannot measure",
+      "ko": "인식되는 임베딩 컬럼/테이블이 없습니다 (agentdb 스키마 불일치 또는 구형 형식) — doctor가 측정할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1075 check.message"
+      ]
+    },
+    {
+      "key": "{0} — 0 content rows (nothing to embed)",
+      "ko": "{0} — 내용 행 0개 (임베딩할 대상 없음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1082 check.message",
+        "src/commands/doctor.ts:1093 check.message"
+      ]
+    },
+    {
+      "key": "unembedded rows are unrecallable + undistillable — re-run `claude-flow memory embed --namespace <name>` for populated namespaces",
+      "ko": "임베딩되지 않은 행은 회상도 증류도 할 수 없습니다 — 데이터가 있는 네임스페이스마다 `claude-flow memory embed --namespace <name>` 를 다시 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1086 check.fix",
+        "src/commands/doctor.ts:1098 check.fix"
+      ]
+    },
+    {
+      "key": "Memory Reflexion Coverage",
+      "ko": "메모리 리플렉션 커버리지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1119 check.name",
+        "src/commands/doctor.ts:1121 check.name",
+        "src/commands/doctor.ts:1128 check.name"
+      ]
+    },
+    {
+      "key": "episodes table absent — AgentDB Reflexion schema not initialized",
+      "ko": "episodes 테이블이 없습니다 — AgentDB 리플렉션 스키마가 초기화되지 않았습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1128 check.message"
+      ]
+    },
+    {
+      "key": "{0} — 0 episodes (Reflexion has not been exercised)",
+      "ko": "{0} — 에피소드 0개 (리플렉션을 아직 사용하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1132 check.message"
+      ]
+    },
+    {
+      "key": "{0} — episode embeddings 0/{1} (0.00%); retrieveRelevant() cannot return rows",
+      "ko": "{0} — 에피소드 임베딩 0/{1} (0.00%). retrieveRelevant() 가 행을 반환할 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1138 check.message"
+      ]
+    },
+    {
+      "key": "run `claude-flow memory distill run`; current distillation creates/backfills episode_embeddings",
+      "ko": "`claude-flow memory distill run` 을 실행하세요. 현재 증류 과정이 episode_embeddings 를 생성/보충합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1139 check.fix"
+      ]
+    },
+    {
+      "key": "{0} — {1} below 95% floor; retrieveRelevant() cannot see uncovered episodes",
+      "ko": "{0} — {1} 이(가) 하한선 95% 미만입니다. retrieveRelevant() 가 포함되지 않은 에피소드를 볼 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1151 check.message"
+      ]
+    },
+    {
+      "key": "run `claude-flow memory distill run` to populate retrievable episodes",
+      "ko": "`claude-flow memory distill run` 을 실행해 조회 가능한 에피소드를 채우세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1152 check.fix"
+      ]
+    },
+    {
+      "key": "Memory Feedback Critiques",
+      "ko": "메모리 피드백 비평",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1166 check.name",
+        "src/commands/doctor.ts:1168 check.name",
+        "src/commands/doctor.ts:1173 check.name"
+      ]
+    },
+    {
+      "key": "episodes table absent",
+      "ko": "episodes 테이블이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1173 check.message"
+      ]
+    },
+    {
+      "key": "{0} — 0 execution-feedback episodes to assess",
+      "ko": "{0} — 평가할 실행 피드백 에피소드가 0개입니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1182 check.message"
+      ]
+    },
+    {
+      "key": "run current `claude-flow memory distill run`; execution-tier episodes preserve observed critique/error text",
+      "ko": "현재 버전의 `claude-flow memory distill run` 을 실행하세요. 실행 티어 에피소드는 관찰된 비평/오류 텍스트를 보존합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1191 check.fix"
+      ]
+    },
+    {
+      "key": "Learning Bridge",
+      "ko": "학습 브리지",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1211 check.name",
+        "src/commands/doctor.ts:1221 check.name",
+        "src/commands/doctor.ts:1235 check.name"
+      ]
+    },
+    {
+      "key": "auto-memory hook not installed (run: npx ruflo@latest init)",
+      "ko": "자동 메모리 훅이 설치되지 않았습니다 (실행: npx ruflo@latest init)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1213 check.message"
+      ]
+    },
+    {
+      "key": "@claude-flow/memory resolvable (v{0})",
+      "ko": "@claude-flow/memory 확인됨 (v{0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1223 check.message"
+      ]
+    },
+    {
+      "key": "@claude-flow/memory resolvable",
+      "ko": "@claude-flow/memory 확인됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1223 check.message"
+      ]
+    },
+    {
+      "key": "@claude-flow/memory resolvable via auto-recorded sidecar (v{0})",
+      "ko": "@claude-flow/memory 가 자동 기록된 사이드카로 확인됨 (v{0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1237 check.message"
+      ]
+    },
+    {
+      "key": "@claude-flow/memory resolvable via auto-recorded sidecar",
+      "ko": "@claude-flow/memory 가 자동 기록된 사이드카로 확인됨",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1237 check.message"
+      ]
+    },
+    {
+      "key": "@claude-flow/memory NOT resolvable — SessionStart self-learning imports are a silent no-op",
+      "ko": "@claude-flow/memory 를 찾을 수 없습니다 — SessionStart 자가 학습 가져오기가 아무 알림 없이 동작하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1244 check.message"
+      ]
+    },
+    {
+      "key": "could not read the @claude-flow/memory range declared by @claude-flow/cli",
+      "ko": "@claude-flow/cli 가 선언한 @claude-flow/memory 버전 범위를 읽지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1259 check.message"
+      ]
+    },
+    {
+      "key": "@claude-flow/memory is not resolvable from the CLI (declared {0}) — memory features fall back to degraded paths",
+      "ko": "CLI에서 @claude-flow/memory 를 찾을 수 없습니다 (선언: {0}) — 메모리 기능이 성능이 저하된 경로로 대체됩니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1265 check.message"
+      ]
+    },
+    {
+      "key": "cannot compare installed {0} against declared {1}",
+      "ko": "설치된 {0} 을(를) 선언된 {1} 과(와) 비교할 수 없습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1270 check.message"
+      ]
+    },
+    {
+      "key": "v{0} satisfies declared {1}",
+      "ko": "v{0} 이(가) 선언된 {1} 을(를) 충족합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1273 check.message"
+      ]
+    },
+    {
+      "key": "installed v{0} does not satisfy declared {1} — a stale cached copy is running, so fixes shipped in a newer @claude-flow/memory are silently absent",
+      "ko": "설치된 v{0} 이(가) 선언된 {1} 을(를) 충족하지 않습니다 — 오래된 캐시 사본이 실행 중이라 더 새로운 @claude-flow/memory 에 담긴 수정 사항이 조용히 빠져 있습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1280 check.message"
+      ]
+    },
+    {
+      "key": "check failed: {0}",
+      "ko": "점검하지 못했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1313 check.message",
+        "src/commands/doctor.ts:1926 check.message",
+        "src/commands/doctor.ts:2012 check.message"
+      ]
+    },
+    {
+      "key": "API Keys",
+      "ko": "API 키",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1334 check.name",
+        "src/commands/doctor.ts:1336 check.name",
+        "src/commands/doctor.ts:1338 check.name"
+      ]
+    },
+    {
+      "key": "Claude Code (managed internally)",
+      "ko": "Claude Code (내부에서 관리)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1336 check.message"
+      ]
+    },
+    {
+      "key": "Found: {0} (no Claude key)",
+      "ko": "발견됨: {0} (Claude 키 없음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1338 check.message"
+      ]
+    },
+    {
+      "key": "No API keys found",
+      "ko": "API 키가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1340 check.message"
+      ]
+    },
+    {
+      "key": "Git",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1348 check.name",
+        "src/commands/doctor.ts:1350 check.name"
+      ]
+    },
+    {
+      "key": "Not installed",
+      "ko": "설치되지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1350 check.message",
+        "src/commands/doctor.ts:2430 check.message"
+      ]
+    },
+    {
+      "key": "Install git from https://git-scm.com",
+      "ko": "https://git-scm.com 에서 git을 설치하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1350 check.fix"
+      ]
+    },
+    {
+      "key": "Git Repository",
+      "ko": "Git 저장소",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1364 check.name",
+        "src/commands/doctor.ts:1371 check.name",
+        "src/commands/doctor.ts:1381 check.name"
+      ]
+    },
+    {
+      "key": "In a git repository",
+      "ko": "git 저장소 안에 있음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1364 check.message"
+      ]
+    },
+    {
+      "key": "Repo detected on disk ({0}) but `git rev-parse` failed — check git installation and PATH",
+      "ko": "디스크에서 저장소를 찾았지만({0}) `git rev-parse` 가 실패했습니다 — git 설치와 PATH를 확인하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1373 check.message"
+      ]
+    },
+    {
+      "key": "Verify git is on PATH (try `git --version`) and that the working tree is not corrupted",
+      "ko": "git이 PATH에 있는지(`git --version` 실행) 그리고 작업 트리가 손상되지 않았는지 확인하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1374 check.fix"
+      ]
+    },
+    {
+      "key": "Not a git repository",
+      "ko": "git 저장소가 아님",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1381 check.message"
+      ]
+    },
+    {
+      "key": "AIDefence",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1401 check.name",
+        "src/commands/doctor.ts:1407 check.name"
+      ]
+    },
+    {
+      "key": "@claude-flow/aidefence loadable — aidefence_* MCP tools functional",
+      "ko": "@claude-flow/aidefence 를 불러올 수 있습니다 — aidefence_* MCP 도구가 동작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1403 check.message"
+      ]
+    },
+    {
+      "key": "@claude-flow/aidefence not loadable — aidefence_* MCP tools will fail (optional package)",
+      "ko": "@claude-flow/aidefence 를 불러올 수 없습니다 — aidefence_* MCP 도구가 실패합니다 (선택 패키지)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1409 check.message"
+      ]
+    },
+    {
+      "key": "Federation Breaker",
+      "ko": "페더레이션 차단기",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1437 check.name",
+        "src/commands/doctor.ts:1445 check.name",
+        "src/commands/doctor.ts:1452 check.name"
+      ]
+    },
+    {
+      "key": "@claude-flow/plugin-agent-federation loaded but FederationNodeState export missing — version older than ADR-097 Phase 2",
+      "ko": "@claude-flow/plugin-agent-federation 을 불러왔지만 FederationNodeState export 가 없습니다 — ADR-097 2단계보다 오래된 버전입니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1440 check.message"
+      ]
+    },
+    {
+      "key": "Upgrade: npm install @claude-flow/plugin-agent-federation@alpha",
+      "ko": "업그레이드: npm install @claude-flow/plugin-agent-federation@alpha",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1441 check.fix"
+      ]
+    },
+    {
+      "key": "ADR-097 breaker loadable — federation_breaker_status / federation_evict / federation_reactivate MCP tools available",
+      "ko": "ADR-097 차단기를 불러올 수 있습니다 — federation_breaker_status / federation_evict / federation_reactivate MCP 도구를 사용할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1448 check.message"
+      ]
+    },
+    {
+      "key": "Federation plugin not installed (optional) — install only if you need cross-installation peering",
+      "ko": "페더레이션 플러그인이 설치되지 않았습니다 (선택) — 설치 간 피어링이 필요할 때만 설치하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1455 check.message"
+      ]
+    },
+    {
+      "key": "MCP Servers",
+      "ko": "MCP 서버",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1553 check.name",
+        "src/commands/doctor.ts:1562 check.name",
+        "src/commands/doctor.ts:1570 check.name"
+      ]
+    },
+    {
+      "key": "Duplicate Ruflo MCP registrations found ({0}) — Claude Code will start both tool schemas",
+      "ko": "중복된 Ruflo MCP 등록이 발견되었습니다 ({0}) — Claude Code가 두 도구 스키마를 모두 시작합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1555 check.message"
+      ]
+    },
+    {
+      "key": "Remove the legacy `ruflo`-keyed MCP registration (pre-rename duplicate) and keep the canonical `claude-flow` entry: `claude mcp add claude-flow -- npx -y ruflo@latest mcp start`. The canonical key stays `claude-flow` so the ~166 `mcp__claude-flow__*` plugin tool references keep resolving (#2206).",
+      "ko": "`ruflo` 키로 된 레거시 MCP 등록(이름 변경 전 중복)을 제거하고 표준 `claude-flow` 항목을 유지하세요: `claude mcp add claude-flow -- npx -y ruflo@latest mcp start`. 표준 키는 `claude-flow` 로 유지되므로 약 166개의 `mcp__claude-flow__*` 플러그인 도구 참조가 계속 동작합니다 (#2206).",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1556 check.fix"
+      ]
+    },
+    {
+      "key": "{0} servers (ruflo configured: {1})",
+      "ko": "서버 {0}개 (ruflo 설정됨: {1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1564 check.message"
+      ]
+    },
+    {
+      "key": "{0} servers (ruflo not found)",
+      "ko": "서버 {0}개 (ruflo 없음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1572 check.message"
+      ]
+    },
+    {
+      "key": "No MCP config found",
+      "ko": "MCP 설정이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1580 check.message"
+      ]
+    },
+    {
+      "key": "MCP Schema Overhead",
+      "ko": "MCP 스키마 오버헤드",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1616 check.name",
+        "src/commands/doctor.ts:1622 check.name",
+        "src/commands/doctor.ts:1625 check.name"
+      ]
+    },
+    {
+      "key": "Set CLAUDE_FLOW_MCP_TOOLS to required categories/tool names (for example: memory,swarm,agent,hooks) and optionally CLAUDE_FLOW_CONTEXT_WINDOW_TOKENS to your backend limit.",
+      "ko": "CLAUDE_FLOW_MCP_TOOLS 에 필요한 카테고리/도구 이름(예: memory,swarm,agent,hooks)을 지정하고, 필요하면 CLAUDE_FLOW_CONTEXT_WINDOW_TOKENS 에 백엔드 한도를 지정하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1619 check.fix"
+      ]
+    },
+    {
+      "key": "Unable to measure: {0}",
+      "ko": "측정할 수 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1627 check.message"
+      ]
+    },
+    {
+      "key": "Disk Space",
+      "ko": "디스크 공간",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1636 check.name",
+        "src/commands/doctor.ts:1645 check.name",
+        "src/commands/doctor.ts:1649 check.name"
+      ]
+    },
+    {
+      "key": "Check skipped on Windows",
+      "ko": "Windows에서는 점검을 건너뜁니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1636 check.message"
+      ]
+    },
+    {
+      "key": "{0} available (unable to parse usage)",
+      "ko": "{0} 사용 가능 (사용량을 해석할 수 없음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1645 check.message"
+      ]
+    },
+    {
+      "key": "unknown available (unable to parse usage)",
+      "ko": "사용 가능 용량 알 수 없음 (사용량을 해석할 수 없음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1645 check.message"
+      ]
+    },
+    {
+      "key": "{0} available ({1}% used)",
+      "ko": "{0} 사용 가능 ({1}% 사용 중)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1649 check.message",
+        "src/commands/doctor.ts:1651 check.message"
+      ]
+    },
+    {
+      "key": "Free up disk space",
+      "ko": "디스크 공간을 확보하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1649 check.fix"
+      ]
+    },
+    {
+      "key": "{0} available",
+      "ko": "{0} 사용 가능",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1653 check.message"
+      ]
+    },
+    {
+      "key": "TypeScript",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1664 check.name",
+        "src/commands/doctor.ts:1666 check.name",
+        "src/commands/doctor.ts:1668 check.name"
+      ]
+    },
+    {
+      "key": "Not installed locally",
+      "ko": "로컬에 설치되지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1664 check.message",
+        "src/commands/doctor.ts:1668 check.message"
+      ]
+    },
+    {
+      "key": "Version Freshness",
+      "ko": "버전 최신 여부",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1725 check.name",
+        "src/commands/doctor.ts:1760 check.name",
+        "src/commands/doctor.ts:1768 check.name"
+      ]
+    },
+    {
+      "key": "v{0} (cannot check registry)",
+      "ko": "v{0} (레지스트리를 확인할 수 없음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1727 check.message"
+      ]
+    },
+    {
+      "key": "v{0} (latest: v{1}) [npx cache stale]",
+      "ko": "v{0} (최신: v{1}) [npx 캐시가 오래됨]",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1762 check.message"
+      ]
+    },
+    {
+      "key": "v{0} (latest: v{1})",
+      "ko": "v{0} (최신: v{1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1762 check.message"
+      ]
+    },
+    {
+      "key": "v{0} (up to date)",
+      "ko": "v{0} (최신 상태)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1770 check.message"
+      ]
+    },
+    {
+      "key": "Unable to check version freshness",
+      "ko": "버전 최신 여부를 확인할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1776 check.message"
+      ]
+    },
+    {
+      "key": "Funnel (ADR-305)",
+      "ko": "퍼널 (ADR-305)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1822 check.name",
+        "src/commands/doctor.ts:1828 check.name"
+      ]
+    },
+    {
+      "key": "enabled (decided by: {0}; disclosure: {1})",
+      "ko": "켜짐 (결정: {0}; 고지: {1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1824 check.message"
+      ]
+    },
+    {
+      "key": "disabled (decided by: {0}; disclosure: {1})",
+      "ko": "꺼짐 (결정: {0}; 고지: {1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1824 check.message"
+      ]
+    },
+    {
+      "key": "state unreadable: {0}",
+      "ko": "상태를 읽을 수 없습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1830 check.message",
+        "src/commands/doctor.ts:1875 check.message"
+      ]
+    },
+    {
+      "key": "Meta LLM Proxy (ADR-313)",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1848 check.name",
+        "src/commands/doctor.ts:1863 check.name",
+        "src/commands/doctor.ts:1870 check.name"
+      ]
+    },
+    {
+      "key": "not installed — no proxy-token found; sponsored-downtime capacity is unavailable",
+      "ko": "설치되지 않음 — proxy-token 이 없어 후원 중단 시간 용량을 사용할 수 없습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1850 check.message"
+      ]
+    },
+    {
+      "key": "See cognitum-one/meta-proxy (private) for install instructions",
+      "ko": "설치 방법은 cognitum-one/meta-proxy (비공개)를 참고하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1851 check.fix"
+      ]
+    },
+    {
+      "key": "sponsored consent: granted; rate-limit flag: set (since {0}) — flagged rate-limited but sponsored capacity isn't enabled",
+      "ko": "후원 동의: 허용됨; 속도 제한 플래그: 설정됨 ({0} 이후) — rate-limited 로 표시되었지만 후원 용량이 켜져 있지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1865 check.message"
+      ]
+    },
+    {
+      "key": "{0} — flagged rate-limited but sponsored capacity isn't enabled",
+      "ko": "{0} — rate-limited 로 표시되었지만 후원 용량이 켜져 있지 않습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1865 check.message"
+      ]
+    },
+    {
+      "key": "sponsored consent: granted; rate-limit flag: set (since {0})",
+      "ko": "후원 동의: 허용됨; 속도 제한 플래그: 설정됨 ({0} 이후)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1870 check.message"
+      ]
+    },
+    {
+      "key": "not installed",
+      "ko": "설치되지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1896 check.message"
+      ]
+    },
+    {
+      "key": "binary present but no install-manifest.json — provenance unknown (installed outside `ruflo proxy install`?)",
+      "ko": "바이너리는 있지만 install-manifest.json 이 없습니다 — 출처를 알 수 없습니다 (`ruflo proxy install` 밖에서 설치했나요?)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1904 check.message"
+      ]
+    },
+    {
+      "key": "binary sha256 does not match the recorded install manifest — possible tampering or a manual overwrite (expected {0}…, got {1}…)",
+      "ko": "바이너리 sha256 이 기록된 설치 매니페스트와 일치하지 않습니다 — 변조 또는 수동 덮어쓰기일 수 있습니다 (기대값 {0}…, 실제값 {1}…)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1919 check.message"
+      ]
+    },
+    {
+      "key": "v{0}, signature-verified at install ({1})",
+      "ko": "v{0}, 설치 시 서명 검증됨 ({1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1924 check.message"
+      ]
+    },
+    {
+      "key": "not running (no PID file)",
+      "ko": "실행 중이 아님 (PID 파일 없음)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:1937 check.message"
+      ]
+    },
+    {
+      "key": "PID file is malformed: {0}",
+      "ko": "PID 파일 형식이 올바르지 않습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1943 check.message"
+      ]
+    },
+    {
+      "key": "PID file points at {0}, which is not running — stale PID file",
+      "ko": "PID 파일이 가리키는 {0} 은(는) 실행 중이 아닙니다 — 오래된 PID 파일입니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1949 check.message"
+      ]
+    },
+    {
+      "key": "running (pid {0}); no proxy-token to query /status",
+      "ko": "실행 중 (pid {0}); /status 를 조회할 proxy-token 이 없습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1967 check.message"
+      ]
+    },
+    {
+      "key": "running (pid {0}); /status returned HTTP {1}",
+      "ko": "실행 중 (pid {0}); /status 가 HTTP {1} 을(를) 반환했습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1979 check.message"
+      ]
+    },
+    {
+      "key": "running (pid {0}) reports v{1}, but the installed binary is v{2} — a stale process from a previous version?",
+      "ko": "실행 중인 프로세스(pid {0})는 v{1} 이라고 보고하지만 설치된 바이너리는 v{2} 입니다 — 이전 버전의 오래된 프로세스일 수 있습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:1990 check.message"
+      ]
+    },
+    {
+      "key": "running (pid {0}){1}; data plane: {2}",
+      "ko": "실행 중 (pid {0}){1}; 데이터 플레인: {2}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2000 check.message"
+      ]
+    },
+    {
+      "key": "running (pid {0}){1}; data plane: unknown",
+      "ko": "실행 중 (pid {0}){1}; 데이터 플레인: 알 수 없음",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2000 check.message"
+      ]
+    },
+    {
+      "key": "running (pid {0}); /status unreachable ({1})",
+      "ko": "실행 중 (pid {0}); /status 에 연결할 수 없습니다 ({1})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2008 check.message"
+      ]
+    },
+    {
+      "key": "no config file yet — defaults to loopback-only (127.0.0.1:11435)",
+      "ko": "설정 파일이 아직 없습니다 — 기본값인 루프백 전용(127.0.0.1:11435)으로 동작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2023 check.message"
+      ]
+    },
+    {
+      "key": "bound to non-loopback address {0} — this exposes the proxy to your network",
+      "ko": "루프백이 아닌 주소 {0} 에 바인딩되어 있습니다 — 프록시가 네트워크에 노출됩니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2034 check.message"
+      ]
+    },
+    {
+      "key": "Set bind back to 127.0.0.1:<port> in proxy-config.toml unless external exposure is intended",
+      "ko": "외부 노출이 의도된 것이 아니라면 proxy-config.toml 의 bind 를 127.0.0.1:<port> 로 되돌리세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2035 check.fix"
+      ]
+    },
+    {
+      "key": "loopback-only ({0})",
+      "ko": "루프백 전용 ({0})",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2039 check.message"
+      ]
+    },
+    {
+      "key": "not logged in",
+      "ko": "로그인되지 않음",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2055 check.message"
+      ]
+    },
+    {
+      "key": "scope granted without a matching consent receipt: {0}",
+      "ko": "일치하는 동의 영수증 없이 부여된 범위: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2081 check.message"
+      ]
+    },
+    {
+      "key": "profiles: {0}",
+      "ko": "프로필: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2092 check.message"
+      ]
+    },
+    {
+      "key": "MetaHarness integration (ADR-150)",
+      "ko": "MetaHarness 연동 (ADR-150)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2154 check.name",
+        "src/commands/doctor.ts:2183 check.name",
+        "src/commands/doctor.ts:2196 check.name"
+      ]
+    },
+    {
+      "key": "plugins/ruflo-metaharness/ not found — MetaHarness skills will degrade gracefully",
+      "ko": "plugins/ruflo-metaharness/ 를 찾을 수 없습니다 — MetaHarness 스킬이 기능을 줄여 동작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2156 check.message"
+      ]
+    },
+    {
+      "key": "Optional: install via `npm i -D @metaharness/darwin metaharness` or run `ruflo plugins install ruflo-metaharness`",
+      "ko": "선택 사항: `npm i -D @metaharness/darwin metaharness` 로 설치하거나 `ruflo plugins install ruflo-metaharness` 를 실행하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2157 check.fix"
+      ]
+    },
+    {
+      "key": "Missing files: {0}",
+      "ko": "누락된 파일: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2185 check.message"
+      ]
+    },
+    {
+      "key": "Reinstall ruflo or restore from git: `git checkout HEAD -- plugins/ruflo-metaharness/`",
+      "ko": "ruflo 를 다시 설치하거나 git에서 복원하세요: `git checkout HEAD -- plugins/ruflo-metaharness/`",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2186 check.fix"
+      ]
+    },
+    {
+      "key": "_similarity.mjs does not export similarity()",
+      "ko": "_similarity.mjs 가 similarity() 를 export 하지 않습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2198 check.message"
+      ]
+    },
+    {
+      "key": "Reinstall ruflo or restore the file from git",
+      "ko": "ruflo 를 다시 설치하거나 git에서 파일을 복원하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2199 check.fix"
+      ]
+    },
+    {
+      "key": "similarity() returned unexpected shape; module may be stale",
+      "ko": "similarity() 가 예상과 다른 형태를 반환했습니다. 모듈이 오래되었을 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2207 check.message"
+      ]
+    },
+    {
+      "key": "_harness.mjs does not export parseMcpScanText (iter 50 — needed by mcp-scan + oia-audit)",
+      "ko": "_harness.mjs 가 parseMcpScanText 를 export 하지 않습니다 (iter 50 — mcp-scan 과 oia-audit 에 필요)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2230 check.message"
+      ]
+    },
+    {
+      "key": "Reinstall ruflo or restore _harness.mjs from git",
+      "ko": "ruflo 를 다시 설치하거나 git에서 _harness.mjs 를 복원하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2231 check.fix",
+        "src/commands/doctor.ts:2239 check.fix"
+      ]
+    },
+    {
+      "key": "_harness.mjs missing iter-56 async exports (runHarnessAsync / runMetaharnessAsync) — oia-audit parallelization will fail",
+      "ko": "_harness.mjs 에 iter-56 비동기 export(runHarnessAsync / runMetaharnessAsync)가 없습니다 — oia-audit 병렬화가 실패합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2238 check.message"
+      ]
+    },
+    {
+      "key": "parseMcpScanText returned unexpected shape on empty input",
+      "ko": "빈 입력에서 parseMcpScanText 가 예상과 다른 형태를 반환했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2248 check.message"
+      ]
+    },
+    {
+      "key": "plugin scripts intact, _similarity.mjs + parseMcpScanText load, smoke OK",
+      "ko": "플러그인 스크립트 정상, _similarity.mjs + parseMcpScanText 로드됨, 스모크 테스트 통과",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2255 check.message"
+      ]
+    },
+    {
+      "key": "Module import errored: {0}",
+      "ko": "모듈을 가져오다 오류가 발생했습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2261 check.message"
+      ]
+    },
+    {
+      "key": "could not locate the @claude-flow/cli package root",
+      "ko": "@claude-flow/cli 패키지 루트를 찾지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2292 check.message"
+      ]
+    },
+    {
+      "key": "no @metaharness/* packages declared in optionalDependencies — the dependency contract regressed (peer-only declarations are never installed)",
+      "ko": "optionalDependencies 에 @metaharness/* 패키지가 선언되어 있지 않습니다 — 의존성 규약이 퇴보했습니다 (peer 전용 선언은 설치되지 않습니다)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2300 check.message"
+      ]
+    },
+    {
+      "key": "Restore @metaharness/darwin, @metaharness/flywheel, @metaharness/radio, @metaharness/turn-credit to optionalDependencies in @claude-flow/cli",
+      "ko": "@claude-flow/cli 의 optionalDependencies 에 @metaharness/darwin, @metaharness/flywheel, @metaharness/radio, @metaharness/turn-credit 를 다시 넣으세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2301 check.fix"
+      ]
+    },
+    {
+      "key": "declared but not installed: {0} — advertised MetaHarness surfaces are degraded",
+      "ko": "선언되었지만 설치되지 않음: {0} — 안내된 MetaHarness 기능이 저하되었습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2321 check.message"
+      ]
+    },
+    {
+      "key": "{0} declared package(s) resolve: {1}",
+      "ko": "선언된 패키지 {0}개 확인됨: {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2325 check.message"
+      ]
+    },
+    {
+      "key": "MetaHarness (ADR-150)",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2358 check.name",
+        "src/commands/doctor.ts:2364 check.name",
+        "src/commands/doctor.ts:2370 check.name"
+      ]
+    },
+    {
+      "key": "Installed but its package.json was not found while walking up from the resolved module; integration may still work",
+      "ko": "설치되어 있지만 확인된 모듈에서 상위로 올라가며 찾는 동안 package.json 을 찾지 못했습니다. 연동은 계속 동작할 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2360 check.message"
+      ]
+    },
+    {
+      "key": "v{0} — run `npx ruflo metaharness score` for the full scorecard",
+      "ko": "v{0} — 전체 점수표는 `npx ruflo metaharness score` 를 실행하세요",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2366 check.message"
+      ]
+    },
+    {
+      "key": "Not installed — `npx ruflo metaharness *` commands will degrade gracefully",
+      "ko": "설치되지 않음 — `npx ruflo metaharness *` 명령이 기능을 줄여 동작합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2372 check.message"
+      ]
+    },
+    {
+      "key": "not enabled; classic hooks handle every event",
+      "ko": "켜지 않음. 기존 훅이 모든 이벤트를 처리합니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2388 check.message"
+      ]
+    },
+    {
+      "key": "v{0} installed; {1}",
+      "ko": "v{0} 설치됨; {1}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2408 check.message"
+      ]
+    },
+    {
+      "key": "v? installed; {0}",
+      "ko": "v? 설치됨; {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2408 check.message"
+      ]
+    },
+    {
+      "key": "Not installed; {0} — hooks_route uses the built-in router",
+      "ko": "설치되지 않음; {0} — hooks_route 는 내장 라우터를 사용합니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2413 check.message"
+      ]
+    },
+    {
+      "key": "Claude Code CLI",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2425 check.name",
+        "src/commands/doctor.ts:2428 check.name"
+      ]
+    },
+    {
+      "key": "Installing Claude Code CLI...",
+      "ko": "Claude Code CLI를 설치하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2440 bold"
+      ]
+    },
+    {
+      "key": "Claude Code CLI installed successfully!",
+      "ko": "Claude Code CLI를 설치했습니다!",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2445 success"
+      ]
+    },
+    {
+      "key": "Failed to install Claude Code CLI",
+      "ko": "Claude Code CLI를 설치하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2448 error"
+      ]
+    },
+    {
+      "key": "Not installed (optional — embeddings/routing will use fallbacks)",
+      "ko": "설치되지 않음 (선택 — 임베딩/라우팅은 대체 경로를 사용합니다)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2472 check.message"
+      ]
+    },
+    {
+      "key": "Check failed",
+      "ko": "점검 실패",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2490 check.message"
+      ]
+    },
+    {
+      "key": "Encryption at Rest",
+      "ko": "저장 데이터 암호화",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2507 check.name",
+        "src/commands/doctor.ts:2518 check.name",
+        "src/commands/doctor.ts:2530 check.name"
+      ]
+    },
+    {
+      "key": "Off — session/terminal/memory stores are plaintext (mode 0600 only)",
+      "ko": "꺼짐 — session/terminal/memory 저장소가 평문입니다 (권한 0600만 적용)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2509 check.message"
+      ]
+    },
+    {
+      "key": "Gate is on but CLAUDE_FLOW_ENCRYPTION_KEY is unset (fail-closed)",
+      "ko": "게이트는 켜져 있지만 CLAUDE_FLOW_ENCRYPTION_KEY 가 설정되지 않았습니다 (실패 시 차단)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2520 check.message"
+      ]
+    },
+    {
+      "key": "Generate a key: openssl rand -hex 32 → export CLAUDE_FLOW_ENCRYPTION_KEY=<value>",
+      "ko": "키를 생성하세요: openssl rand -hex 32 → export CLAUDE_FLOW_ENCRYPTION_KEY=<value>",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2521 check.fix"
+      ]
+    },
+    {
+      "key": "CLAUDE_FLOW_ENCRYPTION_KEY invalid: {0}",
+      "ko": "CLAUDE_FLOW_ENCRYPTION_KEY 가 올바르지 않습니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2532 check.message"
+      ]
+    },
+    {
+      "key": "Provide a 64-char hex or 44-char base64 key (32 bytes)",
+      "ko": "64자 hex 또는 44자 base64 키(32바이트)를 지정하세요",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2533 check.fix"
+      ]
+    },
+    {
+      "key": "RuFlo Doctor — fix-handles",
+      "ko": "RuFlo Doctor — 핸들 정리",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2653 bold"
+      ]
+    },
+    {
+      "key": "--fix-handles is a Windows-only mitigation. On this platform ({0}), no action taken.",
+      "ko": "--fix-handles 는 Windows 전용 완화 조치입니다. 이 플랫폼({0})에서는 아무 작업도 하지 않았습니다.",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2658 printInfo"
+      ]
+    },
+    {
+      "key": "PowerShell exited with code {0}",
+      "ko": "PowerShell이 코드 {0} 으로 종료되었습니다",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2686 printError"
+      ]
+    },
+    {
+      "key": "conhost.exe processes:",
+      "ko": "conhost.exe 프로세스:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2701 writeln"
+      ]
+    },
+    {
+      "key": "before:  {0}",
+      "ko": "이전:  {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2702 writeln"
+      ]
+    },
+    {
+      "key": "killed:  {0}",
+      "ko": "종료:  {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2703 writeln"
+      ]
+    },
+    {
+      "key": "Free RAM:",
+      "ko": "여유 RAM:",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2706 writeln"
+      ]
+    },
+    {
+      "key": "before:  {0} GB",
+      "ko": "이전:  {0} GB",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2707 writeln"
+      ]
+    },
+    {
+      "key": "after:   {0} GB",
+      "ko": "이후:  {0} GB",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2708 writeln"
+      ]
+    },
+    {
+      "key": "Note: does NOT touch cmd.exe/bash.exe/node.exe — those may be the invoking shell",
+      "ko": "참고: cmd.exe/bash.exe/node.exe 는 건드리지 않습니다 — 호출한 셸일 수 있기 때문입니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2710 dim"
+      ]
+    },
+    {
+      "key": "or an active MCP server. Kill them manually if you need to.",
+      "ko": "또는 동작 중인 MCP 서버일 수 있습니다. 필요하면 직접 종료하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2711 dim"
+      ]
+    },
+    {
+      "key": "Upstream tracking: https://github.com/anthropics/claude-code/issues/67888",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2713 dim"
+      ]
+    },
+    {
+      "key": "RuFlo Doctor",
+      "ko": null,
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2718 bold"
+      ]
+    },
+    {
+      "key": "System diagnostics and health check",
+      "ko": "시스템 진단 및 상태 점검",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2719 dim"
+      ]
+    },
+    {
+      "key": "Running health checks in parallel...",
+      "ko": "상태 점검을 병렬로 실행하는 중...",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2827 createSpinner.text"
+      ]
+    },
+    {
+      "key": "Check",
+      "ko": "점검 항목",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2847 check.name"
+      ]
+    },
+    {
+      "key": "Unknown error",
+      "ko": "알 수 없는 오류",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2849 check.message",
+        "src/commands/memory.ts:1917 printError"
+      ]
+    },
+    {
+      "key": "Failed to run health checks",
+      "ko": "상태 점검을 실행하지 못했습니다",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2857 error"
+      ]
+    },
+    {
+      "key": "Repaired Learning Bridge — wrote .claude-flow/memory-package.json → {0}",
+      "ko": "학습 브리지를 복구했습니다 — .claude-flow/memory-package.json 기록 → {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2874 success"
+      ]
+    },
+    {
+      "key": "{0} passed",
+      "ko": "통과 {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2912 success"
+      ]
+    },
+    {
+      "key": "{0} warnings",
+      "ko": "경고 {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2913 warning"
+      ]
+    },
+    {
+      "key": "{0} failed",
+      "ko": "실패 {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2914 error"
+      ]
+    },
+    {
+      "key": "Summary: {0}",
+      "ko": "요약: {0}",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2917 writeln"
+      ]
+    },
+    {
+      "key": "Suggested commands (run them yourself):",
+      "ko": "권장 명령 (직접 실행하세요):",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2923 bold"
+      ]
+    },
+    {
+      "key": "Run with --fix to see {0} suggested commands (does not auto-apply)",
+      "ko": "--fix 와 함께 실행하면 권장 명령 {0}개를 볼 수 있습니다 (자동 적용되지 않음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2930 dim"
+      ]
+    },
+    {
+      "key": "Run with --fix to see {0} suggested command (does not auto-apply)",
+      "ko": "--fix 와 함께 실행하면 권장 명령 {0}개를 볼 수 있습니다 (자동 적용되지 않음)",
+      "kind": "template",
+      "ctx": [
+        "src/commands/doctor.ts:2930 dim"
+      ]
+    },
+    {
+      "key": "Some checks failed. Please address the issues above.",
+      "ko": "일부 점검에 실패했습니다. 위의 문제를 해결하세요.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2936 error"
+      ]
+    },
+    {
+      "key": "All checks passed with some warnings.",
+      "ko": "모든 점검을 통과했지만 경고가 있습니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2940 warning"
+      ]
+    },
+    {
+      "key": "All checks passed! System is healthy.",
+      "ko": "모든 점검을 통과했습니다! 시스템이 정상입니다.",
+      "kind": "text",
+      "ctx": [
+        "src/commands/doctor.ts:2944 success"
+      ]
+    }
+  ],
+  "obsolete": [
+    {
+      "key": "Config collision: legacy  + {0} — subsystems may disagree silently",
+      "ko": "설정 충돌: 레거시  + {0} — 하위 시스템끼리 조용히 어긋날 수 있습니다",
+      "kind": "template"
+    },
+    {
+      "key": "Found:",
+      "ko": "발견됨:",
+      "kind": "text"
+    },
+    {
+      "key": "Found:  (no Claude key)",
+      "ko": "발견됨:  (Claude 키 없음)",
+      "kind": "text"
+    },
+    {
+      "key": "Invalid JSON:",
+      "ko": "올바르지 않은 JSON:",
+      "kind": "text"
+    },
+    {
+      "key": "critical helpers do not match the signed manifest —",
+      "ko": "핵심 헬퍼가 서명된 매니페스트와 일치하지 않습니다 —",
+      "kind": "text"
+    },
+    {
+      "key": "locally modified helpers (auto-restore disabled by .LOCKED / RUFLO_HELPERS_LOCKED) —",
+      "ko": "로컬에서 수정된 헬퍼 (.LOCKED / RUFLO_HELPERS_LOCKED 로 자동 복원이 꺼져 있음) —",
+      "kind": "text"
+    },
+    {
+      "key": "scope granted without a matching consent receipt:",
+      "ko": "일치하는 동의 영수증 없이 부여된 범위:",
+      "kind": "text"
+    },
+    {
+      "key": "scope granted without a matching consent receipt: {0}: {1}",
+      "ko": "일치하는 동의 영수증 없이 부여된 범위: {0}: {1}",
+      "kind": "template"
+    },
+    {
+      "key": "sponsored consent: granted; rate-limit flag: set (since {0}); last capacity-exhausted: {1}; keychain backend unreachable — falling back to session-only tokens; session-only (no persisted refresh token): {2}",
+      "ko": "후원 동의: 허용됨; 속도 제한 플래그: 설정됨 ({0} 이후); 마지막 용량 소진: {1}; 키체인 백엔드에 연결할 수 없어 세션 전용 토큰으로 대체합니다; 세션 전용(저장된 갱신 토큰 없음): {2}",
+      "kind": "template"
+    },
+    {
+      "key": "sponsored consent: granted; rate-limit flag: set (since {0}); last capacity-exhausted: {1}; keychain backend unreachable — falling back to session-only tokens; session-only (no persisted refresh token): {2} — flagged rate-limited but sponsored capacity isn't enabled",
+      "ko": "후원 동의: 허용됨; 속도 제한 플래그: 설정됨 ({0} 이후); 마지막 용량 소진: {1}; 키체인 백엔드에 연결할 수 없어 세션 전용 토큰으로 대체합니다; 세션 전용(저장된 갱신 토큰 없음): {2} — rate-limited 로 표시되었지만 후원 용량이 켜져 있지 않습니다",
+      "kind": "template"
+    },
+    {
+      "key": "{0} servers (ruflo configured: )",
+      "ko": "서버 {0}개 (ruflo 설정됨: )",
+      "kind": "template"
+    },
+    {
+      "key": "{0} servers (ruflo configured: {1}: {2})",
+      "ko": "서버 {0}개 (ruflo 설정됨: {1}: {2})",
+      "kind": "template"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: gaia-submission
-description: Walk through a complete GAIA benchmark→submit flow — from key resolution through HAL-compatible package generation
+description: 키 확인부터 HAL 호환 패키지 생성까지 GAIA 벤치마크→제출 전체 흐름을 안내
 argument-hint: "[level] [limit] [models]"
 allowed-tools: Bash mcp__plugin_ruflo-core_ruflo__memory_store mcp__plugin_ruflo-core_ruflo__memory_search mcp__plugin_ruflo-core_ruflo__memory_list mcp__plugin_ruflo-core_ruflo__hooks_post_task mcp__plugin_ruflo-core_ruflo__hooks_pre_task
 ---

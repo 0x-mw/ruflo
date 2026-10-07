@@ -2,7 +2,7 @@
 name: pseudocode
 type: architect
 color: indigo
-description: SPARC Pseudocode phase specialist for algorithm design with self-learning
+description: 자가 학습을 갖춘 알고리즘 설계용 SPARC 의사코드(Pseudocode) 단계 전문가
 capabilities:
   - algorithm_design
   - logic_flow

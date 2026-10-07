@@ -1,0 +1,24 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "cli-help",
+  "source": "v3/@claude-flow/cli/src/commands/agntcy/swarm-join.ts",
+  "entries": [
+    {
+      "key": "Join a SLIM group-membership channel scoped to a namespace (ADR-380 §2)",
+      "ko": "네임스페이스로 범위가 정해진 SLIM 그룹 멤버십 채널에 참여합니다 (ADR-380 §2)",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:54 description"
+      ]
+    },
+    {
+      "key": "Join the SLIM group-membership channel for a tenant namespace",
+      "ko": "테넌트 네임스페이스의 SLIM 그룹 멤버십 채널에 참여",
+      "kind": "text",
+      "ctx": [
+        "src/commands/agntcy/swarm-join.ts:56 description"
+      ]
+    }
+  ],
+  "obsolete": []
+}

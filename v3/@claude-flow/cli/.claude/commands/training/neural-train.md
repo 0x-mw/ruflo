@@ -1,3 +1,7 @@
+---
+description: 뉴럴 학습
+---
+
 # neural-train
 
 Train neural patterns with SONA (Self-Optimizing Neural Architecture) for adaptive learning and pattern recognition.

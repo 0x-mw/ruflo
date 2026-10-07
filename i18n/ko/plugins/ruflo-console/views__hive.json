@@ -1,0 +1,778 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/views/hive.ts",
+  "entries": [
+    {
+      "key": "queen (leader)",
+      "ko": "퀸 (리더)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:187 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no queen recorded",
+      "ko": "사용 불가 — 기록된 퀸이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:188 kv()"
+      ]
+    },
+    {
+      "key": "{0} · term {1} · elected {2}",
+      "ko": "{0} · 임기 {1} · 선출 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:188 kv()"
+      ]
+    },
+    {
+      "key": "{0} · elected {1}",
+      "ko": "{0} · 선출 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:188 kv()"
+      ]
+    },
+    {
+      "key": "consensus",
+      "ko": "합의",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:191 kv()",
+        "plugins/ruflo-console/hooks/views/swarm.ts:61 rule()"
+      ]
+    },
+    {
+      "key": "{0} · proposals vote {1}",
+      "ko": "{0} · 제안 투표 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:191 kv()"
+      ]
+    },
+    {
+      "key": "{0} · proposals vote raft (the tool's default: {1} has no vote rule of its own)",
+      "ko": "{0} · 제안 투표 raft (도구 기본값: {1} 에는 자체 투표 규칙이 없습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:191 kv()"
+      ]
+    },
+    {
+      "key": "{0} · proposals vote raft (the tool's default: this strategy has no vote rule of its own)",
+      "ko": "{0} · 제안 투표 raft (도구 기본값: 이 전략에는 자체 투표 규칙이 없습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:191 kv()"
+      ]
+    },
+    {
+      "key": "n/a · proposals vote {0}",
+      "ko": "정보 없음 · 제안 투표 {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:191 kv()"
+      ]
+    },
+    {
+      "key": "n/a · proposals vote raft (the tool's default: {0} has no vote rule of its own)",
+      "ko": "정보 없음 · 제안 투표 raft (도구 기본값: {0} 에는 자체 투표 규칙이 없습니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:191 kv()"
+      ]
+    },
+    {
+      "key": "n/a · proposals vote raft (the tool's default: this strategy has no vote rule of its own)",
+      "ko": "정보 없음 · 제안 투표 raft (도구 기본값: 이 전략에는 자체 투표 규칙이 없습니다)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:191 kv()"
+      ]
+    },
+    {
+      "key": "fault tolerance",
+      "ko": "내결함성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:192 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no workers",
+      "ko": "사용 불가 — 워커가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:192 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no bound stated for {0}",
+      "ko": "사용 불가 — {0} 에 명시된 한계가 없습니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:192 kv()"
+      ]
+    },
+    {
+      "key": "n/a — no bound stated for this strategy",
+      "ko": "사용 불가 — 이 전략에 명시된 한계가 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:192 kv()"
+      ]
+    },
+    {
+      "key": "tolerates {0} faulty of {1} ({2})",
+      "ko": "{1}개 중 결함 {0}개 허용 ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:192 kv()"
+      ]
+    },
+    {
+      "key": "quorum",
+      "ko": "정족수",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:193 kv()"
+      ]
+    },
+    {
+      "key": "{0} of {1} votes to pass ({2}) · the CLI counts an empty hive as one node",
+      "ko": "통과에 {1}표 중 {0}표 필요 ({2}) · CLI 는 빈 하이브를 노드 1개로 셉니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:193 kv()"
+      ]
+    },
+    {
+      "key": "{0} of {1} votes to pass ({2})",
+      "ko": "통과에 {1}표 중 {0}표 필요 ({2})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:193 kv()"
+      ]
+    },
+    {
+      "key": "none yet — spawn one below",
+      "ko": "아직 없음 — 아래에서 생성하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:194 kv()"
+      ]
+    },
+    {
+      "key": "{0} · {1} busy · {2} idle · {3} down · {4} in no agent store",
+      "ko": "{0} · 작업 중 {1} · 유휴 {2} · 중단 {3} · 에이전트 저장소에 없음 {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:194 kv()"
+      ]
+    },
+    {
+      "key": "shared memory",
+      "ko": "공유 메모리",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:195 kv()"
+      ]
+    },
+    {
+      "key": "{0} key · {1} broadcast · updated {2}",
+      "ko": "키 {0}개 · 브로드캐스트 {1}건 · 갱신 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:195 kv()"
+      ]
+    },
+    {
+      "key": "{0} key · {1} broadcasts · updated {2}",
+      "ko": "키 {0}개 · 브로드캐스트 {1}건 · 갱신 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:195 kv()"
+      ]
+    },
+    {
+      "key": "{0} keys · {1} broadcast · updated {2}",
+      "ko": "키 {0}개 · 브로드캐스트 {1}건 · 갱신 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:195 kv()"
+      ]
+    },
+    {
+      "key": "{0} keys · {1} broadcasts · updated {2}",
+      "ko": "키 {0}개 · 브로드캐스트 {1}건 · 갱신 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:195 kv()"
+      ]
+    },
+    {
+      "key": "{0} · role · liveness · ballot on the picked proposal",
+      "ko": "{0} · 역할 · 생존 상태 · 선택한 제안의 투표",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:201 rule()"
+      ]
+    },
+    {
+      "key": "No workers have joined. A vote needs a registered worker.",
+      "ko": "참가한 워커가 없습니다. 투표에는 등록된 워커가 필요합니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:203 starts()"
+      ]
+    },
+    {
+      "key": "not voted",
+      "ko": "투표 안 함",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:207 const"
+      ]
+    },
+    {
+      "key": "+{0} more workers",
+      "ko": "+워커 {0}개 더",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:217 text()"
+      ]
+    },
+    {
+      "key": "Proposals",
+      "ko": "제안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:224 rule()"
+      ]
+    },
+    {
+      "key": "none open",
+      "ko": "열린 제안 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:224 rule()"
+      ]
+    },
+    {
+      "key": "{0} open · j/k pick",
+      "ko": "열림 {0} · j/k 선택",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:224 rule()"
+      ]
+    },
+    {
+      "key": "No open proposals. Propose one below.",
+      "ko": "열린 제안이 없습니다. 아래에서 제안하세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:226 text()"
+      ]
+    },
+    {
+      "key": "timed out: re-propose in the next term",
+      "ko": "시간 초과: 다음 임기에 다시 제안하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:231 const"
+      ]
+    },
+    {
+      "key": "times out in {0}s",
+      "ko": "{0}초 후 시간 초과",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:231 const"
+      ]
+    },
+    {
+      "key": "▸◇ {0} ({1}) {2} · for {3} · against {4} · [{5}] need {6} of {7}",
+      "ko": "▸◇ {0} ({1}) {2} · 찬성 {3} · 반대 {4} · [{5}] {7}표 중 {6}표 필요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:234 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} ({1}) {2} · for {3} · against {4} · [{5}] need {6} of {7}",
+      "ko": "◇ {0} ({1}) {2} · 찬성 {3} · 반대 {4} · [{5}] {7}표 중 {6}표 필요",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:234 text()"
+      ]
+    },
+    {
+      "key": "for: {0} · against: {1} · byzantine (excluded): {2} · {3}",
+      "ko": "찬성: {0} · 반대: {1} · byzantine (제외): {2} · {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:242 text()"
+      ]
+    },
+    {
+      "key": "for: {0} · against: {1} · {2}",
+      "ko": "찬성: {0} · 반대: {1} · {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:242 text()"
+      ]
+    },
+    {
+      "key": "Vote for",
+      "ko": "찬성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:251 button()"
+      ]
+    },
+    {
+      "key": "Vote against",
+      "ko": "반대",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:251 button()"
+      ]
+    },
+    {
+      "key": "No registered worker to vote as (the CLI counts only workers).",
+      "ko": "투표할 등록된 워커가 없습니다 (CLI 는 워커만 셉니다).",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:254 starts()"
+      ]
+    },
+    {
+      "key": "vote: n/a — no registered worker to vote as (the CLI counts only workers): spawn one",
+      "ko": "투표: 사용 불가 — 투표할 등록된 워커가 없습니다 (CLI 는 워커만 셉니다): 하나 생성하세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:255 text()"
+      ]
+    },
+    {
+      "key": "vote: n/a — every worker has voted on it",
+      "ko": "투표: 사용 불가 — 모든 워커가 이미 투표했습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:255 text()"
+      ]
+    },
+    {
+      "key": "a vote is cast as the next worker that has not voted: {0}",
+      "ko": "아직 투표하지 않은 다음 워커로서 투표합니다: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:255 text()"
+      ]
+    },
+    {
+      "key": "Decided",
+      "ko": "결정됨",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:262 rule()"
+      ]
+    },
+    {
+      "key": "{0} on record",
+      "ko": "기록 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:262 rule()"
+      ]
+    },
+    {
+      "key": "Nothing decided yet.",
+      "ko": "아직 결정된 것이 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:264 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} → {1} · for {2} · against {3} · {4} T{5} · {6} byzantine · {7}",
+      "ko": "◆ {0} → {1} · 찬성 {2} · 반대 {3} · {4} T{5} · byzantine {6} · {7}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} → {1} · for {2} · against {3} · {4} T{5} · {6}",
+      "ko": "◆ {0} → {1} · 찬성 {2} · 반대 {3} · {4} T{5} · {6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} → {1} · for {2} · against {3} · {4} · {5} byzantine · {6}",
+      "ko": "◆ {0} → {1} · 찬성 {2} · 반대 {3} · {4} · byzantine {5} · {6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} → {1} · for {2} · against {3} · {4} · {5}",
+      "ko": "◆ {0} → {1} · 찬성 {2} · 반대 {3} · {4} · {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} → {1} · for {2} · against {3} · {4} byzantine · {5}",
+      "ko": "◆ {0} → {1} · 찬성 {2} · 반대 {3} · byzantine {4} · {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◆ {0} → {1} · for {2} · against {3} · {4}",
+      "ko": "◆ {0} → {1} · 찬성 {2} · 반대 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} → {1} · for {2} · against {3} · {4} T{5} · {6} byzantine · {7}",
+      "ko": "◇ {0} → {1} · 찬성 {2} · 반대 {3} · {4} T{5} · byzantine {6} · {7}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} → {1} · for {2} · against {3} · {4} T{5} · {6}",
+      "ko": "◇ {0} → {1} · 찬성 {2} · 반대 {3} · {4} T{5} · {6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} → {1} · for {2} · against {3} · {4} · {5} byzantine · {6}",
+      "ko": "◇ {0} → {1} · 찬성 {2} · 반대 {3} · {4} · byzantine {5} · {6}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} → {1} · for {2} · against {3} · {4} · {5}",
+      "ko": "◇ {0} → {1} · 찬성 {2} · 반대 {3} · {4} · {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} → {1} · for {2} · against {3} · {4} byzantine · {5}",
+      "ko": "◇ {0} → {1} · 찬성 {2} · 반대 {3} · byzantine {4} · {5}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "◇ {0} → {1} · for {2} · against {3} · {4}",
+      "ko": "◇ {0} → {1} · 찬성 {2} · 반대 {3} · {4}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:272 text()"
+      ]
+    },
+    {
+      "key": "Broadcasts",
+      "ko": "브로드캐스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:282 rule()"
+      ]
+    },
+    {
+      "key": "{0} kept · shared memory",
+      "ko": "{0}건 보관 · 공유 메모리",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:282 rule()"
+      ]
+    },
+    {
+      "key": "No broadcasts yet.",
+      "ko": "아직 브로드캐스트가 없습니다.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:284 text()"
+      ]
+    },
+    {
+      "key": "memory keys: {0} +{1}",
+      "ko": "메모리 키: {0} +{1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:292 text()"
+      ]
+    },
+    {
+      "key": "memory keys: {0}",
+      "ko": "메모리 키: {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:292 text()"
+      ]
+    },
+    {
+      "key": "ACT",
+      "ko": "동작",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:307 children"
+      ]
+    },
+    {
+      "key": "each asks y/n, then runs one ruflo command",
+      "ko": "각각 y/n 을 묻고 ruflo 명령 하나를 실행합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:307 children"
+      ]
+    },
+    {
+      "key": "✚ Spawn worker (s)",
+      "ko": "✚ 워커 생성 (s)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:311 label"
+      ]
+    },
+    {
+      "key": "◆ Specialist",
+      "ko": "◆ 스페셜리스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:312 label"
+      ]
+    },
+    {
+      "key": "▲ Scout",
+      "ko": "▲ 스카우트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:313 label"
+      ]
+    },
+    {
+      "key": "vote on the proposals below ↓",
+      "ko": "아래 제안에 투표하세요 ↓",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:314 children"
+      ]
+    },
+    {
+      "key": "no proposal to vote on yet",
+      "ko": "아직 투표할 제안이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:314 children"
+      ]
+    },
+    {
+      "key": "propose and broadcast from the palette: p → \"propose design: use raft\", \"broadcast hello\"",
+      "ko": "팔레트에서 제안과 브로드캐스트: p → \"propose design: use raft\", \"broadcast hello\"",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:321 text()"
+      ]
+    },
+    {
+      "key": "propose",
+      "ko": "제안",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:323 label"
+      ]
+    },
+    {
+      "key": "the decision to put to the vote (design: use raft for the console)",
+      "ko": "투표에 부칠 결정 (design: use raft for the console)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:323 placeholder"
+      ]
+    },
+    {
+      "key": "broadcast",
+      "ko": "브로드캐스트",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:324 label"
+      ]
+    },
+    {
+      "key": "a message for every worker",
+      "ko": "모든 워커에게 보낼 메시지",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:324 placeholder"
+      ]
+    },
+    {
+      "key": "propose: n/a — {0}",
+      "ko": "제안: 사용 불가 — {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:327 text()"
+      ]
+    },
+    {
+      "key": "an empty comb: no queen yet",
+      "ko": "빈 벌집: 아직 퀸이 없습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:339 picture()"
+      ]
+    },
+    {
+      "key": "the comb is empty · the egg is where the queen will sit · start a hive, then spawn workers to fill the comb",
+      "ko": "벌집이 비어 있습니다 · 알은 퀸이 앉을 자리입니다 · 하이브를 시작한 뒤 워커를 생성해 벌집을 채우세요",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:340 text()"
+      ]
+    },
+    {
+      "key": "Start a hive with a queen, then spawn workers to fill the comb.",
+      "ko": "퀸과 함께 하이브를 시작한 뒤 워커를 생성해 벌집을 채우세요.",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:341 starts()"
+      ]
+    },
+    {
+      "key": "not initialised",
+      "ko": "초기화되지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:352 rule()",
+        "plugins/ruflo-console/hooks/views/swarm.ts:61 rule()"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} in the comb · {3} byzantine",
+      "ko": "{0} · {1} · 벌집 내 {2} · byzantine {3}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:360 rule()"
+      ]
+    },
+    {
+      "key": "{0} · {1} · {2} in the comb",
+      "ko": "{0} · {1} · 벌집 내 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:360 rule()"
+      ]
+    },
+    {
+      "key": "{0} · consensus n/a · {1} in the comb · {2} byzantine",
+      "ko": "{0} · 합의 정보 없음 · 벌집 내 {1} · byzantine {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:360 rule()"
+      ]
+    },
+    {
+      "key": "{0} · consensus n/a · {1} in the comb",
+      "ko": "{0} · 합의 정보 없음 · 벌집 내 {1}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:360 rule()"
+      ]
+    },
+    {
+      "key": "honeycomb needs a terminal: the queen and {0} workers",
+      "ko": "벌집 보기는 터미널이 필요합니다: 퀸과 워커 {0}개",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:362 picture()"
+      ]
+    },
+    {
+      "key": "queen · ● worker ◆ specialist ▲ scout ○ in no store · brighter = busier · ballot dot: green for, pink against, · not yet · red walls ✖ byzantine · ✔ ✘ scars: decided · a wave runs to the queen for 2 s when a vote lands",
+      "ko": "퀸 · ● 워커 ◆ 스페셜리스트 ▲ 스카우트 ○ 저장소에 없음 · 밝을수록 바쁨 · 투표 점: 초록 찬성, 분홍 반대, · 아직 안 함 · 빨간 벽 ✖ byzantine · ✔ ✘ 흉터: 결정됨 · 투표가 도착하면 2초 동안 퀸에게 파동이 갑니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:363 text()"
+      ]
+    },
+    {
+      "key": "Voting chambers",
+      "ko": "투표실",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:364 rule()"
+      ]
+    },
+    {
+      "key": "{0} open · for fills from the left, against from the right, ┃ the quorum lines",
+      "ko": "열림 {0} · 찬성은 왼쪽에서, 반대는 오른쪽에서 차오름, ┃ 정족수 선",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:364 rule()"
+      ]
+    },
+    {
+      "key": "{0} open proposal",
+      "ko": "열린 제안 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:364 picture()"
+      ]
+    },
+    {
+      "key": "{0} open proposals",
+      "ko": "열린 제안 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:364 picture()"
+      ]
+    },
+    {
+      "key": "Terms · pheromones",
+      "ko": "임기 · 페로몬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:366 rule()"
+      ]
+    },
+    {
+      "key": "the shield: faulty workers survived, f of n",
+      "ko": "방패: 결함 워커를 견뎌냄, n 중 f",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:366 rule()"
+      ]
+    },
+    {
+      "key": "the term timeline and the broadcast ticker need a terminal",
+      "ko": "임기 타임라인과 브로드캐스트 티커는 터미널이 필요합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/views/hive.ts:367 picture()"
+      ]
+    }
+  ],
+  "obsolete": []
+}

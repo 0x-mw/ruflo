@@ -1,6 +1,6 @@
 ---
 name: gaia-run
-description: Execute a GAIA benchmark run — shells out to gaia-bench run, streams progress, and writes JSON results
+description: GAIA 벤치마크 실행 — gaia-bench run을 셸로 호출하고, 진행 상황을 스트리밍하며, JSON 결과를 기록
 argument-hint: "[--level=1] [--limit=53] [--models=haiku,sonnet] [--concurrency=3] [--voting-attempts=1] [--hardness-routing] [--enable-critic] [--decompose] [--planning-interval=4]"
 ---
 

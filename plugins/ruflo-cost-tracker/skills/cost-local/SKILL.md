@@ -1,6 +1,6 @@
 ---
 name: cost-local
-description: Cost per million tokens on hardware you own (Ollama, llama.cpp, vLLM, LM Studio) from watts, electricity price, hardware price and measured tokens/second, and the utilisation at which local beats a hosted model. Use for local-vs-API break-even questions.
+description: 소유한 하드웨어(Ollama, llama.cpp, vLLM, LM Studio)의 백만 토큰당 비용을 전력(W), 전기 요금, 하드웨어 가격, 실측 토큰/초로 계산하고, 로컬이 호스팅 모델보다 유리해지는 활용률을 구합니다. 로컬 대 API 손익분기 질문에 사용합니다.
 argument-hint: "--tok-per-s <n> [--busy 0.25] [--compare <model>] [--format json|markdown]"
 allowed-tools: Bash
 ---

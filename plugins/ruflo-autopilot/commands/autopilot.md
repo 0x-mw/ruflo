@@ -1,6 +1,6 @@
 ---
 name: autopilot
-description: Enable, configure, or disable autonomous task completion
+description: 자율 작업 완료를 켜고, 설정하고, 끔
 ---
 $ARGUMENTS
 Manage Ruflo autopilot for autonomous /loop-driven task completion.

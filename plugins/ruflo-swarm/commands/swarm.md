@@ -1,6 +1,6 @@
 ---
 name: swarm
-description: Initialize, monitor, and manage multi-agent swarms
+description: 멀티 에이전트 스웜을 초기화, 모니터링, 관리
 ---
 $ARGUMENTS
 

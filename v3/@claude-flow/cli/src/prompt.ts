@@ -12,6 +12,7 @@ import type {
   MultiSelectPromptOptions
 } from './types.js';
 import { output, OutputFormatter } from './output.js';
+import { tr } from './i18n/index.js';
 
 // ============================================
 // Core Prompt Infrastructure
@@ -65,7 +66,7 @@ class PromptManager {
     const { message, options: choices, default: defaultValue, pageSize = 10 } = options;
 
     this.formatter.writeln();
-    this.formatter.writeln(this.formatter.bold(`? ${message}`));
+    this.formatter.writeln(this.formatter.bold(`? ${tr(message)}`));
     this.formatter.writeln(this.formatter.dim('  (Use arrow keys to navigate, enter to select)'));
     this.formatter.writeln();
 
@@ -89,9 +90,9 @@ class PromptManager {
         const isSelected = i === currentIndex;
         const prefix = isSelected ? this.formatter.info('>') : ' ';
         const label = isSelected
-          ? this.formatter.highlight(choice.label)
-          : choice.label;
-        const hint = choice.hint ? this.formatter.dim(` - ${choice.hint}`) : '';
+          ? this.formatter.highlight(tr(choice.label))
+          : tr(choice.label);
+        const hint = choice.hint ? this.formatter.dim(` - ${tr(choice.hint)}`) : '';
         const disabled = choice.disabled ? this.formatter.dim(' (disabled)') : '';
 
         this.formatter.writeln(`  ${prefix} ${label}${hint}${disabled}`);
@@ -165,7 +166,7 @@ class PromptManager {
     const defaultText = defaultValue ? `${active}/${inactive}` : `${active}/${inactive}`;
     const hint = defaultValue ? `[${active}]` : `[${inactive}]`;
 
-    const prompt = `${this.formatter.bold('?')} ${message} ${this.formatter.dim(hint)} `;
+    const prompt = `${this.formatter.bold('?')} ${tr(message)} ${this.formatter.dim(hint)} `;
 
     const answer = await this.question(prompt);
     this.close();
@@ -200,7 +201,7 @@ class PromptManager {
       mask
     } = options;
 
-    let prompt = `${this.formatter.bold('?')} ${message}`;
+    let prompt = `${this.formatter.bold('?')} ${tr(message)}`;
 
     if (defaultValue) {
       prompt += ` ${this.formatter.dim(`(${defaultValue})`)}`;
@@ -302,7 +303,7 @@ class PromptManager {
     } = options;
 
     this.formatter.writeln();
-    this.formatter.writeln(this.formatter.bold(`? ${message}`));
+    this.formatter.writeln(this.formatter.bold(`? ${tr(message)}`));
     this.formatter.writeln(this.formatter.dim('  (Use arrow keys to navigate, space to select, enter to confirm)'));
     this.formatter.writeln();
 
@@ -332,9 +333,9 @@ class PromptManager {
           ? this.formatter.success('[x]')
           : this.formatter.dim('[ ]');
         const label = isCurrentRow
-          ? this.formatter.highlight(choice.label)
-          : choice.label;
-        const hint = choice.hint ? this.formatter.dim(` - ${choice.hint}`) : '';
+          ? this.formatter.highlight(tr(choice.label))
+          : tr(choice.label);
+        const hint = choice.hint ? this.formatter.dim(` - ${tr(choice.hint)}`) : '';
         const disabled = choice.disabled ? this.formatter.dim(' (disabled)') : '';
 
         this.formatter.writeln(`  ${cursor} ${checkbox} ${label}${hint}${disabled}`);
@@ -429,7 +430,7 @@ class PromptManager {
 
   async text(message: string, placeholder?: string): Promise<string> {
     this.formatter.writeln();
-    this.formatter.writeln(this.formatter.bold(`? ${message}`));
+    this.formatter.writeln(this.formatter.bold(`? ${tr(message)}`));
     if (placeholder) {
       this.formatter.writeln(this.formatter.dim(`  ${placeholder}`));
     }
@@ -495,7 +496,7 @@ class PromptManager {
     const { limit = 10 } = options;
 
     this.formatter.writeln();
-    this.formatter.writeln(this.formatter.bold(`? ${message}`));
+    this.formatter.writeln(this.formatter.bold(`? ${tr(message)}`));
     this.formatter.writeln(this.formatter.dim('  (Type to filter, arrow keys to navigate)'));
 
     let query = '';
@@ -524,7 +525,7 @@ class PromptManager {
         const choice = filteredChoices[i];
         const isSelected = i === selectedIndex;
         const prefix = isSelected ? this.formatter.info('>') : ' ';
-        const label = isSelected ? this.formatter.highlight(choice.label) : choice.label;
+        const label = isSelected ? this.formatter.highlight(tr(choice.label)) : tr(choice.label);
         this.formatter.writeln(`  ${prefix} ${label}`);
       }
     };

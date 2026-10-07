@@ -1,0 +1,774 @@
+{
+  "schema": "ruflo-i18n-shard/1",
+  "target": "plugins",
+  "source": "plugins/ruflo-console/hooks/secure.ts",
+  "entries": [
+    {
+      "key": "ATTENTION · {0} finding · depth {1} · type {2}",
+      "ko": "주의 · 발견 {0}건 · 깊이 {1} · 유형 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:106 return"
+      ]
+    },
+    {
+      "key": "ATTENTION · {0} findings · depth {1} · type {2}",
+      "ko": "주의 · 발견 {0}건 · 깊이 {1} · 유형 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:106 return"
+      ]
+    },
+    {
+      "key": "CLEAN · {0} finding · depth {1} · type {2}",
+      "ko": "정상 · 발견 {0}건 · 깊이 {1} · 유형 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:106 return"
+      ]
+    },
+    {
+      "key": "CLEAN · {0} findings · depth {1} · type {2}",
+      "ko": "정상 · 발견 {0}건 · 깊이 {1} · 유형 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:106 return"
+      ]
+    },
+    {
+      "key": "REVIEW · {0} finding · depth {1} · type {2}",
+      "ko": "검토 · 발견 {0}건 · 깊이 {1} · 유형 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:106 return"
+      ]
+    },
+    {
+      "key": "REVIEW · {0} findings · depth {1} · type {2}",
+      "ko": "검토 · 발견 {0}건 · 깊이 {1} · 유형 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:106 return"
+      ]
+    },
+    {
+      "key": "UNSAFE",
+      "ko": "안전하지 않음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:128 expr"
+      ]
+    },
+    {
+      "key": "{0} threat (worst {1})",
+      "ko": "위협 {0}건 (최악 {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:129 expr"
+      ]
+    },
+    {
+      "key": "{0} threat",
+      "ko": "위협 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:129 expr"
+      ]
+    },
+    {
+      "key": "{0} threats (worst {1})",
+      "ko": "위협 {0}건 (최악 {1})",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:129 expr"
+      ]
+    },
+    {
+      "key": "{0} threats",
+      "ko": "위협 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:129 expr"
+      ]
+    },
+    {
+      "key": "PII yes",
+      "ko": "PII 있음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:130 expr"
+      ]
+    },
+    {
+      "key": "PII no",
+      "ko": "PII 없음",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:130 expr"
+      ]
+    },
+    {
+      "key": "gate fires",
+      "ko": "게이트 작동",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:131 expr"
+      ]
+    },
+    {
+      "key": "{0}: no Result JSON in the output (the CLI's own lines are not shown: they echo the text)",
+      "ko": "{0}: 출력에 Result JSON이 없습니다 (CLI 자체 출력 줄은 텍스트를 되풀이하므로 표시하지 않음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:158 return"
+      ]
+    },
+    {
+      "key": "{0} suspect in the CLI's registered MCP tool descriptions",
+      "ko": "CLI에 등록된 MCP 도구 설명에서 의심 항목 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:176 return"
+      ]
+    },
+    {
+      "key": "{0} suspects in the CLI's registered MCP tool descriptions",
+      "ko": "CLI에 등록된 MCP 도구 설명에서 의심 항목 {0}건",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:176 return"
+      ]
+    },
+    {
+      "key": "{0} passed · {1} warnings · {2} failed",
+      "ko": "통과 {0} · 경고 {1} · 실패 {2}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:206 return",
+        "plugins/ruflo-console/hooks/views/secure.ts:219 text()"
+      ]
+    },
+    {
+      "key": "$0, local: reads only",
+      "ko": "$0, 로컬: 읽기만 합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:212 const"
+      ]
+    },
+    {
+      "key": "$0, local: writes .claude/security-scans/scan-code-{0}.json (the statusline reads it)",
+      "ko": "$0, 로컬: .claude/security-scans/scan-code-{0}.json에 씁니다(상태 표시줄이 읽음)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:213 expr"
+      ]
+    },
+    {
+      "key": "reaches the network: npm audit sends this project’s dependency tree to the npm registry",
+      "ko": "네트워크 사용: npm audit이 이 프로젝트의 의존성 트리를 npm 레지스트리로 보냅니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:214 const"
+      ]
+    },
+    {
+      "key": "scan",
+      "ko": "스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:217 group",
+        "plugins/ruflo-console/hooks/secure.ts:218 group",
+        "plugins/ruflo-console/hooks/secure.ts:219 group"
+      ]
+    },
+    {
+      "key": "SCAN QUICK",
+      "ko": "빠른 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:217 name"
+      ]
+    },
+    {
+      "key": "secrets in source files, local; writes its report",
+      "ko": "소스 파일의 비밀 값을 로컬에서 찾고 리포트를 씁니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:217 about"
+      ]
+    },
+    {
+      "key": "security scan, quick: secrets in files (writes a report)",
+      "ko": "보안 스캔(빠르게): 파일 속 비밀 값 (리포트 작성)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:217 label"
+      ]
+    },
+    {
+      "key": "SCAN DEEP",
+      "ko": "정밀 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:218 name"
+      ]
+    },
+    {
+      "key": "secrets and code patterns, the whole tree, local",
+      "ko": "비밀 값과 코드 패턴, 전체 트리, 로컬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:218 about"
+      ]
+    },
+    {
+      "key": "security scan, deep: secrets and code patterns (writes a report)",
+      "ko": "보안 스캔(정밀): 비밀 값과 코드 패턴 (리포트 작성)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:218 label"
+      ]
+    },
+    {
+      "key": "SCAN + DEPS",
+      "ko": "스캔+의존성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:219 name"
+      ]
+    },
+    {
+      "key": "code plus npm audit of the dependencies",
+      "ko": "코드와 의존성에 대한 npm audit",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:219 about"
+      ]
+    },
+    {
+      "key": "security scan with dependencies (npm audit, network)",
+      "ko": "의존성 포함 보안 스캔 (npm audit, 네트워크)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:219 label"
+      ]
+    },
+    {
+      "key": "{0}; writes .claude/security-scans/scan-all-standard.json",
+      "ko": "{0}. .claude/security-scans/scan-all-standard.json에 씁니다",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:219 note"
+      ]
+    },
+    {
+      "key": "CVE",
+      "ko": "CVE",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:220 name"
+      ]
+    },
+    {
+      "key": "known CVEs in the dependency tree (npm audit)",
+      "ko": "의존성 트리의 알려진 CVE (npm audit)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:220 about"
+      ]
+    },
+    {
+      "key": "security cve --list: CVEs in the dependency tree (network)",
+      "ko": "security cve --list: 의존성 트리의 CVE (네트워크)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:220 label"
+      ]
+    },
+    {
+      "key": "THREATS",
+      "ko": "위협",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:221 name"
+      ]
+    },
+    {
+      "key": "STRIDE threat indicators in this tree",
+      "ko": "이 트리의 STRIDE 위협 지표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:221 about"
+      ]
+    },
+    {
+      "key": "security threats: STRIDE indicators here",
+      "ko": "security threats: 여기의 STRIDE 지표",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:221 label"
+      ]
+    },
+    {
+      "key": "SECRETS",
+      "ko": "비밀 값",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:222 name"
+      ]
+    },
+    {
+      "key": "secret patterns by type and file, values masked",
+      "ko": "유형·파일별 비밀 값 패턴, 값은 가림",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:222 about"
+      ]
+    },
+    {
+      "key": "security secrets: secret patterns by file (values masked)",
+      "ko": "security secrets: 파일별 비밀 값 패턴 (값은 가림)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:222 label"
+      ]
+    },
+    {
+      "key": "AUDIT LOG",
+      "ko": "감사 로그",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:223 name"
+      ]
+    },
+    {
+      "key": "the security audit trail from .swarm/",
+      "ko": ".swarm/의 보안 감사 추적",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:223 about"
+      ]
+    },
+    {
+      "key": "security audit: the audit trail",
+      "ko": "security audit: 감사 추적",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:223 label"
+      ]
+    },
+    {
+      "key": "MCP COMPOSITION",
+      "ko": "MCP 조합",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:224 name"
+      ]
+    },
+    {
+      "key": "cross-tool injection in MCP tool descriptions",
+      "ko": "MCP 도구 설명 간의 교차 도구 인젝션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:224 about"
+      ]
+    },
+    {
+      "key": "security composition-scan: injection across MCP tool descriptions",
+      "ko": "security composition-scan: MCP 도구 설명 전반의 인젝션",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:224 label"
+      ]
+    },
+    {
+      "key": "AIDEFENCE STATS",
+      "ko": "AIDefence 통계",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:225 name"
+      ]
+    },
+    {
+      "key": "detections, learned patterns, mitigations",
+      "ko": "탐지, 학습한 패턴, 완화 조치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:225 about"
+      ]
+    },
+    {
+      "key": "AIDefence statistics (security defend --stats)",
+      "ko": "AIDefence 통계 (security defend --stats)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:225 label"
+      ]
+    },
+    {
+      "key": "policy mode, rules, budgets and ledger integrity",
+      "ko": "정책 모드, 규칙, 예산, 원장 무결성",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:226 about"
+      ]
+    },
+    {
+      "key": "policy status: mode, rules, budgets, ledger",
+      "ko": "policy status: 모드, 규칙, 예산, 원장",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:226 label"
+      ]
+    },
+    {
+      "key": "{0} (mcp exec appends a policy receipt, as every exec does)",
+      "ko": "{0} (mcp exec는 모든 exec처럼 정책 영수증을 추가합니다)",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:226 note"
+      ]
+    },
+    {
+      "key": "doctor",
+      "ko": "닥터",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:227 group",
+        "plugins/ruflo-console/hooks/secure.ts:228 group",
+        "plugins/ruflo-console/hooks/secure.ts:229 group"
+      ]
+    },
+    {
+      "key": "every health check",
+      "ko": "모든 상태 점검",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:227 about"
+      ]
+    },
+    {
+      "key": "doctor: every health check (asks npm for the newest version)",
+      "ko": "doctor: 모든 상태 점검 (npm에 최신 버전을 조회)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:227 label"
+      ]
+    },
+    {
+      "key": "reaches the network: the version check runs npm view @claude-flow/cli (5 s); every other check is local",
+      "ko": "네트워크 사용: 버전 확인이 npm view @claude-flow/cli를 실행합니다(5 s). 나머지 점검은 모두 로컬입니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:227 note"
+      ]
+    },
+    {
+      "key": "DOCTOR --FIX",
+      "ko": "닥터 --FIX",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:228 name"
+      ]
+    },
+    {
+      "key": "every check plus the fix for each warning",
+      "ko": "모든 점검과 경고별 해결책",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:228 about"
+      ]
+    },
+    {
+      "key": "doctor --fix: every check and its suggested fix",
+      "ko": "doctor --fix: 모든 점검과 권장 해결책",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:228 label"
+      ]
+    },
+    {
+      "key": "reaches the network (npm view); prints fix commands without running them, and may write .claude-flow/memory-package.json to repair the Learning Bridge",
+      "ko": "네트워크 사용(npm view): 해결 명령은 실행하지 않고 출력만 하며, 학습 브리지를 고치려고 .claude-flow/memory-package.json을 쓸 수 있습니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:228 note"
+      ]
+    },
+    {
+      "key": "doctor --component {0}",
+      "ko": "doctor --component {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:229 about",
+        "plugins/ruflo-console/hooks/secure.ts:229 label"
+      ]
+    },
+    {
+      "key": "doctor -c {0}",
+      "ko": "doctor -c {0}",
+      "kind": "template",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:229 doctorReader()"
+      ]
+    },
+    {
+      "key": "may reach the network: if @claude-flow/aidefence is missing the tool tries npm install once (offline it fails); else local, $0",
+      "ko": "네트워크를 쓸 수 있음: @claude-flow/aidefence가 없으면 도구가 npm install을 한 번 시도합니다(오프라인이면 실패). 그 외에는 로컬, $0",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:232 const"
+      ]
+    },
+    {
+      "key": "1-2000 printable characters, not starting with -",
+      "ko": "-로 시작하지 않는 1~2000자의 출력 가능한 문자",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:238 const"
+      ]
+    },
+    {
+      "key": "CHECK",
+      "ko": "검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:241 name"
+      ]
+    },
+    {
+      "key": "prompt injection, jailbreak and PII, built-in engine",
+      "ko": "프롬프트 인젝션, 탈옥, PII (내장 엔진)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:241 about"
+      ]
+    },
+    {
+      "key": "aid-check <text>: injection and PII check, local",
+      "ko": "aid-check <text>: 인젝션·PII 검사, 로컬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:241 label"
+      ]
+    },
+    {
+      "key": "QUICK",
+      "ko": "빠른 검사",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:242 name"
+      ]
+    },
+    {
+      "key": "the fast pattern pass only",
+      "ko": "빠른 패턴 검사만 수행",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:242 about"
+      ]
+    },
+    {
+      "key": "aid-quick <text>: quick injection check, local",
+      "ko": "aid-quick <text>: 빠른 인젝션 검사, 로컬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:242 label"
+      ]
+    },
+    {
+      "key": "defend --quick",
+      "ko": "defend --quick",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:242 verdictReader()"
+      ]
+    },
+    {
+      "key": "CHANNEL",
+      "ko": "채널",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:243 name"
+      ]
+    },
+    {
+      "key": "an inter-agent message: injection and encoded payloads",
+      "ko": "에이전트 간 메시지: 인젝션과 인코딩된 페이로드",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:243 about"
+      ]
+    },
+    {
+      "key": "aid-channel <text>: scan it as an agent message, local",
+      "ko": "aid-channel <text>: 에이전트 메시지로 스캔, 로컬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:243 label"
+      ]
+    },
+    {
+      "key": "PLAN",
+      "ko": "계획",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:244 name"
+      ]
+    },
+    {
+      "key": "an agent plan: injected steps (PlanFlip gate)",
+      "ko": "에이전트 계획: 주입된 단계 (PlanFlip 게이트)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:244 about"
+      ]
+    },
+    {
+      "key": "aid-plan <text>: scan it as an agent plan, local",
+      "ko": "aid-plan <text>: 에이전트 계획으로 스캔, 로컬",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:244 label"
+      ]
+    },
+    {
+      "key": "MCP SCAN",
+      "ko": "MCP 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:245 name"
+      ]
+    },
+    {
+      "key": "aidefence_scan: the adaptive engine’s full scan",
+      "ko": "aidefence_scan: 적응형 엔진의 전체 스캔",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:245 about"
+      ]
+    },
+    {
+      "key": "aid-scan <text>: aidefence_scan (MCP)",
+      "ko": "aid-scan <text>: aidefence_scan (MCP)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:245 label"
+      ]
+    },
+    {
+      "key": "IS SAFE",
+      "ko": "안전 여부",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:246 name"
+      ]
+    },
+    {
+      "key": "aidefence_is_safe: one yes or no",
+      "ko": "aidefence_is_safe: 예·아니오 중 하나",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:246 about"
+      ]
+    },
+    {
+      "key": "aid-safe <text>: aidefence_is_safe (MCP)",
+      "ko": "aid-safe <text>: aidefence_is_safe (MCP)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:246 label"
+      ]
+    },
+    {
+      "key": "HAS PII",
+      "ko": "PII 여부",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:247 name"
+      ]
+    },
+    {
+      "key": "aidefence_has_pii: emails, keys, SSNs, passwords",
+      "ko": "aidefence_has_pii: 이메일, 키, 주민번호(SSN), 비밀번호",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:247 about"
+      ]
+    },
+    {
+      "key": "aid-pii <text>: aidefence_has_pii (MCP)",
+      "ko": "aid-pii <text>: aidefence_has_pii (MCP)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:247 label"
+      ]
+    },
+    {
+      "key": "ANALYZE",
+      "ko": "분석",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:248 name"
+      ]
+    },
+    {
+      "key": "aidefence_analyze: threat types and mitigations",
+      "ko": "aidefence_analyze: 위협 유형과 완화 조치",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:248 about"
+      ]
+    },
+    {
+      "key": "aid-analyze <text>: aidefence_analyze (MCP)",
+      "ko": "aid-analyze <text>: aidefence_analyze (MCP)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:248 label"
+      ]
+    },
+    {
+      "key": "POLICY EVAL",
+      "ko": "정책 평가",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:251 name"
+      ]
+    },
+    {
+      "key": "would policy allow this action type for a user?",
+      "ko": "정책이 사용자에게 이 동작 유형을 허용할까요?",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:252 about"
+      ]
+    },
+    {
+      "key": "policy-eval <action type>: evaluate it against the policy (writes a receipt)",
+      "ko": "policy-eval <action type>: 정책에 따라 평가 (영수증 작성)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:253 label"
+      ]
+    },
+    {
+      "key": "$0, local: appends a tamper-evident decision receipt under .claude-flow/policy/",
+      "ko": "$0, 로컬: .claude-flow/policy/ 아래에 변조 감지 결정 영수증을 추가합니다",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:261 note"
+      ]
+    },
+    {
+      "key": "an action type: 1-64 of letters, digits, _ . : / - (deploy, tool:Bash, network.fetch)",
+      "ko": "동작 유형: 문자, 숫자, _ . : / - 로 된 1~64자 (deploy, tool:Bash, network.fetch)",
+      "kind": "text",
+      "ctx": [
+        "plugins/ruflo-console/hooks/secure.ts:262 rule"
+      ]
+    }
+  ],
+  "obsolete": []
+}

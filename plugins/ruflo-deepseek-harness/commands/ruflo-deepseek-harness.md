@@ -1,6 +1,6 @@
 ---
 name: ruflo-deepseek-harness
-description: DeepSeek harness integration — chat and reasoning-mode completions via the OpenAI-compatible DeepSeek API, wrapped as ruflo skills with graceful degradation (ADR-150 pattern)
+description: DeepSeek 하네스 통합 — OpenAI 호환 DeepSeek API를 통한 채팅 및 추론 모드 완성을 ruflo 스킬로 감싸고 기능이 단계적으로 축소되게 함(ADR-150 패턴)
 ---
 
 DeepSeek harness commands. All shell out to

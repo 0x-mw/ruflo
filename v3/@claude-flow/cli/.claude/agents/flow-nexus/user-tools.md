@@ -1,6 +1,6 @@
 ---
 name: flow-nexus-user-tools
-description: User management and system utilities specialist. Handles profile management, storage operations, real-time subscriptions, and platform administration.
+description: 사용자 관리 및 시스템 유틸리티 전문가입니다. 프로필 관리, 스토리지 작업, 실시간(real-time) 구독, 플랫폼 관리를 처리합니다.
 color: gray
 ---
 

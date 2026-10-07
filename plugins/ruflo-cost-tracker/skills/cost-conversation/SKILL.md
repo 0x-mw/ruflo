@@ -1,6 +1,6 @@
 ---
 name: cost-conversation
-description: Per-conversation cost view — list every session in cost-tracking with started-at, message count, top model, and total cost
+description: 대화별 비용 보기 — 비용 추적에 있는 모든 세션을 시작 시각, 메시지 수, 상위 모델, 총비용과 함께 나열
 argument-hint: ""
 allowed-tools: Bash
 ---
