@@ -63,6 +63,12 @@ beforeEach(() => {
     'Failed to initialize: {0}': '초기화하지 못했습니다: {0}',
     'Run {0} to start background workers': '백그라운드 워커를 시작하려면 {0}을(를) 실행하세요',
     Mesh: '메시',
+    Type: '유형',
+    Capabilities: '기능',
+    'Directories: {0} created': '디렉터리 {0}개 생성',
+    'Swarm ID:  {0}': '스웜 ID:  {0}',
+    'Description: {0}': '설명: {0}',
+    'Memory Entry': '메모리 항목',
   });
   process.env.RUFLO_I18N_DIR = dictDir;
   resetDict();
@@ -172,7 +178,8 @@ describe('A2-2 interception rules', () => {
     expect(lines[0]).toContain('스웜 상태');
     expect(lines[1]).toContain('완료');
     expect(lines[2]).toContain('Done: still data');
-    expect(lines[3]).toContain('Failed to initialize: x');
+    // whole-line template (G1): translated, placeholder value kept
+    expect(lines[3]).toContain('초기화하지 못했습니다: x');
     expect(new Set(lines.map((l) => displayWidth(l))).size).toBe(1);
   });
 
@@ -227,6 +234,95 @@ describe('A2-2 interception rules', () => {
     expect(() => f.writeln(undefined as any)).not.toThrow();
     expect(() => f.printSuccess(42 as any)).not.toThrow();
     c.restore();
+  });
+});
+
+describe('G1 property-table labels and box templates', () => {
+  const propOpts = (rows: Array<Record<string, unknown>>, key = 'property') => ({
+    columns: [{ key, header: 'Property' }, { key: 'value', header: 'Value' }],
+    data: rows,
+  });
+
+  it('property table: label column translated, value column kept even when it is a dictionary key', () => {
+    const f = ko();
+    const out = f.table(propOpts([{ property: 'Type', value: 'Done' }, { property: 'Capabilities', value: 'Agents' }, { property: 'Other', value: 'Type' }]));
+    const lines = out.split('\n');
+    expect(lines[3]).toContain('유형');
+    expect(lines[3]).toContain('Done');
+    expect(lines[4]).toContain('기능');
+    expect(lines[4]).toContain('Agents');
+    expect(lines[5]).toContain('Other');
+    expect(lines[5]).toContain('Type');
+    expect(out).not.toContain('완료');
+    expect(new Set(lines.map((l) => displayWidth(l))).size).toBe(1);
+  });
+
+  it('setting key is a label column too; other keys and non-string labels are untouched', () => {
+    const f = ko();
+    const s = f.table(propOpts([{ setting: 'Type', value: 1 }], 'setting'));
+    expect(s).toContain('유형');
+    const o = f.table({ columns: [{ key: 'name', header: 'Name' }], data: [{ name: 'Type' }] });
+    expect(o).toContain('Type');
+    expect(o).not.toContain('유형');
+    expect(() => f.table(propOpts([{ property: 42, value: null }, { property: undefined, value: 'x' }]))).not.toThrow();
+  });
+
+  it('property table with format() still formats the (translated) label', () => {
+    const f = ko();
+    const out = f.table({ columns: [{ key: 'property', header: 'Property', format: (v: unknown) => `<${String(v)}>` }], data: [{ property: 'Type' }] });
+    expect(out).toContain('<유형>');
+  });
+
+  it('box: template lines translate, values and non-matching lines are kept, no colon split', () => {
+    const f = ko();
+    const out = f.box('Directories: 12 created\nSwarm ID:  swarm-abc\nError: Done\nType: Done\nunmatched line', 'Summary');
+    const lines = out.split('\n');
+    expect(lines[1]).toContain('디렉터리 12개 생성');
+    expect(lines[2]).toContain('스웜 ID:  swarm-abc');
+    expect(lines[3]).toContain('Error: Done');
+    expect(lines[4]).toContain('Type: Done');
+    expect(lines[5]).toContain('unmatched line');
+    expect(out).not.toContain('완료');
+    expect(new Set(lines.map((l) => displayWidth(l))).size).toBe(1);
+  });
+
+  it('box: captured values are never re-translated even when they equal a dictionary key', () => {
+    const f = ko();
+    const out = f.box('Swarm ID:  Done\nDescription: Done', 'Summary');
+    expect(out).toContain('스웜 ID:  Done');
+    expect(out).toContain('설명: Done');
+    expect(out).not.toContain('완료');
+  });
+
+  it('data boxes (Memory Entry, Task: …) use exact match only: no template on user lines', () => {
+    const f = ko();
+    const mem = f.box('Description: secret\nDirectories: 3 created\nDone', 'Memory Entry');
+    expect(mem).toContain('메모리 항목');
+    expect(mem).toContain('Description: secret');
+    expect(mem).toContain('Directories: 3 created');
+    expect(mem).toContain('완료'); // exact match still applies (T8)
+    const task = f.box('Description: secret', 'Task: abc');
+    expect(task).toContain('Description: secret');
+    expect(task).not.toContain('설명');
+    // a regular box with the same line is translated
+    expect(f.box('Description: secret', 'Summary')).toContain('설명: secret');
+  });
+
+  it('printBox writes the translated template lines once', () => {
+    const f = ko();
+    const c = capture();
+    f.printBox('Directories: 3 created', 'Done');
+    c.restore();
+    expect(c.out).toContain('디렉터리 3개 생성');
+    expect(c.out).toContain('완료');
+  });
+
+  it('en: tables and boxes stay byte-identical to the unpatched formatter', () => {
+    const f = en();
+    const plain = new OutputFormatter({ color: false });
+    const t = propOpts([{ property: 'Type', value: 'Done' }]);
+    expect(f.table(t)).toBe(plain.table(t));
+    expect(f.box('Directories: 12 created', 'Done')).toBe(plain.box('Directories: 12 created', 'Done'));
   });
 });
 

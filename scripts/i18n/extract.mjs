@@ -117,9 +117,11 @@ function cross(a, b) {
   return uniq(out).slice(0, MAX_ALTS);
 }
 
-/** 파일 단위 환경: const 로 선언된 정적 문자열 추적, 소비된 노드 기록. */
-function makeEnv(sf) {
+/** 파일 단위 환경: const 로 선언된 정적 문자열 추적, 소비된 노드 기록. imports=true 는 cli-messages 전용 확장(G1). */
+function makeEnv(sf, { imports = false } = {}) {
   const consts = new Map();
+  const pushCalls = new Map(); // 배열 이름 → push 호출들(확장 전용; 선언 범위는 declOf 로 가른다)
+  const importMap = new Map(); // 지역 이름 → {rel, name} (상대 경로 named import)
   walkTree(sf, (n) => {
     if (ts.isVariableDeclaration(n) && ts.isIdentifier(n.name) && n.initializer) {
       const init = n.initializer;
@@ -134,7 +136,124 @@ function makeEnv(sf) {
       }
     }
   });
-  return { sf, consts, consumed: new Set() };
+  if (imports) {
+    walkTree(sf, (n) => {
+      if (ts.isCallExpression(n) && ts.isPropertyAccessExpression(n.expression) && n.expression.name.text === 'push' && ts.isIdentifier(n.expression.expression)) {
+        const k = n.expression.expression.text;
+        const arr = pushCalls.get(k) || [];
+        arr.push(n);
+        pushCalls.set(k, arr);
+      }
+      if (ts.isImportDeclaration(n) && !n.importClause?.isTypeOnly && ts.isStringLiteral(n.moduleSpecifier)) {
+        const nb = n.importClause?.namedBindings;
+        const rel = nb && ts.isNamedImports(nb) ? resolveImport(sf.fileName, n.moduleSpecifier.text) : null;
+        if (rel) for (const e of nb.elements) if (!e.isTypeOnly) importMap.set(e.name.text, { rel, name: (e.propertyName || e.name).text });
+      }
+    });
+  }
+  return { sf, consts, pushCalls, importMap, ext: imports, consumed: new Set() };
+}
+
+/** 바인딩 이름(식별자·구조 분해)이 name 을 선언하는가 → 그 선언 노드(없으면 null) */
+function bindingDecl(nameNode, name, decl) {
+  if (ts.isIdentifier(nameNode)) return nameNode.text === name ? decl : null;
+  if (ts.isObjectBindingPattern(nameNode) || ts.isArrayBindingPattern(nameNode)) {
+    for (const e of nameNode.elements) {
+      if (ts.isOmittedExpression(e)) continue;
+      if (bindingDecl(e.name, name, e)) return e; // 구조 분해 요소: 배열 리터럴 초기값이 아니므로 호출 쪽에서 거른다
+    }
+  }
+  return null;
+}
+
+/** 식별자 id 가 가리키는 가장 가까운 선언(변수 선언·구조 분해 요소·매개변수). 없으면 null. */
+function declOf(id) {
+  const name = id.text;
+  for (let a = id.parent; a; a = a.parent) {
+    let stmts = null;
+    if (ts.isBlock(a) || ts.isSourceFile(a) || ts.isModuleBlock(a)) stmts = a.statements;
+    else if (ts.isCaseClause(a) || ts.isDefaultClause(a)) stmts = a.statements;
+    if (stmts) {
+      for (const st of stmts) {
+        if (!ts.isVariableStatement(st)) continue;
+        for (const d of st.declarationList.declarations) {
+          const r = bindingDecl(d.name, name, d);
+          if (r) return r;
+        }
+      }
+    }
+    if (ts.isFunctionLike(a) && a.parameters) {
+      for (const pm of a.parameters) {
+        const r = bindingDecl(pm.name, name, pm);
+        if (r) return r;
+      }
+    }
+    if ((ts.isForOfStatement(a) || ts.isForInStatement(a) || ts.isForStatement(a)) && a.initializer && ts.isVariableDeclarationList(a.initializer)) {
+      for (const d of a.initializer.declarations) {
+        const r = bindingDecl(d.name, name, d);
+        if (r) return r;
+      }
+    }
+    if (ts.isCatchClause(a) && a.variableDeclaration) {
+      const r = bindingDecl(a.variableDeclaration.name, name, a.variableDeclaration);
+      if (r) return r;
+    }
+  }
+  return null;
+}
+
+/** 상대 import 한 모듈 최상위 `export const NAME = …` 의 초기값을 그 모듈의 env 로 해석(1단계만). */
+function importedAlts(node, env, depth) {
+  const imp = env.importMap && env.importMap.get(node.text);
+  if (!imp || declOf(node)) return null; // 지역 매개변수·구조 분해가 가린 이름은 import 가 아니다
+  let init = null;
+  const sf2 = parse(imp.rel);
+  for (const st of sf2.statements) {
+    if (!ts.isVariableStatement(st) || !st.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)) continue;
+    for (const d of st.declarationList.declarations) if (ts.isIdentifier(d.name) && d.name.text === imp.name && d.initializer) init = d.initializer;
+  }
+  if (!init) return null;
+  return altsOf(init, makeEnv(sf2), depth + 1, true);
+}
+
+const stripWrap = (n) => {
+  while (n && (ts.isParenthesizedExpression(n) || ts.isAsExpression(n) || ts.isNonNullExpression(n) || (ts.isSatisfiesExpression && ts.isSatisfiesExpression(n)))) n = n.expression;
+  return n;
+};
+
+/**
+ * 배열 식의 원소 노드들(spread·빈 칸도 동적 원소로 남긴다). 해석 못 하면 null.
+ * 확장(env.ext): filter/slice 체인, NonNull·satisfies 벗기기, 같은 선언 범위의 push 인자. 결과의 hasPush 는 push 원소가 있다는 표시.
+ * 확장 아님: HEAD 동작 그대로(join 은 벗기기 없음, elementAlts 는 괄호·as 만 벗김, 첫 const 배열).
+ */
+function arrayElements(node, env, { strip = false, depth = 0 } = {}) {
+  if (!node || depth > 6) return null;
+  if (!env.ext) {
+    let arr = node;
+    if (strip) while (ts.isParenthesizedExpression(arr) || ts.isAsExpression(arr)) arr = arr.expression;
+    if (ts.isIdentifier(arr) && env.consts.has(arr.text)) arr = env.consts.get(arr.text).find((i) => ts.isArrayLiteralExpression(i)) || arr;
+    return ts.isArrayLiteralExpression(arr) ? [...arr.elements] : null;
+  }
+  const n = stripWrap(node);
+  if (ts.isArrayLiteralExpression(n)) return [...n.elements];
+  if (ts.isCallExpression(n) && ts.isPropertyAccessExpression(n.expression) && ['filter', 'slice'].includes(n.expression.name.text)) {
+    return arrayElements(n.expression.expression, env, { depth: depth + 1 });
+  }
+  if (ts.isIdentifier(n)) {
+    const d = declOf(n);
+    if (!d || !ts.isVariableDeclaration(d) || !d.initializer) return null;
+    const lit = stripWrap(d.initializer);
+    if (!ts.isArrayLiteralExpression(lit)) return null;
+    const pushed = [];
+    for (const call of env.pushCalls.get(n.text) || []) {
+      if (declOf(call.expression.expression) !== d) continue;
+      for (const a of call.arguments) pushed.push(a);
+    }
+    const els = [...lit.elements, ...pushed].sort((x, y) => x.getStart(env.sf) - y.getStart(env.sf));
+    els.pushed = new Set(pushed);
+    return els;
+  }
+  return null;
 }
 
 function altsOf(node, env, depth = 0, trace = true) {
@@ -176,14 +295,30 @@ function altsOf(node, env, depth = 0, trace = true) {
     }
     return [PH];
   }
+  if (ts.isIdentifier(node) && trace && env.importMap && env.importMap.has(node.text) && !declOf(node)) {
+    return importedAlts(node, env, depth) || [PH];
+  }
   // [..].join('\n') → 줄로 이어 붙인 한 문자열
   if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression) && node.expression.name.text === 'join') {
-    let arr = node.expression.expression;
-    if (ts.isIdentifier(arr) && env.consts.has(arr.text)) arr = env.consts.get(arr.text).find((i) => ts.isArrayLiteralExpression(i)) || arr;
-    if (ts.isArrayLiteralExpression(arr)) {
+    const els = arrayElements(node.expression.expression, env, { depth: depth + 1 });
+    if (els) {
       const sepNode = node.arguments[0];
       const sep = sepNode && (ts.isStringLiteral(sepNode) || ts.isNoSubstitutionTemplateLiteral(sepNode)) ? sepNode.text : ',';
-      const parts = arr.elements.map((e) => altsOf(e, env, depth + 1, trace)[0] ?? PH);
+      const parts = els.map((e) => altsOf(e, env, depth + 1, trace)[0] ?? PH);
+      if (env.ext) {
+        // 길이가 실행 중에 정해지는 목록(spread·동적 원소·push)은 줄 구분자일 때만 원소별로 펼친다(상자 줄)
+        if (!els.length) return [PH];
+        if (!sep.includes('\n')) {
+          if (els.some((e) => ts.isSpreadElement(e)) || parts.some((x) => x === PH)) return [PH];
+          if (els.pushed && els.pushed.size) {
+            // 조건부 push 가 섞인 목록: 선언 원소만 이은 HEAD 키(번역 보존)와, 길이를 모르는 목록을 뜻하는 PH 를 함께 낸다
+            const base = els.filter((e) => !els.pushed.has(e)).map((e) => altsOf(e, env, depth + 1, trace)[0] ?? PH);
+            // 선언 원소가 없으면 HEAD 키는 실행 중에 나올 수 없는 빈 join 이므로 PH 하나만 낸다
+            if (!base.length) return [PH];
+            return uniq([base.join(sep), PH]);
+          }
+        }
+      }
       return [parts.join(sep)];
     }
   }
@@ -192,11 +327,8 @@ function altsOf(node, env, depth = 0, trace = true) {
 
 /** 배열 리터럴(또는 그것을 가리키는 const)의 원소들 → 원소별 대안 목록 */
 function elementAlts(node, env) {
-  let arr = node;
-  if (ts.isParenthesizedExpression(arr) || ts.isAsExpression(arr)) arr = arr.expression;
-  if (ts.isIdentifier(arr) && env.consts.has(arr.text)) arr = env.consts.get(arr.text).find((i) => ts.isArrayLiteralExpression(i)) || arr;
-  if (!ts.isArrayLiteralExpression(arr)) return [];
-  return arr.elements.map((e) => ({ node: e, alts: altsOf(e, env) }));
+  const els = arrayElements(node, env, { strip: true });
+  return els ? els.map((e) => ({ node: e, alts: altsOf(e, env) })) : [];
 }
 
 // ---------------------------------------------------------------------------
@@ -297,6 +429,7 @@ const OUT_TABLE = new Set(['printTable', 'table']);
 const SPINNER_METHODS = new Set(['succeed', 'fail', 'stop', 'setText', 'warn', 'start', 'update']);
 const PROMPT_FNS = new Set(['select', 'confirm', 'input', 'text', 'number', 'multiSelect', 'password', 'search']);
 const OPTS_CLI = { scope: 'cli-messages' };
+const LABEL_KEYS = new Set(['property', 'setting']);
 
 const isOutputRecv = (recv, sf) => !!recv && /(^|\.)(output|formatter)$/.test(recv.getText(sf));
 const isSpinnerRecv = (recv, sf) => !!recv && /(spinner|spin)$/i.test(recv.getText(sf));
@@ -356,7 +489,7 @@ function rootActionNode(sf, cmdName) {
 
 function collectMessagesFrom(rel, { rootOnly = null, checks = false, structural = null } = {}) {
   const sf = parse(rel);
-  const env = makeEnv(sf);
+  const env = makeEnv(sf, { imports: true });
   const found = new Found(rel);
   const promptNames = new Set();
   walkTree(sf, (n) => {
@@ -401,6 +534,22 @@ function collectMessagesFrom(rel, { rootOnly = null, checks = false, structural 
               if (!ts.isObjectLiteralExpression(c)) continue;
               const h = objProps(c).find((p) => propNameOf(p) === 'header');
               if (h) add(h.initializer, `${name}.header`, altsOf(h.initializer, env));
+            }
+            // 속성 표: key 가 property/setting 인 열의 라벨 칸(데이터 행의 해당 값)
+            const labelKeys = cols.initializer.elements.flatMap((c) => {
+              if (!ts.isObjectLiteralExpression(c)) return [];
+              const k = objProps(c).find((p) => propNameOf(p) === 'key');
+              const kt = k && stripWrap(k.initializer);
+              return kt && ts.isStringLiteral(kt) && LABEL_KEYS.has(kt.text) ? [kt.text] : [];
+            });
+            const dataProp = objProps(o).find((p) => propNameOf(p) === 'data');
+            const rows = labelKeys.length && dataProp ? arrayElements(dataProp.initializer, env, { strip: true }) : null;
+            if (rows) {
+              for (const r of rows) {
+                const ro = stripWrap(r);
+                if (!ts.isObjectLiteralExpression(ro)) continue;
+                for (const p of objProps(ro)) if (labelKeys.includes(propNameOf(p))) add(p.initializer, `${name}.cell`, altsOf(p.initializer, env));
+              }
             }
           }
         }
@@ -978,6 +1127,13 @@ if (want('plugins')) {
 let descYamlErrors = [];
 if (want('descriptions')) {
   const { groups, yamlErrors, stats, issues } = collectDescriptions();
+  // 설명이 이미 한국어로 적용된 상태(apply-descriptions 후)면 샤드의 en 이 한국어로 오염되므로 쓰지 않는다.
+  let appliedFiles = 0;
+  for (const g of groups.values()) for (const v of g.values()) if (hasHangul(v.en)) appliedFiles++;
+  if (appliedFiles) {
+    console.error(`!! 설명이 적용된 상태입니다. 먼저 node scripts/i18n/apply-descriptions.mjs --revert 를 실행하세요 (한글이 든 설명 ${appliedFiles}개 파일; descriptions 샤드는 쓰지 않았습니다)`);
+    process.exitCode = 1;
+  } else {
   // baseline-yaml-errors.txt: 원본에서 이미 깨진 파일. 처음 한 번만 기록한다(--rebaseline 으로 갱신).
   const baseRel = 'baseline-yaml-errors.txt';
   const baseAbs = path.join(KO_DIR, baseRel);
@@ -1040,6 +1196,7 @@ if (want('descriptions')) {
   notes.descIssues = issues;
   notes.yamlErrors = yamlErrors;
   notes.baselineYaml = baseline;
+  }
 }
 
 // ---- coverage.json ----
